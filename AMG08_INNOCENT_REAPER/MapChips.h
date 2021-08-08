@@ -23,7 +23,7 @@ namespace inr {
 
 		int CheckHit(int x, int y);
 		// マップチップと当たっているかどうか（マップチップの上に立っているかどうか）
-		bool IsHit(AABB box);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
+		bool IsHit(AABB box, double g);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
 		bool IsHit(AABB box, Vector2& move);	// 押し出し処理用
 
 		// ゲッター

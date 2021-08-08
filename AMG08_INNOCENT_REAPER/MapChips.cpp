@@ -239,13 +239,15 @@ namespace inr {
 	}
 
 	// 当たり判定の取得
-	bool MapChips::IsHit(AABB box) {
+	bool MapChips::IsHit(AABB box, double g) {
 		int x, y;
 
+		auto gs = static_cast<int>(g);
+
 		auto minx = box.GetMin().IntX();
-		auto miny = box.GetMin().IntY();
+		auto miny = box.GetMin().IntY() + gs;
 		auto maxx = box.GetMax().IntX();
-		auto maxy = box.GetMax().IntY();
+		auto maxy = box.GetMax().IntY() + gs;
 
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
 			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
@@ -294,18 +296,6 @@ namespace inr {
 					} else if (0 < vectorY && mapchip.HitCheck(mapchip) == true) {
 						move.GetPY() = 0;
 					}
-
-					// 当たっている場合は移動ベクトルを0にする
-					// 移動量がプラスの場合、移動量を減らす
-					/*if (move.GetX() < 0) move.GetPX() = -0.5;
-					else if (0 < move.GetX()) move.GetPX() = -0.5;
-					if (0 < move.GetY()) move.GetPY() = +0.5;
-					else  if (move.GetY() < 0) move.GetPY() = -0.5;*/
-
-					//if (move.GetX() < 0) collision.GetMin().GetPX() = x * _chipSize.first + _chipSize.first;
-					//if (0 < mx) collision.GetMax().GetPX() = x * _chipSize.first - (PLAYER_WIDTH / 2);
-					//if (0 < my) collision.GetMin().GetPY() = y * _chipSize.second - (PLAYER_HIGHT / 2);
-					//if (my < 0) collision.GetMax().GetPY() = y * _chipSize.second + _chipSize.second;
 					return true;
 				}
 			}
