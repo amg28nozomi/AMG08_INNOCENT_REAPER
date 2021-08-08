@@ -93,7 +93,7 @@ namespace inr {
 		auto leverLR = _game.GetLeverLR();
 		auto key = _game.GetTrgKey();
 
-		if (_game.GetMapChips()->IsHit(_mainCollision, _moveVector)) {
+		if (_game.GetMapChips()->IsHitExt(_mainCollision, _moveVector)) {
 			if (0 < _gravity) {
 				_stand = true;
 			}

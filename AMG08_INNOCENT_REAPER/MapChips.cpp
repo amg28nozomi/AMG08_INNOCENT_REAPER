@@ -255,6 +255,35 @@ namespace inr {
 				int chip_no = CheckHit(x, y);
 				// チップ番号が0かどうか
 				if (chip_no != 0) {
+					AABB mapchip({ static_cast<double>(x) , static_cast<double>(y) }, { static_cast<double>(x + _chipSize.first), static_cast<double>(y + _chipSize.second) });
+					AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
+						{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() });
+					// 当たっている
+					return true;
+				}
+			}
+		}
+		// 当たっていない
+		return false;
+	}
+
+	bool MapChips::IsHitExt(AABB box, Vector2& move) {
+		int x, y;
+
+		auto vectorX = move.GetX();
+		auto vectorY = move.GetY();
+
+		auto minx = box.GetMin().IntX() + move.IntX();
+		auto miny = box.GetMin().IntY() + move.IntY();
+		auto maxx = box.GetMax().IntX() + move.IntX();
+		auto maxy = box.GetMax().IntY() + move.IntY();
+
+		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
+			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
+				// マップチップと接触しているかどうか？
+				int chip_no = CheckHit(x, y);
+				// チップ番号が0かどうか
+				if (chip_no != 0) {
 					AABB mapchip({ static_cast<double>(x) , static_cast<double>(y) }, { static_cast<double>(x + _chipSize.first), static_cast<double>(y + _chipSize.second)});
 					AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
 						{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() });
