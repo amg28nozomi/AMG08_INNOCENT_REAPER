@@ -2,22 +2,33 @@
 #include "Vector2.h"
 #include <DxLib.h>
 
-AABB::AABB(const Vector2& vmin, const Vector2& vmax, bool cflg) : minV(vmin), maxV(vmax), _drawFlg(true), _collisionFlg(cflg) {
-}
-
-AABB::AABB(Vector2& pos, int width, int height, int fix, bool cflg) {
-	_width = width;
-	_height = height;
-	_fix = fix;
-
-	minV = { pos.GetX() - width, pos.GetY() - height + _fix};
-	maxV = { pos.GetX() + width, pos.GetY() + height + _fix};
-
+Collision::Collision(const Vector2& min, const Vector2& max, bool flg = false) : minV(min), maxV(max), _collisionFlg(flg){
+#ifdef _DEBUG
 	_drawFlg = true;
-	_collisionFlg = cflg;
+#endif
+	_width = static_cast<int>(maxV.GetX() - minV.GetX());
+	_height = static_cast<int>(maxV.GetX() - minV.GetX());
 }
 
-void AABB::Draw(int color) {
+Collision::Collision(Vector2& pos, int width, int height, bool flg = false) {
+	_width = width;
+	_height = _height;
+	_collisionFlg = false;
+#ifdef _DEBUG
+	_drawFlg = true;
+#endif
+	minV = { pos.GetX() - width, pos.GetY() - height };
+	maxV = { pos.GetX() + width, pos.GetY() + height };
+}
+
+void Collision::Update(Vector2& pos, bool inv) {
+	// å¸Ç´Ç…âûÇ∂ÇƒìñÇΩÇËîªíËÇÃxç¿ïWÇïœçXÇ∑ÇÈ
+	// îΩì]ÇµÇƒÇ¢ÇÈèÍçá
+		minV = { pos.GetX() - _width, pos.GetY() - _height };
+		maxV = { pos.GetX() + _width, pos.GetY() + _height };
+}
+
+void Collision::Draw(int color) {
 	auto minX = minV.IntX();
 	auto minY = minV.IntY();
 	auto maxX = maxV.IntX();
@@ -26,17 +37,27 @@ void AABB::Draw(int color) {
 	DxLib::DrawBox(minX, minY, maxX, maxY, color, FALSE);
 }
 
-void AABB::SetVector(const Vector2& lhs, Vector2& rhs) {
-	minV = lhs;
-	maxV = rhs;
-}
-
-bool AABB::HitCheck(AABB collision) {
+bool Collision::HitCheck(Collision collision) {
 	bool flg = maxV.GetX() < collision.minV.GetX() ||
 		collision.maxV.GetX() < minV.GetX() ||
 		maxV.GetY() < collision.minV.GetY() ||
 		collision.maxV.GetY() < minV.GetY();
 	return !flg;
+}
+
+AABB::AABB(const Vector2& vmin, const Vector2& vmax, bool cflg) : Collision(vmin, vmax, cflg) {
+	_width = 0;
+	_height = 0;
+	_fix = 0;
+}
+
+AABB::AABB(Vector2& pos, int width, int height, int fix, bool cflg) : Collision(pos, width, height, cflg) {
+	_width = width;
+	_height = height;
+	_fix = fix;
+
+	minV = { pos.GetX() - width, pos.GetY() - height + _fix};
+	maxV = { pos.GetX() + width, pos.GetY() + height + _fix};
 }
 
 //void AABB::Update(Vector2& pos) {
