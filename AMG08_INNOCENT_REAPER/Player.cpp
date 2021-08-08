@@ -1,0 +1,493 @@
+#include "Player.h"
+#include "Game.h"
+#include "Vector2.h"
+#include "Collision.h"
+#include "ResourceServer.h"
+#include "SoundServer.h"
+#include <DxLib.h>
+#include <unordered_map>
+
+namespace {
+#ifdef _RELEASE
+	constexpr auto START_POSITION_X = inr::WINDOW_H / 2;
+	constexpr auto START_POSITION_Y = inr::WINDOW_W / 2;
+#endif
+#ifdef _DEBUG
+	constexpr auto START_POSITION_X = inr::DEBUG_WINDOW_W / 2;
+	constexpr auto START_POSITION_Y = inr::DEBUG_WINDOW_H / 2;
+#endif
+
+	// constexpr auto ROB
+
+	// constexpr auto PLAYER_HIGHT = 250; // 300
+	// constexpr auto PLAYER_WIDTH = 160; // 400
+
+	constexpr auto MAX_SPPED = 6;
+
+	// アクションのフレーム数
+	constexpr auto ACTION_MAX = 3;
+	
+	// SEのフレーム数
+	constexpr auto SE_NUM = 0;
+	constexpr auto SE_RUN1 = 50;	// 移動SEのフレーム数 
+
+	// 奪うアクションの当たり判定
+	constexpr auto ROB_WIDTH = 75 / 2;
+	constexpr auto ROB_HIGHT = 60 / 2;
+
+	// ジャンプアクション
+	constexpr auto JUMP_VECTOR = 1;	// 最低の単位ベクトル
+	constexpr auto JUMP_MAX = 15;
+	constexpr auto JUMP_Y = 5;
+
+}
+
+namespace inr {
+
+	Player::Player(Game& game) : ObjectBase::ObjectBase(game) {
+		_type = ObjectType::PLAYER;
+		_aState = ActionState::IDOL;
+
+		_aCount = 0;
+		_aFrame = 0;
+		_sounds = 0;
+		_direction = false;
+		_changeGraph = true;
+		_jumpPower = 0;
+		_position = { START_POSITION_X, START_POSITION_Y};
+		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
+		_moveVector = { 0, 0 };
+		// _moveVector = std::make_pair(0, 0);
+		_mainCollision = { _position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2, 10};
+		//(_position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2);
+		Init();
+	}
+
+	Player::~Player() {
+		_aMotions.clear();
+	}
+
+	void Player::Init() {
+		// キー名、アニメーションの総フレーム数、SEの再生時間/フレーム(現状適当)
+		_aMotions = { {PKEY_IDOL, {52, SE_NUM}}, 
+			{PKEY_RUN, {36, SE_RUN1}}, 
+			{PKEY_ROB, {39, 10}}, 
+			{PKEY_GIVE, {48, 10}},
+			{PKEY_JUMP, {24, 50}},
+			{PKEY_FALL, {50, 50}},
+		};
+
+		auto x = _position.GetX();
+		auto y = _position.GetY();
+
+
+		Vector2 robV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH*2), _position.GetY() };
+		Vector2 giveV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH*2), _mainCollision.GetMax().GetY() - ROB_HIGHT };
+
+		_collisions = { {PKEY_ROB, {robV, ROB_WIDTH, ROB_HIGHT}},
+						{PKEY_GIVE, {giveV, ROB_WIDTH, ROB_HIGHT}}, };
+}
+
+	void Player::Process() {
+		ObjectBase::Process();
+		auto leverLR = _game.GetLeverLR();
+		auto key = _game.GetTrgKey();
+
+		if (_game.GetMapChips()->IsHit(_mainCollision, _moveVector)) {
+			if (0 < _gravity) {
+				_stand = true;
+			}
+			_gravity = 0;
+		}
+
+		Move(leverLR); // 移動処理
+		Action(key); // アクション
+		Jump(); // ジャンプ処理
+
+		_moveVector.GetPY() = _gravity;
+		_position = _position + _moveVector;
+
+		// 当たり判定の更新
+		_mainCollision.Updata(_position, _direction);
+		auto it = _collisions.find(_divKey.first);
+
+		if (it != _collisions.end()){
+			it->second.Updata(_position, _direction);
+		}
+		// _game.GetMapChips()->ScrUpdata(_position);
+	}
+
+	void Player::Draw() {
+		auto x = _position.IntX(); //-_game.GetMapChips()->GetScrPosition().first;
+		auto y = _position.IntY(); //-_game.GetMapChips()->GetScrPosition().second;
+
+		/*int gg = graph::ResourceServer::GetHandles(BACK_GRAUND);
+		DrawRotaGraph(x, y, 1.0, 0, gg, true, false);*/
+
+		int graph;	// グラフィックハンドル格納用
+		GraphResearch(&graph);	// ハンドル取得
+		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
+
+		std::string& key = _divKey.first;
+		auto box = _collisions.find(key);
+		if (box != _collisions.end()) {
+			if (box->second.GetDrawFlg() == true) {
+				box->second.Draw(GetColor(255, 0, 0));
+			}
+		}
+
+#ifdef _DEBUG
+		/*auto dx = _position.GetX();
+		auto dy = _position.GetY();
+		Vector2 minV(dx - PLAYER_WIDTH / 2, dy + PLAYER_HIGHT / 2);
+		Vector2 maxV(dx + PLAYER_WIDTH / 2, dy - PLAYER_HIGHT / 2);
+		AABB debugAABB(minV, maxV);
+
+		debugAABB.DrawBox();*/
+		DebugInfo();
+		_mainCollision.DrawBox();
+		DrawFormatString(0, 100, GetColor(255, 0, 0), "maincollision（minX:%d, minY:%d）\n", _mainCollision.GetMin().IntX(), _mainCollision.GetMin().IntY());
+		DrawFormatString(0, 125, GetColor(255, 0, 0), "maincollision（maxX:%d, maxY:%d）\n", _mainCollision.GetMax().IntX(), _mainCollision.GetMin().IntY());
+		DrawFormatString(0, 150, GetColor(255, 0, 0), "pos.x = %d\n", _position.IntX());
+		DrawFormatString(0, 175, GetColor(255, 0, 0), "pos.y = %d\n", _position.IntY());
+		DrawFormatString(0, 200, GetColor(255, 0, 0), "stand = %d\n", _stand);
+		DrawFormatString(0, 225, GetColor(255, 0, 0), "_gravity = %d\n", _gravity);
+#endif
+
+		// アニメーションが終わっていない場合はカウントを増やす
+		if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
+		else AnimationInit();	// カウント初期化
+	}
+
+	bool Player::Action(int key) {
+		// 前フレームの情報
+		auto beforeState = _aState;
+		auto x = _position.GetX();
+		auto y = _position.GetY();
+
+		// keyに入力情報がある場合
+		if (key) {
+			// 入力情報に応じた処理を実行
+			switch (key) {
+			case PAD_INPUT_1:	// Xボタンが押された場合、「魂を奪う」
+				// 前フレームの状態と同じ場合は処理から抜ける
+				if (_aState == ActionState::ROB || _aState == ActionState::GIVE) break;
+				Rob(x, y); //　奪うアクション実行
+				break;
+			case PAD_INPUT_2:	// Yボタンが押された場合、「魂を与える」
+				if (_aState == ActionState::GIVE || _aState == ActionState::ROB) break;
+				Give(x, y);		// 与えるアクション実行
+				break;
+			//case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
+			//	// 
+			//	//if (_aState != ActionState::IDOL && _aState != ActionState::MOVE || _aState == ActionState::JUMP) break;
+			//	Jump();
+			//	break;
+			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
+				break;
+			case PAD_INPUT_6:	// R1が押された場合、「ダッシュ」
+				break;
+			}
+		}
+		// アイドル状態以外で、アニメーションが終わってない場合
+
+		if (_aState != ActionState::IDOL && _stand && _changeGraph != true) {
+			if (_aState == ActionState::FALL) {
+				auto sound1 = SoundResearch(key::SOUND_PLAYER_FALL);
+				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+				PlaySoundMem(sound1, soundType);
+				_aState = ActionState::IDOL;
+				_divKey.first = PKEY_IDOL;
+				_aCount = 0;
+			}
+			if (!_speed && _aCount == 0) {
+				_aState = ActionState::IDOL;
+				_divKey.first = PKEY_IDOL;
+			}
+		}
+		// 
+		if (_aState == ActionState::JUMP) {
+			if (0 <= _gravity) {
+				_changeGraph = true;
+				_aState = ActionState::FALL;
+				_divKey.first = PKEY_FALL;
+
+			}
+		}
+		return false;
+	}
+
+	void Player::Move(int lever) {
+		// 状態がアイドル、またはモーブの時だけ移動処理を行う。
+		if (lever < -10) _direction = true;
+		else if (10 < lever) _direction = false;
+
+		if (_aState == ActionState::IDOL || _aState == ActionState::MOVE) {
+			// 入力情報がある場合
+			if (lever < -100 || 100< lever) {
+				// moveではない時、キーと状態を更新
+				if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
+					_changeGraph = true;
+					_aState = ActionState::MOVE;
+					_divKey.first = PKEY_RUN;
+				}
+				// _direction = ((0 < lever) ? false : true);
+				/* _direction = ((0 < lever) ? true : false);
+				_speed = (lever * MAX_SPPED) / 1000;
+				Vector2 moveVector = { 1 * _speed, 0 * _speed };
+				_position = _position + moveVector; */
+				// SEの管理
+				if (_aCount % GetSoundFrame(_divKey.first) == 0) {
+					auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
+					auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+					PlaySoundMem(sound1, soundType);
+				}
+				// return;
+				// 立っていてかつ入力がない場合
+			} else if (_stand && _aState == ActionState::MOVE) {
+				_changeGraph = true;
+				_aState = ActionState::IDOL;
+				_divKey.first = PKEY_IDOL;
+				_speed = 0;
+				return;
+			}
+		}
+		// 座標変更
+		_speed = (lever * MAX_SPPED) / 1000;
+		// 移動距離算出
+		/*double vectory = 0;
+		if (JUMP_Y < _moveVector.GetY()) {
+			_moveVector.second -= JUMP_Y;
+			vectory = -JUMP_Y;
+		}*/
+		// 単位ベクトル
+		_moveVector.GetPX() = 1.0 * _speed;
+		if (_moveVector.GetX() < 0 || 0 < _moveVector.GetX()) {
+			int i = 1;
+		}
+		// Vector2 moveVector = { 1 * _speed, vectory };
+		// _position = _position + moveVector;
+		_speed = 0;
+	}
+
+
+	void Player::Dash() {
+		// 向いている方向を高速移動（インターバル有）
+		// フレーム毎の移動量(単位ベクトル)と
+		// インターバルの設定（）
+	}
+
+	void Player::Jump() {
+		// 落下状態ではないとき
+		if (_stand) {
+			// 押下情報を取得
+			auto pressKey = _game.GetKey();
+			if (pressKey & PAD_INPUT_3) {
+				// 溜めカウンタを増やす
+				_jumpPower += 1;
+				// 溜めカウンタがマックスではない場合、処理から抜ける
+				if (_jumpPower < JUMP_MAX) {
+					return;
+				}
+			}
+			// ジャンプの値がある場合
+			if (0 < _jumpPower) {
+				// Aキーの入力がない場合、ジャンプを実行
+				_aState = ActionState::JUMP;
+				_divKey.first = PKEY_JUMP;
+				auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+				// 飛距離を算出
+				auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+				// 飛距離が最大値を超えた場合は修正
+				if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
+				// ジャンプの飛距離を登録
+				// この値は地面に触れた or 天井に接触した場合、0にする。
+				_gravity = -jumpPower;
+			}
+		}
+		_jumpPower = 0;
+	}
+
+	void Player::Rob(double x, double y) {
+		_aState = ActionState::ROB;
+		// キー情報が違う時、キー情報を更新
+		if (_divKey.first != PKEY_ROB) {
+			_divKey.first = PKEY_ROB;
+			// SE読み込み
+			auto sound1 = SoundResearch(key::SOUND_PLAYER_ROB);
+			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
+#ifdef _DEBUG
+			// 当たり判定の設定
+			auto red = GetColor(255, 0, 0);
+#endif
+			// 当たり判定の設定（後程修正）
+			// 以下はno処理
+			//double minX, minY, maxX, maxY;
+			//if (_direction) {
+			//	// minX = minX - ROB_WIDTH;
+			//	minX = x + PLAYER_WIDTH / 2;
+			//	minY = y - PLAYER_HIGHT / 2;
+			//	// maxX = (x + PLAYER_WIDTH / 2) + ROB_WIDTH;
+			//	maxX = minX + ROB_WIDTH;
+			//	maxY = y + PLAYER_HIGHT / 2;
+			//}
+			//else {
+			//	minX = (x - PLAYER_WIDTH / 2) - ROB_WIDTH;
+			//	minY = y - PLAYER_HIGHT / 2;
+			//	maxX = minX + ROB_WIDTH;
+			//	maxY = y + PLAYER_HIGHT / 2;
+			//}
+
+			//Vector2 amin(minX, minY);
+			//Vector2 amax(maxX, maxY);
+
+			auto it = _collisions.find(PKEY_ROB);
+			// it->second.SetVector(amin, amax);
+			it->second.GetbDrawFlg() = true;
+
+		}
+		_aCount = 0;
+		_changeGraph = true;	// 状態遷移フラグオン
+
+	}
+
+	void Player::Give(double x, double y) {
+		_aState = ActionState::GIVE;
+		if (_divKey.first != PKEY_GIVE) {
+			_divKey.first = PKEY_GIVE;
+			// SE読み込み
+			auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
+			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
+			// 当たり判定の設定
+			//auto red = GetColor(255, 0, 0);
+			//// 当たり判定の設定（後程修正）
+			//double minX, minY, maxX, maxY;
+			//if (_direction) {
+			//	// minX = minX - ROB_WIDTH;
+			//	minX = x + PLAYER_WIDTH / 2;
+			//	minY = y - PLAYER_HIGHT / 2;
+			//	// maxX = (x + PLAYER_WIDTH / 2) + ROB_WIDTH;
+			//	maxX = minX + ROB_WIDTH;
+			//	maxY = y + PLAYER_HIGHT / 2;
+			//}
+			//else {
+			//	minX = (x - PLAYER_WIDTH / 2) - ROB_WIDTH;
+			//	minY = y - PLAYER_HIGHT / 2;
+			//	maxX = minX + ROB_WIDTH;
+			//	maxY = y + PLAYER_HIGHT / 2;
+			//}
+
+			//Vector2 amin(minX, minY);
+			// Vector2 amax(maxX, maxY);
+
+			auto it = _collisions.find(PKEY_GIVE);
+		//it->second.SetVector(amin, amax);
+			it->second.GetbDrawFlg() = true;
+
+		}
+		_aCount = 0;
+		_changeGraph = true;	// 状態遷移フラグオン
+	}
+
+	void Player::ChangeSoul() {
+	
+	}
+
+	void Player::Damage(){
+	
+	}
+
+	bool Player::Dead() {
+		return false; 
+	}
+
+	int Player::GetSize(const std::string& key) {
+		// 要素検索
+		auto it = _aMotions.find(key);
+		if (it == _aMotions.end()) {
+			// イテレータが見つからなった場合は-1を返す
+		#ifdef _DEBUG
+			OutputDebugString("キーがヒットしませんでした。キー情報を確認してください。\n");
+		#endif
+			return -1;
+		}
+		return it->second.first;
+	}
+
+	bool Player::GraphResearch(int* gh) {
+		// フラグがオンの時、描画するグラフィックを切り替える
+		if (_changeGraph) {
+			_changeGraph = false;
+			*gh = graph::ResourceServer::GetHandles(_divKey.first, 0);	// 最初の要素を取得
+			return true;
+		}
+		// グラフィックが切り替わる猶予フレームを算出
+		auto interval = GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first);
+		// 何番目のアニメーションが呼び出されているか
+		auto no = _aCount / interval % graph::ResourceServer::GetAllNum(_divKey.first);
+		// グラフィックハンドルを読み込む
+		*gh = graph::ResourceServer::GetHandles(_divKey.first, no);
+		return false;
+	}
+
+	int Player::SoundResearch(const std::string& key) {
+		_divKey.second = key;
+		auto sound = se::SoundServer::GetSound(_divKey.second);
+		return sound;
+	}
+
+	int Player::GetSoundFrame(const std::string& key) {
+		// キー検索
+		auto it = _aMotions.find(key);
+		// ヒットしなかった場合は-1を返す。
+		if (it == _aMotions.end()) {
+			return -1;
+		}
+		// SEの再生フレーム時間を取り出して返す。
+		auto soundFrame = it->second.second;
+		return soundFrame;
+	}
+
+	void Player::AnimationInit() { 
+		if (_aState != ActionState::IDOL && _aState !=ActionState::MOVE && _aState != ActionState::JUMP && _aState!= ActionState::FALL) {
+			// 以下のコードは修正予定
+			// フラグをオフにする
+			auto it = _collisions.find(_divKey.first);
+			it->second.GetbDrawFlg() = false;
+		}
+		_aCount = 0;
+	}
+
+	// 影枝無児居・摩訶辺
+
+	AABB Player::GetAABB() {
+		auto dx = _position.GetX();
+		auto dy = _position.GetY();
+		Vector2 minV(dx - PLAYER_WIDTH / 2, dy + PLAYER_HIGHT / 2);
+		Vector2 maxV(dx + PLAYER_WIDTH / 2, dy - PLAYER_HIGHT / 2);
+		AABB playerAABB(minV, maxV);
+
+		return playerAABB;
+	}
+
+
+	// デバッグ用処理（変数の表示・当たり判定の描画等）
+#ifdef _DEBUG
+	void Player::DebugInfo() {
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "ActionStatet : %d\n", _aState);
+		DrawFormatString(0, 25, GetColor(255, 255, 255), "Animation : %d\n", _aCount);
+
+
+		/*auto minX = box.GetMin().IntX();
+		auto minY = box.GetMin().IntY();
+		auto maxX = box.GetMax().IntX();
+		auto maxY = box.GetMax().IntY();
+		auto boxColor = GetColor(255, 255, 255);
+
+		DrawBox(minX, minY, maxX, maxY, boxColor, FALSE);*/
+		// DrawBox(box.GetMin().IntX(), box.GetMin().IntY(), box.GetMax().IntX(), box.GetMax().IntX(),
+				// GetColor(255, 255, 255), FALSE);
+	}
+#endif
+}
