@@ -93,27 +93,12 @@ namespace inr {
 		auto leverLR = _game.GetLeverLR();
 		auto key = _game.GetTrgKey();
 
-		if (_game.GetMapChips()->IsHitExt(_mainCollision, _moveVector)) {
-			if (0 < _gravity) {
-				_stand = true;
-			}
-			_gravity = 0;
-		}
-
 		Move(leverLR); // 移動処理
 		Action(key); // アクション
 		Jump(); // ジャンプ処理
 
-		_moveVector.GetPY() = _gravity;
-		_position = _position + _moveVector;
-
-		// 当たり判定の更新
-		_mainCollision.Updata(_position, _direction);
-		auto it = _collisions.find(_divKey.first);
-
-		if (it != _collisions.end()){
-			it->second.Updata(_position, _direction);
-		}
+		// 位置座標の更新
+		PositionUpdate();
 		// _game.GetMapChips()->ScrUpdata(_position);
 	}
 
@@ -262,9 +247,6 @@ namespace inr {
 		}*/
 		// 単位ベクトル
 		_moveVector.GetPX() = 1.0 * _speed;
-		if (_moveVector.GetX() < 0 || 0 < _moveVector.GetX()) {
-			int i = 1;
-		}
 		// Vector2 moveVector = { 1 * _speed, vectory };
 		// _position = _position + moveVector;
 		_speed = 0;
@@ -459,8 +441,6 @@ namespace inr {
 		_aCount = 0;
 	}
 
-	// 影枝無児居・摩訶辺
-
 	AABB Player::GetAABB() {
 		auto dx = _position.GetX();
 		auto dy = _position.GetY();
@@ -469,6 +449,23 @@ namespace inr {
 		AABB playerAABB(minV, maxV);
 
 		return playerAABB;
+	}
+
+	// 位置座標更新
+	void Player::PositionUpdate() {
+		// 移動ベクトルYに加速度を代入
+		_moveVector.GetPY() = _gravity;
+		_position = _position + _moveVector;	// 位置座標を更新
+		// マップチップにめり込んでいる場合は座標を修正
+		_game.GetMapChips()->IsHit(_mainCollision, _moveVector);
+
+		// 各種当たり判定の更新
+		_mainCollision.Updata(_position, _direction);
+		auto it = _collisions.find(_divKey.first);
+
+		if (it != _collisions.end()) {
+			it->second.Updata(_position, _direction);
+		}
 	}
 
 

@@ -61,6 +61,8 @@ namespace inr {
 		int GetSize(const std::string& key);
 		int SoundResearch(const std::string& key);
 		int GetSoundFrame(const std::string& key);
+
+		void PositionUpdate();
 		// Actionˆ—‚Ü‚Æ‚ß
 		bool Action(int key);
 		

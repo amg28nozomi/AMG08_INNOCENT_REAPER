@@ -30,9 +30,17 @@ namespace inr {
 	}
 
 	void ObjectBase::Process() {
-		_gravity += FRAME_G;	// 加速度を加算
-		// _position.GetPY() += _gravity;	// 現在地の座標に加速度を加算
-		_stand = false;
+		// マップチップの上に立っているかどうか
+		if (_game.GetMapChips()->IsHit(_mainCollision)) {
+			// フラグがオフの時だけオンにする
+			if (_stand != true) {
+				_stand = true;
+			}
+			_gravity = 0;
+		} else {
+			_stand = false;
+			_gravity += FRAME_G;	// 加速度を加算
+		}
 	}
 
 	void ObjectBase::Draw() {

@@ -238,16 +238,14 @@ namespace inr {
 		return 0;
 	}
 
-	bool MapChips::IsHit(AABB box, Vector2& move) {
+	// “–‚½‚è”»’è‚ÌŽæ“¾
+	bool MapChips::IsHit(AABB box) {
 		int x, y;
 
-		auto vectorX = move.GetX();
-		auto vectorY = move.GetY();
-
-		auto minx = box.GetMin().IntX() + move.IntX();
-		auto miny = box.GetMin().IntY() + move.IntY();
-		auto maxx = box.GetMax().IntX() + move.IntX();
-		auto maxy = box.GetMax().IntY() + move.IntY();
+		auto minx = box.GetMin().IntX();
+		auto miny = box.GetMin().IntY();
+		auto maxx = box.GetMax().IntX();
+		auto maxy = box.GetMax().IntY();
 
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
 			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
@@ -255,10 +253,6 @@ namespace inr {
 				int chip_no = CheckHit(x, y);
 				// ƒ`ƒbƒv”Ô†‚ª0‚©‚Ç‚¤‚©
 				if (chip_no != 0) {
-					AABB mapchip({ static_cast<double>(x) , static_cast<double>(y) }, { static_cast<double>(x + _chipSize.first), static_cast<double>(y + _chipSize.second) });
-					AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
-						{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() });
-					// “–‚½‚Á‚Ä‚¢‚é
 					return true;
 				}
 			}
@@ -267,7 +261,7 @@ namespace inr {
 		return false;
 	}
 
-	bool MapChips::IsHitExt(AABB box, Vector2& move) {
+	bool MapChips::IsHit(AABB box, Vector2& move) {
 		int x, y;
 
 		auto vectorX = move.GetX();

@@ -22,8 +22,9 @@ namespace inr {
 		void Draw();
 
 		int CheckHit(int x, int y);
-		bool IsHit(AABB box, Vector2& move);	// マップチップの上に立っているかの判定(pos:ボックス　mx:xの移動距離　my:yの移動距離)
-		bool IsHitExt(AABB box, Vector2& move);	// 押し出し処理用
+		// マップチップと当たっているかどうか（マップチップの上に立っているかどうか）
+		bool IsHit(AABB box);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
+		bool IsHit(AABB box, Vector2& move);	// 押し出し処理用
 
 		// ゲッター
 		inline std::pair<int, int> GetMapSize() { return _mapSize; }
