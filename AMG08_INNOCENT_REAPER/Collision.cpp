@@ -2,12 +2,16 @@
 #include "Vector2.h"
 #include <DxLib.h>
 
-Collision::Collision(const Vector2& min, const Vector2& max, bool flg) : minV(min), maxV(max), _collisionFlg(flg){
+Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max),_collisionFlg(flg){
 #ifdef _DEBUG
 	_drawFlg = true;
 #endif
 	_width = static_cast<int>(maxV.GetX() - minV.GetX());
 	_height = static_cast<int>(maxV.GetX() - minV.GetX());
+
+	auto posx = max.GetX() - min.GetX() / 2;
+	auto posy = max.GetY() - min.GetY() / 2;
+	center = { posx, posy };
 }
 
 Collision::Collision(Vector2& pos, int width, int height, bool flg) {
@@ -46,18 +50,22 @@ bool Collision::HitCheck(Collision collision) {
 }
 
 bool Collision::SideCheck(Collision collision) {
-	//// 対象のminXがこのオブジェクトのmaxXよりも小さくてかつ
-	//if (collision.minV.GetX() < maxV.GetX() && ) {
-	//	// 当たった
-	//	return true;
-	//}
-	//bool sideFlg = 
+	// 中心座標を取得
+	auto y = collision.GetCenter().GetY();
+
+	// 対象のy座標は判定内にあるかどうか？
+	if (minV.GetY() <= y <= maxV.GetY()) {
+		// xは中にあるかどうか？
+		if (collision.minV.GetX() < maxV.GetX() && minV.GetX() < collision.maxV.GetX()) {
+			return true;
+		}
+		// if (minV.GetX() <= x <= maxV.GetX()) {
+		// }
+	}
 	return false;
 }
 
-AABB::AABB(const Vector2& vmin, const Vector2& vmax, bool cflg) : Collision(vmin, vmax, cflg) {
-	_width = 0;
-	_height = 0;
+AABB::AABB(Vector2 vmin, Vector2 vmax, bool cflg) : Collision(vmin, vmax, cflg) {
 	_fix = 0;
 }
 

@@ -70,7 +70,7 @@ namespace inr {
 
 			{ enemy::blue::SOLDIER_WAKEUP, {20, 0}},
 			{ enemy::blue::SOLDIER_IDOL, {28, 0}},
-			{ enemy::blue::SOLDIER_PATROL, {28, 0}},
+			{ enemy::blue::SOLDIER_PATROL, {42, 0}},
 			{ enemy::blue::SOLDIER_ESCAPE, {24, 0}}
 		};
 
@@ -99,7 +99,7 @@ namespace inr {
 		}
 		if (_aState == ActionState::PATROL) {
 			// ç∂à⁄ìÆ
-			if (_patrolX < 0) {
+			/*if (_patrolX < 0) {
 				_moveVector.GetPX() = -PATROL_VECTOR;
 				_patrolX += PATROL_VECTOR;
 				return;
@@ -112,7 +112,7 @@ namespace inr {
 			if (static_cast<int>(_patrolX) == 0) {
 				if (_direction) _patrolX = -PATROL_MAX;
 				else _patrolX = PATROL_MAX;
-			}
+			}*/
 		}
 	}
 

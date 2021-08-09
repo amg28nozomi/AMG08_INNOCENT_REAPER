@@ -317,14 +317,23 @@ namespace inr {
 						{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() });
 					
 					// x座標のめり込み判定
-					if (vectorX < 0 && boxcol.HitCheck(mapchip) == true) {
-						auto m = (chipMinX - minx) * -1;
-						// めり込んでいるピクセルを算出し、正負を反転させて移動ベクトルに代入
+					// if (vectorX < 0 && boxcol.HitCheck(mapchip) == true) {
+					if (vectorX < 0 && mapchip.SideCheck(boxcol) == true) {
+						// めり込んでいるピクセルを算出し、座標を置き換える
+						//auto m = (chipMaxX - minx);
+						//auto vec1 = _chipSize.first - m;
+
+						//pos.GetPX() = pos.GetX() + vec1;
+						//// pos.GetPX() = chipMaxX + boxcol.GetCenter().GetX();//pos.GetX() + vec1;
+						//move.GetPX() = 0;
 						
-						move.GetPX() = (_chipSize.first - m) / vectorX;
-					} if (0 < vectorX && boxcol.HitCheck(mapchip) == true) {
-						auto n = (chipMaxX - maxx);
-						move.GetPX() = (_chipSize.first - n) / vectorX;
+						// move.GetPX() = (_chipSize.first - m) / vectorX;
+					} if (0 < vectorX && mapchip.SideCheck(boxcol) == true) {
+						// auto n = chipMaxX - maxx;
+						/*auto n = maxx - chipMaxX;
+						auto vec2 = _chipSize.first - n;
+						move.GetPX() = pos.GetPX() - vec2;
+						move.GetPX() = 0;*/
 					}
 					// y座標のめり込み判定
 					if (vectorY < 0 && mapchip.HitCheck(mapchip) == true) {

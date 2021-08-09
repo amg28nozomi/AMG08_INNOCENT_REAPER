@@ -73,7 +73,7 @@ namespace inr {
 		std::unique_ptr<ObjectServer> _objServer;	// オブジェサーバー
 		std::unique_ptr<MapChips> _mapChips;	// マップチップ
 
-		
+		Vector2 _worldPosition;	// world座標
 
 
 		std::tuple<int, int, int> _joyKey;	// ジョイパッドの入力情報
