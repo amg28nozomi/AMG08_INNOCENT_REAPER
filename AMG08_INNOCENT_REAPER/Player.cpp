@@ -117,7 +117,7 @@ namespace inr {
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlg() == true) {
-				box->second.Draw(GetColor(255, 0, 0));
+				box->second.DrawBox(GetColor(255, 0, 0));
 			}
 		}
 
@@ -341,30 +341,8 @@ namespace inr {
 			// SE読み込み
 			auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
 			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
-			// 当たり判定の設定
-			//auto red = GetColor(255, 0, 0);
-			//// 当たり判定の設定（後程修正）
-			//double minX, minY, maxX, maxY;
-			//if (_direction) {
-			//	// minX = minX - ROB_WIDTH;
-			//	minX = x + PLAYER_WIDTH / 2;
-			//	minY = y - PLAYER_HIGHT / 2;
-			//	// maxX = (x + PLAYER_WIDTH / 2) + ROB_WIDTH;
-			//	maxX = minX + ROB_WIDTH;
-			//	maxY = y + PLAYER_HIGHT / 2;
-			//}
-			//else {
-			//	minX = (x - PLAYER_WIDTH / 2) - ROB_WIDTH;
-			//	minY = y - PLAYER_HIGHT / 2;
-			//	maxX = minX + ROB_WIDTH;
-			//	maxY = y + PLAYER_HIGHT / 2;
-			//}
-
-			//Vector2 amin(minX, minY);
-			// Vector2 amax(maxX, maxY);
 
 			auto it = _collisions.find(PKEY_GIVE);
-		//it->second.SetVector(amin, amax);
 			it->second.GetbDrawFlg() = true;
 
 		}
@@ -455,16 +433,16 @@ namespace inr {
 	void Player::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
-		_position = _position + _moveVector;	// 位置座標を更新
 		// マップチップにめり込んでいる場合は座標を修正
 		_game.GetMapChips()->IsHit(_mainCollision, _moveVector);
+		_position = _position + _moveVector;	// 位置座標を更新
 
 		// 各種当たり判定の更新
-		_mainCollision.Updata(_position, _direction);
+		_mainCollision.Update(_position, _direction);
 		auto it = _collisions.find(_divKey.first);
 
 		if (it != _collisions.end()) {
-			it->second.Updata(_position, _direction);
+			it->second.Update(_position, _direction);
 		}
 	}
 

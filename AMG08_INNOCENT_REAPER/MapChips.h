@@ -56,6 +56,10 @@ namespace inr {
 		int TiledJsonLoad(std::string fillPath, std::string strFillName);
 
 		MapList _maplist;
+
+
+		// デバッグ用
+		AABB _debugAABB;
 	};
 }
 

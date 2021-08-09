@@ -2,7 +2,7 @@
 #include "Vector2.h"
 #include <DxLib.h>
 
-Collision::Collision(const Vector2& min, const Vector2& max, bool flg = false) : minV(min), maxV(max), _collisionFlg(flg){
+Collision::Collision(const Vector2& min, const Vector2& max, bool flg) : minV(min), maxV(max), _collisionFlg(flg){
 #ifdef _DEBUG
 	_drawFlg = true;
 #endif
@@ -10,9 +10,9 @@ Collision::Collision(const Vector2& min, const Vector2& max, bool flg = false) :
 	_height = static_cast<int>(maxV.GetX() - minV.GetX());
 }
 
-Collision::Collision(Vector2& pos, int width, int height, bool flg = false) {
+Collision::Collision(Vector2& pos, int width, int height, bool flg) {
 	_width = width;
-	_height = _height;
+	_height = height;
 	_collisionFlg = false;
 #ifdef _DEBUG
 	_drawFlg = true;
@@ -28,7 +28,7 @@ void Collision::Update(Vector2& pos, bool inv) {
 		maxV = { pos.GetX() + _width, pos.GetY() + _height };
 }
 
-void Collision::Draw(int color) {
+void Collision::DrawBox(int color) {
 	auto minX = minV.IntX();
 	auto minY = minV.IntY();
 	auto maxX = maxV.IntX();
@@ -43,6 +43,16 @@ bool Collision::HitCheck(Collision collision) {
 		maxV.GetY() < collision.minV.GetY() ||
 		collision.maxV.GetY() < minV.GetY();
 	return !flg;
+}
+
+bool Collision::SideCheck(Collision collision) {
+	//// 対象のminXがこのオブジェクトのmaxXよりも小さくてかつ
+	//if (collision.minV.GetX() < maxV.GetX() && ) {
+	//	// 当たった
+	//	return true;
+	//}
+	//bool sideFlg = 
+	return false;
 }
 
 AABB::AABB(const Vector2& vmin, const Vector2& vmax, bool cflg) : Collision(vmin, vmax, cflg) {
@@ -74,7 +84,7 @@ AABB::AABB(Vector2& pos, int width, int height, int fix, bool cflg) : Collision(
 //	maxV.GetPY() += pos.GetY();*/
 //}
 
-void AABB::Updata(Vector2& pos, bool inv) {
+void AABB::Update(Vector2& pos, bool inv) {
 	auto minh = _height - _fix;
 	auto maxh = _height + _fix;
 
@@ -90,15 +100,3 @@ void AABB::Updata(Vector2& pos, bool inv) {
 	minV = { pos.GetX() - _width , pos.GetY() - minh };
 	maxV = { pos.GetX() + minw, pos.GetY() + maxh };
 }
-
-#ifdef _DEBUG
-void AABB::DrawBox(){
-	auto minX = minV.IntX();
-	auto minY = minV.IntY();
-	auto maxX = maxV.IntX();
-	auto maxY = maxV.IntY();
-	auto boxColor = GetColor(255, 255, 255);
-
-	DxLib::DrawBox(minX, minY, maxX, maxY, boxColor, FALSE);
-}
-#endif

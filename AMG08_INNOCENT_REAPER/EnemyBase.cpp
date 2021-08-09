@@ -56,7 +56,7 @@ namespace inr {
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlg() == true) {
-				box->second.Draw(GetColor(255, 0, 0));
+				box->second.DrawBox(GetColor(255, 0, 0));
 			}
 		}
 		//// アニメーションが終わっていない場合はカウントを増やす

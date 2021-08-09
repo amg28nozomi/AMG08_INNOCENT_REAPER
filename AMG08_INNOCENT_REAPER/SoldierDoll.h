@@ -22,6 +22,8 @@ namespace inr {
 
 		void Patrol();	// „‰ñ
 		void PatrolOn();	// „‰ñó‘Ô‚ÉˆÚs
+
+		void PositionUpdate();
 	};
 }
 

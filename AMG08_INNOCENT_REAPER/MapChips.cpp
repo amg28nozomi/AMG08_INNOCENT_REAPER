@@ -5,7 +5,6 @@
 #include "ResourceServer.h"
 #include "Collision.h"
 #include "Vector2.h"
-// #include "MapData.h"
 #include <tuple>
 #include <vector>
 #include <algorithm>
@@ -23,7 +22,7 @@ namespace inr {
 
 	constexpr auto CHIP_KEY = "chips";
 
-	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game) {
+	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _debugAABB(Vector2(), Vector2()) {
 		TiledJsonLoad(filePath, tiledFileName + ".json");
 
 		auto chipCountW = std::get<SECOND>(_chipCount);
@@ -104,6 +103,28 @@ namespace inr {
 				}
 			}
 		}
+
+		/* 検証用 */
+		auto minx = _debugAABB.GetMin().IntX();
+		auto miny = _debugAABB.GetMin().IntY();
+		auto maxx = _debugAABB.GetMax().IntX();
+		auto maxy = _debugAABB.GetMax().IntY();
+
+		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
+			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
+				auto chipMinX = x * _chipSize.first;
+				auto chipMinY = y * _chipSize.second;
+				auto chipMaxX = x * _chipSize.first + _chipSize.first;
+				auto chipMaxY = y * _chipSize.second + _chipSize.second;
+
+				AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(y) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY) });
+
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+				mapchip.DrawBox(GetColor(255, 255, 0));
+				SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+			}
+		}
+		/* 検証用 */
 	}
 
 	std::string MapChips::StringFillLoad(std::string FillName) {
@@ -210,8 +231,9 @@ namespace inr {
 					++layer;
 				}
 		}
-		// _mapChipsType.swap(addChipsType);
+		// チップ番号を若い順に並び変える
 		sort(_mapChipsType.begin(), _mapChipsType.end());
+		// 末尾に-1を追加
 		_mapChipsType.emplace_back(-1);
 
 		return 1;
@@ -274,23 +296,36 @@ namespace inr {
 		auto maxx = box.GetMax().IntX() + move.IntX();
 		auto maxy = box.GetMax().IntY() + move.IntY();
 
+		/* 検証用 */
+		_debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
+		/* 検証用 */
+
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
 			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
 				// マップチップと接触しているかどうか？
 				int chip_no = CheckHit(x, y);
 				// チップ番号が0かどうか
 				if (chip_no != 0) {
-					AABB mapchip({ static_cast<double>(x) , static_cast<double>(y) }, { static_cast<double>(x + _chipSize.first), static_cast<double>(y + _chipSize.second)});
+					// 新規追加
+					auto chipMinX = x * _chipSize.first;
+					auto chipMinY = y * _chipSize.second;
+					auto chipMaxX = x * _chipSize.first + _chipSize.first;
+					auto chipMaxY = y * _chipSize.second + _chipSize.second;
+
+					AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(y) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)});
 					AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
 						{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() });
 					
-					// 移動ベクトルがプラスかつ、
+					// x座標のめり込み判定
 					if (vectorX < 0 && boxcol.HitCheck(mapchip) == true) {
-						move.GetPX() = -move.GetX();
-					} else if (0 < vectorX && boxcol.HitCheck(mapchip) == true) {
-						move.GetPX() = -move.GetX();
+						auto m = (chipMinX - minx) * -1;
+						// めり込んでいるピクセルを算出し、正負を反転させて移動ベクトルに代入
+						move.GetPX() = (_chipSize.first - m) / vectorX;
+					} if (0 < vectorX && boxcol.HitCheck(mapchip) == true) {
+						auto n = (chipMaxX - maxx);
+						move.GetPX() = (_chipSize.first - n) / vectorX;
 					}
-					// y座標で接触しているかどうか判定
+					// y座標のめり込み判定
 					if (vectorY < 0 && mapchip.HitCheck(mapchip) == true) {
 						move.GetPY() = 0;
 					} else if (0 < vectorY && mapchip.HitCheck(mapchip) == true) {

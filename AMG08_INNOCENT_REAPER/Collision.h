@@ -22,8 +22,9 @@ public:
 	inline Vector2 GetMax() { return maxV; }
 
 	virtual void Update(Vector2& pos, bool inv); // 更新・反転処理有
-	void Draw(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
+	void DrawBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
 	bool HitCheck(Collision collision); // 当たり判定
+	bool SideCheck(Collision collision);	// どちら側で接触しているのか。
 #ifdef _DEBUG
 	inline bool GetDrawFlg() { return _drawFlg; }
 	inline bool& GetbDrawFlg() { return _drawFlg; }
@@ -33,6 +34,7 @@ public:
 
 };
 
+// 反転があるver
 class AABB : public Collision {
 private:
 	int _fix;
@@ -42,9 +44,5 @@ public:
 	~AABB() = default;
 
 	// 更新・反転処理有
-	void Updata(Vector2& pos, bool inv);
-#ifdef _DEBUG
-	// デバッグ用:AABBの描画
-	void DrawBox();
-#endif
+	void Update(Vector2& pos, bool inv) override;
 };

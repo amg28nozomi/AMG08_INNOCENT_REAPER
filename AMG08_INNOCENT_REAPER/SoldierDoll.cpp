@@ -81,6 +81,7 @@ namespace inr {
 		// 当たり判定を取得
 
 		Move();
+		PositionUpdate();
 	}
 
 	void SoldierDoll::Patrol() {
@@ -115,18 +116,6 @@ namespace inr {
 		else if (0 < _moveVector.GetX()) {
 			_direction = true;
 		}
-
-		if (_game.GetMapChips()->IsHit(_mainCollision, _moveVector)) {
-			if (0 < _gravity) {
-				_stand = true;
-			}
-			_gravity = 0;
-		}
-
-		_moveVector.GetPY() = _gravity;
-		_position = _position + _moveVector;
-		_mainCollision.Updata(_position, _direction);
-		_searchBox.Updata(_position, _direction);
 	}
 
 	void SoldierDoll::Action() {
@@ -162,7 +151,14 @@ namespace inr {
 		}
 	}
 
-	/*void SoldierDoll::AnimationInit() {
+	void SoldierDoll::PositionUpdate() {
+		// 移動ベクトルYに加速度を代入
+		_moveVector.GetPY() = _gravity;
+		// マップチップにめり込んでいる場合は座標を修正
+		_game.GetMapChips()->IsHit(_mainCollision, _moveVector);
+		_position = _position + _moveVector;	// 位置座標を更新
 
-	}*/
+		_mainCollision.Update(_position, _direction);
+		_searchBox.Update(_position, _direction);
+	}
 }
