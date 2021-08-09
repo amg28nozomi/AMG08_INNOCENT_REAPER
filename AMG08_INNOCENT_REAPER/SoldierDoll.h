@@ -3,8 +3,8 @@
 
 namespace inr {
 
-	constexpr auto SOLDIER_IMAGE_W = 400;
-	constexpr auto SOLDIER_IMAGE_H = 300;
+	constexpr auto SOLDIER_IMAGE_W = 160;
+	constexpr auto SOLDIER_IMAGE_H = 160;
 
 	class SoldierDoll : public EnemyBase {
 	public:

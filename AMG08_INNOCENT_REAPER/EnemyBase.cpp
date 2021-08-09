@@ -117,7 +117,7 @@ namespace inr {
 		if (_aState != ActionState::ESCAPE) {
 			_changeGraph = true;
 			_aState = ActionState::ESCAPE;
-			_divKey.first = enemy::SOLDIER_ESCAPE;
+			_divKey.first = enemy::blue::SOLDIER_ESCAPE;
 			// ©g‚ÌŒü‚«‚É‚æ‚Á‚ÄˆÚ“®‹——£‚ğ•ÏX
 			if (_direction) _actionX = -ESCAPE_MAX / FRAME;
 			else _actionX = ESCAPE_MAX / FRAME;

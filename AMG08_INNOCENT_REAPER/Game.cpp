@@ -40,11 +40,20 @@ namespace inr {
 		{BACK_GRAUND, {"Resource/背景ステージ１_ラフ1.png", 1, 1, 1, 1200, 1350 }},
 	};
 
+	// ソルジャードールの各種モーション
 	const graph::ResourceServer::DivGraphMap soldierDoll{
-		{ enemy::SOLDIER_PATROL, {"Resource/SoldierDoll/empty.png", 20, 1, 20, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
-		{ enemy::SOLDIER_PATROL, {"Resource/SoldierDoll/patrol.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
-		{ enemy::SOLDIER_ESCAPE, {"Resource/SoldierDoll/attack.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
-		{ enemy::SOLDIER_ATTACK, {"Resource/SoldierDoll/attack.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		// 魂が空の状態
+		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		// 赤い魂の状態
+		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 8, 1, 8, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::red::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_r_move.png", 9, 1, 9, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::red::SOLDIER_ATTACK, {"Resource/SoldierDoll/sd_r_attack.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		// 青い魂
+		{ enemy::blue::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::blue::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_b_stand.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::blue::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_b_move.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::blue::SOLDIER_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 	};
 
 	const se::SoundServer::SoundMap ses{

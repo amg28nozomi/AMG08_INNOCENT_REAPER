@@ -32,7 +32,7 @@ namespace inr {
 		_eType = EnemyType::SOLDIER_DOLL;
 		_aState = ActionState::PATROL;
 		_sState = SoulState::BLUE;
-		_divKey = std::make_pair(enemy::SOLDIER_PATROL, key::SOUND_NUM);
+		_divKey = std::make_pair(enemy::blue::SOLDIER_PATROL, key::SOUND_NUM);
 		_position = { START_POS_X, START_POS_Y };
 
 		_aFrame = 0;
@@ -60,10 +60,19 @@ namespace inr {
 			{ enemy::SOLDIER_EMPTY, { _position, EMPTY_W / 2, EMPTY_H / 2 }},
 		};
 
-		_enemyKey = { { enemy::SOLDIER_EMPTY,{ 121, 50}},
-			{enemy::SOLDIER_PATROL, {61, 50}},
-			{enemy::SOLDIER_ATTACK, {22, 50}},
-			{enemy::SOLDIER_ESCAPE, {29, 50}} };
+		_enemyKey =
+		{	{ enemy::SOLDIER_EMPTY, {18, 0}},
+
+			{ enemy::red::SOLDIER_WAKEUP, {20, 0}},
+			{ enemy::red::SOLDIER_IDOL, {32, 0}},
+			{ enemy::red::SOLDIER_PATROL, {36, 0}},
+			{ enemy::red::SOLDIER_ATTACK, {12, 50}},	// SE有り
+
+			{ enemy::blue::SOLDIER_WAKEUP, {20, 0}},
+			{ enemy::blue::SOLDIER_IDOL, {28, 0}},
+			{ enemy::blue::SOLDIER_PATROL, {28, 0}},
+			{ enemy::blue::SOLDIER_ESCAPE, {24, 0}}
+		};
 
 		PatrolOn();
 	}
@@ -75,13 +84,13 @@ namespace inr {
 		if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		else _aCount = 0;	// カウンター初期化
 
-		Patrol();
-		Action();
+		//Patrol();
+		//Action();
 
-		// 当たり判定を取得
+		//// 当たり判定を取得
 
-		Move();
-		PositionUpdate();
+		//Move();
+		//PositionUpdate();
 	}
 
 	void SoldierDoll::Patrol() {
@@ -143,7 +152,10 @@ namespace inr {
 	void SoldierDoll::PatrolOn() {
 		_changeGraph = true;
 		_aState = ActionState::PATROL;
-		_divKey.first = enemy::SOLDIER_PATROL;
+
+		// 魂の色に応じてキーを切り替え
+		(_sState == SoulState::BLUE) ? 
+			_divKey.first = enemy::blue::SOLDIER_PATROL : _divKey.first = enemy::red::SOLDIER_PATROL;
 
 		if (_actionX <= 0) {
 			if(_direction) _patrolX = PATROL_MAX;
@@ -155,7 +167,7 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		_game.GetMapChips()->IsHit(_mainCollision, _moveVector);
+		_game.GetMapChips()->IsHit(_mainCollision, _position,_moveVector);
 		_position = _position + _moveVector;	// 位置座標を更新
 
 		_mainCollision.Update(_position, _direction);

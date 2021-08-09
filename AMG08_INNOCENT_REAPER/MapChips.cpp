@@ -285,7 +285,7 @@ namespace inr {
 		return false;
 	}
 
-	bool MapChips::IsHit(AABB box, Vector2& move) {
+	bool MapChips::IsHit(AABB box, Vector2& pos, Vector2& move) {
 		int x, y;
 
 		auto vectorX = move.GetX();
@@ -312,7 +312,7 @@ namespace inr {
 					auto chipMaxX = x * _chipSize.first + _chipSize.first;
 					auto chipMaxY = y * _chipSize.second + _chipSize.second;
 
-					AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(y) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)});
+					AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)});
 					AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
 						{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() });
 					
@@ -320,6 +320,7 @@ namespace inr {
 					if (vectorX < 0 && boxcol.HitCheck(mapchip) == true) {
 						auto m = (chipMinX - minx) * -1;
 						// めり込んでいるピクセルを算出し、正負を反転させて移動ベクトルに代入
+						
 						move.GetPX() = (_chipSize.first - m) / vectorX;
 					} if (0 < vectorX && boxcol.HitCheck(mapchip) == true) {
 						auto n = (chipMaxX - maxx);

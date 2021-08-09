@@ -8,9 +8,21 @@ namespace inr {
 	namespace enemy {
 		// キー情報
 		constexpr auto SOLDIER_EMPTY = "soldier_empty";	// 抜け殻
-		constexpr auto SOLDIER_PATROL = "soldier_patrol";	// 巡回中
-		constexpr auto SOLDIER_ATTACK = "soldier_attack";	// 攻撃
-		constexpr auto SOLDIER_ESCAPE = "soldier_escape";	// 逃走
+
+		namespace red {	// 魂（赤）
+			constexpr auto SOLDIER_WAKEUP = "soldier_r_wakeup";	// 起き上がり
+			constexpr auto SOLDIER_IDOL = "soldier_r_stand";	// アイドル
+			constexpr auto SOLDIER_PATROL = "soldier_r_patrol";	// 巡回中
+			constexpr auto SOLDIER_ATTACK = "soldier_r_attack";	// 攻撃
+		}
+
+		namespace blue { // 青の魂
+			constexpr auto SOLDIER_WAKEUP = "soldier_b_wakeup";	// 起き上がり
+			constexpr auto SOLDIER_IDOL = "soldier_b_stand";	// アイドル
+			constexpr auto SOLDIER_PATROL = "soldier_b_patrol";	// 巡回中
+			constexpr auto SOLDIER_ESCAPE = "soldier_b_escape";	// 逃走
+		}
+
 	}
 
 	class Soul; // まだ作ってないよ
