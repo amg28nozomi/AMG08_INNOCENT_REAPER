@@ -72,6 +72,7 @@ namespace inr {
 		// プレイヤーの現在座標から、左右どちらに居るかを割り出す
 		virtual bool SearchPosition();
 		virtual void Escape();	// 逃避
+		virtual bool Hit();	// オブジェクトと接触したかどうか
 	public:
 		EnemyBase(Game& game);
 		~EnemyBase() override;

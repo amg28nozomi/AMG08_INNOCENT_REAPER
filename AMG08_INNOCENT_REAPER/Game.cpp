@@ -21,8 +21,8 @@ namespace inr {
 	int Game::_frameCount = 0;
 
 	constexpr auto PATH = "Resource/";
-	//constexpr auto CHIP_FILE = "platformer_simpleA";
-	constexpr auto CHIP_FILE = "stage01";
+	constexpr auto CHIP_FILE = "platformer_simpleA";
+	// constexpr auto CHIP_FILE = "stage01";
 
 	
 	// constexpr auto CHIP_FILE = "stage01";

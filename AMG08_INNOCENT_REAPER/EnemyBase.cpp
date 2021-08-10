@@ -132,6 +132,10 @@ namespace inr {
 		_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
 	}
 
+	bool EnemyBase::Hit() {
+		return false;
+	}
+
 	int EnemyBase::GetSize(const std::string& key) {
 		// óvëfåüçı
 		auto it = _enemyKey.find(key);

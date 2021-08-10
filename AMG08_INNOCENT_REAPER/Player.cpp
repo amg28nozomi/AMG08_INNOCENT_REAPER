@@ -36,10 +36,33 @@ namespace {
 	constexpr auto ROB_HIGHT = 60 / 2;
 
 	// ジャンプアクション
-	constexpr auto JUMP_VECTOR = 1;	// 最低の単位ベクトル
+	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
 	constexpr auto JUMP_MAX = 15;
 	constexpr auto JUMP_Y = 5;
 
+
+	// 各種モーションの画像数
+	constexpr auto PF_IDOL = 13;
+	constexpr auto PF_RUN = 9;
+	constexpr auto PF_DASH = 13;
+	constexpr auto PF_JUMP = 6;
+	constexpr auto PF_FALL = 10;
+	constexpr auto PF_ROB = 13;
+	constexpr auto PF_GIVE = 16;
+	constexpr auto PF_HIT = 7;
+
+	// 描画切り替えまでに必要なフレーム数
+	constexpr auto MF_INTRVAL = 4;
+
+	// 再生時間
+	constexpr auto PMF_IDOL = PF_IDOL * MF_INTRVAL;
+	constexpr auto PMF_RUN = PF_RUN * MF_INTRVAL;
+	constexpr auto PMF_DASH = PF_DASH * MF_INTRVAL;
+	constexpr auto PMF_JUMP = PF_JUMP * MF_INTRVAL;
+	constexpr auto PMF_FALL = PF_FALL * MF_INTRVAL;
+	constexpr auto PMF_ROB = PF_ROB * MF_INTRVAL;
+	constexpr auto PMF_GIVE = PF_GIVE * MF_INTRVAL;
+	constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
 }
 
 namespace inr {
@@ -68,13 +91,15 @@ namespace inr {
 	}
 
 	void Player::Init() {
-		// キー名、アニメーションの総フレーム数、SEの再生時間/フレーム(現状適当)
-		_aMotions = { {PKEY_IDOL, {52, SE_NUM}}, 
-			{PKEY_RUN, {36, SE_RUN1}}, 
-			{PKEY_ROB, {39, 10}}, 
-			{PKEY_GIVE, {48, 10}},
-			{PKEY_JUMP, {24, 50}},
-			{PKEY_FALL, {50, 50}},
+		// キー名　first:アニメーションの総フレーム数、second:SEの再生フレーム数
+		_aMotions = {{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
+					{PKEY_RUN, {PMF_RUN, SE_RUN1}}, 
+					{PKEY_DASH, {PMF_DASH, 50}},
+					{PKEY_JUMP, {PMF_JUMP, 50}},
+					{PKEY_FALL, {PMF_FALL, 50}},
+					{PKEY_ROB, {PMF_ROB, 10}}, 
+					{PKEY_GIVE, {PMF_GIVE, 10}},
+					{PKEY_HIT, {PMF_HIT, 50}},
 		};
 
 		auto x = _position.GetX();
@@ -171,6 +196,7 @@ namespace inr {
 			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
 				break;
 			case PAD_INPUT_6:	// R1が押された場合、「ダッシュ」
+				Dash();
 				break;
 			}
 		}
@@ -257,6 +283,12 @@ namespace inr {
 		// 向いている方向を高速移動（インターバル有）
 		// フレーム毎の移動量(単位ベクトル)と
 		// インターバルの設定（）
+
+		// 空中・地上問わずダッシュ可能
+
+		// ダッシュ中は各種アクションが行えない
+
+
 	}
 
 	void Player::Jump() {

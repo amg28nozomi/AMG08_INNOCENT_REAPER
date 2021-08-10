@@ -13,6 +13,8 @@ namespace inr {
 
 		void Init() override;
 		void Process() override;
+
+		bool Hit() override;
 	private:
 		double _patrolX;
 

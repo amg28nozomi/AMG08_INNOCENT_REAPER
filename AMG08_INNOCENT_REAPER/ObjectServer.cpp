@@ -53,6 +53,7 @@ namespace inr {
 		}
 	}
 
+
 	// 指定したオブジェクトを取り出す（単品）
 	ObjectBase& ObjectServer::GetObjectA(ObjectBase::ObjectType otype) {
 		for (auto& it : _objects) {
@@ -62,13 +63,21 @@ namespace inr {
 		}
 	}
 
-	// 指定したオブジェクトの参照を取り出す（配列）
-	// std::vector<ObjectBase&> ObjectServer::GetObjectList(ObjectBase::ObjectType otype) {
-	/*	std::vector<ObjectBase&> list;
-
+	ObjectBase& ObjectServer::GetPlayer() {
 		for (auto& it : _objects) {
+			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
+				return *it;
+			}
+		}
+	}
+
+	// 指定したオブジェクトの参照を取り出す（配列）
+	/*std::vector<std::unique_ptr<ObjectBase>>& ObjectServer::GetObjectList(ObjectBase::ObjectType otype) {
+		std::vector<std::unique_ptr<ObjectBase>>& list = _objects;
+
+		for (auto& it : list) {
 			if (it->GetType() == otype) {
-				list.emplace_back(it);
+				list.emplace_back(&it);
 			}
 		}
 		return list;

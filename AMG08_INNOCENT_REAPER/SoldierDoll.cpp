@@ -1,6 +1,8 @@
 #include "SoldierDoll.h"
 #include "Game.h"
+#include "ObjectServer.h"
 #include "MapChips.h"
+#include "Player.h"
 
 #ifdef _DEBUG
 namespace {
@@ -172,5 +174,16 @@ namespace inr {
 
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
+	}
+
+	bool SoldierDoll::Hit() {
+		// プレイヤーの参照を取得
+		auto player = _game.GetObjectServer()->GetObjectA(ObjectType::PLAYER);
+
+		// プレイヤーは自身に接触しているかどうか？
+		if (_mainCollision.HitCheck(player.GetMainCollision())) {
+			player.GetMainCollision();
+		}
+		return false;
 	}
 }
