@@ -40,6 +40,16 @@ namespace {
 	constexpr auto JUMP_MAX = 15;
 	constexpr auto JUMP_Y = 5;
 
+	// プレイヤーの向き
+	constexpr auto PL_LEFT = true;
+	constexpr auto PL_RIGHT = false;
+	
+	// ダッシュアクション関連
+	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
+	constexpr auto DASH_TIME = 120;	// ダッシュアクションが完了するまでの時間
+	constexpr auto DASH_MAX = 840;	// ダッシュモーションの最大移動距離
+	constexpr auto DASH_VEC = DASH_MAX / DASH_TIME;	// 移動ベクトル
+
 
 	// 各種モーションの画像数
 	constexpr auto PF_IDOL = 13;
@@ -52,16 +62,16 @@ namespace {
 	constexpr auto PF_HIT = 7;
 
 	// 描画切り替えまでに必要なフレーム数
-	constexpr auto MF_INTRVAL = 4;
+	constexpr auto MF_INTERVAL = 4;
 
 	// 再生時間
-	constexpr auto PMF_IDOL = PF_IDOL * MF_INTRVAL;
-	constexpr auto PMF_RUN = PF_RUN * MF_INTRVAL;
-	constexpr auto PMF_DASH = PF_DASH * MF_INTRVAL;
-	constexpr auto PMF_JUMP = PF_JUMP * MF_INTRVAL;
-	constexpr auto PMF_FALL = PF_FALL * MF_INTRVAL;
-	constexpr auto PMF_ROB = PF_ROB * MF_INTRVAL;
-	constexpr auto PMF_GIVE = PF_GIVE * MF_INTRVAL;
+	constexpr auto PMF_IDOL = PF_IDOL * MF_INTERVAL;
+	constexpr auto PMF_RUN = PF_RUN * MF_INTERVAL;
+	constexpr auto PMF_DASH = PF_DASH * MF_INTERVAL;
+	constexpr auto PMF_JUMP = PF_JUMP * MF_INTERVAL;
+	constexpr auto PMF_FALL = PF_FALL * MF_INTERVAL;
+	constexpr auto PMF_ROB = PF_ROB * MF_INTERVAL;
+	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
 	constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
 }
 
@@ -106,8 +116,8 @@ namespace inr {
 		auto y = _position.GetY();
 
 
-		Vector2 robV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH*2), _position.GetY() };
-		Vector2 giveV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH*2), _mainCollision.GetMax().GetY() - ROB_HIGHT };
+		Vector2 robV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH * 2), _position.GetY() };
+		Vector2 giveV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH * 2), _mainCollision.GetMax().GetY() - ROB_HIGHT };
 
 		_collisions = { {PKEY_ROB, {robV, ROB_WIDTH, ROB_HIGHT}},
 						{PKEY_GIVE, {giveV, ROB_WIDTH, ROB_HIGHT}}, };
@@ -280,15 +290,25 @@ namespace inr {
 
 
 	void Player::Dash() {
+		// ダッシュ状態ではない場合、各種初期化処理を実行
+		if (_aState != ActionState::DASH) {
+
+		}
 		// 向いている方向を高速移動（インターバル有）
 		// フレーム毎の移動量(単位ベクトル)と
 		// インターバルの設定（）
-
+		// 
+		// アクション実行時のx座標を代入（比較用）
+		_lastX = _position.GetX();
 		// 空中・地上問わずダッシュ可能
 
 		// ダッシュ中は各種アクションが行えない
 
-
+		double dashVec;	// 移動ベクトル
+		// 向いている向きに応じて代入するベクトルを切り替え
+		(_direction == PL_LEFT) ? dashVec = -DASH_VEC : dashVec = DASH_VEC;
+		// インターバルがある場合は減らす
+		if (_dashInterval != 0) --_dashInterval;
 	}
 
 	void Player::Jump() {

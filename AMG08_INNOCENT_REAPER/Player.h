@@ -43,12 +43,17 @@ namespace inr {
 
 		ActionState _aState;
 		Vector2 _moveVector;	// 移動量(単位ベクトル)
+
+		double _lastX;	// ダッシュアクション実行時のx座標
 		
 		int _aFrame;	// アクション実行のためのフレーム
 		int _aCount;	// アニメーションの添え字
 		int _sounds;
+
+		int _dashInterval;	// ダッシュの再使用間隔
 		double _jumpPower;	// ジャンプ溜め
 		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
+		bool _dashFlg;	//ダッシュしているかどうか（trueの場合は他アクションを実行できない）
 		// std::string _divKey;	// 読み込み用識別キー
 		Keys _divKey;	// 左辺:グラフィック用、右辺:サウンド用
 		KeyDates _aMotions;	// first:キー, s.first:総フレーム数, SEの再生時間
