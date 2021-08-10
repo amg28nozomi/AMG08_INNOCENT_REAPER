@@ -128,6 +128,7 @@ namespace inr {
 		auto leverLR = _game.GetLeverLR();
 		auto key = _game.GetTrgKey();
 
+		Dash();
 		Move(leverLR); // 移動処理
 		Action(key); // アクション
 		Jump(); // ジャンプ処理
@@ -143,6 +144,9 @@ namespace inr {
 
 		/*int gg = graph::ResourceServer::GetHandles(BACK_GRAUND);
 		DrawRotaGraph(x, y, 1.0, 0, gg, true, false);*/
+		if (_dashFlg == true) {
+			int i = 0;
+		}
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
@@ -206,7 +210,8 @@ namespace inr {
 			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
 				break;
 			case PAD_INPUT_6:	// R1が押された場合、「ダッシュ」
-				Dash();
+				if (_aState == ActionState::HIT) break;
+				InputDash(x);
 				break;
 			}
 		}
@@ -288,25 +293,35 @@ namespace inr {
 		_speed = 0;
 	}
 
-
-	void Player::Dash() {
+	void Player::InputDash(double x) {
 		// ダッシュ状態ではない場合、各種初期化処理を実行
 		if (_aState != ActionState::DASH) {
-
+			_aState = ActionState::DASH;
+			_divKey.first = PKEY_DASH;
+			// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+			// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+			// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
+			(_direction == PL_LEFT) ? _lastX = x - DASH_MAX : _lastX = x + DASH_MAX;
+			_changeGraph = true;
+			_dashFlg = true;	// 他アクションの入力を停止する
 		}
-		// 向いている方向を高速移動（インターバル有）
-		// フレーム毎の移動量(単位ベクトル)と
-		// インターバルの設定（）
-		// 
-		// アクション実行時のx座標を代入（比較用）
-		_lastX = _position.GetX();
-		// 空中・地上問わずダッシュ可能
+	}
 
-		// ダッシュ中は各種アクションが行えない
+	void Player::Dash() {
+		// ダッシュ状態ではない場合、処理を中断
+		if (_dashFlg == false) return;
 
 		double dashVec;	// 移動ベクトル
 		// 向いている向きに応じて代入するベクトルを切り替え
 		(_direction == PL_LEFT) ? dashVec = -DASH_VEC : dashVec = DASH_VEC;
+		_moveVector.GetPX() = dashVec;
+
+		// フレーム毎の移動量(単位ベクトル)と
+		// インターバルの設定（）
+		
+		// 空中・地上問わずダッシュ可能
+
+		// ダッシュ中は各種アクションが行えない
 		// インターバルがある場合は減らす
 		if (_dashInterval != 0) --_dashInterval;
 	}
@@ -462,7 +477,7 @@ namespace inr {
 	}
 
 	void Player::AnimationInit() { 
-		if (_aState != ActionState::IDOL && _aState !=ActionState::MOVE && _aState != ActionState::JUMP && _aState!= ActionState::FALL) {
+		if (_aState != ActionState::IDOL && _aState !=ActionState::MOVE && _aState != ActionState::JUMP && _aState!= ActionState::FALL && _aState!=ActionState::DASH) {
 			// 以下のコードは修正予定
 			// フラグをオフにする
 			auto it = _collisions.find(_divKey.first);

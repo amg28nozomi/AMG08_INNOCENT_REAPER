@@ -33,8 +33,8 @@ namespace inr {
 	private:
 		// アクションの状態
 		enum class ActionState {
-			// 待機、移動、ダッシュ、奪う、与える
-			IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE
+			// 待機、移動、ダッシュ、奪う、与える、ノックバック
+			IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT
 		};
 		enum class State {
 			// 生存、ダメージ、死亡
@@ -44,7 +44,7 @@ namespace inr {
 		ActionState _aState;
 		Vector2 _moveVector;	// 移動量(単位ベクトル)
 
-		double _lastX;	// ダッシュアクション実行時のx座標
+		double _lastX;	// ダッシュの最大移動距離(座標)
 		
 		int _aFrame;	// アクション実行のためのフレーム
 		int _aCount;	// アニメーションの添え字
@@ -70,6 +70,9 @@ namespace inr {
 		void PositionUpdate();
 		// Action処理まとめ
 		bool Action(int key);
+
+		// アクション入力処理
+		void InputDash(double x);
 		
 		// 各種アクション
 		void Move(int lever); // 移動
