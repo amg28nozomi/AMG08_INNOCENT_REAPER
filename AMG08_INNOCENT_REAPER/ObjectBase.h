@@ -41,6 +41,7 @@ namespace inr {
 		virtual void Process();		// XV
 		virtual void Draw();		// •`‰æ
 
+		inline bool GetDirection() { return _direction; }
 		inline ObjectType GetType() { return _type; }
 		inline Vector2 GetPosition() { return _position; }
 		inline AABB& GetMainCollision() { return _mainCollision; }

@@ -329,6 +329,7 @@ namespace inr {
 		_moveVector.GetPX() = dashVec;
 
 		auto nextPos = _position.GetX() + dashVec;	// 移動後の座標を取得
+		_gravity = 0;	// ダッシュ中は重力処理無効
 		bool moved;
 		(_direction == PL_LEFT) ? moved = nextPos - _lastX <= 0 : moved = _lastX - nextPos <= 0;
 
