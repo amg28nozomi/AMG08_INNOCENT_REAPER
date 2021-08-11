@@ -36,8 +36,16 @@ namespace {
 	constexpr auto SE_RUN1 = 50;	// 移動SEのフレーム数 
 
 	// 奪うアクションの当たり判定
-	constexpr auto ROB_WIDTH = 75 / 2;
-	constexpr auto ROB_HIGHT = 60 / 2;
+	constexpr auto ROB_WIDTH1 = 20 + 50; //-75;
+	constexpr auto ROB_WIDTH2 = -20;
+	constexpr auto ROB_HEIGHT1 = -20;
+	constexpr auto ROB_HEIGHT2 = 60;
+
+	// 与えるアクションの当たり判定
+	constexpr auto GIVE_WIDTH1 = 60;
+	constexpr auto GIVE_WIDTH2 = -10;
+	constexpr auto GIVE_HEIGHT1 = -30;
+	constexpr auto GIVE_HEIGHT2 = 70;
 
 	// ジャンプアクション
 	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
@@ -50,12 +58,14 @@ namespace {
 	
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
-	constexpr auto DASH_TIME = 180;	// ダッシュアクションが完了するまでの時間
+	constexpr auto DASH_TIME = 50;	// ダッシュアクションが完了するまでの時間
 	constexpr auto DASH_MAX = 840;	// ダッシュモーションの最大移動距離
 	constexpr auto DASH_VEC = DASH_MAX / DASH_TIME;	// 移動ベクトル
-	constexpr auto DASH_WIDTH = 80 / 2;	// ダッシュ当たり判定(幅)
-	constexpr auto DASH_HEIGHT = 60/  2;	// ダッシュ当たり判定(高さ)
-	constexpr auto DASH_FIX = 20;	// ダッシュボックスの修正値
+
+	constexpr auto DASH_WIDTH1 = 40;
+	constexpr auto DASH_WIDTH2 = 30;
+	constexpr auto DASH_HEIGHT1 = 10;
+	constexpr auto DASH_HEIGHT2 = 70;
 
 
 	// 各種モーションの画像数
@@ -123,13 +133,12 @@ namespace inr {
 		auto y = _position.GetY();
 
 
-		AABB dashBox = { _position, DASH_WIDTH, DASH_WIDTH, DASH_HEIGHT - DASH_FIX, DASH_HEIGHT + DASH_FIX + 20 };
-
-		Vector2 robV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH * 2), _position.GetY() };
-		Vector2 giveV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH * 2), _mainCollision.GetMax().GetY() - ROB_HIGHT };
-
-		_collisions = { {PKEY_ROB, {robV, ROB_WIDTH, ROB_HIGHT}},
-						{PKEY_GIVE, {giveV, ROB_WIDTH, ROB_HIGHT}},
+		AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
+		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
+		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
+		
+		_collisions = { {PKEY_ROB, {robBox}},
+						{PKEY_GIVE, {giveBox}},
 						{PKEY_DASH, {dashBox}} };
 }
 
