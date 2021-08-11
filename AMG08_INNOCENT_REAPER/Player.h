@@ -16,8 +16,6 @@ namespace inr {
 	constexpr auto PKEY_FALL = "player_fall";	// 落下
 	constexpr auto PKEY_HIT = "player_hit";
 
-	constexpr auto BACK_GRAUND = "backP";
-
 	constexpr auto PIMAGE_SIZE = 140;	// プレイヤーの描画サイズ
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "ModeBase.h"
-#include <string>
+#include "BackGround.h"
+#include <memory>
 
 namespace inr {
 
@@ -14,6 +15,7 @@ namespace inr {
 		void Draw() override;
 	private:
 		std::string _stageKey;	// ステージ検索用
+		std::unique_ptr<BackGround> _bg;	// 背景
 	};
 
 }

@@ -37,7 +37,7 @@ namespace inr {
 		{PKEY_JUMP, {"Resource/Player/r_jump.png", 7, 1, 6, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_FALL, {"Resource/Player/r_fall.png", 7, 2, 10, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_HIT, {"Resource/Player/r_hit.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{BACK_GRAUND, {"Resource/背景ステージ１_ラフ1.png", 1, 1, 1, 1200, 1350 }},
+		{BACK_GROUND, {"Resource/背景ステージ１_.png", 1, 1, 1, 1200, 1350 }},
 	};
 
 	// ソルジャードールの各種モーション

@@ -3,6 +3,7 @@
 #include "SoldierDoll.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "BackGround.h"
 #include <memory>
 
 namespace inr {
@@ -24,6 +25,7 @@ namespace inr {
 			_game.GetObjectServer()->Add(std::move(player));
 			auto enemy = std::make_unique<SoldierDoll>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(enemy));
+			_bg = std::make_unique<BackGround>();
 			TimeClear();
 		}
 	}
@@ -35,6 +37,7 @@ namespace inr {
 	}
 
 	void ModeMain::Draw() {
+		_bg->Draw();
 		_game.GetMapChips()->Draw();
 		_game.GetObjectServer()->Draw();
 	}
