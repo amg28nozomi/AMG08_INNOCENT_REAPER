@@ -24,6 +24,10 @@ namespace {
 
 	constexpr auto MAX_SPPED = 6;
 
+	constexpr auto BF_HEIGHT_MIN = 10;	// ボックス座標修正用
+	constexpr auto BF_HEIGHT_MAX = 20;
+	constexpr auto BF_WIDTH = 10;
+
 	// アクションのフレーム数
 	constexpr auto ACTION_MAX = 3;
 	
@@ -46,9 +50,12 @@ namespace {
 	
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
-	constexpr auto DASH_TIME = 40;	// ダッシュアクションが完了するまでの時間
+	constexpr auto DASH_TIME = 180;	// ダッシュアクションが完了するまでの時間
 	constexpr auto DASH_MAX = 840;	// ダッシュモーションの最大移動距離
 	constexpr auto DASH_VEC = DASH_MAX / DASH_TIME;	// 移動ベクトル
+	constexpr auto DASH_WIDTH = 80 / 2;	// ダッシュ当たり判定(幅)
+	constexpr auto DASH_HEIGHT = 60/  2;	// ダッシュ当たり判定(高さ)
+	constexpr auto DASH_FIX = 20;	// ダッシュボックスの修正値
 
 
 	// 各種モーションの画像数
@@ -91,7 +98,7 @@ namespace inr {
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
 		_moveVector = { 0, 0 };
 		// _moveVector = std::make_pair(0, 0);
-		_mainCollision = { _position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2 };
+		_mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX };
 		//(_position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2);
 		Init();
 	}
@@ -116,11 +123,14 @@ namespace inr {
 		auto y = _position.GetY();
 
 
+		AABB dashBox = { _position, DASH_WIDTH, DASH_WIDTH, DASH_HEIGHT - DASH_FIX, DASH_HEIGHT + DASH_FIX + 20 };
+
 		Vector2 robV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH * 2), _position.GetY() };
 		Vector2 giveV = { _mainCollision.GetMin().GetX() - (ROB_WIDTH * 2), _mainCollision.GetMax().GetY() - ROB_HIGHT };
 
 		_collisions = { {PKEY_ROB, {robV, ROB_WIDTH, ROB_HIGHT}},
-						{PKEY_GIVE, {giveV, ROB_WIDTH, ROB_HIGHT}}, };
+						{PKEY_GIVE, {giveV, ROB_WIDTH, ROB_HIGHT}},
+						{PKEY_DASH, {dashBox}} };
 }
 
 	void Player::Process() {
@@ -218,27 +228,29 @@ namespace inr {
 		}
 		// アイドル状態以外で、アニメーションが終わってない場合
 
-		if (_aState != ActionState::IDOL && _stand && _changeGraph != true) {
-			if (_aState == ActionState::FALL) {
-				auto sound1 = SoundResearch(key::SOUND_PLAYER_FALL);
-				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-				PlaySoundMem(sound1, soundType);
-				_aState = ActionState::IDOL;
-				_divKey.first = PKEY_IDOL;
-				_aCount = 0;
+		if(_input == false){
+			if (_aState != ActionState::IDOL && _stand && _changeGraph != true) {
+				if (_aState == ActionState::FALL) {
+					auto sound1 = SoundResearch(key::SOUND_PLAYER_FALL);
+					auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+					PlaySoundMem(sound1, soundType);
+					_aState = ActionState::IDOL;
+					_divKey.first = PKEY_IDOL;
+					_aCount = 0;
+				}
+				if (!_speed && _aCount == 0) {
+					_aState = ActionState::IDOL;
+					_divKey.first = PKEY_IDOL;
+				}
 			}
-			if (!_speed && _aCount == 0) {
-				_aState = ActionState::IDOL;
-				_divKey.first = PKEY_IDOL;
-			}
-		}
-		// 
-		if (_aState == ActionState::JUMP) {
-			if (0 <= _gravity) {
-				_changeGraph = true;
-				_aState = ActionState::FALL;
-				_divKey.first = PKEY_FALL;
+			// 
+			if (_aState == ActionState::JUMP) {
+				if (0 <= _gravity) {
+					_changeGraph = true;
+					_aState = ActionState::FALL;
+					_divKey.first = PKEY_FALL;
 
+				}
 			}
 		}
 		return false;
@@ -537,11 +549,15 @@ namespace inr {
 		_position = _position + _moveVector;	// 位置座標を更新
 
 		// 各種当たり判定の更新
-		_mainCollision.Update(_position, _direction);
 		auto it = _collisions.find(_divKey.first);
-
 		if (it != _collisions.end()) {
 			it->second.Update(_position, _direction);
+		}
+
+		if (_aState == ActionState::DASH) {
+			_mainCollision.Swap(it->second);
+		} else {
+			_mainCollision.Update(_position, _direction);
 		}
 	}
 

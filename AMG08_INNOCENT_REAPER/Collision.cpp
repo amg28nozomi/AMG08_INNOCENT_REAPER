@@ -55,6 +55,11 @@ void Collision::Update(Vector2& pos, bool inv) {
 		maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 }
 
+void Collision::Swap(Collision col){
+	minV = col.GetMin();
+	maxV = col.GetMax();
+}
+
 void Collision::DrawBox(int color) {
 	auto minX = minV.IntX();
 	auto minY = minV.IntY();
@@ -124,7 +129,7 @@ void AABB::Update(Vector2& pos, bool inv) {
 	// îΩì]ÇµÇƒÇ¢ÇÈèÍçá
 	if (inv) {
 		minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin};
-		maxV = { pos.GetX() + _widthMin, pos.GetY() + _heightMax };
+		maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 		return;
 	}
 	minV = { pos.GetX() - _widthMax , pos.GetY() - _heightMin };
