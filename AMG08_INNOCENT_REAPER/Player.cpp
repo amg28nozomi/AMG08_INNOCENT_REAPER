@@ -91,7 +91,7 @@ namespace inr {
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
 		_moveVector = { 0, 0 };
 		// _moveVector = std::make_pair(0, 0);
-		_mainCollision = { _position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2, 10};
+		_mainCollision = { _position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2 };
 		//(_position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2);
 		Init();
 	}

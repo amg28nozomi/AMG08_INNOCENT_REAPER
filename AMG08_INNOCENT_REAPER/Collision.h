@@ -1,6 +1,6 @@
 #pragma once
-#include "Vector2.h"
 #include <DxLib.h>
+#include "Vector2.h"
 
 // 当たり判定の基底クラス
 class Collision {
@@ -8,13 +8,17 @@ protected:
 	Vector2 minV;
 	Vector2 maxV;
 	Vector2 center;	// 中心座標
-	int _width;	// 幅
-	int _height; // 高さ
+
+	int _widthMin;	// 幅min
+	int _widthMax;	// 幅max
+	int _heightMin; // 高さmin
+	int _heightMax;	// 高さmax
 #ifdef _DEBUG
 	bool _drawFlg; // 描画するかどうか
 #endif
 	bool _collisionFlg; // 判定するかどうかのフラグ
 public:
+	Collision(Vector2& pos, int width1, int width2, int height1, int height2, bool flg = false);
 	Collision(Vector2& pos, int width, int height, bool flg = false);
 	Collision(Vector2& min, Vector2& max, bool flg = false);
 	~Collision() = default;
@@ -22,8 +26,8 @@ public:
 	inline Vector2 GetMin() { return minV; }
 	inline Vector2 GetMax() { return maxV; }
 	inline Vector2 GetCenter() { return center; }
-	inline const int GetWidth() { return _width / 2; }
-	inline const int GetHeight() { return _height / 2; }
+	/*inline const int GetWidth() { return _width / 2; }
+	inline const int GetHeight() { return _height / 2; }*/
 
 	virtual void Update(Vector2& pos, bool inv); // 更新・反転処理有
 	void DrawBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
@@ -40,11 +44,10 @@ public:
 
 // 反転があるver
 class AABB : public Collision {
-private:
-	int _fix;
 public:
 	AABB(Vector2 vmin, Vector2 vmax, bool cflg = false);
-	AABB(Vector2& vmin, int width, int height, int fix =0 ,bool cflg = false);
+	AABB(Vector2& vmin, int width, int height, bool cflg = false);
+	AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool cflg = false);
 	~AABB() = default;
 
 	// 更新・反転処理有

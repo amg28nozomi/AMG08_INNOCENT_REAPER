@@ -18,7 +18,7 @@ namespace inr {
 
 	constexpr auto BACK_GRAUND = "backP";
 
-	constexpr auto PIMAGE_SIZE = 210;	// プレイヤーの描画サイズ
+	constexpr auto PIMAGE_SIZE = 140;	// プレイヤーの描画サイズ
 
 
 	class Player : public ObjectBase {

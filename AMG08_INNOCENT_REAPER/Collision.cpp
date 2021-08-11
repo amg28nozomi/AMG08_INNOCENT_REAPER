@@ -6,30 +6,53 @@ Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max
 #ifdef _DEBUG
 	_drawFlg = true;
 #endif
-	_width = static_cast<int>(maxV.GetX() - minV.GetX());
-	_height = static_cast<int>(maxV.GetX() - minV.GetX());
+	int width = static_cast<int>(maxV.GetX() - minV.GetX());
+	int height = static_cast<int>(maxV.GetX() - minV.GetX());
+
+
+	_widthMin = width;
+	_widthMax = width;
+	_heightMin = height;
+	_heightMax = height;
 
 	auto posx = max.GetX() - min.GetX() / 2;
 	auto posy = max.GetY() - min.GetY() / 2;
 	center = { posx, posy };
 }
 
+Collision::Collision(Vector2& pos, int width1, int width2, int height1, int height2, bool flg) {
+	_widthMin = width1;
+	_widthMax = width2;
+	_heightMin = height1;
+	_heightMax = height2;
+	_collisionFlg = flg;
+
+#ifdef _DEBUG
+	_drawFlg = true;
+#endif
+
+	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
+	maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
+}
+
 Collision::Collision(Vector2& pos, int width, int height, bool flg) {
-	_width = width;
-	_height = height;
+	_widthMin = width;
+	_widthMax = width;
+	_heightMin = height;
+	_heightMax = height;
 	_collisionFlg = false;
 #ifdef _DEBUG
 	_drawFlg = true;
 #endif
-	minV = { pos.GetX() - width, pos.GetY() - height };
-	maxV = { pos.GetX() + width, pos.GetY() + height };
+	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
+	maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 }
 
 void Collision::Update(Vector2& pos, bool inv) {
 	// 向きに応じて当たり判定のx座標を変更する
 	// 反転している場合
-		minV = { pos.GetX() - _width, pos.GetY() - _height };
-		maxV = { pos.GetX() + _width, pos.GetY() + _height };
+		minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
+		maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 }
 
 void Collision::DrawBox(int color) {
@@ -66,16 +89,20 @@ bool Collision::SideCheck(Collision collision) {
 }
 
 AABB::AABB(Vector2 vmin, Vector2 vmax, bool cflg) : Collision(vmin, vmax, cflg) {
-	_fix = 0;
 }
 
-AABB::AABB(Vector2& pos, int width, int height, int fix, bool cflg) : Collision(pos, width, height, cflg) {
-	_width = width;
-	_height = height;
-	_fix = fix;
+AABB::AABB(Vector2& pos, int width, int height, bool cflg) : Collision(pos, width, height, cflg) {
+	_widthMin = width;
+	_widthMax = width;
+	_heightMin = height;
+	_heightMax = height;
 
-	minV = { pos.GetX() - width, pos.GetY() - height + _fix};
-	maxV = { pos.GetX() + width, pos.GetY() + height + _fix};
+	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
+	maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
+}
+
+AABB::AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool cflg) : Collision(vpos, width1, width2, height1, height2, cflg) {
+
 }
 
 //void AABB::Update(Vector2& pos) {
@@ -93,18 +120,13 @@ AABB::AABB(Vector2& pos, int width, int height, int fix, bool cflg) : Collision(
 //}
 
 void AABB::Update(Vector2& pos, bool inv) {
-	auto minh = _height - _fix;
-	auto maxh = _height + _fix;
-
-	auto minw = _width - _fix;
-	auto maxw = _width + _fix;
 	// 向きに応じて当たり判定のx座標を変更する
 	// 反転している場合
 	if (inv) {
-		minV = { pos.GetX() - minw, pos.GetY() - minh};
-		maxV = { pos.GetX() + _width, pos.GetY() + maxh };
+		minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin};
+		maxV = { pos.GetX() + _widthMin, pos.GetY() + _heightMax };
 		return;
 	}
-	minV = { pos.GetX() - _width , pos.GetY() - minh };
-	maxV = { pos.GetX() + minw, pos.GetY() + maxh };
+	minV = { pos.GetX() - _widthMax , pos.GetY() - _heightMin };
+	maxV = { pos.GetX() + _widthMin, pos.GetY() + _heightMax };
 }

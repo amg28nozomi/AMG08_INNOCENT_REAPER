@@ -16,6 +16,8 @@ namespace {
 	constexpr auto FIRST = 0;
 	constexpr auto SECOND = 1;
 	constexpr auto THIRD = 2;
+
+	constexpr auto FILL_PATH2 = "Mapchip/";
 }
 
 namespace inr {
@@ -31,7 +33,7 @@ namespace inr {
 		auto chipSizeH = _chipSize.second;
 		auto chipAllNum = chipCountW * chipCountH;
 
-		auto filename = filePath + _fileChips;
+		auto filename = filePath + FILL_PATH2 + _fileChips;
 
 		const graph::ResourceServer::DivGraphMap mapchip {
 			{CHIP_KEY, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
