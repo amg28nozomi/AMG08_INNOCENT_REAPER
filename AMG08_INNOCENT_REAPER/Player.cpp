@@ -46,7 +46,7 @@ namespace {
 	
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
-	constexpr auto DASH_TIME = 120;	// ダッシュアクションが完了するまでの時間
+	constexpr auto DASH_TIME = 40;	// ダッシュアクションが完了するまでの時間
 	constexpr auto DASH_MAX = 840;	// ダッシュモーションの最大移動距離
 	constexpr auto DASH_VEC = DASH_MAX / DASH_TIME;	// 移動ベクトル
 
@@ -125,12 +125,13 @@ namespace inr {
 
 	void Player::Process() {
 		ObjectBase::Process();
+		// 入力情報を取得
 		auto leverLR = _game.GetLeverLR();
 		auto key = _game.GetTrgKey();
 
-		Dash();
 		Move(leverLR); // 移動処理
 		Action(key); // アクション
+		Dash();	// ダッシュ
 		Jump(); // ジャンプ処理
 
 		// 位置座標の更新
@@ -144,7 +145,7 @@ namespace inr {
 
 		/*int gg = graph::ResourceServer::GetHandles(BACK_GRAUND);
 		DrawRotaGraph(x, y, 1.0, 0, gg, true, false);*/
-		if (_dashFlg == true) {
+		if (_input == true) {
 			int i = 0;
 		}
 
@@ -244,177 +245,207 @@ namespace inr {
 	}
 
 	void Player::Move(int lever) {
-		// 状態がアイドル、またはモーブの時だけ移動処理を行う。
-		if (lever < -10) _direction = true;
-		else if (10 < lever) _direction = false;
-
-		if (_aState == ActionState::IDOL || _aState == ActionState::MOVE) {
-			// 入力情報がある場合
-			if (lever < -100 || 100< lever) {
-				// moveではない時、キーと状態を更新
-				if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
-					_changeGraph = true;
-					_aState = ActionState::MOVE;
-					_divKey.first = PKEY_RUN;
-				}
-				// _direction = ((0 < lever) ? false : true);
-				/* _direction = ((0 < lever) ? true : false);
-				_speed = (lever * MAX_SPPED) / 1000;
-				Vector2 moveVector = { 1 * _speed, 0 * _speed };
-				_position = _position + moveVector; */
-				// SEの管理
-				if (_aCount % GetSoundFrame(_divKey.first) == 0) {
-					auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
-					auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-					PlaySoundMem(sound1, soundType);
-				}
-				// return;
-				// 立っていてかつ入力がない場合
-			} else if (_stand && _aState == ActionState::MOVE) {
-				_changeGraph = true;
-				_aState = ActionState::IDOL;
-				_divKey.first = PKEY_IDOL;
-				_speed = 0;
-				return;
+		// 入力可能か？
+		if (_input != true) {
+			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
+			if (_input == false) {
+				if (lever < -10) _direction = PL_LEFT;
+				else if (10 < lever) _direction = PL_RIGHT;
 			}
+
+			if (_aState == ActionState::IDOL || _aState == ActionState::MOVE) {
+				// 入力情報がある場合
+				if (lever < -100 || 100 < lever) {
+					// moveではない時、キーと状態を更新
+					if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
+						_changeGraph = true;
+						_aState = ActionState::MOVE;
+						_divKey.first = PKEY_RUN;
+					}
+					// _direction = ((0 < lever) ? false : true);
+					/* _direction = ((0 < lever) ? true : false);
+					_speed = (lever * MAX_SPPED) / 1000;
+					Vector2 moveVector = { 1 * _speed, 0 * _speed };
+					_position = _position + moveVector; */
+					// SEの管理
+					if (_aCount % GetSoundFrame(_divKey.first) == 0) {
+						auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
+						auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+						PlaySoundMem(sound1, soundType);
+					}
+					// return;
+					// 立っていてかつ入力がない場合
+				}
+				else if (_stand && _aState == ActionState::MOVE) {
+					_changeGraph = true;
+					_aState = ActionState::IDOL;
+					_divKey.first = PKEY_IDOL;
+					_speed = 0;
+					return;
+				}
+			}
+			// 座標変更
+			_speed = (lever * MAX_SPPED) / 1000;
+			// 移動距離算出
+			/*double vectory = 0;
+			if (JUMP_Y < _moveVector.GetY()) {
+				_moveVector.second -= JUMP_Y;
+				vectory = -JUMP_Y;
+			}*/
+			// 単位ベクトル
+			_moveVector.GetPX() = 1.0 * _speed;
+			// Vector2 moveVector = { 1 * _speed, vectory };
+			// _position = _position + moveVector;
+			_speed = 0;
 		}
-		// 座標変更
-		_speed = (lever * MAX_SPPED) / 1000;
-		// 移動距離算出
-		/*double vectory = 0;
-		if (JUMP_Y < _moveVector.GetY()) {
-			_moveVector.second -= JUMP_Y;
-			vectory = -JUMP_Y;
-		}*/
-		// 単位ベクトル
-		_moveVector.GetPX() = 1.0 * _speed;
-		// Vector2 moveVector = { 1 * _speed, vectory };
-		// _position = _position + moveVector;
-		_speed = 0;
 	}
 
 	void Player::InputDash(double x) {
-		// ダッシュ状態ではない場合、各種初期化処理を実行
-		if (_aState != ActionState::DASH) {
-			_aState = ActionState::DASH;
-			_divKey.first = PKEY_DASH;
-			// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
-			// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-			// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
-			(_direction == PL_LEFT) ? _lastX = x - DASH_MAX : _lastX = x + DASH_MAX;
-			_changeGraph = true;
-			_dashFlg = true;	// 他アクションの入力を停止する
+		if (!_dashInterval) {
+			// ダッシュ状態ではない場合、各種初期化処理を実行
+			if (_aState != ActionState::DASH) {
+				_aState = ActionState::DASH;
+				_divKey.first = PKEY_DASH;
+				// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+				// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
+				(_direction == PL_LEFT) ? _lastX = x - DASH_MAX : _lastX = x + DASH_MAX;
+				_changeGraph = true;
+				_input = true;	// 他アクションの入力を停止する
+			}
 		}
 	}
 
+	// ダッシュ処理
 	void Player::Dash() {
+		// インターバルがある場合は減らす
+		if (0 < _dashInterval) --_dashInterval;
 		// ダッシュ状態ではない場合、処理を中断
-		if (_dashFlg == false) return;
+		if (_input != true) return;
 
 		double dashVec;	// 移動ベクトル
 		// 向いている向きに応じて代入するベクトルを切り替え
 		(_direction == PL_LEFT) ? dashVec = -DASH_VEC : dashVec = DASH_VEC;
 		_moveVector.GetPX() = dashVec;
 
-		// フレーム毎の移動量(単位ベクトル)と
-		// インターバルの設定（）
-		
-		// 空中・地上問わずダッシュ可能
+		auto nextPos = _position.GetX() + dashVec;	// 移動後の座標を取得
+		bool moved;
+		(_direction == PL_LEFT) ? moved = nextPos - _lastX <= 0 : moved = _lastX - nextPos <= 0;
 
-		// ダッシュ中は各種アクションが行えない
-		// インターバルがある場合は減らす
-		if (_dashInterval != 0) --_dashInterval;
+		// ダッシュ処理は完了したかどうか？
+		if (moved) {
+			_input = false;
+			_dashInterval = DASH_INTERVAL;
+			_changeGraph = true;
+			// 立っているかどうかで次のモーションを判定
+			if (_stand) {
+				_aState = ActionState::IDOL;
+				_divKey.first = PKEY_IDOL;
+				return;
+			} else {
+				_aState = ActionState::FALL;
+				_divKey.first = PKEY_FALL;
+			}
+		}
+
 	}
 
 	void Player::Jump() {
 		// 落下状態ではないとき
 		if (_stand) {
-			// 押下情報を取得
-			auto pressKey = _game.GetKey();
-			if (pressKey & PAD_INPUT_3) {
-				// 溜めカウンタを増やす
-				_jumpPower += 1;
-				// 溜めカウンタがマックスではない場合、処理から抜ける
-				if (_jumpPower < JUMP_MAX) {
-					return;
+			// 入力を受け付けているか？
+			if (_input != true) {
+				auto pressKey = _game.GetKey();
+				if (pressKey & PAD_INPUT_3) {
+					// 溜めカウンタを増やす
+					_jumpPower += 1;
+					// 溜めカウンタがマックスではない場合、処理から抜ける
+					if (_jumpPower < JUMP_MAX) {
+						return;
+					}
 				}
-			}
-			// ジャンプの値がある場合
-			if (0 < _jumpPower) {
-				// Aキーの入力がない場合、ジャンプを実行
-				_aState = ActionState::JUMP;
-				_divKey.first = PKEY_JUMP;
-				auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
-				PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-				// 飛距離を算出
-				auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
-				// 飛距離が最大値を超えた場合は修正
-				if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
-				// ジャンプの飛距離を登録
-				// この値は地面に触れた or 天井に接触した場合、0にする。
-				_gravity = -jumpPower;
+				// 押下情報を取得
+				// ジャンプの値がある場合
+				if (0 < _jumpPower) {
+					// Aキーの入力がない場合、ジャンプを実行
+					_aState = ActionState::JUMP;
+					_divKey.first = PKEY_JUMP;
+					auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+					// 飛距離を算出
+					auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+					// 飛距離が最大値を超えた場合は修正
+					if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
+					// ジャンプの飛距離を登録
+					// この値は地面に触れた or 天井に接触した場合、0にする。
+					_gravity = -jumpPower;
+				}
 			}
 		}
 		_jumpPower = 0;
 	}
 
 	void Player::Rob(double x, double y) {
-		_aState = ActionState::ROB;
-		// キー情報が違う時、キー情報を更新
-		if (_divKey.first != PKEY_ROB) {
-			_divKey.first = PKEY_ROB;
-			// SE読み込み
-			auto sound1 = SoundResearch(key::SOUND_PLAYER_ROB);
-			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
+		if (_input != true) {
+			_aState = ActionState::ROB;
+			// キー情報が違う時、キー情報を更新
+			if (_divKey.first != PKEY_ROB) {
+				_divKey.first = PKEY_ROB;
+				// SE読み込み
+				auto sound1 = SoundResearch(key::SOUND_PLAYER_ROB);
+				PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 #ifdef _DEBUG
-			// 当たり判定の設定
-			auto red = GetColor(255, 0, 0);
+				// 当たり判定の設定
+				auto red = GetColor(255, 0, 0);
 #endif
-			// 当たり判定の設定（後程修正）
-			// 以下はno処理
-			//double minX, minY, maxX, maxY;
-			//if (_direction) {
-			//	// minX = minX - ROB_WIDTH;
-			//	minX = x + PLAYER_WIDTH / 2;
-			//	minY = y - PLAYER_HIGHT / 2;
-			//	// maxX = (x + PLAYER_WIDTH / 2) + ROB_WIDTH;
-			//	maxX = minX + ROB_WIDTH;
-			//	maxY = y + PLAYER_HIGHT / 2;
-			//}
-			//else {
-			//	minX = (x - PLAYER_WIDTH / 2) - ROB_WIDTH;
-			//	minY = y - PLAYER_HIGHT / 2;
-			//	maxX = minX + ROB_WIDTH;
-			//	maxY = y + PLAYER_HIGHT / 2;
-			//}
+				// 当たり判定の設定（後程修正）
+				// 以下はno処理
+				//double minX, minY, maxX, maxY;
+				//if (_direction) {
+				//	// minX = minX - ROB_WIDTH;
+				//	minX = x + PLAYER_WIDTH / 2;
+				//	minY = y - PLAYER_HIGHT / 2;
+				//	// maxX = (x + PLAYER_WIDTH / 2) + ROB_WIDTH;
+				//	maxX = minX + ROB_WIDTH;
+				//	maxY = y + PLAYER_HIGHT / 2;
+				//}
+				//else {
+				//	minX = (x - PLAYER_WIDTH / 2) - ROB_WIDTH;
+				//	minY = y - PLAYER_HIGHT / 2;
+				//	maxX = minX + ROB_WIDTH;
+				//	maxY = y + PLAYER_HIGHT / 2;
+				//}
 
-			//Vector2 amin(minX, minY);
-			//Vector2 amax(maxX, maxY);
+				//Vector2 amin(minX, minY);
+				//Vector2 amax(maxX, maxY);
 
-			auto it = _collisions.find(PKEY_ROB);
-			// it->second.SetVector(amin, amax);
-			it->second.GetbDrawFlg() = true;
+				auto it = _collisions.find(PKEY_ROB);
+				// it->second.SetVector(amin, amax);
+				it->second.GetbDrawFlg() = true;
 
+			}
+			_aCount = 0;
+			_changeGraph = true;	// 状態遷移フラグオン
 		}
-		_aCount = 0;
-		_changeGraph = true;	// 状態遷移フラグオン
-
 	}
 
 	void Player::Give(double x, double y) {
-		_aState = ActionState::GIVE;
-		if (_divKey.first != PKEY_GIVE) {
-			_divKey.first = PKEY_GIVE;
-			// SE読み込み
-			auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
-			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
-			auto it = _collisions.find(PKEY_GIVE);
-			it->second.GetbDrawFlg() = true;
+		if (_input != true) {
+			_aState = ActionState::GIVE;
+			if (_divKey.first != PKEY_GIVE) {
+				_divKey.first = PKEY_GIVE;
+				// SE読み込み
+				auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
+				PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
+				auto it = _collisions.find(PKEY_GIVE);
+				it->second.GetbDrawFlg() = true;
+
+			}
+			_aCount = 0;
+			_changeGraph = true;	// 状態遷移フラグオン
 		}
-		_aCount = 0;
-		_changeGraph = true;	// 状態遷移フラグオン
 	}
 
 	void Player::ChangeSoul() {

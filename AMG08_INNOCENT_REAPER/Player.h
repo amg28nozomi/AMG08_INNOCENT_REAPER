@@ -53,7 +53,7 @@ namespace inr {
 		int _dashInterval;	// ダッシュの再使用間隔
 		double _jumpPower;	// ジャンプ溜め
 		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
-		bool _dashFlg;	//ダッシュしているかどうか（trueの場合は他アクションを実行できない）
+		bool _input;	//ダッシュしているかどうか（trueの場合は他アクションを実行できない）
 		// std::string _divKey;	// 読み込み用識別キー
 		Keys _divKey;	// 左辺:グラフィック用、右辺:サウンド用
 		KeyDates _aMotions;	// first:キー, s.first:総フレーム数, SEの再生時間
@@ -92,3 +92,4 @@ namespace inr {
 	};
 }
 
+// 当たり判定実行用の処理を別途作成（関数化）
