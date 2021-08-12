@@ -6,7 +6,7 @@
 
 namespace {
 	constexpr auto SPEED = 7.5;
-	constexpr auto SF_FRAME = 20;
+	constexpr auto SF_FRAME = 10;
 
 	constexpr auto SOUL_I = 50;
 	constexpr auto SOUL_IH = 20;
@@ -37,8 +37,13 @@ namespace inr {
 	}
 
 	void Soul::Process() {
+		_moveVector = { 0, 0 };
+		// アニメーションが終わっていない場合はカウントを増やす
+		if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
+		else _aCount = 0;	// カウンター初期化
 		Tracking();
 		Move();
+
 	}
 
 	void Soul::Draw() {
@@ -51,13 +56,14 @@ namespace inr {
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
-		DrawFormatString(1800, 75, GetColor(255, 255, 0), "soul.x = %d", x);
-		DrawFormatString(1800, 100, GetColor(255, 255, 0), "soul.y = %d", y);
+		DrawFormatString(1800, 75, GetColor(255, 0, 0), "soul.x = %d", x);
+		DrawFormatString(1800, 100, GetColor(255, 0, 0), "soul.y = %d", y);
 	}
 
 	void Soul::Tracking() {
 		// プレイヤーの参照を取得
 		auto player = _game.GetObjectServer()->GetPlayer();
+
 		double px;
 		if (player.GetDirection() == PL_LEFT) {
 			px = player.GetPosition().GetX() + SOUL_I;
@@ -65,10 +71,11 @@ namespace inr {
 			px = player.GetPosition().GetX() - SOUL_I;
 		}
 		auto py = player.GetPosition().GetY() - SOUL_IH;
+
 		// 自身とプレイヤー間のベクトルを算出
 		Vector2 mv = { px - _position.GetX(), py - _position.GetY() };
-		mv.Normalize();	// ベクトルの正規化
-		// 移動ベクトルに加算（）
+		mv.Normalize();
+		// 移動ベクトルに加算
 		_moveVector.GetPX() = mv.GetX() * SPEED;
 		_moveVector.GetPY() = mv.GetY() * SPEED;
 	}
