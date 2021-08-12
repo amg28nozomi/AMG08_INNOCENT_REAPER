@@ -64,7 +64,7 @@ namespace inr {
 
 
 		// デバッグ用
-		AABB _debugAABB;
+		/*AABB _debugAABB;*/
 	};
 }
 

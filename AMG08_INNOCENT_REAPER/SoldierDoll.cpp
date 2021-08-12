@@ -6,7 +6,7 @@
 
 #ifdef _DEBUG
 namespace {
-	constexpr auto START_POS_X = 300;
+	constexpr auto START_POS_X = 500;
 	constexpr auto START_POS_Y = 0;
 
 	// ïùÅEçÇÇ≥

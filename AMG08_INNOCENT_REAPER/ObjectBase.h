@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
+#include <DxLib.h>
 #include "Collision.h"
 
 class Vector2;
@@ -33,6 +34,9 @@ namespace inr {
 		AABB _mainCollision;	// ƒLƒƒƒ‰‚Ì“–‚½‚è”»’è
 
 		void ActionBox(double dx, double dy, const std::pair<int, int> wid);
+#ifdef _DEBUG
+		void DrawDebugBox(Collision cb, int color = GetColor(255, 255, 0));
+#endif
 	public:
 		ObjectBase(Game& game);
 		virtual ~ObjectBase();

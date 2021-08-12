@@ -22,7 +22,7 @@ namespace inr {
 
 	constexpr auto CHIP_KEY = "chips";
 
-	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _debugAABB(Vector2(), Vector2()) {
+	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game) { //, _debugAABB(Vector2(), Vector2()) {
 		TiledJsonLoad(filePath, tiledFileName + ".json");
 
 		auto chipCountW = std::get<SECOND>(_chipCount);
@@ -76,7 +76,7 @@ namespace inr {
 				for (x = 0; x < _mapSize.first; ++x) {
 					int  layerStart = _mapSize.first * _mapSize.second * layer;
 					int index = y * _mapSize.first + x;
-					int posX = x * _chipSize.first - _worldPosition.IntX();//(_worldPosition.IntX() - HALF_WINDOW_W);
+					int posX = x * _chipSize.first - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
 					int posY = y * _chipSize.second - (_worldPosition.IntY() - HALF_WINDOW_H);
 					int no = _mapData[layerStart + index];
 					--no;
@@ -99,25 +99,25 @@ namespace inr {
 		}
 
 		/* 検証用 */
-		auto minx = _debugAABB.GetMin().IntX();
-		auto miny = _debugAABB.GetMin().IntY();
-		auto maxx = _debugAABB.GetMax().IntX();
-		auto maxy = _debugAABB.GetMax().IntY();
+		//auto minx = _debugAABB.GetMin().IntX();
+		//auto miny = _debugAABB.GetMin().IntY();
+		//auto maxx = _debugAABB.GetMax().IntX();
+		//auto maxy = _debugAABB.GetMax().IntY();
 
-		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
-			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
-				auto chipMinX = x * _chipSize.first;// _worldPosition.GetX();
-				auto chipMinY = y * _chipSize.second;// _worldPosition.GetY();
-				auto chipMaxX = x * _chipSize.first + _chipSize.first;// - _worldPosition.GetX();
-				auto chipMaxY = y * _chipSize.second + _chipSize.second;// _worldPosition.GetY();
+		//for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
+		//	for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
+		//		auto chipMinX = x * _chipSize.first;// _worldPosition.GetX();
+		//		auto chipMinY = y * _chipSize.second;// _worldPosition.GetY();
+		//		auto chipMaxX = x * _chipSize.first + _chipSize.first;// - _worldPosition.GetX();
+		//		auto chipMaxY = y * _chipSize.second + _chipSize.second;// _worldPosition.GetY();
 
-				AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(y) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY) });
+		//		AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(y) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY) });
 
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-				mapchip.DrawBox(GetColor(255, 255, 0));
-				SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-			}
-		}
+		//		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+		//		mapchip.DrawBox(GetColor(255, 255, 0));
+		//		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+		//	}
+		//}
 		/* 検証用 */
 	}
 
@@ -128,7 +128,7 @@ namespace inr {
 		auto chipH = _chipSize.second;
 
 		// ワールド座標は画面内に収まっているかどうか？
-		if (_worldPosition.GetX() < 0) { _worldPosition.GetPX() = 0; }
+		if (_worldPosition.GetX() < HALF_WINDOW_W) { _worldPosition.GetPX() = HALF_WINDOW_W; }
 		if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { _worldPosition.GetPX() = mapW * chipW - HALF_WINDOW_W; }
 		if (_worldPosition.GetY() < 0) { _worldPosition.GetPY() = HALF_WINDOW_H; }
 		if (mapH * chipH - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapH * chipH - HALF_WINDOW_H; }
@@ -379,7 +379,7 @@ namespace inr {
 		auto maxy = box.GetMax().IntY() + move.IntY();
 
 		/* 検証用 */
-		_debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
+		// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
 		/* 検証用 */
 
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {

@@ -165,24 +165,6 @@ namespace inr {
 		 _game.GetMapChips()->Clamp(xy);
 		 auto x = xy.IntX();
 		 auto y = xy.IntY();
-		/*auto x = _position.IntX();
-		auto y = _position.IntY();
-		
-		if (HALF_WINDOW_W < x) {
-			 int a = HALF_WINDOW_W - x;
-			 x = x + a;
-		}
-
-		if (HALF_WINDOW_H < y) {
-			int b = HALF_WINDOW_H - y;
-			y = y + b;
-		}*/
-
-		//auto x = _position.IntX(); //-_game.GetMapChips()->GetScrPosition().first;
-		//auto y = _position.IntY(); //-_game.GetMapChips()->GetScrPosition().second;
-
-		/*int gg = graph::ResourceServer::GetHandles(BACK_GRAUND);
-		DrawRotaGraph(x, y, 1.0, 0, gg, true, false);*/
 
 		DrawFormatString(1500, 100, GetColor(0, 255, 0), "描画座標x = %d", x);
 		DrawFormatString(1500, 150, GetColor(0, 255, 0), "描画座標y = %d", y);
@@ -195,7 +177,7 @@ namespace inr {
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlg() == true) {
-				box->second.DrawBox(GetColor(255, 0, 0));
+				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
 		}
 
@@ -208,7 +190,7 @@ namespace inr {
 
 		debugAABB.DrawBox();*/
 		DebugInfo();
-		_mainCollision.DrawBox();
+		ObjectBase::DrawDebugBox(_mainCollision);
 		DrawFormatString(0, 100, GetColor(255, 0, 0), "maincollision（minX:%d, minY:%d）\n", _mainCollision.GetMin().IntX(), _mainCollision.GetMin().IntY());
 		DrawFormatString(0, 125, GetColor(255, 0, 0), "maincollision（maxX:%d, maxY:%d）\n", _mainCollision.GetMax().IntX(), _mainCollision.GetMin().IntY());
 		DrawFormatString(0, 150, GetColor(255, 0, 0), "pos.x = %d\n", _position.IntX());

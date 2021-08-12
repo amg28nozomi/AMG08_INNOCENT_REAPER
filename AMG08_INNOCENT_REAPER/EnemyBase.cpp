@@ -14,9 +14,9 @@ namespace inr {
 
 	namespace {
 		constexpr auto ESCAPE_MAX = 1000;
-		constexpr auto ESCAPE_VECTOR = 80;	// 1秒間(60frame)で移動する距離
+		constexpr auto ESCAPE_VECTOR = 120;	// 1秒間(60frame)で移動する距離
 
-		constexpr auto FRAME = 60;
+		constexpr auto FRAME = 30;
 	}
 
 
@@ -62,14 +62,14 @@ namespace inr {
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlg() == true) {
-				box->second.DrawBox(GetColor(255, 0, 0));
+				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
 		}
 		//// アニメーションが終わっていない場合はカウントを増やす
 		//if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		//else AnimationInit();	// カウンター初期化
-		_mainCollision.DrawBox();
-		_searchBox.DrawBox();
+		DrawDebugBox(_mainCollision);
+		DrawDebugBox(_searchBox);
 	}
 
 	/*void EnemyBase::AnimationInit() {

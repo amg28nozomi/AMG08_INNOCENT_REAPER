@@ -23,6 +23,10 @@ public:
 	Collision(Vector2& min, Vector2& max, bool flg = false);
 	~Collision() = default;
 
+	// 参照ゲッター（Reference）
+	/*inline Vector2& RefMin() { return minV; }
+	inline Vector2& RefMax() {return maxV;}*/
+
 	inline Vector2 GetMin() { return minV; }
 	inline Vector2 GetMax() { return maxV; }
 	inline Vector2 GetCenter() { return center; }
@@ -31,7 +35,7 @@ public:
 
 	virtual void Update(Vector2& pos, bool inv); // 更新・反転処理有
 	virtual void Swap(Collision col);	// 一時的に当たり判定を切り替える
-	void DrawBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
+	//void DrawBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
 	bool HitCheck(Collision collision); // 当たり判定
 	bool SideCheck(Collision collision);	// どちら側で接触しているのか。
 #ifdef _DEBUG

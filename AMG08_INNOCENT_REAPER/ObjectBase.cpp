@@ -42,10 +42,29 @@ namespace inr {
 			_stand = false;
 		}
 	}
-
+#
 	void ObjectBase::Draw() {
 
 	}
+
+#ifdef _DEBUG
+	void ObjectBase::DrawDebugBox(Collision cb, int color) {
+		auto drawFlg = cb.GetbDrawFlg();
+		// •`‰æ”»’è‚ÍƒIƒ“‚É‚È‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©H
+		if (drawFlg) {
+			auto min = cb.GetMin();
+			auto max = cb.GetMax();
+			_game.GetMapChips()->Clamp(min);
+			_game.GetMapChips()->Clamp(max);
+
+			auto minx = min.IntX();
+			auto maxx = max.IntX();
+			auto miny = min.IntY();
+			auto maxy = max.IntY();
+			DxLib::DrawBox(minx, miny, maxx, maxy, color, FALSE);
+		}
+	}
+#endif
 
 	void ObjectBase::ActionBox(double dx, double dy, const std::pair<int, int> wid) {
 		Vector2 abmin(dx - wid.first / 2, dy + wid.second / 2);
@@ -53,6 +72,6 @@ namespace inr {
 		// AABB newBox(abmin, abmax);
 		auto red = GetColor(255, 255, 0);
 
-		DrawBox(abmin.IntX(), abmin.IntY(), abmax.IntX(), abmax.IntY(), red, FALSE);
+		DxLib::DrawBox(abmin.IntX(), abmin.IntY(), abmax.IntX(), abmax.IntY(), red, FALSE);
 	}
 }
