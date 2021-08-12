@@ -116,12 +116,12 @@ namespace inr {
 	}
 
 	Player::~Player() {
-		_aMotions.clear();
+		_motionKey.clear();
 	}
 
 	void Player::Init() {
 		// キー名　first:アニメーションの総フレーム数、second:SEの再生フレーム数
-		_aMotions = {{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
+		_motionKey = {{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
 					{PKEY_RUN, {PMF_RUN, SE_RUN1}}, 
 					{PKEY_DASH, {PMF_DASH, 50}},
 					{PKEY_JUMP, {PMF_JUMP, 50}},
@@ -481,53 +481,6 @@ namespace inr {
 
 	bool Player::Dead() {
 		return false; 
-	}
-
-	int Player::GetSize(const std::string& key) {
-		// 要素検索
-		auto it = _aMotions.find(key);
-		if (it == _aMotions.end()) {
-			// イテレータが見つからなった場合は-1を返す
-		#ifdef _DEBUG
-			OutputDebugString("キーがヒットしませんでした。キー情報を確認してください。\n");
-		#endif
-			return -1;
-		}
-		return it->second.first;
-	}
-
-	bool Player::GraphResearch(int* gh) {
-		// フラグがオンの時、描画するグラフィックを切り替える
-		if (_changeGraph) {
-			_changeGraph = false;
-			*gh = graph::ResourceServer::GetHandles(_divKey.first, 0);	// 最初の要素を取得
-			return true;
-		}
-		// グラフィックが切り替わる猶予フレームを算出
-		auto interval = GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first);
-		// 何番目のアニメーションが呼び出されているか
-		auto no = _aCount / interval % graph::ResourceServer::GetAllNum(_divKey.first);
-		// グラフィックハンドルを読み込む
-		*gh = graph::ResourceServer::GetHandles(_divKey.first, no);
-		return false;
-	}
-
-	int Player::SoundResearch(const std::string& key) {
-		_divKey.second = key;
-		auto sound = se::SoundServer::GetSound(_divKey.second);
-		return sound;
-	}
-
-	int Player::GetSoundFrame(const std::string& key) {
-		// キー検索
-		auto it = _aMotions.find(key);
-		// ヒットしなかった場合は-1を返す。
-		if (it == _aMotions.end()) {
-			return -1;
-		}
-		// SEの再生フレーム時間を取り出して返す。
-		auto soundFrame = it->second.second;
-		return soundFrame;
 	}
 
 	void Player::AnimationInit() { 

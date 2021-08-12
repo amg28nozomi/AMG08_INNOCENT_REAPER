@@ -1,5 +1,6 @@
 #pragma once
 #include "ObjectBase.h"
+#include "Vector2.h"
 
 namespace inr {
 
@@ -17,8 +18,10 @@ namespace inr {
 		};
 
 		Type _sType;
+		Vector2 _moveVector;
 
 		void Tracking(); // ’ÇÕˆ—
+		void Move();	// ˆÚ“®
 	public:
 		inline Type GetType() { return _sType; }
 	};

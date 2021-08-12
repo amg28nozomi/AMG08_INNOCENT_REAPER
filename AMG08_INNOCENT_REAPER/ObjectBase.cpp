@@ -3,6 +3,8 @@
 #include "Vector2.h"
 #include "Game.h"
 #include "MapChips.h"
+#include "ResourceServer.h"
+#include "SoundServer.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -23,9 +25,12 @@ namespace inr {
 	void ObjectBase::Init() {
 		_type = ObjectType::OBJECT_BASE;
 		_speed = SPEED_NULL;
+		_aCount = 0;
 		_gravity = 1;
 		_direction = false;
 		_stand = false;
+		_changeGraph = true;
+
 		_position = { 0, 0 };
 	}
 
@@ -42,9 +47,56 @@ namespace inr {
 			_stand = false;
 		}
 	}
-#
+
 	void ObjectBase::Draw() {
 
+	}
+
+	int ObjectBase::GetSize(const std::string& key) {
+		// 要素検索
+		auto it = _motionKey.find(key);
+		if (it == _motionKey.end()) {
+			// イテレータが見つからなった場合は-1を返す
+#ifdef _DEBUG
+			OutputDebugString("キーがヒットしませんでした。キー情報を確認してください。\n");
+#endif
+			return -1;
+		}
+		return it->second.first;
+	}
+
+	bool ObjectBase::GraphResearch(int* gh) {
+		// フラグがオンの時、描画するグラフィックを切り替える
+		if (_changeGraph) {
+			_changeGraph = false;
+			*gh = graph::ResourceServer::GetHandles(_divKey.first, 0);	// 最初の要素を取得
+			return true;
+		}
+		// グラフィックが切り替わる猶予フレームを算出
+		auto interval = GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first);
+		// 何番目のアニメーションが呼び出されているか
+		auto no = _aCount / interval % graph::ResourceServer::GetAllNum(_divKey.first);
+		// グラフィックハンドルを読み込む
+		*gh = graph::ResourceServer::GetHandles(_divKey.first, no);
+		return false;
+	}
+
+	int ObjectBase::SoundResearch(const std::string& key) {
+		_divKey.second = key;
+		auto sound = se::SoundServer::GetSound(_divKey.second);
+		return sound;
+	}
+
+	int ObjectBase::GetSoundFrame(const std::string& key) {
+		// キー検索
+		auto it = _motionKey.find(key);
+		// ヒットしなかった場合は-1を返す。
+		if (it == _motionKey.end()) {
+			return -1;
+		}
+		// SEの再生フレーム時間を取り出して返す。
+		auto soundFrame = it->second.second;
+		return soundFrame;
 	}
 
 #ifdef _DEBUG

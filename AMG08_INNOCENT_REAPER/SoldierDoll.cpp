@@ -69,7 +69,7 @@ namespace inr {
 			{ enemy::SOLDIER_EMPTY, { _position, EMPTY_W / 2, EMPTY_H / 2 }},
 		};
 
-		_enemyKey =
+		_motionKey =
 		{	{ enemy::SOLDIER_EMPTY, {18, 0}},
 
 			{ enemy::red::SOLDIER_WAKEUP, {20, 0}},

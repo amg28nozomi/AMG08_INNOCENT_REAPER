@@ -6,7 +6,7 @@
 
 namespace inr {
 
-	Soul::Soul(Game& game) : ObjectBase(game) {
+	Soul::Soul(Game& game) : ObjectBase(game), _moveVector() {
 		_sType = Type::RED;
 	}
 
@@ -15,7 +15,8 @@ namespace inr {
 	}
 
 	void Soul::Process() {
-
+		Tracking();
+		Move();
 	}
 
 	void Soul::Draw() {
@@ -25,13 +26,17 @@ namespace inr {
 	void Soul::Tracking() {
 		// プレイヤーの参照を取得
 		auto player = _game.GetObjectServer()->GetPlayer();
-		auto sx = _position.GetX();
-		auto sy = _position.GetY();
 		auto px = player.GetPosition().GetX();
 		auto py = player.GetPosition().GetY();
-		// プレイヤーの参照を取得
-		auto player = _game.GetObjectServer()->GetPlayer();
 		// 自身とプレイヤー間のベクトルを算出
-		Vector2 mv = { px - sx, py - sy };
+		Vector2 mv = { px - _position.GetX(), py - _position.GetY() };
+		mv.Normalize();	// ベクトルの正規化
+		// 移動ベクトルに加算（）
+		_moveVector.GetPX() = mv.GetX();
+		_moveVector.GetPY() = mv.GetY();
+	}
+
+	void Soul::Move() {
+		_position + _moveVector;	// 座標更新
 	}
 }

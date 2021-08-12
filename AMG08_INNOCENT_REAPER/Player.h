@@ -45,25 +45,17 @@ namespace inr {
 		double _lastX;	// ダッシュの最大移動距離(座標)
 		
 		int _aFrame;	// アクション実行のためのフレーム
-		int _aCount;	// アニメーションの添え字
 		int _sounds;
 
 		int _dashInterval;	// ダッシュの再使用間隔
 		double _jumpPower;	// ジャンプ溜め
-		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
 		bool _input;	//ダッシュしているかどうか（trueの場合は他アクションを実行できない）
 		// std::string _divKey;	// 読み込み用識別キー
-		Keys _divKey;	// 左辺:グラフィック用、右辺:サウンド用
-		KeyDates _aMotions;	// first:キー, s.first:総フレーム数, SEの再生時間
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
 
 		// std::pair<double, double> _moveVector;	// 移動距離(左辺:x, 右辺:y)
 
 		void AnimationInit();
-		bool GraphResearch(int* gh);	// 識別
-		int GetSize(const std::string& key);
-		int SoundResearch(const std::string& key);
-		int GetSoundFrame(const std::string& key);
 
 		void PositionUpdate();
 		// Action処理まとめ

@@ -13,7 +13,6 @@ public:
 	inline int IntX() { return static_cast<int>(x); }
 	inline int IntY() { return static_cast<int>(y); }
 
-	inline double Length() { return std::sqrt(x * x + y * y); }
 	void Normalize();
 
 	// ベクトルの加算（x, y）
@@ -30,5 +29,7 @@ public:
 	}
 private:
 	double x, y;
+
+	inline double Length() { return std::sqrt(x * x + y * y); }
 };
 

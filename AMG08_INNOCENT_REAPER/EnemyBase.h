@@ -48,22 +48,13 @@ namespace inr {
 		SoulState _sState;
 
 		AABB _searchBox; // 索敵用当たり判定
-
-		Keys _divKey;
-		KeyDates _enemyKey;
 		boxs _collisions;	// 各種当たり判定格納用
 		Vector2 _moveVector;	// 移動ベクトル
 		int _aFrame;	// アクション実行のためのフレーム
-		int _aCount;	// アニメーションの添え字
 		int _sounds;
-		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
 
 		double _actionX;	// アクション実行時のx座標
 
-		int GetSize(const std::string& key);
-		int SoundResearch(const std::string& key);
-		int GetSoundFrame(const std::string& key);
-		bool GraphResearch(int* gh);	// 識別
 		bool SearchPlayer(); // 索敵処理(自機の索敵
 
 		virtual void Move() = 0; // 移動処理(派生先で定義)
