@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 class Vector2 {
 public:
@@ -11,6 +12,9 @@ public:
 	inline double& GetPY() { return y; }
 	inline int IntX() { return static_cast<int>(x); }
 	inline int IntY() { return static_cast<int>(y); }
+
+	inline double Length() { return std::sqrt(x * x + y * y); }
+	void Normalize();
 
 	// ベクトルの加算（x, y）
 	friend Vector2 operator+(const Vector2& lhs, const Vector2& rhs) {
