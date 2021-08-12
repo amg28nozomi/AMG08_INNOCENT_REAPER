@@ -13,6 +13,7 @@
 
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
+#include "Soul.h"
 
 namespace inr {
 
@@ -57,6 +58,14 @@ namespace inr {
 		{ enemy::blue::SOLDIER_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 	};
 
+	// ç∞Ç≠ÇÒÇÃäeéÌÉÇÅ[ÉVÉáÉì
+	const graph::ResourceServer::DivGraphMap souls{
+		{ soul::BLUE_SOUL, {"Resource/Soul/blue_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+		{ soul::B_FLOAT, {"Resource/Soul/b_soul.png", 4, 1, 4, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+		{ soul::RED_SOUL, {"Resource/Soul/red_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+		{ soul::R_FLOAT, {"Resource/Soul/r_soul.png", 5, 1, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+	};
+
 	const se::SoundServer::SoundMap ses{
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/snapping1.mp3", DX_PLAYTYPE_BACK}},
@@ -87,6 +96,7 @@ namespace inr {
 		graph::ResourceServer::Init();
 		graph::ResourceServer::LoadGraphList(div);
 		graph::ResourceServer::LoadGraphList(soldierDoll);
+		graph::ResourceServer::LoadGraphList(souls);
 		se::SoundServer::Init();
 		se::SoundServer::LoadSoundMap(ses);
 

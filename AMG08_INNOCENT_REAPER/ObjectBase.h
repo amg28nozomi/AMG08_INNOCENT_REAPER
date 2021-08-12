@@ -15,6 +15,7 @@ namespace {
 namespace inr {
 
 	constexpr auto FRAME_G = 0.5;	// 1ƒtƒŒ[ƒ€–‚Ì‰Á‘¬’l
+	constexpr auto SE_NUM = 0;
 
 	class Game;
 	class ObjectServer;

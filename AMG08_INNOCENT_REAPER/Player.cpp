@@ -33,7 +33,6 @@ namespace {
 	constexpr auto ACTION_MAX = 3;
 	
 	// SEのフレーム数
-	constexpr auto SE_NUM = 0;
 	constexpr auto SE_RUN1 = 50;	// 移動SEのフレーム数 
 
 
@@ -53,10 +52,6 @@ namespace {
 	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
 	constexpr auto JUMP_MAX = 15;
 	constexpr auto JUMP_Y = 5;
-
-	// プレイヤーの向き
-	constexpr auto PL_LEFT = true;
-	constexpr auto PL_RIGHT = false;
 	
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間

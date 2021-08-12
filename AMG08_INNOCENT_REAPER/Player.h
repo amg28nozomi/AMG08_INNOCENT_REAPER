@@ -18,6 +18,10 @@ namespace inr {
 
 	constexpr auto PIMAGE_SIZE = 140;	// プレイヤーの描画サイズ
 
+	// プレイヤーの向き
+	constexpr auto PL_LEFT = true;
+	constexpr auto PL_RIGHT = false;
+
 
 	class Player : public ObjectBase {
 	public:

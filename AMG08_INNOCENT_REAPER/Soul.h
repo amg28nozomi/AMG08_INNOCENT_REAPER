@@ -4,11 +4,27 @@
 
 namespace inr {
 
+	namespace soul {
+		constexpr auto RED_SOUL = "r_soul";
+		constexpr auto BLUE_SOUL = "b_soul";
+		constexpr auto R_FLOAT = "r_float";
+		constexpr auto B_FLOAT = "b_float";
+
+		constexpr auto IMAGE_SIZE = 140;
+
+		// Šeƒ‚[ƒVƒ‡ƒ“‚Ì‰æ‘œ”
+		constexpr auto SF_BLUE_SOUL = 1;
+		constexpr auto SF_B_SOUL = 4;
+		constexpr auto SF_RED_SOUL = 1;
+		constexpr auto SF_R_SOUL = 5;
+	}
+
 	class Soul : public ObjectBase {
 	public:
 		Soul(Game& game);
 		~Soul() override;
 
+		void Init() override;
 		void Process() override;
 		void Draw() override;
 	private:
