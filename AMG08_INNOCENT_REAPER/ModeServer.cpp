@@ -70,4 +70,10 @@ namespace inr {
 		mode->second->Init();
 		return true;
 	}
+
+	ModeBase& ModeServer::GetMode(std::string modeKey) {
+		// ‘ÎÛ‚Ìƒ‚[ƒh‚ðŽæ‚èo‚·
+		auto mode = _modes.find(modeKey);
+		return *mode->second;
+	}
 }

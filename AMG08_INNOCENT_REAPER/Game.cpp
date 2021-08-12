@@ -21,8 +21,8 @@ namespace inr {
 	int Game::_frameCount = 0;
 
 	constexpr auto PATH = "Resource/";
-	constexpr auto CHIP_FILE = "platformer_simpleA";
-	// constexpr auto CHIP_FILE = "stage01";
+	// constexpr auto CHIP_FILE = "platformer_simpleA";
+	constexpr auto CHIP_FILE = "stage01";
 
 	
 	// constexpr auto CHIP_FILE = "stage01";
@@ -38,6 +38,7 @@ namespace inr {
 		{PKEY_FALL, {"Resource/Player/r_fall.png", 7, 2, 10, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_HIT, {"Resource/Player/r_hit.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{BACK_GROUND, {"Resource/背景ステージ１_.png", 1, 1, 1, 1200, 1350 }},
+		{BACK_HH, {"Resource/1702.png", 1, 1, 1, 1920, 1360}},
 	};
 
 	// ソルジャードールの各種モーション

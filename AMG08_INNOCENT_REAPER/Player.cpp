@@ -4,6 +4,7 @@
 #include "Collision.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"
+#include "MapChips.h"
 #include <DxLib.h>
 #include <unordered_map>
 
@@ -13,8 +14,8 @@ namespace {
 	constexpr auto START_POSITION_Y = inr::WINDOW_W / 2;
 #endif
 #ifdef _DEBUG
-	constexpr auto START_POSITION_X = inr::DEBUG_WINDOW_W / 2;
-	constexpr auto START_POSITION_Y = inr::DEBUG_WINDOW_H / 2;
+	constexpr auto START_POSITION_X = 100;
+	constexpr auto START_POSITION_Y = 1900;
 #endif
 
 	// constexpr auto ROB
@@ -156,18 +157,35 @@ namespace inr {
 
 		// 位置座標の更新
 		PositionUpdate();
-		// _game.GetMapChips()->ScrUpdata(_position);
+		_game.GetMapChips()->WorldUpdate(_position);
 	}
 
 	void Player::Draw() {
-		auto x = _position.IntX(); //-_game.GetMapChips()->GetScrPosition().first;
-		auto y = _position.IntY(); //-_game.GetMapChips()->GetScrPosition().second;
+		 Vector2 xy = _position;
+		 _game.GetMapChips()->Clamp(xy);
+		 auto x = xy.IntX();
+		 auto y = xy.IntY();
+		/*auto x = _position.IntX();
+		auto y = _position.IntY();
+		
+		if (HALF_WINDOW_W < x) {
+			 int a = HALF_WINDOW_W - x;
+			 x = x + a;
+		}
+
+		if (HALF_WINDOW_H < y) {
+			int b = HALF_WINDOW_H - y;
+			y = y + b;
+		}*/
+
+		//auto x = _position.IntX(); //-_game.GetMapChips()->GetScrPosition().first;
+		//auto y = _position.IntY(); //-_game.GetMapChips()->GetScrPosition().second;
 
 		/*int gg = graph::ResourceServer::GetHandles(BACK_GRAUND);
 		DrawRotaGraph(x, y, 1.0, 0, gg, true, false);*/
-		if (_input == true) {
-			int i = 0;
-		}
+
+		DrawFormatString(1500, 100, GetColor(0, 255, 0), "描画座標x = %d", x);
+		DrawFormatString(1500, 150, GetColor(0, 255, 0), "描画座標y = %d", y);
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得

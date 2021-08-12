@@ -14,7 +14,7 @@ namespace inr {
 		auto x = _position.IntX();
 		auto y = _position.IntY();
 
-		auto gh = graph::ResourceServer::GetHandles(BACK_GROUND, 0);
+		auto gh = graph::ResourceServer::GetHandles(BACK_HH, 0);
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);
 	}
 }

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "ObjectBase.h"
 #include "MapData.h"
+#include "Vector2.h"
 
 namespace inr {
 
@@ -25,6 +26,7 @@ namespace inr {
 		// マップチップと当たっているかどうか（マップチップの上に立っているかどうか）
 		bool IsHit(AABB box, double g);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
 		bool IsHit(AABB box, Vector2& pos, Vector2& move);	// 押し出し処理用
+		bool Clamp(Vector2& pos);	// ワールド座標をスクリーン座標に修正
 
 		// ゲッター
 		inline std::pair<int, int> GetMapSize() { return _mapSize; }
@@ -35,8 +37,9 @@ namespace inr {
 			std::string* fillchips = &_fileChips;
 			return *fillchips;
 		}
-		inline std::pair<int, int> GetScrPosition() { return _scrPosition; }
-		inline void ScrUpdata(Vector2 pos) { _scrPosition = std::make_pair(pos.IntX(), pos.IntY()); }
+		// ワールド座標の取得
+		inline Vector2 GetWorldPosition() { return _worldPosition; }
+		void WorldUpdate(Vector2 pos);	// ワールド座標の更新
 
 	private:
 		using MapList = std::unordered_map<std::string, MapData>;
@@ -48,10 +51,12 @@ namespace inr {
 		std::pair<int, int> _chipSize;	// チップの描画サイズ(pixel)
 		int _mapSizeLayer;	// レイヤー数
 		std::string _fileChips;	// チップデータのファイル名
-		std::pair<int, int> _scrPosition;	// スクリーン座標(左辺:x　右辺:y)
+
+		Vector2 _worldPosition;	// ワールド座標
 		std::vector<int> _mapData;	// マップチップの配置情報
 		std::vector<int> _mapChipsType;	// 当たり判定のあるマップチップ(識別番号)登録用
 
+		void WorldClanp();
 		std::string StringFillLoad(std::string FillName);
 		int TiledJsonLoad(std::string fillPath, std::string strFillName);
 

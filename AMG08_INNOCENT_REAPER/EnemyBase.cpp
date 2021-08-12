@@ -6,6 +6,7 @@
 #include "ResourceServer.h"
 #include "SoundServer.h"
 #include "ObjectServer.h"
+#include "MapChips.h"
 
 using std::string;
 
@@ -45,8 +46,13 @@ namespace inr {
 	}
 
 	void EnemyBase::Draw() {
-		auto x = _position.IntX();
-		auto y = _position.IntY();
+		Vector2 xy = _position;
+		_game.GetMapChips()->Clamp(xy);
+		auto x = xy.IntX();
+		auto y = xy.IntY();
+
+		/*auto x = _position.IntX();
+		auto y = _position.IntY();*/
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得

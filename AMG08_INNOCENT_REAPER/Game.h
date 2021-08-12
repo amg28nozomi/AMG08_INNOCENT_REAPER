@@ -18,6 +18,9 @@ namespace inr {
 	constexpr auto WINDOW_W = 1920;
 	constexpr auto WINDOW_H = 1080;
 	constexpr auto WINDOW_B = 32;
+
+	constexpr auto HALF_WINDOW_W = 1920 / 2;
+	constexpr auto HALF_WINDOW_H = 1080 / 2;
 #ifdef _DEBUG
 	constexpr auto DEBUG_WINDOW_W = 1280;
 	constexpr auto DEBUG_WINDOW_H = 720;
@@ -26,6 +29,7 @@ namespace inr {
 	constexpr auto PLAYER_HIGHT = 100;
 
 	constexpr auto BACK_GROUND = "backP";
+	constexpr auto BACK_HH = "backH";
 
 	namespace key {
 		constexpr auto SOUND_NUM = "num";

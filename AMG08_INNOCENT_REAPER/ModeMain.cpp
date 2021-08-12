@@ -51,22 +51,4 @@ namespace inr {
 		_game.GetMapChips()->Draw();
 		_game.GetObjectServer()->Draw();
 	}
-
-	bool ModeMain::Clamp(Vector2& pos) {
-		auto x = pos.GetX() - _worldPosition.GetX();
-		auto y = pos.GetY() - _worldPosition.GetY();
-		// 対象の座標からカメラ座標を引いた値はプラスかどうか？
-		if (x < 0 && 0 < y) {
-			// スクリーン座標内に存在しない
-			return false;
-		}
-		// 対象は現在のスクリーン座標上に存在しているか？
-		if( WINDOW_MIN <= x <= WINDOW_W && WINDOW_MIN <= y <= WINDOW_H) {
-			// ワールド座標からスクリーン座標に修正
-			pos.GetPX() = x;
-			pos.GetPY() = y;
-			return true;
-		}
-		return false;
-	}
 }

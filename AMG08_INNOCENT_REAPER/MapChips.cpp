@@ -16,8 +16,6 @@ namespace {
 	constexpr auto FIRST = 0;
 	constexpr auto SECOND = 1;
 	constexpr auto THIRD = 2;
-
-	constexpr auto FILL_PATH2 = "Mapchip/";
 }
 
 namespace inr {
@@ -33,7 +31,7 @@ namespace inr {
 		auto chipSizeH = _chipSize.second;
 		auto chipAllNum = chipCountW * chipCountH;
 
-		auto filename = filePath + FILL_PATH2 + _fileChips;
+		auto filename = filePath + _fileChips;
 
 		const graph::ResourceServer::DivGraphMap mapchip {
 			{CHIP_KEY, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
@@ -41,12 +39,11 @@ namespace inr {
 		// ResourceServerで画像読み込み
 		graph::ResourceServer::LoadGraphList(mapchip);
 		// スクリーン座標初期化
-		_scrPosition = std::make_pair(0, 0);
-
+		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
 	}
 
 	MapChips::~MapChips() {
-		// 各種初期化
+		// 初期化
 		_mapData.clear();
 
 	}
@@ -56,13 +53,8 @@ namespace inr {
 	}
 
 	void MapChips::Process() {
-		// 真壁講師のものを流用（バグが出次第修正予定）
-		auto scrX = &_scrPosition.first;
-		auto scrY = &_scrPosition.second;
-		auto mapW = _mapSize.first;
-		auto mapH = _mapSize.second;
-		auto chipW = _chipSize.first;
-		auto chipH = _chipSize.second;
+		WorldClanp();
+		
 
 
 		// プレイヤーからスクリーン座標を取得して代入
@@ -74,8 +66,8 @@ namespace inr {
 
 	void MapChips::Draw() {
 #ifdef _DEBUG
-		DrawFormatString(0, 300, GetColor(255, 0, 0), "scr.x = %d\n", _scrPosition.first);
-		DrawFormatString(0, 325, GetColor(255, 0, 0), "scr.y = %d\n", _scrPosition.second);
+		DrawFormatString(0, 300, GetColor(255, 0, 0), "worldPosition.x = %d\n", _worldPosition.IntX());
+		DrawFormatString(0, 325, GetColor(255, 0, 0), "worldPosition.y = %d\n", _worldPosition.IntY());
 #endif
 		// 描画処理
 		int x, y, layer;
@@ -84,8 +76,8 @@ namespace inr {
 				for (x = 0; x < _mapSize.first; ++x) {
 					int  layerStart = _mapSize.first * _mapSize.second * layer;
 					int index = y * _mapSize.first + x;
-					int posX = x * _chipSize.first - _scrPosition.first;
-					int posY = y * _chipSize.second - _scrPosition.second;
+					int posX = x * _chipSize.first - _worldPosition.IntX();//(_worldPosition.IntX() - HALF_WINDOW_W);
+					int posY = y * _chipSize.second - (_worldPosition.IntY() - HALF_WINDOW_H);
 					int no = _mapData[layerStart + index];
 					--no;
 
@@ -95,11 +87,11 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						if (CheckHit(x, y)) {
+						/*if (CheckHit(x, y)) {
 							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 							DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
 							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						}
+						}*/
 #endif
 					}
 				}
@@ -114,10 +106,10 @@ namespace inr {
 
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
 			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
-				auto chipMinX = x * _chipSize.first;
-				auto chipMinY = y * _chipSize.second;
-				auto chipMaxX = x * _chipSize.first + _chipSize.first;
-				auto chipMaxY = y * _chipSize.second + _chipSize.second;
+				auto chipMinX = x * _chipSize.first;// _worldPosition.GetX();
+				auto chipMinY = y * _chipSize.second;// _worldPosition.GetY();
+				auto chipMaxX = x * _chipSize.first + _chipSize.first;// - _worldPosition.GetX();
+				auto chipMaxY = y * _chipSize.second + _chipSize.second;// _worldPosition.GetY();
 
 				AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(y) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY) });
 
@@ -127,6 +119,94 @@ namespace inr {
 			}
 		}
 		/* 検証用 */
+	}
+
+	void MapChips::WorldClanp() {
+		auto mapW = _mapSize.first;
+		auto mapH = _mapSize.second;
+		auto chipW = _chipSize.first;
+		auto chipH = _chipSize.second;
+
+		// ワールド座標は画面内に収まっているかどうか？
+		if (_worldPosition.GetX() < 0) { _worldPosition.GetPX() = 0; }
+		if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { _worldPosition.GetPX() = mapW * chipW - HALF_WINDOW_W; }
+		if (_worldPosition.GetY() < 0) { _worldPosition.GetPY() = HALF_WINDOW_H; }
+		if (mapH * chipH - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapH * chipH - HALF_WINDOW_H; }
+
+		/*if (_worldPosition.GetX() < HALF_WINDOW_W) { _worldPosition.GetPX() = HALF_WINDOW_W; }
+		if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { _worldPosition.GetPX() = mapW * chipW - HALF_WINDOW_W; }
+		if (_worldPosition.GetY() < HALF_WINDOW_H) { _worldPosition.GetPY() = HALF_WINDOW_H; }
+		if (mapH * chipH - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapH * chipH - HALF_WINDOW_H; }*/
+	}
+
+	bool MapChips::Clamp(Vector2& pos) {
+		auto scrPosX = pos.GetX() - _worldPosition.GetX();
+		auto scrPosY = pos.GetY() - _worldPosition.GetY();
+		// 対象は描画範囲内に収まっているかどうか？
+		if (-960 <= scrPosX <= 960) {
+			// x座標を更新
+			auto fixX = scrPosX + 960;
+			pos.GetPX() = fixX;
+			// y座標を更新するかどうか
+			if (-540 <= scrPosY <= 540) {
+				auto fixY = scrPosY + 540;
+				// 欲しい値は何？（差分）
+				// auto xx = _worldPosition.GetY() - HALF_WINDOW_H;
+				pos.GetPY() = fixY;
+			}
+			return true;
+		}
+
+		auto cwindowW = _worldPosition.GetX() - HALF_WINDOW_W;
+		auto cwindowH = _worldPosition.GetY() - WINDOW_H; //- _mapSize.second * _chipSize.second;	// 画面内に収まっているか？
+
+		auto mapY = -_mapSize.second * _chipSize.second;
+
+
+		//// 0より小さい場合は修正
+		//if (cwindowW < 0 ) return false;
+
+		//auto x = pos.GetX() - cwindowW;
+		//auto y = pos.GetY() - cwindowH;
+
+		//// x座標は収まっているかどうか？
+		//if (0 <= x <= WINDOW_W) {
+		//	// 余り算で座標を変換
+		//	pos.GetPX() = pos.IntX() % (WINDOW_W + 1);
+		//}
+		
+		// auto y = pos.GetY() - cwindowH;
+		/*auto x = pos.GetX() - _worldPosition.GetX();
+		auto y = pos.GetY() - _worldPosition.GetY();*/
+		// 対象の座標からカメラ座標を引いた値はプラスかどうか？
+		//if (x < HALF_WINDOW_W) return false;
+		// if (x < HALF_WINDOW_W && y <= HALF_WINDOW_H) return false;
+		
+		//if (x < 0 && y < 0) {
+		//	// スクリーン座標内に存在しない
+		//	return false;
+		//}
+		// 対象は現在のスクリーン座標上に存在しているか？
+		//if (0 <= x <= WINDOW_W) {
+		//	// ワールド座標からスクリーン座標に修正
+		//	pos.GetPX() = x;//pos.GetX() - (_worldPosition.GetX() / 2);
+		//	return true;
+		//}
+
+		//if (0 <= x <= WINDOW_W && 0 <= y <= WINDOW_H) {
+		//	// ワールド座標からスクリーン座標に修正
+		//	pos.GetPX() = x;//pos.GetX() - (_worldPosition.GetX() / 2);
+		//	pos.GetPY() = y;//pos.GetY() - (_worldPosition.GetY() / 2);
+		//	return true;
+		//}
+
+		return false;
+	}
+
+	void MapChips::WorldUpdate(Vector2 pos) {
+		_worldPosition.GetPX() = pos.GetX();
+		_worldPosition.GetPY() = pos.GetY();
+		WorldClanp();
 	}
 
 	std::string MapChips::StringFillLoad(std::string FillName) {
