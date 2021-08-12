@@ -35,7 +35,7 @@ namespace inr {
 		};
 		// 抜け殻、巡回、攻撃、逃避
 		enum class ActionState {
-			EMPTY, PATROL, ATTACK, ESCAPE
+			EMPTY, IDOL, PATROL, ATTACK, ESCAPE
 		};
 		// 空、赤、青
 		enum class SoulState{

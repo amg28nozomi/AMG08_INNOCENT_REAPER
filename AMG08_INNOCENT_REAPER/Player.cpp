@@ -35,6 +35,7 @@ namespace {
 	constexpr auto SE_NUM = 0;
 	constexpr auto SE_RUN1 = 50;	// 移動SEのフレーム数 
 
+
 	// 奪うアクションの当たり判定
 	constexpr auto ROB_WIDTH1 = 20 + 50; //-75;
 	constexpr auto ROB_WIDTH2 = -20;
@@ -58,8 +59,8 @@ namespace {
 	
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
-	constexpr auto DASH_TIME = 50;	// ダッシュアクションが完了するまでの時間
-	constexpr auto DASH_MAX = 840;	// ダッシュモーションの最大移動距離
+	constexpr auto DASH_TIME = 50 / 4;	// ダッシュアクションが完了するまでの時間
+	constexpr auto DASH_MAX = 280;	// ダッシュモーションの最大移動距離
 	constexpr auto DASH_VEC = DASH_MAX / DASH_TIME;	// 移動ベクトル
 
 	constexpr auto DASH_WIDTH1 = 40;
@@ -81,7 +82,7 @@ namespace {
 	// 描画切り替えまでに必要なフレーム数
 	constexpr auto MF_INTERVAL = 4;
 
-	// 再生時間
+	// 再生時間（Player Motion Frame）
 	constexpr auto PMF_IDOL = PF_IDOL * MF_INTERVAL;
 	constexpr auto PMF_RUN = PF_RUN * MF_INTERVAL;
 	constexpr auto PMF_DASH = PF_DASH * MF_INTERVAL;

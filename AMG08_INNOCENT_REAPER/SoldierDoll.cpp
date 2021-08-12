@@ -10,8 +10,14 @@ namespace {
 	constexpr auto START_POS_Y = 0;
 
 	// 幅・高さ
-	constexpr auto SOLDIER_W = 100;
-	constexpr auto SOLDIER_H = 240;
+	constexpr auto SOLDIER_W = 60;
+	constexpr auto SOLDIER_H = 120;
+
+	// 通常状態の当たり判定(修正用)
+	constexpr auto SF_HEIGHT = 20;
+	constexpr auto SOLDIER_BOX_W = SOLDIER_W / 2;
+	constexpr auto SOLDIER_BOX_H1 = SOLDIER_H / 2 - SF_HEIGHT;
+	constexpr auto SOLDIER_BOX_H2 = SOLDIER_H / 2 + SF_HEIGHT;
 
 	// 当たり判定
 	constexpr auto COLLISION_W = 60;
@@ -19,9 +25,10 @@ namespace {
 	constexpr auto EMPTY_W = 250;
 	constexpr auto EMPTY_H = 100;
 
-	// 索敵ボックス
-	constexpr auto SEARCH_X = 100;
-	constexpr auto SEARCH_Y = 25;
+	// 索敵範囲
+	constexpr auto SEARCH_X = 50 + (SOLDIER_BOX_W * 2);
+	constexpr auto SEARCH_Y1 = SOLDIER_BOX_H1;
+	constexpr auto SEARCH_Y2 = SOLDIER_BOX_H2;
 
 	// 巡回範囲(最大Vector)
 	constexpr auto PATROL_VECTOR = 1.0;
@@ -32,9 +39,9 @@ namespace inr {
 
 	SoldierDoll::SoldierDoll(Game& game) : EnemyBase(game){
 		_eType = EnemyType::SOLDIER_DOLL;
-		_aState = ActionState::PATROL;
+		_aState = ActionState::IDOL;
 		_sState = SoulState::BLUE;
-		_divKey = std::make_pair(enemy::blue::SOLDIER_PATROL, key::SOUND_NUM);
+		_divKey = std::make_pair(enemy::blue::SOLDIER_IDOL, key::SOUND_NUM);
 		_position = { START_POS_X, START_POS_Y };
 
 		_aFrame = 0;
@@ -51,8 +58,8 @@ namespace inr {
 
 	void SoldierDoll::Init() {
 		// メインの当たり判定を初期化
-		_mainCollision = { _position, SOLDIER_W / 2, SOLDIER_H / 2 };
-		_searchBox = { _position, SEARCH_X, SOLDIER_H / 2 };
+		_mainCollision = { _position, SOLDIER_BOX_W, SOLDIER_BOX_W, SOLDIER_BOX_H1, SOLDIER_BOX_H2 };
+		_searchBox = { _position, SEARCH_X, SEARCH_X, SOLDIER_BOX_H1, SOLDIER_BOX_H2 };
 
 		/*_searchBox = { { _mainCollision.GetMin().GetX() - SEARCH_X, _mainCollision.GetMin().GetY() - SEARCH_Y }, {
 						_mainCollision.GetMax().GetX() + SEARCH_X, _mainCollision.GetMax().GetY() + SEARCH_Y } };*/
@@ -86,17 +93,17 @@ namespace inr {
 		if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		else _aCount = 0;	// カウンター初期化
 
-		//Patrol();
-		//Action();
+		Patrol();
+		Action();
 
-		//// 当たり判定を取得
+		// 当たり判定を取得
 
-		//Move();
-		//PositionUpdate();
+		Move();
+		PositionUpdate();
 	}
 
 	void SoldierDoll::Patrol() {
-		if (_aState != ActionState::PATROL && _aState != ActionState::ESCAPE) {
+		if (_aState != ActionState::PATROL && _aState != ActionState::ESCAPE && _aState!= ActionState::IDOL) {
 			PatrolOn();
 		}
 		if (_aState == ActionState::PATROL) {
