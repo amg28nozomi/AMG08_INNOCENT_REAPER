@@ -48,7 +48,7 @@ namespace inr {
 
 		void ActionBox(double dx, double dy, const std::pair<int, int> wid);
 #ifdef _DEBUG
-		void DrawDebugBox(Collision cb, int color = GetColor(255, 255, 0));
+		void DrawDebugBox(Collision cb, int color = GetColor(255, 0, 255));
 #endif
 	public:
 		ObjectBase(Game& game);

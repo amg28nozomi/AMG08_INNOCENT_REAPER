@@ -48,9 +48,6 @@ namespace inr {
 		auto x = xy.IntX();
 		auto y = xy.IntY();
 
-		/*auto x = _position.IntX();
-		auto y = _position.IntY();*/
-
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
