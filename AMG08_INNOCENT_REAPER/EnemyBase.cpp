@@ -10,14 +10,11 @@
 
 using std::string;
 
+namespace {
+	constexpr auto FRAME = 30;
+}
+
 namespace inr {
-
-	namespace {
-		constexpr auto ESCAPE_MAX = 1000;
-		constexpr auto ESCAPE_VECTOR = 120;	// 1•bŠÔ(60frame)‚ÅˆÚ“®‚·‚é‹——£
-
-		constexpr auto FRAME = 30;
-	}
 
 
 	EnemyBase::EnemyBase(Game& game) : ObjectBase(game), _searchBox(Vector2(), Vector2()) {
@@ -125,17 +122,17 @@ namespace inr {
 			_aState = ActionState::ESCAPE;
 			_divKey.first = enemy::blue::SOLDIER_ESCAPE;
 			// ©g‚ÌŒü‚«‚É‚æ‚Á‚ÄˆÚ“®‹——£‚ğ•ÏX
-			if (_direction) _actionX = -ESCAPE_MAX / FRAME;
-			else _actionX = ESCAPE_MAX / FRAME;
+			if (_direction) _actionX = -enemy::ESCAPE_MAX / FRAME;
+			else _actionX = enemy::ESCAPE_MAX / FRAME;
 		}
-		// Œü‚«‚É‚æ‚Á‚Ä‰ÁZEŒ¸ZØ‚è‘Ö‚¦
-		if (_direction) {
-			_actionX -= ESCAPE_VECTOR / FRAME;
-			_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
-			return;
-		}
-		_actionX += ESCAPE_VECTOR / FRAME;
-		_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
+		//// Œü‚«‚É‚æ‚Á‚Ä‰ÁZEŒ¸ZØ‚è‘Ö‚¦
+		//if (_direction) {
+		//	_actionX -= ESCAPE_VECTOR / FRAME;
+		//	_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
+		//	return;
+		//}
+		//_actionX += ESCAPE_VECTOR / FRAME;
+		//_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
 	}
 
 	bool EnemyBase::Hit() {

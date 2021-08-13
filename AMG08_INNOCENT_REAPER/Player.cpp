@@ -3,9 +3,12 @@
 #include "Vector2.h"
 #include "Collision.h"
 #include "ResourceServer.h"
+#include "ObjectServer.h"
 #include "SoundServer.h"
 #include "MapChips.h"
 #include <DxLib.h>
+#include <vector>
+#include <memory>
 #include <unordered_map>
 
 namespace {
@@ -152,6 +155,18 @@ namespace inr {
 
 		// 位置座標の更新
 		PositionUpdate();
+
+		// 各種衝突処理
+		auto&& objs = _game.GetObjectServer()->GetObjects();
+
+		auto cBox = _collisions.find(_divKey.first);
+		if (cBox != _collisions.end()) {
+			for (auto&& obj : objs) {
+				if (obj->GetType() != ObjectType::ENEMY) continue;
+				obj->CollisionHit(_divKey.first, cBox->second);
+			}
+		}
+
 		_game.GetMapChips()->WorldUpdate(_position);
 	}
 
@@ -523,8 +538,8 @@ namespace inr {
 	// デバッグ用処理（変数の表示・当たり判定の描画等）
 #ifdef _DEBUG
 	void Player::DebugInfo() {
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "ActionStatet : %d\n", _aState);
-		DrawFormatString(0, 25, GetColor(255, 255, 255), "Animation : %d\n", _aCount);
+		DrawFormatString(0, 0, GetColor(255, 0, 255), "ActionStatet : %d\n", _aState);
+		DrawFormatString(0, 25, GetColor(255, 0, 255), "Animation : %d\n", _aCount);
 
 
 		/*auto minX = box.GetMin().IntX();

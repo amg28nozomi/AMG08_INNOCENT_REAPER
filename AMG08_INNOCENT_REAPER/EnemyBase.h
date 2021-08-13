@@ -23,6 +23,8 @@ namespace inr {
 			constexpr auto SOLDIER_ESCAPE = "soldier_b_escape";	// “¦‘–
 		}
 
+		constexpr auto ESCAPE_MAX = 1000;
+		constexpr auto ESCAPE_VECTOR = 120;	// 1•bŠÔ(60frame)‚ÅˆÚ“®‚·‚é‹——£
 	}
 
 	class Soul; // ‚Ü‚¾ì‚Á‚Ä‚È‚¢‚æ

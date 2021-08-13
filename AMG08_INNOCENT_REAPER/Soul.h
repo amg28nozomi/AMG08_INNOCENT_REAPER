@@ -10,6 +10,9 @@ namespace inr {
 		constexpr auto R_FLOAT = "r_float";
 		constexpr auto B_FLOAT = "b_float";
 
+		constexpr auto RED = false;
+		constexpr auto BLUE = true;
+
 		constexpr auto IMAGE_SIZE = 140;
 
 		// 各モーションの画像数
@@ -27,6 +30,8 @@ namespace inr {
 		void Init() override;
 		void Process() override;
 		void Draw() override;
+		// 魂のセットアップ
+		inline void SoulChange(bool scolor) { (scolor == soul::RED) ? _sType = Type::RED : _sType = Type::BLUE; }
 	private:
 		// 魂の色（赤、青）
 		enum class Type {

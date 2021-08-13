@@ -58,6 +58,8 @@ namespace inr {
 		virtual void Process();		// XV
 		virtual void Draw();		// •`‰æ
 
+		virtual void CollisionHit(std::string ckey, Collision acollision);	// ŠeíÕ“Ë”»’è
+
 		inline bool GetDirection() { return _direction; }
 		inline ObjectType GetType() { return _type; }
 		inline Vector2 GetPosition() { return _position; }

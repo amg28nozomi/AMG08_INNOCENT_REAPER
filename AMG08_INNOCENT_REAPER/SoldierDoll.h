@@ -17,6 +17,7 @@ namespace inr {
 		bool Hit() override;
 	private:
 		double _patrolX;
+		bool _drawStop;	// 描画更新停止
 
 		void Move() override;
 		void Action() override;
@@ -26,6 +27,10 @@ namespace inr {
 		void PatrolOn();	// 巡回状態に移行
 
 		void PositionUpdate();
+
+		// 干渉可能範囲の算出
+		AABB VitalPart(Collision& col);
+		void CollisionHit(const std::string ckey, Collision acollision) override;
 	};
 }
 
