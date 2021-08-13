@@ -3,6 +3,7 @@
 #include "ObjectServer.h"
 #include "MapChips.h"
 #include "Player.h"
+#include "ResourceServer.h"
 
 #ifdef _DEBUG
 namespace {
@@ -96,7 +97,8 @@ namespace inr {
 		_moveVector.GetPX() = 0;
 
 		// アニメーションが終わっていない場合はカウントを増やす
-		if( _drawStop != true && _aCount == GetSize(_divKey.first) - 1){ _drawStop = true; }
+		if(_aCount / (GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first)) 
+			% graph::ResourceServer::GetAllNum(_divKey.first) == graph::ResourceServer::GetAllNum(_divKey.first) - 1){ _drawStop = true; }
 		else if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		else { _aCount = 0; }// カウンター初期化
 
@@ -110,7 +112,7 @@ namespace inr {
 	}
 
 	void SoldierDoll::Patrol() {
-		if (_aState == ActionState::EMPTY()) _patrolX = 0;
+		if (_aState == ActionState::EMPTY) _patrolX = 0;
 		else if (_aState != ActionState::PATROL && _aState != ActionState::ESCAPE && _aState!= ActionState::IDOL) {
 			PatrolOn();
 		}
