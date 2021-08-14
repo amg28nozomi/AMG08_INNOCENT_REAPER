@@ -38,9 +38,7 @@ namespace inr {
 
 	void Soul::Process() {
 		_moveVector = { 0, 0 };
-		// アニメーションが終わっていない場合はカウントを増やす
-		if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
-		else _aCount = 0;	// カウンター初期化
+		AnimationCount();
 		Tracking();
 		Move();
 

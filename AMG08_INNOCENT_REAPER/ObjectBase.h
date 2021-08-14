@@ -44,6 +44,7 @@ namespace inr {
 
 		virtual bool GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
 		virtual int GetSize(const std::string& key);	// アニメーションの再生フレーム
+		virtual void AnimationCount();
 		int AnimationInterval();	// アニメーションの描画間隔
 		int AnimationNumber();	// 現在の描画番号を取得
 		bool IsAnimationMax();	// アニメーションは描画し終えたか？

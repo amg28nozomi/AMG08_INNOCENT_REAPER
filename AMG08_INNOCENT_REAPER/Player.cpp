@@ -209,9 +209,7 @@ namespace inr {
 		DrawFormatString(0, 225, GetColor(255, 0, 0), "_gravity = %d\n", _gravity);
 #endif
 
-		// アニメーションが終わっていない場合はカウントを増やす
-		if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
-		else AnimationInit();	// カウント初期化
+		AnimationCount();
 	}
 
 	bool Player::Action(int key) {

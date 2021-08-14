@@ -66,6 +66,11 @@ namespace inr {
 		DrawDebugBox(_searchBox);
 	}
 
+	void EnemyBase::AnimationCount() {
+		if (_sState == SoulState::EMPTY && IsAnimationMax() == true) return;
+		ObjectBase::AnimationCount();
+	}
+
 	/*void EnemyBase::AnimationInit() {
 
 	}

@@ -65,6 +65,19 @@ namespace inr {
 		return it->second.first;
 	}
 
+	void ObjectBase::AnimationCount() {
+		// カウンタは総再生時間よりも小さいか？
+		if (_aCount < GetSize(_divKey.first)) { 
+			// アニメーションが終わっていない場合はカウントを増やす
+			++_aCount; 
+			return;
+		} else { 
+			// カウンター初期化
+			_aCount = 0; 
+			return;
+		}
+	}
+
 	int ObjectBase::AnimationInterval() { 
 		return GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first); 
 	}

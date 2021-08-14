@@ -57,6 +57,8 @@ namespace inr {
 
 		double _actionX;	// アクション実行時のx座標
 
+		void AnimationCount() override;
+
 		bool SearchPlayer(); // 索敵処理(自機の索敵
 
 		virtual void Move() = 0; // 移動処理(派生先で定義)
