@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <DxLib.h>
 #include "Collision.h"
+#include "ResourceServer.h"
 
 class Vector2;
 class AABB;
@@ -41,8 +42,12 @@ namespace inr {
 		Keys _divKey;	// 左辺:グラフィック用、右辺:サウンド用
 		KeyDatas _motionKey;	// first:キー, s.first:総フレーム数, SEの再生時間
 
-		virtual bool GraphResearch(int* gh);	// 識別
-		virtual int GetSize(const std::string& key);
+		virtual bool GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
+		virtual int GetSize(const std::string& key);	// アニメーションの再生フレーム
+		int AnimationInterval();	// アニメーションの描画間隔
+		int AnimationNumber();	// 現在の描画番号を取得
+		bool IsAnimationMax();	// アニメーションは描画し終えたか？
+
 		virtual int SoundResearch(const std::string& key);
 		virtual int GetSoundFrame(const std::string& key);
 

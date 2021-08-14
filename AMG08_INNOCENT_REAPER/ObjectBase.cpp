@@ -65,6 +65,23 @@ namespace inr {
 		return it->second.first;
 	}
 
+	int ObjectBase::AnimationInterval() { 
+		return GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first); 
+	}
+
+	int ObjectBase::AnimationNumber() {
+		// グラフィックが切り替わる猶予フレームを算出
+		auto interval = AnimationInterval();
+		// 何番目のアニメーションが呼び出されているか
+		return _aCount / interval % graph::ResourceServer::GetAllNum(_divKey.first);
+	}
+
+	bool ObjectBase::IsAnimationMax() {
+		// 現在の描画は最後かどうか？
+		bool isMax = AnimationNumber() == graph::ResourceServer::GetAllNum(_divKey.first) - 1;
+		return isMax;
+	}
+
 	bool ObjectBase::GraphResearch(int* gh) {
 		// フラグがオンの時、描画するグラフィックを切り替える
 		if (_changeGraph) {
@@ -72,10 +89,9 @@ namespace inr {
 			*gh = graph::ResourceServer::GetHandles(_divKey.first, 0);	// 最初の要素を取得
 			return true;
 		}
-		// グラフィックが切り替わる猶予フレームを算出
-		auto interval = GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first);
+		auto interval = AnimationInterval();
 		// 何番目のアニメーションが呼び出されているか
-		auto no = _aCount / interval % graph::ResourceServer::GetAllNum(_divKey.first);
+		auto no = AnimationNumber();
 		// グラフィックハンドルを読み込む
 		*gh = graph::ResourceServer::GetHandles(_divKey.first, no);
 		return false;

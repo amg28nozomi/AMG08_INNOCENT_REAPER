@@ -97,8 +97,7 @@ namespace inr {
 		_moveVector.GetPX() = 0;
 
 		// アニメーションが終わっていない場合はカウントを増やす
-		if(_sState == SoulState::EMPTY && _aCount / (GetSize(_divKey.first) / graph::ResourceServer::GetAllNum(_divKey.first)) 
-			% graph::ResourceServer::GetAllNum(_divKey.first) == graph::ResourceServer::GetAllNum(_divKey.first) - 1){ _drawStop = true; }
+		if(_sState == SoulState::EMPTY && IsAnimationMax() == true){ _drawStop = true; }
 		else if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		else { _aCount = 0; }// カウンター初期化
 
