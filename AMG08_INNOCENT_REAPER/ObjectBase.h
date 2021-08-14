@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <unordered_map>
 #include <DxLib.h>
 #include "Collision.h"
@@ -25,7 +24,7 @@ namespace inr {
 		friend class ObjectServer;
 	protected:
 		enum class ObjectType {
-			OBJECT_BASE, PLAYER, ENEMY, SOUL
+			OBJECT_BASE, PLAYER, ENEMY, SOUL, GIMMICK
 		};
 		Game& _game;
 		ObjectType _type;
@@ -44,7 +43,7 @@ namespace inr {
 
 		virtual bool GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
 		virtual int GetSize(const std::string& key);	// アニメーションの再生フレーム
-		virtual void AnimationCount();
+		virtual void AnimationCount();	// アニメーションカウンタの増減
 		int AnimationInterval();	// アニメーションの描画間隔
 		int AnimationNumber();	// 現在の描画番号を取得
 		bool IsAnimationMax();	// アニメーションは描画し終えたか？
@@ -69,6 +68,7 @@ namespace inr {
 		inline bool GetDirection() { return _direction; }
 		inline ObjectType GetType() { return _type; }
 		inline Vector2 GetPosition() { return _position; }
+		inline virtual Vector2 GetMoveVector() { return Vector2(); }	// 移動ベクトルのゲッター
 		inline AABB& GetMainCollision() { return _mainCollision; }
 
 		using boxs = std::unordered_map<std::string, AABB>;

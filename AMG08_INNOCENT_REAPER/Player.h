@@ -32,6 +32,8 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
+		inline Vector2 GetMoveVector() override{ return _moveVector; }
+
 	private:
 		// ƒAƒNƒVƒ‡ƒ“‚Ìó‘Ô
 		enum class ActionState {

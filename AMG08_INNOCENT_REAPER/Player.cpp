@@ -115,6 +115,7 @@ namespace inr {
 
 	Player::~Player() {
 		_motionKey.clear();
+		_collisions.clear();
 	}
 
 	void Player::Init() {

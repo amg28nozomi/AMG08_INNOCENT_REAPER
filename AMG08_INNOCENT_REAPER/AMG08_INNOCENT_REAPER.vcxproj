@@ -157,6 +157,7 @@
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GimmickBase.cpp" />
     <ClCompile Include="MapChips.cpp" />
     <ClCompile Include="MapData.cpp" />
     <ClCompile Include="ModeBase.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GimmickBase.h" />
     <ClInclude Include="MapChips.h" />
     <ClInclude Include="MapData.h" />
     <ClInclude Include="ModeBase.h" />

@@ -78,6 +78,7 @@ namespace inr {
 		inline EnemyType GetEnemyType() { return _eType; }
 		inline ActionState GetActionState() { return _aState; }
 		inline SoulState GetSoulState() { return _sState; }
+		inline Vector2 GetMoveVector() override { return _moveVector; }
 
 		// virtual void Process() override;
 		// virtual void Draw() override;
