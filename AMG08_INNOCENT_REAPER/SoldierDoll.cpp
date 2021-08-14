@@ -213,19 +213,18 @@ namespace inr {
 		return false;
 	}
 
-	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision) {
+	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		// Œ»İ‚Ì‹}Š‚ª‚ ‚éÀ•W‚ğZo
 		auto vitalPart = VitalPart(_mainCollision);
 		// °‚Í’D‚í‚ê‚é‚©H
 		if (ckey == PKEY_ROB) {
 			if (_sState != SoulState::EMPTY) {
-				if (vitalPart.HitCheck(acollision)) {
+				if (_direction != direction && vitalPart.HitCheck(acollision)) {
 					// °‚ğ’D‚í‚ê‚é
 					_divKey.first = enemy::SOLDIER_EMPTY;
 					_aState = ActionState::EMPTY;
 					_sState = SoulState::EMPTY;
 					_changeGraph = true;
-					_aCount = 0;
 				}
 			}
 		}

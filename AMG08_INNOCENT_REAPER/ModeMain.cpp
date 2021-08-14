@@ -43,7 +43,7 @@ namespace inr {
 	void ModeMain::Process() {
 		++_modeFrame;
 		// ワールド座標更新
-		_worldPosition = _game.GetObjectServer()->GetPlayer().GetPosition();
+		// _worldPosition = _game.GetObjectServer()->GetPlayer().GetPosition();
 
 		_bg->Process();
 		_game.GetMapChips()->Process();

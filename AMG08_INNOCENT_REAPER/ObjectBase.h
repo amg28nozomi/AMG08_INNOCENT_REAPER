@@ -63,7 +63,7 @@ namespace inr {
 		virtual void Process();		// 更新
 		virtual void Draw();		// 描画
 
-		virtual void CollisionHit(std::string ckey, Collision acollision);	// 各種衝突判定
+		virtual void CollisionHit(std::string ckey, Collision acollision, bool direction);	// 各種衝突判定
 
 		inline bool GetDirection() { return _direction; }
 		inline ObjectType GetType() { return _type; }

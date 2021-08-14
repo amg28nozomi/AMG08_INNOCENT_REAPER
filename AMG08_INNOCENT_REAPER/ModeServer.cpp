@@ -28,7 +28,7 @@ namespace inr {
 		_modes.emplace(mode::MAIN, std::make_unique<ModeMain>(_game.GetGame()));
 		
 		// 検索キーをTitleModeに設定
-		_modeKey = mode::MAIN;
+		_modeKey = mode::TITLE;
 		_ChangeKey = MODE_NULL;
 		ModeInit();
 	}
@@ -40,6 +40,8 @@ namespace inr {
 			ModeInit();
 			// 更新が入っている場合は実行用キーを更新
 			_modeKey = _ChangeKey;
+			// 次のモードを初期化
+			ModeInit();
 			// 更新用キーを初期化
 			_ChangeKey = MODE_NULL;
 		}

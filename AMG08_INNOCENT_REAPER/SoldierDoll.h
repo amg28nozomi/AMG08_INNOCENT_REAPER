@@ -30,7 +30,7 @@ namespace inr {
 
 		// Š±Â‰Â”\”ÍˆÍ‚ÌZo
 		AABB VitalPart(Collision& col);
-		void CollisionHit(const std::string ckey, Collision acollision) override;
+		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	};
 }
 

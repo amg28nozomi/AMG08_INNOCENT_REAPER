@@ -1,7 +1,10 @@
 #pragma once
 #include "ModeBase.h"
+#include <memory>
 
 namespace inr {
+
+	class TitleLogo;
 
 	class ModeTitle : public ModeBase{
 	public:
@@ -13,6 +16,6 @@ namespace inr {
 		virtual void Draw();	// •`‰æ
 
 	private:
-
+		std::unique_ptr<TitleLogo> _titleLG;
 	};
 }

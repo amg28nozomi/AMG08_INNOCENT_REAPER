@@ -28,10 +28,6 @@ namespace inr {
 	constexpr auto PLAYER_WIDTH = 60;
 	constexpr auto PLAYER_HIGHT = 100;
 
-	constexpr auto BACK_GROUND = "backP";
-	constexpr auto BACK_GROUND_W = 1920;
-	constexpr auto BACK_GROUND_H = 2160;
-
 	namespace key {
 		constexpr auto SOUND_NUM = "num";
 

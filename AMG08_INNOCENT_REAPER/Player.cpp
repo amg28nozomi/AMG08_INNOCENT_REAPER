@@ -103,6 +103,7 @@ namespace inr {
 		_sounds = 0;
 		_direction = false;
 		_changeGraph = true;
+		_input = true;
 		_jumpPower = 0;
 		_position = { START_POSITION_X, START_POSITION_Y};
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
@@ -164,7 +165,7 @@ namespace inr {
 		if (cBox != _collisions.end()) {
 			for (auto&& obj : objs) {
 				if (obj->GetType() != ObjectType::ENEMY) continue;
-				obj->CollisionHit(_divKey.first, cBox->second);
+				obj->CollisionHit(_divKey.first, cBox->second, _direction);
 			}
 		}
 
@@ -213,6 +214,40 @@ namespace inr {
 		AnimationCount();
 	}
 
+	void Player::AnimationChange() {
+		// 各種モーションの切り替え
+		switch (_aState) {
+		// ジャンプ時
+		case ActionState::JUMP:
+			// 加速値がプラスの場合
+			if (0 <= _gravity) {
+				_changeGraph = true;
+				_aState = ActionState::FALL;
+				_divKey.first = PKEY_FALL;
+			}
+			return;
+		// 落下時
+		case ActionState::FALL:
+			// 立っていてかつ、描画更新フラグがオフの場合
+			if (_stand && _changeGraph != true) {
+				// 着地音を鳴らす
+				auto land = SoundResearch(key::SOUND_PLAYER_FALL);
+				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+				PlaySoundMem(land, soundType);
+				_aState = ActionState::IDOL;
+				_divKey.first = PKEY_IDOL;
+				_changeGraph = true;
+			}
+			return;
+		// 奪うアクション時
+		case ActionState::ROB:
+			// 
+
+		default:
+			return;
+		}
+	}
+
 	bool Player::Action(int key) {
 		// 前フレームの情報
 		auto beforeState = _aState;
@@ -246,43 +281,22 @@ namespace inr {
 			}
 		}
 		// アイドル状態以外で、アニメーションが終わってない場合
-
-		if(_input == false){
-			if (_aState != ActionState::IDOL && _stand && _changeGraph != true) {
-				if (_aState == ActionState::FALL) {
-					auto sound1 = SoundResearch(key::SOUND_PLAYER_FALL);
-					auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-					PlaySoundMem(sound1, soundType);
+		AnimationChange();
+		
+				/*if (!_speed && _aCount == 0) {
 					_aState = ActionState::IDOL;
 					_divKey.first = PKEY_IDOL;
-					_aCount = 0;
-				}
-				if (!_speed && _aCount == 0) {
-					_aState = ActionState::IDOL;
-					_divKey.first = PKEY_IDOL;
-				}
-			}
-			// 
-			if (_aState == ActionState::JUMP) {
-				if (0 <= _gravity) {
-					_changeGraph = true;
-					_aState = ActionState::FALL;
-					_divKey.first = PKEY_FALL;
+				}*/
 
-				}
-			}
-		}
 		return false;
 	}
 
 	void Player::Move(int lever) {
 		// 入力可能か？
-		if (_input != true) {
+		if (_input == true) {
 			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
-			if (_input == false) {
 				if (lever < -10) _direction = PL_LEFT;
 				else if (10 < lever) _direction = PL_RIGHT;
-			}
 
 			if (_aState == ActionState::IDOL || _aState == ActionState::MOVE) {
 				// 入力情報がある場合
@@ -332,7 +346,8 @@ namespace inr {
 	}
 
 	void Player::InputDash(double x) {
-		if (!_dashInterval) {
+		// 
+		if (_input == true && !_dashInterval) {
 			// ダッシュ状態ではない場合、各種初期化処理を実行
 			if (_aState != ActionState::DASH) {
 				_aState = ActionState::DASH;
@@ -342,7 +357,7 @@ namespace inr {
 				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
 				(_direction == PL_LEFT) ? _lastX = x - DASH_MAX : _lastX = x + DASH_MAX;
 				_changeGraph = true;
-				_input = true;	// 他アクションの入力を停止する
+				_input = false;	// 他アクションの入力を停止する
 			}
 		}
 	}
@@ -352,41 +367,43 @@ namespace inr {
 		// インターバルがある場合は減らす
 		if (0 < _dashInterval) --_dashInterval;
 		// ダッシュ状態ではない場合、処理を中断
-		if (_input != true) return;
+		if (_input == true) return;
 
-		double dashVec;	// 移動ベクトル
+		if (_aState == ActionState::DASH) {
+			double dashVec;	// 移動ベクトル
 		// 向いている向きに応じて代入するベクトルを切り替え
-		(_direction == PL_LEFT) ? dashVec = -DASH_VEC : dashVec = DASH_VEC;
-		_moveVector.GetPX() = dashVec;
+			(_direction == PL_LEFT) ? dashVec = -DASH_VEC : dashVec = DASH_VEC;
+			_moveVector.GetPX() = dashVec;
 
-		auto nextPos = _position.GetX() + dashVec;	// 移動後の座標を取得
-		_gravity = 0;	// ダッシュ中は重力処理無効
-		bool moved;
-		(_direction == PL_LEFT) ? moved = nextPos - _lastX <= 0 : moved = _lastX - nextPos <= 0;
+			auto nextPos = _position.GetX() + dashVec;	// 移動後の座標を取得
+			_gravity = 0;	// ダッシュ中は重力処理無効
+			bool moved;
+			(_direction == PL_LEFT) ? moved = nextPos - _lastX <= 0 : moved = _lastX - nextPos <= 0;
 
-		// ダッシュ処理は完了したかどうか？
-		if (moved) {
-			_input = false;
-			_dashInterval = DASH_INTERVAL;
-			_changeGraph = true;
-			// 立っているかどうかで次のモーションを判定
-			if (_stand) {
-				_aState = ActionState::IDOL;
-				_divKey.first = PKEY_IDOL;
-				return;
-			} else {
-				_aState = ActionState::FALL;
-				_divKey.first = PKEY_FALL;
+			// ダッシュ処理は完了したかどうか？
+			if (moved) {
+				_input = true;
+				_dashInterval = DASH_INTERVAL;
+				_changeGraph = true;
+				// 立っているかどうかで次のモーションを判定
+				if (_stand) {
+					_aState = ActionState::IDOL;
+					_divKey.first = PKEY_IDOL;
+					return;
+				}
+				else {
+					_aState = ActionState::FALL;
+					_divKey.first = PKEY_FALL;
+				}
 			}
 		}
-
 	}
 
 	void Player::Jump() {
 		// 落下状態ではないとき
 		if (_stand) {
 			// 入力を受け付けているか？
-			if (_input != true) {
+			if (_input == true) {
 				auto pressKey = _game.GetKey();
 				if (pressKey & PAD_INPUT_3) {
 					// 溜めカウンタを増やす
@@ -418,7 +435,7 @@ namespace inr {
 	}
 
 	void Player::Rob(double x, double y) {
-		if (_input != true) {
+		if (_input == true) {
 			_aState = ActionState::ROB;
 			// キー情報が違う時、キー情報を更新
 			if (_divKey.first != PKEY_ROB) {
@@ -456,14 +473,14 @@ namespace inr {
 				it->second.GetbDrawFlg() = true;
 
 			}
-			_aCount = 0;
 			_changeGraph = true;	// 状態遷移フラグオン
+			_input = false; // 入力を受け付けなくする
 		}
 	}
 
 	void Player::Give(double x, double y) {
 
-		if (_input != true) {
+		if (_input == true) {
 			_aState = ActionState::GIVE;
 			if (_divKey.first != PKEY_GIVE) {
 				_divKey.first = PKEY_GIVE;
@@ -475,7 +492,6 @@ namespace inr {
 				it->second.GetbDrawFlg() = true;
 
 			}
-			_aCount = 0;
 			_changeGraph = true;	// 状態遷移フラグオン
 		}
 	}

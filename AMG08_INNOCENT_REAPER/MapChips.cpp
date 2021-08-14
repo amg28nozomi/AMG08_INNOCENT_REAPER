@@ -158,12 +158,6 @@ namespace inr {
 			return true;
 		}
 
-		auto cwindowW = _worldPosition.GetX() - HALF_WINDOW_W;
-		auto cwindowH = _worldPosition.GetY() - WINDOW_H; //- _mapSize.second * _chipSize.second;	// ‰æ–Ê“à‚Éû‚Ü‚Á‚Ä‚¢‚é‚©H
-
-		auto mapY = -_mapSize.second * _chipSize.second;
-
-
 		//// 0‚æ‚è¬‚³‚¢ê‡‚ÍC³
 		//if (cwindowW < 0 ) return false;
 

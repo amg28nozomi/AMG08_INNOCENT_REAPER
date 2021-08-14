@@ -14,6 +14,7 @@
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
 #include "Soul.h"
+#include "Image.h"
 
 namespace inr {
 
@@ -38,7 +39,6 @@ namespace inr {
 		{PKEY_JUMP, {"Resource/Player/r_jump.png", 7, 1, 6, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_FALL, {"Resource/Player/r_fall.png", 7, 2, 10, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_HIT, {"Resource/Player/r_hit.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{BACK_GROUND, {"Resource/stage01ver2.png", 1, 1, 1, BACK_GROUND_W, BACK_GROUND_H}},
 	};
 
 	// ソルジャードールの各種モーション
@@ -63,6 +63,12 @@ namespace inr {
 		{ soul::B_FLOAT, {"Resource/Soul/b_soul.png", 4, 1, 4, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 		{ soul::RED_SOUL, {"Resource/Soul/red_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 		{ soul::R_FLOAT, {"Resource/Soul/r_soul.png", 5, 1, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+	};
+
+	// 背景等の一枚絵
+	const graph::ResourceServer::DivGraphMap images{
+		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
+		{ BACK_GROUND, {"Resource/stage01ver2.png", 1, 1, 1, BACK_GROUND_W, BACK_GROUND_H}},
 	};
 
 	const se::SoundServer::SoundMap ses{
@@ -96,6 +102,7 @@ namespace inr {
 		graph::ResourceServer::LoadGraphList(div);
 		graph::ResourceServer::LoadGraphList(soldierDoll);
 		graph::ResourceServer::LoadGraphList(souls);
+		graph::ResourceServer::LoadGraphList(images);
 		se::SoundServer::Init();
 		se::SoundServer::LoadSoundMap(ses);
 

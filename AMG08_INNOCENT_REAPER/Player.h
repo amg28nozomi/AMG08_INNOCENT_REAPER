@@ -53,9 +53,11 @@ namespace inr {
 		int _aFrame;	// アクション実行のためのフレーム
 		int _sounds;
 
+		int _hitCount;	// 判定フレーム(アクション)
+
 		int _dashInterval;	// ダッシュの再使用間隔
 		double _jumpPower;	// ジャンプ溜め
-		bool _input;	//ダッシュしているかどうか（trueの場合は他アクションを実行できない）
+		bool _input;	// 入力処理を受け付けるか
 		// std::string _divKey;	// 読み込み用識別キー
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
 
@@ -79,6 +81,8 @@ namespace inr {
 		void ChangeSoul(); // 魂の切り替え
 		void Damage(); // ダメージ(ノックバック)
 		bool Dead(); // 死亡判定
+
+		void AnimationChange();
 
 		AABB GetAABB();
 
