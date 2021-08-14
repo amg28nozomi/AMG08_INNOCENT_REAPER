@@ -95,6 +95,11 @@ namespace inr {
 		return isMax;
 	}
 
+	bool ObjectBase::AnimationCountMax() {
+		bool countMax = _aCount == GetSize(_divKey.first) - 1;
+		return countMax;
+	}
+
 	bool ObjectBase::GraphResearch(int* gh) {
 		// フラグがオンの時、描画するグラフィックを切り替える
 		if (_changeGraph) {

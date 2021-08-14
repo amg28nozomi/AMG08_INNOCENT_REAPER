@@ -27,7 +27,7 @@ namespace inr {
 		constexpr auto ESCAPE_VECTOR = 120;	// 1•bŠÔ(60frame)‚ÅˆÚ“®‚·‚é‹——£
 	}
 
-	class Soul; // ‚Ü‚¾ì‚Á‚Ä‚È‚¢‚æ
+	class Soul;
 
 	class EnemyBase : public ObjectBase {
 	protected:

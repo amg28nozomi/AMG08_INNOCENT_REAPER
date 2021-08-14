@@ -47,6 +47,7 @@ namespace inr {
 		int AnimationInterval();	// アニメーションの描画間隔
 		int AnimationNumber();	// 現在の描画番号を取得
 		bool IsAnimationMax();	// アニメーションは描画し終えたか？
+		bool AnimationCountMax();
 
 		virtual int SoundResearch(const std::string& key);
 		virtual int GetSoundFrame(const std::string& key);

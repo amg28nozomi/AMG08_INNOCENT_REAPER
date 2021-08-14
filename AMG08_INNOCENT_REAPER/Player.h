@@ -50,6 +50,7 @@ namespace inr {
 
 		double _lastX;	// ダッシュの最大移動距離(座標)
 		
+		int _judegFrame;	// 判定フレーム数
 		int _aFrame;	// アクション実行のためのフレーム
 		int _sounds;
 
@@ -64,6 +65,7 @@ namespace inr {
 		// std::pair<double, double> _moveVector;	// 移動距離(左辺:x, 右辺:y)
 
 		void AnimationInit();
+		void ChangeIdol();	// アイドル状態への移行
 
 		void PositionUpdate();
 		// Action処理まとめ
@@ -82,7 +84,7 @@ namespace inr {
 		void Damage(); // ダメージ(ノックバック)
 		bool Dead(); // 死亡判定
 
-		void AnimationChange();
+		void StateUpdate();	// 状態遷移およびその他処理
 
 		AABB GetAABB();
 

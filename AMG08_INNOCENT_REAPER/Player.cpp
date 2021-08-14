@@ -44,6 +44,9 @@ namespace {
 	constexpr auto ROB_WIDTH2 = -20;
 	constexpr auto ROB_HEIGHT1 = -20;
 	constexpr auto ROB_HEIGHT2 = 60;
+	// 奪うアクションの判定フレーム数
+	constexpr auto JUDGE_MIN = -1;
+	constexpr auto ROB_JUDGEMENT = 8 * 4;// judgement
 
 	// 与えるアクションの当たり判定
 	constexpr auto GIVE_WIDTH1 = 60;
@@ -101,6 +104,9 @@ namespace inr {
 		_aCount = 0;
 		_aFrame = 0;
 		_sounds = 0;
+
+		_judegFrame = 0;
+
 		_direction = false;
 		_changeGraph = true;
 		_input = true;
@@ -214,8 +220,8 @@ namespace inr {
 		AnimationCount();
 	}
 
-	void Player::AnimationChange() {
-		// 各種モーションの切り替え
+	void Player::StateUpdate() {
+		// 各種モーションに合わせた修正
 		switch (_aState) {
 		// ジャンプ時
 		case ActionState::JUMP:
@@ -241,8 +247,21 @@ namespace inr {
 			return;
 		// 奪うアクション時
 		case ActionState::ROB:
-			// 
-
+			// 描画更新がある場合は処理から抜ける
+			if (_changeGraph == true) break;
+			if(0 <= _judegFrame) --_judegFrame;	// カウンタ減少
+			// 判定カウンタはゼロになったか？
+			if (_judegFrame == 0) {
+				auto it = _collisions.find(_divKey.first);
+				// 当たり判定を止める
+				it->second.GetCollisionFlgB() = false;
+			} 
+			// アニメーションカウンタはマックスになったか？
+			if (AnimationCountMax()) {
+				ChangeIdol();
+				_input = true;
+			}
+			break;
 		default:
 			return;
 		}
@@ -281,7 +300,7 @@ namespace inr {
 			}
 		}
 		// アイドル状態以外で、アニメーションが終わってない場合
-		AnimationChange();
+		StateUpdate();
 		
 				/*if (!_speed && _aCount == 0) {
 					_aState = ActionState::IDOL;
@@ -322,9 +341,7 @@ namespace inr {
 					// 立っていてかつ入力がない場合
 				}
 				else if (_stand && _aState == ActionState::MOVE) {
-					_changeGraph = true;
-					_aState = ActionState::IDOL;
-					_divKey.first = PKEY_IDOL;
+					ChangeIdol();
 					_speed = 0;
 					return;
 				}
@@ -387,8 +404,7 @@ namespace inr {
 				_changeGraph = true;
 				// 立っているかどうかで次のモーションを判定
 				if (_stand) {
-					_aState = ActionState::IDOL;
-					_divKey.first = PKEY_IDOL;
+					ChangeIdol();
 					return;
 				}
 				else {
@@ -475,6 +491,7 @@ namespace inr {
 			}
 			_changeGraph = true;	// 状態遷移フラグオン
 			_input = false; // 入力を受け付けなくする
+			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
 		}
 	}
 
@@ -547,6 +564,12 @@ namespace inr {
 		} else {
 			_mainCollision.Update(_position, _direction);
 		}
+	}
+
+	void Player::ChangeIdol() {
+		_aState = ActionState::IDOL;
+		_divKey.first = PKEY_IDOL;
+		_changeGraph = true;
 	}
 
 
