@@ -16,6 +16,13 @@ namespace inr {
 	}
 
 	void GimmickBase::Draw() {
+		Vector2 xy = _position;
+		_game.GetMapChips()->Clamp(xy);
+		auto x = xy.IntX();
+		auto y = xy.IntY();
 
+		int graph;	
+		GraphResearch(&graph);
+		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 	}
 }

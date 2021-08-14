@@ -40,6 +40,7 @@ namespace inr {
 		graph::ResourceServer::LoadGraphList(mapchip);
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
+		_worldLast = _worldPosition;
 	}
 
 	MapChips::~MapChips() {
@@ -203,7 +204,22 @@ namespace inr {
 		return false;
 	}
 
+	bool MapChips::IsScroll() {
+		auto mapW = _mapSize.first;
+		auto mapH = _mapSize.second;
+		auto chipW = _chipSize.first;
+		auto chipH = _chipSize.second;
+
+		if (HALF_WINDOW_W < _worldPosition.GetX()) { return true; }
+		else if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { return true; }
+		return false;
+		// if (mapH * chipH - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapH * chipH - HALF_WINDOW_H; }
+	}
+
 	void MapChips::WorldUpdate(Vector2 pos) {
+		// 前フレームの座標として登録
+		_worldLast = _worldPosition;
+
 		_worldPosition.GetPX() = pos.GetX();
 		_worldPosition.GetPY() = pos.GetY();
 		WorldClanp();

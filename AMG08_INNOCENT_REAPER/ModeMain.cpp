@@ -33,7 +33,7 @@ namespace inr {
 			_game.GetObjectServer()->Add(std::move(enemy));
 			auto soul_r = std::make_unique<Soul>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(soul_r));
-			_bg = std::make_unique<BackGround>();
+			_bg = std::make_unique<BackGround>(_game.GetGame());
 			TimeClear();
 		}
 
@@ -45,6 +45,7 @@ namespace inr {
 		// ワールド座標更新
 		_worldPosition = _game.GetObjectServer()->GetPlayer().GetPosition();
 
+		_bg->Process();
 		_game.GetMapChips()->Process();
 		_game.GetObjectServer()->Process();
 	}

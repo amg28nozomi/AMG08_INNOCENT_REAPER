@@ -27,6 +27,7 @@ namespace inr {
 		bool IsHit(AABB box, double g);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
 		bool IsHit(AABB box, Vector2& pos, Vector2& move);	// 押し出し処理用
 		bool Clamp(Vector2& pos);	// ワールド座標をスクリーン座標に修正
+		bool IsScroll();	// スクロールしているか？
 
 		// ゲッター
 		inline std::pair<int, int> GetMapSize() { return _mapSize; }
@@ -39,6 +40,8 @@ namespace inr {
 		}
 		// ワールド座標の取得
 		inline Vector2 GetWorldPosition() { return _worldPosition; }
+		// ワールド座標の移動量を取得
+		inline Vector2 BeforeWorldPos() { return _worldPosition - _worldLast; }
 		void WorldUpdate(Vector2 pos);	// ワールド座標の更新
 
 	private:
@@ -53,6 +56,8 @@ namespace inr {
 		std::string _fileChips;	// チップデータのファイル名
 
 		Vector2 _worldPosition;	// ワールド座標
+		Vector2 _worldLast;	// 前フレームのワールド座標
+
 		std::vector<int> _mapData;	// マップチップの配置情報
 		std::vector<int> _mapChipsType;	// 当たり判定のあるマップチップ(識別番号)登録用
 

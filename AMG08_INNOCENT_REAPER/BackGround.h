@@ -2,13 +2,19 @@
 #include "Vector2.h"
 
 namespace inr {
+	class Game;
+
 	class BackGround {
 	public:
-		BackGround();
-		// void Process(); // Process
+		BackGround(Game& game);
+		
+		void Process();
 		void Draw();
 	private:
-		Vector2 _position;	// ï`âÊç¿ïW
+		Vector2 _position1;	// ï`âÊç¿ïW
+		Vector2 _position2;
+
+		Game& _game;
 	};
 }
 
