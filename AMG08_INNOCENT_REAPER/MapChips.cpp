@@ -19,6 +19,25 @@ namespace {
 	constexpr auto THIRD = 2;
 
 	constexpr auto STAGE_1 = "stage_1";
+
+	constexpr auto CHIP_RIGHT1 = 30;
+	constexpr auto CHIP_RIGHT2 = 40;
+	constexpr auto CHIP_LEFT1 = 0;
+	constexpr auto CHIP_LEFT2 = 10;
+
+	constexpr auto CHIP_UP1 = 0;
+	constexpr auto CHIP_UP2 = 40;
+	constexpr auto CHIP_UP3 = 0;
+	constexpr auto CHIP_UP4 = 10;
+
+	// 端
+	constexpr auto CHIP_TIP1 = 30;
+	constexpr auto CHIP_TIP2 = 40;
+	constexpr auto CHIP_TIP3 = 0;
+	constexpr auto CHIP_TIP4 = 10;
+
+	constexpr auto CHIP_TIP5 = 0;
+	constexpr auto CHIP_TIP6 = 10;
 }
 
 namespace inr {
@@ -47,8 +66,26 @@ namespace inr {
 		// 当たり判定を修正するチップ番号を登録
 		ChipHitCheck::ChipsMap stagechip1{
 			// 左辺:修正するチップ番号、右辺:修正した当たり判定
-			{ 9, {30, 40}},
-			{ 17, {30, 40}},
+			{  9, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 17, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 25, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 33, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 41, {CHIP_RIGHT1, CHIP_RIGHT2}},
+
+			{ 16, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 24, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 32, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 40, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 48, {CHIP_LEFT1, CHIP_LEFT2}},
+
+			{ 49, {CHIP_TIP1, CHIP_TIP2, CHIP_TIP5, CHIP_TIP6}},
+			{ 50, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 51, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 52, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 53, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 54, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 55, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
 		};
 		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
 		_chipCheck->ChangeStageKey(STAGE_1);
@@ -98,8 +135,8 @@ namespace inr {
 		int startx = minx / _chipSize.first;
 		int endx = maxx / _chipSize.first;
 
-		if (starty < 0) startx = 0;
-		if (_mapSize.first < endy) endy = _mapSize.first;
+		if (startx < 0) startx = 0;
+		if (_mapSize.first < endx) endx = _mapSize.first;
 		if (starty < 0) starty = 0;
 		if (_mapSize.second < endy) endy = _mapSize.second;
 
@@ -107,28 +144,26 @@ namespace inr {
 			for (y = starty; y < endy; ++y) {
 				for (x = startx; x < endx; ++x) {
 
-		/*for (layer = 0; layer < _mapSizeLayer; ++layer) {
-			for (y = 0; y < _mapSize.second; ++y) {
-				for (x = 0; x < _mapSize.first; ++x) {*/
-
 					int layerStart = _mapSize.first * _mapSize.second * layer;
 					//int layerStart = endx * endy * layer;
 					// int index = y * endy + x;
 					int index = y * _mapSize.first + x;
+					// int index = y * endx + x;
 					int no = _mapData[layerStart + index];
 
 					// 当たり判定を取得
 					auto c = _chipCheck->ChipCollision(no);
-					auto minx = c.GetMin().IntX();
-					auto maxx = c.GetMax().IntX();
-					auto miny = c.GetMin().IntY();
-					auto maxy = c.GetMax().IntX();
+					auto minX = c.GetMin().IntX();
+					auto maxX = c.GetMax().IntX();
+					auto minY = c.GetMin().IntY();
+					auto maxY = c.GetMax().IntY();
 
 					int posX = x * _chipSize.first - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
 					int posY = y * _chipSize.second - (_worldPosition.IntY() - HALF_WINDOW_H);
 					--no;
 
 					if (0 <= no) {
+
 						auto gh = graph::ResourceServer::GetHandles(CHIP_KEY, no);
 						DrawGraph(posX, posY, gh, TRUE);
 
@@ -136,7 +171,7 @@ namespace inr {
 						// デバッグ用：当たり判定の描画
 						if (CheckHit(x, y)) {
 							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX + minx , posY + miny, posX + maxx, posY + maxy, GetColor(255, 0, 0), TRUE);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
 							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
 							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 						}
@@ -437,7 +472,7 @@ namespace inr {
 					auto minX = c.GetMin().IntX();
 					auto maxX = c.GetMax().IntX();
 					auto minY = c.GetMin().IntY();
-					auto maxY = c.GetMax().IntX();
+					auto maxY = c.GetMax().IntY();
 
 					// 新規追加
 					Vector2 chipMin = { static_cast<double>(x * _chipSize.first + minX), static_cast<double>(y * _chipSize.second + minY) };
