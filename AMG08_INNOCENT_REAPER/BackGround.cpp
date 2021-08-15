@@ -29,10 +29,10 @@ namespace inr {
 	void BackGround::Process() {
 		// ワールド座標の移動量を取得
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
-		auto worldY = _game.GetMapChips()->BeforeWorldPos().IntY();
+		auto moveY = _game.GetMapChips()->BeforeWorldPos().IntY() * -1;
 
-		// ワールド座標はスクロール開始地点を超えているか？
-		if (_game.GetMapChips()->IsScroll() == true) {
+		// ワールドX座標はスクロール開始地点を超えているか？
+		if (_game.GetMapChips()->IsScrollX() == true) {
 			// 移動量分だけ座標をずらす
 			_pos.GetPX() += moveX * BACKGROUND_SPEED;
 			_pos2.GetPX() += moveX * BACKGROUND_SPEED;
@@ -56,6 +56,18 @@ namespace inr {
 				_pos2.GetPX() = -HALF_WINDOW_W + vec; 
 			}
 		}
+
+			_pos.GetPY() += moveY * BACKGROUND_SPEED;
+			_pos2.GetPY() += moveY * BACKGROUND_SPEED;
+
+			if (_pos.IntY() < 0) {
+				_pos.GetPY() = 0;
+				_pos2.GetPY() = _pos.GetY();
+			}
+			else if (WINDOW_H < _pos.IntY()) {
+				_pos.GetPY() = WINDOW_H;
+				_pos2.GetPY() = WINDOW_H;
+			}
 	}
 
 	void BackGround::Draw() {

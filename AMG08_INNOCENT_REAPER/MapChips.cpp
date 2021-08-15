@@ -198,16 +198,27 @@ namespace inr {
 		return false;
 	}
 
-	bool MapChips::IsScroll() {
+	bool MapChips::IsScrollX() {
 		auto mapW = _mapSize.first;
-		auto mapH = _mapSize.second;
 		auto chipW = _chipSize.first;
-		auto chipH = _chipSize.second;
+
+		auto scrX = mapW * chipW;
 
 		if (HALF_WINDOW_W < _worldPosition.GetX()) { return true; }
-		else if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { return true; }
+		else if (scrX - HALF_WINDOW_W < _worldPosition.GetX()) { return true; }
 		return false;
 		// if (mapH * chipH - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapH * chipH - HALF_WINDOW_H; }
+	}
+
+	bool MapChips::IsScrollY() {
+		auto mapH = _mapSize.second;
+		auto chipH = _chipSize.second;
+		auto scrY = mapH * chipH;
+
+		// ワールドY座標はスクロール開始地点を超えているか？
+		if (HALF_WINDOW_H < _worldPosition.GetY()) { return true; }
+		else if (scrY - HALF_WINDOW_H < _worldPosition.GetY()) { return true; }
+		return false;
 	}
 
 	void MapChips::WorldUpdate(Vector2 pos) {
