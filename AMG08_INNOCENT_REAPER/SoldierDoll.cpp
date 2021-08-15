@@ -65,8 +65,8 @@ namespace inr {
 
 	void SoldierDoll::Init() {
 		// ÉÅÉCÉìÇÃìñÇΩÇËîªíËÇèâä˙âª
-		_mainCollision = { _position, SOLDIER_BOX_W, SOLDIER_BOX_W, SOLDIER_BOX_H1, SOLDIER_BOX_H2 };
-		_searchBox = { _position, SEARCH_X, SEARCH_X, SOLDIER_BOX_H1, SOLDIER_BOX_H2 };
+		_mainCollision = { _position, SOLDIER_BOX_W, SOLDIER_BOX_W, SOLDIER_BOX_H1, SOLDIER_BOX_H2, true };
+		_searchBox = { _position, SEARCH_X, SEARCH_X, SOLDIER_BOX_H1, SOLDIER_BOX_H2, true };
 
 		/*_searchBox = { { _mainCollision.GetMin().GetX() - SEARCH_X, _mainCollision.GetMin().GetY() - SEARCH_Y }, {
 						_mainCollision.GetMax().GetX() + SEARCH_X, _mainCollision.GetMax().GetY() + SEARCH_Y } };*/
@@ -242,6 +242,6 @@ namespace inr {
 			vitalMin.GetPX() = col.GetMax().GetX() - SOLDIER_VITAL;
 			vitalMax.GetPX() = col.GetMax().GetX();
 		}
-		return AABB(vitalMin, vitalMax);
+		return AABB(vitalMin, vitalMax, true);
 	}
 }

@@ -65,7 +65,7 @@ namespace inr {
 		// std::pair<double, double> _moveVector;	// 移動距離(左辺:x, 右辺:y)
 
 		void AnimationInit();
-		void ChangeIdol();	// アイドル状態への移行
+		void ChangeState(Player::ActionState nextState, std::string key);	// 状態遷移
 
 		void PositionUpdate();
 		// Action処理まとめ

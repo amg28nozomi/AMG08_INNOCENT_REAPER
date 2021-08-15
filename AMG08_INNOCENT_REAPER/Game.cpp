@@ -24,7 +24,7 @@ namespace inr {
 
 	constexpr auto PATH = "Resource/";
 	// constexpr auto CHIP_FILE = "platformer_simpleA";
-	constexpr auto CHIP_FILE = "stage01";
+	constexpr auto CHIP_FILE = "stage1";
 
 	
 	// constexpr auto CHIP_FILE = "stage01";

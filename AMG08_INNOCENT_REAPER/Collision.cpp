@@ -72,11 +72,14 @@ void Collision::Swap(Collision col){
 //}
 
 bool Collision::HitCheck(Collision collision) {
-	bool flg = maxV.GetX() < collision.minV.GetX() ||
-		collision.maxV.GetX() < minV.GetX() ||
-		maxV.GetY() < collision.minV.GetY() ||
-		collision.maxV.GetY() < minV.GetY();
-	return !flg;
+	if (_collisionFlg == true && collision._collisionFlg == true) {
+		bool flg = maxV.GetX() < collision.minV.GetX() ||
+			collision.maxV.GetX() < minV.GetX() ||
+			maxV.GetY() < collision.minV.GetY() ||
+			collision.maxV.GetY() < minV.GetY();
+		return !flg;
+	}
+	return false;	// 判定フラグがどちらか片方でもオフなら当たらない
 }
 
 bool Collision::SideCheck(Collision collision) {

@@ -53,6 +53,8 @@ namespace {
 	constexpr auto GIVE_WIDTH2 = -10;
 	constexpr auto GIVE_HEIGHT1 = -30;
 	constexpr auto GIVE_HEIGHT2 = 70;
+	// 与えるアクションの判定フレーム数
+	constexpr auto GIVE_JUDGEMENT = 10 * 4;
 
 	// ジャンプアクション
 	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
@@ -115,7 +117,7 @@ namespace inr {
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
 		_moveVector = { 0, 0 };
 		// _moveVector = std::make_pair(0, 0);
-		_mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX };
+		_mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX , true};
 		//(_position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2);
 		Init();
 	}
@@ -255,11 +257,32 @@ namespace inr {
 				auto it = _collisions.find(_divKey.first);
 				// 当たり判定を止める
 				it->second.GetCollisionFlgB() = false;
+#ifdef _DEBUG
+				it->second.GetbDrawFlg() = false;
+#endif
 			} 
 			// アニメーションカウンタはマックスになったか？
 			if (AnimationCountMax()) {
-				ChangeIdol();
-				_input = true;
+				ChangeState(ActionState::IDOL, PKEY_IDOL);
+				_input = true;	// 入力を受け付ける
+			}
+			break;
+		case ActionState::GIVE:
+			if (_changeGraph == true) break;
+			if (0 <= _judegFrame) --_judegFrame;	// カウンタ減少
+			// 判定カウンタはゼロになったか？
+			if (_judegFrame == 0) {
+				auto it = _collisions.find(_divKey.first);
+				// 当たり判定を止める
+				it->second.GetCollisionFlgB() = false;
+#ifdef _DEBUG
+				it->second.GetbDrawFlg() = false;
+#endif
+			}
+			// アニメーションカウンタはマックスになったか？
+			if (AnimationCountMax()) {
+				ChangeState(ActionState::IDOL, PKEY_IDOL);
+				_input = true;	// 入力を受け付ける
 			}
 			break;
 		default:
@@ -326,11 +349,6 @@ namespace inr {
 						_aState = ActionState::MOVE;
 						_divKey.first = PKEY_RUN;
 					}
-					// _direction = ((0 < lever) ? false : true);
-					/* _direction = ((0 < lever) ? true : false);
-					_speed = (lever * MAX_SPPED) / 1000;
-					Vector2 moveVector = { 1 * _speed, 0 * _speed };
-					_position = _position + moveVector; */
 					// SEの管理
 					if (_aCount % GetSoundFrame(_divKey.first) == 0) {
 						auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
@@ -341,29 +359,21 @@ namespace inr {
 					// 立っていてかつ入力がない場合
 				}
 				else if (_stand && _aState == ActionState::MOVE) {
-					ChangeIdol();
+					ChangeState(ActionState::IDOL, PKEY_IDOL);
 					_speed = 0;
 					return;
 				}
 			}
 			// 座標変更
 			_speed = (lever * MAX_SPPED) / 1000;
-			// 移動距離算出
-			/*double vectory = 0;
-			if (JUMP_Y < _moveVector.GetY()) {
-				_moveVector.second -= JUMP_Y;
-				vectory = -JUMP_Y;
-			}*/
-			// 単位ベクトル
+			// 移動ベクトル代入
 			_moveVector.GetPX() = 1.0 * _speed;
-			// Vector2 moveVector = { 1 * _speed, vectory };
-			// _position = _position + moveVector;
 			_speed = 0;
 		}
 	}
 
 	void Player::InputDash(double x) {
-		// 
+		// 入力可能状態かつ、インターバル中ではないか？
 		if (_input == true && !_dashInterval) {
 			// ダッシュ状態ではない場合、各種初期化処理を実行
 			if (_aState != ActionState::DASH) {
@@ -404,7 +414,7 @@ namespace inr {
 				_changeGraph = true;
 				// 立っているかどうかで次のモーションを判定
 				if (_stand) {
-					ChangeIdol();
+					ChangeState(ActionState::IDOL, PKEY_IDOL);
 					return;
 				}
 				else {
@@ -459,34 +469,13 @@ namespace inr {
 				// SE読み込み
 				auto sound1 = SoundResearch(key::SOUND_PLAYER_ROB);
 				PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
-#ifdef _DEBUG
-				// 当たり判定の設定
-				auto red = GetColor(255, 0, 0);
-#endif
-				// 当たり判定の設定（後程修正）
-				// 以下はno処理
-				//double minX, minY, maxX, maxY;
-				//if (_direction) {
-				//	// minX = minX - ROB_WIDTH;
-				//	minX = x + PLAYER_WIDTH / 2;
-				//	minY = y - PLAYER_HIGHT / 2;
-				//	// maxX = (x + PLAYER_WIDTH / 2) + ROB_WIDTH;
-				//	maxX = minX + ROB_WIDTH;
-				//	maxY = y + PLAYER_HIGHT / 2;
-				//}
-				//else {
-				//	minX = (x - PLAYER_WIDTH / 2) - ROB_WIDTH;
-				//	minY = y - PLAYER_HIGHT / 2;
-				//	maxX = minX + ROB_WIDTH;
-				//	maxY = y + PLAYER_HIGHT / 2;
-				//}
-
-				//Vector2 amin(minX, minY);
-				//Vector2 amax(maxX, maxY);
 
 				auto it = _collisions.find(PKEY_ROB);
 				// it->second.SetVector(amin, amax);
+				it->second.GetCollisionFlgB() = true;	// 判定オン
+#ifdef _DEBUG
 				it->second.GetbDrawFlg() = true;
+#endif
 
 			}
 			_changeGraph = true;	// 状態遷移フラグオン
@@ -506,10 +495,15 @@ namespace inr {
 				PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
 				auto it = _collisions.find(PKEY_GIVE);
+				it->second.GetCollisionFlgB() = true;	// 判定オン
+#ifdef _DEBUG
 				it->second.GetbDrawFlg() = true;
+#endif
 
 			}
 			_changeGraph = true;	// 状態遷移フラグオン
+			_input = false; // 入力を受け付けなくする
+			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
 		}
 	}
 
@@ -564,11 +558,13 @@ namespace inr {
 		} else {
 			_mainCollision.Update(_position, _direction);
 		}
+		// 移動ベクトル初期化
+		_moveVector = { 0, 0 };
 	}
 
-	void Player::ChangeIdol() {
-		_aState = ActionState::IDOL;
-		_divKey.first = PKEY_IDOL;
+	void Player::ChangeState(Player::ActionState nextState, std::string key) {
+		_aState = nextState;
+		_divKey.first = key;
 		_changeGraph = true;
 	}
 
@@ -578,17 +574,6 @@ namespace inr {
 	void Player::DebugInfo() {
 		DrawFormatString(0, 0, GetColor(255, 0, 255), "ActionStatet : %d\n", _aState);
 		DrawFormatString(0, 25, GetColor(255, 0, 255), "Animation : %d\n", _aCount);
-
-
-		/*auto minX = box.GetMin().IntX();
-		auto minY = box.GetMin().IntY();
-		auto maxX = box.GetMax().IntX();
-		auto maxY = box.GetMax().IntY();
-		auto boxColor = GetColor(255, 255, 255);
-
-		DrawBox(minX, minY, maxX, maxY, boxColor, FALSE);*/
-		// DrawBox(box.GetMin().IntX(), box.GetMin().IntY(), box.GetMax().IntX(), box.GetMax().IntX(),
-				// GetColor(255, 255, 255), FALSE);
 	}
 #endif
 }
