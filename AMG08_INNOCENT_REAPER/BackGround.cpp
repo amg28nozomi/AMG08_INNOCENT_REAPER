@@ -57,8 +57,8 @@ namespace inr {
 			}
 		}
 
-			_pos.GetPY() += moveY * BACKGROUND_SPEED;
-			_pos2.GetPY() += moveY * BACKGROUND_SPEED;
+		_pos.GetPY() += moveY * BACKGROUND_SPEED;
+		_pos2.GetPY() += moveY * BACKGROUND_SPEED;
 
 			if (_pos.IntY() < 0) {
 				_pos.GetPY() = 0;

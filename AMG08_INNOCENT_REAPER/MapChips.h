@@ -2,10 +2,12 @@
 #include <tuple>
 #include <string>
 #include <vector>
+#include <memory>
 #include <unordered_map>
 #include "ObjectBase.h"
 #include "MapData.h"
 #include "Vector2.h"
+#include "ChipHitCheck.h"
 
 namespace inr {
 
@@ -67,6 +69,7 @@ namespace inr {
 		int TiledJsonLoad(std::string fillPath, std::string strFillName);
 
 		MapList _maplist;
+		std::unique_ptr<ChipHitCheck> _chipCheck;
 
 
 		// デバッグ用

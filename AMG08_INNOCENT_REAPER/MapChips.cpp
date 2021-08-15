@@ -88,11 +88,11 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						/*if (CheckHit(x, y)) {
+						if (CheckHit(x, y)) {
 							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 							DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
 							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						}*/
+						}
 #endif
 					}
 				}
