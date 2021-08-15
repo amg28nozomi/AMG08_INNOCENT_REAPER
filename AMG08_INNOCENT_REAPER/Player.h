@@ -73,6 +73,7 @@ namespace inr {
 
 		// アクション入力処理
 		void InputDash(double x);
+		void InputJump();
 		
 		// 各種アクション
 		void Move(int lever); // 移動

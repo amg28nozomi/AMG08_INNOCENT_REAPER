@@ -210,6 +210,13 @@ namespace inr {
 	void Player::StateUpdate() {
 		// 各種モーションに合わせた修正
 		switch (_aState) {
+		// 移動時
+		case ActionState::MOVE:
+			if (!_stand) {
+				ChangeState(ActionState::FALL, PKEY_FALL);
+			}
+			
+			return;
 		// ジャンプ時
 		case ActionState::JUMP:
 			// 加速値がプラスの場合
@@ -222,14 +229,12 @@ namespace inr {
 		// 落下時
 		case ActionState::FALL:
 			// 立っていてかつ、描画更新フラグがオフの場合
-			if (_stand && _changeGraph != true) {
-				// 着地音を鳴らす
+			if (_stand) {
+				//// 着地音を鳴らす
+				ChangeState(ActionState::IDOL, PKEY_IDOL);
 				auto land = SoundResearch(key::SOUND_PLAYER_FALL);
 				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 				PlaySoundMem(land, soundType);
-				_aState = ActionState::IDOL;
-				_divKey.first = PKEY_IDOL;
-				_changeGraph = true;
 			}
 			return;
 		// 奪うアクション時
@@ -287,18 +292,19 @@ namespace inr {
 			switch (key) {
 			case PAD_INPUT_1:	// Xボタンが押された場合、「魂を奪う」
 				// 前フレームの状態と同じ場合は処理から抜ける
-				if (_aState == ActionState::ROB || _aState == ActionState::GIVE) break;
+				// if (_aState == ActionState::ROB || _aState == ActionState::GIVE) break;
 				Rob(x, y); //　奪うアクション実行
 				break;
 			case PAD_INPUT_2:	// Yボタンが押された場合、「魂を与える」
 				if (_aState == ActionState::GIVE || _aState == ActionState::ROB) break;
 				Give(x, y);		// 与えるアクション実行
 				break;
-			//case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
+			case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
+				InputJump();
 			//	// 
 			//	//if (_aState != ActionState::IDOL && _aState != ActionState::MOVE || _aState == ActionState::JUMP) break;
 			//	Jump();
-			//	break;
+				break;
 			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
 				break;
 			case PAD_INPUT_6:	// R1が押された場合、「ダッシュ」
@@ -330,9 +336,7 @@ namespace inr {
 				if (lever < -100 || 100 < lever) {
 					// moveではない時、キーと状態を更新
 					if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
-						_changeGraph = true;
-						_aState = ActionState::MOVE;
-						_divKey.first = PKEY_RUN;
+						ChangeState(ActionState::MOVE, PKEY_RUN);
 					}
 					// SEの管理
 					if (_aCount % GetSoundFrame(_divKey.first) == 0) {
@@ -343,9 +347,17 @@ namespace inr {
 					// return;
 					// 立っていてかつ入力がない場合
 				}
-				else if (_stand && _aState == ActionState::MOVE) {
-					ChangeState(ActionState::IDOL, PKEY_IDOL);
-					_speed = 0;
+				else if (_aState == ActionState::MOVE) {
+					switch (_stand) {
+					case true:	// 立っている場合
+						ChangeState(ActionState::IDOL, PKEY_IDOL);
+						_speed = 0;
+						break;
+					case false:	// 落下状態の場合
+						ChangeState(ActionState::FALL, PKEY_FALL);
+						_speed = 0;
+						break;
+					}
 					return;
 				}
 			}
@@ -362,15 +374,20 @@ namespace inr {
 		if (_input == true && !_dashInterval) {
 			// ダッシュ状態ではない場合、各種初期化処理を実行
 			if (_aState != ActionState::DASH) {
-				_aState = ActionState::DASH;
-				_divKey.first = PKEY_DASH;
+				ChangeState(ActionState::DASH, PKEY_DASH);
 				// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
 				// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
 				(_direction == PL_LEFT) ? _lastX = x - DASH_MAX : _lastX = x + DASH_MAX;
-				_changeGraph = true;
 				_input = false;	// 他アクションの入力を停止する
 			}
+		}
+	}
+
+	void Player::InputJump() {
+		// 入力可能状態かつ、立っている場合のみ実行可能
+		if (_input == true && _stand) {
+			_jumpPower += 1;	// 溜めカウンタを増やす
 		}
 	}
 
@@ -396,25 +413,22 @@ namespace inr {
 			if (moved) {
 				_input = true;
 				_dashInterval = DASH_INTERVAL;
-				_changeGraph = true;
 				// 立っているかどうかで次のモーションを判定
 				if (_stand) {
 					ChangeState(ActionState::IDOL, PKEY_IDOL);
 					return;
 				}
 				else {
-					_aState = ActionState::FALL;
-					_divKey.first = PKEY_FALL;
+					ChangeState(ActionState::FALL, PKEY_FALL);
 				}
 			}
 		}
 	}
 
 	void Player::Jump() {
-		// 落下状態ではないとき
-		if (_stand) {
-			// 入力を受け付けているか？
-			if (_input == true) {
+		if (_input == true && _stand) {
+			// 溜めはあるか？
+			if (1 <= _jumpPower) {
 				auto pressKey = _game.GetKey();
 				if (pressKey & PAD_INPUT_3) {
 					// 溜めカウンタを増やす
@@ -424,25 +438,20 @@ namespace inr {
 						return;
 					}
 				}
-				// 押下情報を取得
-				// ジャンプの値がある場合
-				if (0 < _jumpPower) {
-					// Aキーの入力がない場合、ジャンプを実行
-					_aState = ActionState::JUMP;
-					_divKey.first = PKEY_JUMP;
-					auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
-					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-					// 飛距離を算出
-					auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
-					// 飛距離が最大値を超えた場合は修正
-					if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
-					// ジャンプの飛距離を登録
-					// この値は地面に触れた or 天井に接触した場合、0にする。
-					_gravity = -jumpPower;
-				}
+				// Aキーの入力がない場合、ジャンプを実行
+				ChangeState(ActionState::JUMP, PKEY_JUMP);
+				auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+				// 飛距離を算出
+				auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+				// 飛距離が最大値を超えた場合は修正
+				if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
+				// ジャンプの飛距離を登録
+				// この値は地面に触れた or 天井に接触した場合、0にする。
+				_gravity = -jumpPower;
 			}
 		}
-		_jumpPower = 0;
+		if(_jumpPower) _jumpPower = 0;
 	}
 
 	void Player::Rob(double x, double y) {

@@ -172,6 +172,7 @@
     <ClCompile Include="ResourceServer.cpp" />
     <ClCompile Include="SoldierDoll.cpp" />
     <ClCompile Include="Soul.cpp" />
+    <ClCompile Include="SoulManager.cpp" />
     <ClCompile Include="SoundServer.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="ResourceServer.h" />
     <ClInclude Include="SoldierDoll.h" />
     <ClInclude Include="Soul.h" />
+    <ClInclude Include="SoulManager.h" />
     <ClInclude Include="SoundServer.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="Vector2.h" />

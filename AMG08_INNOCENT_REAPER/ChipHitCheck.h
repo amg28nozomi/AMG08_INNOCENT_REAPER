@@ -32,7 +32,6 @@ namespace inr {
 		ChipHitCheck();
 		~ChipHitCheck();
 
-		void ClearStageMaps();
 		void LoadChipsMap(std::string key, ChipsMap& chipsMap);	// マップチップの当たり判定登録
 		inline void ChangeStageKey(std::string nextkey) { _stageKey = nextkey; }	// 読み込むキー情報の更新
 		AABB ChipCollision(const int no);	// 対象のマップチップ
@@ -41,6 +40,8 @@ namespace inr {
 
 		std::string _stageKey;	// 現在のステージ
 		StageMaps _stageChipsMap;	// ステージの情報
+
+		void ClearStageMaps();
 	};
 }
 
