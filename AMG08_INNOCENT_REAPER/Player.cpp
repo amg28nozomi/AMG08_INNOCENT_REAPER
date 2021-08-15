@@ -154,6 +154,7 @@ namespace inr {
 
 	void Player::Process() {
 		ObjectBase::Process();
+		AnimationCount();
 		// 入力情報を取得
 		auto leverLR = _game.GetLeverLR();
 		auto key = _game.GetTrgKey();
@@ -202,24 +203,8 @@ namespace inr {
 		}
 
 #ifdef _DEBUG
-		/*auto dx = _position.GetX();
-		auto dy = _position.GetY();
-		Vector2 minV(dx - PLAYER_WIDTH / 2, dy + PLAYER_HIGHT / 2);
-		Vector2 maxV(dx + PLAYER_WIDTH / 2, dy - PLAYER_HIGHT / 2);
-		AABB debugAABB(minV, maxV);
-
-		debugAABB.DrawBox();*/
 		DebugInfo();
-		ObjectBase::DrawDebugBox(_mainCollision);
-		DrawFormatString(0, 100, GetColor(255, 0, 0), "maincollision（minX:%d, minY:%d）\n", _mainCollision.GetMin().IntX(), _mainCollision.GetMin().IntY());
-		DrawFormatString(0, 125, GetColor(255, 0, 0), "maincollision（maxX:%d, maxY:%d）\n", _mainCollision.GetMax().IntX(), _mainCollision.GetMin().IntY());
-		DrawFormatString(0, 150, GetColor(255, 0, 0), "pos.x = %d\n", _position.IntX());
-		DrawFormatString(0, 175, GetColor(255, 0, 0), "pos.y = %d\n", _position.IntY());
-		DrawFormatString(0, 200, GetColor(255, 0, 0), "stand = %d\n", _stand);
-		DrawFormatString(0, 225, GetColor(255, 0, 0), "_gravity = %d\n", _gravity);
 #endif
-
-		AnimationCount();
 	}
 
 	void Player::StateUpdate() {
@@ -574,6 +559,13 @@ namespace inr {
 	void Player::DebugInfo() {
 		DrawFormatString(0, 0, GetColor(255, 0, 255), "ActionStatet : %d\n", _aState);
 		DrawFormatString(0, 25, GetColor(255, 0, 255), "Animation : %d\n", _aCount);
+		ObjectBase::DrawDebugBox(_mainCollision);
+		DrawFormatString(0, 100, GetColor(255, 0, 0), "maincollision（minX:%d, minY:%d）\n", _mainCollision.GetMin().IntX(), _mainCollision.GetMin().IntY());
+		DrawFormatString(0, 125, GetColor(255, 0, 0), "maincollision（maxX:%d, maxY:%d）\n", _mainCollision.GetMax().IntX(), _mainCollision.GetMin().IntY());
+		DrawFormatString(0, 150, GetColor(255, 0, 0), "pos.x = %d\n", _position.IntX());
+		DrawFormatString(0, 175, GetColor(255, 0, 0), "pos.y = %d\n", _position.IntY());
+		DrawFormatString(0, 200, GetColor(255, 0, 0), "stand = %d\n", _stand);
+		DrawFormatString(0, 225, GetColor(255, 0, 0), "_gravity = %d\n", _gravity);
 	}
 #endif
 }

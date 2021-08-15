@@ -10,6 +10,13 @@ namespace inr {
 		heightMax = height2;
 	}
 
+	ChipNumber::ChipNumber(int width1, int width2) {
+		widthMin = width1;
+		widthMax = width2;
+		heightMin = 0;
+		heightMax = 40;
+	}
+
 	ChipHitCheck::ChipHitCheck() {
 		_stageKey = "";
 		ClearStageMaps();
@@ -37,12 +44,22 @@ namespace inr {
 	}
 
 	AABB ChipHitCheck::ChipCollision(const int no) {
+		Vector2 min;
+		Vector2 max;
+
 		auto stage = _stageChipsMap.find(_stageKey);	// 現在のステージの連想配列を取り出す
 		auto chipdata = stage->second.find(no);	// チップ番号の当たり判定を取得
-		auto chip = chipdata->second;	// 登録されているChipNumberを取得
+		if (chipdata == stage->second.end()) {
+			// 登録されていない＝判定が変わっていない
+			// 40*40の通常の値を戻り値として返す
+			min = { 0, 0 };
+			max = { 40, 40 };
+		} else {
+			auto chip = chipdata->second;	// 登録されているChipNumberを取得
 
-		Vector2 min = { static_cast<double>(chip.WidthMin()), static_cast<double>(chip.HeightMin()) };
-		Vector2 max = { static_cast<double>(chip.WidthMax()), static_cast<double>(chip.HeightMax()) };
+			min = { static_cast<double>(chip.WidthMin()), static_cast<double>(chip.HeightMin()) };
+			max = { static_cast<double>(chip.WidthMax()), static_cast<double>(chip.HeightMax()) };
+		}
 		AABB chipbox = { min, max };
 		return chipbox;
 	}

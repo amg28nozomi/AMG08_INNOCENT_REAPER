@@ -10,7 +10,8 @@ namespace inr {
 	class ChipNumber {
 	public:
 		// “–‚½‚è”»’è‚ÉC³‚ª‚È‚¢ê‡‚Íˆø”w’è‚È‚µ‚ÅOK
-		ChipNumber(int width1 = 0, int width2 = 40, int height1 = 0, int height2 = 40);
+		ChipNumber(int width1, int width2, int height1, int height2);
+		ChipNumber(int width1, int width2);
 
 		inline int WidthMin() { return widthMin; }
 		inline int WidthMax() { return widthMax; }

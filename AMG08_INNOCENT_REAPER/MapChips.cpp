@@ -5,6 +5,7 @@
 #include "ResourceServer.h"
 #include "Collision.h"
 #include "Vector2.h"
+#include "ChipHitCheck.h"
 #include <tuple>
 #include <vector>
 #include <algorithm>
@@ -16,6 +17,8 @@ namespace {
 	constexpr auto FIRST = 0;
 	constexpr auto SECOND = 1;
 	constexpr auto THIRD = 2;
+
+	constexpr auto STAGE_1 = "stage_1";
 }
 
 namespace inr {
@@ -38,6 +41,18 @@ namespace inr {
 		};
 		// ResourceServerで画像読み込み
 		graph::ResourceServer::LoadGraphList(mapchip);
+
+		_chipCheck = std::make_unique<ChipHitCheck>();
+
+		// 当たり判定を修正するチップ番号を登録
+		ChipHitCheck::ChipsMap stagechip1{
+			// 左辺:修正するチップ番号、右辺:修正した当たり判定
+			{ 9, {30, 40}},
+			{ 17, {30, 40}},
+		};
+		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
+		_chipCheck->ChangeStageKey(STAGE_1);
+
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
 		_worldLast = _worldPosition;
@@ -72,14 +87,45 @@ namespace inr {
 #endif
 		// 描画処理
 		int x, y, layer;
+
+		int miny = _worldPosition.IntY() - 640;
+		int maxy = _worldPosition.IntY() + 640;
+		int minx = _worldPosition.IntX() - 1060;
+		int maxx = _worldPosition.IntX() + 1060;
+
+		int starty = miny / _chipSize.second;
+		int endy = maxy / _chipSize.second;
+		int startx = minx / _chipSize.first;
+		int endx = maxx / _chipSize.first;
+
+		if (starty < 0) startx = 0;
+		if (_mapSize.first < endy) endy = _mapSize.first;
+		if (starty < 0) starty = 0;
+		if (_mapSize.second < endy) endy = _mapSize.second;
+
 		for (layer = 0; layer < _mapSizeLayer; ++layer) {
+			for (y = starty; y < endy; ++y) {
+				for (x = startx; x < endx; ++x) {
+
+		/*for (layer = 0; layer < _mapSizeLayer; ++layer) {
 			for (y = 0; y < _mapSize.second; ++y) {
-				for (x = 0; x < _mapSize.first; ++x) {
-					int  layerStart = _mapSize.first * _mapSize.second * layer;
+				for (x = 0; x < _mapSize.first; ++x) {*/
+
+					int layerStart = _mapSize.first * _mapSize.second * layer;
+					//int layerStart = endx * endy * layer;
+					// int index = y * endy + x;
 					int index = y * _mapSize.first + x;
+					int no = _mapData[layerStart + index];
+
+					// 当たり判定を取得
+					auto c = _chipCheck->ChipCollision(no);
+					auto minx = c.GetMin().IntX();
+					auto maxx = c.GetMax().IntX();
+					auto miny = c.GetMin().IntY();
+					auto maxy = c.GetMax().IntX();
+
 					int posX = x * _chipSize.first - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
 					int posY = y * _chipSize.second - (_worldPosition.IntY() - HALF_WINDOW_H);
-					int no = _mapData[layerStart + index];
 					--no;
 
 					if (0 <= no) {
@@ -90,7 +136,8 @@ namespace inr {
 						// デバッグ用：当たり判定の描画
 						if (CheckHit(x, y)) {
 							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+							DrawBox(posX + minx , posY + miny, posX + maxx, posY + maxy, GetColor(255, 0, 0), TRUE);
+							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
 							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 						}
 #endif
@@ -373,14 +420,31 @@ namespace inr {
 		auto miny = box.GetMin().IntY() + gs;
 		auto maxx = box.GetMax().IntX();
 		auto maxy = box.GetMax().IntY() + gs;
+		
+		// 対象の当たり判定
+		Vector2 m = { static_cast<double>(minx), static_cast<double>(miny) };
+		Vector2 n = { static_cast<double>(maxx), static_cast<double>(maxy) };
+		AABB mn = { m, n, true };
 
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
 			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
 				// マップチップと接触しているかどうか？
 				int chip_no = CheckHit(x, y);
+
 				// チップ番号が0かどうか
 				if (chip_no != 0) {
-					return true;
+					auto c = _chipCheck->ChipCollision(chip_no);
+					auto minX = c.GetMin().IntX();
+					auto maxX = c.GetMax().IntX();
+					auto minY = c.GetMin().IntY();
+					auto maxY = c.GetMax().IntX();
+
+					// 新規追加
+					Vector2 chipMin = { static_cast<double>(x * _chipSize.first + minX), static_cast<double>(y * _chipSize.second + minY) };
+					Vector2 chipMax = { static_cast<double>(x * _chipSize.first + maxX), static_cast<double>(y * _chipSize.second + maxY) };
+					AABB chipbox = { chipMin, chipMax, true };
+					if (mn.HitCheck(chipbox)) return true;
+					
 				}
 			}
 		}
@@ -409,11 +473,24 @@ namespace inr {
 				int chip_no = CheckHit(x, y);
 				// チップ番号が0かどうか
 				if (chip_no != 0) {
+					//chip_no;
+					// 当たり判定を取得
+					auto c = _chipCheck->ChipCollision(chip_no);
+					auto minx = c.GetMin().IntX();
+					auto maxx = c.GetMax().IntX();
+					auto miny = c.GetMin().IntY();
+					auto maxy = c.GetMax().IntX();
+
 					// 新規追加
-					auto chipMinX = x * _chipSize.first;
+					auto chipMinX = x * _chipSize.first + minx;
+					auto chipMinY = y * _chipSize.second + miny;
+					auto chipMaxX = x * _chipSize.first + maxx;
+					auto chipMaxY = y * _chipSize.second + maxy;
+
+					/*auto chipMinX = x * _chipSize.first;
 					auto chipMinY = y * _chipSize.second;
 					auto chipMaxX = x * _chipSize.first + _chipSize.first;
-					auto chipMaxY = y * _chipSize.second + _chipSize.second;
+					auto chipMaxY = y * _chipSize.second + _chipSize.second;*/
 
 					AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)});
 					AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
