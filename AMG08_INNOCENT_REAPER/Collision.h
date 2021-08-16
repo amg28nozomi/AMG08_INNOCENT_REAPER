@@ -38,7 +38,7 @@ public:
 	//void DrawBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
 	bool HitCheck(Collision collision); // 全方向の当たり判定
 	bool HitUpDown(Collision col);	// 上下の当たり判定
-	double HitRightLeft(Collision col);	// 左右の当たり判定
+	double HitDirection(Collision col);	// 左右の当たり判定
 	bool SideCheck(Collision collision);	// どちら側で接触しているのか。
 #ifdef _DEBUG
 	inline bool GetDrawFlg() { return _drawFlg; }

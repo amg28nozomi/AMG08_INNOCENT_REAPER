@@ -579,8 +579,8 @@ namespace inr {
 					auto chipMaxY = y * _chipSize.second + _chipSize.second;*/
 
 					AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)}, true);
-					if (box.HitRightLeft(mapchip)) {
-						move.GetPX() = box.HitRightLeft(mapchip);
+					if (box.HitDirection(mapchip)) {
+						move.GetPX() = box.HitDirection(mapchip);
 					}
 					
 					// xç¿ïWÇÃÇﬂÇËçûÇ›îªíË

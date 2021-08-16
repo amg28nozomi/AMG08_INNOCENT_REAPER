@@ -102,24 +102,16 @@ bool Collision::HitUpDown(Collision col) {
 	return false;
 }
 
-double Collision::HitRightLeft(Collision col) {
+double Collision::HitDirection(Collision col) {
 	if (_collisionFlg == true != col._collisionFlg == true) return 0;
 	// y座標は範囲内に収まっているか？
 	if (minV.GetY() < col.maxV.GetY() && col.minV.GetY() < maxV.GetY()) {
-		// 左から衝突したか？
-		// minXがチップmaxxよりも小さいくてかつ、チップminxよりも大きい
-		// maxXがチップminxよりも大きい
-		if (minV.GetX() < col.maxV.GetX() && col.maxV.GetX() < minV.GetX()
+		if (minV.GetX() < col.maxV.GetX() && col.maxV.GetX() < maxV.GetX()
 			// maxVはチップminVよりも小さくてかつ、チップmaxV
 			&& col.minV.GetX() < maxV.GetX() && col.maxV.GetX() < maxV.GetX()) {
-			// めり込んだ分だけのベクトルを返す
-			return (minV.GetX() - col.maxV.GetX()) * -1;
+				return (minV.GetX() - col.maxV.GetX()) * -1;
+				//return (maxV.GetX() - col.minV.GetX()) * -1;
 		}
-		// 右から衝突したか？
-		// maxXがチップminXよりも大きくてかつ、チップmaxxよりも小さい
-		else if (col.minV.GetX() < maxV.GetX() && maxV.GetX() < col.maxV.GetX()
-			&& minV.GetX() < col.maxV.GetX() && minV.GetX() < col.minV.GetX()) { 
-			return (maxV.GetX() - col.minV.GetX()) * -1; }
 	}
 	return 0;
 }
