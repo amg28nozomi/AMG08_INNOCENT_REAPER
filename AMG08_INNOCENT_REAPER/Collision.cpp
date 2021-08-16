@@ -2,6 +2,12 @@
 #include "Vector2.h"
 #include <DxLib.h>
 
+namespace hit {
+	constexpr auto LEFT_HIT = 0;
+	constexpr auto RIGHT_HIT = 1;
+	constexpr auto NO_HIT = 1;
+}
+
 Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max),_collisionFlg(flg){
 #ifdef _DEBUG
 	_drawFlg = true;
@@ -82,6 +88,42 @@ bool Collision::HitCheck(Collision collision) {
 	}
 	return false;	// 判定フラグがどちらか片方でもオフなら当たらない
 }
+
+bool Collision::HitUpDown(Collision col) {
+	// 等しくない時は脱出
+	if (_collisionFlg == true != col._collisionFlg == true) return false;
+	// x軸は範囲内に収まっているか？
+	if (minV.GetX() < col.maxV.GetX() && col.minV.GetX() < maxV.GetX()) {
+		// 上から衝突したか？
+		if (minV.GetY() < col.maxV.GetY() && col.minV.GetY() < maxV.GetY()) return true;
+		// 下から衝突したか？
+		if(maxV.GetY() < col.minV.GetY() && col.maxV.GetY() < minV.GetY()) return true;
+	}
+	return false;
+}
+
+double Collision::HitRightLeft(Collision col) {
+	if (_collisionFlg == true != col._collisionFlg == true) return 0;
+	// y座標は範囲内に収まっているか？
+	if (minV.GetY() < col.maxV.GetY() && col.minV.GetY() < maxV.GetY()) {
+		// 左から衝突したか？
+		// minXがチップmaxxよりも小さいくてかつ、チップminxよりも大きい
+		// maxXがチップminxよりも大きい
+		if (minV.GetX() < col.maxV.GetX() && col.maxV.GetX() < minV.GetX()
+			// maxVはチップminVよりも小さくてかつ、チップmaxV
+			&& col.minV.GetX() < maxV.GetX() && col.maxV.GetX() < maxV.GetX()) {
+			// めり込んだ分だけのベクトルを返す
+			return (minV.GetX() - col.maxV.GetX()) * -1;
+		}
+		// 右から衝突したか？
+		// maxXがチップminXよりも大きくてかつ、チップmaxxよりも小さい
+		else if (col.minV.GetX() < maxV.GetX() && maxV.GetX() < col.maxV.GetX()
+			&& minV.GetX() < col.maxV.GetX() && minV.GetX() < col.minV.GetX()) { 
+			return (maxV.GetX() - col.minV.GetX()) * -1; }
+	}
+	return 0;
+}
+
 
 bool Collision::SideCheck(Collision collision) {
 	// 中心座標を取得

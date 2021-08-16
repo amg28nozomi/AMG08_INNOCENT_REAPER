@@ -17,7 +17,7 @@ namespace {
 	constexpr auto START_POSITION_Y = inr::WINDOW_W / 2;
 #endif
 #ifdef _DEBUG
-	constexpr auto START_POSITION_X = 100;
+	constexpr auto START_POSITION_X = 150;
 	constexpr auto START_POSITION_Y = 1900;
 #endif
 
