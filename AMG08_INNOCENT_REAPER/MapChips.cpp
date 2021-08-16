@@ -460,17 +460,20 @@ namespace inr {
 			if (chip_no != 0) {
 				// è’ìÀîªíË
 				auto c = _chipCheck->ChipCollision(chip_no);
+				if (c.GetMin().IntX() == 30) {
+					int i = 0;
+				}
 				auto minX = x * _chipSize.first + c.GetMin().IntX();
 				auto maxX = x * _chipSize.first + c.GetMax().IntX();
 				auto minY = y * _chipSize.second + c.GetMin().IntY();
 				auto maxY = y * _chipSize.second + c.GetMax().IntY();
 
-				auto posmx = x * _chipSize.first;
-				auto posnx = x * _chipSize.first;
+				/*auto posmx = x * _chipSize.first;
+				auto posnx = x * _chipSize.first;*/
 
 				// yç¿ïWÇÕîÕàÕì‡Ç…é˚Ç‹Ç¡ÇƒÇ¢ÇÈÇ©ÅH
-				if (minY <= y * _chipSize.second && y * _chipSize.second <= maxY) {
-					if (minX <= posmx <= maxX || minX <= posnx <= maxX) {
+				if (minY <= footMaxY && footMaxY <= maxY) {
+					if ((minX <= footMinX && footMinX <= maxX) || (minX <= footMaxX && footMaxX <= maxX)) {
 						return true;
 					}
 				}
@@ -478,7 +481,7 @@ namespace inr {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	// ìñÇΩÇËîªíËÇÃéÊìæ
@@ -547,16 +550,16 @@ namespace inr {
 					//chip_no;
 					// ìñÇΩÇËîªíËÇéÊìæ
 					auto c = _chipCheck->ChipCollision(chip_no);
-					auto minx = c.GetMin().IntX();
-					auto maxx = c.GetMax().IntX();
-					auto miny = c.GetMin().IntY();
-					auto maxy = c.GetMax().IntX();
+					auto minX = c.GetMin().IntX();
+					auto maxX = c.GetMax().IntX();
+					auto minY = c.GetMin().IntY();
+					auto maxY = c.GetMax().IntX();
 
 					// êVãKí«â¡
-					auto chipMinX = x * _chipSize.first + minx;
-					auto chipMinY = y * _chipSize.second + miny;
-					auto chipMaxX = x * _chipSize.first + maxx;
-					auto chipMaxY = y * _chipSize.second + maxy;
+					auto chipMinX = x * _chipSize.first + minX;
+					auto chipMinY = y * _chipSize.second + minY;
+					auto chipMaxX = x * _chipSize.first + maxX;
+					auto chipMaxY = y * _chipSize.second + maxY;
 
 					/*auto chipMinX = x * _chipSize.first;
 					auto chipMinY = y * _chipSize.second;

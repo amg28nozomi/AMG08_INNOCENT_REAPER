@@ -51,15 +51,16 @@ Collision::Collision(Vector2& pos, int width, int height, bool flg) {
 void Collision::Update(Vector2& pos, bool inv) {
 	// Œü‚«‚É‰‚¶‚Ä“–‚½‚è”»’è‚ÌxÀ•W‚ğ•ÏX‚·‚é
 	// ”½“]‚µ‚Ä‚¢‚éê‡
-		minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
-		maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
-
+	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
+	maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
+	center = { maxV.GetX() - minV.GetX(), maxV.GetY() - minV.GetY() };
 
 }
 
 void Collision::Swap(Collision col){
 	minV = col.GetMin();
 	maxV = col.GetMax();
+	center = { maxV.GetX() - minV.GetX(), maxV.GetY() - minV.GetY() };
 }
 
 //void Collision::DrawBox(int color) {
@@ -139,4 +140,5 @@ void AABB::Update(Vector2& pos, bool inv) {
 	}
 	minV = { pos.GetX() - _widthMax , pos.GetY() - _heightMin };
 	maxV = { pos.GetX() + _widthMin, pos.GetY() + _heightMax };
+	center = { maxV.GetX() - minV.GetX(), maxV.GetY() - minV.GetY() };
 }
