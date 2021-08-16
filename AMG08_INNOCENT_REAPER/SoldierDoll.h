@@ -16,6 +16,7 @@ namespace inr {
 
 		bool Hit() override;
 	private:
+		int _aInterval;	// アクションインターバル
 		double _patrolX;
 		bool _drawStop;	// 描画更新停止
 
@@ -27,6 +28,7 @@ namespace inr {
 		void PatrolOn();	// 巡回状態に移行
 
 		void PositionUpdate();
+		void StateUpdate();	// 状態の切り替え
 
 		// 干渉可能範囲の算出
 		AABB VitalPart(Collision& col);

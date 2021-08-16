@@ -57,7 +57,7 @@ namespace {
 	constexpr auto GIVE_JUDGEMENT = 10 * 4;
 
 	// ジャンプアクション
-	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
+	constexpr auto JUMP_VECTOR = 2;	// ジャンプの移動ベクトル
 	constexpr auto JUMP_MAX = 15;
 	constexpr auto JUMP_Y = 5;
 	
@@ -212,9 +212,9 @@ namespace inr {
 		switch (_aState) {
 		// 移動時
 		case ActionState::MOVE:
-			/*if (!_stand) {
+			if (!_stand) {
 				ChangeState(ActionState::FALL, PKEY_FALL);
-			}*/
+			}
 			
 			return;
 		// ジャンプ時
@@ -229,7 +229,8 @@ namespace inr {
 		// 落下時
 		case ActionState::FALL:
 			// 立っていてる場合
-			if (_stand && _gravity == 0) {
+			if (_stand) {
+			//if (_stand && _gravity == 0) {
 				//// 着地音を鳴らす
 				auto land = SoundResearch(key::SOUND_PLAYER_FALL);
 				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
@@ -299,8 +300,8 @@ namespace inr {
 				if (_aState == ActionState::GIVE || _aState == ActionState::ROB) break;
 				Give(x, y);		// 与えるアクション実行
 				break;
-			case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
-				InputJump();
+			//case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
+			//	InputJump();
 			//	// 
 			//	//if (_aState != ActionState::IDOL && _aState != ActionState::MOVE || _aState == ActionState::JUMP) break;
 			//	Jump();
@@ -427,31 +428,31 @@ namespace inr {
 
 	void Player::Jump() {
 		if (_input == true && _stand) {
-			// 溜めはあるか？
-			if (1 <= _jumpPower) {
-				auto pressKey = _game.GetKey();
-				if (pressKey & PAD_INPUT_3) {
-					// 溜めカウンタを増やす
-					_jumpPower += 1;
-					// 溜めカウンタがマックスではない場合、処理から抜ける
-					if (_jumpPower < JUMP_MAX) {
-						return;
+				// 溜めはあるか？
+					auto pressKey = _game.GetKey();
+					if (pressKey & PAD_INPUT_3) {
+						// 溜めカウンタを増やす
+						_jumpPower += 1;
+						// 溜めカウンタがマックスではない場合、処理から抜ける
+						if (_jumpPower < JUMP_MAX) {
+							return;
+						}
+					}  if (_jumpPower) {
+						// Aキーの入力がない場合、ジャンプを実行
+						ChangeState(ActionState::JUMP, PKEY_JUMP);
+						auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+						// 飛距離を算出
+						auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+						// 飛距離が最大値を超えた場合は修正
+						if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
+						// ジャンプの飛距離を登録
+						// この値は地面に触れた or 天井に接触した場合、0にする。
+						_gravity = -jumpPower;
 					}
-				}
-				// Aキーの入力がない場合、ジャンプを実行
-				ChangeState(ActionState::JUMP, PKEY_JUMP);
-				auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
-				PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-				// 飛距離を算出
-				auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
-				// 飛距離が最大値を超えた場合は修正
-				if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
-				// ジャンプの飛距離を登録
-				// この値は地面に触れた or 天井に接触した場合、0にする。
-				_gravity = -jumpPower;
 			}
-		}
-		if(_jumpPower) _jumpPower = 0;
+		//if(_jumpPower) _jumpPower = 0;
+		_jumpPower = 0;
 	}
 
 	void Player::Rob(double x, double y) {

@@ -56,6 +56,7 @@ namespace inr {
 		int _sounds;
 
 		double _actionX;	// アクション実行時のx座標
+		bool _isSearch;	// プレイヤーを
 
 		void AnimationCount() override;
 
@@ -66,7 +67,7 @@ namespace inr {
 		// virtual void AnimationInit() = 0;
 		// プレイヤーの現在座標から、左右どちらに居るかを割り出す
 		virtual bool SearchPosition();
-		virtual void Escape();	// 逃避
+		virtual void EscapeOn();	// 逃避
 		virtual bool Hit();	// オブジェクトと接触したかどうか
 
 		void ChangeState(ActionState nextstate, std::string key);

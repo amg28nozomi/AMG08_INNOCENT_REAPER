@@ -98,6 +98,7 @@ namespace inr {
 				}
 			}
 		}
+		// 当たり判定が無かった
 		return false;
 	}
 
@@ -117,22 +118,12 @@ namespace inr {
 		return false;
 	}
 
-	void EnemyBase::Escape() {
-		// 状態が逃走ではない場合
+	void EnemyBase::EscapeOn() {
+		// 逃走状態ではない場合のみ、
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
-			// 自身の向きによって移動距離を変更
-			if (_direction) _actionX = -enemy::ESCAPE_MAX / FRAME;
-			else _actionX = enemy::ESCAPE_MAX / FRAME;
+			_actionX = enemy::ESCAPE_MAX;	// 逃走距離を代入
 		}
-		//// 向きによって加算・減算切り替え
-		//if (_direction) {
-		//	_actionX -= ESCAPE_VECTOR / FRAME;
-		//	_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
-		//	return;
-		//}
-		//_actionX += ESCAPE_VECTOR / FRAME;
-		//_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
 	}
 
 	void EnemyBase::ChangeState(ActionState nextstate, std::string key) {

@@ -35,7 +35,7 @@ namespace {
 
 	// 巡回範囲(最大Vector)
 	constexpr auto PATROL_VECTOR = 1.0;
-	constexpr auto PATROL_MAX = 100;
+	constexpr auto PATROL_MAX = 280;
 
 	constexpr auto FRAME = 30;
 }
@@ -54,6 +54,7 @@ namespace inr {
 		_aCount = 0;
 		_sounds = 0;
 		_patrolX = 0;
+		_aInterval = 0;
 		_direction = true;
 		_changeGraph = true;
 		_drawStop = false;
@@ -108,7 +109,49 @@ namespace inr {
 		PositionUpdate();
 	}
 
+	void SoldierDoll::StateUpdate() {
+		switch (_sState) {
+		// 魂がない場合は何もしないよー
+		case SoulState::EMPTY:
+			// 脱出
+			break;
+		// 青い魂の場合
+		case SoulState::BLUE:
+			// 巡回(索敵)→逃走→待機
+			// インターバルがある場合はintervalを減少させて処理を抜ける
+			if (_aInterval) { 
+				--_aInterval; 
+				break;
+			}
+			// 索敵を行う
+
+			break;
+		// 赤い魂の場合
+		case SoulState::RED:
+			if (_aInterval) {
+				--_aInterval;
+				break;
+			}
+
+			break;
+		// 魂が空の時の処理
+		/*case ActionState::EMPTY:
+			break;
+		case ActionState::IDOL:
+			break;
+		case ActionState::PATROL:
+			break;
+		case ActionState::ATTACK:
+			break;
+		case ActionState::ESCAPE:
+			break;
+		default:
+			break;*/
+		}
+	}
+
 	void SoldierDoll::Patrol() {
+		// 魂が空の場合はゼロにする
 		if (_aState == ActionState::EMPTY) _patrolX = 0;
 		else if (_aState != ActionState::PATROL && _aState != ActionState::ESCAPE && _aState!= ActionState::IDOL) {
 			PatrolOn();
@@ -142,6 +185,7 @@ namespace inr {
 			_direction = true;
 		}
 
+		// 索敵範囲の移動距離は280pixel
 		if (_actionX != 0) {
 			// 向きによって加算・減算切り替え
 			if (_direction) {
@@ -164,7 +208,7 @@ namespace inr {
 				// Rush();
 				break;
 			case SoulState::BLUE:
-				Escape();
+				EscapeOn();
 				if (_actionX == 0) {
 					PatrolOn();
 				}
