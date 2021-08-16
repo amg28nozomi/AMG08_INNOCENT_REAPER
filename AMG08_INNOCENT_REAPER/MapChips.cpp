@@ -66,6 +66,7 @@ namespace inr {
 		// 当たり判定を修正するチップ番号を登録
 		ChipHitCheck::ChipsMap stagechip1{
 			// 左辺:修正するチップ番号、右辺:修正した当たり判定
+			{  2, { 0, 40, 20 ,40}},
 			{  9, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 17, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 25, {CHIP_RIGHT1, CHIP_RIGHT2}},
@@ -443,6 +444,41 @@ namespace inr {
 		}
 		// 当たらなかった場合は0を返す
 		return 0;
+	}
+
+	bool MapChips::IsStand(AABB box, double g) {
+		auto gs = static_cast<int>(g);
+
+		auto footMinX = box.GetMin().IntX();
+		auto footMaxX = box.GetMax().IntX();	// 足元の座標
+		auto footMaxY = box.GetMax().IntY() + gs;
+		int x;
+		int y = footMaxY / _chipSize.second;
+
+		for (x = footMinX / _chipSize.first; x <= footMaxX / _chipSize.first; ++x) {
+			int chip_no = CheckHit(x, y);
+			if (chip_no != 0) {
+				// 衝突判定
+				auto c = _chipCheck->ChipCollision(chip_no);
+				auto minX = x * _chipSize.first + c.GetMin().IntX();
+				auto maxX = x * _chipSize.first + c.GetMax().IntX();
+				auto minY = y * _chipSize.second + c.GetMin().IntY();
+				auto maxY = y * _chipSize.second + c.GetMax().IntY();
+
+				auto posmx = x * _chipSize.first;
+				auto posnx = x * _chipSize.first;
+
+				// y座標は範囲内に収まっているか？
+				if (minY <= y * _chipSize.second && y * _chipSize.second <= maxY) {
+					if (minX <= posmx <= maxX || minX <= posnx <= maxX) {
+						return true;
+					}
+				}
+
+			}
+		}
+
+		return true;
 	}
 
 	// 当たり判定の取得

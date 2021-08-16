@@ -120,9 +120,7 @@ namespace inr {
 	void EnemyBase::Escape() {
 		// ó‘Ô‚ª“¦‘–‚Å‚Í‚È‚¢ê‡
 		if (_aState != ActionState::ESCAPE) {
-			_changeGraph = true;
-			_aState = ActionState::ESCAPE;
-			_divKey.first = enemy::blue::SOLDIER_ESCAPE;
+			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			// ©g‚ÌŒü‚«‚É‚æ‚Á‚ÄˆÚ“®‹——£‚ğ•ÏX
 			if (_direction) _actionX = -enemy::ESCAPE_MAX / FRAME;
 			else _actionX = enemy::ESCAPE_MAX / FRAME;
@@ -135,6 +133,12 @@ namespace inr {
 		//}
 		//_actionX += ESCAPE_VECTOR / FRAME;
 		//_moveVector.GetPX() = ESCAPE_VECTOR / FRAME;
+	}
+
+	void EnemyBase::ChangeState(ActionState nextstate, std::string key) {
+		_changeGraph = true;
+		_aState = nextstate;
+		_divKey.first = key;
 	}
 
 	bool EnemyBase::Hit() {

@@ -68,6 +68,9 @@ namespace inr {
 		virtual bool SearchPosition();
 		virtual void Escape();	// 逃避
 		virtual bool Hit();	// オブジェクトと接触したかどうか
+
+		void ChangeState(ActionState nextstate, std::string key);
+
 	public:
 		EnemyBase(Game& game);
 		~EnemyBase() override;

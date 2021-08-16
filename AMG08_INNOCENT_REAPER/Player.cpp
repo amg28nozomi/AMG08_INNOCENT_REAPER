@@ -212,15 +212,15 @@ namespace inr {
 		switch (_aState) {
 		// 移動時
 		case ActionState::MOVE:
-			if (!_stand) {
+			/*if (!_stand) {
 				ChangeState(ActionState::FALL, PKEY_FALL);
-			}
+			}*/
 			
 			return;
 		// ジャンプ時
 		case ActionState::JUMP:
 			// 加速値がプラスの場合
-			if (0 <= _gravity) {
+			if (0 < _gravity) {
 				_changeGraph = true;
 				_aState = ActionState::FALL;
 				_divKey.first = PKEY_FALL;
@@ -228,13 +228,13 @@ namespace inr {
 			return;
 		// 落下時
 		case ActionState::FALL:
-			// 立っていてかつ、描画更新フラグがオフの場合
-			if (_stand) {
+			// 立っていてる場合
+			if (_stand && _gravity == 0) {
 				//// 着地音を鳴らす
-				ChangeState(ActionState::IDOL, PKEY_IDOL);
 				auto land = SoundResearch(key::SOUND_PLAYER_FALL);
 				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 				PlaySoundMem(land, soundType);
+				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
 			return;
 		// 奪うアクション時
@@ -331,7 +331,7 @@ namespace inr {
 				if (lever < -10) _direction = PL_LEFT;
 				else if (10 < lever) _direction = PL_RIGHT;
 
-			if (_aState == ActionState::IDOL || _aState == ActionState::MOVE) {
+			if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
 				// 入力情報がある場合
 				if (lever < -100 || 100 < lever) {
 					// moveではない時、キーと状態を更新
@@ -353,10 +353,10 @@ namespace inr {
 						ChangeState(ActionState::IDOL, PKEY_IDOL);
 						_speed = 0;
 						break;
-					case false:	// 落下状態の場合
-						ChangeState(ActionState::FALL, PKEY_FALL);
-						_speed = 0;
-						break;
+					//case false:	// 落下状態の場合
+					//	ChangeState(ActionState::FALL, PKEY_FALL);
+					//	_speed = 0;
+					//	break;
 					}
 					return;
 				}
