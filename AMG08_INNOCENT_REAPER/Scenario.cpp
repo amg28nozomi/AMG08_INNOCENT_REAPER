@@ -52,16 +52,20 @@ namespace inr {
 		// 呼び出したオブジェクトの情報を取得
 		auto datas = scenario->second.equal_range(key);
 		// イテレータを回して処理を行う
+		int no = 0;
+		Vector2 start;
+		auto osize = _objSize.find(key);
 		for (auto&& objvalue = datas.first; objvalue != datas.second; ++objvalue) {
-			objvalue->second.Position();
+			if (osize->second.second == no) {
+				start = objvalue->second.Position();
+				++osize->second.first;	// カウンタを増やす
+				break;	// ループを終了
+			}
+			++no;
 		}
-			//scenario->second.find(key);
-		// auto spwanpos = datas->second.Position();	// 生成地点を取得
-
-
-		Vector2 start = { 0,0 };
 		return start;
 	}
+
 	bool Scenario::SoulState(std::string key) {
 		return true;
 	}
