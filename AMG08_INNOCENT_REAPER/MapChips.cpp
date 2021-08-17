@@ -66,19 +66,24 @@ namespace inr {
 		// 当たり判定を修正するチップ番号を登録
 		ChipHitCheck::ChipsMap stagechip1{
 			// 左辺:修正するチップ番号、右辺:修正した当たり判定
-			{  2, { 0, 40, 20 ,40}},
+			// 棘
+			{  2, {0, 40, 20 ,40}},
+			{  6, {0, 10}},
+			{  7, {30, 40}},
+
+			// 左端
 			{  9, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 17, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 25, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 33, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 41, {CHIP_RIGHT1, CHIP_RIGHT2}},
-
+			// 右端
 			{ 16, {CHIP_LEFT1, CHIP_LEFT2}},
 			{ 24, {CHIP_LEFT1, CHIP_LEFT2}},
 			{ 32, {CHIP_LEFT1, CHIP_LEFT2}},
 			{ 40, {CHIP_LEFT1, CHIP_LEFT2}},
 			{ 48, {CHIP_LEFT1, CHIP_LEFT2}},
-
+			// 天井
 			{ 49, {CHIP_TIP1, CHIP_TIP2, CHIP_TIP5, CHIP_TIP6}},
 			{ 50, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
 			{ 51, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
@@ -87,6 +92,11 @@ namespace inr {
 			{ 54, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
 			{ 55, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
 			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
+
+			// 追加のマップチップ
+			{ 58, {0, 40, 0, 10}},
+			{ 59, {0, 40, 0 ,10}},
+			// { 61, {0, 10, 0, 10}},
 		};
 		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
 		_chipCheck->ChangeStageKey(STAGE_1);
@@ -578,10 +588,13 @@ namespace inr {
 					auto chipMaxX = x * _chipSize.first + _chipSize.first;
 					auto chipMaxY = y * _chipSize.second + _chipSize.second;*/
 
-					AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)}, true);
-					if (box.HitDirection(mapchip)) {
-						move.GetPX() = box.HitDirection(mapchip);
-					}
+
+					
+					//AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)}, true);
+					//// 押し出し処理
+					//if (box.HitDirection(mapchip)) {
+					//	move.GetPX() = box.HitDirection(mapchip);
+					//}
 					
 					// x座標のめり込み判定
 					// if (vectorX < 0 && boxcol.HitCheck(mapchip) == true) {
