@@ -14,6 +14,7 @@ namespace inr {
 
 	class ObjectServer;
 	class ModeServer;
+	class Scenario;
 
 	constexpr auto WINDOW_W = 1920;
 	constexpr auto WINDOW_H = 1080;
@@ -67,6 +68,7 @@ namespace inr {
 		inline std::unique_ptr<ModeServer>& GetModeServer() { return _modeServer; }
 		inline std::unique_ptr<ObjectServer>& GetObjectServer() { return _objServer; }
 		inline std::unique_ptr<MapChips>& GetMapChips() { return _mapChips; }
+		inline std::unique_ptr<Scenario>& GetScenario() { _scenario; }
 
 		// Vector2 RepairPosition(const Vector2 pos, const int width, const int height);
 
@@ -75,6 +77,7 @@ namespace inr {
 		std::unique_ptr<ModeServer> _modeServer;	// モードサーバー
 		std::unique_ptr<ObjectServer> _objServer;	// オブジェサーバー
 		std::unique_ptr<MapChips> _mapChips;	// マップチップ
+		std::unique_ptr<Scenario> _scenario;	// シナリオ
 
 		Vector2 _worldPosition;	// world座標
 

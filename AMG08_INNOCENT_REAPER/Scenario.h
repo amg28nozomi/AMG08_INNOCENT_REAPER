@@ -33,7 +33,7 @@ namespace inr {
 		~Scenario();
 
 		void Init();	// 初期化処理
-		void LoadObjectData(ObjectData& odata);	// 情報読み込み
+		void LoadObjectData(std::string key, ObjectData& odata);	// 情報読み込み
 		void ChangeKey(std::string nextScenario) { _scenarioKey = nextScenario; }	// 取り出すデータの切り替え
 		
 		Vector2 SpawnPosition(std::string key);	// 初期座標の取得
@@ -47,7 +47,6 @@ namespace inr {
 		ObjectSize _objSize;	// 登録されているキーのカウンタ
 
 		std::string _scenarioKey;	// 現在使用しているデータのキー
-		int _objno;	// 読み込み番号
 
 		void ClearScenario();	// 連想配列の初期化
 		void SetObjectSize();

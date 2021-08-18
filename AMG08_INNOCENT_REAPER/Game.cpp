@@ -13,8 +13,9 @@
 
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
-#include "Soul.h"
+#include "SoulSkin.h"
 #include "Image.h"
+#include "Scenario.h"
 
 namespace inr {
 
@@ -96,6 +97,7 @@ namespace inr {
 
 		_objServer = std::make_unique<ObjectServer>();
 		_modeServer = std::make_unique<ModeServer>(*this);
+		_scenario = std::make_unique<Scenario>(*this);
 
 		// ì«Ç›çûÇ›
 		graph::ResourceServer::Init();

@@ -73,7 +73,7 @@ namespace inr {
 						_mainCollision.GetMax().GetX() + SEARCH_X, _mainCollision.GetMax().GetY() + SEARCH_Y } };*/
 		// ŠeŽí”»’è‚ÌŠi”[iUŒ‚”»’èEj
 		_collisions = {
-			{ enemy::SOLDIER_EMPTY, { _position, EMPTY_W / 2, EMPTY_H / 2 }},	// ”²‚¯ŠkŽž‚Ìî•ñ
+			{ enemy::SOLDIER_EMPTY, { _position, 65, 60, -45, 80 , true}},	// ”²‚¯ŠkŽž‚Ìî•ñ
 		};
 
 		_motionKey =
@@ -244,6 +244,13 @@ namespace inr {
 
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
+
+		if (_sState == SoulState::EMPTY) { 
+			auto col = _collisions.find(enemy::SOLDIER_EMPTY);
+			col->second.Update(_position, _direction);
+			_mainCollision.Swap(col->second);
+			
+		}
 	}
 
 	bool SoldierDoll::Hit() {

@@ -1,4 +1,4 @@
-#include "Soul.h"
+#include "SoulSkin.h"
 #include "ObjectBase.h"
 #include "Vector2.h"
 #include "game.h"
@@ -18,16 +18,16 @@ namespace inr {
 
 	}
 
-	Soul::Soul(Game& game) : ObjectBase(game), _moveVector() {
+	SoulSkin::SoulSkin(Game& game) : ObjectBase(game), _moveVector() {
 		_sType = Type::RED;
 		Init();
 	}
 
-	Soul::~Soul() {
+	SoulSkin::~SoulSkin() {
 
 	}
 
-	void Soul::Init() {
+	void SoulSkin::Init() {
 		_motionKey = {
 			{soul::B_FLOAT, { soul::SF_B_SOUL * SF_FRAME , SE_NUM}},
 			{soul::R_FLOAT, { soul::SF_R_SOUL * SF_FRAME, SE_NUM}},
@@ -36,7 +36,7 @@ namespace inr {
 		_position = { 500, 1000 };
 	}
 
-	void Soul::Process() {
+	void SoulSkin::Process() {
 		_moveVector = { 0, 0 };
 		AnimationCount();
 		Tracking();
@@ -44,7 +44,7 @@ namespace inr {
 
 	}
 
-	void Soul::Draw() {
+	void SoulSkin::Draw() {
 		Vector2 xy = _position;
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
@@ -58,7 +58,7 @@ namespace inr {
 		DrawFormatString(1800, 100, GetColor(255, 0, 0), "soul.y = %d", y);
 	}
 
-	void Soul::Tracking() {
+	void SoulSkin::Tracking() {
 		// プレイヤーの参照を取得
 		auto player = _game.GetObjectServer()->GetPlayer();
 
@@ -78,7 +78,7 @@ namespace inr {
 		_moveVector.GetPY() = mv.GetY() * SPEED;
 	}
 
-	void Soul::Move() {
+	void SoulSkin::Move() {
 		_position =  _position + _moveVector;	// 座標更新
 	}
 }

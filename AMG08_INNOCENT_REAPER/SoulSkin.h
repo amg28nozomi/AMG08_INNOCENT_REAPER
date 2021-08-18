@@ -22,10 +22,10 @@ namespace inr {
 		constexpr auto SF_R_SOUL = 5;
 	}
 
-	class Soul : public ObjectBase {
+	class SoulSkin : public ObjectBase {
 	public:
-		Soul(Game& game);
-		~Soul() override;
+		SoulSkin(Game& game);
+		~SoulSkin() override;
 
 		void Init() override;
 		void Process() override;

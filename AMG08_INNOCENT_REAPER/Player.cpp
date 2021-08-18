@@ -58,7 +58,7 @@ namespace {
 
 	// ジャンプアクション
 	constexpr auto JUMP_VECTOR = 2;	// ジャンプの移動ベクトル
-	constexpr auto JUMP_MAX = 15;
+	constexpr auto JUMP_MAX = 16; // 15
 	constexpr auto JUMP_Y = 5;
 	
 	// ダッシュアクション関連

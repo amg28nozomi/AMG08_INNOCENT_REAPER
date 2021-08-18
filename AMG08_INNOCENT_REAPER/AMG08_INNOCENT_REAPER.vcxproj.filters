@@ -66,7 +66,7 @@
     <ClCompile Include="SoldierDoll.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Soul.cpp">
+    <ClCompile Include="SoulSkin.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SoundServer.cpp">
@@ -146,7 +146,7 @@
     <ClInclude Include="SoldierDoll.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Soul.h">
+    <ClInclude Include="SoulSkin.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SoundServer.h">
