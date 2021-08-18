@@ -34,6 +34,7 @@ namespace inr {
 		};
 		_divKey = { soul::R_FLOAT, key::SOUND_NUM };
 		_position = { 500, 1000 };
+		_speed = SPEED;
 	}
 
 	void SoulSkin::Process() {
@@ -74,8 +75,8 @@ namespace inr {
 		Vector2 mv = { px - _position.GetX(), py - _position.GetY() };
 		mv.Normalize();
 		// ˆÚ“®ƒxƒNƒgƒ‹‚É‰ÁŽZ
-		_moveVector.GetPX() = mv.GetX() * SPEED;
-		_moveVector.GetPY() = mv.GetY() * SPEED;
+		_moveVector.GetPX() = mv.GetX() * _speed;
+		_moveVector.GetPY() = mv.GetY() * _speed;
 	}
 
 	void SoulSkin::Move() {

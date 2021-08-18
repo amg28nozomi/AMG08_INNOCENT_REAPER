@@ -41,11 +41,14 @@ namespace inr {
 		Type _sType;
 		Vector2 _moveVector;
 
+		double _speed;
+
 		void Tracking(); // ’ÇÕˆ—
 		void Move();	// ˆÚ“®
 	public:
 		inline Type GetType() { return _sType; }
 		void SetStatus(Vector2 spawn, std::string soulcolor)override;
+		void SetSpeed(double speed) override { _speed = speed; }
 	};
 }
 

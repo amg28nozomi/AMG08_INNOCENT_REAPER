@@ -277,13 +277,26 @@ namespace inr {
 			if (_sState != SoulState::EMPTY) {
 				if (_direction != direction && vitalPart.HitCheck(acollision)) {
 					// ç∞ÇíDÇÌÇÍÇÈ
+					std::string scolor;
+					double sp;
+					if (_sState == SoulState::BLUE) {
+						scolor = "blue";
+						sp = 6.5;
+					}
+					else if (_sState == SoulState::RED) {
+						scolor = "red";
+						sp = 7.5;
+					}
+
 					_divKey.first = enemy::SOLDIER_EMPTY;
 					_aState = ActionState::EMPTY;
 					_sState = SoulState::EMPTY;
 					_changeGraph = true;
 
 					auto bSoul = std::make_unique<SoulSkin>(_game.GetGame());
-					bSoul->SetStatus(_position, "blue");
+
+					bSoul->SetStatus(_position, scolor);
+					bSoul->SetSpeed(sp);
 					_game.GetObjectServer()->Add(std::move(bSoul));
 				}
 			}
