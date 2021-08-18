@@ -33,7 +33,6 @@ namespace inr {
 		for (auto&& obj : _objects) {
 			obj->Process();
 		}
-		_updateFlg = false;
 
 		// —v‘f‚ª‚ ‚é‚©‚Ç‚¤‚©
 		if (_addObj.empty()) {
@@ -44,6 +43,7 @@ namespace inr {
 			for (auto&& obj : _addObj) {
 				_objects.emplace_back(std::move(obj));
 			}
+			_addObj.clear();
 		}
 	}
 
@@ -51,6 +51,7 @@ namespace inr {
 		for (auto&& obj : _objects) {
 			obj->Draw();
 		}
+		_updateFlg = false;
 	}
 
 

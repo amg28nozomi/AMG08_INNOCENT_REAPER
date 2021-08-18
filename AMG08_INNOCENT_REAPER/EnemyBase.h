@@ -83,6 +83,10 @@ namespace inr {
 		inline ActionState GetActionState() { return _aState; }
 		inline SoulState GetSoulState() { return _sState; }
 		inline Vector2 GetMoveVector() override { return _moveVector; }
+		bool IsEmpty() override { 
+			bool isempty = _sState == SoulState::EMPTY;
+			return isempty; 
+		}
 
 		// virtual void Process() override;
 		// virtual void Draw() override;

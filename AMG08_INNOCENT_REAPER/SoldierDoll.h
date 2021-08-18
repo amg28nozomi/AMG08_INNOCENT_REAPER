@@ -33,6 +33,23 @@ namespace inr {
 		// Š±Â‰Â”\”ÍˆÍ‚ÌZo
 		AABB VitalPart(Collision& col);
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
+
+		// ƒ¿”ÅŒÀ’èˆ—
+		void SetStatus(Vector2 spawn, std::string soulcolor) override {
+			_position = spawn;
+			if (soulcolor == "red") { 
+				_sState = SoulState::RED; 
+				_aState = ActionState::IDOL;
+			}
+			else if (soulcolor == "blue") {
+				_sState = SoulState::BLUE;
+				_aState = ActionState::IDOL;
+			}
+			else if (soulcolor == "empty") {
+				_sState = SoulState::EMPTY;
+				_aState = ActionState::EMPTY;
+			}
+		}
 	};
 }
 

@@ -1,7 +1,7 @@
 #include "SoulSkin.h"
 #include "ObjectBase.h"
 #include "Vector2.h"
-#include "game.h"
+#include "Game.h"
 #include "ObjectServer.h"
 
 namespace {
@@ -80,5 +80,18 @@ namespace inr {
 
 	void SoulSkin::Move() {
 		_position =  _position + _moveVector;	// ç¿ïWçXêV
+	}
+
+
+	void SoulSkin::SetStatus(Vector2 spawn, std::string soulcolor) {
+		_position = spawn;
+		if (soulcolor == "red") {
+			_sType = Type::RED;
+			_divKey = { soul::R_FLOAT, key::SOUND_NUM };
+		}
+		else if (soulcolor == "blue") {
+			_sType = Type::BLUE;
+			_divKey = { soul::B_FLOAT, key::SOUND_NUM };
+		}
 	}
 }

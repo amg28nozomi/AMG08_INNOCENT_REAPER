@@ -45,6 +45,7 @@ namespace inr {
 		void Move();	// ˆÚ“®
 	public:
 		inline Type GetType() { return _sType; }
+		void SetStatus(Vector2 spawn, std::string soulcolor)override;
 	};
 }
 

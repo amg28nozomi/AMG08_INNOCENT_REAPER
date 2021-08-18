@@ -5,6 +5,7 @@
 #include "MapChips.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"
+#include "ObjectServer.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -46,6 +47,17 @@ namespace inr {
 			_gravity = 0;
 		} else {
 			_stand = false;
+		}
+
+		auto&& objs = _game.GetObjectServer()->GetObjects();
+		for (auto&& obj : objs) {
+			if (obj->GetType() != ObjectType::ENEMY) continue;
+			if (obj->IsEmpty() != true) continue;
+			if (_mainCollision.HitCheck(obj->GetMainCollision()) == true) {
+				_stand = true;
+				_gravity = 0;
+				break;
+			}
 		}
 	}
 

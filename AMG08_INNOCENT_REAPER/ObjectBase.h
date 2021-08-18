@@ -72,6 +72,10 @@ namespace inr {
 		inline virtual Vector2 GetMoveVector() { return Vector2(); }	// 移動ベクトルのゲッター
 		inline AABB& GetMainCollision() { return _mainCollision; }
 
+		// α版用
+		virtual bool IsEmpty() { return false; }
+		virtual void SetStatus(Vector2 spawn, std::string soulcolor) { return; } // status
+
 		using boxs = std::unordered_map<std::string, AABB>;
 	};
 }

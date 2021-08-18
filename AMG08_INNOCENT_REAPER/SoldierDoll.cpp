@@ -5,6 +5,10 @@
 #include "Player.h"
 #include "ResourceServer.h"
 
+// ƒ¿‰¼
+#include "SoulSkin.h"
+#include <memory>
+
 #ifdef _DEBUG
 namespace {
 	constexpr auto START_POS_X = 500;
@@ -245,10 +249,11 @@ namespace inr {
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
 
-		if (_sState == SoulState::EMPTY) { 
+		if (_sState == SoulState::EMPTY && IsAnimationMax() == true) {
 			auto col = _collisions.find(enemy::SOLDIER_EMPTY);
 			col->second.Update(_position, _direction);
 			_mainCollision.Swap(col->second);
+			_searchBox.GetbDrawFlg() = false;
 			
 		}
 	}
@@ -276,6 +281,10 @@ namespace inr {
 					_aState = ActionState::EMPTY;
 					_sState = SoulState::EMPTY;
 					_changeGraph = true;
+
+					auto bSoul = std::make_unique<SoulSkin>(_game.GetGame());
+					bSoul->SetStatus(_position, "blue");
+					_game.GetObjectServer()->Add(std::move(bSoul));
 				}
 			}
 		}
