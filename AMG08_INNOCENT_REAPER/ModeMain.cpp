@@ -38,6 +38,11 @@ namespace inr {
 			_game.GetObjectServer()->Add(std::move(player));
 			auto enemy = std::make_unique<SoldierDoll>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(enemy));
+
+			auto enemy1 = std::make_unique<SoldierDoll>(_game.GetGame());
+			enemy1->SetStatus({ 5000, 1700 }, "empty");
+			_game.GetObjectServer()->Add(std::move(enemy1));
+
 			auto soul_r = std::make_unique<SoulSkin>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(soul_r));
 			_bg = std::make_unique<BackGround>(_game.GetGame());

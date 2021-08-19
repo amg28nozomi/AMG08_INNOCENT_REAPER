@@ -8,8 +8,8 @@ namespace {
 	constexpr auto SPEED = 7.5;
 	constexpr auto SF_FRAME = 10;
 
-	constexpr auto SOUL_I = 50;
-	constexpr auto SOUL_IH = 20;
+	constexpr auto SOUL_I = 60;
+	constexpr auto SOUL_IH = 30;
 }
 
 namespace inr {

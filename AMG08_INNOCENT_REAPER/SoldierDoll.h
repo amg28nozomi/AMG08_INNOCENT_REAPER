@@ -15,6 +15,26 @@ namespace inr {
 		void Process() override;
 
 		bool Hit() override;
+
+		// α版限定処理
+		void SetStatus(Vector2 spawn, std::string soulcolor) override {
+			_position = spawn;
+			if (soulcolor == "red") {
+				_sState = SoulState::RED;
+				_aState = ActionState::IDOL;
+				_divKey.first = enemy::red::SOLDIER_IDOL;
+			}
+			else if (soulcolor == "blue") {
+				_sState = SoulState::BLUE;
+				_aState = ActionState::IDOL;
+				_divKey.first = enemy::blue::SOLDIER_IDOL;
+			}
+			else if (soulcolor == "empty") {
+				_sState = SoulState::EMPTY;
+				_aState = ActionState::EMPTY;
+				_divKey.first = enemy::SOLDIER_EMPTY;
+			}
+		}
 	private:
 		int _aInterval;	// アクションインターバル
 		double _patrolX;
@@ -33,23 +53,6 @@ namespace inr {
 		// 干渉可能範囲の算出
 		AABB VitalPart(Collision& col);
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
-
-		// α版限定処理
-		void SetStatus(Vector2 spawn, std::string soulcolor) override {
-			_position = spawn;
-			if (soulcolor == "red") { 
-				_sState = SoulState::RED; 
-				_aState = ActionState::IDOL;
-			}
-			else if (soulcolor == "blue") {
-				_sState = SoulState::BLUE;
-				_aState = ActionState::IDOL;
-			}
-			else if (soulcolor == "empty") {
-				_sState = SoulState::EMPTY;
-				_aState = ActionState::EMPTY;
-			}
-		}
 	};
 }
 

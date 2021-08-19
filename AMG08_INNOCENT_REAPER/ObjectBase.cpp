@@ -53,11 +53,23 @@ namespace inr {
 		for (auto&& obj : objs) {
 			if (obj->GetType() != ObjectType::ENEMY) continue;
 			if (obj->IsEmpty() != true) continue;
-			if (_mainCollision.HitCheck(obj->GetMainCollision()) == true) {
+			// 
+			auto emptyBox = obj->GetMainCollision();
+				// ”ÍˆÍ“à‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©
+				if ((emptyBox.GetMin().GetX() < _mainCollision.GetMin().GetX() && _mainCollision.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
+					(emptyBox.GetMin().GetX() < _mainCollision.GetMax().GetX() && _mainCollision.GetMax().GetX() < emptyBox.GetMax().GetX())) {
+					if (emptyBox.GetMin().GetY() < _mainCollision.GetMax().GetY() + _gravity && _mainCollision.GetMin().GetY() < emptyBox.GetMax().GetY()) {
+						_stand = true;
+						_gravity = 0;
+					}
+				}
+
+			// 
+			/*if (_mainCollision.HitCheck(obj->GetMainCollision()) == true) {
 				_stand = true;
 				_gravity = 0;
 				break;
-			}
+			}*/
 		}
 	}
 

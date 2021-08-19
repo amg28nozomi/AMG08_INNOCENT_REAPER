@@ -20,24 +20,24 @@ namespace {
 
 	constexpr auto STAGE_1 = "stage_1";
 
-	constexpr auto CHIP_RIGHT1 = 30;
+	constexpr auto CHIP_RIGHT1 = 35;
 	constexpr auto CHIP_RIGHT2 = 40;
 	constexpr auto CHIP_LEFT1 = 0;
-	constexpr auto CHIP_LEFT2 = 10;
+	constexpr auto CHIP_LEFT2 = 5;
 
 	constexpr auto CHIP_UP1 = 0;
 	constexpr auto CHIP_UP2 = 40;
 	constexpr auto CHIP_UP3 = 0;
-	constexpr auto CHIP_UP4 = 10;
+	constexpr auto CHIP_UP4 = 5;
 
 	// 端
-	constexpr auto CHIP_TIP1 = 30;
+	constexpr auto CHIP_TIP1 = 35;
 	constexpr auto CHIP_TIP2 = 40;
 	constexpr auto CHIP_TIP3 = 0;
-	constexpr auto CHIP_TIP4 = 10;
+	constexpr auto CHIP_TIP4 = 5;
 
 	constexpr auto CHIP_TIP5 = 0;
-	constexpr auto CHIP_TIP6 = 10;
+	constexpr auto CHIP_TIP6 = 5;
 }
 
 namespace inr {
@@ -68,8 +68,8 @@ namespace inr {
 			// 左辺:修正するチップ番号、右辺:修正した当たり判定
 			// 棘
 			{  2, {0, 40, 20 ,40}},
-			{  6, {0, 10}},
-			{  7, {30, 40}},
+			{  6, {0, 5}},
+			{  7, {35, 40}},
 
 			// 左端
 			{  9, {CHIP_RIGHT1, CHIP_RIGHT2}},
@@ -94,8 +94,8 @@ namespace inr {
 			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
 
 			// 追加のマップチップ
-			{ 58, {0, 40, 0, 10}},
-			{ 59, {0, 40, 0 ,10}},
+			{ 58, {0, 40, 0, 5}},
+			{ 59, {0, 40, 0, 5}},
 			// { 61, {0, 10, 0, 10}},
 		};
 		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
@@ -180,12 +180,12 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						//if (CheckHit(x, y)) {
-						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
-						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						//}
+						if (CheckHit(x, y)) {
+							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
+							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						}
 #endif
 					}
 				}
@@ -483,7 +483,29 @@ namespace inr {
 					Vector2 cmin = { minX, minY };
 					Vector2 cmax = { maxX, maxY };
 					AABB cbox = { cmin, cmax, true };
-					if (mn.HitUpDown(cbox)) return true;
+
+					// 判定範囲内に収まっているか？
+					if (mn.GetMin().GetX() < cbox.GetMax().GetX() && cbox.GetMin().GetX() < mn.GetMax().GetX()) {
+						// 下のマップと接触しているか？
+						if (0 < g) {
+							// プレイヤーの上部はマップチップ上部より小さいか
+							if (mn.GetMin().GetY() < cbox.GetMin().GetY() &&
+								// マップチップの上部に対象の下が足元が埋まっているかどうか
+								cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;
+							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
+						}
+						if (g < 0) {
+							// プレイヤーの下部はマップチップの下部より大きいか
+							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) return true;
+							// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) return true;
+						}
+					}
+
+						// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) ;
+
+
+
+					// if (mn.HitUpDown(cbox)) return true;
 
 					/*auto posmx = x * _chipSize.first;
 					auto posnx = x * _chipSize.first;*/
@@ -544,19 +566,24 @@ namespace inr {
 	//	return false;
 	//}
 
-	bool MapChips::IsHit(AABB box, Vector2& pos, Vector2& move) {
+	bool MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction) {
 		int x, y;
+
+		auto thisbox = box;
+		auto movepos = pos + move;
+		thisbox.Update(movepos, direction);
+		//thisbox.Update()
 
 		auto vectorX = move.GetX();
 		auto vectorY = move.GetY();
 
-		auto minx = box.GetMin().IntX() + move.IntX();
-		auto miny = box.GetMin().IntY() + move.IntY();
-		auto maxx = box.GetMax().IntX() + move.IntX();
-		auto maxy = box.GetMax().IntY() + move.IntY();
+		auto minx = thisbox.GetMin().IntX() + move.IntX();
+		auto miny = thisbox.GetMin().IntY() + move.IntY();
+		auto maxx = thisbox.GetMax().IntX() + move.IntX();
+		auto maxy = thisbox.GetMax().IntY() + move.IntY();
 
-		AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
-			{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() }, box.GetCollisionFlg());
+		/*AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
+			{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() }, box.GetCollisionFlg());*/
 
 
 		/* 検証用 */
@@ -591,9 +618,9 @@ namespace inr {
 
 					
 					//AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)}, true);
-					//// 押し出し処理
-					//if (box.HitDirection(mapchip)) {
-					//	move.GetPX() = box.HitDirection(mapchip);
+					// //押し出し処理
+					//if (thisbox.HitDirection(mapchip)) {
+					//	move.GetPX() = thisbox.HitDirection(mapchip);
 					//}
 					
 					// x座標のめり込み判定

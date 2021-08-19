@@ -103,7 +103,8 @@ bool Collision::HitUpDown(Collision col) {
 }
 
 double Collision::HitDirection(Collision col) {
-	if (_collisionFlg == true != col._collisionFlg == true) return 0;
+	if (!_collisionFlg || !col._collisionFlg) return 0;
+	// if (_collisionFlg == true != col._collisionFlg == true) return 0;
 	// yÀ•W‚Í”ÍˆÍ“à‚Éû‚Ü‚Á‚Ä‚¢‚é‚©H
 	if (minV.GetY() < col.maxV.GetY() && col.minV.GetY() < maxV.GetY()) {
 		if (minV.GetX() < col.maxV.GetX() && col.maxV.GetX() < maxV.GetX()
