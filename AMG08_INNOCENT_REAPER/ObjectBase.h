@@ -76,6 +76,7 @@ namespace inr {
 		virtual bool IsEmpty() { return false; }
 		virtual void SetStatus(Vector2 spawn, std::string soulcolor) { return; } // status
 		virtual void SetSpeed(double speed) { return; }
+		// ‚±‚±‚Ü‚Å
 
 		using boxs = std::unordered_map<std::string, AABB>;
 	};

@@ -4,6 +4,11 @@
 
 namespace inr {
 
+	namespace effect {
+		constexpr auto NO_COUNT = 0;
+		constexpr auto NO_MAXFRAME = 0;
+	}
+
 	class Game;
 
 	// エフェクト
@@ -14,7 +19,7 @@ namespace inr {
 
 		virtual void Init();
 		virtual void Process();
-		void Draw();
+		virtual void Draw();	// 
 	private:
 		Game& _game;	// ゲーム参照
 
