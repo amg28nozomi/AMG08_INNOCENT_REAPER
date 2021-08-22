@@ -2,6 +2,12 @@
 
 namespace inr {
 
+	RedGreenBlue::RedGreenBlue() {
+		_red = rgb::MIN_BLEND;
+		_green = rgb::MIN_BLEND;
+		_blue = rgb::MIN_BLEND;
+	}
+
 	RedGreenBlue::RedGreenBlue(double red, double green, double blue) {
 		_red = red;
 		_green = green;
@@ -19,8 +25,6 @@ namespace inr {
 			_red -= value;
 			_green -= value;
 			_blue -= value;
-			break;
-		default:
 			break;
 		}
 
@@ -42,8 +46,6 @@ namespace inr {
 			_green -= gvalue;
 			_blue -= bvalue;
 			break;
-		default:
-			break;
 		}
 
 		// 値が上限・加減を超えた場合は修正する
@@ -52,8 +54,28 @@ namespace inr {
 		SetBlend(&_blue);
 	}
 
+	//bool RedGreenBlue::IsMaxValue(bool type) {
+	//	switch (type) {
+	//	case rgb::ADD:	// 上限を超えているか？
+	//		if()
+	//	case rgb::SUB:	// 加減を超えているか？
+	//	}
+	//}
+
 	void RedGreenBlue::SetBlend(double* value) {
 		if (*value < rgb::MIN_BLEND) *value = rgb::MIN_BLEND;
 		else if (rgb::MAX_BLEND < *value) *value = rgb::MAX_BLEND;
+	}
+
+	void RedGreenBlue::Min() {
+		_red = rgb::MIN_BLEND;
+		_green = rgb::MIN_BLEND;
+		_blue = rgb::MIN_BLEND;
+	}
+
+	void RedGreenBlue::Max() {
+		_red = rgb::MAX_BLEND;
+		_green = rgb::MAX_BLEND;
+		_blue = rgb::MAX_BLEND;
 	}
 }

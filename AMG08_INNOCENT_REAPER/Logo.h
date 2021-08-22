@@ -16,7 +16,6 @@ namespace inr {
 		int _number;	// 現在何番目の処理を行っているか？
 		int _fCount;	// フレームカウンタ
 		int _wait;	// 待ち時間
-		double _pal;	// 輝度
 		bool _calculation;	// 加算か減算か
 
 		RedGreenBlue _rgb;
