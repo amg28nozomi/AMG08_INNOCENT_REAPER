@@ -2,6 +2,7 @@
 #include "ModeBase.h"
 #include "ModeTitle.h"
 #include "ModeMain.h"
+#include "ModeEnd.h"
 #include "Game.h"
 #include <memory>
 #include <unordered_map>
@@ -24,8 +25,11 @@ namespace inr {
 	void ModeServer::Init() {
 		// 連想配列初期化
 		ClearModeLists();
-		_modes.emplace(mode::TITLE, std::make_unique<ModeTitle>(_game.GetGame()));
-		_modes.emplace(mode::MAIN, std::make_unique<ModeMain>(_game.GetGame()));
+		// 各種モード登録
+		_modes.emplace(mode::TITLE, std::make_unique<ModeTitle>(_game.GetGame()));	// タイトル
+		// セレクト（未実装）
+		_modes.emplace(mode::MAIN, std::make_unique<ModeMain>(_game.GetGame()));	// ゲーム本編
+		_modes.emplace(mode::FIN, std::make_unique<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
 		
 		// 検索キーをTitleModeに設定
 		_modeKey = mode::TITLE;

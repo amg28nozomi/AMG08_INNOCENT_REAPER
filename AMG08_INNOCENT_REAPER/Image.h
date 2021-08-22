@@ -12,6 +12,12 @@ namespace inr {
 	constexpr auto TITLE_IMAGE_W = 1920;
 	constexpr auto TITLE_IMAGE_H = 1080;
 
+	constexpr auto AMG_LOGO = "amg";	// グッバイ
+	constexpr auto AMG_IMAGE = 400;
+
+	constexpr auto TEAM_LOGO = "team_logo";	// teamロゴ
+	constexpr auto TEAM_IMAGE = 140;
+
 	class Game;
 
 	class Image {

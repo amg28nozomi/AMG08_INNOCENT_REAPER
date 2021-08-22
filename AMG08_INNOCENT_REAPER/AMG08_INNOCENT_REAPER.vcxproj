@@ -161,9 +161,11 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GimmickBase.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MapChips.cpp" />
     <ClCompile Include="MapData.cpp" />
     <ClCompile Include="ModeBase.cpp" />
+    <ClCompile Include="ModeEnd.cpp" />
     <ClCompile Include="ModeMain.cpp" />
     <ClCompile Include="ModeServer.cpp" />
     <ClCompile Include="ModeTitle.cpp" />
@@ -191,9 +193,11 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GimmickBase.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Logo.h" />
     <ClInclude Include="MapChips.h" />
     <ClInclude Include="MapData.h" />
     <ClInclude Include="ModeBase.h" />
+    <ClInclude Include="ModeEnd.h" />
     <ClInclude Include="ModeMain.h" />
     <ClInclude Include="ModeServer.h" />
     <ClInclude Include="ModeTitle.h" />

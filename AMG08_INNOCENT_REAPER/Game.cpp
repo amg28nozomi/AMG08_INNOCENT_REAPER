@@ -16,6 +16,7 @@
 #include "SoulSkin.h"
 #include "Image.h"
 #include "Scenario.h"
+#include "EffectBase.h"
 
 namespace inr {
 
@@ -70,6 +71,14 @@ namespace inr {
 	const graph::ResourceServer::DivGraphMap images{
 		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
 		{ BACK_GROUND, {"Resource/stage01ver2.png", 1, 1, 1, BACK_GROUND_W, BACK_GROUND_H}},
+
+		{ AMG_LOGO, {"Resource/amg.png", 1, 1, 1, AMG_IMAGE, AMG_IMAGE}},	// AMGロゴ
+		{ TEAM_LOGO, {"Resource/r_crystal.png", 1, 1, 1, TEAM_IMAGE, TEAM_IMAGE}},	// チームロゴ(画像差し替え)
+	};
+
+	// 各種エフェクト
+	const graph::ResourceServer::DivGraphMap effects{
+		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE, effect::JUMP_IMAGE}},	// ジャンプ
 	};
 
 	const se::SoundServer::SoundMap ses{
@@ -105,6 +114,7 @@ namespace inr {
 		graph::ResourceServer::LoadGraphList(soldierDoll);
 		graph::ResourceServer::LoadGraphList(souls);
 		graph::ResourceServer::LoadGraphList(images);
+		graph::ResourceServer::LoadGraphList(effects);
 		se::SoundServer::Init();
 		se::SoundServer::LoadSoundMap(ses);
 
