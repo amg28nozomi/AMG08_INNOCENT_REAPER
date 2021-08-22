@@ -4,7 +4,7 @@
 
 namespace inr {
 
-	class TitleLogo;
+	class Logo;
 
 	class ModeTitle : public ModeBase{
 	public:
@@ -16,6 +16,6 @@ namespace inr {
 		virtual void Draw();	// •`‰æ
 
 	private:
-		std::unique_ptr<TitleLogo> _titleLG;
+		std::unique_ptr<Logo> _titleGh;
 	};
 }

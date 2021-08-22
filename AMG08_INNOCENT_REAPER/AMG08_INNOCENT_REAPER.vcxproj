@@ -172,6 +172,7 @@
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectServer.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RedGreenBlue.cpp" />
     <ClCompile Include="ResourceServer.cpp" />
     <ClCompile Include="Scenario.cpp" />
     <ClCompile Include="SoldierDoll.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectServer.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RedGreenBlue.h" />
     <ClInclude Include="ResourceServer.h" />
     <ClInclude Include="Scenario.h" />
     <ClInclude Include="SoldierDoll.h" />
