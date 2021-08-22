@@ -16,6 +16,7 @@ namespace inr {
 	void ObjectServer::Clear() {
 		_objects.clear();
 		_addObj.clear();
+		_delObj.clear();
 	}
 
 	void ObjectServer::Add(std::unique_ptr<ObjectBase> obj) {
@@ -28,11 +29,20 @@ namespace inr {
 		}
 	}
 
+	void ObjectServer::Del(std::unique_ptr<ObjectBase> obj) {
+		if (_updateFlg) {
+			_delObj.emplace_back(std::move(obj));
+		} else {
+			obj.release();	// フラグがない場合は直接所有権を放棄する
+		}
+	}
+
 	void ObjectServer::Process() {
 		_updateFlg = true;
 		for (auto&& obj : _objects) {
 			obj->Process();
 		}
+		_updateFlg = false;
 
 		// 要素があるかどうか
 		if (_addObj.empty()) {
@@ -45,9 +55,13 @@ namespace inr {
 			}
 			_addObj.clear();
 		}
+
+		if (_delObj.empty()) return;
+		else _delObj.clear();
 	}
 
 	void ObjectServer::Draw() {
+		_updateFlg = true;
 		for (auto&& obj : _objects) {
 			obj->Draw();
 		}

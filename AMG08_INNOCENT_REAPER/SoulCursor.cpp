@@ -1,37 +1,51 @@
 #include "SoulCursor.h"
 #include "Game.h"
 #include "SoulSkin.h"
+#include <DxLib.h>
 
 namespace {
-	constexpr auto S_LEFT = false;
-	constexpr auto S_RIGHT = true;
+	/*constexpr auto S_LEFT = false;
+	constexpr auto S_RIGHT = true;*/
 
-	constexpr auto MOVE_VEC = 50;
+	constexpr auto MOVE_VEC = 100;
 
-	constexpr auto HALF_SOUL = 50;
+	constexpr auto HALF_SOUL = 25;
+
+	constexpr auto SPEED_MAX = 10;
+
+	constexpr auto SMF_FLOAT = 40;
 }
 
 namespace inr {
 
 	SoulCursor::SoulCursor(Game& game) : ObjectBase(game) {
 		Init();
+
+		_motionKey = {{soul::B_FLOAT, {SMF_FLOAT, 0}}};
 	}
 
 	void SoulCursor::Init() {
 		_moveVector = { 0, 0 };
 		_position = { 960, 540 };
-		_divKey = { soul::RED_SOUL, key::SOUND_NUM };
+		_mainCollision = { _position, HALF_SOUL, HALF_SOUL, true };
+		_divKey = { soul::B_FLOAT, key::SOUND_NUM };
+		_setBlend = false;
+		_input = false;
+		_rgb.Min();
 	}
 
 	void SoulCursor::Process() {
 		_moveVector = { 0, 0 };
 
 		auto leverLR = _game.GetLeverLR();
+		auto leverUD = _game.GetLeverUD();
 		auto key = _game.GetTrgKey();
 
 		AnimationCount();
-		Move(leverLR);
+		Move(leverLR, leverUD);
 		PositionUpdate();
+		if (!_rgb.IsBrendMax()) _rgb.Update(rgb::ADD, 4);
+		else if (!_input) _input = true;
 	}
 
 	void SoulCursor::Draw() {
@@ -40,18 +54,28 @@ namespace inr {
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
+
+		ChangeBlendGraph();
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
+		ChangeBlendGraph();
+
+#ifdef _DEBUG
+		auto c = DxLib::GetColor(255, 255, 0);
+		DrawDebugBox(_mainCollision, c);
+#endif
 	}
 
-	void SoulCursor::Move(int lever) {
-		if (lever < -50) _direction = S_LEFT;
-		else if (50 < lever) _direction = S_RIGHT;
-
-		if (lever < -50 || 50 < lever) {
-			_speed = (lever / MOVE_VEC);
-			_moveVector.GetPX() = _speed;
+	void SoulCursor::Move(int lever1, int lever2) {
+		/*if (lever1 < -50) _direction = S_LEFT;
+		else if (50 < lever1) _direction = S_RIGHT;*/
+		if (_input) {
+			if (lever1 < -50 || 50 < lever1) {
+				_moveVector.GetPX() = (lever1 / MOVE_VEC);
+			}
+			if (lever2 < -50 || 50 < lever2) {
+				_moveVector.GetPY() = (lever2 / MOVE_VEC);
+			}
 		}
-		_speed = 0;
 	}
 
 	void SoulCursor::PositionUpdate() {
@@ -62,5 +86,27 @@ namespace inr {
 		else if (_position.GetX() - HALF_SOUL < 0) _position.GetPX() = HALF_SOUL;
 		if (WINDOW_H < _position.GetY() + HALF_SOUL) _position.GetPY() = WINDOW_H - HALF_SOUL;
 		else if (_position.GetY() - HALF_SOUL < 0) _position.GetPY() = HALF_SOUL;
+
+		_mainCollision.Update(_position, _direction);
+	}
+
+	void SoulCursor::ChangeBlendGraph() {
+		int r, g, b;
+		switch (_setBlend) {
+		case true:
+			r = rgb::MAX_BLEND;
+			g = rgb::MAX_BLEND;
+			b = rgb::MAX_BLEND;
+			_setBlend = false;
+			break;
+		case false:
+			// 現在の色彩を代入
+			r = _rgb.Red();
+			g = _rgb.Green();
+			b = _rgb.Blue();
+			_setBlend = true;	// フラグオン
+			break;
+		}
+		SetDrawBright(r, g, b);
 	}
 }

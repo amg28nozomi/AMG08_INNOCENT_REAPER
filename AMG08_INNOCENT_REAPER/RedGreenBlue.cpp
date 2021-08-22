@@ -12,6 +12,10 @@ namespace inr {
 		_red = red;
 		_green = green;
 		_blue = blue;
+
+		SetBlend(&_red);
+		SetBlend(&_green);
+		SetBlend(&_blue);
 	}
 
 	void RedGreenBlue::Update(bool type, double value) {

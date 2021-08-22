@@ -22,6 +22,9 @@ namespace inr {
 
 		void Min();
 		void Max();
+		// 輝度は最大か？
+		inline bool IsBrendMax() { return _red == rgb::MAX_BLEND; }
+		// 輝度は最小か？
 
 		void Update(bool type, double value);
 		void Update(bool type, double rvalue, double gvalue, double bvalue);

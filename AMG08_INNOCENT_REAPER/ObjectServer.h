@@ -16,6 +16,7 @@ namespace inr{
 
 		void Clear();	// ƒRƒ“ƒeƒi‰Šú‰»
 		void Add(std::unique_ptr<ObjectBase> obj);
+		void Del(std::unique_ptr<ObjectBase> obj);
 
 		void Process();
 		void Draw();
@@ -31,6 +32,7 @@ namespace inr{
 		
 		std::vector<std::unique_ptr<ObjectBase>> _objects;
 		std::vector<std::unique_ptr<ObjectBase>> _addObj;
+		std::vector<std::unique_ptr<ObjectBase>> _delObj;
 	};
 }
 
