@@ -18,6 +18,10 @@ namespace inr {
 	constexpr auto TEAM_LOGO = "team_logo";	// teamÉçÉS
 	constexpr auto TEAM_IMAGE = 140;
 
+	constexpr auto TITLE_BG = "title_back_ground";
+	constexpr auto TITLE_IMAGE_WIDTH = 1920;
+	constexpr auto TITLE_IMAGE_HEIGHT = 1080;
+
 	class Game;
 
 	class Image {

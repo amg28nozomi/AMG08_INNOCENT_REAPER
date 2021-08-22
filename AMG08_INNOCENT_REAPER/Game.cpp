@@ -62,9 +62,9 @@ namespace inr {
 	// 魂くんの各種モーション
 	const graph::ResourceServer::DivGraphMap souls{
 		{ soul::BLUE_SOUL, {"Resource/Soul/blue_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
-		{ soul::B_FLOAT, {"Resource/Soul/b_soul.png", 4, 1, 4, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+		{ soul::B_FLOAT, {"Resource/Soul/b_soul.png", 5, 2, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 		{ soul::RED_SOUL, {"Resource/Soul/red_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
-		{ soul::R_FLOAT, {"Resource/Soul/r_soul.png", 5, 1, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
+		{ soul::R_FLOAT, {"Resource/Soul/r_soul.png", 5, 2, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 	};
 
 	// 背景等の一枚絵
@@ -74,6 +74,7 @@ namespace inr {
 
 		{ AMG_LOGO, {"Resource/amg.png", 1, 1, 1, AMG_IMAGE, AMG_IMAGE}},	// AMGロゴ
 		{ TEAM_LOGO, {"Resource/r_crystal.png", 1, 1, 1, TEAM_IMAGE, TEAM_IMAGE}},	// チームロゴ(画像差し替え)
+		{ TITLE_BG, {"Resource/bg_title.png", 1, 1, 1, TITLE_IMAGE_WIDTH, TITLE_IMAGE_HEIGHT}},
 	};
 
 	// 各種エフェクト

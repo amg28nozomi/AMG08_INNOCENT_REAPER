@@ -1,7 +1,10 @@
 #include "Logo.h"
 #include "ResourceServer.h"
+#include "ObjectServer.h"
 #include "Game.h"
+#include "SoulCursor.h"
 #include <DxLib.h>
+#include <memory>
 
 namespace {
 	constexpr auto LOGO_FIRST = 0;
@@ -49,6 +52,11 @@ namespace inr {
 			case rgb::ADD:
 				// 条件を満たした場合は60フレームの間更新をかけないようにする
 				if (_fCount == 60) {
+					if (_number == LOGO_THIRD) { 
+						_number = LOGO_MAX;
+						_game.GetObjectServer()->Add(std::move(std::make_unique<SoulCursor>(_game.GetGame())));
+						return;
+					}
 					_calculation = rgb::SUB;
 					_wait = WAIT_TIME;
 					return;
@@ -93,7 +101,7 @@ namespace inr {
 			_graphKey = TEAM_LOGO;
 			return;
 		case LOGO_THIRD:	// タイトルロゴに遷移
-			_graphKey = TITLE_LOGO;
+			_graphKey = TITLE_BG;
 			return;
 		case LOGO_MAX:
 			return;

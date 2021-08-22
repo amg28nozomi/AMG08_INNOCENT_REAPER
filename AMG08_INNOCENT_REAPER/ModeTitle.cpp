@@ -1,6 +1,7 @@
 #include "ModeTitle.h"
 #include "Game.h"
 #include "ModeServer.h"
+#include "ObjectServer.h"
 #include "TitleLogo.h"
 #include "Logo.h"
 #include <memory>
@@ -22,6 +23,7 @@ namespace inr {
 
 	void ModeTitle::Process() {
 		_titleGh->Process();
+		_game.GetObjectServer()->Process();
 		//// Aボタンは押されたか
 		//if (_game.GetTrgKey() & PAD_INPUT_3) {
 		//	// Aボタンが押された時、モードを切り替え
@@ -31,5 +33,6 @@ namespace inr {
 
 	void ModeTitle::Draw() {
 		_titleGh->Draw();
+		_game.GetObjectServer()->Draw();
 	}
 }

@@ -13,7 +13,7 @@ namespace inr {
 		constexpr auto RED = false;
 		constexpr auto BLUE = true;
 
-		constexpr auto IMAGE_SIZE = 140;
+		constexpr auto IMAGE_SIZE = 100;
 
 		// Šeƒ‚[ƒVƒ‡ƒ“‚Ì‰æ‘œ”
 		constexpr auto SF_BLUE_SOUL = 1;
