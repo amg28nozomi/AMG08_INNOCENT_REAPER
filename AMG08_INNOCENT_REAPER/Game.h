@@ -7,6 +7,9 @@
 // #include <vector>
 
 namespace inr {
+	// ゲーム終了フラグ用
+	constexpr auto GAME_PLAYING = false;
+	constexpr auto GAME_END = true;
 
 	constexpr auto LEVER_LR = 0;
 	constexpr auto LEVER_UD = 1;
@@ -59,9 +62,13 @@ namespace inr {
 		inline std::tuple<int, int, int> GetInputs() { return _joyKey; }
 		// トリガ情報を取得
 		inline int GetTrgKey() { return _trgKey; }
-
+		// フレームカウンタを取得
 		inline int GetFrameCount() { return _frameCount; }
-
+		// プログラムを終了するか否か
+		inline bool GetEndFlag() { return _endFlag; }
+		// プログラム終了フラグをオンにする
+		inline void ProgramEnd() { _endFlag = GAME_END; }
+		// Gameクラスの参照
 		inline Game& GetGame() { return *this; }
 
 		// 各種参照ゲッター
@@ -86,6 +93,8 @@ namespace inr {
 
 		static int _trgKey;	// トリガー
 		static int _frameCount;	// フレーム情報
+
+		bool _endFlag;	// プログラムを終了するか否か
 		// int _leverLR;	// ジョイパッドのレバー情報(左右)
 		// int _leverUD;	// ジョイパッドのレバー情報
 		// int _inputKey;	// ジョイパッドの入力状態

@@ -22,7 +22,12 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lp
 	auto game = std::make_unique<inr::Game>();
 
 	while (ProcessMessage() != -1) {
+#ifdef _DEBUG
+		// デバッグ中のみ、Escapeキーでプログラムを終了
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) break;
+#endif
+		// 終了フラグがオンの場合は処理から抜ける
+		if (game->GetEndFlag() == inr::GAME_END) break;
 
 		game->Input();
 		game->Process();
