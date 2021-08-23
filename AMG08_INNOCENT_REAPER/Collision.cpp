@@ -46,12 +46,25 @@ Collision::Collision(Vector2& pos, int width, int height, bool flg) {
 	_widthMax = width;
 	_heightMin = height;
 	_heightMax = height;
-	_collisionFlg = false;
+	_collisionFlg = flg;
 #ifdef _DEBUG
 	_drawFlg = true;
 #endif
 	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
 	maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
+}
+
+Collision::Collision() {
+	_widthMin = 0;
+	_widthMax = 0;
+	_heightMin = 0;
+	_heightMax = 0;
+	_collisionFlg = false;
+#ifdef _DEBUG
+	_drawFlg = true;
+#endif
+	minV = {};
+	maxV = {};
 }
 
 void Collision::Update(Vector2& pos, bool inv) {

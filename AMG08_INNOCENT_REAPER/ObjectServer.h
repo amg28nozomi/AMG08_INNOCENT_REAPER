@@ -24,6 +24,7 @@ namespace inr{
 		ObjectBase& GetObjectA(ObjectBase::ObjectType otype); // ’P•i
 		ObjectBase& GetPlayer();
 		std::vector<std::unique_ptr<ObjectBase>>& GetObjects() { return _objects; }
+		inline void ObjectsClear() { _objects.clear(); }
 		// AABB GetObjectPosition(std::string key);
 		// std::vector<std::unique_ptr<ObjectBase>>& GetObjectList(ObjectBase::ObjectType otype);
 	private:

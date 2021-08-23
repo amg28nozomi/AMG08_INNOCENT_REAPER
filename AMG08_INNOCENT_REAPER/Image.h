@@ -22,6 +22,16 @@ namespace inr {
 	constexpr auto TITLE_IMAGE_WIDTH = 1920;
 	constexpr auto TITLE_IMAGE_HEIGHT = 1080;
 
+	// äeéÌUI
+	constexpr auto TITLE_START1 = "ui_start1";
+	constexpr auto TITLE_START2 = "ui_start2";
+	constexpr auto TITLE_EXIT1 = "ui_exit1";
+	constexpr auto TITLE_EXIT2 = "ui_exit2";
+
+	constexpr auto TITLE_UI_HEIGHT = 166;
+	constexpr auto TITLE_START_WIDTH = 372;
+	constexpr auto TITLE_EXIT_WIDTH = 298;
+
 	class Game;
 
 	class Image {

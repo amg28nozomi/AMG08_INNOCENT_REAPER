@@ -1,5 +1,6 @@
 #pragma once
 #include "ModeBase.h"
+#include "TitleLogo.h"
 #include <memory>
 
 namespace inr {
@@ -17,5 +18,6 @@ namespace inr {
 
 	private:
 		std::unique_ptr<Logo> _titleGh;
+		std::unique_ptr<TitleLogo> _ui;
 	};
 }

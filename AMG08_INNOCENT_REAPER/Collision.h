@@ -21,6 +21,7 @@ public:
 	Collision(Vector2& pos, int width1, int width2, int height1, int height2, bool flg = false);
 	Collision(Vector2& pos, int width, int height, bool flg = false);
 	Collision(Vector2& min, Vector2& max, bool flg = false);
+	Collision();
 	~Collision() = default;
 
 	// 参照ゲッター（Reference）

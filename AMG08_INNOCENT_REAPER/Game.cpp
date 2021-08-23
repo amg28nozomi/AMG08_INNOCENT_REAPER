@@ -75,6 +75,12 @@ namespace inr {
 		{ AMG_LOGO, {"Resource/amg.png", 1, 1, 1, AMG_IMAGE, AMG_IMAGE}},	// AMGロゴ
 		{ TEAM_LOGO, {"Resource/r_crystal.png", 1, 1, 1, TEAM_IMAGE, TEAM_IMAGE}},	// チームロゴ(画像差し替え)
 		{ TITLE_BG, {"Resource/bg_title.png", 1, 1, 1, TITLE_IMAGE_WIDTH, TITLE_IMAGE_HEIGHT}},
+
+		// 各種UI
+		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
+		{ TITLE_START2, {"Resource/UI/start1.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
+		{ TITLE_EXIT1, {"Resource/UI/exit.png", 1, 1, 1, TITLE_EXIT_WIDTH, TITLE_UI_HEIGHT}},
+		{ TITLE_EXIT2, {"Resource/UI/exit1.png", 1, 1, 1, TITLE_EXIT_WIDTH, TITLE_UI_HEIGHT}},
 	};
 
 	// 各種エフェクト

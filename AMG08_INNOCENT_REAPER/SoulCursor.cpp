@@ -22,6 +22,7 @@ namespace inr {
 		Init();
 
 		_motionKey = {{soul::B_FLOAT, {SMF_FLOAT, 0}}};
+		_type = ObjectType::SOUL;
 	}
 
 	void SoulCursor::Init() {
@@ -60,8 +61,8 @@ namespace inr {
 		ChangeBlendGraph();
 
 #ifdef _DEBUG
-		auto c = DxLib::GetColor(255, 255, 0);
-		DrawDebugBox(_mainCollision, c);
+		/*auto c = DxLib::GetColor(255, 255, 0);
+		DrawDebugBox(_mainCollision, c);*/
 #endif
 	}
 
