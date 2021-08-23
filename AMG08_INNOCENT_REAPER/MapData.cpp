@@ -13,7 +13,40 @@ namespace inr {
 		_chipCount = std::get<2>(chipCount);
 		_mapSizeLayer = mapSizeLayer;
 		_fileName = fileName;
-		_maoDatas.swap(mapData);
+		_mapDatas.swap(mapData);
 		_chipType.swap(chipType);
+	}
+
+	void MapData::SetMapSize(int mapSizeW, int mapSizeH) {
+		_mapSizeW = mapSizeW;
+		_mapSizeH = mapSizeH;
+	}
+	
+	void MapData::SetChipCount(int count, int width, int height) {
+		_chipCount = count;
+		_chipCountW = width;
+		_chipCountH = height;
+	}
+
+	void MapData::SetChipSize(int width, int height) {
+		_chipSizeW = width;
+		_chipSizeH = height;
+	}
+
+
+	MapDataManager::MapDataManager(Game& game) : _game(game) {
+		_stageKey = "";
+	}
+
+	MapDataManager::~MapDataManager() {
+
+	}
+
+	void MapDataManager::LoadStageMap(JsonMapData& jsonMapData) {
+		for (auto&& j : jsonMapData) {
+			auto&& it = _maps.find(j.first);
+			if (it == _maps.end()) continue;	// ˆ—‚ðƒXƒLƒbƒv
+			_maps.emplace(it->first, it->second);	// “o˜^
+		}
 	}
 }

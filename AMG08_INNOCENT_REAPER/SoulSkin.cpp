@@ -65,9 +65,23 @@ namespace inr {
 
 		double px;
 		if (player.GetDirection() == PL_LEFT) {
-			px = player.GetPosition().GetX() + SOUL_I;
+			switch (_sType) {
+			case Type::BLUE:
+				px = player.GetPosition().GetX() + SOUL_I + SOUL_I;
+				break;
+			case Type::RED:
+				px = player.GetPosition().GetX() + SOUL_I;
+				break;
+			}
 		} else {
-			px = player.GetPosition().GetX() - SOUL_I;
+			switch (_sType) {
+			case Type::BLUE:
+				px = player.GetPosition().GetX() - SOUL_I - SOUL_I;
+				break;
+			case Type::RED:
+				px = player.GetPosition().GetX() - SOUL_I;
+				break;
+			}
 		}
 		auto py = player.GetPosition().GetY() - SOUL_IH;
 

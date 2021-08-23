@@ -9,6 +9,8 @@ using std::tuple;
 
 namespace inr {
 
+	class Game;
+
 	class MapData {
 	public:
 		MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType);
@@ -19,6 +21,15 @@ namespace inr {
 		inline pair<int, int> GetChipSize() { return std::make_pair(_chipSizeW, _chipSizeH); }
 		inline int GetMapSizeLayer() { return _mapSizeLayer; }
 		inline std::string& GetFileName() { return _fileName; }
+
+		void SetMapSize(int mapSizeW, int mapSizeH);
+		void SetChipCount(int count, int width, int height);
+		void SetChipSize(int width, int height);
+		inline void SetMapSizeLayer(int layers) { _mapSizeLayer = layers; }
+		inline void SetFillName(std::string filename) { _fileName = filename; }
+		inline void SetMapDatas(std::vector<int> mapdatas) { _mapDatas = mapdatas; }
+		inline void SetChipType(std::vector<int> chiptype) { _chipType = chiptype; }
+
 	private:
 		int _mapSizeW;		// マップサイズの幅
 		int _mapSizeH;		// マップサイズ高さ
@@ -29,8 +40,22 @@ namespace inr {
 		int _chipSizeH;		// 
 		int _mapSizeLayer;	// 
 		std::string _fileName;	// 読み込みファイル名
-		std::vector<int> _maoDatas;	// マップチップの配置情報
+		std::vector<int> _mapDatas;	// マップチップの配置情報
 		std::vector<int> _chipType;	// 当たり判定があるマップチップ
+	};
+
+	class MapDataManager {
+	public:
+		MapDataManager(Game& game);
+		~MapDataManager();
+
+		using JsonMapData = std::unordered_map<std::string, MapData>;
+
+		void LoadStageMap(JsonMapData& jsonMapData);
+	private:
+		std::string _stageKey;	// 読み取りキー
+		JsonMapData _maps;	// マップの情報を保存
+		Game& _game;
 	};
 }
 

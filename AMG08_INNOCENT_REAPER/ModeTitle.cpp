@@ -22,14 +22,13 @@ namespace inr {
 	}
 
 	void ModeTitle::Process() {
-		_titleGh->Process();
+			_titleGh->Process();
+			_ui->Process();
+			_game.GetObjectServer()->Process();
+
+		/*_titleGh->Process();
 		_ui->Process();
-		_game.GetObjectServer()->Process();
-		//// Aボタンは押されたか
-		//if (_game.GetTrgKey() & PAD_INPUT_3) {
-		//	// Aボタンが押された時、モードを切り替え
-		//	_game.GetModeServer()->ModeChange(mode::MAIN);
-		//}
+		_game.GetObjectServer()->Process();*/
 	}
 
 	void ModeTitle::Draw() {

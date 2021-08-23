@@ -33,7 +33,7 @@ namespace {
 	constexpr auto EMPTY_H = 100;
 
 	// çıìGîÕàÕ
-	constexpr auto SEARCH_X = 50 + (SOLDIER_BOX_W * 2);
+	constexpr auto SEARCH_X = 100 + (SOLDIER_BOX_W * 2);
 	constexpr auto SEARCH_Y1 = SOLDIER_BOX_H1;
 	constexpr auto SEARCH_Y2 = SOLDIER_BOX_H2;
 
@@ -62,6 +62,7 @@ namespace inr {
 		_direction = true;
 		_changeGraph = true;
 		_drawStop = false;
+
 		Init();
 	}
 
@@ -163,18 +164,20 @@ namespace inr {
 		if (_aState == ActionState::PATROL) {
 			// ç∂à⁄ìÆ
 			if (_patrolX < 0) {
-				_moveVector.GetPX() = -PATROL_VECTOR;
+				_moveVector.GetPX() = PATROL_VECTOR;
 				_patrolX += PATROL_VECTOR;
+				_moving = enemy::MOVE_LEFT;
 				return;
 			}
 			else if (0 < _patrolX) {
-				_moveVector.GetPX() = PATROL_VECTOR;
+				_moveVector.GetPX() = -PATROL_VECTOR;
 				_patrolX -= PATROL_VECTOR;
+				_moving = enemy::MOVE_RIGHT;
 			}
 
 			if (static_cast<int>(_patrolX) == 0) {
-				if (_direction) _patrolX = -PATROL_MAX;
-				else _patrolX = PATROL_MAX;
+				if (_moving == enemy::MOVE_LEFT) _patrolX = PATROL_MAX;
+				else _patrolX = -PATROL_MAX;
 			}
 		}
 	}
@@ -191,14 +194,16 @@ namespace inr {
 
 		// çıìGîÕàÕÇÃà⁄ìÆãóó£ÇÕ280pixel
 		if (_actionX != 0) {
-			// å¸Ç´Ç…ÇÊÇ¡Çƒâ¡éZÅEå∏éZêÿÇËë÷Ç¶
-			if (_direction) {
+			switch (_moving) {
+			case enemy::MOVE_LEFT:
 				_actionX -= enemy::ESCAPE_VECTOR / FRAME;
 				_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
-				return;
+				break;
+			case enemy::MOVE_RIGHT:
+				_actionX += enemy::ESCAPE_VECTOR / FRAME;
+				_moveVector.GetPX() = -enemy::ESCAPE_VECTOR / FRAME;
 			}
-			_actionX += enemy::ESCAPE_VECTOR / FRAME;
-			_moveVector.GetPX() = -enemy::ESCAPE_VECTOR / FRAME;
+
 		}
 	}
 
@@ -281,7 +286,7 @@ namespace inr {
 					double sp;
 					if (_sState == SoulState::BLUE) {
 						scolor = "blue";
-						sp = 6.5;
+						sp = 7;
 					}
 					else if (_sState == SoulState::RED) {
 						scolor = "red";

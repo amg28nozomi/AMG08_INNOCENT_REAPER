@@ -31,6 +31,9 @@ namespace inr {
 		_sounds = 0;
 		_direction = true;
 		_changeGraph = true;
+
+		_moving = enemy::MOVE_RIGHT;
+
 		Init();
 	}
 
@@ -123,6 +126,7 @@ namespace inr {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			_actionX = enemy::ESCAPE_MAX;	// “¦‘–‹——£‚ð‘ã“ü
+			_moving = _direction;
 		}
 	}
 

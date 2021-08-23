@@ -14,11 +14,11 @@ namespace inr {
 	void TitleLogo::Init() {
 		_pos = { 510, 700 };
 		_position2 = { 1410, 700 };
-		_graphKey = TITLE_START1;
-		_graphKey2 = TITLE_EXIT1;
+		_graphKey = TITLE_EXIT1;
+		_graphKey2 = TITLE_START1;
 
-		_hitCol1 = { _pos, TITLE_START_WIDTH / 2, TITLE_UI_HEIGHT / 2, true };
-		_hitCol2 = { _position2, TITLE_EXIT_WIDTH / 2, TITLE_UI_HEIGHT / 2, true };
+		_hitCol2 = { _pos, TITLE_START_WIDTH / 2, TITLE_UI_HEIGHT / 2, true };
+		_hitCol1 = { _position2, TITLE_EXIT_WIDTH / 2, TITLE_UI_HEIGHT / 2, true };
 	}
 
 	void TitleLogo::Process() {
