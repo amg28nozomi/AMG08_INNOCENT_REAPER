@@ -3,14 +3,35 @@
 #include <tuple>
 #include <string>
 
+namespace {
+	constexpr auto NULL_DATA = -1;
+	constexpr auto NULL_FILE = "";
+}
+
 namespace inr {
+
+	MapData::MapData() {
+		_mapSizeW = NULL_DATA;
+		_mapSizeH = NULL_DATA;
+		_chipCount = NULL_DATA;
+		_chipCountW = NULL_DATA;
+		_chipCountH = NULL_DATA;
+		_chipSizeW = NULL_DATA;
+		_chipSizeH = NULL_DATA;
+		_mapSizeLayer = NULL_DATA;
+		_fileName = NULL_FILE;
+		_mapDatas.clear();
+		_chipType.clear();
+	}
 
 	MapData::MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType) {
 		_mapSizeW = mapSize.first;
 		_mapSizeH = mapSize.second;
 		_chipCount = std::get<0>(chipCount);
-		_chipCount = std::get<1>(chipCount);
-		_chipCount = std::get<2>(chipCount);
+		_chipCountW = std::get<1>(chipCount);
+		_chipCountH = std::get<2>(chipCount);
+		_chipSizeW = chipSize.first;
+		_chipSizeH = chipSize.second;
 		_mapSizeLayer = mapSizeLayer;
 		_fileName = fileName;
 		_mapDatas.swap(mapData);
@@ -44,9 +65,9 @@ namespace inr {
 
 	void MapDataManager::LoadStageMap(JsonMapData& jsonMapData) {
 		for (auto&& j : jsonMapData) {
-			auto&& it = _maps.find(j.first);
-			if (it == _maps.end()) continue;	// 処理をスキップ
-			_maps.emplace(it->first, it->second);	// 登録
+			auto it = _maps.find(j.first);
+			if (it != _maps.end()) continue;	// 処理をスキップ
+			_maps.emplace(j.first, j.second);	// 登録
 		}
 	}
 

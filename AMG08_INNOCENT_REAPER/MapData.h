@@ -13,14 +13,21 @@ namespace inr {
 
 	class MapData {
 	public:
+		MapData();
 		MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType);
 		~MapData() = default;
 
-		inline pair<int, int> GetMapSize() { return std::make_pair(_mapSizeW, _mapSizeH); }
-		inline tuple<int, int, int> GetChipCount() { return std::make_tuple(_chipCount, _chipSizeW, _chipSizeH); }
-		inline pair<int, int> GetChipSize() { return std::make_pair(_chipSizeW, _chipSizeH); }
-		inline int GetMapSizeLayer() { return _mapSizeLayer; }
-		inline std::string& GetFileName() { return _fileName; }
+		inline int MapSizeWidth() { return _mapSizeW; }
+		inline int MapSizeHeight() { return _mapSizeH; }
+		inline int ChipCount() { return _chipCount; }
+		inline int ChipCountWidth() { return _chipCountW; }
+		inline int ChipCountHeight() { return _chipCountH; }
+		inline int ChipSizeWidth() { return _chipSizeW; }
+		inline int ChipSizeHeight() { return _chipSizeH; }
+		inline int MapSizeLayer() { return _mapSizeLayer; }
+		inline std::string FileName() { return _fileName; }
+		inline std::vector<int> MapDatas() { return _mapDatas; }
+		inline std::vector<int> ChipType() { return _chipType; }
 
 		void SetMapSize(int mapSizeW, int mapSizeH);
 		void SetChipCount(int count, int width, int height);

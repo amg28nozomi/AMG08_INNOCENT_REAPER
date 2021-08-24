@@ -51,63 +51,14 @@ namespace inr {
 	constexpr auto CHIP_KEY = "chips";
 
 	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game) { //, _debugAABB(Vector2(), Vector2()) {
-		TiledJsonLoad(filePath, tiledFileName + ".json");
-
-		auto chipCountW = std::get<SECOND>(_chipCount);
-		auto chipCountH = std::get<THIRD>(_chipCount);
-		auto chipSizeW = _chipSize.first;
-		auto chipSizeH = _chipSize.second;
-		auto chipAllNum = chipCountW * chipCountH;
-
-		auto filename = filePath + _fileChips;
-
-		const graph::ResourceServer::DivGraphMap mapchip{
-			{CHIP_KEY, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
-		};
-		// ResourceServerで画像読み込み
-		graph::ResourceServer::LoadGraphList(mapchip);
-
 		_chipCheck = std::make_unique<ChipHitCheck>();
+		SetChipsMap();
+		
+		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
+		TiledJsonLoad(STAGE_1, filePath, tiledFileName + ".json");
 
-		// 当たり判定を修正するチップ番号を登録
-		ChipHitCheck::ChipsMap stagechip1{
-			// 左辺:修正するチップ番号、右辺:修正した当たり判定
-			// 棘
-			{  2, {0, 40, 20 ,40}},
-			{  6, {0, 5}},
-			{  7, {35, 40}},
-
-			// 左端
-			{  9, {CHIP_RIGHT1, CHIP_RIGHT2}},
-			{ 17, {CHIP_RIGHT1, CHIP_RIGHT2}},
-			{ 25, {CHIP_RIGHT1, CHIP_RIGHT2}},
-			{ 33, {CHIP_RIGHT1, CHIP_RIGHT2}},
-			{ 41, {CHIP_RIGHT1, CHIP_RIGHT2}},
-			// 右端
-			{ 16, {CHIP_LEFT1, CHIP_LEFT2}},
-			{ 24, {CHIP_LEFT1, CHIP_LEFT2}},
-			{ 32, {CHIP_LEFT1, CHIP_LEFT2}},
-			{ 40, {CHIP_LEFT1, CHIP_LEFT2}},
-			{ 48, {CHIP_LEFT1, CHIP_LEFT2}},
-			// 天井
-			{ 49, {CHIP_TIP1, CHIP_TIP2, CHIP_TIP5, CHIP_TIP6}},
-			{ 50, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
-			{ 51, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
-			{ 52, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
-			{ 53, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
-			{ 54, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
-			{ 55, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
-			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
-
-			// 追加のマップチップ
-			{ 58, {0, 40, 0, 5}},
-			{ 59, {0, 40, 0, 5}},
-			// { 61, {0, 10, 0, 10}},
-		};
-		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
-		_chipCheck->ChangeStageKey(STAGE_1);
-
-		// _mapManager = std::make_unique<MapDataManager>(_game.GetGame());
+		_nowMap = std::make_unique<MapData>();
+		_mapManager->GetStageMap(STAGE_1, *_nowMap);
 
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
@@ -116,7 +67,7 @@ namespace inr {
 
 	MapChips::~MapChips() {
 		// 初期化
-		_mapData.clear();
+		_mapManager->StageMapClear();
 
 	}
 
@@ -149,26 +100,26 @@ namespace inr {
 		int minx = _worldPosition.IntX() - 1060;
 		int maxx = _worldPosition.IntX() + 1060;
 
-		int starty = miny / _chipSize.second;
-		int endy = maxy / _chipSize.second;
-		int startx = minx / _chipSize.first;
-		int endx = maxx / _chipSize.first;
+		int starty = miny / _nowMap->ChipSizeHeight();//_chipSize.second;
+		int endy = maxy / _nowMap->ChipSizeHeight();//_chipSize.second;
+		int startx = minx / _nowMap->ChipSizeWidth();//_chipSize.first;
+		int endx = maxx / _nowMap->ChipSizeWidth();//_chipSize.first;
 
 		if (startx < 0) startx = 0;
-		if (_mapSize.first < endx) endx = _mapSize.first;
+		if (_nowMap->MapSizeWidth() < endx) endx = _nowMap->MapSizeWidth();
 		if (starty < 0) starty = 0;
-		if (_mapSize.second < endy) endy = _mapSize.second;
+		if (_nowMap->MapSizeHeight() < endy) endy = _nowMap->MapSizeHeight();
 
-		for (layer = 0; layer < _mapSizeLayer; ++layer) {
+		for (layer = 0; layer < _nowMap->MapSizeLayer(); ++layer) {
 			for (y = starty; y < endy; ++y) {
 				for (x = startx; x < endx; ++x) {
 
-					int layerStart = _mapSize.first * _mapSize.second * layer;
+					int layerStart = _nowMap->MapSizeWidth() * _nowMap->MapSizeHeight() * layer;
 					//int layerStart = endx * endy * layer;
 					// int index = y * endy + x;
-					int index = y * _mapSize.first + x;
+					int index = y * _nowMap->MapSizeWidth() + x;
 					// int index = y * endx + x;
-					int no = _mapData[layerStart + index];
+					int no = _nowMap->MapDatas()[layerStart + index];
 
 					// 当たり判定を取得
 					auto c = _chipCheck->ChipCollision(no);
@@ -177,13 +128,13 @@ namespace inr {
 					auto minY = c.GetMin().IntY();
 					auto maxY = c.GetMax().IntY();
 
-					int posX = x * _chipSize.first - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
-					int posY = y * _chipSize.second - (_worldPosition.IntY() - HALF_WINDOW_H);
+					int posX = x * _nowMap->ChipSizeWidth() - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
+					int posY = y * _nowMap->ChipSizeHeight() - (_worldPosition.IntY() - HALF_WINDOW_H);
 					--no;
 
 					if (0 <= no) {
 
-						auto gh = graph::ResourceServer::GetHandles(CHIP_KEY, no);
+						auto gh = graph::ResourceServer::GetHandles(STAGE_1, no);
 						DrawGraph(posX, posY, gh, TRUE);
 
 #ifdef _DEBUG
@@ -224,10 +175,10 @@ namespace inr {
 	}
 
 	void MapChips::WorldClanp() {
-		auto mapW = _mapSize.first;
-		auto mapH = _mapSize.second;
-		auto chipW = _chipSize.first;
-		auto chipH = _chipSize.second;
+		auto mapW = _nowMap->MapSizeWidth();//_mapSize.first;
+		auto mapH = _nowMap->MapSizeHeight();//_mapSize.second;
+		auto chipW = _nowMap->ChipSizeWidth();
+		auto chipH = _nowMap->ChipSizeHeight();
 
 		// ワールド座標は画面内に収まっているかどうか？
 		if (_worldPosition.GetX() < HALF_WINDOW_W) { _worldPosition.GetPX() = HALF_WINDOW_W; }
@@ -300,8 +251,8 @@ namespace inr {
 	}
 
 	bool MapChips::IsScrollX() {
-		auto mapW = _mapSize.first;
-		auto chipW = _chipSize.first;
+		auto mapW = _nowMap->MapSizeWidth();//_mapSize.first;
+		auto chipW = _nowMap->ChipSizeWidth();//_chipSize.first;
 
 		auto scrX = mapW * chipW;
 
@@ -312,8 +263,8 @@ namespace inr {
 	}
 
 	bool MapChips::IsScrollY() {
-		auto mapH = _mapSize.second;
-		auto chipH = _chipSize.second;
+		auto mapH = _nowMap->MapSizeHeight();//_mapSize.second;
+		auto chipH = _nowMap->ChipSizeHeight();// _chipSize.second;
 		auto scrY = mapH * chipH;
 
 		// ワールドY座標はスクロール開始地点を超えているか？
@@ -354,8 +305,8 @@ namespace inr {
 		return s;
 	}
 
-	int MapChips::TiledJsonLoad(std::string fillPath, std::string strFillName) {
-		std::string strJson = StringFillLoad(fillPath + strFillName);
+	int MapChips::TiledJsonLoad(std::string skey, std::string filePath, std::string strFileName) {
+		std::string strJson = StringFillLoad(filePath + strFileName);
 		if (strJson == "") return 0;
 
 		picojson::value json;
@@ -385,10 +336,12 @@ namespace inr {
 				++layer;
 			}
 		}
-		_mapSizeLayer = layer;
-		_mapData.resize(static_cast<int>(_mapSizeLayer * _mapSize.first * _mapSize.second));
+		auto mapSizeLayer = layer;
+		std::vector<int> mapdata;
+		mapdata.resize(static_cast<int>(mapSizeLayer * mapsizeWidth * mapsizeHeight));
 		layer = 0;
 
+		std::vector<int> chiptype;
 
 		// std::vector<int> addChipsType;
 		// レイヤー内データの取得
@@ -398,22 +351,22 @@ namespace inr {
 			if (jsLayer["type"].get<std::string>() == "tilelayer") {
 				picojson::array aData = jsLayer["data"].get<picojson::array>();
 
-				for (int y = 0; y < _mapSize.second; ++y) {
+				for (int y = 0; y < mapsizeHeight; ++y) {
 
-					for (int x = 0; x < _mapSize.first; ++x) {
-						int layerStart = _mapSize.first * _mapSize.second * layer;
-						int index = y * _mapSize.first + x;
-						_mapData[layerStart + index] = static_cast<int>(aData[index].get<double>());
+					for (int x = 0; x < mapsizeWidth; ++x) {
+						int layerStart = mapsizeWidth * mapsizeHeight * layer;
+						int index = y * mapsizeWidth + x;
+						mapdata[layerStart + index] = static_cast<int>(aData[index].get<double>());
 
 						// vector配列に使用されているマップチップを登録するかどうか
 						int mapchip_no = static_cast<int>(aData[index].get<double>());
 						// 0の場合は処理をスキップ
 						if (mapchip_no == 0) continue;
 						// _mapChipsTypeに値があるかどうかを検索
-						auto it = std::find(_mapChipsType.begin(), _mapChipsType.end(), mapchip_no);
+						auto it = std::find(chiptype.begin(), chiptype.end(), mapchip_no);
 						// ヒットしなかった場合は、末尾に要素を追加
-						if (it == _mapChipsType.end()) {
-							_mapChipsType.emplace_back(mapchip_no);
+						if (it == chiptype.end()) {
+							chiptype.emplace_back(mapchip_no);
 						}
 
 						//// 要素が空の場合は、末尾に追加
@@ -430,24 +383,39 @@ namespace inr {
 			}
 		}
 		// チップ番号を若い順に並び変える
-		sort(_mapChipsType.begin(), _mapChipsType.end());
+		sort(chiptype.begin(), chiptype.end());
 		// 末尾に-1を追加
-		_mapChipsType.emplace_back(-1);
+		chiptype.emplace_back(-1);
+
+		// マップチップ情報の登録アル
+		MapDataManager::JsonMapData jmd{
+			{ skey, { std::make_pair(mapsizeWidth, mapsizeHeight), std::make_tuple(chipCount, chipCountW, chipCountH),
+					  std::make_pair(chipSizeW, chipSizeH), mapSizeLayer, fileChips, mapdata, chiptype }},
+		};
+		_mapManager->LoadStageMap(jmd);
+
+		// ResourceServerでマップチップ画像の読み込み
+		auto filename = filePath + fileChips;
+		auto chipAllNum = chipCountW * chipCountH;
+		const graph::ResourceServer::DivGraphMap mapchip{
+			{ skey, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
+		};
+		graph::ResourceServer::LoadGraphList(mapchip);
 
 		return 1;
 	}
 
 	int MapChips::CheckHit(int x, int y) {
 
-		auto mapSizeW = _mapSize.first;
-		auto mapSizeH = _mapSize.second;
+		auto mapSizeW = _nowMap->MapSizeWidth(); // _mapSize.first;
+		auto mapSizeH = _nowMap->MapSizeHeight(); // _mapSize.second;
 
 		if (0 <= x && x < mapSizeW && 0 <= y && y < mapSizeH) {
-			int chip_no = _mapData[y * mapSizeW + x];
+			int chip_no = _nowMap->MapDatas()[y * mapSizeW + x];
 			// 当たるIDかどうかの判定
 			auto i = 0;
-			while (_mapChipsType[i] != -1) {
-				if (chip_no == _mapChipsType[i]) {
+			while (_nowMap->MapDatas()[i] != -1) {
+				if (chip_no == _nowMap->MapDatas()[i]) {
 					// 当たった場合、そのチップ番号を返す
 					return chip_no;
 				}
@@ -472,17 +440,17 @@ namespace inr {
 		int x, y;
 
 		// 当たり判定と接触する可能性のある範囲とのみ判定を行う
-		for (y = footMinY / _chipSize.second; y <= footMaxY / _chipSize.second; ++y) {
-			for (x = footMinX / _chipSize.first; x <= footMaxX / _chipSize.first; ++x) {
+		for (y = footMinY / _nowMap->ChipSizeHeight(); y <= footMaxY / _nowMap->ChipSizeHeight(); ++y) {
+			for (x = footMinX / _nowMap->ChipSizeWidth(); x <= footMaxX / _nowMap->ChipSizeWidth(); ++x) {
 				int chip_no = CheckHit(x, y);	// この場所には何のチップがあるか？
 				if (chip_no != 0) {
 					// 衝突判定
 					auto c = _chipCheck->ChipCollision(chip_no);
 
-					double minX = x * _chipSize.first + c.GetMin().IntX();
-					double maxX = x * _chipSize.first + c.GetMax().IntX();
-					double minY = y * _chipSize.second + c.GetMin().IntY();
-					double maxY = y * _chipSize.second + c.GetMax().IntY();
+					double minX = x * _nowMap->ChipSizeWidth() + c.GetMin().IntX();
+					double maxX = x * _nowMap->ChipSizeWidth() + c.GetMax().IntX();
+					double minY = y * _nowMap->ChipSizeHeight() + c.GetMin().IntY();
+					double maxY = y * _nowMap->ChipSizeHeight() + c.GetMax().IntY();
 					Vector2 cmin = { minX, minY };
 					Vector2 cmax = { maxX, maxY };
 					AABB cbox = { cmin, cmax, true };
@@ -595,8 +563,8 @@ namespace inr {
 			// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
 			/* 検証用 */
 
-		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
-			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
+		for (y = miny / _nowMap->ChipSizeHeight(); y <= maxy / _nowMap->ChipSizeHeight(); ++y) {
+			for (x = minx / _nowMap->ChipSizeWidth(); x <= maxx / _nowMap->ChipSizeWidth(); ++x) {
 				// マップチップと接触しているかどうか？
 				int chip_no = CheckHit(x, y);
 				// チップ番号が0かどうか
@@ -610,10 +578,10 @@ namespace inr {
 					auto maxY = c.GetMax().IntX();
 
 					// 新規追加
-					auto chipMinX = x * _chipSize.first + minX;
-					auto chipMinY = y * _chipSize.second + minY;
-					auto chipMaxX = x * _chipSize.first + maxX;
-					auto chipMaxY = y * _chipSize.second + maxY;
+					auto chipMinX = x * _nowMap->ChipSizeWidth() + minX;
+					auto chipMinY = y * _nowMap->ChipSizeHeight() + minY;
+					auto chipMaxX = x * _nowMap->ChipSizeWidth() + maxX;
+					auto chipMaxY = y * _nowMap->ChipSizeHeight() + maxY;
 
 					// 範囲内に収まっているか？
 					if (minp.GetX() < chipMaxX && chipMinX < maxp.GetX()) {
@@ -734,5 +702,46 @@ namespace inr {
 			}
 		}
 		return false;
+	}
+
+	void MapChips::SetChipsMap() {
+		// 各種当たり判定を登録する
+		// 当たり判定を修正するチップ番号を登録
+		ChipHitCheck::ChipsMap stagechip1{
+			// 左辺:修正するチップ番号、右辺:修正した当たり判定
+			// 棘
+			{  2, {0, 40, 20 ,40}},
+			{  6, {0, 5}},
+			{  7, {35, 40}},
+
+			// 左端
+			{  9, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 17, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 25, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 33, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 41, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			// 右端
+			{ 16, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 24, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 32, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 40, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 48, {CHIP_LEFT1, CHIP_LEFT2}},
+			// 天井
+			{ 49, {CHIP_TIP1, CHIP_TIP2, CHIP_TIP5, CHIP_TIP6}},
+			{ 50, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 51, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 52, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 53, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 54, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 55, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
+
+			// 追加のマップチップ
+			{ 58, {0, 40, 0, 5}},
+			{ 59, {0, 40, 0, 5}},
+			// { 61, {0, 10, 0, 10}},
+		};
+		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
+		_chipCheck->ChangeStageKey(STAGE_1);
 	}
 }

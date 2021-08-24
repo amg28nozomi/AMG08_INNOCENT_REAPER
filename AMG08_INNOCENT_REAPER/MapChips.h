@@ -35,14 +35,11 @@ namespace inr {
 		bool IsScrollY();	// 縦スクロールしているか？
 
 		// ゲッター
-		inline std::pair<int, int> GetMapSize() { return _mapSize; }
-		inline std::tuple<int, int, int> GetChipCOunt() { return _chipCount; }
-		inline std::pair<int, int> GetChipSize() { return _chipSize; }
-		inline int GetMapSizeLayer() { return _mapSizeLayer; }
-		inline std::string& GetFillCHips() { 
-			std::string* fillchips = &_fileChips;
-			return *fillchips;
-		}
+		inline std::pair<int, int> GetMapSize() { return std::make_pair(_nowMap->MapSizeWidth(), _nowMap->MapSizeHeight()); }
+		inline std::tuple<int, int, int> GetChipCount() { return std::make_tuple(_nowMap->ChipCount(), _nowMap->ChipCountWidth(), _nowMap->ChipCountHeight()); }
+		inline std::pair<int, int> GetChipSize() { return std::make_pair(_nowMap->ChipSizeWidth(), _nowMap->ChipSizeHeight()); }
+		inline int GetMapSizeLayer() { return _nowMap->MapSizeLayer(); }
+		inline std::string GetFileChips() { return _nowMap->FileName(); }
 		// ワールド座標の取得
 		inline Vector2 GetWorldPosition() { return _worldPosition; }
 		// ワールド座標の移動量を取得
@@ -61,7 +58,9 @@ namespace inr {
 
 		void WorldClanp();
 		std::string StringFillLoad(std::string FillName);
-		int TiledJsonLoad(std::string fillPath, std::string strFillName);
+		// 引数1:登録用キー　引数2:ファイルパス　引数3:ファイル名
+		int TiledJsonLoad(std::string skey, std::string filePath, std::string strFileName);
+		void SetChipsMap();	// 各ステージの一部マップチップの判定範囲を修正
 
 		//std::pair<int, int> _mapSize;	// マップのサイズ(チップ数　first:width、second:hight)
 		//std::tuple<int, int, int> _chipCount;
