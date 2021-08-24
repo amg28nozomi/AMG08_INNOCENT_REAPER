@@ -35,11 +35,11 @@ namespace inr {
 		bool IsScrollY();	// 縦スクロールしているか？
 
 		// ゲッター
-		inline std::pair<int, int> GetMapSize() { return std::make_pair(_nowMap->MapSizeWidth(), _nowMap->MapSizeHeight()); }
-		inline std::tuple<int, int, int> GetChipCount() { return std::make_tuple(_nowMap->ChipCount(), _nowMap->ChipCountWidth(), _nowMap->ChipCountHeight()); }
-		inline std::pair<int, int> GetChipSize() { return std::make_pair(_nowMap->ChipSizeWidth(), _nowMap->ChipSizeHeight()); }
-		inline int GetMapSizeLayer() { return _nowMap->MapSizeLayer(); }
-		inline std::string GetFileChips() { return _nowMap->FileName(); }
+		inline std::pair<int, int> GetMapSize() { return std::make_pair(_nowMap.MapSizeWidth(), _nowMap.MapSizeHeight()); }
+		inline std::tuple<int, int, int> GetChipCount() { return std::make_tuple(_nowMap.ChipCount(), _nowMap.ChipCountWidth(), _nowMap.ChipCountHeight()); }
+		inline std::pair<int, int> GetChipSize() { return std::make_pair(_nowMap.ChipSizeWidth(), _nowMap.ChipSizeHeight()); }
+		inline int GetMapSizeLayer() { return _nowMap.MapSizeLayer(); }
+		inline std::string GetFileChips() { return _nowMap.FileName(); }
 		// ワールド座標の取得
 		inline Vector2 GetWorldPosition() { return _worldPosition; }
 		// ワールド座標の移動量を取得
@@ -49,7 +49,7 @@ namespace inr {
 	private:
 		Game& _game;
 
-		std::unique_ptr<MapData> _nowMap;	// 現在のマップチップ情報
+		MapData _nowMap;	// 現在のマップチップ情報
 		std::unique_ptr<MapDataManager> _mapManager;
 		std::unique_ptr<ChipHitCheck> _chipCheck;
 

@@ -50,15 +50,14 @@ namespace inr {
 
 	constexpr auto CHIP_KEY = "chips";
 
-	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game) { //, _debugAABB(Vector2(), Vector2()) {
+	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
 		_chipCheck = std::make_unique<ChipHitCheck>();
 		SetChipsMap();
 		
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
 		TiledJsonLoad(STAGE_1, filePath, tiledFileName + ".json");
 
-		_nowMap = std::make_unique<MapData>();
-		_mapManager->GetStageMap(STAGE_1, *_nowMap);
+		_mapManager->GetStageMap(STAGE_1, _nowMap);
 
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
@@ -100,26 +99,32 @@ namespace inr {
 		int minx = _worldPosition.IntX() - 1060;
 		int maxx = _worldPosition.IntX() + 1060;
 
-		int starty = miny / _nowMap->ChipSizeHeight();//_chipSize.second;
-		int endy = maxy / _nowMap->ChipSizeHeight();//_chipSize.second;
-		int startx = minx / _nowMap->ChipSizeWidth();//_chipSize.first;
-		int endx = maxx / _nowMap->ChipSizeWidth();//_chipSize.first;
+		int starty = miny / _nowMap.ChipSizeHeight();//_chipSize.second;
+		int endy = maxy / _nowMap.ChipSizeHeight();//_chipSize.second;
+		int startx = minx / _nowMap.ChipSizeWidth();//_chipSize.first;
+		int endx = maxx / _nowMap.ChipSizeWidth();//_chipSize.first;
 
 		if (startx < 0) startx = 0;
-		if (_nowMap->MapSizeWidth() < endx) endx = _nowMap->MapSizeWidth();
+		if (_nowMap.MapSizeWidth() < endx) endx = _nowMap.MapSizeWidth();
 		if (starty < 0) starty = 0;
-		if (_nowMap->MapSizeHeight() < endy) endy = _nowMap->MapSizeHeight();
+		if (_nowMap.MapSizeHeight() < endy) endy = _nowMap.MapSizeHeight();
 
-		for (layer = 0; layer < _nowMap->MapSizeLayer(); ++layer) {
+
+		auto mswidth = _nowMap.MapSizeWidth();
+		auto mdatas = _nowMap.MapDatas();
+		auto cswidth = _nowMap.ChipSizeWidth();
+		auto csheight = _nowMap.ChipSizeHeight();
+
+		for (layer = 0; layer < _nowMap.MapSizeLayer(); ++layer) {
 			for (y = starty; y < endy; ++y) {
 				for (x = startx; x < endx; ++x) {
 
-					int layerStart = _nowMap->MapSizeWidth() * _nowMap->MapSizeHeight() * layer;
+					int layerStart = _nowMap.MapSizeWidth() * _nowMap.MapSizeHeight() * layer;
 					//int layerStart = endx * endy * layer;
 					// int index = y * endy + x;
-					int index = y * _nowMap->MapSizeWidth() + x;
+					int index = y * mswidth + x;
 					// int index = y * endx + x;
-					int no = _nowMap->MapDatas()[layerStart + index];
+					int no = mdatas[layerStart + index];
 
 					// 当たり判定を取得
 					auto c = _chipCheck->ChipCollision(no);
@@ -128,8 +133,8 @@ namespace inr {
 					auto minY = c.GetMin().IntY();
 					auto maxY = c.GetMax().IntY();
 
-					int posX = x * _nowMap->ChipSizeWidth() - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
-					int posY = y * _nowMap->ChipSizeHeight() - (_worldPosition.IntY() - HALF_WINDOW_H);
+					int posX = x * cswidth - _worldPosition.IntX() + HALF_WINDOW_W;//(_worldPosition.IntX() - HALF_WINDOW_W);
+					int posY = y * csheight - (_worldPosition.IntY() - HALF_WINDOW_H);
 					--no;
 
 					if (0 <= no) {
@@ -139,12 +144,12 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						if (CheckHit(x, y)) {
-							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
-							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						}
+						//if (CheckHit(x, y)) {
+						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
+						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						//}
 #endif
 					}
 				}
@@ -175,10 +180,10 @@ namespace inr {
 	}
 
 	void MapChips::WorldClanp() {
-		auto mapW = _nowMap->MapSizeWidth();//_mapSize.first;
-		auto mapH = _nowMap->MapSizeHeight();//_mapSize.second;
-		auto chipW = _nowMap->ChipSizeWidth();
-		auto chipH = _nowMap->ChipSizeHeight();
+		auto mapW = _nowMap.MapSizeWidth();//_mapSize.first;
+		auto mapH = _nowMap.MapSizeHeight();//_mapSize.second;
+		auto chipW = _nowMap.ChipSizeWidth();
+		auto chipH = _nowMap.ChipSizeHeight();
 
 		// ワールド座標は画面内に収まっているかどうか？
 		if (_worldPosition.GetX() < HALF_WINDOW_W) { _worldPosition.GetPX() = HALF_WINDOW_W; }
@@ -251,8 +256,8 @@ namespace inr {
 	}
 
 	bool MapChips::IsScrollX() {
-		auto mapW = _nowMap->MapSizeWidth();//_mapSize.first;
-		auto chipW = _nowMap->ChipSizeWidth();//_chipSize.first;
+		auto mapW = _nowMap.MapSizeWidth();//_mapSize.first;
+		auto chipW = _nowMap.ChipSizeWidth();//_chipSize.first;
 
 		auto scrX = mapW * chipW;
 
@@ -263,8 +268,8 @@ namespace inr {
 	}
 
 	bool MapChips::IsScrollY() {
-		auto mapH = _nowMap->MapSizeHeight();//_mapSize.second;
-		auto chipH = _nowMap->ChipSizeHeight();// _chipSize.second;
+		auto mapH = _nowMap.MapSizeHeight();//_mapSize.second;
+		auto chipH = _nowMap.ChipSizeHeight();// _chipSize.second;
 		auto scrY = mapH * chipH;
 
 		// ワールドY座標はスクロール開始地点を超えているか？
@@ -407,15 +412,15 @@ namespace inr {
 
 	int MapChips::CheckHit(int x, int y) {
 
-		auto mapSizeW = _nowMap->MapSizeWidth(); // _mapSize.first;
-		auto mapSizeH = _nowMap->MapSizeHeight(); // _mapSize.second;
+		auto mapSizeW = _nowMap.MapSizeWidth(); // _mapSize.first;
+		auto mapSizeH = _nowMap.MapSizeHeight(); // _mapSize.second;
 
 		if (0 <= x && x < mapSizeW && 0 <= y && y < mapSizeH) {
-			int chip_no = _nowMap->MapDatas()[y * mapSizeW + x];
+			int chip_no = _nowMap.MapDatas()[y * mapSizeW + x];
 			// 当たるIDかどうかの判定
 			auto i = 0;
-			while (_nowMap->MapDatas()[i] != -1) {
-				if (chip_no == _nowMap->MapDatas()[i]) {
+			while (_nowMap.MapDatas()[i] != -1) {
+				if (chip_no == _nowMap.MapDatas()[i]) {
 					// 当たった場合、そのチップ番号を返す
 					return chip_no;
 				}
@@ -440,17 +445,17 @@ namespace inr {
 		int x, y;
 
 		// 当たり判定と接触する可能性のある範囲とのみ判定を行う
-		for (y = footMinY / _nowMap->ChipSizeHeight(); y <= footMaxY / _nowMap->ChipSizeHeight(); ++y) {
-			for (x = footMinX / _nowMap->ChipSizeWidth(); x <= footMaxX / _nowMap->ChipSizeWidth(); ++x) {
+		for (y = footMinY / _nowMap.ChipSizeHeight(); y <= footMaxY / _nowMap.ChipSizeHeight(); ++y) {
+			for (x = footMinX / _nowMap.ChipSizeWidth(); x <= footMaxX / _nowMap.ChipSizeWidth(); ++x) {
 				int chip_no = CheckHit(x, y);	// この場所には何のチップがあるか？
 				if (chip_no != 0) {
 					// 衝突判定
 					auto c = _chipCheck->ChipCollision(chip_no);
 
-					double minX = x * _nowMap->ChipSizeWidth() + c.GetMin().IntX();
-					double maxX = x * _nowMap->ChipSizeWidth() + c.GetMax().IntX();
-					double minY = y * _nowMap->ChipSizeHeight() + c.GetMin().IntY();
-					double maxY = y * _nowMap->ChipSizeHeight() + c.GetMax().IntY();
+					double minX = x * _nowMap.ChipSizeWidth() + c.GetMin().IntX();
+					double maxX = x * _nowMap.ChipSizeWidth() + c.GetMax().IntX();
+					double minY = y * _nowMap.ChipSizeHeight() + c.GetMin().IntY();
+					double maxY = y * _nowMap.ChipSizeHeight() + c.GetMax().IntY();
 					Vector2 cmin = { minX, minY };
 					Vector2 cmax = { maxX, maxY };
 					AABB cbox = { cmin, cmax, true };
@@ -563,8 +568,8 @@ namespace inr {
 			// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
 			/* 検証用 */
 
-		for (y = miny / _nowMap->ChipSizeHeight(); y <= maxy / _nowMap->ChipSizeHeight(); ++y) {
-			for (x = minx / _nowMap->ChipSizeWidth(); x <= maxx / _nowMap->ChipSizeWidth(); ++x) {
+		for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
+			for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
 				// マップチップと接触しているかどうか？
 				int chip_no = CheckHit(x, y);
 				// チップ番号が0かどうか
@@ -578,10 +583,10 @@ namespace inr {
 					auto maxY = c.GetMax().IntX();
 
 					// 新規追加
-					auto chipMinX = x * _nowMap->ChipSizeWidth() + minX;
-					auto chipMinY = y * _nowMap->ChipSizeHeight() + minY;
-					auto chipMaxX = x * _nowMap->ChipSizeWidth() + maxX;
-					auto chipMaxY = y * _nowMap->ChipSizeHeight() + maxY;
+					auto chipMinX = x * _nowMap.ChipSizeWidth() + minX;
+					auto chipMinY = y * _nowMap.ChipSizeHeight() + minY;
+					auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
+					auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
 
 					// 範囲内に収まっているか？
 					if (minp.GetX() < chipMaxX && chipMinX < maxp.GetX()) {
