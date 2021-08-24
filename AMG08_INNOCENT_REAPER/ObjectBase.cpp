@@ -11,6 +11,8 @@
 
 namespace {
 	constexpr auto SPEED_NULL = 0;
+
+	constexpr auto TEST_VALUE = 5;
 }
 
 namespace inr {
@@ -59,7 +61,7 @@ namespace inr {
 				if ((emptyBox.GetMin().GetX() < _mainCollision.GetMin().GetX() && _mainCollision.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
 					(emptyBox.GetMin().GetX() < _mainCollision.GetMax().GetX() && _mainCollision.GetMax().GetX() < emptyBox.GetMax().GetX())) {
 
-					if (_mainCollision.GetMax().GetY() <= emptyBox.GetMin().GetY() +5 && emptyBox.GetMin().GetY() - 5 <= _mainCollision.GetMax().GetY()) {
+					if (_mainCollision.GetMax().GetY() <= emptyBox.GetMin().GetY() + TEST_VALUE && emptyBox.GetMin().GetY() - TEST_VALUE <= _mainCollision.GetMax().GetY()) {
 						_stand = true;
 						_gravity = 0;
 

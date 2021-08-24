@@ -35,11 +35,11 @@ namespace inr {
 
 
 	MapDataManager::MapDataManager(Game& game) : _game(game) {
-		_stageKey = "";
+		StageMapClear();
 	}
 
 	MapDataManager::~MapDataManager() {
-
+		StageMapClear();
 	}
 
 	void MapDataManager::LoadStageMap(JsonMapData& jsonMapData) {
@@ -48,5 +48,19 @@ namespace inr {
 			if (it == _maps.end()) continue;	// ˆ—‚ğƒXƒLƒbƒv
 			_maps.emplace(it->first, it->second);	// “o˜^
 		}
+	}
+
+	bool MapDataManager::GetStageMap(const std::string stage, MapData& mdata) {
+		// “Ç‚İæ‚è‚½‚¢ƒf[ƒ^‚Í“o˜^‚³‚ê‚Ä‚¢‚é‚©H
+		auto smap = _maps.find(stage);
+		if (smap == _maps.end()) {
+			return false;	// “o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íˆ—‚ğ”²‚¯‚é
+		}
+		mdata = smap->second;	// æ‚èo‚µ‚½î•ñ‚ğ‘ã“ü‚·‚é
+		return true;
+	}
+
+	void MapDataManager::StageMapClear() {
+		_maps.clear();
 	}
 }

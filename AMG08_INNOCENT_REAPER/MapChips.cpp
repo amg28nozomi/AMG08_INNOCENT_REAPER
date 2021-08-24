@@ -61,7 +61,7 @@ namespace inr {
 
 		auto filename = filePath + _fileChips;
 
-		const graph::ResourceServer::DivGraphMap mapchip {
+		const graph::ResourceServer::DivGraphMap mapchip{
 			{CHIP_KEY, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
 		};
 		// ResourceServerで画像読み込み
@@ -107,6 +107,8 @@ namespace inr {
 		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
 		_chipCheck->ChangeStageKey(STAGE_1);
 
+		// _mapManager = std::make_unique<MapDataManager>(_game.GetGame());
+
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
 		_worldLast = _worldPosition;
@@ -124,12 +126,12 @@ namespace inr {
 
 	void MapChips::Process() {
 		WorldClanp();
-		
+
 
 
 		// プレイヤーからスクリーン座標を取得して代入
 		/*if (*scrX < 0) { *scrX = 0; }
-		if (*scrX > mapW * chipW - WINDOW_W) *scrX = mapW * chipW + WINDOW_W; 
+		if (*scrX > mapW * chipW - WINDOW_W) *scrX = mapW * chipW + WINDOW_W;
 		if (*scrY < 0) { *scrY = 0; }
 		if (*scrY > mapH * chipH - WINDOW_H) *scrY = mapH * chipH + WINDOW_H;*/
 	}
@@ -186,12 +188,12 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						//if (CheckHit(x, y)) {
-						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
-						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						//}
+						if (CheckHit(x, y)) {
+							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
+							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						}
 #endif
 					}
 				}
@@ -268,14 +270,14 @@ namespace inr {
 		//	// 余り算で座標を変換
 		//	pos.GetPX() = pos.IntX() % (WINDOW_W + 1);
 		//}
-		
+
 		// auto y = pos.GetY() - cwindowH;
 		/*auto x = pos.GetX() - _worldPosition.GetX();
 		auto y = pos.GetY() - _worldPosition.GetY();*/
 		// 対象の座標からカメラ座標を引いた値はプラスかどうか？
 		//if (x < HALF_WINDOW_W) return false;
 		// if (x < HALF_WINDOW_W && y <= HALF_WINDOW_H) return false;
-		
+
 		//if (x < 0 && y < 0) {
 		//	// スクリーン座標内に存在しない
 		//	return false;
@@ -361,24 +363,18 @@ namespace inr {
 		picojson::object jsRoot = json.get<picojson::object>();
 
 		// マップのサイズ情報をjsonから取得
-		_mapSize.first = static_cast<int>(jsRoot["width"].get<double>());
-		_mapSize.second = static_cast<int>(jsRoot["height"].get<double>());
+		auto mapsizeWidth  = static_cast<int>(jsRoot["width"].get<double>());
+		auto mapsizeHeight = static_cast<int>(jsRoot["height"].get<double>());
 
 		picojson::array aTileSets = jsRoot["tilesets"].get<picojson::array>();
 		picojson::object jsTile = aTileSets[0].get<picojson::object>();
 
-		auto chipCount = &std::get<FIRST>(_chipCount);
-		auto chipCountW = &std::get<SECOND>(_chipCount);
-		auto chipCountH = &std::get<THIRD>(_chipCount);
-		auto chipSizeW = &_chipSize.first;
-		auto chipSizeH = &_chipSize.second;
-
-		*chipCount = static_cast<int>(jsTile["tilecount"].get<double>());
-		*chipCountW = static_cast<int>(jsTile["columns"].get<double>());
-		*chipCountH = (*chipCount / *chipCountW);
-		*chipSizeW = static_cast<int>(jsRoot["tilewidth"].get<double>());
-		*chipSizeH = static_cast<int>(jsRoot["tileheight"].get<double>());
-		_fileChips = jsTile["image"].get<std::string>();
+		auto chipCount = static_cast<int>(jsTile["tilecount"].get<double>());
+		auto chipCountW = static_cast<int>(jsTile["columns"].get<double>());
+		auto chipCountH = (chipCount / chipCountW);
+		auto chipSizeW = static_cast<int>(jsRoot["tilewidth"].get<double>());
+		auto chipSizeH = static_cast<int>(jsRoot["tileheight"].get<double>());
+		auto fileChips = jsTile["image"].get<std::string>();
 
 		picojson::array aLayers = jsRoot["layers"].get<picojson::array>();
 		int layer = 0;
@@ -428,10 +424,10 @@ namespace inr {
 							if (addChipsType[it] == mapchip_no) break;
 							if (it == addChipsType.size() - 1) addChipsType.emplace_back(mapchip_no);
 							} */
-						}
 					}
-					++layer;
 				}
+				++layer;
+			}
 		}
 		// チップ番号を若い順に並び変える
 		sort(_mapChipsType.begin(), _mapChipsType.end());
@@ -442,7 +438,7 @@ namespace inr {
 	}
 
 	int MapChips::CheckHit(int x, int y) {
-		
+
 		auto mapSizeW = _mapSize.first;
 		auto mapSizeH = _mapSize.second;
 
@@ -482,7 +478,7 @@ namespace inr {
 				if (chip_no != 0) {
 					// 衝突判定
 					auto c = _chipCheck->ChipCollision(chip_no);
-					
+
 					double minX = x * _chipSize.first + c.GetMin().IntX();
 					double maxX = x * _chipSize.first + c.GetMax().IntX();
 					double minY = y * _chipSize.second + c.GetMin().IntY();
@@ -501,28 +497,28 @@ namespace inr {
 								cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
 						} if (g < 0) {
-						// 加速度が負の場合（）
-							// プレイヤーの下部はマップチップの下部より大きいか
+							// 加速度が負の場合（）
+								// プレイヤーの下部はマップチップの下部より大きいか
 							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) return true;
 							// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) return true;
 						}
 					}
 
-						// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) ;
+					// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) ;
 
 
 
-					// if (mn.HitUpDown(cbox)) return true;
+				// if (mn.HitUpDown(cbox)) return true;
 
-					/*auto posmx = x * _chipSize.first;
-					auto posnx = x * _chipSize.first;*/
+				/*auto posmx = x * _chipSize.first;
+				auto posnx = x * _chipSize.first;*/
 
-					//// y座標は範囲内に収まっているか？
-					//if ((minY <= footMaxY && footMaxY <= maxY) || (minY <= footMinY && footMinY <= maxY)) {
-					//	if ((minX <= footMinX && footMinX <= maxX) || (minX <= footMaxX && footMaxX <= maxX)) {
-					//		return true;
-					//	}
-					//}
+				//// y座標は範囲内に収まっているか？
+				//if ((minY <= footMaxY && footMaxY <= maxY) || (minY <= footMinY && footMinY <= maxY)) {
+				//	if ((minX <= footMinX && footMinX <= maxX) || (minX <= footMaxX && footMaxX <= maxX)) {
+				//		return true;
+				//	}
+				//}
 
 				}
 			}
@@ -588,14 +584,16 @@ namespace inr {
 		auto miny = thisbox.GetMin().IntY() + move.IntY();
 		auto maxx = thisbox.GetMax().IntX() + move.IntX();
 		auto maxy = thisbox.GetMax().IntY() + move.IntY();
+		Vector2 minp = { static_cast<double>(minx), static_cast<double>(miny) };
+		Vector2 maxp = { static_cast<double>(maxx), static_cast<double>(maxy) };
 
 		/*AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
 			{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() }, box.GetCollisionFlg());*/
 
 
-		/* 検証用 */
-		// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
-		/* 検証用 */
+			/* 検証用 */
+			// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
+			/* 検証用 */
 
 		for (y = miny / _chipSize.second; y <= maxy / _chipSize.second; ++y) {
 			for (x = minx / _chipSize.first; x <= maxx / _chipSize.first; ++x) {
@@ -617,19 +615,53 @@ namespace inr {
 					auto chipMaxX = x * _chipSize.first + maxX;
 					auto chipMaxY = y * _chipSize.second + maxY;
 
+					// 範囲内に収まっているか？
+					if (minp.GetX() < chipMaxX && chipMinX < maxp.GetX()) {
+						if (vectorY < 0) {
+							// ジャンプアクション中に天井にめり込んでいるか？
+							// 天井のmaxyよりも対象のminyが小さくてかつ、
+							if (minp.GetY() < chipMaxY && chipMinY < maxp.GetY()) {
+								auto cave = box.GetHeightMin();
+								move.GetPY() = 0;	// 移動量初期化
+								pos.GetPY() = chipMaxY + cave;
+							}
+							else if (0 < vectorY) {
+								
+							}
+						}
+					}
+
+					if (minp.GetY() < chipMaxY && chipMinY < maxp.GetY()) {
+						if (vectorX < 0) {
+							// 
+							if (minp.GetX() <= chipMaxX && chipMinX < maxp.GetX()) {
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMaxX + cave;
+							}
+						}
+						else if (0 < vectorX) {
+							if (chipMinX <= maxp.GetX() && minp.GetX() < chipMaxX) {
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMinX - cave;
+							}
+						}
+					}
+
 					/*auto chipMinX = x * _chipSize.first;
 					auto chipMinY = y * _chipSize.second;
 					auto chipMaxX = x * _chipSize.first + _chipSize.first;
 					auto chipMaxY = y * _chipSize.second + _chipSize.second;*/
 
 
-					
+
 					//AABB mapchip({ static_cast<double>(chipMinX) , static_cast<double>(chipMinY) }, { static_cast<double>(chipMaxX), static_cast<double>(chipMaxY)}, true);
 					// //押し出し処理
 					//if (thisbox.HitDirection(mapchip)) {
 					//	move.GetPX() = thisbox.HitDirection(mapchip);
 					//}
-					
+
 					// x座標のめり込み判定
 					// if (vectorX < 0 && boxcol.HitCheck(mapchip) == true) {
 					// 左移動状態かつ

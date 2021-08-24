@@ -44,6 +44,7 @@ namespace inr {
 		std::vector<int> _chipType;	// 当たり判定があるマップチップ
 	};
 
+	// マップデータ管理用のクラス
 	class MapDataManager {
 	public:
 		MapDataManager(Game& game);
@@ -51,9 +52,10 @@ namespace inr {
 
 		using JsonMapData = std::unordered_map<std::string, MapData>;
 
-		void LoadStageMap(JsonMapData& jsonMapData);
+		void LoadStageMap(JsonMapData& jsonMapData);	// 登録
+		bool GetStageMap(const std::string stage, MapData& mdata);	// 指定したマップデータの読み込み(引数1:読み取りたいマップのキー、引数2:値を代入するオブジェクト)
+		void StageMapClear();	// 連想配列の初期化
 	private:
-		std::string _stageKey;	// 読み取りキー
 		JsonMapData _maps;	// マップの情報を保存
 		Game& _game;
 	};
