@@ -18,7 +18,13 @@ namespace {
 	constexpr auto SECOND = 1;
 	constexpr auto THIRD = 2;
 
-	constexpr auto STAGE_1 = "stage_1";
+	// ステージ読み込み用のキー
+	constexpr auto STAGE_0 = "tutorial";	// チュートリアル
+	constexpr auto STAGE_1 = "stage_1";		// ステージ1(廃村)
+	constexpr auto STAGE_2_1 = "stage_2_1";	// ステージ2(森林-中央)
+	constexpr auto STAGE_2_2 = "stage_2_2";	// ステージ2(森林-上部)
+	constexpr auto STAGE_2_3 = "stage_2_3";	// ステージ2(森林-下部)
+	constexpr auto STAGE_3 = "boss_stage";	// ステージ3(ボス戦)
 
 	constexpr auto CHIP_RIGHT1 = 35;
 	constexpr auto CHIP_RIGHT2 = 40;
@@ -469,9 +475,10 @@ namespace inr {
 
 		int x, y;
 
+		// 当たり判定と接触する可能性のある範囲とのみ判定を行う
 		for (y = footMinY / _chipSize.second; y <= footMaxY / _chipSize.second; ++y) {
 			for (x = footMinX / _chipSize.first; x <= footMaxX / _chipSize.first; ++x) {
-				int chip_no = CheckHit(x, y);
+				int chip_no = CheckHit(x, y);	// この場所には何のチップがあるか？
 				if (chip_no != 0) {
 					// 衝突判定
 					auto c = _chipCheck->ChipCollision(chip_no);
@@ -486,15 +493,15 @@ namespace inr {
 
 					// 判定範囲内に収まっているか？
 					if (mn.GetMin().GetX() < cbox.GetMax().GetX() && cbox.GetMin().GetX() < mn.GetMax().GetX()) {
-						// 下のマップと接触しているか？
+						// 加速値が正の場合（落下中、床と接触しているか？）
 						if (0 < g) {
 							// プレイヤーの上部はマップチップ上部より小さいか
 							if (mn.GetMin().GetY() < cbox.GetMin().GetY() &&
 								// マップチップの上部に対象の下が足元が埋まっているかどうか
 								cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
-						}
-						if (g < 0) {
+						} if (g < 0) {
+						// 加速度が負の場合（）
 							// プレイヤーの下部はマップチップの下部より大きいか
 							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) return true;
 							// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) return true;

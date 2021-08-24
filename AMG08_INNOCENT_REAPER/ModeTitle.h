@@ -17,7 +17,7 @@ namespace inr {
 		virtual void Draw();	// •`‰æ
 
 	private:
+
 		std::unique_ptr<Logo> _titleGh;
-		std::unique_ptr<TitleLogo> _ui;
 	};
 }

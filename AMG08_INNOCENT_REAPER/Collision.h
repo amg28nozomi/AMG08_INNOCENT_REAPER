@@ -31,6 +31,13 @@ public:
 	inline Vector2 GetMin() { return minV; }
 	inline Vector2 GetMax() { return maxV; }
 	inline Vector2 GetCenter() { return center; }
+	// Šeí•â³’l‚Ìæ“¾
+	inline int GetWidthMin() { return _widthMin; }
+	inline int GetWidthMax() { return _widthMax; }
+	inline int GetHeightMin() { return _heightMin; }
+	inline int GetHeightMax() { return _heightMax; }
+	inline int WidhtSize() { return _widthMin + _widthMax; }
+	inline int HeightSize() { return _heightMin + _heightMax; }
 	/*inline const int GetWidth() { return _width / 2; }
 	inline const int GetHeight() { return _height / 2; }*/
 

@@ -10,7 +10,6 @@ namespace inr {
 
 	ModeTitle::ModeTitle(Game& game) : ModeBase(game) {
 		_titleGh = std::make_unique<Logo>(_game.GetGame());
-		_ui = std::make_unique<TitleLogo>(_game.GetGame());
 	}
 
 	ModeTitle::~ModeTitle() {
@@ -23,7 +22,6 @@ namespace inr {
 
 	void ModeTitle::Process() {
 			_titleGh->Process();
-			_ui->Process();
 			_game.GetObjectServer()->Process();
 
 		/*_titleGh->Process();
@@ -33,7 +31,6 @@ namespace inr {
 
 	void ModeTitle::Draw() {
 		_titleGh->Draw();
-		_ui->Draw();
 		_game.GetObjectServer()->Draw();
 	}
 }

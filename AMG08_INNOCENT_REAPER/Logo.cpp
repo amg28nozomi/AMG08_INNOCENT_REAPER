@@ -20,6 +20,7 @@ namespace {
 namespace inr {
 
 	Logo::Logo(Game& game) : Image(game), _rgb() {
+		_tlogo = nullptr;
 		Init();
 	}
 
@@ -31,10 +32,12 @@ namespace inr {
 	}
 
 	void Logo::Process() {
+		if (_tlogo != nullptr) _tlogo->Process();
 		if (_number < LOGO_MAX) {
 			// Aボタンの入力があった場合は処理をスキップする
 			if (_number != LOGO_THIRD && _game.GetTrgKey() == PAD_INPUT_3) {
 				++_number;
+				_wait = 0;
 				_calculation = rgb::ADD;
 				ChangeGraph();	// アニメーションを切り替え
 			}
@@ -83,6 +86,7 @@ namespace inr {
 		SetDrawBright(_rgb.Red(), _rgb.Green(), _rgb.Blue());
 		DrawRotaGraph(x, y, 1.0, 0, grh, true, false);
 		SetDrawBright(rgb::MAX_BLEND, rgb::MAX_BLEND, rgb::MAX_BLEND);
+		if (_tlogo != nullptr) _tlogo->Draw();
 	}
 
 	void Logo::AnimationInit() {
@@ -102,6 +106,7 @@ namespace inr {
 			return;
 		case LOGO_THIRD:	// タイトルロゴに遷移
 			_graphKey = TITLE_BG;
+			_tlogo = std::make_unique<TitleLogo>(_game.GetGame());
 			return;
 		case LOGO_MAX:
 			return;

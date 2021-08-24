@@ -88,6 +88,10 @@ namespace inr {
 		// 自身とプレイヤー間のベクトルを算出
 		Vector2 mv = { px - _position.GetX(), py - _position.GetY() };
 		mv.Normalize();
+
+		if (0 <= mv.GetX() && mv.GetX() <= 0.1 || -0.1 <= mv.GetX() && mv.GetX() <= 0) mv.GetPX() = 0;
+		if (0 <= mv.GetY() && mv.GetY() <= 0.1 || -0.1 <= mv.GetY() && mv.GetY() <= 0) mv.GetPY() = 0;
+
 		// 移動ベクトルに加算
 		_moveVector.GetPX() = mv.GetX() * _speed;
 		_moveVector.GetPY() = mv.GetY() * _speed;
