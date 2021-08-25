@@ -111,7 +111,7 @@ namespace inr {
 
 
 		auto mswidth = _nowMap.MapSizeWidth();
-		auto mdatas = _nowMap.MapDatas();
+		auto msheight = _nowMap.MapSizeHeight();
 		auto cswidth = _nowMap.ChipSizeWidth();
 		auto csheight = _nowMap.ChipSizeHeight();
 
@@ -119,12 +119,12 @@ namespace inr {
 			for (y = starty; y < endy; ++y) {
 				for (x = startx; x < endx; ++x) {
 
-					int layerStart = _nowMap.MapSizeWidth() * _nowMap.MapSizeHeight() * layer;
+					int layerStart = mswidth * msheight * layer;
 					//int layerStart = endx * endy * layer;
 					// int index = y * endy + x;
 					int index = y * mswidth + x;
 					// int index = y * endx + x;
-					int no = mdatas[layerStart + index];
+					int no = _nowMap.MapDatas(layerStart + index);
 
 					// 当たり判定を取得
 					auto c = _chipCheck->ChipCollision(no);
@@ -144,12 +144,12 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						//if (CheckHit(x, y)) {
-						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
-						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						//}
+						if (CheckHit(x, y)) {
+							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
+							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						}
 #endif
 					}
 				}
@@ -416,11 +416,11 @@ namespace inr {
 		auto mapSizeH = _nowMap.MapSizeHeight(); // _mapSize.second;
 
 		if (0 <= x && x < mapSizeW && 0 <= y && y < mapSizeH) {
-			int chip_no = _nowMap.MapDatas()[y * mapSizeW + x];
+			int chip_no = _nowMap.MapDatas(y * mapSizeW + x);
 			// 当たるIDかどうかの判定
 			auto i = 0;
-			while (_nowMap.MapDatas()[i] != -1) {
-				if (chip_no == _nowMap.MapDatas()[i]) {
+			while (_nowMap.MapDatas(i) != -1) {
+				if (chip_no == _nowMap.MapDatas(i)) {
 					// 当たった場合、そのチップ番号を返す
 					return chip_no;
 				}

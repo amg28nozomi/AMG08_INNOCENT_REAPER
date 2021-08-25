@@ -26,6 +26,7 @@ namespace inr {
 		inline int ChipSizeHeight() { return _chipSizeH; }
 		inline int MapSizeLayer() { return _mapSizeLayer; }
 		inline std::string FileName() { return _fileName; }
+		inline int MapDatas(int element) { return _mapDatas[element]; }
 		inline std::vector<int> MapDatas() { return _mapDatas; }
 		inline std::vector<int> ChipType() { return _chipType; }
 
