@@ -18,6 +18,8 @@
 #include "Scenario.h"
 #include "EffectBase.h"
 
+#include "Loads.h"
+
 namespace inr {
 
 	// Ã“Iƒƒ“ƒo•Ï”’è‹`
@@ -122,13 +124,9 @@ namespace inr {
 		_modeServer = std::make_unique<ModeServer>(*this);
 		_scenario = std::make_unique<Scenario>(*this);
 
-		// “Ç‚İ‚İ
 		graph::ResourceServer::Init();
-		graph::ResourceServer::LoadGraphList(div);
-		graph::ResourceServer::LoadGraphList(soldierDoll);
-		graph::ResourceServer::LoadGraphList(souls);
-		graph::ResourceServer::LoadGraphList(images);
-		graph::ResourceServer::LoadGraphList(effects);
+		Loads::ResourceLoad();
+		// “Ç‚İ‚İ
 		se::SoundServer::Init();
 		se::SoundServer::LoadSoundMap(ses);
 

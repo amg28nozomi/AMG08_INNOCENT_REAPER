@@ -8,12 +8,13 @@ namespace graph {
 	//// DxLib::LoadDivGraph関数用のクラス
 	class DivGraph {
 	public:
-		DivGraph(std::string fillname, int xnum, int allnum, int ynum, int xsize, int ysize);
+		DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize);
+		DivGraph();
 		~DivGraph();
 		// 以下ゲッター
 
 		//inline std::string GetFill() { return _fillname; }
-		std::string& GetFill();
+		std::string& GetFile();
 
 		inline int GetXnum() { return _xNum; }
 		inline int GetYnum() { return _yNum; }
@@ -27,7 +28,7 @@ namespace graph {
 		inline void SwapHandles(std::vector<int> newhandles) { _handles.swap(newhandles); }
 
 	private:
-		std::string  _fillname;		// ファイル名
+		std::string  _filename;		// ファイル名
 		int _xNum;		// 分割数(横)
 		int _yNum;		// 分割数(横)
 		int _allNum;	// 総分割数
@@ -41,10 +42,13 @@ namespace graph {
 		// 型名の別名定義
 		// using 別名 = 型名で別名を定義できる
 		using DivGraphMap = std::unordered_map<std::string, DivGraph>;
+
 		static void Init();		// 初期化
 		static void Release();		// 解放
 		static void ClearGraphLists();
 		static void LoadGraphList(const DivGraphMap& divGraphMap);	// 画像の一括読み込み
+		// 引数1:登録用キー　引数2:パス　引数3:ファイル名
+		static void SetLoadGraph(std::string gkey, std::string path, std::string filename, int maxsize, int xsize, int ysize); // 引数1:登録用キー　引数2:パス　引数3:ファイル名
 
 		static int GetHandles(const std::string& key, int no = 0);
 		static bool GetHandles(const std::string& key, std::vector<int>& handls);

@@ -9,15 +9,25 @@ namespace graph {
 
 	ResourceServer::DivGraphMap ResourceServer::_graphlists;
 
-	DivGraph::DivGraph(std::string fillname, int xnum, int ynum, int allnum, int xsize, int ysize) : 
-		_fillname(fillname), _xNum(xnum), _yNum(ynum), _allNum(allnum), _xSize(xsize), _ySize(ysize), _handles(){
+	DivGraph::DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize) : 
+		_filename(filename), _xNum(xnum), _yNum(ynum), _allNum(allnum), _xSize(xsize), _ySize(ysize), _handles(){
+	}
+
+	DivGraph::DivGraph() {
+		_filename = "";
+		_xNum = 0;
+		_yNum = 0;
+		_allNum = 0;
+		_xSize = 0;
+		_ySize = 0;
+		_handles.clear();
 	}
 
 	DivGraph::~DivGraph() {
 	}
 
-	std::string& DivGraph::GetFill() {
-		std::string* fillname = &_fillname;
+	std::string& DivGraph::GetFile() {
+		std::string* fillname = &_filename;
 
 		return *fillname;
 	}
@@ -53,7 +63,7 @@ namespace graph {
 			
 			dg.GetHandls().resize(allNum);
 
-			LoadDivGraph(dg.GetFill().c_str(), allNum, dg.GetXnum(), dg.GetYnum(), dg.GetXsize(), dg.GetYsize(),dg.GetHandls().data());
+			LoadDivGraph(dg.GetFile().c_str(), allNum, dg.GetXnum(), dg.GetYnum(), dg.GetXsize(), dg.GetYsize(),dg.GetHandls().data());
 			_graphlists.emplace(key.c_str(), dg);
 		}
 
@@ -90,5 +100,26 @@ namespace graph {
 			return -1;
 		}
 		return it->second.GetAllNum();
+	}
+
+	void ResourceServer::SetLoadGraph(std::string gkey, std::string path, std::string filename, int maxsize, int xsize, int ysize) {
+		auto it = _graphlists.find(gkey);
+		if (it != _graphlists.end()) return;
+		// ‹ó‚Ìƒf[ƒ^‚ğì¬
+		DivGraph dgraph = { path + filename, 1, 1, 1, xsize, ysize};
+		auto dghandle = dgraph.GetHandls();
+		dghandle.resize(maxsize);
+		for (auto i = 0; i < maxsize; ++i) {
+			std::string number;
+			if (i < 10) {
+				number = "0" + std::to_string(i);
+			}
+			else {
+				number = std::to_string(i);
+			}
+			std::string fn = dgraph.GetFile() + number  + ".png";
+			LoadDivGraph(fn.c_str(), dgraph.GetXnum(), dgraph.GetYnum(), dgraph.GetAllNum(), dgraph.GetXsize(), dgraph.GetYsize(), &dghandle.at(i));
+		}
+		_graphlists.emplace(gkey, dgraph);
 	}
 }
