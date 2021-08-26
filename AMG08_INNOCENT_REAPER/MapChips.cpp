@@ -53,7 +53,7 @@ namespace inr {
 	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
 		_chipCheck = std::make_unique<ChipHitCheck>();
 		SetChipsMap();
-		
+
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
 		TiledJsonLoad(STAGE_1, filePath, tiledFileName + ".json");
 
@@ -91,6 +91,11 @@ namespace inr {
 		DrawFormatString(0, 300, GetColor(255, 0, 0), "worldPosition.x = %d\n", _worldPosition.IntX());
 		DrawFormatString(0, 325, GetColor(255, 0, 0), "worldPosition.y = %d\n", _worldPosition.IntY());
 #endif
+		auto mswidth = _nowMap.MapSizeWidth();
+		auto msheight = _nowMap.MapSizeHeight();
+		auto cswidth = _nowMap.ChipSizeWidth();
+		auto csheight = _nowMap.ChipSizeHeight();
+
 		// 描画処理
 		int x, y, layer;
 
@@ -99,21 +104,15 @@ namespace inr {
 		int minx = _worldPosition.IntX() - 1060;
 		int maxx = _worldPosition.IntX() + 1060;
 
-		int starty = miny / _nowMap.ChipSizeHeight();//_chipSize.second;
-		int endy = maxy / _nowMap.ChipSizeHeight();//_chipSize.second;
-		int startx = minx / _nowMap.ChipSizeWidth();//_chipSize.first;
-		int endx = maxx / _nowMap.ChipSizeWidth();//_chipSize.first;
+		int starty = miny / csheight;//_chipSize.second;
+		int endy = maxy / csheight;//_chipSize.second;
+		int startx = minx / cswidth;//_chipSize.first;
+		int endx = maxx / cswidth;//_chipSize.first;
 
 		if (startx < 0) startx = 0;
-		if (_nowMap.MapSizeWidth() < endx) endx = _nowMap.MapSizeWidth();
+		if (mswidth < endx) endx = mswidth;
 		if (starty < 0) starty = 0;
-		if (_nowMap.MapSizeHeight() < endy) endy = _nowMap.MapSizeHeight();
-
-
-		auto mswidth = _nowMap.MapSizeWidth();
-		auto msheight = _nowMap.MapSizeHeight();
-		auto cswidth = _nowMap.ChipSizeWidth();
-		auto csheight = _nowMap.ChipSizeHeight();
+		if (msheight < endy) endy = msheight;
 
 		for (layer = 0; layer < _nowMap.MapSizeLayer(); ++layer) {
 			for (y = starty; y < endy; ++y) {
@@ -415,12 +414,15 @@ namespace inr {
 		auto mapSizeW = _nowMap.MapSizeWidth(); // _mapSize.first;
 		auto mapSizeH = _nowMap.MapSizeHeight(); // _mapSize.second;
 
+		auto chips = _nowMap.MapDatas();
+		auto chiptype = _nowMap.ChipType();
+
 		if (0 <= x && x < mapSizeW && 0 <= y && y < mapSizeH) {
-			int chip_no = _nowMap.MapDatas(y * mapSizeW + x);
+			int chip_no = chips[y * mapSizeW + x];
 			// 当たるIDかどうかの判定
 			auto i = 0;
-			while (_nowMap.MapDatas(i) != -1) {
-				if (chip_no == _nowMap.MapDatas(i)) {
+			while (chiptype[i] != -1) {
+				if (chip_no == chiptype[i]) {
 					// 当たった場合、そのチップ番号を返す
 					return chip_no;
 				}
@@ -442,20 +444,24 @@ namespace inr {
 		Vector2 n = { box.GetMax().GetX(), box.GetMax().GetY() + g };
 		AABB mn = { m, n, box.GetCollisionFlg() };
 
+
+		auto csh = _nowMap.ChipSizeHeight();
+		auto csw = _nowMap.ChipSizeWidth();
+
 		int x, y;
 
 		// 当たり判定と接触する可能性のある範囲とのみ判定を行う
-		for (y = footMinY / _nowMap.ChipSizeHeight(); y <= footMaxY / _nowMap.ChipSizeHeight(); ++y) {
-			for (x = footMinX / _nowMap.ChipSizeWidth(); x <= footMaxX / _nowMap.ChipSizeWidth(); ++x) {
+		for (y = footMinY / csh; y <= footMaxY / csh; ++y) {
+			for (x = footMinX / csw; x <= footMaxX / csw; ++x) {
 				int chip_no = CheckHit(x, y);	// この場所には何のチップがあるか？
 				if (chip_no != 0) {
 					// 衝突判定
 					auto c = _chipCheck->ChipCollision(chip_no);
 
-					double minX = x * _nowMap.ChipSizeWidth() + c.GetMin().IntX();
-					double maxX = x * _nowMap.ChipSizeWidth() + c.GetMax().IntX();
-					double minY = y * _nowMap.ChipSizeHeight() + c.GetMin().IntY();
-					double maxY = y * _nowMap.ChipSizeHeight() + c.GetMax().IntY();
+					double minX = x * csw + c.GetMin().IntX();
+					double maxX = x * csw + c.GetMax().IntX();
+					double minY = y * csh + c.GetMin().IntY();
+					double maxY = y * csh + c.GetMax().IntY();
 					Vector2 cmin = { minX, minY };
 					Vector2 cmax = { maxX, maxY };
 					AABB cbox = { cmin, cmax, true };
@@ -589,38 +595,38 @@ namespace inr {
 					auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
 
 					// 範囲内に収まっているか？
-					if (minp.GetX() < chipMaxX && chipMinX < maxp.GetX()) {
-						if (vectorY < 0) {
-							// ジャンプアクション中に天井にめり込んでいるか？
-							// 天井のmaxyよりも対象のminyが小さくてかつ、
-							if (minp.GetY() < chipMaxY && chipMinY < maxp.GetY()) {
-								auto cave = box.GetHeightMin();
-								move.GetPY() = 0;	// 移動量初期化
-								pos.GetPY() = chipMaxY + cave;
-							}
-							else if (0 < vectorY) {
-								
-							}
-						}
-					}
+					//if (minp.GetX() < chipMaxX && chipMinX < maxp.GetX()) {
+					//	if (vectorY < 0) {
+					//		// ジャンプアクション中に天井にめり込んでいるか？
+					//		// 天井のmaxyよりも対象のminyが小さくてかつ、
+					//		if (minp.GetY() < chipMaxY && chipMinY < maxp.GetY()) {
+					//			auto cave = box.GetHeightMin();
+					//			move.GetPY() = 0;	// 移動量初期化
+					//			pos.GetPY() = chipMaxY + cave;
+					//		}
+					//		else if (0 < vectorY) {
+					//			
+					//		}
+					//	}
+					//}
 
-					if (minp.GetY() < chipMaxY && chipMinY < maxp.GetY()) {
-						if (vectorX < 0) {
-							// 
-							if (minp.GetX() <= chipMaxX && chipMinX < maxp.GetX()) {
-								auto cave = box.GetWidthMin();
-								move.GetPX() = 0;
-								pos.GetPX() = chipMaxX + cave;
-							}
-						}
-						else if (0 < vectorX) {
-							if (chipMinX <= maxp.GetX() && minp.GetX() < chipMaxX) {
-								auto cave = box.GetWidthMin();
-								move.GetPX() = 0;
-								pos.GetPX() = chipMinX - cave;
-							}
-						}
-					}
+					//if (minp.GetY() < chipMaxY && chipMinY < maxp.GetY()) {
+					//	if (vectorX < 0) {
+					//		// 
+					//		if (minp.GetX() <= chipMaxX && chipMinX < maxp.GetX()) {
+					//			auto cave = box.GetWidthMin();
+					//			move.GetPX() = 0;
+					//			pos.GetPX() = chipMaxX + cave;
+					//		}
+					//	}
+					//	else if (0 < vectorX) {
+					//		if (chipMinX <= maxp.GetX() && minp.GetX() < chipMaxX) {
+					//			auto cave = box.GetWidthMin();
+					//			move.GetPX() = 0;
+					//			pos.GetPX() = chipMinX - cave;
+					//		}
+					//	}
+					//}
 
 					/*auto chipMinX = x * _chipSize.first;
 					auto chipMinY = y * _chipSize.second;
@@ -748,5 +754,9 @@ namespace inr {
 		};
 		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
 		_chipCheck->ChangeStageKey(STAGE_1);
+	}
+
+	void MapChips::SetChipMember() {
+
 	}
 }

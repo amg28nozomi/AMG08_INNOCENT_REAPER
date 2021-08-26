@@ -61,6 +61,7 @@ namespace inr {
 		// 引数1:登録用キー　引数2:ファイルパス　引数3:ファイル名
 		int TiledJsonLoad(std::string skey, std::string filePath, std::string strFileName);
 		void SetChipsMap();	// 各ステージの一部マップチップの判定範囲を修正
+		void SetChipMember(); // member
 
 		//std::pair<int, int> _mapSize;	// マップのサイズ(チップ数　first:width、second:hight)
 		//std::tuple<int, int, int> _chipCount;
