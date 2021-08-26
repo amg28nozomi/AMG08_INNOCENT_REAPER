@@ -1,5 +1,0 @@
-・t ＝title
-・ali ＝amg_logo_in
-・alo ＝amg_logo_out
-・tli ＝team_logo_in
-・tlo =team_logo_out
