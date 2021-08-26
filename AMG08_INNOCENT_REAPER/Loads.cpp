@@ -8,6 +8,8 @@
 #include "SoulSkin.h"
 #include "EffectBase.h"
 #include "Image.h"
+#include "Logo.h"
+#include "FadeBlack.h"
 
 #include <vector>
 
@@ -57,6 +59,8 @@ namespace inr {
 		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
 		{ BACK_GROUND, {"Resource/stage01ver2.png", 1, 1, 1, BACK_GROUND_W, BACK_GROUND_H}},
 
+		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+
 		{ AMG_LOGO, {"Resource/amg.png", 1, 1, 1, AMG_IMAGE, AMG_IMAGE}},	// AMGÉçÉS
 		{ TEAM_LOGO, {"Resource/r_crystal.png", 1, 1, 1, TEAM_IMAGE, TEAM_IMAGE}},	// É`Å[ÉÄÉçÉS(âÊëúç∑Çµë÷Ç¶)
 		{ TITLE_BG, {"Resource/bg_title.png", 1, 1, 1, TITLE_IMAGE_WIDTH, TITLE_IMAGE_HEIGHT}},
@@ -76,11 +80,6 @@ namespace inr {
 
 
 	namespace titles {
-		constexpr auto TITLE_ALI = "title_logo_in";
-		constexpr auto TITLE_ALO = "title_logo_out";
-		constexpr auto TITLE_T = "title_animation";
-		constexpr auto TITLE_TLI = "team_logo_in";
-		constexpr auto TITLE_TLO = "team_logo_out";
 
 		constexpr auto PATH_ALI = "ali/";
 		constexpr auto PATH_ALO = "alo/";

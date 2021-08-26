@@ -18,4 +18,8 @@ namespace inr {
 
 	void Image::Draw() {
 	}
+
+	void Image::FlagOn() {
+
+	}
 }

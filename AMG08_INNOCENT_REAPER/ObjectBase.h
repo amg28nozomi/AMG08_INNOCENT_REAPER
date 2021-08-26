@@ -15,6 +15,7 @@ namespace {
 namespace inr {
 
 	constexpr auto FRAME_G = 0.5;	// 1ƒtƒŒ[ƒ€–‚Ì‰Á‘¬’l
+	constexpr auto MAX_G = 15.0;
 	constexpr auto SE_NUM = 0;
 
 	class Game;

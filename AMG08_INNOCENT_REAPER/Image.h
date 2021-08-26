@@ -48,6 +48,8 @@ namespace inr {
 		virtual void Init();
 		virtual void Process();
 		virtual void Draw();
+
+		virtual void FlagOn();
 	};
 }
 

@@ -107,7 +107,7 @@ namespace graph {
 		if (it != _graphlists.end()) return;
 		// ‹ó‚Ìƒf[ƒ^‚ğì¬
 		DivGraph dgraph = { path + filename, 1, 1, 1, xsize, ysize};
-		auto dghandle = dgraph.GetHandls();
+		auto&& dghandle = dgraph.GetHandls();
 		dghandle.resize(maxsize);
 		for (auto i = 0; i < maxsize; ++i) {
 			std::string number;
@@ -118,7 +118,7 @@ namespace graph {
 				number = std::to_string(i);
 			}
 			std::string fn = dgraph.GetFile() + number  + ".png";
-			LoadDivGraph(fn.c_str(), dgraph.GetXnum(), dgraph.GetYnum(), dgraph.GetAllNum(), dgraph.GetXsize(), dgraph.GetYsize(), &dghandle.at(i));
+			LoadDivGraph(fn.c_str(), 1, 1, 1, xsize, ysize, &dghandle.at(i));
 		}
 		_graphlists.emplace(gkey, dgraph);
 	}

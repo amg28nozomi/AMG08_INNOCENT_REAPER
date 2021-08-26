@@ -157,6 +157,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="EffectBase.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
+    <ClCompile Include="FadeBlack.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GimmickBase.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Constexpr.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="FadeBlack.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GimmickBase.h" />
