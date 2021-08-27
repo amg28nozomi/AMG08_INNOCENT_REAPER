@@ -225,6 +225,9 @@ namespace inr {
 				_aState = ActionState::FALL;
 				_divKey.first = PKEY_FALL;
 			}
+			else if (!_gravity) {
+				ChangeState(ActionState::IDOL, PKEY_IDOL);
+			}
 			return;
 		// —Ž‰ºŽž
 		case ActionState::FALL:
