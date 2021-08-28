@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
+#include "BigDoll.h"
 #include "SoulSkin.h"
 #include "EffectBase.h"
 #include "Image.h"
@@ -31,19 +32,33 @@ namespace inr {
 	};
 
 	// ソルジャードールの各種モーション
-	const graph::ResourceServer::DivGraphMap soldierDoll{
+	const graph::ResourceServer::DivGraphMap enemys {
 		// 魂が空の状態
 		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 赤い魂の状態
+		// ソルジャードール
 		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 8, 1, 8, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_r_move.png", 9, 1, 9, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_ATTACK, {"Resource/SoldierDoll/sd_r_attack.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		// ビッグドール
+		{ enemy::red::BIG_WAKEUP, {"Resource/BigDoll/bd_r_wakeup.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_IDOL, {"Resource/BigDoll/bd_r_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_PATROL, {"Resource/BigDoll/bd_r_move.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_EMPTY}},
+		{ enemy::red::BIG_HIPDROP, {"Resource/BigDoll/bd_r_hipdrop.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 青い魂
+		// ソルジャードール
 		{ enemy::blue::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::blue::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_b_stand.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::blue::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_b_move.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::blue::SOLDIER_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		// ビッグドール
+		{ enemy::blue::BIG_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_IDOL, {"Resource/SoldierDoll/sd_b_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_PATROL, {"Resource/SoldierDoll/sd_b_move.png", 4, 1, 4, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 	};
 
 	// 魂くんの各種モーション
@@ -91,7 +106,7 @@ namespace inr {
 
 	void Loads::ResourceLoad() {
 		graph::ResourceServer::LoadGraphList(div);
-		graph::ResourceServer::LoadGraphList(soldierDoll);
+		graph::ResourceServer::LoadGraphList(enemys);
 		graph::ResourceServer::LoadGraphList(souls);
 		graph::ResourceServer::LoadGraphList(images);
 		graph::ResourceServer::LoadGraphList(effects);

@@ -8,12 +8,21 @@ namespace inr {
 	namespace enemy {
 		// キー情報
 		constexpr auto SOLDIER_EMPTY = "soldier_empty";	// 抜け殻
+		constexpr auto BIG_EMPTY = "big_empty";	// 抜け殻(ビッグドール)
 
 		namespace red {	// 魂（赤）
+			/* ソルジャードール */
 			constexpr auto SOLDIER_WAKEUP = "soldier_r_wakeup";	// 起き上がり
 			constexpr auto SOLDIER_IDOL = "soldier_r_stand";	// アイドル
 			constexpr auto SOLDIER_PATROL = "soldier_r_patrol";	// 巡回中
 			constexpr auto SOLDIER_ATTACK = "soldier_r_attack";	// 攻撃
+
+			/* ビッグドール */
+			constexpr auto BIG_WAKEUP = "big_r_wakeup";		// 起き上がり
+			constexpr auto BIG_IDOL = "big_r_stand";		// 待機
+			constexpr auto BIG_PATROL = "big_r_patrol";		// 巡回
+			constexpr auto BIG_TACKLE = "big_r_tackle";		// 攻撃（タックル）
+			constexpr auto BIG_HIPDROP = "big_r_hipdrop";	// 攻撃（ヒップドロップ）
 		}
 
 		namespace blue { // 青の魂
@@ -21,6 +30,11 @@ namespace inr {
 			constexpr auto SOLDIER_IDOL = "soldier_b_stand";	// アイドル
 			constexpr auto SOLDIER_PATROL = "soldier_b_patrol";	// 巡回中
 			constexpr auto SOLDIER_ESCAPE = "soldier_b_escape";	// 逃走
+
+			constexpr auto BIG_WAKEUP = "big_b_wakeup";
+			constexpr auto BIG_IDOL = "big_b_stand";
+			constexpr auto BIG_PATROL = "big_b_patrol";
+			constexpr auto BIG_ESCAPE = "big_b_escape";
 		}
 
 		constexpr auto ESCAPE_MAX = 1000;
