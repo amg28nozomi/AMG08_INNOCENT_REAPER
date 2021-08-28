@@ -143,12 +143,12 @@ namespace inr {
 
 #ifdef _DEBUG
 						// デバッグ用：当たり判定の描画
-						if (CheckHit(x, y)) {
-							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
-							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						}
+						//if (CheckHit(x, y)) {
+						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
+						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						//}
 #endif
 					}
 				}
@@ -433,7 +433,7 @@ namespace inr {
 		return 0;
 	}
 
-	bool MapChips::IsStand(AABB box, double g) {
+	bool MapChips::IsStand(AABB box, Vector2& pos, double g) {
 		auto gs = static_cast<int>(g);
 
 		auto footMinX = box.GetMin().IntX();
@@ -473,12 +473,20 @@ namespace inr {
 							// プレイヤーの上部はマップチップ上部より小さいか
 							if (mn.GetMin().GetY() < cbox.GetMin().GetY() &&
 								// マップチップの上部に対象の下が足元が埋まっているかどうか
-								cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;
+								cbox.GetMin().GetY() < mn.GetMax().GetY()) {
+								auto cavep = box.GetHeightMax();
+								pos.GetPY() = minY - cavep;
+								return true;
+							}
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
 						} if (g < 0) {
 							// 加速度が負の場合（）
 								// プレイヤーの下部はマップチップの下部より大きいか
-							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) return true;
+							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
+								auto cavep = box.GetHeightMin();
+								pos.GetPY() = maxY + cavep;
+								return true; 
+							}
 							// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) return true;
 						}
 					}

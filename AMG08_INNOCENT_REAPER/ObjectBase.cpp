@@ -42,7 +42,7 @@ namespace inr {
 		if (MAX_G < _gravity) _gravity = MAX_G;
 		// マップチップの上に立っているかどうか
 		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
-		if (_game.GetMapChips()->IsStand(_mainCollision, _gravity)) {
+		if (_game.GetMapChips()->IsStand(_mainCollision, _position, _gravity)) {
 			// 加速度が0の時だけ立っている
 			if (0 < _gravity) {
 				_stand = true;

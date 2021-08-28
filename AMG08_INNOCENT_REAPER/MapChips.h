@@ -26,7 +26,7 @@ namespace inr {
 
 		int CheckHit(int x, int y);
 		
-		bool IsStand(AABB box, double g);	// マップチップの上に立っているかどうか？
+		bool IsStand(AABB box, Vector2& pos, double g);	// マップチップの上に立っているかどうか？
 		// マップチップと当たっているかどうか（マップチップの上に立っているかどうか）
 		// bool IsHit(AABB box, double g);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
 		bool IsHit(AABB box, Vector2& pos, Vector2& move, bool direction);	// 押し出し処理用
