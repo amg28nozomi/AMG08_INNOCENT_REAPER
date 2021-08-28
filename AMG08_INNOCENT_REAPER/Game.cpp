@@ -74,10 +74,6 @@ namespace inr {
 		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
 		{ BACK_GROUND, {"Resource/stage01ver2.png", 1, 1, 1, BACK_GROUND_W, BACK_GROUND_H}},
 
-		{ AMG_LOGO, {"Resource/amg.png", 1, 1, 1, AMG_IMAGE, AMG_IMAGE}},	// AMGÉçÉS
-		{ TEAM_LOGO, {"Resource/r_crystal.png", 1, 1, 1, TEAM_IMAGE, TEAM_IMAGE}},	// É`Å[ÉÄÉçÉS(âÊëúç∑Çµë÷Ç¶)
-		{ TITLE_BG, {"Resource/bg_title.png", 1, 1, 1, TITLE_IMAGE_WIDTH, TITLE_IMAGE_HEIGHT}},
-
 		// äeéÌUI
 		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
 		{ TITLE_START2, {"Resource/UI/start1.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},

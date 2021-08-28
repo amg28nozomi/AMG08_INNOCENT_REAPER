@@ -120,7 +120,7 @@ namespace inr {
 		int y = _pos.IntY();
 
 		auto interval = (static_cast<double>(_allnum) - 1) / (static_cast<double>(_maxFrame));
-		int no = _fCount * interval;	// 距離を算出
+		int no = static_cast<int>(_fCount * interval);	// 距離を算出
 
 		int grh = graph::ResourceServer::GetHandles(_graphKey, no);	// 描画するグラフィックハンドルの取得
 		SetDrawBright(_rgb.Red(), _rgb.Green(), _rgb.Blue());

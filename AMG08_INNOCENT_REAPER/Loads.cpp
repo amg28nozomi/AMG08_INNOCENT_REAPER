@@ -57,13 +57,8 @@ namespace inr {
 	// îwåiìôÇÃàÍñáäG
 	const graph::ResourceServer::DivGraphMap images{
 		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
-		{ BACK_GROUND, {"Resource/stage01ver2.png", 1, 1, 1, BACK_GROUND_W, BACK_GROUND_H}},
 
 		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
-
-		{ AMG_LOGO, {"Resource/amg.png", 1, 1, 1, AMG_IMAGE, AMG_IMAGE}},	// AMGÉçÉS
-		{ TEAM_LOGO, {"Resource/r_crystal.png", 1, 1, 1, TEAM_IMAGE, TEAM_IMAGE}},	// É`Å[ÉÄÉçÉS(âÊëúç∑Çµë÷Ç¶)
-		{ TITLE_BG, {"Resource/bg_title.png", 1, 1, 1, TITLE_IMAGE_WIDTH, TITLE_IMAGE_HEIGHT}},
 
 		// äeéÌUI
 		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
@@ -107,5 +102,6 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_T, gpath + titles::PATH_T, titles::FILE_T, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
 	}
 }

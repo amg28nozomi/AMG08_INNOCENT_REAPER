@@ -4,6 +4,14 @@
 
 namespace inr {
 
+	namespace background {
+		constexpr auto BACK_GROUND_1 = "back_ground1";
+		constexpr auto STAGE1_FILE = "bg_stage1_";
+		constexpr auto STAGE1_PATH = "Resource/BackGround/";
+		constexpr auto STAGE1_MAP_HEIGHT = 2160;
+	}
+
+
 	constexpr auto BACK_GROUND = "backP";
 	constexpr auto BACK_GROUND_W = 1920;
 	constexpr auto BACK_GROUND_H = 2160;
@@ -11,9 +19,6 @@ namespace inr {
 	constexpr auto TITLE_LOGO = "title_rogo";
 	constexpr auto TITLE_IMAGE_W = 1920;
 	constexpr auto TITLE_IMAGE_H = 1080;
-
-	constexpr auto AMG_LOGO = "amg";	// グッバイ
-	constexpr auto AMG_IMAGE = 400;
 
 	constexpr auto TEAM_LOGO = "team_logo";	// teamロゴ
 	constexpr auto TEAM_IMAGE = 140;

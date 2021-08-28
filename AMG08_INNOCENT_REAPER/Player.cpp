@@ -225,7 +225,7 @@ namespace inr {
 				_aState = ActionState::FALL;
 				_divKey.first = PKEY_FALL;
 			}
-			else if (!_gravity) {
+			else if (_stand) {	// 重力加速がない場合はアイドル状態に遷移
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
 			return;
