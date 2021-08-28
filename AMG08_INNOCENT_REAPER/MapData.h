@@ -62,6 +62,7 @@ namespace inr {
 
 		void LoadStageMap(JsonMapData& jsonMapData);	// 登録
 		bool GetStageMap(const std::string stage, MapData& mdata);	// 指定したマップデータの読み込み(引数1:読み取りたいマップのキー、引数2:値を代入するオブジェクト)
+		bool IsLoad(const std::string key);	// キーは登録されているか？
 		void StageMapClear();	// 連想配列の初期化
 	private:
 		JsonMapData _maps;	// マップの情報を保存

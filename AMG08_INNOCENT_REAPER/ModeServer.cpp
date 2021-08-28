@@ -79,9 +79,8 @@ namespace inr {
 		return true;
 	}
 
-	ModeBase& ModeServer::GetMode(std::string modeKey) {
-		// ‘ÎÛ‚Ìƒ‚[ƒh‚ğæ‚èo‚·
+	std::unique_ptr<ModeBase>& ModeServer::GetMode(std::string modeKey) {
 		auto mode = _modes.find(modeKey);
-		return *mode->second;
+		return mode->second;
 	}
 }

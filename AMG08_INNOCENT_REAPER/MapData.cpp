@@ -84,4 +84,11 @@ namespace inr {
 	void MapDataManager::StageMapClear() {
 		_maps.clear();
 	}
+
+	bool MapDataManager::IsLoad(const std::string key) {
+		// ‘ÎÛ‚ÌƒL[‚Í“o˜^‚³‚ê‚Ä‚¢‚é‚©H
+		auto it = _maps.find(key);
+		if (it == _maps.end()) return true;	// “o˜^‚³‚ê‚Ä‚¢‚È‚¢
+		return false;	// “o˜^‚³‚ê‚Ä‚¢‚é
+	}
 }

@@ -48,7 +48,7 @@ namespace inr {
 			_bg = std::make_unique<BackGround>(_game.GetGame());
 			TimeClear();
 		}
-
+		_stageKey = stage::STAGE_1;
 		_worldPosition = { 1920 / 2, 1080 / 2 };
 	}
 

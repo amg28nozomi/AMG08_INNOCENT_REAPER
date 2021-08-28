@@ -33,6 +33,9 @@ namespace inr {
 		inline void Reset() { _resetFlg = true; } // 初期化フラグオン
 		inline void TimeClear() { _modeFrame = 0; };	// フレーム初期化
 		inline int GetFrame() { return _modeFrame; }	// 経過フレームを取得
+
+		virtual inline std::string GetKey() { return ""; }
+		virtual inline void ChangeKey(const std::string nextStage){}
 	};
 }
 

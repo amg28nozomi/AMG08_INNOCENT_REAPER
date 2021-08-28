@@ -18,14 +18,6 @@ namespace {
 	constexpr auto SECOND = 1;
 	constexpr auto THIRD = 2;
 
-	// ステージ読み込み用のキー
-	constexpr auto STAGE_0 = "tutorial";	// チュートリアル
-	constexpr auto STAGE_1 = "stage_1";		// ステージ1(廃村)
-	constexpr auto STAGE_2_1 = "stage_2_1";	// ステージ2(森林-中央)
-	constexpr auto STAGE_2_2 = "stage_2_2";	// ステージ2(森林-上部)
-	constexpr auto STAGE_2_3 = "stage_2_3";	// ステージ2(森林-下部)
-	constexpr auto STAGE_3 = "boss_stage";	// ステージ3(ボス戦)
-
 	constexpr auto CHIP_RIGHT1 = 35;
 	constexpr auto CHIP_RIGHT2 = 40;
 	constexpr auto CHIP_LEFT1 = 0;
@@ -44,20 +36,32 @@ namespace {
 
 	constexpr auto CHIP_TIP5 = 0;
 	constexpr auto CHIP_TIP6 = 5;
+
+	constexpr auto DEFAULT_W = 960;
+	constexpr auto DEFAULT_H = 540;
 }
 
 namespace inr {
 
 	constexpr auto CHIP_KEY = "chips";
 
+	MapChips::MapChips(Game& game) : _game(game), _nowMap() {
+		_chipCheck = std::make_unique<ChipHitCheck>();
+		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
+		SetChipsMap();
+
+		_worldPosition = { DEFAULT_W, DEFAULT_H };
+		_worldLast = _worldPosition;
+	}
+
 	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
 		_chipCheck = std::make_unique<ChipHitCheck>();
 		SetChipsMap();
 
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		TiledJsonLoad(STAGE_1, filePath, tiledFileName + ".json");
+		TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
 
-		_mapManager->GetStageMap(STAGE_1, _nowMap);
+		_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
 
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
@@ -138,7 +142,7 @@ namespace inr {
 
 					if (0 <= no) {
 
-						auto gh = graph::ResourceServer::GetHandles(STAGE_1, no);
+						auto gh = graph::ResourceServer::GetHandles(stage::STAGE_1, no);
 						DrawGraph(posX, posY, gh, TRUE);
 
 #ifdef _DEBUG
@@ -760,11 +764,18 @@ namespace inr {
 			{ 59, {0, 40, 0, 5}},
 			// { 61, {0, 10, 0, 10}},
 		};
-		_chipCheck->LoadChipsMap(STAGE_1, stagechip1);
-		_chipCheck->ChangeStageKey(STAGE_1);
+		_chipCheck->LoadChipsMap(stage::STAGE_1, stagechip1);
+		_chipCheck->ChangeStageKey(stage::STAGE_1);
 	}
 
 	void MapChips::SetChipMember() {
 
+	}
+
+	void MapChips::ChangeMap() {
+		// マップデータは読み込まれているか？
+		if (_mapManager->IsLoad(_skey)) {
+
+		}
 	}
 }

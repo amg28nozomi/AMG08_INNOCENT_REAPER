@@ -11,11 +11,22 @@
 
 namespace inr {
 
+	namespace stage {
+		// ステージ読み込み用のキー
+		constexpr auto STAGE_0 = "tutorial";	// チュートリアル
+		constexpr auto STAGE_1 = "stage_1";		// ステージ1(廃村)
+		constexpr auto STAGE_2_1 = "stage_2_1";	// ステージ2(森林-中央)
+		constexpr auto STAGE_2_2 = "stage_2_2";	// ステージ2(森林-上部)
+		constexpr auto STAGE_2_3 = "stage_2_3";	// ステージ2(森林-下部)
+		constexpr auto STAGE_3 = "boss_stage";	// ステージ3(ボス戦)
+	}
+
 	class Game;
 	class ObjectBase;
 
 	class MapChips {
 	public:
+		MapChips(Game& game);
 		// ファイル名とjson形式が同じ場合のコンストラクタ
 		MapChips(Game& game, std::string& filePath, std::string& tiledFileName);
 		~MapChips();
@@ -33,6 +44,8 @@ namespace inr {
 		bool Clamp(Vector2& pos);	// ワールド座標をスクリーン座標に修正
 		bool IsScrollX();	// 横スクロールしているか？
 		bool IsScrollY();	// 縦スクロールしているか？
+
+		void ChangeMap();	// マップの切り替え処理
 
 		// ゲッター
 		inline std::pair<int, int> GetMapSize() { return std::make_pair(_nowMap.MapSizeWidth(), _nowMap.MapSizeHeight()); }
@@ -52,6 +65,8 @@ namespace inr {
 		MapData _nowMap;	// 現在のマップチップ情報
 		std::unique_ptr<MapDataManager> _mapManager;
 		std::unique_ptr<ChipHitCheck> _chipCheck;
+
+		std::string _skey;	// 現在のステージ
 
 		Vector2 _worldPosition;	// ワールド座標
 		Vector2 _worldLast;	// 前フレームのワールド座標

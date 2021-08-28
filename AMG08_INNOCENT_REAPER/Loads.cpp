@@ -37,7 +37,6 @@ namespace inr {
 		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 赤い魂の状態
-		// ソルジャードール
 		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 8, 1, 8, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_r_move.png", 9, 1, 9, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
@@ -46,8 +45,9 @@ namespace inr {
 		{ enemy::red::BIG_WAKEUP, {"Resource/BigDoll/bd_r_wakeup.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_IDOL, {"Resource/BigDoll/bd_r_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_PATROL, {"Resource/BigDoll/bd_r_move.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_EMPTY}},
+		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_HIPDROP, {"Resource/BigDoll/bd_r_hipdrop.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+
 		// 青い魂
 		// ソルジャードール
 		{ enemy::blue::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
