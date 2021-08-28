@@ -8,6 +8,7 @@
 #include "MapData.h"
 #include "Vector2.h"
 #include "ChipHitCheck.h"
+#include "FileData.h"
 
 namespace inr {
 
@@ -67,6 +68,7 @@ namespace inr {
 		std::unique_ptr<ChipHitCheck> _chipCheck;
 
 		std::string _skey;	// 現在のステージ
+		std::vector<FileData> _sFiles;
 
 		Vector2 _worldPosition;	// ワールド座標
 		Vector2 _worldLast;	// 前フレームのワールド座標

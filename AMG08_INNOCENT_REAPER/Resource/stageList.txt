@@ -1,0 +1,2 @@
+tutorial,stage0
+village,stage1

@@ -39,6 +39,11 @@ namespace {
 
 	constexpr auto DEFAULT_W = 960;
 	constexpr auto DEFAULT_H = 540;
+
+	constexpr auto DEFAULT_PATH = "Resource/";
+	constexpr auto JSON_FORMAT = ".json";
+
+	constexpr auto FILE_PATH = 0;
 }
 
 namespace inr {
@@ -52,6 +57,9 @@ namespace inr {
 
 		_worldPosition = { DEFAULT_W, DEFAULT_H };
 		_worldLast = _worldPosition;
+
+		_sFiles = { { DEFAULT_PATH, "stage1", JSON_FORMAT},
+		};
 	}
 
 	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
@@ -59,7 +67,7 @@ namespace inr {
 		SetChipsMap();
 
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
+		TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + JSON_FORMAT);
 
 		_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
 
