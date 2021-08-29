@@ -166,18 +166,16 @@ namespace inr {
 			if (_patrolX < 0) {
 				_moveVector.GetPX() = PATROL_VECTOR;
 				_patrolX += PATROL_VECTOR;
-				_moving = enemy::MOVE_LEFT;
 				return;
 			}
 			else if (0 < _patrolX) {
 				_moveVector.GetPX() = -PATROL_VECTOR;
 				_patrolX -= PATROL_VECTOR;
-				_moving = enemy::MOVE_RIGHT;
 			}
 
 			if (static_cast<int>(_patrolX) == 0) {
-				if (_moving == enemy::MOVE_LEFT) _patrolX = PATROL_MAX;
-				else _patrolX = -PATROL_MAX;
+				if (_direction == enemy::MOVE_LEFT) _patrolX = -PATROL_MAX;
+				else _patrolX = PATROL_MAX;
 			}
 		}
 	}
@@ -192,16 +190,20 @@ namespace inr {
 			_direction = false;
 		}
 
+		if (_actionX < 0) { 
+			_direction = enemy::MOVE_LEFT; }
+		else if (0 < _actionX) _direction = enemy::MOVE_RIGHT;
+
 		// õ“G”ÍˆÍ‚ÌˆÚ“®‹——£‚Í280pixel
 		if (_actionX != 0) {
-			switch (_moving) {
+			switch (_direction) {
 			case enemy::MOVE_LEFT:
-				_actionX -= enemy::ESCAPE_VECTOR / FRAME;
-				_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
-				break;
-			case enemy::MOVE_RIGHT:
 				_actionX += enemy::ESCAPE_VECTOR / FRAME;
 				_moveVector.GetPX() = -enemy::ESCAPE_VECTOR / FRAME;
+				break;
+			case enemy::MOVE_RIGHT:
+				_actionX -= enemy::ESCAPE_VECTOR / FRAME;
+				_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
 			}
 
 		}

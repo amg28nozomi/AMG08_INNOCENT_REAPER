@@ -40,8 +40,8 @@ namespace inr {
 		constexpr auto ESCAPE_MAX = 1000;
 		constexpr auto ESCAPE_VECTOR = 120;	// 1秒間(60frame)で移動する距離S
 
-		constexpr auto MOVE_LEFT = false;
-		constexpr auto MOVE_RIGHT = true;
+		constexpr auto MOVE_LEFT = true;
+		constexpr auto MOVE_RIGHT = false;
 	}
 
 	class Soul;
@@ -74,7 +74,6 @@ namespace inr {
 
 		double _actionX;	// アクション実行時のx座標
 		bool _isSearch;	// プレイヤーを
-		bool _moving;	// 移動方向
 
 		void AnimationCount() override;
 

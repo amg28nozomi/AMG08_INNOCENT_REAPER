@@ -32,8 +32,6 @@ namespace inr {
 		_direction = false;
 		_changeGraph = true;
 
-		_moving = enemy::MOVE_RIGHT;
-
 		Init();
 	}
 
@@ -125,8 +123,7 @@ namespace inr {
 		// ì¶ëñèÛë‘Ç≈ÇÕÇ»Ç¢èÍçáÇÃÇ›ÅA
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
-			_actionX = enemy::ESCAPE_MAX;	// ì¶ëñãóó£Çë„ì¸
-			_moving = _direction;
+			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
 		}
 	}
 
