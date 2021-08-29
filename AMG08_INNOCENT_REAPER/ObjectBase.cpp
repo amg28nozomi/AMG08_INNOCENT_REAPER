@@ -83,10 +83,6 @@ namespace inr {
 			_gravity = 0;
 			_position.GetPY() = _mainCollision.GetHeightMin();
 		}
-
-		if (_mainCollision.GetMin().GetX() < 0) {
-			_position.GetPX() = _mainCollision.GetWidthMin();
-		} else if (_game.GetMapChips()-> < _mainCollision.GetMax().GetX())
 	}
 
 	void ObjectBase::Draw() {

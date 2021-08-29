@@ -191,16 +191,14 @@ namespace inr {
 	}
 
 	void MapChips::WorldClanp() {
-		auto mapW = _nowMap.MapSizeWidth();//_mapSize.first;
-		auto mapH = _nowMap.MapSizeHeight();//_mapSize.second;
-		auto chipW = _nowMap.ChipSizeWidth();
-		auto chipH = _nowMap.ChipSizeHeight();
+		auto mapWidth = _nowMap.MapSizeWidth() * _nowMap.ChipSizeWidth();
+		auto mapHeight = _nowMap.MapSizeHeight() * _nowMap.ChipSizeHeight();
 
 		// ワールド座標は画面内に収まっているかどうか？
 		if (_worldPosition.GetX() < HALF_WINDOW_W) { _worldPosition.GetPX() = HALF_WINDOW_W; }
-		if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { _worldPosition.GetPX() = mapW * chipW - HALF_WINDOW_W; }
-		if (_worldPosition.GetY() < 0) { _worldPosition.GetPY() = HALF_WINDOW_H; }
-		if (mapH * chipH - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapH * chipH - HALF_WINDOW_H; }
+		if (mapWidth - HALF_WINDOW_W < _worldPosition.GetX()) { _worldPosition.GetPX() = mapWidth - HALF_WINDOW_W; }
+		if (_worldPosition.GetY() < HALF_WINDOW_H) { _worldPosition.GetPY() = HALF_WINDOW_H; }
+		if (mapHeight - HALF_WINDOW_H < _worldPosition.GetY()) { _worldPosition.GetPY() = mapHeight - HALF_WINDOW_H; }
 
 		/*if (_worldPosition.GetX() < HALF_WINDOW_W) { _worldPosition.GetPX() = HALF_WINDOW_W; }
 		if (mapW * chipW - HALF_WINDOW_W < _worldPosition.GetX()) { _worldPosition.GetPX() = mapW * chipW - HALF_WINDOW_W; }
@@ -209,8 +207,14 @@ namespace inr {
 	}
 
 	bool MapChips::Clamp(Vector2& pos) {
+		// 座標はワールド座標の上限に収まっているか
+		auto mapWidth = _nowMap.MapSizeWidth() * _nowMap.ChipSizeWidth();
+		auto mapHeight = _nowMap.MapSizeHeight() * _nowMap.ChipSizeHeight();
+
 		auto scrPosX = pos.GetX() - _worldPosition.GetX();
 		auto scrPosY = pos.GetY() - _worldPosition.GetY();
+
+
 		// 対象は描画範囲内に収まっているかどうか？
 		if (-960 <= scrPosX <= 960) {
 			// x座標を更新

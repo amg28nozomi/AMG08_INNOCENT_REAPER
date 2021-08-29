@@ -17,7 +17,7 @@ namespace {
 	constexpr auto START_POSITION_Y = inr::WINDOW_W / 2;
 #endif
 #ifdef _DEBUG
-	constexpr auto START_POSITION_X = 8500;
+	constexpr auto START_POSITION_X = 100;
 	constexpr auto START_POSITION_Y = 1900;
 #endif
 
@@ -178,8 +178,6 @@ namespace inr {
 				obj->CollisionHit(_divKey.first, cBox->second, _direction);
 			}
 		}
-
-		_game.GetMapChips()->WorldUpdate(_position);
 	}
 
 	void Player::Draw() {
@@ -383,7 +381,8 @@ namespace inr {
 				// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
 				// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
-				(_direction == PL_LEFT) ? _lastX = x - DASH_MAX : _lastX = x + DASH_MAX;
+				// (_direction == PL_LEFT) ? _dashX = x - DASH_MAX : _dashX = x + DASH_MAX;
+				_dashX = DASH_MAX;
 				_input = false;	// 他アクションの入力を停止する
 			}
 		}
@@ -408,11 +407,11 @@ namespace inr {
 		// 向いている向きに応じて代入するベクトルを切り替え
 			(_direction == PL_LEFT) ? dashVec = -DASH_VEC : dashVec = DASH_VEC;
 			_moveVector.GetPX() = dashVec;
+			_dashX -= DASH_VEC;
 
 			auto nextPos = _position.GetX() + dashVec;	// 移動後の座標を取得
 			_gravity = 0;	// ダッシュ中は重力処理無効
-			bool moved;
-			(_direction == PL_LEFT) ? moved = nextPos - _lastX <= 0 : moved = _lastX - nextPos <= 0;
+			bool moved = _dashX <= 0;	
 
 			// ダッシュ処理は完了したかどうか？
 			if (moved) {
@@ -544,7 +543,17 @@ namespace inr {
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
 		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction);
+
 		_position = _position + _moveVector;	// 位置座標を更新
+
+		auto mcsw = _game.GetMapChips()->GetMapSizeWidth();
+
+		if (_mainCollision.GetMin().GetX() < 0) {
+			_position.GetPX() = _mainCollision.GetWidthMax();
+		}
+		else if (_game.GetMapChips()->GetMapSizeWidth() < _mainCollision.GetMax().GetX() && 0 < _moveVector.GetX()) {
+			_position.GetPX() = mcsw - _mainCollision.GetWidthMax();
+		}
 
 		// 各種当たり判定の更新
 		auto it = _collisions.find(_divKey.first);
@@ -557,6 +566,7 @@ namespace inr {
 		} else {
 			_mainCollision.Update(_position, _direction);
 		}
+		_game.GetMapChips()->WorldUpdate(_position);
 		// 移動ベクトル初期化
 		_moveVector = { 0, 0 };
 	}

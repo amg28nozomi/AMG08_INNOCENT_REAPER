@@ -48,7 +48,7 @@ namespace inr {
 		ActionState _aState;
 		Vector2 _moveVector;	// 移動量(単位ベクトル)
 
-		double _lastX;	// ダッシュの最大移動距離(座標)
+		double _dashX;	// ダッシュの最大移動距離(座標)
 		
 		int _judegFrame;	// 判定フレーム数
 		int _aFrame;	// アクション実行のためのフレーム

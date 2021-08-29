@@ -37,7 +37,8 @@ namespace inr {
 	void BackGround::Process() {
 		// ƒ[ƒ‹ƒhÀ•W‚ÌˆÚ“®—Ê‚ðŽæ“¾
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
-		auto moveY = _game.GetMapChips()->BeforeWorldPos().IntY() * -1;
+		auto moveY = _game.GetMapChips()->BeforeWorldPos().GetY() * -1;
+		// auto moveY = _game.GetMapChips()->GetWorldVector().IntY() * -1;
 
 
 		for (auto i = 0; i < _positions.first.size(); ++i) {
@@ -71,13 +72,13 @@ namespace inr {
 				_positions.first[i].GetPY() += moveY * _scrSpeed[i];
 				_positions.second[i].GetPY() += moveY * _scrSpeed[i];
 
-				if (_positions.first[i].IntY() < 0) {
+				if (_positions.first[i].GetY() < 0) {
 					_positions.first[i].GetPY() = 0;
 					_positions.second[i].GetPY() = _positions.first[i].GetY();
 				}
-				else if (WINDOW_H < _positions.first[i].IntY()) {
+				else if (WINDOW_H < _positions.first[i].GetY()) {
 					_positions.first[i].GetPY() = WINDOW_H;
-					_positions.second[i].GetPY() = WINDOW_H;
+					_positions.second[i].GetPY() = _positions.first[i].GetY();
 				}
 			}
 		}
@@ -93,7 +94,7 @@ namespace inr {
 			auto gh = graph::ResourceServer::GetHandles(_graphKey, number);
 			DrawRotaGraph(x1, y1, 1.0, 0, gh, true, false);
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
+			DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
 		}
-		DrawFormatString(500, 500, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[0].IntY());
 	}
 }
