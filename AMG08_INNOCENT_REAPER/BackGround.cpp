@@ -67,16 +67,18 @@ namespace inr {
 				}
 			}
 
-			_positions.first[i].GetPY() += moveY * BACKGROUND_SPEED;
-			_positions.second[i].GetPY() += moveY * BACKGROUND_SPEED;
+			if (_game.GetMapChips()->IsScrollY() == true) {
+				_positions.first[i].GetPY() += moveY * _scrSpeed[i];
+				_positions.second[i].GetPY() += moveY * _scrSpeed[i];
 
-			if (_positions.first[i].IntY() < 0) {
-				_positions.first[i].GetPY() = 0;
-				_positions.second[i].GetPY() = _positions.first[i].GetY();
-			}
-			else if (WINDOW_H < _positions.first[i].IntY()) {
-				_positions.first[i].GetPY() = WINDOW_H;
-				_positions.second[i].GetPY() = WINDOW_H;
+				if (_positions.first[i].IntY() < 0) {
+					_positions.first[i].GetPY() = 0;
+					_positions.second[i].GetPY() = _positions.first[i].GetY();
+				}
+				else if (WINDOW_H < _positions.first[i].IntY()) {
+					_positions.first[i].GetPY() = WINDOW_H;
+					_positions.second[i].GetPY() = WINDOW_H;
+				}
 			}
 		}
 	}
@@ -92,5 +94,6 @@ namespace inr {
 			DrawRotaGraph(x1, y1, 1.0, 0, gh, true, false);
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
 		}
+		DrawFormatString(500, 500, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[0].IntY());
 	}
 }

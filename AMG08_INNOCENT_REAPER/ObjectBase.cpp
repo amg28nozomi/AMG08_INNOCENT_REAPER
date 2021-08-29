@@ -71,7 +71,6 @@ namespace inr {
 					}
 
 				}
-
 			// 
 			/*if (_mainCollision.HitCheck(obj->GetMainCollision()) == true) {
 				_stand = true;
@@ -79,6 +78,15 @@ namespace inr {
 				break;
 			}*/
 		}
+
+		if (_mainCollision.GetMin().GetY() < 0) {
+			_gravity = 0;
+			_position.GetPY() = _mainCollision.GetHeightMin();
+		}
+
+		if (_mainCollision.GetMin().GetX() < 0) {
+			_position.GetPX() = _mainCollision.GetWidthMin();
+		} else if (_game.GetMapChips()-> < _mainCollision.GetMax().GetX())
 	}
 
 	void ObjectBase::Draw() {

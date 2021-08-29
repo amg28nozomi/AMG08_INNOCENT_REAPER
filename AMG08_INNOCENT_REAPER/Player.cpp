@@ -17,7 +17,7 @@ namespace {
 	constexpr auto START_POSITION_Y = inr::WINDOW_W / 2;
 #endif
 #ifdef _DEBUG
-	constexpr auto START_POSITION_X = 150;
+	constexpr auto START_POSITION_X = 8500;
 	constexpr auto START_POSITION_Y = 1900;
 #endif
 
@@ -154,6 +154,7 @@ namespace inr {
 
 	void Player::Process() {
 		ObjectBase::Process();
+
 		AnimationCount();
 		// “ü—Íî•ñ‚ğæ“¾
 		auto leverLR = _game.GetLeverLR();

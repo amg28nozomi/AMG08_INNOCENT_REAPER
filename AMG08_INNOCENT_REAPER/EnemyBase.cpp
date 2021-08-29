@@ -29,7 +29,7 @@ namespace inr {
 		_aFrame = 0;
 		_aCount = 0;
 		_sounds = 0;
-		_direction = true;
+		_direction = false;
 		_changeGraph = true;
 
 		_moving = enemy::MOVE_RIGHT;
@@ -116,9 +116,9 @@ namespace inr {
 		// その逆で値が-の場合は右側にいる
 		auto way = myx - px;
 		// 値が正の数の場合（右側にいる）
-		if (way < 0) return true;
+		if (way < 0) return false;
 		// 値が負の数の場合（左側にいる）
-		return false;
+		return true;
 	}
 
 	void EnemyBase::EscapeOn() {

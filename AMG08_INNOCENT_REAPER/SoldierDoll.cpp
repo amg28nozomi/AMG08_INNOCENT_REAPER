@@ -59,7 +59,7 @@ namespace inr {
 		_sounds = 0;
 		_patrolX = 0;
 		_aInterval = 0;
-		_direction = true;
+		_direction = false;
 		_changeGraph = true;
 		_drawStop = false;
 
@@ -186,10 +186,10 @@ namespace inr {
 		// 移動ベクトルに応じて、向きを変更
 		// 移動量に応じて向きを変更
 		if (_moveVector.GetX() < 0) {
-			_direction = false;
+			_direction = true;
 		}
 		else if (0 < _moveVector.GetX()) {
-			_direction = true;
+			_direction = false;
 		}
 
 		// 索敵範囲の移動距離は280pixel
@@ -280,7 +280,7 @@ namespace inr {
 		// 魂は奪われるか？
 		if (ckey == PKEY_ROB) {
 			if (_sState != SoulState::EMPTY) {
-				if (_direction != direction && vitalPart.HitCheck(acollision)) {
+				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					std::string scolor;
 					double sp;
@@ -313,12 +313,12 @@ namespace inr {
 		Vector2 vitalMin(0.0, col.GetMin().GetY());
 		Vector2 vitalMax(0.0, col.GetMax().GetY());
 		if (_direction) {
+			vitalMin.GetPX() = col.GetMax().GetX() - SOLDIER_VITAL;
+			vitalMax.GetPX() = col.GetMax().GetX();
+		} else {
 			// 右に向いている場合
 			vitalMin.GetPX() = col.GetMin().GetX();
 			vitalMax.GetPX() = col.GetMin().GetX() + SOLDIER_VITAL;
-		} else {
-			vitalMin.GetPX() = col.GetMax().GetX() - SOLDIER_VITAL;
-			vitalMax.GetPX() = col.GetMax().GetX();
 		}
 		return AABB(vitalMin, vitalMax, true);
 	}

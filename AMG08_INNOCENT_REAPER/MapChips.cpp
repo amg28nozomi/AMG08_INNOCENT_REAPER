@@ -67,7 +67,7 @@ namespace inr {
 		SetChipsMap();
 
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + JSON_FORMAT);
+		TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
 
 		_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
 
@@ -284,8 +284,7 @@ namespace inr {
 		auto scrY = mapH * chipH;
 
 		// ワールドY座標はスクロール開始地点を超えているか？
-		if (HALF_WINDOW_H < _worldPosition.GetY()) { return true; }
-		else if (scrY - HALF_WINDOW_H < _worldPosition.GetY()) { return true; }
+		if (HALF_WINDOW_H < _worldPosition.GetY() && _worldPosition.GetY() < scrY - HALF_WINDOW_H) { return true; }
 		return false;
 	}
 
