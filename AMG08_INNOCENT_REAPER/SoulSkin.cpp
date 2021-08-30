@@ -35,28 +35,29 @@ namespace inr {
 		_divKey = { soul::R_FLOAT, key::SOUND_NUM };
 		_position = { 500, 1000 };
 		_speed = SPEED;
+		_active = false;
 	}
 
 	void SoulSkin::Process() {
-		_moveVector = { 0, 0 };
-		AnimationCount();
-		Tracking();
-		Move();
-
+		if (_active) {
+			_moveVector = { 0, 0 };
+			AnimationCount();
+			Tracking();
+			Move();
+		}
 	}
 
 	void SoulSkin::Draw() {
-		Vector2 xy = _position;
-		_game.GetMapChips()->Clamp(xy);
-		auto x = xy.IntX();
-		auto y = xy.IntY();
+		if (_active) {
+			Vector2 xy = _position;
+			_game.GetMapChips()->Clamp(xy);
+			auto x = xy.IntX();
+			auto y = xy.IntY();
 
-		int graph;	// グラフィックハンドル格納用
-		GraphResearch(&graph);	// ハンドル取得
-		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
-
-		DrawFormatString(1800, 75, GetColor(255, 0, 0), "soul.x = %d", x);
-		DrawFormatString(1800, 100, GetColor(255, 0, 0), "soul.y = %d", y);
+			int graph;	// グラフィックハンドル格納用
+			GraphResearch(&graph);	// ハンドル取得
+			DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
+		}
 	}
 
 	void SoulSkin::Tracking() {
@@ -112,5 +113,24 @@ namespace inr {
 			_sType = Type::BLUE;
 			_divKey = { soul::B_FLOAT, key::SOUND_NUM };
 		}
+	}
+
+	void SoulSkin::SetParameter(int soulcolor, double speed) {
+		_speed = speed;
+		switch (soulcolor) {
+		case 1:
+			_sType = Type::RED;
+			_divKey = { soul::R_FLOAT, key::SOUND_NUM };
+			break;
+		case 2:
+			_sType = Type::BLUE;
+			_divKey = { soul::B_FLOAT, key::SOUND_NUM };
+			break;
+		}
+	}
+
+	void SoulSkin::SetSpwan(Vector2 spwan) {
+		_position = spwan;
+		_active = true;
 	}
 }

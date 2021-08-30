@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "Collision.h"
 #include <string>
+#include <queue>
 #include <unordered_map>
 
 namespace inr {
@@ -22,6 +23,8 @@ namespace inr {
 	constexpr auto PL_LEFT = true;
 	constexpr auto PL_RIGHT = false;
 
+	class SoulSkin;
+
 
 	class Player : public ObjectBase {
 	public:
@@ -33,6 +36,8 @@ namespace inr {
 		void Draw() override;
 
 		inline Vector2 GetMoveVector() override{ return _moveVector; }
+
+		void SetParameter(Vector2 spwan);	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
 
 	private:
 		// アクションの状態
@@ -47,6 +52,7 @@ namespace inr {
 
 		ActionState _aState;
 		Vector2 _moveVector;	// 移動量(単位ベクトル)
+		std::queue<std::shared_ptr<SoulSkin>> _souls;
 
 		double _dashX;	// ダッシュの最大移動距離(座標)
 		

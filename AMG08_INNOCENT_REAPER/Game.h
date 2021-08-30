@@ -75,7 +75,7 @@ namespace inr {
 		inline std::unique_ptr<ModeServer>& GetModeServer() { return _modeServer; }
 		inline std::unique_ptr<ObjectServer>& GetObjectServer() { return _objServer; }
 		inline std::unique_ptr<MapChips>& GetMapChips() { return _mapChips; }
-		inline std::unique_ptr<Scenario>& GetScenario() { _scenario; }
+		inline std::unique_ptr<Scenario>& GetScenario() { return _scenario; }
 
 		// Vector2 RepairPosition(const Vector2 pos, const int width, const int height);
 

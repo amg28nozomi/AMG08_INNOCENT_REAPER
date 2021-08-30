@@ -42,6 +42,7 @@ namespace inr {
 		Vector2 _moveVector;
 
 		double _speed;
+		bool _active;	// À‘Ì‰»‚µ‚Ä‚¢‚é‚©H
 
 		void Tracking(); // ’ÇÕˆ—
 		void Move();	// ˆÚ“®
@@ -49,6 +50,9 @@ namespace inr {
 		inline Type GetType() { return _sType; }
 		void SetStatus(Vector2 spawn, std::string soulcolor)override;
 		void SetSpeed(double speed) override { _speed = speed; }
+
+		void SetParameter(int soulcolor, double speed);	
+		void SetSpwan(Vector2 spwan);
 	};
 }
 

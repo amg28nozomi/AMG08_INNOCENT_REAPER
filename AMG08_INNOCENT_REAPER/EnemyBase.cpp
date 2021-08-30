@@ -8,6 +8,8 @@
 #include "ObjectServer.h"
 #include "MapChips.h"
 
+#include "SoulSkin.h"
+
 using std::string;
 
 namespace {
@@ -31,6 +33,8 @@ namespace inr {
 		_sounds = 0;
 		_direction = false;
 		_changeGraph = true;
+
+		_soul = nullptr;
 
 		Init();
 	}
@@ -135,5 +139,22 @@ namespace inr {
 
 	bool EnemyBase::Hit() {
 		return false;
+	}
+
+	void EnemyBase::SetParameter(Vector2 spwan, int soult) {
+		_position = spwan;	// ç¿ïWçXêV
+		if (soult == 0) return;
+		auto soul_n =  std::make_shared<SoulSkin>(_game.GetGame());
+		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
+		switch (soult) {
+		case 1:
+			soul_n->SetParameter(0, 7.5);
+			break;
+		case 2:
+			soul_n->SetParameter(1, 8.5);
+			break;
+		}
+		_soul = soul_n;
+		_game.GetObjectServer()->Add(std::move(soul_n));
 	}
 }

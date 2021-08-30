@@ -406,7 +406,7 @@ namespace inr {
 		// 末尾に-1を追加
 		chiptype.emplace_back(-1);
 
-		// マップチップ情報の登録アル
+		// マップチップ情報の登録
 		MapDataManager::JsonMapData jmd{
 			{ skey, { std::make_pair(mapsizeWidth, mapsizeHeight), std::make_tuple(chipCount, chipCountW, chipCountH),
 					  std::make_pair(chipSizeW, chipSizeH), mapSizeLayer, fileChips, mapdata, chiptype }},

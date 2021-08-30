@@ -117,8 +117,8 @@ namespace inr {
 		_frameCount = 0;
 
 		_objServer = std::make_unique<ObjectServer>();
-		_modeServer = std::make_unique<ModeServer>(*this);
 		_scenario = std::make_unique<Scenario>(*this);
+		_modeServer = std::make_unique<ModeServer>(*this);
 
 		graph::ResourceServer::Init();
 		Loads::ResourceLoad();

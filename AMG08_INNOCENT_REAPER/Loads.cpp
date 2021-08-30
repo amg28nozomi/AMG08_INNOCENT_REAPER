@@ -1,6 +1,7 @@
 #include "Loads.h"
 #include "ResourceServer.h"
 #include "Game.h"
+#include "Scenario.h"
 
 #include "Player.h"
 #include "EnemyBase.h"
@@ -16,6 +17,12 @@
 
 namespace {
 	constexpr auto NUM_SIMPLE = 1;
+
+	// 生成座標
+	namespace stage_1 {
+		constexpr auto START_POS_X = 200;
+		constexpr auto START_POS_Y = 1600;
+	}
 }
 
 namespace inr {
@@ -118,5 +125,21 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
+	}
+
+	std::vector<ObjectValue> Loads::LoadScenario() {
+
+		std::vector<ObjectValue> _stage1 {
+			// プレイヤーの登録情報
+			{ oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)} },
+			// ソルジャードール
+			{ oscenario::OBJ_SOLDIER_DOLL, {500.0, 1600.0}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {5000.0, 1700.0}, 0},
+			{ oscenario::OBJ_SOLDIER_DOLL, {8000.0, 1600.0}, 0},
+
+			// ギミック
+		};
+
+		return _stage1;
 	}
 }

@@ -308,11 +308,7 @@ namespace inr {
 					_sState = SoulState::EMPTY;
 					_changeGraph = true;
 
-					auto bSoul = std::make_unique<SoulSkin>(_game.GetGame());
-
-					bSoul->SetStatus(_position, scolor);
-					bSoul->SetSpeed(sp);
-					_game.GetObjectServer()->Add(std::move(bSoul));
+					_soul->SetSpwan(_position);	// ©g‚Ì’†SÀ•W‚ÉÀ‘Ì‰»‚³‚¹‚é
 				}
 			}
 		}

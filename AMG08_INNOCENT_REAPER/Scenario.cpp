@@ -1,10 +1,14 @@
 #include "Scenario.h"
 #include "Game.h"
 #include "ObjectServer.h"
-#include "ObjectBase.h"
 #include <unordered_set>
 #include <string>
 #include <algorithm>
+
+
+#include "Player.h"
+#include "EnemyBase.h"
+#include "SoldierDoll.h"
 
 namespace {
 	constexpr auto COUNT_MIN = 0;
@@ -12,20 +16,11 @@ namespace {
 
 namespace inr {
 
-	namespace oscenario {
-		constexpr auto OBJ_PLAYER = 0;
-		constexpr auto OBJ_SOLDIER_DOLL = 1;
-		constexpr auto OBJ_BIG_DOLL = 2;
-		constexpr auto OBJ_CROW_DOLL = 3;
-		constexpr auto OBJ_SOUL = 4;
-		constexpr auto OBJ_LEVER = 5;
-		constexpr auto OBJ_QUARTS = 6; // quartz
-	}
-
-	ObjectValue::ObjectValue(int classtype, Vector2 xy) {
+	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor) {
 		// 各種情報の登録
 		_class = classtype;
 		_spawnPos = xy;
+		_soulType = soulcolor;
 	}
 
 	Scenario::Scenario(Game& game) : _game(game) {
@@ -41,10 +36,10 @@ namespace inr {
 		_scenarios.clear();
 	}
 
-	void Scenario::LoadObjectData(std::string key ,ObjectData& odata) {
+	void Scenario::LoadObjectData(std::string key , std::vector<ObjectValue> ovalues) {
 		auto it = _scenarios.find(key);
 		if (it == _scenarios.end()) {
-			_scenarios.emplace(key, odata);
+			_scenarios.emplace(key, ovalues);
 		}
 
 		//for (auto&& obj : odata) {
@@ -119,47 +114,64 @@ namespace inr {
 	//	++it->second.first;
 	//}
 
-	bool Scenario::AddObjects() {
-		auto it = _scenarios.find(_scenarioKey);
-		// 登録されているオブジェクト(ObjectBase限定)
+	bool Scenario::AddObjects(const std::string key) {
+		auto it = _scenarios.find(key);
+		// 登録されているオブジェクト(ObjectBase限定)の生成
 		for (auto ovalue : it->second) {
 			auto s_obj = std::make_shared<ObjectBase>(_game.GetGame());
-			auto classType = ovalue.ClassName();
+			auto classType = ovalue.ClassName();	// 生成するオブジェクトは何なのか？
 			switch (classType) {
 			case oscenario::OBJ_PLAYER:
-				// 
+				// プレイヤーの登録情報を設定
+				AddPlayer(ovalue);
 				break;
+			case oscenario::OBJ_SOLDIER_DOLL:
+				AddEnemy(ovalue);
+				break;
+
 			}
-			_game.GetObjectServer()->Add(std::move(s_obj));	// サーバーに登録
 		}
+		return false;
+	}
+
+	void Scenario::AddPlayer(ObjectValue ovalue) {
+		auto player = std::make_shared<Player>(_game.GetGame());
+		player->SetParameter(ovalue.Position());
+		_game.GetObjectServer()->Add(std::move(player));
+	}
+
+	/*void Scenario::AddPlayer(std::shared_ptr<ObjectBase> obj, ObjectValue ovalue) {
+		auto player = std::dynamic_pointer_cast<Player>(obj);
+		player->
+	}*/
+
+	void Scenario::AddEnemy(ObjectValue ovalue) {
+		auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
+		enemy->SetParameter(ovalue.Position(), ovalue.SoulType());
+		_game.GetObjectServer()->Add(std::move(enemy));
+		
+	}
+
+	void Scenario::AddSoldierDoll(ObjectBase* obj, ObjectValue ovalue) {
+	}
+
+	void Scenario::AddBigDoll(ObjectBase* obj, ObjectValue ovalue) {
 
 	}
 
-	void Scenario::AddPlayer() {
-		std::make_shared<ObjectBase>(_game.GetGame());
-	}
-
-	void Scenario::AddSolderDoll() {
+	void Scenario::AddCrowDoll(ObjectBase* obj, ObjectValue ovalue) {
 
 	}
 
-	void Scenario::AddBigDoll() {
+	void Scenario::AddSoul(ObjectBase* obj, ObjectValue ovalue) {
 
 	}
 
-	void Scenario::AddCrowDoll() {
+	void Scenario::AddLever(ObjectBase* obj, ObjectValue ovalue) {
 
 	}
 
-	void Scenario::AddSoul() {
-
-	}
-
-	void Scenario::AddLever() {
-
-	}
-
-	void Scenario::AddQuarts() {
+	void Scenario::AddQuarts(ObjectBase* obj, ObjectValue ovalue) {
 
 	}
 

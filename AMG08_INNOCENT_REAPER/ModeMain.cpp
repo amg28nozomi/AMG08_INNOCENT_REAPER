@@ -7,6 +7,7 @@
 #include "ObjectBase.h"
 #include "BackGround.h"
 #include "Scenario.h"
+#include "Loads.h"
 #include <memory>
 #include <unordered_map>
 
@@ -34,19 +35,24 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			auto player = std::make_shared<Player>(_game.GetGame());
+			auto scenarioD = Loads::LoadScenario();
+			_game.GetScenario()->LoadObjectData(stage::STAGE_1, scenarioD);
+			_game.GetScenario()->AddObjects(stage::STAGE_1);
+
+			/*auto player = std::make_shared<Player>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(player));
 			auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(enemy));
 
 			auto enemy1 = std::make_shared<SoldierDoll>(_game.GetGame());
 			enemy1->SetStatus({ 5000, 1700 }, "empty");
-			_game.GetObjectServer()->Add(std::move(enemy1));
+			_game.GetObjectServer()->Add(std::move(enemy1));*/
 
 			auto soul_r = std::make_shared<SoulSkin>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(soul_r));
 			_bg = std::make_unique<BackGround>(_game.GetGame());
 			TimeClear();
+			_resetFlg = false;
 		}
 		_stageKey = stage::STAGE_1;
 		_worldPosition = { 1920 / 2, 1080 / 2 };

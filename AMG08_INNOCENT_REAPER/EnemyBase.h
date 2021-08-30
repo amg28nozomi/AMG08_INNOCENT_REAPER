@@ -44,7 +44,7 @@ namespace inr {
 		constexpr auto MOVE_RIGHT = false;
 	}
 
-	class Soul;
+	class SoulSkin;
 
 	class EnemyBase : public ObjectBase {
 	protected:
@@ -65,6 +65,8 @@ namespace inr {
 		EnemyType _eType;
 		ActionState _aState;
 		SoulState _sState;
+
+		std::shared_ptr<SoulSkin> _soul;
 
 		AABB _searchBox; // õ“G—p“–‚½‚è”»’è
 		boxs _collisions;	// Šeí“–‚½‚è”»’èŠi”[—p
@@ -100,6 +102,8 @@ namespace inr {
 		inline ActionState GetActionState() { return _aState; }
 		inline SoulState GetSoulState() { return _sState; }
 		inline Vector2 GetMoveVector() override { return _moveVector; }
+
+		void SetParameter(Vector2 spwan, int soult);	// parameter
 		
 		bool IsEmpty() override { 
 			bool isempty = _sState == SoulState::EMPTY;

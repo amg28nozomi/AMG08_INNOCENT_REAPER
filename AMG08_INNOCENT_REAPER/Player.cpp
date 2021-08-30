@@ -109,14 +109,16 @@ namespace inr {
 		_aFrame = 0;
 		_sounds = 0;
 		_knockBack = 0;
-
+		_dashInterval = 0;
 		_judegFrame = 0;
+
+		_souls.emplace(nullptr);
 
 		_direction = false;
 		_changeGraph = true;
 		_input = true;
 		_jumpPower = 0;
-		_position = { START_POSITION_X, START_POSITION_Y};
+		_position = {0, 0};
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
 		_moveVector = { 0, 0 };
 		// _moveVector = std::make_pair(0, 0);
@@ -207,6 +209,10 @@ namespace inr {
 #ifdef _DEBUG
 		DebugInfo();
 #endif
+	}
+
+	void Player::SetParameter(Vector2 spwan) {
+		_position = spwan;
 	}
 
 	void Player::StateUpdate() {
