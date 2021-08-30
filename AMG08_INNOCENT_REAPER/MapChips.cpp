@@ -603,7 +603,6 @@ namespace inr {
 				int chip_no = CheckHit(x, y);
 				// ƒ`ƒbƒv”Ô†‚ª0‚©‚Ç‚¤‚©
 				if (chip_no != 0) {
-					//chip_no;
 					// “–‚½‚è”»’è‚ðŽæ“¾
 					auto c = _chipCheck->ChipCollision(chip_no);
 					auto minX = c.GetMin().IntX();

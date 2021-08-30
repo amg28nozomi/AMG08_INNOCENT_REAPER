@@ -92,8 +92,8 @@ namespace inr {
 		// 魂が空ではない時
 		if (_sState != SoulState::EMPTY) {
 			// プレイヤークラスの参照からメインの当たり判定を取得
-			auto player = _game.GetObjectServer()->GetObjectA(ObjectType::PLAYER);
-			const auto& pbox = player.GetMainCollision();
+			auto player = _game.GetObjectServer()->GetPlayer();
+			const auto& pbox = player->GetMainCollision();
 			// 索敵範囲と自機は当たっているか？
 			if (_searchBox.HitCheck(pbox)) {
 				// 自機は自分と同じ方向にいるか？
@@ -108,9 +108,9 @@ namespace inr {
 	}
 
 	bool EnemyBase::SearchPosition() {
-		auto pl = _game.GetObjectServer()->GetObjectA(ObjectType::PLAYER);
+		auto pl = _game.GetObjectServer()->GetPlayer();
 		// プレイヤーのx座標を取得
-		auto px = pl.GetPosition().GetX();
+		auto px = pl->GetPosition().GetX();
 		// Vector 
 		auto myx = _position.GetX();
 		// Enemyのx座標からplayerのx座標を引く

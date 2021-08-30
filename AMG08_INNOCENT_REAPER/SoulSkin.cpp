@@ -65,26 +65,26 @@ namespace inr {
 		auto player = _game.GetObjectServer()->GetPlayer();
 
 		double px;
-		if (player.GetDirection() == PL_LEFT) {
+		if (player->GetDirection() == PL_LEFT) {
 			switch (_sType) {
 			case Type::BLUE:
-				px = player.GetPosition().GetX() + SOUL_I + SOUL_I;
+				px = player->GetPosition().GetX() + SOUL_I + SOUL_I;
 				break;
 			case Type::RED:
-				px = player.GetPosition().GetX() + SOUL_I;
+				px = player->GetPosition().GetX() + SOUL_I;
 				break;
 			}
 		} else {
 			switch (_sType) {
 			case Type::BLUE:
-				px = player.GetPosition().GetX() - SOUL_I - SOUL_I;
+				px = player->GetPosition().GetX() - SOUL_I - SOUL_I;
 				break;
 			case Type::RED:
-				px = player.GetPosition().GetX() - SOUL_I;
+				px = player->GetPosition().GetX() - SOUL_I;
 				break;
 			}
 		}
-		auto py = player.GetPosition().GetY() - SOUL_IH;
+		auto py = player->GetPosition().GetY() - SOUL_IH;
 
 		// 自身とプレイヤー間のベクトルを算出
 		Vector2 mv = { px - _position.GetX(), py - _position.GetY() };

@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "Game.h"
 #include "MapChips.h"
+#include "EnemyBase.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"
 #include "ObjectServer.h"
@@ -52,7 +53,7 @@ namespace inr {
 			_stand = false;
 		}
 
-		auto&& objs = _game.GetObjectServer()->GetObjects();
+		auto&& objs = _game.GetObjectServer()->GetEnemys();
 		for (auto&& obj : objs) {
 			if (obj->GetType() != ObjectType::ENEMY) continue;
 			if (obj->IsEmpty() != true) continue;

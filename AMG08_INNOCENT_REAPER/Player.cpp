@@ -4,6 +4,7 @@
 #include "Collision.h"
 #include "ResourceServer.h"
 #include "ObjectServer.h"
+#include "EnemyBase.h"
 #include "SoundServer.h"
 #include "MapChips.h"
 #include <DxLib.h>
@@ -97,6 +98,9 @@ namespace {
 	constexpr auto PMF_ROB = PF_ROB * MF_INTERVAL;
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
 	constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
+
+
+	constexpr auto SOUL_MAX = 3;	// •Û—L‚Å‚«‚é°‚ÌãŒÀ
 }
 
 namespace inr {
@@ -112,7 +116,7 @@ namespace inr {
 		_dashInterval = 0;
 		_judegFrame = 0;
 
-		_souls.emplace(nullptr);
+		_souls.push(nullptr);
 
 		_direction = false;
 		_changeGraph = true;
@@ -174,12 +178,11 @@ namespace inr {
 		PositionUpdate();
 
 		// ŠeŽíÕ“Ëˆ—
-		auto&& objs = _game.GetObjectServer()->GetObjects();
+		auto&& objs = _game.GetObjectServer()->GetEnemys();
 
 		auto cBox = _collisions.find(_divKey.first);
 		if (cBox != _collisions.end()) {
 			for (auto&& obj : objs) {
-				if (obj->GetType() != ObjectType::ENEMY) continue;
 				obj->CollisionHit(_divKey.first, cBox->second, _direction);
 			}
 		}

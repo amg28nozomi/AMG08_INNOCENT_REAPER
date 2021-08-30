@@ -266,7 +266,7 @@ namespace inr {
 
 	void SoldierDoll::Attack() {
 		auto&& player = _game.GetObjectServer()->GetPlayer();	//　プレイヤーの参照を取得
-		auto playerBox = player.GetMainCollision();
+		auto playerBox = player->GetMainCollision();
 
 		//if (_mainCollision.HitCheck(playerBox)) {
 		//	player.Da
@@ -275,11 +275,11 @@ namespace inr {
 
 	bool SoldierDoll::Hit() {
 		// プレイヤーの参照を取得
-		auto player = _game.GetObjectServer()->GetObjectA(ObjectType::PLAYER);
+		auto player = _game.GetObjectServer()->GetPlayer();
 
 		// プレイヤーは自身に接触しているかどうか？
-		if (_mainCollision.HitCheck(player.GetMainCollision())) {
-			player.GetMainCollision();
+		if (_mainCollision.HitCheck(player->GetMainCollision())) {
+			player->GetMainCollision();
 		}
 		return false;
 	}

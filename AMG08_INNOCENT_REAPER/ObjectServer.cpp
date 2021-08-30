@@ -1,5 +1,7 @@
 #include "ObjectServer.h"
 #include "ObjectBase.h"
+#include "EnemyBase.h"
+#include "Player.h"
 #include <vector>
 
 namespace inr {
@@ -68,22 +70,21 @@ namespace inr {
 		_updateFlg = false;
 	}
 
-
-	// 指定したオブジェクトを取り出す（単品）
-	ObjectBase& ObjectServer::GetObjectA(ObjectBase::ObjectType otype) {
+	std::shared_ptr<Player> ObjectServer::GetPlayer() {
 		for (auto& it : _objects) {
-			if (it->GetType() == otype) {
-				return *it;
+			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
+				return std::dynamic_pointer_cast<Player>(it);
 			}
 		}
 	}
 
-	Player& ObjectServer::GetPlayer() {
-		for (auto& it : _objects) {
-			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
-				return dynamic_cast<Player&>(*it);
-			}
+	std::vector<std::shared_ptr<EnemyBase>> ObjectServer::GetEnemys() {
+		std::vector<std::shared_ptr<EnemyBase>> enemys;
+		for (auto obj : _objects) {
+			if (obj->GetType() != ObjectBase::ObjectType::ENEMY) continue;
+			enemys.emplace_back(std::dynamic_pointer_cast<EnemyBase>(obj));
 		}
+		return enemys;
 	}
 
 	// 指定したオブジェクトの参照を取り出す（配列）
