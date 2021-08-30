@@ -34,7 +34,7 @@ namespace inr {
 		// ŒŸõƒL[‚ğTitleMode‚Éİ’è
 		_modeKey = mode::MAIN;
 
-		//_modeKey = mode::TITLE;
+		// _modeKey = mode::TITLE;
 		_ChangeKey = MODE_NULL;
 		ModeInit();
 	}

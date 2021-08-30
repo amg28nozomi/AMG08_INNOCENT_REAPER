@@ -118,7 +118,6 @@ namespace inr {
 		auto it = _scenarios.find(key);
 		// 登録されているオブジェクト(ObjectBase限定)の生成
 		for (auto ovalue : it->second) {
-			auto s_obj = std::make_shared<ObjectBase>(_game.GetGame());
 			auto classType = ovalue.ClassName();	// 生成するオブジェクトは何なのか？
 			switch (classType) {
 			case oscenario::OBJ_PLAYER:

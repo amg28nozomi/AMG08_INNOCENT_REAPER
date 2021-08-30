@@ -143,15 +143,25 @@ namespace inr {
 
 	void EnemyBase::SetParameter(Vector2 spwan, int soult) {
 		_position = spwan;	// ç¿ïWçXêV
-		if (soult == 0) return;
+		_mainCollision.Update(_position, _direction);
+		_searchBox.Update(_position, _direction);
+		if (soult == 0) { 
+			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
+			_sState = SoulState::EMPTY;
+			return;
+		}
 		auto soul_n =  std::make_shared<SoulSkin>(_game.GetGame());
 		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
 		switch (soult) {
 		case 1:
 			soul_n->SetParameter(0, 7.5);
+			ChangeState(ActionState::PATROL, enemy::red::SOLDIER_PATROL);
+			_sState = SoulState::RED;
 			break;
 		case 2:
 			soul_n->SetParameter(1, 8.5);
+			ChangeState(ActionState::PATROL, enemy::blue::SOLDIER_PATROL);
+			_sState = SoulState::BLUE;
 			break;
 		}
 		_soul = soul_n;

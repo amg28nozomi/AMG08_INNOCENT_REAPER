@@ -21,7 +21,7 @@ namespace {
 	// 生成座標
 	namespace stage_1 {
 		constexpr auto START_POS_X = 200;
-		constexpr auto START_POS_Y = 1600;
+		constexpr auto START_POS_Y = 1700;
 	}
 }
 
@@ -133,9 +133,9 @@ namespace inr {
 			// プレイヤーの登録情報
 			{ oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)} },
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, {500.0, 1600.0}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {5000.0, 1700.0}, 0},
-			{ oscenario::OBJ_SOLDIER_DOLL, {8000.0, 1600.0}, 0},
+			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1800}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {5000, 1800}, 0},
+			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, 0},
 
 			// ギミック
 		};

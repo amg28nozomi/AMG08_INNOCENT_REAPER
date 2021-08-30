@@ -213,6 +213,11 @@ namespace inr {
 
 	void Player::SetParameter(Vector2 spwan) {
 		_position = spwan;
+
+		auto it = _collisions.find(_divKey.first);
+		if (it != _collisions.end()) it->second.Update(_position, _direction);
+
+		_mainCollision.Update(_position, _direction);
 	}
 
 	void Player::StateUpdate() {

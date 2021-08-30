@@ -49,9 +49,9 @@ namespace inr {
 	SoldierDoll::SoldierDoll(Game& game) : EnemyBase(game){
 		_type = ObjectBase::ObjectType::ENEMY;
 		_eType = EnemyType::SOLDIER_DOLL;
-		_aState = ActionState::IDOL;
-		_sState = SoulState::BLUE;
-		_divKey = std::make_pair(enemy::blue::SOLDIER_IDOL, key::SOUND_NUM);
+		_aState = ActionState::EMPTY;
+		_sState = SoulState::EMPTY;
+		_divKey = std::make_pair(enemy::SOLDIER_EMPTY, key::SOUND_NUM);
 		_position = { START_POS_X, START_POS_Y };
 
 		_aFrame = 0;
