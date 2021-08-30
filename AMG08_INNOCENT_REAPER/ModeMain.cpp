@@ -34,16 +34,16 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			auto player = std::make_unique<Player>(_game.GetGame());
+			auto player = std::make_shared<Player>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(player));
-			auto enemy = std::make_unique<SoldierDoll>(_game.GetGame());
+			auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(enemy));
 
-			auto enemy1 = std::make_unique<SoldierDoll>(_game.GetGame());
+			auto enemy1 = std::make_shared<SoldierDoll>(_game.GetGame());
 			enemy1->SetStatus({ 5000, 1700 }, "empty");
 			_game.GetObjectServer()->Add(std::move(enemy1));
 
-			auto soul_r = std::make_unique<SoulSkin>(_game.GetGame());
+			auto soul_r = std::make_shared<SoulSkin>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(soul_r));
 			_bg = std::make_unique<BackGround>(_game.GetGame());
 			TimeClear();

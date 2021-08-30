@@ -17,7 +17,7 @@ namespace {
 	constexpr auto START_POSITION_Y = inr::WINDOW_W / 2;
 #endif
 #ifdef _DEBUG
-	constexpr auto START_POSITION_X = 100;
+	constexpr auto START_POSITION_X = 200;
 	constexpr auto START_POSITION_Y = 1900;
 #endif
 
@@ -72,6 +72,8 @@ namespace {
 	constexpr auto DASH_HEIGHT1 = 10;
 	constexpr auto DASH_HEIGHT2 = 70;
 
+	// 押し出し処理
+
 
 	// 各種モーションの画像数
 	constexpr auto PF_IDOL = 13;
@@ -106,6 +108,7 @@ namespace inr {
 		_aCount = 0;
 		_aFrame = 0;
 		_sounds = 0;
+		_knockBack = 0;
 
 		_judegFrame = 0;
 
@@ -509,8 +512,15 @@ namespace inr {
 	
 	}
 
-	void Player::Damage(){
-	
+	bool Player::Damage(){
+		if (_aState != ActionState::HIT) {
+			// ダメージ処理
+			_input = false;	// 入力処理を弾く
+			ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
+			_knockBack = 0;// 押し出し量の設定（横からの接触判定時に値を0にする）
+			return true;
+		}
+		return false;
 	}
 
 	bool Player::Dead() {

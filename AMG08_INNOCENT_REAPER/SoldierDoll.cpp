@@ -205,7 +205,6 @@ namespace inr {
 				_actionX -= enemy::ESCAPE_VECTOR / FRAME;
 				_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
 			}
-
 		}
 	}
 
@@ -263,6 +262,15 @@ namespace inr {
 			_searchBox.GetbDrawFlg() = false;
 			
 		}
+	}
+
+	void SoldierDoll::Attack() {
+		auto&& player = _game.GetObjectServer()->GetPlayer();	//　プレイヤーの参照を取得
+		auto playerBox = player.GetMainCollision();
+
+		//if (_mainCollision.HitCheck(playerBox)) {
+		//	player.Da
+		//}
 	}
 
 	bool SoldierDoll::Hit() {

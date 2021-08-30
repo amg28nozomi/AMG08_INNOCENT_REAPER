@@ -15,15 +15,15 @@ namespace inr{
 		~ObjectServer();
 
 		void Clear();	// コンテナ初期化
-		void Add(std::unique_ptr<ObjectBase> obj);
-		void Del(std::unique_ptr<ObjectBase> obj);
+		void Add(std::shared_ptr<ObjectBase> obj);
+		void Del(std::shared_ptr<ObjectBase> obj);
 
 		void Process();
 		void Draw();
 
 		ObjectBase& GetObjectA(ObjectBase::ObjectType otype); // 単品
-		ObjectBase& GetPlayer();
-		std::vector<std::unique_ptr<ObjectBase>>& GetObjects() { return _objects; }
+		Player& GetPlayer();
+		std::vector<std::shared_ptr<ObjectBase>>& GetObjects() { return _objects; }
 		inline void ObjectsClear() { _objects.clear(); }
 		// AABB GetObjectPosition(std::string key);
 		// std::vector<std::unique_ptr<ObjectBase>>& GetObjectList(ObjectBase::ObjectType otype);
@@ -31,9 +31,9 @@ namespace inr{
 
 		bool _updateFlg;	// 更新があるか
 		
-		std::vector<std::unique_ptr<ObjectBase>> _objects;
-		std::vector<std::unique_ptr<ObjectBase>> _addObj;
-		std::vector<std::unique_ptr<ObjectBase>> _delObj;
+		std::vector<std::shared_ptr<ObjectBase>> _objects;
+		std::vector<std::shared_ptr<ObjectBase>> _addObj;
+		std::vector<std::shared_ptr<ObjectBase>> _delObj;
 	};
 }
 

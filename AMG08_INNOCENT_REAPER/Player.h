@@ -57,6 +57,7 @@ namespace inr {
 		int _hitCount;	// 判定フレーム(アクション)
 
 		int _dashInterval;	// ダッシュの再使用間隔
+		int _knockBack;	// ノックバックカウンタ
 		double _jumpPower;	// ジャンプ溜め
 		bool _input;	// 入力処理を受け付けるか
 		// std::string _divKey;	// 読み込み用識別キー
@@ -82,7 +83,8 @@ namespace inr {
 		void Rob(double x, double y); // 奪う
 		void Give(double x, double y); // 与える
 		void ChangeSoul(); // 魂の切り替え
-		void Damage(); // ダメージ(ノックバック)
+		void IsDamage(); // ダメージ判定を受けるか？
+		bool Damage() override; // ダメージ(ノックバック)
 		bool Dead(); // 死亡判定
 
 		void StateUpdate();	// 状態遷移およびその他処理

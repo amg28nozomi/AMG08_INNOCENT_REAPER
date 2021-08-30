@@ -46,6 +46,7 @@ namespace inr {
 
 		void Patrol();	// „‰ñ
 		void PatrolOn();	// „‰ñó‘Ô‚ÉˆÚs
+		void Attack();	// UŒ‚ˆ—
 
 		void PositionUpdate();
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦

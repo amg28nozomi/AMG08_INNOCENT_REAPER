@@ -19,7 +19,7 @@ namespace inr {
 		_delObj.clear();
 	}
 
-	void ObjectServer::Add(std::unique_ptr<ObjectBase> obj) {
+	void ObjectServer::Add(std::shared_ptr<ObjectBase> obj) {
 		// 更新がある場合は、コンテナに一時的に格納
 		if (_updateFlg) {
 			_addObj.emplace_back(std::move(obj));
@@ -29,11 +29,11 @@ namespace inr {
 		}
 	}
 
-	void ObjectServer::Del(std::unique_ptr<ObjectBase> obj) {
+	void ObjectServer::Del(std::shared_ptr<ObjectBase> obj) {
 		if (_updateFlg) {
 			_delObj.emplace_back(std::move(obj));
 		} else {
-			obj.release();	// フラグがない場合は直接所有権を放棄する
+			obj.reset();	// フラグがない場合は直接所有権を放棄する
 		}
 	}
 
@@ -78,10 +78,10 @@ namespace inr {
 		}
 	}
 
-	ObjectBase& ObjectServer::GetPlayer() {
+	Player& ObjectServer::GetPlayer() {
 		for (auto& it : _objects) {
 			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
-				return *it;
+				return dynamic_cast<Player&>(*it);
 			}
 		}
 	}
