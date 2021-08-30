@@ -89,7 +89,7 @@ namespace inr {
 		void Rob(double x, double y); // 奪う
 		void Give(double x, double y); // 与える
 		void ChangeSoul(); // 魂の切り替え
-		void IsDamage(); // ダメージ判定を受けるか？
+		// bool IsDamage(); // ダメージ判定を受けるか？
 		bool Damage() override; // ダメージ(ノックバック)
 		bool Dead(); // 死亡判定
 

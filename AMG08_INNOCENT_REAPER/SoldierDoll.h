@@ -37,6 +37,7 @@ namespace inr {
 		}
 	private:
 		int _aInterval;	// アクションインターバル
+		int _stay;	// 待機カウンタ
 		double _patrolX;
 		bool _drawStop;	// 描画更新停止
 

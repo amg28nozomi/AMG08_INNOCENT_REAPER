@@ -73,6 +73,11 @@ namespace {
 	constexpr auto DASH_HEIGHT1 = 10;
 	constexpr auto DASH_HEIGHT2 = 70;
 
+	// ノックバック関連
+	constexpr auto HIT_MAX = 150; // 最大移動量
+	constexpr auto HIT_VECTOR = HIT_MAX / 60;	// 1フレームの移動量
+	constexpr auto INVINCIBLE_TIME = 120;	// 無敵フレーム
+
 	// 押し出し処理
 
 
@@ -477,46 +482,37 @@ namespace inr {
 
 	void Player::Rob(double x, double y) {
 		if (_input == true) {
-			_aState = ActionState::ROB;
-			// キー情報が違う時、キー情報を更新
-			if (_divKey.first != PKEY_ROB) {
-				_divKey.first = PKEY_ROB;
-				// SE読み込み
-				auto sound1 = SoundResearch(key::SOUND_PLAYER_ROB);
-				PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
+			ChangeState(ActionState::ROB, PKEY_ROB);
+			// SE読み込み
+			auto sound1 = SoundResearch(key::SOUND_PLAYER_ROB);
+			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
-				auto it = _collisions.find(PKEY_ROB);
-				// it->second.SetVector(amin, amax);
-				it->second.GetCollisionFlgB() = true;	// 判定オン
+			auto it = _collisions.find(PKEY_ROB);
+			// it->second.SetVector(amin, amax);
+			it->second.GetCollisionFlgB() = true;	// 判定オン
 #ifdef _DEBUG
-				it->second.GetbDrawFlg() = true;
+			it->second.GetbDrawFlg() = true;
 #endif
 
 			}
-			_changeGraph = true;	// 状態遷移フラグオン
 			_input = false; // 入力を受け付けなくする
 			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
-		}
+		
 	}
 
 	void Player::Give(double x, double y) {
 
 		if (_input == true) {
-			_aState = ActionState::GIVE;
-			if (_divKey.first != PKEY_GIVE) {
-				_divKey.first = PKEY_GIVE;
-				// SE読み込み
-				auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
-				PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
+			ChangeState(ActionState::GIVE, PKEY_GIVE);
+			// SE読み込み
+			auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
+			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
-				auto it = _collisions.find(PKEY_GIVE);
-				it->second.GetCollisionFlgB() = true;	// 判定オン
+			auto it = _collisions.find(PKEY_GIVE);
+			it->second.GetCollisionFlgB() = true;	// 判定オン
 #ifdef _DEBUG
-				it->second.GetbDrawFlg() = true;
+			it->second.GetbDrawFlg() = true;
 #endif
-
-			}
-			_changeGraph = true;	// 状態遷移フラグオン
 			_input = false; // 入力を受け付けなくする
 			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
 		}
@@ -531,7 +527,8 @@ namespace inr {
 			// ダメージ処理
 			_input = false;	// 入力処理を弾く
 			ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
-			_knockBack = 0;// 押し出し量の設定（横からの接触判定時に値を0にする）
+			_knockBack = 0;	// 押し出し量の設定（横からの接触判定時に値を0にする）
+			// ノックバック時は衝突方向とは逆方向に150pixel分飛ばす
 			return true;
 		}
 		return false;

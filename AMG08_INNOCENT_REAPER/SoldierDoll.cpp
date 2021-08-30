@@ -42,6 +42,9 @@ namespace {
 	constexpr auto PATROL_MAX = 280;
 
 	constexpr auto FRAME = 30;
+
+	// アイドルモーション時間
+	constexpr auto STAY_MAX = 30;	//　stay
 }
 #endif
 namespace inr {
@@ -85,7 +88,7 @@ namespace inr {
 		{	{ enemy::SOLDIER_EMPTY, {40, 0}},
 
 			{ enemy::red::SOLDIER_WAKEUP, {20, 0}},
-			{ enemy::red::SOLDIER_IDOL, {32, 0}},
+			{ enemy::red::SOLDIER_IDOL, {28, 0}},
 			{ enemy::red::SOLDIER_PATROL, {36, 0}},
 			{ enemy::red::SOLDIER_ATTACK, {12, 50}},	// SE有り
 
@@ -96,6 +99,7 @@ namespace inr {
 		};
 
 		PatrolOn();
+		_stay = 0;
 	}
 
 	void SoldierDoll::Process() {
@@ -156,28 +160,76 @@ namespace inr {
 	}
 
 	void SoldierDoll::Patrol() {
-		// 魂が空の場合はゼロにする
-		if (_aState == ActionState::EMPTY) _patrolX = 0;
-		else if (_aState != ActionState::PATROL && _aState != ActionState::ESCAPE && _aState!= ActionState::IDOL) {
-			PatrolOn();
+		if (_soul == nullptr) return;	// 魂が空の場合は処理を行わない
+		if (_stay != 0) {
+			--_stay;	// 待機モーション中はカウンタを減らして処理を抜ける
+			return;
 		}
-		if (_aState == ActionState::PATROL) {
+
+		switch (_aState) {
+		case ActionState::IDOL:
+			PatrolOn();
+			return;
+		case ActionState::PATROL:
 			// 左移動
 			if (_patrolX < 0) {
 				_moveVector.GetPX() = PATROL_VECTOR;
 				_patrolX += PATROL_VECTOR;
 				return;
-			}
-			else if (0 < _patrolX) {
+			// 右移動
+			} else if (0 < _patrolX) {
 				_moveVector.GetPX() = -PATROL_VECTOR;
 				_patrolX -= PATROL_VECTOR;
+				return;
 			}
-
-			if (static_cast<int>(_patrolX) == 0) {
-				if (_direction == enemy::MOVE_LEFT) _patrolX = -PATROL_MAX;
-				else _patrolX = PATROL_MAX;
+			// 移動量が0の場合は待機状態に遷移する
+			_aState =  ActionState::IDOL;
+			switch (_sState) {
+			case SoulState::BLUE:
+				_divKey.first = enemy::blue::SOLDIER_IDOL;
+				break;
+			case SoulState::RED:
+				_divKey.first = enemy::red::SOLDIER_IDOL;
+				break;
 			}
+			_stay = STAY_MAX;
+			return;
 		}
+
+
+		// 魂が空の場合はゼロにする
+		//if (_aState == ActionState::EMPTY) _patrolX = 0;
+		//else if (_aState != ActionState::PATROL && _aState != ActionState::ESCAPE && _aState!= ActionState::IDOL) {
+		//	PatrolOn();
+		//}
+		//if (_aState == ActionState::PATROL) {
+		//	// 左移動
+		//	if (_patrolX < 0) {
+		//		_moveVector.GetPX() = PATROL_VECTOR;
+		//		_patrolX += PATROL_VECTOR;
+		//		return;
+		//	}
+		//	else if (0 < _patrolX) {
+		//		_moveVector.GetPX() = -PATROL_VECTOR;
+		//		_patrolX -= PATROL_VECTOR;
+		//	}
+		//	// 移動量が0になった（端に付いた）場合は待機状態に遷移
+		//	if (static_cast<int>(_patrolX) == 0) {
+		//		ActionState::IDOL;
+		//		switch (_sState) {
+		//		case SoulState::BLUE:
+		//			_divKey.first = enemy::blue::SOLDIER_IDOL;
+		//			break;
+		//		case SoulState::RED:
+		//			_divKey.first = enemy::red::SOLDIER_IDOL;
+		//			break;
+		//		}
+		//		_stay = STAY_MAX;
+
+		//		if (_direction == enemy::MOVE_LEFT) _patrolX = -PATROL_MAX;
+		//		else _patrolX = PATROL_MAX;
+		//	}
+		//}
 	}
 
 	void SoldierDoll::Move() {
@@ -239,9 +291,9 @@ namespace inr {
 		(_sState == SoulState::BLUE) ? 
 			_divKey.first = enemy::blue::SOLDIER_PATROL : _divKey.first = enemy::red::SOLDIER_PATROL;
 
-		if (_actionX <= 0) {
-			if(_direction) _patrolX = PATROL_MAX;
-			else _patrolX = -PATROL_MAX;
+		if (_actionX == 0) {
+			if(_direction) _patrolX = -PATROL_MAX;
+			else _patrolX = PATROL_MAX;
 		}
 	}
 
@@ -303,10 +355,9 @@ namespace inr {
 						sp = 7.5;
 					}
 
-					_divKey.first = enemy::SOLDIER_EMPTY;
-					_aState = ActionState::EMPTY;
+
+					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 					_sState = SoulState::EMPTY;
-					_changeGraph = true;
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 				}
