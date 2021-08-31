@@ -586,8 +586,8 @@ namespace inr {
 		auto miny = thisbox.GetMin().IntY() + move.IntY();
 		auto maxx = thisbox.GetMax().IntX() + move.IntX();
 		auto maxy = thisbox.GetMax().IntY() + move.IntY();
-		Vector2 minp = { static_cast<double>(minx), static_cast<double>(miny) };
-		Vector2 maxp = { static_cast<double>(maxx), static_cast<double>(maxy) };
+		/*Vector2 minp = { static_cast<double>(minx), static_cast<double>(miny) };
+		Vector2 maxp = { static_cast<double>(maxx), static_cast<double>(maxy) };*/
 
 		/*AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
 			{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() }, box.GetCollisionFlg());*/
@@ -608,13 +608,78 @@ namespace inr {
 					auto minX = c.GetMin().IntX();
 					auto maxX = c.GetMax().IntX();
 					auto minY = c.GetMin().IntY();
-					auto maxY = c.GetMax().IntX();
+					auto maxY = c.GetMax().IntY();
 
 					// êVãKí«â¡
 					auto chipMinX = x * _nowMap.ChipSizeWidth() + minX;
 					auto chipMinY = y * _nowMap.ChipSizeHeight() + minY;
 					auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
 					auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
+
+					// â°ÇÃÇ›îªíËÅià⁄ìÆó ÇÕxÇÃÇ›â¡éZÅj
+					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
+						if (vectorX < 0) {
+							if (minx < chipMaxX && chipMinX < maxx) {
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMaxX + cave;
+							}
+						} else if (0 < vectorX) {
+							if(chipMinX < maxx && minx < chipMaxX){
+							// if (chipMinX < maxx && minx < chipMaxX) {
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMinX - cave;
+							}
+						}
+					}
+					//if (minx < chipMaxX && chipMinX < maxx) {
+					//	if (vectorY < 0) {
+					//		if (box.GetMin().IntY() < chipMaxY && chipMinY < box.GetMax().IntY()) {
+					//			auto cave = box.GetHeightMin();
+					//			move.GetPY() = 0;	// à⁄ìÆó èâä˙âª
+					//			pos.GetPY() = chipMaxY + cave;
+					//		}
+					//		else if (chipMaxY < box.GetMax().IntY() && box.GetMin().IntY() < chipMaxY) {
+					//			auto cave = box.GetHeightMin();
+					//			move.GetPY() = 0;	// à⁄ìÆó èâä˙âª
+					//			pos.GetPY() = chipMaxY + cave;
+					//		}
+					//	}
+					//}
+
+					// ècÇÃÇ›èCê≥óLÇËver
+					/*if (miny < chipMaxY && chipMinY < maxy) {
+						if (vectorX < 0) {
+							if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMaxX + cave;
+							}
+						}
+						else if (0 < vectorX) {
+							if (chipMinX < box.GetMax().IntX() && box.GetMin().IntX() < chipMaxX) {
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMaxX + cave;
+							}
+						}
+					}*/
+					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+						if (vectorY < 0) {
+							if (miny < chipMaxY && chipMinY < maxy) {
+								auto cave = box.GetHeightMin();
+								move.GetPY() = 0;	// à⁄ìÆó èâä˙âª
+								pos.GetPY() = chipMinY + cave;
+							}
+							else if (chipMaxY < maxy && miny < chipMaxY) {
+								auto cave = box.GetHeightMin();
+								move.GetPY() = 0;	// à⁄ìÆó èâä˙âª
+								pos.GetPY() = chipMaxY + cave;
+							}
+						}
+					}
+
 
 					// îÕàÕì‡Ç…é˚Ç‹Ç¡ÇƒÇ¢ÇÈÇ©ÅH
 					//if (minp.GetX() < chipMaxX && chipMinX < maxp.GetX()) {
