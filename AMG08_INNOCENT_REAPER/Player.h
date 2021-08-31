@@ -41,6 +41,8 @@ namespace inr {
 		inline bool HaveSoul() { return !_souls.empty(); }	// 与える魂を有しているか？
 		inline bool IsSoulMax() { return _souls.size() == SOUL_MAX; };	// 魂は入手上限に到達しているか？
 
+		bool Damage(bool mv);
+
 		void SetParameter(Vector2 spwan);	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
 		void SoulCatch(std::shared_ptr<SoulSkin> soul);
 		std::shared_ptr<SoulSkin> GiveSoul();	// 魂の譲渡
@@ -70,6 +72,7 @@ namespace inr {
 
 		int _dashInterval;	// ダッシュの再使用間隔
 		int _knockBack;	// ノックバックカウンタ
+		int _invincible;	// 無敵時間
 		double _jumpPower;	// ジャンプ溜め
 		bool _input;	// 入力処理を受け付けるか
 		// std::string _divKey;	// 読み込み用識別キー
@@ -96,7 +99,6 @@ namespace inr {
 		void Give(double x, double y); // 与える
 		void ChangeSoul(); // 魂の切り替え
 		// bool IsDamage(); // ダメージ判定を受けるか？
-		bool Damage() override; // ダメージ(ノックバック)
 		bool Dead(); // 死亡判定
 
 		void StateUpdate();	// 状態遷移およびその他処理

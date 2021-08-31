@@ -68,6 +68,10 @@ namespace inr {
 		//else AnimationInit();	// カウンター初期化
 		DrawDebugBox(_mainCollision);
 		DrawDebugBox(_searchBox);
+
+		auto it = _collisions.find(_divKey.first);
+		if (it == _collisions.end()) return;
+		DrawDebugBox(it->second);
 	}
 
 	void EnemyBase::AnimationCount() {

@@ -41,6 +41,11 @@ namespace {
 	constexpr auto PATROL_VECTOR = 1.0;
 	constexpr auto PATROL_MAX = 280;
 
+	// 攻撃用範囲
+	constexpr auto ATTACK_W1 = SOLDIER_BOX_W + 60;
+	constexpr auto ATTACK_W2 = SOLDIER_W;
+	constexpr auto ATTACK_H = 30;
+
 	constexpr auto FRAME = 30;
 
 	// アイドルモーション時間
@@ -81,6 +86,7 @@ namespace inr {
 		// 各種判定の格納（攻撃判定・）
 		_collisions = {
 			{ enemy::SOLDIER_EMPTY, { _position, 65, 60, -45, 80 , true}},	// 抜け殻時の情報
+			{ enemy::red::SOLDIER_ATTACK, {_position, ATTACK_W1, ATTACK_W2, ATTACK_H, ATTACK_H}},
 		};
 
 		_motionKey =
@@ -110,6 +116,7 @@ namespace inr {
 
 		Patrol();
 		Action();
+		Attack();
 
 		// 当たり判定を取得
 
@@ -251,7 +258,6 @@ namespace inr {
 			switch (_soul->SoulColor()) {
 			// 赤い魂の時は、突進処理を実行する。
 			case soul::RED:
-				// Rush();
 				break;
 			case soul::BLUE:
 				EscapeOn();
@@ -290,6 +296,12 @@ namespace inr {
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
 
+		if (_aState == ActionState::ATTACK) {
+			auto it = _collisions.find(_divKey.first);
+			it->second.Update(_position, _direction);
+			it->second.GetbDrawFlg() = true;
+		}
+
 		if (_soul == nullptr && IsAnimationMax() == true) {
 			auto col = _collisions.find(enemy::SOLDIER_EMPTY);
 			col->second.Update(_position, _direction);
@@ -300,8 +312,25 @@ namespace inr {
 	}
 
 	void SoldierDoll::Attack() {
-		auto&& player = _game.GetObjectServer()->GetPlayer();	//　プレイヤーの参照を取得
-		auto playerBox = player->GetMainCollision();
+		if (_soul == nullptr) return;	// 魂がない場合は処理をスキップ
+		auto&& player = _game.GetObjectServer()->GetPlayer();
+		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定を取得
+
+		// 自身の当たり判定と接触判定を行う
+		auto dmb = DamageBox();
+		if (dmb.HitCheck(playerBox)) {
+			player->Damage(SearchPosition());
+			return;
+		}
+		// 攻撃状態の場合は追加で処理を行う
+		if (_aState == ActionState::ATTACK) {
+			auto box = _collisions.find(_divKey.first);
+			// 接触している場合は自機の衝突処理を呼び出す
+			if (box->second.HitCheck(playerBox)) {
+				// 進行方向とは同方向に対象を飛ばす
+				player->Damage(SearchPosition());
+			}
+		}
 
 		//if (_mainCollision.HitCheck(playerBox)) {
 		//	player.Da
@@ -395,5 +424,16 @@ namespace inr {
 			vitalMax.GetPX() = col.GetMin().GetX() + SOLDIER_VITAL;
 		}
 		return AABB(vitalMin, vitalMax, true);
+	}
+
+	AABB SoldierDoll::DamageBox() {
+		auto damagebox = _mainCollision;
+		if (_direction) {
+			damagebox.GetMax().GetPX() -= SOLDIER_VITAL;
+		}
+		else {
+			damagebox.GetMin().GetPX() -= SOLDIER_VITAL;
+		}
+		return damagebox;
 	}
 }

@@ -172,9 +172,6 @@ namespace inr {
 		return soundFrame;
 	}
 
-	bool ObjectBase::Damage() {
-		return false;
-	}
 
 #ifdef _DEBUG
 	void ObjectBase::DrawDebugBox(Collision cb, int color) {

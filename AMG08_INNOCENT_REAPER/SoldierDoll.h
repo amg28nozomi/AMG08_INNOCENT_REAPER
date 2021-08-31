@@ -55,6 +55,7 @@ namespace inr {
 
 		// 干渉可能範囲の算出
 		AABB VitalPart(Collision& col);
+		AABB DamageBox();	// ダメージボックスの算出
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	};
 }

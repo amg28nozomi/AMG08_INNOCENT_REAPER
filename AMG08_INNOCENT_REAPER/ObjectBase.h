@@ -73,8 +73,6 @@ namespace inr {
 		inline virtual Vector2 GetMoveVector() { return Vector2(); }	// 移動ベクトルのゲッター
 		inline AABB& GetMainCollision() { return _mainCollision; }
 
-		virtual bool Damage();
-
 		virtual void SetStatus(Vector2 spawn, std::string soulcolor) { return; } // status
 		virtual void SetSpeed(double speed) { return; }
 		// ここまで

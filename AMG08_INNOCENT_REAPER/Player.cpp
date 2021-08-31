@@ -74,8 +74,8 @@ namespace {
 	constexpr auto DASH_HEIGHT2 = 70;
 
 	// ノックバック関連
-	constexpr auto HIT_MAX = 150; // 最大移動量
-	constexpr auto HIT_VECTOR = HIT_MAX / 60;	// 1フレームの移動量
+	constexpr auto HIT_MAX = 300; // 最大移動量
+	constexpr auto HIT_FRAME = 60;	// ノックバック時間
 	constexpr auto INVINCIBLE_TIME = 120;	// 無敵フレーム
 
 	// 押し出し処理
@@ -102,7 +102,8 @@ namespace {
 	constexpr auto PMF_FALL = PF_FALL * MF_INTERVAL;
 	constexpr auto PMF_ROB = PF_ROB * MF_INTERVAL;
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
-	constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
+	// constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
+	constexpr auto PMF_HIT = 60;
 }
 
 namespace inr {
@@ -140,6 +141,8 @@ namespace inr {
 	}
 
 	void Player::Init() {
+		_invincible = 0;	// 無敵時間
+
 		// キー名　first:アニメーションの総フレーム数、second:SEの再生フレーム数
 		_motionKey = {{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
 					{PKEY_RUN, {PMF_RUN, SE_RUN1}}, 
@@ -227,6 +230,7 @@ namespace inr {
 	}
 
 	void Player::StateUpdate() {
+		if (0 < _invincible) --_invincible;	// 無敵時間がある場合は減少させる
 		// 各種モーションに合わせた修正
 		switch (_aState) {
 		// 移動時
@@ -297,6 +301,15 @@ namespace inr {
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 				_input = true;	// 入力を受け付ける
 			}
+			break;
+		// ノックバック中
+		case ActionState::HIT:
+			if (_invincible == HIT_FRAME) {
+				ChangeState(ActionState::IDOL, PKEY_IDOL);
+				_input = true;
+				break;
+			}
+			_moveVector.GetPX() = _knockBack / HIT_FRAME;	// 移動量
 			break;
 		default:
 			return;
@@ -520,13 +533,24 @@ namespace inr {
 	
 	}
 
-	bool Player::Damage(){
-		if (_aState != ActionState::HIT) {
+	bool Player::Damage(bool mv) {
+		// 無敵時間中ではない場合のみ、
+		if (_invincible == 0) {
 			// ダメージ処理
 			_input = false;	// 入力処理を弾く
 			ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
-			_knockBack = 0;	// 押し出し量の設定（横からの接触判定時に値を0にする）
-			// ノックバック時は衝突方向とは逆方向に150pixel分飛ばす
+			// ノックバック量（方向の設定）
+			switch (mv) {
+			// 左に居る場合
+			case false:
+				_knockBack = HIT_MAX;
+				break;
+			// 右に居る場合
+			case true:
+				_knockBack = -HIT_MAX;
+				break;
+			}
+			_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
 			return true;
 		}
 		return false;
