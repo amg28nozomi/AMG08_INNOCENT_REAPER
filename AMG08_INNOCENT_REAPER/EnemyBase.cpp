@@ -156,11 +156,11 @@ namespace inr {
 		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
 		switch (soult) {
 		case 1:
-			soul_n->SetParameter(0, 7.5);
+			soul_n->SetParameter(soult, 7.5);
 			ChangeState(ActionState::PATROL, enemy::red::SOLDIER_PATROL);
 			break;
 		case 2:
-			soul_n->SetParameter(1, 8.5);
+			soul_n->SetParameter(soult, 8.5);
 			ChangeState(ActionState::PATROL, enemy::blue::SOLDIER_PATROL);
 			break;
 		}

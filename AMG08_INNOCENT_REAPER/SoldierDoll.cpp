@@ -247,7 +247,9 @@ namespace inr {
 			case enemy::MOVE_RIGHT:
 				_actionX -= enemy::ESCAPE_VECTOR / FRAME;
 				_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
+				break;
 			}
+			if (_actionX == 0) PatrolOn();
 		}
 	}
 
@@ -312,7 +314,7 @@ namespace inr {
 	}
 
 	void SoldierDoll::Attack() {
-		if (_soul == nullptr) return;	// 魂がない場合は処理をスキップ
+		if (_soul == nullptr || _aState == ActionState::WAKEUP) return;	// 魂がない場合は処理をスキップ
 		auto&& player = _game.GetObjectServer()->GetPlayer();
 		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定を取得
 
