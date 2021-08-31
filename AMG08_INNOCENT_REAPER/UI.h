@@ -1,6 +1,7 @@
 #pragma once
 #include "Image.h"
 #include <memory>
+#include <vector>
 
 namespace inr {
 
