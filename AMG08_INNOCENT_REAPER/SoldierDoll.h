@@ -17,7 +17,7 @@ namespace inr {
 		bool Hit() override;
 
 		// α版限定処理
-		void SetStatus(Vector2 spawn, std::string soulcolor) override {
+		/*void SetStatus(Vector2 spawn, std::string soulcolor) override {
 			_position = spawn;
 			if (soulcolor == "red") {
 				_sState = SoulState::RED;
@@ -34,7 +34,7 @@ namespace inr {
 				_aState = ActionState::EMPTY;
 				_divKey.first = enemy::SOLDIER_EMPTY;
 			}
-		}
+		}*/
 	private:
 		int _aInterval;	// アクションインターバル
 		int _stay;	// 待機カウンタ

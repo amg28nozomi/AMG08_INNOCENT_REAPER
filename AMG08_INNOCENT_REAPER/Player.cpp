@@ -118,7 +118,8 @@ namespace inr {
 		_dashInterval = 0;
 		_judegFrame = 0;
 
-		_souls.push(nullptr);
+		_souls;
+		// _souls.push(nullptr);
 
 		_direction = false;
 		_changeGraph = true;
@@ -596,14 +597,13 @@ namespace inr {
 	}
 
 	void Player::SoulCatch(std::shared_ptr<SoulSkin> soul) {
-		// °‚ªnullptr‚Ìê‡
-		if (_souls.front() == nullptr) {
-			// °‚ğ’Ç‰Á‚µ‚Ä‚©‚çæ“ª‚Ì—v‘f‚ğíœ‚·‚é
-			_souls.push(std::move(soul));
-			_souls.pop();
-			return;
-		}
 		_souls.push(std::move(soul));
+	}
+
+	std::shared_ptr<SoulSkin> Player::GiveSoul() {
+		auto givesoul = _souls.front();	// QÆ‚ğæ‚èo‚·
+		_souls.pop();
+		return std::move(givesoul);
 	}
 
 

@@ -42,6 +42,7 @@ namespace inr {
 
 		void SetParameter(Vector2 spwan);	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
 		void SoulCatch(std::shared_ptr<SoulSkin> soul);
+		std::shared_ptr<SoulSkin> GiveSoul();	// 魂の譲渡
 
 	private:
 		// アクションの状態

@@ -22,7 +22,6 @@ namespace inr {
 	EnemyBase::EnemyBase(Game& game) : ObjectBase(game), _searchBox(Vector2(), Vector2()) {
 		_eType = EnemyType::SOLDIER_DOLL;
 		_aState = ActionState::EMPTY;
-		_sState = SoulState::EMPTY;
 		_divKey = std::make_pair("NULL", key::SOUND_NUM);
 		_position = { 0, 0 };
 		_moveVector = { 0, 0 };
@@ -72,7 +71,7 @@ namespace inr {
 	}
 
 	void EnemyBase::AnimationCount() {
-		if (_sState == SoulState::EMPTY && IsAnimationMax() == true) return;
+		if (_soul == nullptr && IsAnimationMax() == true) return;
 		ObjectBase::AnimationCount();
 	}
 
@@ -90,7 +89,7 @@ namespace inr {
 
 	bool EnemyBase::SearchPlayer() {
 		// 魂が空ではない時
-		if (_sState != SoulState::EMPTY) {
+		if (_soul != nullptr) {
 			// プレイヤークラスの参照からメインの当たり判定を取得
 			auto player = _game.GetObjectServer()->GetPlayer();
 			const auto& pbox = player->GetMainCollision();
@@ -147,7 +146,6 @@ namespace inr {
 		_searchBox.Update(_position, _direction);
 		if (soult == 0) { 
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
-			_sState = SoulState::EMPTY;
 			return;
 		}
 		auto soul_n =  std::make_shared<SoulSkin>(_game.GetGame());
@@ -156,12 +154,10 @@ namespace inr {
 		case 1:
 			soul_n->SetParameter(0, 7.5);
 			ChangeState(ActionState::PATROL, enemy::red::SOLDIER_PATROL);
-			_sState = SoulState::RED;
 			break;
 		case 2:
 			soul_n->SetParameter(1, 8.5);
 			ChangeState(ActionState::PATROL, enemy::blue::SOLDIER_PATROL);
-			_sState = SoulState::BLUE;
 			break;
 		}
 		_soul = soul_n;

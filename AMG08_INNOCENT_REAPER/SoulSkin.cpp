@@ -133,4 +133,10 @@ namespace inr {
 		_position = spwan;
 		_active = true;
 	}
+
+	bool SoulSkin::SoulColor() { 
+		bool scolor;
+		(_sType == Type::RED) ? scolor = soul::RED : scolor = soul::BLUE;
+		return scolor;
+	}
 }

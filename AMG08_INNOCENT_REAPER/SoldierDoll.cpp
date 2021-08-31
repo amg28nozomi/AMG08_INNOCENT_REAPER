@@ -53,7 +53,6 @@ namespace inr {
 		_type = ObjectBase::ObjectType::ENEMY;
 		_eType = EnemyType::SOLDIER_DOLL;
 		_aState = ActionState::EMPTY;
-		_sState = SoulState::EMPTY;
 		_divKey = std::make_pair(enemy::SOLDIER_EMPTY, key::SOUND_NUM);
 		_position = { START_POS_X, START_POS_Y };
 
@@ -119,43 +118,18 @@ namespace inr {
 	}
 
 	void SoldierDoll::StateUpdate() {
-		switch (_sState) {
-		// 魂がない場合は何もしないよー
-		case SoulState::EMPTY:
-			// 脱出
-			break;
-		// 青い魂の場合
-		case SoulState::BLUE:
-			// 巡回(索敵)→逃走→待機
-			// インターバルがある場合はintervalを減少させて処理を抜ける
-			if (_aInterval) { 
-				--_aInterval; 
-				break;
-			}
-			// 索敵を行う
-
-			break;
-		// 赤い魂の場合
-		case SoulState::RED:
+		if (_soul == nullptr) return;	// 魂がない場合は処理を終了
+		switch (_soul->SoulColor()) {
+		case soul::RED:
 			if (_aInterval) {
 				--_aInterval;
-				break;
 			}
-
-			break;
-		// 魂が空の時の処理
-		/*case ActionState::EMPTY:
-			break;
-		case ActionState::IDOL:
-			break;
-		case ActionState::PATROL:
-			break;
-		case ActionState::ATTACK:
-			break;
-		case ActionState::ESCAPE:
-			break;
-		default:
-			break;*/
+			return;
+		case soul::BLUE:
+			if (_aInterval) {
+				--_aInterval;
+			}
+			return;
 		}
 	}
 
@@ -184,12 +158,12 @@ namespace inr {
 			}
 			// 移動量が0の場合は待機状態に遷移する
 			_aState =  ActionState::IDOL;
-			switch (_sState) {
-			case SoulState::BLUE:
-				_divKey.first = enemy::blue::SOLDIER_IDOL;
-				break;
-			case SoulState::RED:
+			switch (_soul->SoulColor()) {
+			case soul::RED:
 				_divKey.first = enemy::red::SOLDIER_IDOL;
+				break;
+			case soul::BLUE:
+				_divKey.first = enemy::blue::SOLDIER_IDOL;
 				break;
 			}
 			_stay = STAY_MAX;
@@ -264,31 +238,30 @@ namespace inr {
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
 			// 入っている魂に応じて処理を変更する
-			switch (_sState) {
+			switch (_soul->SoulColor()) {
 			// 赤い魂の時は、突進処理を実行する。
-			case SoulState::RED:
+			case soul::RED:
 				// Rush();
 				break;
-			case SoulState::BLUE:
+			case soul::BLUE:
 				EscapeOn();
 				if (_actionX == 0) {
 					PatrolOn();
 				}
 				break;
-			default:
-				break;
 			}
 		}
 		// 発見できなかった場合は移動処理を行う
-		if (_sState == SoulState::EMPTY) _actionX = 0;
+		if (_soul == nullptr) _actionX = 0;
 	}
 
 	void SoldierDoll::PatrolOn() {
+		if (_soul == nullptr) return;
 		_changeGraph = true;
 		_aState = ActionState::PATROL;
 
 		// 魂の色に応じてキーを切り替え
-		(_sState == SoulState::BLUE) ? 
+		(_soul->SoulColor() == soul::BLUE) ?
 			_divKey.first = enemy::blue::SOLDIER_PATROL : _divKey.first = enemy::red::SOLDIER_PATROL;
 
 		if (_actionX == 0) {
@@ -307,7 +280,7 @@ namespace inr {
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
 
-		if (_sState == SoulState::EMPTY && IsAnimationMax() == true) {
+		if (_soul == nullptr && IsAnimationMax() == true) {
 			auto col = _collisions.find(enemy::SOLDIER_EMPTY);
 			col->second.Update(_position, _direction);
 			_mainCollision.Swap(col->second);
@@ -341,11 +314,10 @@ namespace inr {
 		auto vitalPart = VitalPart(_mainCollision);
 		// 魂は奪われるか？
 		if (ckey == PKEY_ROB) {
-			if (_sState != SoulState::EMPTY) {
+			if (_soul != nullptr) {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
-					_sState = SoulState::EMPTY;
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 
@@ -364,11 +336,22 @@ namespace inr {
 		// 魂を与えられるか？
 		if (ckey == PKEY_GIVE) {
 			// 魂が空の場合にボックスが接触したら
-			if (_sState == SoulState::EMPTY) {
-				// 接触時の判定はAABBで行う
+			if (_soul== nullptr) {
+				// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
 				if (_mainCollision.HitCheck(acollision)) {
-					_game.GetObjectServer()->GetPlayer();
+					// プレイヤーを取得
+					auto player = _game.GetObjectServer()->GetPlayer();
+					_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 					_soul->Inactive();	// 魂を非活性状態にする
+					switch (_soul->SoulColor()) {
+					case soul::RED:
+						ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
+						return;
+					case soul::BLUE:
+						ChangeState(ActionState::WAKEUP, enemy::blue::SOLDIER_WAKEUP);
+						return;
+					}
+					return;
 				}
 			}
 		}

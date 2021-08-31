@@ -52,19 +52,14 @@ namespace inr {
 		enum class EnemyType {
 			SOLDIER_DOLL, BIG_DOLL, CROW_DOLL
 		};
-		// 抜け殻、巡回、攻撃、逃避
+		// 抜け殻、巡回、攻撃、逃避、起き上がり
 		enum class ActionState {
-			EMPTY, IDOL, PATROL, ATTACK, ESCAPE
-		};
-		// 空、赤、青
-		enum class SoulState{
-			EMPTY, RED, BLUE
+			EMPTY, IDOL, PATROL, ATTACK, ESCAPE, WAKEUP
 		};
 
 		// Soul _soul;
 		EnemyType _eType;
 		ActionState _aState;
-		SoulState _sState;
 
 		std::shared_ptr<SoulSkin> _soul;
 
@@ -100,15 +95,9 @@ namespace inr {
 		
 		inline EnemyType GetEnemyType() { return _eType; }
 		inline ActionState GetActionState() { return _aState; }
-		inline SoulState GetSoulState() { return _sState; }
 		inline Vector2 GetMoveVector() override { return _moveVector; }
 
 		void SetParameter(Vector2 spwan, int soult);	// parameter
-		
-		bool IsEmpty() override { 
-			bool isempty = _sState == SoulState::EMPTY;
-			return isempty; 
-		}
 
 		// virtual void Process() override;
 		// virtual void Draw() override;
