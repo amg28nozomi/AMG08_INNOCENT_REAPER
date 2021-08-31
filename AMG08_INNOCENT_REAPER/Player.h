@@ -23,6 +23,8 @@ namespace inr {
 	constexpr auto PL_LEFT = true;
 	constexpr auto PL_RIGHT = false;
 
+	constexpr auto SOUL_MAX = 3;	// 保有できる魂の上限
+
 	class SoulSkin;
 
 
@@ -36,8 +38,10 @@ namespace inr {
 		void Draw() override;
 
 		inline Vector2 GetMoveVector() override{ return _moveVector; }
+		inline bool IsSoulMax() { return _souls.size() == SOUL_MAX; };	// 魂は入手上限に到達しているか？
 
 		void SetParameter(Vector2 spwan);	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
+		void SoulCatch(std::shared_ptr<SoulSkin> soul);
 
 	private:
 		// アクションの状態

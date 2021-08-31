@@ -53,6 +53,8 @@ namespace inr {
 
 		void SetParameter(int soulcolor, double speed);	
 		void SetSpwan(Vector2 spwan);
+
+		inline void Inactive() { _active = false; }
 	};
 }
 

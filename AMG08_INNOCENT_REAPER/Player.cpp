@@ -103,9 +103,6 @@ namespace {
 	constexpr auto PMF_ROB = PF_ROB * MF_INTERVAL;
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
 	constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
-
-
-	constexpr auto SOUL_MAX = 3;	// 保有できる魂の上限
 }
 
 namespace inr {
@@ -597,6 +594,18 @@ namespace inr {
 		_divKey.first = key;
 		_changeGraph = true;
 	}
+
+	void Player::SoulCatch(std::shared_ptr<SoulSkin> soul) {
+		// 魂がnullptrの場合
+		if (_souls.front() == nullptr) {
+			// 魂を追加してから先頭の要素を削除する
+			_souls.push(std::move(soul));
+			_souls.pop();
+			return;
+		}
+		_souls.push(std::move(soul));
+	}
+
 
 
 	// デバッグ用処理（変数の表示・当たり判定の描画等）

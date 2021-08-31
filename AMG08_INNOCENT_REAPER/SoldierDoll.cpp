@@ -344,22 +344,31 @@ namespace inr {
 			if (_sState != SoulState::EMPTY) {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
-					std::string scolor;
-					double sp;
-					if (_sState == SoulState::BLUE) {
-						scolor = "blue";
-						sp = 7;
-					}
-					else if (_sState == SoulState::RED) {
-						scolor = "red";
-						sp = 7.5;
-					}
-
-
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 					_sState = SoulState::EMPTY;
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
+
+					auto player = _game.GetObjectServer()->GetPlayer();
+
+					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
+					if (player->IsSoulMax()) {
+						_soul.reset();	// 所有権を手放す
+						return;
+					}
+					player->SoulCatch(std::move(_soul));	// 魂の所有権をプレイヤーに譲渡
+					return;
+				}
+			}
+		}
+		// 魂を与えられるか？
+		if (ckey == PKEY_GIVE) {
+			// 魂が空の場合にボックスが接触したら
+			if (_sState == SoulState::EMPTY) {
+				// 接触時の判定はAABBで行う
+				if (_mainCollision.HitCheck(acollision)) {
+					_game.GetObjectServer()->GetPlayer();
+					_soul->Inactive();	// 魂を非活性状態にする
 				}
 			}
 		}
