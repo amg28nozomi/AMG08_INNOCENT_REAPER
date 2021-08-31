@@ -97,6 +97,10 @@ namespace inr {
 		inline ActionState GetActionState() { return _aState; }
 		inline Vector2 GetMoveVector() override { return _moveVector; }
 
+		virtual void CollisionHit(const std::string ckey, Collision acollision, bool direction);
+
+		bool IsEmpty();
+
 		void SetParameter(Vector2 spwan, int soult);	// parameter
 
 		// virtual void Process() override;

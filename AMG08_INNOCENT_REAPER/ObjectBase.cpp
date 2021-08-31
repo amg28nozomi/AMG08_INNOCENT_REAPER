@@ -203,8 +203,4 @@ namespace inr {
 
 		DxLib::DrawBox(abmin.IntX(), abmin.IntY(), abmax.IntX(), abmax.IntY(), red, FALSE);
 	}
-
-	void ObjectBase::CollisionHit(std::string ckey, Collision acollision, bool direction) {
-
-	}
 }

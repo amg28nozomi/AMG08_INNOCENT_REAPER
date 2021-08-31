@@ -163,4 +163,13 @@ namespace inr {
 		_soul = soul_n;
 		_game.GetObjectServer()->Add(std::move(soul_n));
 	}
+
+	void EnemyBase::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
+
+	}
+
+	bool EnemyBase::IsEmpty() {
+		if (_soul == nullptr) return true;
+		return false;
+	}
 }

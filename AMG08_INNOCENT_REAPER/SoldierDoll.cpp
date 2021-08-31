@@ -44,7 +44,7 @@ namespace {
 	constexpr auto FRAME = 30;
 
 	// アイドルモーション時間
-	constexpr auto STAY_MAX = 30;	//　stay
+	constexpr auto STAY_MAX = 60;	//　stay
 }
 #endif
 namespace inr {
@@ -86,12 +86,12 @@ namespace inr {
 		_motionKey =
 		{	{ enemy::SOLDIER_EMPTY, {40, 0}},
 
-			{ enemy::red::SOLDIER_WAKEUP, {20, 0}},
+			{ enemy::red::SOLDIER_WAKEUP, {30, 0}},
 			{ enemy::red::SOLDIER_IDOL, {28, 0}},
 			{ enemy::red::SOLDIER_PATROL, {36, 0}},
 			{ enemy::red::SOLDIER_ATTACK, {12, 50}},	// SE有り
 
-			{ enemy::blue::SOLDIER_WAKEUP, {20, 0}},
+			{ enemy::blue::SOLDIER_WAKEUP, {30, 0}},
 			{ enemy::blue::SOLDIER_IDOL, {28, 0}},
 			{ enemy::blue::SOLDIER_PATROL, {42, 0}},
 			{ enemy::blue::SOLDIER_ESCAPE, {24, 0}}
@@ -167,6 +167,16 @@ namespace inr {
 				break;
 			}
 			_stay = STAY_MAX;
+			return;
+		// 起き上がりモーション時
+		case ActionState::WAKEUP:
+			// 起き上がりアニメーションの再生が終わったなら、巡回状態に遷移する
+			if (IsAnimationMax()) {
+				ChangeIdol();
+				_stay = STAY_MAX;
+				_searchBox.GetbDrawFlg() = true;
+
+			}
 			return;
 		}
 
@@ -298,6 +308,19 @@ namespace inr {
 		//}
 	}
 
+	void SoldierDoll::ChangeIdol() {
+		std::string nextkey;
+		switch (_soul->SoulColor()) {
+		case soul::RED:
+			nextkey = enemy::red::SOLDIER_IDOL;
+			break;
+		case soul::BLUE:
+			nextkey = enemy::blue::SOLDIER_IDOL;
+			break;
+		}
+		ChangeState(ActionState::IDOL, nextkey);
+	}
+
 	bool SoldierDoll::Hit() {
 		// プレイヤーの参照を取得
 		auto player = _game.GetObjectServer()->GetPlayer();
@@ -312,6 +335,7 @@ namespace inr {
 	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		// 現在の急所がある座標を算出
 		auto vitalPart = VitalPart(_mainCollision);
+		auto player = _game.GetObjectServer()->GetPlayer();
 		// 魂は奪われるか？
 		if (ckey == PKEY_ROB) {
 			if (_soul != nullptr) {
@@ -320,8 +344,6 @@ namespace inr {
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
-
-					auto player = _game.GetObjectServer()->GetPlayer();
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {
@@ -335,23 +357,26 @@ namespace inr {
 		}
 		// 魂を与えられるか？
 		if (ckey == PKEY_GIVE) {
-			// 魂が空の場合にボックスが接触したら
-			if (_soul== nullptr) {
-				// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
-				if (_mainCollision.HitCheck(acollision)) {
-					// プレイヤーを取得
-					auto player = _game.GetObjectServer()->GetPlayer();
-					_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
-					_soul->Inactive();	// 魂を非活性状態にする
-					switch (_soul->SoulColor()) {
-					case soul::RED:
-						ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
-						return;
-					case soul::BLUE:
-						ChangeState(ActionState::WAKEUP, enemy::blue::SOLDIER_WAKEUP);
+			// プレイヤーは魂を所持しているか？
+			if(player->HaveSoul()){
+				// 魂が空の場合にボックスが接触したら
+				if (_soul == nullptr) {
+					// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
+					if (_mainCollision.HitCheck(acollision)) {
+						// プレイヤーを取得
+						auto player = _game.GetObjectServer()->GetPlayer();
+						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
+						_soul->Inactive();	// 魂を非活性状態にする
+						switch (_soul->SoulColor()) {
+						case soul::RED:
+							ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
+							return;
+						case soul::BLUE:
+							ChangeState(ActionState::WAKEUP, enemy::blue::SOLDIER_WAKEUP);
+							return;
+						}
 						return;
 					}
-					return;
 				}
 			}
 		}

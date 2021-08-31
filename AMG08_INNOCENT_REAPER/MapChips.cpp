@@ -619,7 +619,7 @@ namespace inr {
 					// ‰¡‚Ì‚İ”»’èiˆÚ“®—Ê‚Íx‚Ì‚İ‰ÁZj
 					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
 						if (vectorX < 0) {
-							if (minx < chipMaxX && chipMinX < maxx) {
+							if (minx < chipMaxX && chipMaxX < maxx) {
 								auto cave = box.GetWidthMin();
 								move.GetPX() = 0;
 								pos.GetPX() = chipMaxX + cave;

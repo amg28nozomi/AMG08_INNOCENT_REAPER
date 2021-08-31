@@ -38,6 +38,7 @@ namespace inr {
 		void Draw() override;
 
 		inline Vector2 GetMoveVector() override{ return _moveVector; }
+		inline bool HaveSoul() { return !_souls.empty(); }	// 与える魂を有しているか？
 		inline bool IsSoulMax() { return _souls.size() == SOUL_MAX; };	// 魂は入手上限に到達しているか？
 
 		void SetParameter(Vector2 spwan);	// 引数1:初期座標　引数2:魂を保有しているか　引数3:

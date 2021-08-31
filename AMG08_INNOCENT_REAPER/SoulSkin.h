@@ -55,6 +55,7 @@ namespace inr {
 		void SetSpwan(Vector2 spwan);
 
 		inline void Inactive() { _active = false; }
+		inline void Active() { _active = true; }
 		bool SoulColor();	// ç∞ÇÕÇ«ÇøÇÁÇ©ÅH
 	};
 }

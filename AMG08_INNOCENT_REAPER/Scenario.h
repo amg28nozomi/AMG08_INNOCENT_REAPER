@@ -54,13 +54,7 @@ namespace inr {
 
 		bool AddObjects(const std::string key);	// オブジェクトの生成
 
-		
-		//Vector2 SpawnPosition(std::string key);	// 初期座標の取得
-		//bool SoulState(std::string key);	// 魂の取得
 	private:
-		
-		// using ScenarioMap = std::unordered_map<std::string, ObjectData>;	// 読み込み用
-		// using ObjectSize = std::unordered_map<std::string, std::pair<int, int>>;	// 登録されている各オブジェクトの(最大サイズ・カウンタ)
 
 		Game& _game;
 		ScenarioMap _scenarios;
