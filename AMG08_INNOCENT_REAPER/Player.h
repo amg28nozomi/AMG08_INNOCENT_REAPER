@@ -40,12 +40,14 @@ namespace inr {
 		inline Vector2 GetMoveVector() override{ return _moveVector; }
 		inline bool HaveSoul() { return !_souls.empty(); }	// 与える魂を有しているか？
 		inline bool IsSoulMax() { return _souls.size() == SOUL_MAX; };	// 魂は入手上限に到達しているか？
+		inline int SoulsSize() { return static_cast<int>(_souls.size()); }
 
 		bool Damage(bool mv);
 
 		void SetParameter(Vector2 spwan);	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
 		void SoulCatch(std::shared_ptr<SoulSkin> soul);
 		std::shared_ptr<SoulSkin> GiveSoul();	// 魂の譲渡
+		inline std::queue<std::shared_ptr<SoulSkin>> GetSouls() { return _souls; }
 
 	private:
 		// アクションの状態

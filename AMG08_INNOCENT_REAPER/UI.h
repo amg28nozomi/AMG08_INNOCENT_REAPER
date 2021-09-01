@@ -17,6 +17,7 @@ namespace inr {
 	class Player;
 	class SoulSkin;
 
+
 	class UI : public Image {
 	public:
 		UI(Game& game);
@@ -27,7 +28,10 @@ namespace inr {
 		void Draw() override;
 	private:
 		std::shared_ptr<Player> _player;	// 自機のポインタ
-		std::vector<std::shared_ptr<SoulSkin>> _pSouls;	// プレイヤーが所持する魂の有無
+		std::vector<std::string> _ghKeys;
+		std::vector<int> _count;
+
+		std::string GetGraphKey(int number);
 	};
 }
 
