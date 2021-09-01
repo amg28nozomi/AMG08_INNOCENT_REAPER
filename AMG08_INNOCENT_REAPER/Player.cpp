@@ -343,6 +343,7 @@ namespace inr {
 			//	Jump();
 				break;
 			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
+				ChangeSoul();
 				break;
 			case PAD_INPUT_6:	// R1が押された場合、「ダッシュ」
 				if (_aState == ActionState::HIT) break;
@@ -531,7 +532,11 @@ namespace inr {
 	}
 
 	void Player::ChangeSoul() {
-	
+		if (_input == false) return;
+		if (2 <= _souls.size()) {
+			_souls.push(_souls.front());
+			_souls.pop();
+		}
 	}
 
 	bool Player::Damage(bool mv) {
