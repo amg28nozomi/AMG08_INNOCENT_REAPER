@@ -20,6 +20,7 @@ namespace inr {
 
 	SoulSkin::SoulSkin(Game& game) : ObjectBase(game), _moveVector() {
 		_sType = Type::RED;
+		_space = 0;
 		Init();
 	}
 
@@ -45,6 +46,7 @@ namespace inr {
 			Tracking();
 			Move();
 		}
+		if (_space != 0) _space = 0;
 	}
 
 	void SoulSkin::Draw() {
@@ -61,28 +63,15 @@ namespace inr {
 	}
 
 	void SoulSkin::Tracking() {
+		if (_space == 0) return;
 		// プレイヤーの参照を取得
 		auto player = _game.GetObjectServer()->GetPlayer();
 
 		double px;
 		if (player->GetDirection() == PL_LEFT) {
-			switch (_sType) {
-			case Type::BLUE:
-				px = player->GetPosition().GetX() + SOUL_I + SOUL_I;
-				break;
-			case Type::RED:
-				px = player->GetPosition().GetX() + SOUL_I;
-				break;
-			}
+			px = player->GetPosition().GetX() + _space;
 		} else {
-			switch (_sType) {
-			case Type::BLUE:
-				px = player->GetPosition().GetX() - SOUL_I - SOUL_I;
-				break;
-			case Type::RED:
-				px = player->GetPosition().GetX() - SOUL_I;
-				break;
-			}
+			px = player->GetPosition().GetX() - _space;
 		}
 		auto py = player->GetPosition().GetY() - SOUL_IH;
 

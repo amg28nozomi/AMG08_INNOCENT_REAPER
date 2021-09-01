@@ -485,7 +485,7 @@ namespace inr {
 					if (mn.GetMin().GetX() < cbox.GetMax().GetX() && cbox.GetMin().GetX() < mn.GetMax().GetX()) {
 						// 加速値が正の場合（落下中、床と接触しているか？）
 						if (0 < g) {
-							// プレイヤーの上部はマップチップ上部より小さいか
+							// 足元は埋まっていないか？
 							if (mn.GetMin().GetY() < cbox.GetMin().GetY() &&
 								// マップチップの上部に対象の下が足元が埋まっているかどうか
 								cbox.GetMin().GetY() < mn.GetMax().GetY()) {
@@ -500,7 +500,7 @@ namespace inr {
 							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
 								auto cavep = box.GetHeightMin();
 								pos.GetPY() = maxY + cavep;
-								return true; 
+								return true;
 							}
 							// if (mn.GetMax().GetY() < cbox.GetMin().GetY() && cbox.GetMax().GetY() < mn.GetMin().GetY()) return true;
 						}
@@ -616,20 +616,40 @@ namespace inr {
 					auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
 					auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
 
+					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+						if (vectorY < 0) {
+							if (miny < chipMaxY && chipMinY < maxy) {
+								auto cave = box.GetHeightMin();
+								move.GetPY() = 0;	// 移動量初期化
+								pos.GetPY() = chipMaxY + cave;
+							}
+						}
+						else if (0 < vectorY) {
+							if (chipMaxY < maxy && miny < chipMaxY) {
+								auto cave = box.GetHeightMin();
+								move.GetPY() = 0;	// 移動量初期化
+								pos.GetPY() = chipMinY + cave;
+							}
+						}
+					}
+
 					// 横のみ判定（移動量はxのみ加算）
 					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
 						if (vectorX < 0) {
-							if (minx < chipMaxX && chipMaxX < maxx) {
+							if (minx < chipMaxX && chipMinX < maxx) {
 								auto cave = box.GetWidthMin();
 								move.GetPX() = 0;
 								pos.GetPX() = chipMaxX + cave;
+								return true;
 							}
-						} else if (0 < vectorX) {
+						}
+						if (0 < vectorX) {
 							if(chipMinX < maxx && minx < chipMaxX){
 							// if (chipMinX < maxx && minx < chipMaxX) {
 								auto cave = box.GetWidthMin();
 								move.GetPX() = 0;
 								pos.GetPX() = chipMinX - cave;
+								return true;
 							}
 						}
 					}
@@ -643,42 +663,29 @@ namespace inr {
 					//		else if (chipMaxY < box.GetMax().IntY() && box.GetMin().IntY() < chipMaxY) {
 					//			auto cave = box.GetHeightMin();
 					//			move.GetPY() = 0;	// 移動量初期化
-					//			pos.GetPY() = chipMaxY + cave;
+					//			pos.GetPY() = chipMinY + cave;
 					//		}
 					//	}
 					//}
 
-					// 縦のみ修正有りver
-					/*if (miny < chipMaxY && chipMinY < maxy) {
-						if (vectorX < 0) {
-							if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
-								auto cave = box.GetWidthMin();
-								move.GetPX() = 0;
-								pos.GetPX() = chipMaxX + cave;
-							}
-						}
-						else if (0 < vectorX) {
-							if (chipMinX < box.GetMax().IntX() && box.GetMin().IntX() < chipMaxX) {
-								auto cave = box.GetWidthMin();
-								move.GetPX() = 0;
-								pos.GetPX() = chipMaxX + cave;
-							}
-						}
-					}*/
-					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
-						if (vectorY < 0) {
-							if (miny < chipMaxY && chipMinY < maxy) {
-								auto cave = box.GetHeightMin();
-								move.GetPY() = 0;	// 移動量初期化
-								pos.GetPY() = chipMinY + cave;
-							}
-							else if (chipMaxY < maxy && miny < chipMaxY) {
-								auto cave = box.GetHeightMin();
-								move.GetPY() = 0;	// 移動量初期化
-								pos.GetPY() = chipMaxY + cave;
-							}
-						}
-					}
+					//// 縦のみ修正有りver
+					//if (miny < chipMaxY && chipMinY < maxy) {
+					//	if (vectorX < 0) {
+					//		if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+					//			auto cave = box.GetWidthMin();
+					//			move.GetPX() = 0;
+					//			pos.GetPX() = chipMaxX + cave;
+					//		}
+					//	}
+					//	else if (0 < vectorX) {
+					//		if (chipMinX < box.GetMax().IntX() && box.GetMin().IntX() < chipMaxX) {
+					//			auto cave = box.GetWidthMin();
+					//			move.GetPX() = 0;
+					//			pos.GetPX() = chipMinX + cave;
+					//		}
+					//	}
+					//}
+	
 
 
 					// 範囲内に収まっているか？
@@ -795,7 +802,7 @@ namespace inr {
 					} else if (0 < vectorY && mapchip.HitCheck(mapchip) == true) {
 						move.GetPY() = 0;
 					}*/
-					return true;
+					// return true;
 				}
 			}
 		}

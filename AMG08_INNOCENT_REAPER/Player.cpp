@@ -6,6 +6,7 @@
 #include "ObjectServer.h"
 #include "EnemyBase.h"
 #include "SoundServer.h"
+#include "SoulSkin.h"
 #include "MapChips.h"
 #include <DxLib.h>
 #include <vector>
@@ -609,6 +610,16 @@ namespace inr {
 		} else {
 			_mainCollision.Update(_position, _direction);
 		}
+
+		// 魂の目標距離を変更
+		if (!_souls.empty()) {
+			auto ss = _souls;
+			for (auto i = 1; i <= _souls.size(); ++i) {
+				ss.front()->Space(i * 60);
+				ss.pop();
+			}
+		}
+
 		_game.GetMapChips()->WorldUpdate(_position);
 		// 移動ベクトル初期化
 		_moveVector = { 0, 0 };

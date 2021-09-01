@@ -42,6 +42,7 @@ namespace inr {
 		Vector2 _moveVector;
 
 		double _speed;
+		double _space;	// ŠÔŠu
 		bool _active;	// À‘Ì‰»‚µ‚Ä‚¢‚é‚©H
 
 		void Tracking(); // ’ÇÕˆ—
@@ -56,6 +57,7 @@ namespace inr {
 
 		inline void Inactive() { _active = false; }
 		inline void Active() { _active = true; }
+		inline void Space(double space) { _space = space; }
 		bool SoulColor();	// °‚Í‚Ç‚¿‚ç‚©H
 	};
 }
