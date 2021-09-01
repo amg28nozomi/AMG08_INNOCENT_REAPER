@@ -429,13 +429,15 @@ namespace inr {
 	}
 
 	AABB SoldierDoll::DamageBox() {
-		auto damagebox = _mainCollision;
+		// ÉxÉNÉgÉãçÏê¨
+		auto damageMin(_mainCollision.GetMin());
+		auto damageMax(_mainCollision.GetMax());
 		if (_direction) {
-			damagebox.GetMax().GetPX() -= SOLDIER_VITAL;
+			damageMax.GetPX() -= 10;
 		}
 		else {
-			damagebox.GetMin().GetPX() -= SOLDIER_VITAL;
+			damageMin.GetPX() += 10;
 		}
-		return damagebox;
+		return AABB(damageMin, damageMax, true);
 	}
 }
