@@ -156,6 +156,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChipHitCheck.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EffectBase.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="FadeBlack.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="ChipHitCheck.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Constexpr.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="FadeBlack.h" />

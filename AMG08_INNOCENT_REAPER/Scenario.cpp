@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
+#include "GimmickBase.h"
+#include "Lever.h"
 
 namespace {
 	constexpr auto COUNT_MIN = 0;
@@ -16,11 +18,19 @@ namespace {
 
 namespace inr {
 
-	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor) {
+	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor, int gimmicktype) {
 		// äeéÌèÓïÒÇÃìoò^
+		_class = classtype;
+		_spawnPos.emplace_back(xy);
+		_soulType = soulcolor;
+		_gimmickType = gimmicktype;
+	}
+
+	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor, int gimmicktype) {
 		_class = classtype;
 		_spawnPos = xy;
 		_soulType = soulcolor;
+		_gimmickType = gimmicktype;
 	}
 
 	Scenario::Scenario(Game& game) : _game(game) {
@@ -127,7 +137,8 @@ namespace inr {
 			case oscenario::OBJ_SOLDIER_DOLL:
 				AddEnemy(ovalue);
 				break;
-
+			case oscenario::OBJ_LEVER:
+				AddLever(ovalue);
 			}
 		}
 		return false;
@@ -135,7 +146,7 @@ namespace inr {
 
 	void Scenario::AddPlayer(ObjectValue ovalue) {
 		auto player = std::make_shared<Player>(_game.GetGame());
-		player->SetParameter(ovalue.Position());
+		player->SetParameter(ovalue.Positions()[0]);
 		_game.GetObjectServer()->Add(std::move(player));
 	}
 
@@ -146,7 +157,7 @@ namespace inr {
 
 	void Scenario::AddEnemy(ObjectValue ovalue) {
 		auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
-		enemy->SetParameter(ovalue.Position(), ovalue.SoulType());
+		enemy->SetParameter(ovalue.Positions()[0], ovalue.SoulType());
 		_game.GetObjectServer()->Add(std::move(enemy));
 		
 	}
@@ -166,8 +177,11 @@ namespace inr {
 
 	}
 
-	void Scenario::AddLever(ObjectBase* obj, ObjectValue ovalue) {
-
+	void Scenario::AddLever(ObjectValue ovalue) {
+		auto glever = std::make_shared<Lever>(_game.GetGame());
+		auto posv = ovalue.Positions();
+		glever->SetParameter(posv[0], posv[1]);
+		_game.GetObjectServer()->Add(std::move(glever));
 	}
 
 	void Scenario::AddQuarts(ObjectBase* obj, ObjectValue ovalue) {

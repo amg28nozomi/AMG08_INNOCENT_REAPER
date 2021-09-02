@@ -4,20 +4,28 @@
 namespace inr {
 
 	namespace gimmick {
+
+		constexpr auto NOT_GIMMICK = -1;
+		constexpr auto LEVER = 0;
+		constexpr auto CRYSTAL = 1;
+		constexpr auto BLOCK = 2;
+		constexpr auto DOOR = 3;
+
+
 		// レバー
 		namespace lever {
 			constexpr auto KEY_LEVER = "lever";
 			constexpr auto LEVER_SIZE = 140;
-
 			// サウンド
+			constexpr auto SE_LEVER = 50;
 		}
 
 		// 岩
 		namespace block {
 			constexpr auto KEY_BLOCK = "block_key";
 			constexpr auto BLOCK_SIZE = 140;
-
 			// サウンド
+			constexpr auto SE_BREAK = 50;
 		}
 
 		// クリスタル
@@ -35,6 +43,7 @@ namespace inr {
 
 			constexpr auto CRYSTAL_SIZE = 140;
 			// サウンド
+			constexpr auto SE_CRYSTAL = 40;
 		}
 
 		// 扉
@@ -43,9 +52,8 @@ namespace inr {
 			constexpr auto KEY_DOOR_RED = "door_red";
 			constexpr auto KEY_DOOR_BLUE = "door_blue";
 			constexpr auto DOOR_SIZE = 280;
-
 			// サウンド
-
+			constexpr auto SE_OPEN = 40;
 		}
 	}
 
@@ -53,7 +61,7 @@ namespace inr {
 	protected:
 		enum class GimmickType {
 			// レバー、岩、水晶
-			LEVER, ROCK, CRYSTAL 
+			LEVER, BLOCK, CRYSTAL 
 		};
 		GimmickType _gimmick;
 	public:
@@ -61,7 +69,11 @@ namespace inr {
 		~GimmickBase();
 
 		virtual void Init() override;
-		void Draw() override;
+		virtual void Process() override;
+		virtual void Draw() override;
+
+		virtual bool HitCollision();	// 衝突したか？
+
 	};
 }
 

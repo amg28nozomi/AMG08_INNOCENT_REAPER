@@ -15,6 +15,10 @@ namespace inr {
 
 	}
 
+	void GimmickBase::Process() {
+
+	}
+
 	void GimmickBase::Draw() {
 		Vector2 xy = _position;
 		_game.GetMapChips()->Clamp(xy);

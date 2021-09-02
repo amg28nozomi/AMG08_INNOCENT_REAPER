@@ -13,6 +13,7 @@
 #include "Logo.h"
 #include "FadeBlack.h"
 #include "UI.h"
+#include "Lever.h"
 
 #include <vector>
 
@@ -147,6 +148,7 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, 0},
 
 			// ÉMÉ~ÉbÉN
+			// { oscenario::OBJ_LEVER, {{8250, 1800}, {8600 ,1800}}, 0},
 		};
 
 		return _stage1;

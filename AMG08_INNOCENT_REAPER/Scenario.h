@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <memory>
+#include <vector>
 #include "Vector2.h"
 #include "ObjectBase.h"
 
@@ -21,7 +22,8 @@ namespace inr {
 		constexpr auto OBJ_CROW_DOLL = 3;
 		constexpr auto OBJ_SOUL = 4;
 		constexpr auto OBJ_LEVER = 5;
-		constexpr auto OBJ_QUARTS = 6; // quartz
+		constexpr auto OBJ_BLOCK = 6;
+		constexpr auto OBJ_CRYSTAL = 7; // quartz
 	}
 
 	class Game;
@@ -31,16 +33,19 @@ namespace inr {
 	// 登録情報
 	class ObjectValue {
 	public:
-		ObjectValue(int classtype, Vector2 xy, int soulcolor = 0);
+		ObjectValue(int classtype, Vector2 xy, int soulcolor = 0, int gimmcktype = 0);
+		ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor = 0, int gimmicktype = 0);
 		~ObjectValue() = default;
 
 		inline int ClassName() { return _class; }
 		inline int SoulType() { return _soulType; }
-		inline Vector2 Position() { return _spawnPos; }
+		inline int GimmickType() { return _gimmickType; }
+		inline std::vector<Vector2> Positions() { return _spawnPos; }
 	private:
 		int _class;	// 生成するクラスは何か
-		Vector2 _spawnPos;	// 出現地点
+		std::vector<Vector2> _spawnPos;	// 出現地点
 		int _soulType;	// 魂の有無（0:未所持　1:赤　2:青）
+		int _gimmickType;	// ギミックの種類（-1:対象外　0:レバー　1:水晶　2:　3:ドア）
 	};
 
 	class Scenario {
@@ -67,7 +72,7 @@ namespace inr {
 		void AddBigDoll(ObjectBase* obj, ObjectValue ovalue);
 		void AddCrowDoll(ObjectBase* obj, ObjectValue ovalue);
 		void AddSoul(ObjectBase* obj, ObjectValue ovalue);
-		void AddLever(ObjectBase* obj, ObjectValue ovalue);
+		void AddLever(ObjectValue ovalue);
 		void AddQuarts(ObjectBase* obj, ObjectValue ovalue);
 
 		void ClearScenario();	// 連想配列の初期化
