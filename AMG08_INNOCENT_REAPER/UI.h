@@ -29,7 +29,7 @@ namespace inr {
 		void Draw() override;
 	private:
 		std::shared_ptr<Player> _player;	// 自機のポインタ
-		std::queue<std::shared_ptr<SoulSkin>> _uiSoul;
+		std::queue<std::shared_ptr<SoulSkin>> _uiSoul;	// 1フレーム前の情報
 		std::vector<std::string> _ghKeys;
 		std::vector<int> _count;
 		std::vector<bool> _active;	// 対象は活性化しているか？
@@ -40,6 +40,7 @@ namespace inr {
 		int IsSoulChange(bool value);
 		void Dels();	// カウンタが上限に到達した場合、消去する
 		void ActiveCount();
+		void GraphUpdata();
 	};
 }
 

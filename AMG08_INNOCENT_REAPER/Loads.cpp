@@ -90,9 +90,9 @@ namespace inr {
 		{ TITLE_EXIT2, {"Resource/UI/exit1.png", 1, 1, 1, TITLE_EXIT_WIDTH, TITLE_UI_HEIGHT}},
 
 		// HP
-		{ ui::KEY_HP, {"Resource/UI/ui_hp.png", ui::HP_NUM, ui::HP_NUM, ui::HP_NUM, ui::HP_SIZE, ui::HP_SIZE}},
-		{ ui::KEY_RED, {"Resource/UI/ui_hp1.png", ui::HP_NUM, ui::HP_NUM, ui::HP_NUM, ui::HP_SIZE, ui::HP_SIZE}},
-		{ ui::KEY_BLUE, {"Resource/UI/ui_hp2.png", ui::HP_NUM, ui::HP_NUM, ui::HP_NUM, ui::HP_SIZE, ui::HP_SIZE}},
+		{ ui::KEY_HP, {"Resource/UI/ui_hp.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
+		{ ui::KEY_RED, {"Resource/UI/ui_hp1.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
+		{ ui::KEY_BLUE, {"Resource/UI/ui_hp2.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
 	};
 
 	// 各種エフェクト

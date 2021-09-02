@@ -39,6 +39,7 @@ namespace inr {
 		ActiveCount();
 
 		Dels();
+		GraphUpdata();
 		// 更新処理
 		// 自機が保有する魂の数が変わった場合のみ更新をかける
 		// 該当する魂がなくなった場合アニメーションを開始する
@@ -47,7 +48,7 @@ namespace inr {
 	void UI::Draw() {
 		for (auto number = 0; number < _count.size(); ++number) {
 			auto gh = GraphHandle(_ghKeys[number], _count[number]);
-			DrawRotaGraph(_pos.IntX() * (number + 1), _pos.IntY(), 1.0, 0, gh, true);
+			DrawRotaGraph(_pos.IntX() + ((number + 1) * 100), _pos.IntY(), 1.0, 0, gh, true);
 		}
 	}
 
@@ -60,6 +61,16 @@ namespace inr {
 			return ui::KEY_BLUE;
 		default:
 			return ui::KEY_HP;
+		}
+	}
+
+	void UI::GraphUpdata() {
+		if (_uiSoul.empty()) return;
+		auto it = _uiSoul;
+		for (auto number = 1; number < static_cast<int>(_ghKeys.size()); ++number) {
+			if (_uiSoul.size() < number) break;
+			_ghKeys.at(number) = GetGraphKey(it.front()->SoulColor());
+			it.pop();
 		}
 	}
 
@@ -77,28 +88,31 @@ namespace inr {
 			// 自機が新しい魂を入手した場合
 			if (_uiSoul.size() < ps.size()) {
 				auto changes = IsSoulChange(ADD_SOUL);
+				auto it = ps;
 				auto loopMax = static_cast<int>(ps.size() - changes);
-				for (int i = 0; i < loopMax; ++i) ps.pop();	// 重複する要素を消す
+				for (int i = 0; i < loopMax; ++i) it.pop();	// 重複する要素を消す
 
+				
 				for (auto i = 0; i < changes; ++i) {
-					_uiSoul.push(ps.front());
-					_ghKeys.emplace_back(GetGraphKey(static_cast<int>(_uiSoul.back()->SoulColor())));
+					_ghKeys.emplace_back(GetGraphKey(static_cast<int>(it.back()->SoulColor())));
 					_count.emplace_back(0);
 					_active.emplace_back(true);
-					ps.pop();
+					it.pop();
 				}
+				_uiSoul = ps;
 				return;
 			}
 			// 自機の魂が減った場合
 			if (ps.size() < _uiSoul.size()) {
 				auto changes = IsSoulChange(SUB_SOUL);
 				for (auto i = 0; i < changes; ++i) {
-					_uiSoul.pop();
 					_active[i + 1] = false;	// 非活性状態にする
 				}
-
+				_uiSoul = ps;
+				return;
 			}
 		}
+		_uiSoul = ps;
 	}
 
 	int UI::IsSoulChange(bool value) {
@@ -114,10 +128,14 @@ namespace inr {
 		auto usize = static_cast<int>(_count.size());
 		for (auto i = 0; i < usize; ++i) {
 			if (i == 0)continue;
-			if (_count[i] < 24) continue;
-			_ghKeys.erase(_ghKeys.begin() + i);
-			_count.erase(_count.begin() + i);
-			_active.erase(_active.begin() + i);
+			int no;
+			if (usize != _count.size()) no = i - 1;
+			else no = i;
+
+			if (_count[no] < 75) continue;
+			_ghKeys.erase(_ghKeys.begin() + 1);
+			_count.erase(_count.begin() + 1);
+			_active.erase(_active.begin() + 1);
 		}
 	}
 
