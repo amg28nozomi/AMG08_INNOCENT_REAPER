@@ -14,6 +14,7 @@
 #include "FadeBlack.h"
 #include "UI.h"
 #include "Lever.h"
+#include "GimmickBase.h"
 
 #include <vector>
 
@@ -97,6 +98,11 @@ namespace inr {
 		{ ui::KEY_BOX, {"Resource/UI/ui_hp_box.png", 1, 1, 1, 420, 200}},
 	};
 
+	const graph::ResourceServer::DivGraphMap gimmicks{
+		{ gimmick::lever::KEY_LEVER, {"Resource/Gimmick/Lever/lever.png", 3, 2, 5, gimmick::lever::LEVER_SIZE, gimmick::lever::LEVER_SIZE}},
+		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
+	};
+
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
 		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE, effect::JUMP_IMAGE}},	// ジャンプ
@@ -124,6 +130,7 @@ namespace inr {
 		graph::ResourceServer::LoadGraphList(enemys);
 		graph::ResourceServer::LoadGraphList(souls);
 		graph::ResourceServer::LoadGraphList(images);
+		graph::ResourceServer::LoadGraphList(gimmicks);
 		graph::ResourceServer::LoadGraphList(effects);
 
 		std::string gpath = "Resource/effect/Logo/";
@@ -148,7 +155,7 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, 0},
 
 			// ギミック
-			// { oscenario::OBJ_LEVER, {{8250, 1800}, {8600 ,1800}}, 0},
+			{ oscenario::OBJ_LEVER, {{8250, 1800}, {8600 ,1800}}, 0, gimmick::door::D_LEVER},
 		};
 
 		return _stage1;

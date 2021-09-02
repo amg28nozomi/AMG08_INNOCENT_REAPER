@@ -7,7 +7,7 @@ namespace inr {
 
 	Lever::Lever(Game& game) : GimmickBase(game) {
 		_door.reset();
-		_door = std::make_shared<Door>(_game.GetGame());
+		_divKey.first = gimmick::lever::KEY_LEVER;
 	}
 
 	void Lever::Init() {
@@ -18,7 +18,13 @@ namespace inr {
 	}
 
 	void Lever::Draw() {
-
+		Vector2 xy = _position;
+		_game.GetMapChips()->Clamp(xy);
+		auto x = xy.IntX();
+		auto y = xy.IntY();
+		int graph;
+		GraphResearch(&graph);
+		DrawRotaGraph(x, y, 1.0, 0, graph, true);
 	}
 
 	void Lever::SetParameter(Vector2 spawnL, Vector2 spawnD, int doorno) {

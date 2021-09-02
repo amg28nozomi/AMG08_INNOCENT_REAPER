@@ -14,7 +14,7 @@ namespace inr {
 	}
 
 	void Door::Process() {
-		if (_switch == gimmick::ON) return;	// フラグがオンの場合は処理を終了する
+		if (_switch == gimmick::OFF) return;	// フラグがオンの場合は処理を終了する
 		if (_pal == 0) return;
 		_pal -= 5;
 		if (_mainCollision.GetCollisionFlg() == true) _mainCollision.GetCollisionFlgB() == false;
@@ -38,5 +38,9 @@ namespace inr {
 		_position = spwan;
 		_mainCollision = { _position, 40, 40, 10, 70, true };
 		_divKey.first = key;
+	}
+
+	void Door::SwitchOn() {
+		_switch = gimmick::ON;
 	}
 }

@@ -180,7 +180,7 @@ namespace inr {
 	void Scenario::AddLever(ObjectValue ovalue) {
 		auto glever = std::make_shared<Lever>(_game.GetGame());
 		auto posv = ovalue.Positions();
-		glever->SetParameter(posv[0], posv[1]);
+		glever->SetParameter(posv[0], posv[1], ovalue.GimmickType());
 		_game.GetObjectServer()->Add(std::move(glever));
 	}
 

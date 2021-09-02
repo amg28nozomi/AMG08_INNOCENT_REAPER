@@ -75,9 +75,7 @@ namespace inr {
 		virtual void Process() override;
 		virtual void Draw() override;
 
-		virtual bool HitCollision();	// è’ìÀÇµÇΩÇ©ÅH
-
-		int GimmickType();
+		// virtual bool HitCollision();	// è’ìÀÇµÇΩÇ©ÅH
 
 	};
 }
