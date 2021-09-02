@@ -25,7 +25,8 @@ namespace inr {
 		_pos = { 300, 200 };
 		_ghKeys = { ui::KEY_HP };
 		_count = { 0 };
-		_active = { true };
+		_pal = { 255 };
+		_active = { true, true };
 		_uiSoul;
 		Init();
 	}
@@ -46,10 +47,18 @@ namespace inr {
 	}
 
 	void UI::Draw() {
+		DrawEmptyBox();
 		for (auto number = 0; number < _count.size(); ++number) {
 			auto gh = GraphHandle(_ghKeys[number], _count[number]);
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal[number]);
 			DrawRotaGraph(_pos.IntX() + ((number + 1) * 100), _pos.IntY(), 1.0, 0, gh, true);
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		}
+	}
+
+	void UI::DrawEmptyBox() {
+		auto gh = GraphHandle(ui::KEY_BOX, 0);
+		DrawRotaGraph(550, 200, 1.0, 0, gh, true);
 	}
 
 	std::string UI::GetGraphKey(int number) {
@@ -72,6 +81,16 @@ namespace inr {
 			if (_active.at(number) == false) continue;
 			_ghKeys.at(number) = GetGraphKey(it.front()->SoulColor());
 			it.pop();
+		}
+
+		// 輝度がマックスではない場合
+		for (auto&& pal : _pal) {
+			if (pal == 255) continue;
+			if (255 < pal) {
+				pal = 255;
+				continue;
+			}
+			pal += 5;
 		}
 	}
 
@@ -98,6 +117,7 @@ namespace inr {
 					_ghKeys.emplace_back(GetGraphKey(static_cast<int>(it.back()->SoulColor())));
 					_count.emplace_back(0);
 					_active.emplace_back(true);
+					_pal.emplace_back(0);
 					it.pop();
 				}
 				_uiSoul = ps;
@@ -137,6 +157,7 @@ namespace inr {
 			_ghKeys.erase(_ghKeys.begin() + 1);
 			_count.erase(_count.begin() + 1);
 			_active.erase(_active.begin() + 1);
+			_pal.erase(_pal.begin() + 1);
 		}
 	}
 

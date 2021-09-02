@@ -10,6 +10,7 @@ namespace inr {
 		constexpr auto KEY_HP = "player_my_soul";
 		constexpr auto KEY_RED = "player_red_soul";
 		constexpr auto KEY_BLUE = "player_blue_soul";
+		constexpr auto KEY_BOX = "player_soul_box";
 
 		constexpr auto HP_NUM = 5;
 		constexpr auto HP_SIZE = 200;
@@ -32,6 +33,7 @@ namespace inr {
 		std::queue<std::shared_ptr<SoulSkin>> _uiSoul;	// 1フレーム前の情報
 		std::vector<std::string> _ghKeys;
 		std::vector<int> _count;
+		std::vector<int> _pal;	// 透明度
 		std::vector<bool> _active;	// 対象は活性化しているか？
 
 		std::string GetGraphKey(int number);
@@ -41,6 +43,8 @@ namespace inr {
 		void Dels();	// カウンタが上限に到達した場合、消去する
 		void ActiveCount();
 		void GraphUpdata();
+
+		void DrawEmptyBox();	// 
 	};
 }
 
