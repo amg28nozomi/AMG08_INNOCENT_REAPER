@@ -51,6 +51,7 @@ namespace inr {
 			auto soul_r = std::make_shared<SoulSkin>(_game.GetGame());
 			_game.GetObjectServer()->Add(std::move(soul_r));
 			_bg = std::make_unique<BackGround>(_game.GetGame());
+			_uiSoul = std::make_unique<UI>(_game.GetGame());
 			TimeClear();
 			_resetFlg = false;
 		}
@@ -66,11 +67,13 @@ namespace inr {
 		_bg->Process();
 		_game.GetMapChips()->Process();
 		_game.GetObjectServer()->Process();
+		_uiSoul->Process();
 	}
 
 	void ModeMain::Draw() {
 		_bg->Draw();
 		_game.GetMapChips()->Draw();
 		_game.GetObjectServer()->Draw();
+		_uiSoul->Draw();
 	}
 }

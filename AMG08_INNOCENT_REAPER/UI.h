@@ -2,6 +2,7 @@
 #include "Image.h"
 #include <memory>
 #include <vector>
+#include <queue>
 
 namespace inr {
 
@@ -28,10 +29,17 @@ namespace inr {
 		void Draw() override;
 	private:
 		std::shared_ptr<Player> _player;	// 自機のポインタ
+		std::queue<std::shared_ptr<SoulSkin>> _uiSoul;
 		std::vector<std::string> _ghKeys;
 		std::vector<int> _count;
+		std::vector<bool> _active;	// 対象は活性化しているか？
 
 		std::string GetGraphKey(int number);
+		int GraphHandle(const std::string key, int count);
+		void SoulResearch();
+		int IsSoulChange(bool value);
+		void Dels();	// カウンタが上限に到達した場合、消去する
+		void ActiveCount();
 	};
 }
 

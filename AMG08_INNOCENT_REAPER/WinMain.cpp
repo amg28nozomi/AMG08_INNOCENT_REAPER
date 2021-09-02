@@ -18,7 +18,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lp
 
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
-	SetMouseDispFlag(FALSE);
+	// SetMouseDispFlag(FALSE);
 	
 	auto game = std::make_unique<inr::Game>();
 

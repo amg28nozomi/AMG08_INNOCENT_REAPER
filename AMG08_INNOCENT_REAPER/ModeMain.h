@@ -1,6 +1,7 @@
 #pragma once
 #include "ModeBase.h"
 #include "BackGround.h"
+#include "UI.h"
 #include "Vector2.h"
 #include <memory>
 
@@ -22,6 +23,7 @@ namespace inr {
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;	
 		std::unique_ptr<BackGround> _bg;	// 背景
+		std::unique_ptr<UI> _uiSoul;
 
 		Vector2 _worldPosition;	// ワールド座標
 	};
