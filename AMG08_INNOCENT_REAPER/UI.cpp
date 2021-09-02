@@ -69,6 +69,7 @@ namespace inr {
 		auto it = _uiSoul;
 		for (auto number = 1; number < static_cast<int>(_ghKeys.size()); ++number) {
 			if (_uiSoul.size() < number) break;
+			if (_active.at(number) == false) continue;
 			_ghKeys.at(number) = GetGraphKey(it.front()->SoulColor());
 			it.pop();
 		}
