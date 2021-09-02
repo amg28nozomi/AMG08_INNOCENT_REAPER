@@ -11,6 +11,9 @@ namespace inr {
 		constexpr auto BLOCK = 2;
 		constexpr auto DOOR = 3;
 
+		constexpr auto OFF = false;
+		constexpr auto ON = true;
+
 
 		// レバー
 		namespace lever {
@@ -61,9 +64,9 @@ namespace inr {
 	protected:
 		enum class GimmickType {
 			// レバー、岩、水晶
-			LEVER, BLOCK, CRYSTAL 
+			LEVER, BLOCK, CRYSTAL, DOOR
 		};
-		GimmickType _gimmick;
+		GimmickType _gType;
 	public:
 		GimmickBase(Game& game);
 		~GimmickBase();
@@ -73,6 +76,8 @@ namespace inr {
 		virtual void Draw() override;
 
 		virtual bool HitCollision();	// 衝突したか？
+
+		int GimmickType();
 
 	};
 }

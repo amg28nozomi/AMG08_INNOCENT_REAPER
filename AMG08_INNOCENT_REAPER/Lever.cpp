@@ -7,10 +7,10 @@ namespace inr {
 
 	Lever::Lever(Game& game) : GimmickBase(game) {
 		_door.reset();
+		_door = std::make_shared<Door>(_game.GetGame());
 	}
 
 	void Lever::Init() {
-		_door = std::make_shared<Door>(_game.GetGame());
 	}
 
 	void Lever::Process() {
@@ -23,6 +23,8 @@ namespace inr {
 
 	void Lever::SetParameter(Vector2 spawnL, Vector2 spawnD, int doorno) {
 		_position = spawnL;
+		_mainCollision = {  _position, 140, 140, true  };	// ìñÇΩÇËîªíËÇÃê›íË
+
 		auto gdoor = std::make_shared<Door>(_game.GetGame());
 		std::string gh;
 		switch (doorno) {

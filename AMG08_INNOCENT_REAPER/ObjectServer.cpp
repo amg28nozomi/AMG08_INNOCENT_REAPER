@@ -1,6 +1,7 @@
 #include "ObjectServer.h"
 #include "ObjectBase.h"
 #include "EnemyBase.h"
+#include "GimmickBase.h"
 #include "Player.h"
 #include <vector>
 
@@ -85,6 +86,15 @@ namespace inr {
 			enemys.emplace_back(std::dynamic_pointer_cast<EnemyBase>(obj));
 		}
 		return enemys;
+	}
+
+	std::vector<std::shared_ptr<GimmickBase>> ObjectServer::GetGimmicks() {
+		std::vector<std::shared_ptr<GimmickBase>> gimmicks;
+		for (auto obj : _objects) {
+			if (obj->GetType() != ObjectBase::ObjectType::GIMMICK) continue;
+			gimmicks.emplace_back(std::dynamic_pointer_cast<GimmickBase>(obj));
+		}
+		return gimmicks;
 	}
 
 	// 指定したオブジェクトの参照を取り出す（配列）

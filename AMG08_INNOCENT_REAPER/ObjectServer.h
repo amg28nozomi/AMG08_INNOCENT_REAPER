@@ -10,6 +10,7 @@
 namespace inr{
 
 	class EnemyBase;
+	class GimmickBase;
 
 	class ObjectServer {
 	public:
@@ -27,6 +28,8 @@ namespace inr{
 		std::vector<std::shared_ptr<ObjectBase>> GetObjects() { return _objects; }
 
 		std::vector<std::shared_ptr<EnemyBase>> GetEnemys();
+		std::vector<std::shared_ptr<GimmickBase>> GetGimmicks();
+
 
 		inline void ObjectsClear() { _objects.clear(); }
 		// AABB GetObjectPosition(std::string key);

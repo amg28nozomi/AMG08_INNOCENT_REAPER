@@ -3,8 +3,8 @@
 
 namespace inr {
 
-	GimmickBase::GimmickBase(Game& game) : ObjectBase(game), _gimmick(GimmickType::LEVER) {
-
+	GimmickBase::GimmickBase(Game& game) : ObjectBase(game), _gType(GimmickType::LEVER) {
+		_gType = GimmickType::LEVER;
 	}
 
 	GimmickBase::~GimmickBase() {
