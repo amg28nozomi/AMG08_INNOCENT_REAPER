@@ -32,9 +32,13 @@ namespace inr {
 		_modes.emplace(mode::FIN, std::make_unique<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
 		
 		// 検索キーをTitleModeに設定
-		_modeKey = mode::MAIN;
-
-		// _modeKey = mode::TITLE;
+#ifdef _DEBUG
+		// _modeKey = mode::MAIN;
+		_modeKey = mode::TITLE;
+#endif
+#ifdef _RELEASE
+		_modeKey = mode::TITLE;
+#endif
 		_ChangeKey = MODE_NULL;
 		ModeInit();
 	}

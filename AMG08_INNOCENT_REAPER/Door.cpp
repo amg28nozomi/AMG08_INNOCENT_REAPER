@@ -1,6 +1,7 @@
 #include "Door.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "SoundServer.h"
 
 namespace inr {
 
@@ -46,6 +47,11 @@ namespace inr {
 
 	void Door::SwitchOn() {
 		_switch = gimmick::ON;
+#ifdef _DEBUG
+		_mainCollision.GetbDrawFlg() = false;
+#endif
+		auto open_se = se::SoundServer::GetSound(gimmick::door::KEY_DOOR);
+		PlaySoundMem(open_se, se::SoundServer::GetPlayType(gimmick::door::KEY_DOOR));
 	}
 
 	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {

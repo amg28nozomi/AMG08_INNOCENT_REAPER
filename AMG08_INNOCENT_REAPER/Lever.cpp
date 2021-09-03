@@ -1,6 +1,7 @@
 #include "Lever.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "SoundServer.h"
 #include "Door.h"
 
 namespace inr {
@@ -33,6 +34,8 @@ namespace inr {
 
 	void Lever::OpenDoor() {
 		if (_door->IsSwitch() == gimmick::ON) return;	// ドアがオープンの場合は処理を抜ける
+		auto lever_se = se::SoundServer::GetSound(gimmick::lever::KEY_LEVER);
+		PlaySoundMem(lever_se, se::SoundServer::GetPlayType(gimmick::lever::KEY_LEVER));
 		_door->SwitchOn();	// スイッチオン
 	}
 

@@ -46,6 +46,7 @@ namespace inr {
 
 			constexpr auto CRYSTAL_SIZE = 140;
 			// サウンド
+			constexpr auto KEY_CRYSTAL = "crystal_se";
 			constexpr auto SE_CRYSTAL = 40;
 		}
 
@@ -56,6 +57,7 @@ namespace inr {
 			constexpr auto KEY_DOOR_BLUE = "door_blue";
 			constexpr auto DOOR_SIZE = 280;
 			// サウンド
+			constexpr auto KEY_DOOR = "door_se";
 			constexpr auto SE_OPEN = 40;
 		}
 	}

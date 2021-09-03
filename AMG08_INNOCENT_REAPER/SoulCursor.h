@@ -4,6 +4,10 @@
 
 namespace inr {
 
+	namespace ui {
+		constexpr auto CURSOR = "ui_cursor";
+	}
+
 	class SoulCursor : public ObjectBase {
 	public:
 		SoulCursor(Game& game);

@@ -13,7 +13,7 @@ namespace {
 
 	constexpr auto SPEED_MAX = 10;
 
-	constexpr auto SMF_FLOAT = 40;
+	constexpr auto SMF_FLOAT = 120;
 }
 
 namespace inr {
@@ -21,7 +21,7 @@ namespace inr {
 	SoulCursor::SoulCursor(Game& game) : ObjectBase(game) {
 		Init();
 
-		_motionKey = {{soul::B_FLOAT, {SMF_FLOAT, 0}}};
+		_motionKey = {{ui::CURSOR, {SMF_FLOAT, 0}}};
 		_type = ObjectType::SOUL;
 	}
 
@@ -29,7 +29,7 @@ namespace inr {
 		_moveVector = { 0, 0 };
 		_position = { 960, 540 };
 		_mainCollision = { _position, HALF_SOUL, HALF_SOUL, true };
-		_divKey = { soul::B_FLOAT, key::SOUND_NUM };
+		_divKey = { ui::CURSOR, key::SOUND_NUM };
 		_setBlend = false;
 		_input = false;
 		_rgb.Min();

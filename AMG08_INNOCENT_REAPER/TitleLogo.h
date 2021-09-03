@@ -13,9 +13,10 @@ namespace inr {
 		void Draw() override;
 	private:
 		Vector2 _position2;
-		RedGreenBlue _rgb;
 		Collision _hitCol1;	// “–‚½‚è”»’è
 		Collision _hitCol2;
+
+		int _pal;	// 
 		std::string _graphKey2;	// ‚à‚¤ˆê‚Â‚ÌƒOƒ‰ƒnƒ“
 
 		void DebugBox(Collision col);

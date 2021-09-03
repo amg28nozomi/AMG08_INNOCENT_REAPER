@@ -5,15 +5,21 @@
 #include "Game.h"
 #include <DxLib.h>
 
+namespace {
+	constexpr auto PAL_MIN = 0;
+	constexpr auto PAL_MAX = 255;
+}
+
 namespace inr {
 
-	TitleLogo::TitleLogo(Game& game) : Image(game), _rgb(), _hitCol1(), _hitCol2() {
+	TitleLogo::TitleLogo(Game& game) : Image(game), _hitCol1(), _hitCol2() {
 		Init();
 	}
 
 	void TitleLogo::Init() {
 		_pos = { 510, 700 };
 		_position2 = { 1410, 700 };
+		_pal = PAL_MIN;
 		_graphKey = TITLE_EXIT1;
 		_graphKey2 = TITLE_START1;
 
@@ -22,6 +28,12 @@ namespace inr {
 	}
 
 	void TitleLogo::Process() {
+		// 透明度の変更
+		if (_pal != PAL_MAX) {
+			_pal += 4;
+			if (PAL_MAX < _pal) _pal = PAL_MAX;
+		}
+
 		auto&& objs = _game.GetObjectServer()->GetObjects();
 		for (auto& obj : objs) {
 			const auto& collision = obj->GetMainCollision();
@@ -48,10 +60,10 @@ namespace inr {
 		auto y2 = _position2.IntY();
 		auto gh1 = graph::ResourceServer::GetHandles(_graphKey, 0);	// 描画するグラフィックハンドルの取得
 		auto gh2 = graph::ResourceServer::GetHandles(_graphKey2, 0);
-		SetDrawBright(_rgb.Red(), _rgb.Green(), _rgb.Blue());
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
 		DrawRotaGraph(x1, y1, 1.0, 0, gh1, true, false);
 		DrawRotaGraph(x2, y2, 1.0, 0, gh2, true, false);
-		SetDrawBright(rgb::MAX_BLEND, rgb::MAX_BLEND, rgb::MAX_BLEND);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 #ifdef _DEBUG
 		/*auto c = DxLib::GetColor(255, 255, 0);
