@@ -40,6 +40,8 @@ namespace inr {
 		constexpr auto SOUND_PLAYER_GIVE = "player_give";
 		constexpr auto SOUND_PLAYER_JUMP = "player_jump";
 		constexpr auto SOUND_PLAYER_FALL = "player_fall";
+		constexpr auto SOUND_PLAYER_DASH = "player_dash";
+		constexpr auto SOUND_PLAYER_HIT = "player_hit";
 	}
 
 

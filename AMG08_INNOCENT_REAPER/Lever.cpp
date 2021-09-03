@@ -9,7 +9,7 @@ namespace inr {
 	Lever::Lever(Game& game) : GimmickBase(game) {
 		_gType = GimmickType::LEVER;
 		_door.reset();
-		_divKey.first = gimmick::lever::KEY_LEVER;
+		_divKey = { gimmick::lever::KEY_LEVER, "" };
 		_motionKey = { { _divKey.first, {5, 50}} };
 	}
 
@@ -34,8 +34,8 @@ namespace inr {
 
 	void Lever::OpenDoor() {
 		if (_door->IsSwitch() == gimmick::ON) return;	// ドアがオープンの場合は処理を抜ける
-		auto lever_se = se::SoundServer::GetSound(gimmick::lever::KEY_LEVER);
-		PlaySoundMem(lever_se, se::SoundServer::GetPlayType(gimmick::lever::KEY_LEVER));
+		auto sh = SoundResearch(gimmick::lever::KEY_LEVER);
+		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 		_door->SwitchOn();	// スイッチオン
 	}
 

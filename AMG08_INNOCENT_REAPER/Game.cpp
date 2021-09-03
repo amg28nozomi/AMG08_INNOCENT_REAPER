@@ -47,6 +47,12 @@ namespace inr {
 		// タイトルアニメーション
 	};
 
+	const se::SoundServer::SoundMap player_se{
+		{ {key::SOUND_PLAYER_HIT}, {"Resource/SE/Player/hit.wav", DX_PLAYTYPE_BACK}},
+		{ {key::SOUND_PLAYER_DASH}, {"Resource/SE/Player/dash.wav", DX_PLAYTYPE_BACK}},
+		// { {key::SOUND_PLAYER_RUN1}}
+	};
+
 	const se::SoundServer::SoundMap ses{
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/snapping1.mp3", DX_PLAYTYPE_BACK}},
@@ -86,6 +92,7 @@ namespace inr {
 		Loads::ResourceLoad();
 		// 読み込み
 		se::SoundServer::Init();
+		se::SoundServer::LoadSoundMap(player_se);
 		se::SoundServer::LoadSoundMap(ses);
 		se::SoundServer::LoadSoundMap(gimmick_se);
 

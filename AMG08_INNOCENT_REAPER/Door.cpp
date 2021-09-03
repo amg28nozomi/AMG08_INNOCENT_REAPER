@@ -50,8 +50,8 @@ namespace inr {
 #ifdef _DEBUG
 		_mainCollision.GetbDrawFlg() = false;
 #endif
-		auto open_se = se::SoundServer::GetSound(gimmick::door::KEY_DOOR);
-		PlaySoundMem(open_se, se::SoundServer::GetPlayType(gimmick::door::KEY_DOOR));
+		auto sh = SoundResearch(gimmick::door::KEY_DOOR);
+		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 	}
 
 	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {
