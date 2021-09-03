@@ -21,7 +21,7 @@ namespace {
 	constexpr auto CHIP_RIGHT1 = 35;
 	constexpr auto CHIP_RIGHT2 = 40;
 	constexpr auto CHIP_LEFT1 = 0;
-	constexpr auto CHIP_LEFT2 = 5;
+	constexpr auto CHIP_LEFT2 = 6;
 
 	constexpr auto CHIP_UP1 = 0;
 	constexpr auto CHIP_UP2 = 40;
@@ -582,10 +582,10 @@ namespace inr {
 		auto vectorX = move.GetX();
 		auto vectorY = move.GetY();
 
-		auto minx = thisbox.GetMin().IntX() + move.IntX();
-		auto miny = thisbox.GetMin().IntY() + move.IntY();
-		auto maxx = thisbox.GetMax().IntX() + move.IntX();
-		auto maxy = thisbox.GetMax().IntY() + move.IntY();
+		auto minx = thisbox.GetMin().IntX();
+		auto miny = thisbox.GetMin().IntY();
+		auto maxx = thisbox.GetMax().IntX();
+		auto maxy = thisbox.GetMax().IntY();
 		/*Vector2 minp = { static_cast<double>(minx), static_cast<double>(miny) };
 		Vector2 maxp = { static_cast<double>(maxx), static_cast<double>(maxy) };*/
 
@@ -618,7 +618,7 @@ namespace inr {
 
 					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
 						if (vectorY < 0) {
-							if (miny < chipMaxY && chipMinY < maxy) {
+							if (miny < chipMinY && chipMinY < maxy) {
 								auto cave = box.GetHeightMin();
 								move.GetPY() = 0;	// 移動量初期化
 								pos.GetPY() = chipMaxY + cave;
@@ -637,6 +637,7 @@ namespace inr {
 					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
 						if (vectorX < 0) {
 							if (minx < chipMaxX && chipMinX < maxx) {
+							// if (minx < chipMinX && chipMinX < maxx) {
 								auto cave = box.GetWidthMin();
 								move.GetPX() = 0;
 								pos.GetPX() = chipMaxX + cave;
@@ -645,6 +646,7 @@ namespace inr {
 						}
 						if (0 < vectorX) {
 							if(chipMinX < maxx && minx < chipMaxX){
+							// if (chipMaxX < maxx && minx < chipMaxX) {
 							// if (chipMinX < maxx && minx < chipMaxX) {
 								auto cave = box.GetWidthMin();
 								move.GetPX() = 0;
@@ -653,6 +655,39 @@ namespace inr {
 							}
 						}
 					}
+
+					// 移動ベクトル分、判定を行うバージョン
+					//if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
+					//	auto loopX = static_cast<int>(vectorX);
+					//	if (vectorX < 0) {
+					//		for (auto i = 0; i <= loopX; ++i) {
+					//			auto mix = minx - i;
+					//			auto max = maxx - i;
+					//			if (mix < chipMaxX && chipMinX < max) {
+					//				// if (minx < chipMinX && chipMinX < maxx) {
+					//				auto cave = box.GetWidthMin();
+					//				move.GetPX() = 0;
+					//				pos.GetPX() = chipMaxX + cave;
+					//				return true;
+					//			}
+					//		}
+					//	}
+					//	if (0 < vectorX) {
+					//		for (auto i = 0; i <= loopX; ++i) {
+					//			auto mix = minx + i;
+					//			auto max = maxx + i;
+					//			if (chipMinX < max && mix < chipMaxX) {
+					//				// if (chipMaxX < maxx && minx < chipMaxX) {
+					//				// if (chipMinX < maxx && minx < chipMaxX) {
+					//				auto cave = box.GetWidthMin();
+					//				move.GetPX() = 0;
+					//				pos.GetPX() = chipMinX - cave;
+					//				return true;
+					//			}
+					//		}
+					//	}
+					//}
+					
 					//if (minx < chipMaxX && chipMinX < maxx) {
 					//	if (vectorY < 0) {
 					//		if (box.GetMin().IntY() < chipMaxY && chipMinY < box.GetMax().IntY()) {
