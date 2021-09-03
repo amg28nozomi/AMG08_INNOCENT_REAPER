@@ -149,6 +149,7 @@ namespace inr {
 		auto usize = static_cast<int>(_count.size());
 		for (auto i = 0; i < usize; ++i) {
 			if (i == 0)continue;
+			if (usize < i) break;
 			int no;
 			if (usize != _count.size()) no = i - 1;
 			else no = i;

@@ -45,9 +45,12 @@ namespace inr {
 	void ObjectBase::Process() {
 		_gravity += FRAME_G;	// 加速度を加算
 		if (MAX_G < _gravity) _gravity = MAX_G;
+
+		auto nowcol = NowCollision(_divKey.first);
+
 		// マップチップの上に立っているかどうか
 		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
-		if (_game.GetMapChips()->IsStand(_mainCollision, _position, _gravity)) {
+		if (_game.GetMapChips()->IsStand(nowcol, _position, _gravity)) {
 			// 加速度が0の時だけ立っている
 			if (0 < _gravity) {
 				_stand = true;
@@ -64,14 +67,15 @@ namespace inr {
 			// 抜け殻の当たり判定を取得
 			auto emptyBox = obj->GetMainCollision();
 				// x座標は範囲内に収まっているか
-				if ((emptyBox.GetMin().GetX() < _mainCollision.GetMin().GetX() && _mainCollision.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
-					(emptyBox.GetMin().GetX() < _mainCollision.GetMax().GetX() && _mainCollision.GetMax().GetX() < emptyBox.GetMax().GetX())) {
+			auto nowcol = NowCollision(_divKey.first);
+				if ((emptyBox.GetMin().GetX() < nowcol.GetMin().GetX() && nowcol.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
+					(emptyBox.GetMin().GetX() < nowcol.GetMax().GetX() && nowcol.GetMax().GetX() < emptyBox.GetMax().GetX())) {
 
-					if (_mainCollision.GetMax().GetY() <= emptyBox.GetMin().GetY() + TEST_VALUE && emptyBox.GetMin().GetY() <= _mainCollision.GetMax().GetY()) {
+					if (nowcol.GetMax().GetY() <= emptyBox.GetMin().GetY() + TEST_VALUE && emptyBox.GetMin().GetY() <= nowcol.GetMax().GetY()) {
 						_stand = true;
 						_gravity = 0;
 
-						auto h = _mainCollision.GetHeightMax();
+						auto h = nowcol.GetHeightMax();
 						_position.GetPY() = emptyBox.GetMin().GetY() - h;
 					}
 
@@ -84,9 +88,9 @@ namespace inr {
 			}*/
 		}
 
-		if (_mainCollision.GetMin().GetY() < 0) {
+		if (nowcol.GetMin().GetY() < 0) {
 			_gravity = 0;
-			_position.GetPY() = _mainCollision.GetHeightMin();
+			_position.GetPY() = nowcol.GetHeightMin();
 		}
 	}
 
@@ -211,8 +215,12 @@ namespace inr {
 			// 押し出し処理があるか？
 			if (g->GimmickType() == gimmick::DOOR) {
 				auto door = std::dynamic_pointer_cast<Door>(g);
-				if(door->IsSwitch() == gimmick::OFF) door->Extrude(_mainCollision, _position, move, _direction);
+				if(door->IsSwitch() == gimmick::OFF) door->Extrude(NowCollision(_divKey.first), _position, move, _direction);
 			}
 		}
+	}
+
+	AABB ObjectBase::NowCollision(std::string key) {
+		return AABB(Vector2(), Vector2());
 	}
 }

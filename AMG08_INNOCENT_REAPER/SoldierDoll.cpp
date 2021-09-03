@@ -525,4 +525,9 @@ namespace inr {
 		}
 		return AABB(damageMin, damageMax, true);
 	}
+
+	AABB SoldierDoll::NowCollision(std::string key) {
+		// 現在のアクション状態はボックスを修正する必要があるか？
+		return _mainCollision;
+	}
 }

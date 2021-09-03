@@ -52,6 +52,7 @@ namespace inr {
 
 		virtual int SoundResearch(const std::string& key);
 		virtual int GetSoundFrame(const std::string& key);
+		virtual AABB NowCollision(std::string key);	// 現在の当たり判定を返す
 
 		void ActionBox(double dx, double dy, const std::pair<int, int> wid);
 		void GimmickCheck(Vector2& move);	// ギミックにめり込んでいるか？

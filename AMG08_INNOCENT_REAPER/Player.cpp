@@ -549,10 +549,14 @@ namespace inr {
 			// ダメージ処理
 			_input = false;	// 入力処理を弾く
 			ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
-
 			auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
 			auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 			PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
+
+			if (_souls.empty() == false) {
+				_souls.pop();
+			}
+
 			// ノックバック量（方向の設定）
 			switch (mv) {
 			// 左に居る場合
@@ -599,12 +603,7 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		if (_aState == ActionState::DASH) {
-			auto it = _collisions.find(_divKey.first);
-			_game.GetMapChips()->IsHit(it->second, _position, _moveVector, _direction);
-		} else {
-			_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction);
-		}
+		_game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction);
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);
 		
@@ -661,6 +660,15 @@ namespace inr {
 		auto givesoul = _souls.front();	// 参照を取り出す
 		_souls.pop();
 		return std::move(givesoul);
+	}
+
+	AABB Player::NowCollision(std::string key) {
+		// 現在のアクション状態はボックスを修正する必要があるか？
+		if (_aState == ActionState::DASH) {
+			auto it = _collisions.find(key);
+			return it->second;
+		}
+		return _mainCollision;
 	}
 
 

@@ -106,6 +106,7 @@ namespace inr {
 		void StateUpdate();	// ó‘Ô‘JˆÚ‚¨‚æ‚Ñ‚»‚Ì‘¼ˆ—
 
 		AABB GetAABB();
+		AABB NowCollision(std::string key) override;
 
 #ifdef _DEBUG
 		void DebugInfo();

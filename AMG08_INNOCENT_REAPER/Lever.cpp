@@ -10,14 +10,17 @@ namespace inr {
 		_gType = GimmickType::LEVER;
 		_door.reset();
 		_divKey = { gimmick::lever::KEY_LEVER, "" };
-		_motionKey = { { _divKey.first, {5, 50}} };
+		_motionKey = { { _divKey.first, {20, 50}} };
 	}
 
 	void Lever::Init() {
 	}
 
 	void Lever::Process() {
-
+		if (IsAnimationMax()) return;
+		if (_door->IsSwitch()) {
+			++_aCount;
+		}
 	}
 
 	void Lever::Draw() {
