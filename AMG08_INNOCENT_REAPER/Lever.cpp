@@ -6,8 +6,10 @@
 namespace inr {
 
 	Lever::Lever(Game& game) : GimmickBase(game) {
+		_gType = GimmickType::LEVER;
 		_door.reset();
 		_divKey.first = gimmick::lever::KEY_LEVER;
+		_motionKey = { { _divKey.first, {5, 50}} };
 	}
 
 	void Lever::Init() {
@@ -25,11 +27,18 @@ namespace inr {
 		int graph;
 		GraphResearch(&graph);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
+
+		DrawDebugBox(_mainCollision);
+	}
+
+	void Lever::OpenDoor() {
+		if (_door->IsSwitch() == gimmick::ON) return;	// ドアがオープンの場合は処理を抜ける
+		_door->SwitchOn();	// スイッチオン
 	}
 
 	void Lever::SetParameter(Vector2 spawnL, Vector2 spawnD, int doorno) {
 		_position = spawnL;
-		_mainCollision = {  _position, 140, 140, true  };	// 当たり判定の設定
+		_mainCollision = {  _position, 30, 30, 50, 70, true  };	// 当たり判定の設定
 
 		auto gdoor = std::make_shared<Door>(_game.GetGame());
 		std::string gh;

@@ -7,6 +7,10 @@
 #include "ResourceServer.h"
 #include "SoundServer.h"
 #include "ObjectServer.h"
+
+#include "GimmickBase.h"
+#include "Door.h"
+
 #include <DxLib.h>
 #include <memory>
 
@@ -199,5 +203,15 @@ namespace inr {
 		auto red = GetColor(255, 255, 0);
 
 		DxLib::DrawBox(abmin.IntX(), abmin.IntY(), abmax.IntX(), abmax.IntY(), red, FALSE);
+	}
+
+	void ObjectBase::GimmickCheck(Vector2& move) {
+		auto gimmicks = _game.GetObjectServer()->GetGimmicks();
+		for (auto g : gimmicks) {
+			// ‰Ÿ‚µo‚µˆ—‚ª‚ ‚é‚©H
+			if (g->GimmickType() == gimmick::DOOR) {
+				std::dynamic_pointer_cast<Door>(g)->Extrude(_mainCollision, _position, move);
+			}
+		}
 	}
 }

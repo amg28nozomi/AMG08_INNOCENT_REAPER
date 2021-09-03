@@ -134,6 +134,10 @@ namespace inr {
 		}
 	}
 
+	void EnemyBase::AttackOn() {
+
+	}
+
 	void EnemyBase::ChangeState(ActionState nextstate, std::string key) {
 		_changeGraph = true;
 		_aState = nextstate;

@@ -40,6 +40,9 @@ namespace inr {
 		constexpr auto ESCAPE_MAX = 1000;
 		constexpr auto ESCAPE_VECTOR = 120;	// 1秒間(60frame)で移動する距離S
 
+		constexpr auto ATTACK_MAX = 1000;
+		constexpr auto ATTACK_VECTOR = 180;
+
 		constexpr auto MOVE_LEFT = true;
 		constexpr auto MOVE_RIGHT = false;
 	}
@@ -82,6 +85,7 @@ namespace inr {
 		// プレイヤーの現在座標から、左右どちらに居るかを割り出す
 		virtual bool SearchPosition();
 		virtual void EscapeOn();	// 逃避
+		virtual void AttackOn();	// 攻撃開始
 		virtual bool Hit();	// オブジェクトと接触したかどうか
 
 		void ChangeState(ActionState nextstate, std::string key);

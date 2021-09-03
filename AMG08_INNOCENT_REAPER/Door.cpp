@@ -5,6 +5,7 @@
 namespace inr {
 
 	Door::Door(Game& game) : GimmickBase(game) {
+		_gType = GimmickType::DOOR;
 		Init();
 	}
 
@@ -32,15 +33,33 @@ namespace inr {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		DrawDebugBox(_mainCollision);
 	}
 
 	void Door::SetParameter(Vector2 spwan, std::string key) {
 		_position = spwan;
-		_mainCollision = { _position, 40, 40, 10, 70, true };
+		_mainCollision = { _position, 20, 20, 10, 70, true };
 		_divKey.first = key;
+		_motionKey = { { _divKey.first, {25, 50}} };
 	}
 
 	void Door::SwitchOn() {
 		_switch = gimmick::ON;
+	}
+
+	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {
+		auto newpos = pos + move;
+		box.Update(newpos, direction);
+		// ‘ÎÛ‚ÍÚG‚µ‚Ä‚¢‚é‚©H
+		if (_mainCollision.HitCheck(box) == false) return false;	// Õ“Ë‚µ‚Ä‚¢‚È‚¢
+		// Õ“Ë‚µ‚Ä‚¢‚éê‡‚Í‚Ç‚¿‚ç‘¤‚©‚ç‚ß‚è‚ñ‚Å‚¢‚é‚©‚ğZo‚·‚é
+		if (move.GetX() < 0) {
+			// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
+			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMin() + box.GetWidthMin();
+		} else {
+			pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
+		}
+		return true;
 	}
 }

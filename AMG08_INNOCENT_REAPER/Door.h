@@ -15,6 +15,8 @@ namespace inr {
 		void SetParameter(Vector2 spwan, std::string key);
 		void SwitchOn();
 
+		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction);
+
 		inline bool IsSwitch() { return _switch == true; }	// スイッチは入力可能か否か
 	private:
 		enum class DoorType {

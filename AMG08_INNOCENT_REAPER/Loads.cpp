@@ -23,7 +23,7 @@ namespace {
 
 	// 生成座標
 	namespace stage_1 {
-		constexpr auto START_POS_X = 200;
+		constexpr auto START_POS_X = 8000;
 		constexpr auto START_POS_Y = 1700;
 	}
 }
@@ -155,7 +155,7 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, 0},
 
 			// ギミック
-			{ oscenario::OBJ_LEVER, {{8250, 1800}, {8600 ,1800}}, 0, gimmick::door::D_LEVER},
+			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, 0, gimmick::door::D_LEVER},
 		};
 
 		return _stage1;

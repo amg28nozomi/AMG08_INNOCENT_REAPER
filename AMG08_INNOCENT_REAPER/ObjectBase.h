@@ -54,6 +54,8 @@ namespace inr {
 		virtual int GetSoundFrame(const std::string& key);
 
 		void ActionBox(double dx, double dy, const std::pair<int, int> wid);
+		void GimmickCheck(Vector2& move);	// ギミックにめり込んでいるか？
+
 #ifdef _DEBUG
 		void DrawDebugBox(Collision cb, int color = GetColor(255, 0, 255));
 #endif

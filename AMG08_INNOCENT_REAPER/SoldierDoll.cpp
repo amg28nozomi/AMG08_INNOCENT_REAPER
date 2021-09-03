@@ -3,6 +3,8 @@
 #include "ObjectServer.h"
 #include "MapChips.h"
 #include "Player.h"
+#include "GimmickBase.h"
+#include "Lever.h"
 #include "ResourceServer.h"
 
 // α仮
@@ -95,7 +97,7 @@ namespace inr {
 			{ enemy::red::SOLDIER_WAKEUP, {30, 0}},
 			{ enemy::red::SOLDIER_IDOL, {28, 0}},
 			{ enemy::red::SOLDIER_PATROL, {36, 0}},
-			{ enemy::red::SOLDIER_ATTACK, {12, 50}},	// SE有り
+			{ enemy::red::SOLDIER_ATTACK, {20, 50}},	// SE有り
 
 			{ enemy::blue::SOLDIER_WAKEUP, {30, 0}},
 			{ enemy::blue::SOLDIER_IDOL, {28, 0}},
@@ -226,30 +228,90 @@ namespace inr {
 	void SoldierDoll::Move() {
 		// 移動ベクトルに応じて、向きを変更
 		// 移動量に応じて向きを変更
-		if (_moveVector.GetX() < 0) {
-			_direction = true;
-		}
-		else if (0 < _moveVector.GetX()) {
-			_direction = false;
-		}
+		
 
 		if (_actionX < 0) { 
 			_direction = enemy::MOVE_LEFT; }
 		else if (0 < _actionX) _direction = enemy::MOVE_RIGHT;
 
-		// 索敵範囲の移動距離は280pixel
-		if (_actionX != 0) {
-			switch (_direction) {
-			case enemy::MOVE_LEFT:
-				_actionX += enemy::ESCAPE_VECTOR / FRAME;
-				_moveVector.GetPX() = -enemy::ESCAPE_VECTOR / FRAME;
-				break;
-			case enemy::MOVE_RIGHT:
-				_actionX -= enemy::ESCAPE_VECTOR / FRAME;
-				_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
-				break;
+		
+
+		Escape();
+
+		/*if (_moveVector.GetX() < 0) {
+			_direction = true;
+		}
+		else if (0 < _moveVector.GetX()) {
+			_direction = false;
+		}*/
+	}
+
+	void SoldierDoll::Escape() {
+		switch (_aState) {
+		case ActionState::PATROL:
+			if (0 < _patrolX) _direction = enemy::MOVE_LEFT;
+			else if (_patrolX < 0) _direction = enemy::MOVE_RIGHT;
+			//if (_patrolX != 0) {
+			//	switch (_direction) {
+			//	case enemy::MOVE_LEFT:
+
+			//		break;
+			//	case enemy::MOVE_RIGHT:
+			//		break;
+			//	}
+			//}
+			return;
+
+		case ActionState::ESCAPE:
+			if (_actionX < 0) {
+				_direction = enemy::MOVE_LEFT;
 			}
-			if (_actionX == 0) PatrolOn();
+			else if (0 < _actionX) _direction = enemy::MOVE_RIGHT;
+
+
+			if (_actionX != 0) {
+				switch (_direction) {
+				case enemy::MOVE_LEFT:
+					_actionX += enemy::ESCAPE_VECTOR / FRAME;
+					_moveVector.GetPX() = -enemy::ESCAPE_VECTOR / FRAME;
+					break;
+				case enemy::MOVE_RIGHT:
+					_actionX -= enemy::ESCAPE_VECTOR / FRAME;
+					_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
+					break;
+				}
+				if (_actionX == 0) PatrolOn();
+			}
+			return;
+		case ActionState::ATTACK:
+			if (_actionX < 0) {
+				_direction = enemy::MOVE_RIGHT;
+			}
+			else if (0 < _actionX) _direction = enemy::MOVE_LEFT;
+
+			if (_actionX != 0) {
+				double mv = 0;
+				switch (_direction) {
+				case enemy::MOVE_LEFT:
+					_actionX -= enemy::ATTACK_VECTOR / FRAME;
+					mv = -enemy::ATTACK_VECTOR / FRAME;
+					if (_actionX < 0) _actionX = 0;
+					break;
+				case enemy::MOVE_RIGHT:
+					_actionX += enemy::ATTACK_VECTOR / FRAME;
+					mv = enemy::ATTACK_VECTOR / FRAME;
+					if (0 < _actionX) _actionX = 0;
+					break;
+				}
+				_moveVector.GetPX() = mv;
+				if (_actionX == 0) { 
+					PatrolOn();
+					_stay = 30;
+				}
+			}
+			return;
+		default:
+			return;
 		}
 	}
 
@@ -260,6 +322,10 @@ namespace inr {
 			switch (_soul->SoulColor()) {
 			// 赤い魂の時は、突進処理を実行する。
 			case soul::RED:
+				AttackOn();
+				if (_actionX == 0) {
+					PatrolOn();
+				}
 				break;
 			case soul::BLUE:
 				EscapeOn();
@@ -288,11 +354,19 @@ namespace inr {
 		}
 	}
 
+	void SoldierDoll::AttackOn() {
+		if (_aState != ActionState::ATTACK) {
+			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
+			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
+		}
+	}
+
 	void SoldierDoll::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
 		_game.GetMapChips()->IsHit(_mainCollision, _position,_moveVector, _direction);
+		GimmickCheck(_moveVector);
 		_position = _position + _moveVector;	// 位置座標を更新
 
 		_mainCollision.Update(_position, _direction);
@@ -317,6 +391,17 @@ namespace inr {
 		if (_soul == nullptr || _aState == ActionState::WAKEUP) return;	// 魂がない場合は処理をスキップ
 		auto&& player = _game.GetObjectServer()->GetPlayer();
 		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定を取得
+
+		// ギミック（レバー）と衝突したか？
+		if (_aState == ActionState::ATTACK) {
+			auto gs = _game.GetObjectServer()->GetGimmicks();
+			for (auto gg : gs) {
+				if (gg->GimmickType() != gimmick::LEVER) continue;	// レバーではない場合はスキップ
+				if (_mainCollision.HitCheck(gg->GetMainCollision())) {
+					std::dynamic_pointer_cast<Lever>(gg)->OpenDoor();
+				}
+			}
+		}
 
 		// 自身の当たり判定と接触判定を行う
 		auto dmb = DamageBox();

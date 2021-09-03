@@ -98,7 +98,7 @@ namespace inr {
 	}*/
 
 	//void Scenario::SetObjectSize() {
-	//	// 使用するシナリオを取り出す
+	//	// 使用するシナリオを取り出す7
 	//	auto scenario = _scenarios.find(_scenarioKey);
 	//	auto it = scenario->second;
 	//	

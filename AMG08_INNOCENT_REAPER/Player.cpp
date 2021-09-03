@@ -592,6 +592,9 @@ namespace inr {
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
 		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction);
+		// ギミックにめり込んでいるか？
+		GimmickCheck(_moveVector);
+		
 
 		_position = _position + _moveVector;	// 位置座標を更新
 

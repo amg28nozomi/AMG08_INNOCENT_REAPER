@@ -47,6 +47,8 @@ namespace inr {
 
 		void Patrol();	// „‰ñ
 		void PatrolOn();	// „‰ñó‘Ô‚ÉˆÚs
+		void Escape();
+		void AttackOn() override;	// UŒ‚ŠJn
 		void Attack();	// UŒ‚ˆ—
 
 		void ChangeIdol();

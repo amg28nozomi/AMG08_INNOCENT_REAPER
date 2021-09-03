@@ -67,6 +67,7 @@ namespace inr {
 			LEVER, BLOCK, CRYSTAL, DOOR
 		};
 		GimmickType _gType;
+		// bool _extrude;	// 押し出し処理を行うか？
 	public:
 		GimmickBase(Game& game);
 		~GimmickBase();
@@ -74,6 +75,8 @@ namespace inr {
 		virtual void Init() override;
 		virtual void Process() override;
 		virtual void Draw() override;
+
+		int GimmickType();
 
 		// virtual bool HitCollision();	// 衝突したか？
 
