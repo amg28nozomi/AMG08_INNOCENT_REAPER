@@ -57,8 +57,10 @@ namespace inr {
 		if (move.GetX() < 0) {
 			// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
 			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMin() + box.GetWidthMin();
+			move.GetPX() = 0;
 		} else {
 			pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
+			move.GetPX() = 0;
 		}
 		return true;
 	}

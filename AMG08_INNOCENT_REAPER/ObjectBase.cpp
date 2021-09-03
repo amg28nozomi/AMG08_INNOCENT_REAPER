@@ -210,7 +210,8 @@ namespace inr {
 		for (auto g : gimmicks) {
 			// ‰Ÿ‚µo‚µˆ—‚ª‚ ‚é‚©H
 			if (g->GimmickType() == gimmick::DOOR) {
-				std::dynamic_pointer_cast<Door>(g)->Extrude(_mainCollision, _position, move);
+				auto door = std::dynamic_pointer_cast<Door>(g);
+				if(door->IsSwitch() == gimmick::OFF) door->Extrude(_mainCollision, _position, move, _direction);
 			}
 		}
 	}
