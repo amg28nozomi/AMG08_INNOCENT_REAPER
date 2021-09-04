@@ -3,24 +3,26 @@
 #include "Vector2.h"
 
 namespace inr {
-	ChipNumber::ChipNumber(int width1, int width2, int height1, int height2, int type) {
+	ChipNumber::ChipNumber(int width1, int width2, int height1, int height2, int type, bool ishit) {
 		widthMin = width1;
 		widthMax = width2;
 		heightMin = height1;
 		heightMax = height2;
 		chipType = type;
+		hitType = ishit;
 	}
 
-	ChipNumber::ChipNumber(int width1, int width2, int type) {
+	ChipNumber::ChipNumber(int width1, int width2, int type, bool ishit) {
 		widthMin = width1;
 		widthMax = width2;
 		heightMin = 0;
 		heightMax = 40;
 		chipType = type;
+		hitType = ishit;
 	}
 
 	ChipHitCheck::ChipHitCheck() {
-		_stageKey = "";
+		_chipKey = "";
 		ClearStageMaps();
 	}
 
@@ -49,7 +51,7 @@ namespace inr {
 		Vector2 min;
 		Vector2 max;
 
-		auto stage = _stageChipsMap.find(_stageKey);	// 現在のステージの連想配列を取り出す
+		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
 		auto chipdata = stage->second.find(no);	// チップ番号の当たり判定を取得
 		if (chipdata == stage->second.end()) {
 			// 登録されていない＝判定が変わっていない

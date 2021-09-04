@@ -19,7 +19,7 @@ namespace inr {
 		if (_switch == gimmick::OFF) return;	// フラグがオンの場合は処理を終了する
 		if (_pal == 0) return;
 		_pal -= 5;
-		if (_mainCollision.GetCollisionFlg() == true) _mainCollision.GetCollisionFlgB() == false;
+		if (_mainCollision.GetCollisionFlg() == true) _mainCollision.GetCollisionFlgB() = false;
 		if (_pal < 0) _pal = 0;
 	}
 

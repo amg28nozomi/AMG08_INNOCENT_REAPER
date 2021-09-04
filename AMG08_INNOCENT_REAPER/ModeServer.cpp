@@ -26,10 +26,10 @@ namespace inr {
 		// 連想配列初期化
 		ClearModeLists();
 		// 各種モード登録
-		_modes.emplace(mode::TITLE, std::make_unique<ModeTitle>(_game.GetGame()));	// タイトル
+		_modes.emplace(mode::TITLE, std::make_shared<ModeTitle>(_game.GetGame()));	// タイトル
 		// セレクト（未実装）
-		_modes.emplace(mode::MAIN, std::make_unique<ModeMain>(_game.GetGame()));	// ゲーム本編
-		_modes.emplace(mode::FIN, std::make_unique<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
+		_modes.emplace(mode::MAIN, std::make_shared<ModeMain>(_game.GetGame()));	// ゲーム本編
+		_modes.emplace(mode::FIN, std::make_shared<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
 		
 		// 検索キーをTitleModeに設定
 #ifdef _DEBUG
@@ -83,8 +83,13 @@ namespace inr {
 		return true;
 	}
 
-	std::unique_ptr<ModeBase>& ModeServer::GetMode(std::string modeKey) {
-		auto mode = _modes.find(modeKey);
+	/*std::unique_ptr<ModeBase>& ModeServer::GetMode() {
+		auto mode = _modes.find(_modeKey);
 		return mode->second;
+	}*/
+
+	std::shared_ptr<ModeMain> ModeServer::GetModeMain() {
+		auto mode = _modes.find(mode::MAIN);
+		return std::dynamic_pointer_cast<ModeMain>(mode->second);
 	}
 }

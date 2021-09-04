@@ -39,17 +39,8 @@ namespace inr {
 			_game.GetScenario()->LoadObjectData(stage::STAGE_1, scenarioD);
 			_game.GetScenario()->AddObjects(stage::STAGE_1);
 
-			/*auto player = std::make_shared<Player>(_game.GetGame());
-			_game.GetObjectServer()->Add(std::move(player));
-			auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
-			_game.GetObjectServer()->Add(std::move(enemy));
-
-			auto enemy1 = std::make_shared<SoldierDoll>(_game.GetGame());
-			enemy1->SetStatus({ 5000, 1700 }, "empty");
-			_game.GetObjectServer()->Add(std::move(enemy1));*/
-
-			auto soul_r = std::make_shared<SoulSkin>(_game.GetGame());
-			_game.GetObjectServer()->Add(std::move(soul_r));
+			// auto soul_r = std::make_shared<SoulSkin>(_game.GetGame());
+			// _game.GetObjectServer()->Add(std::move(soul_r));
 			_bg = std::make_unique<BackGround>(_game.GetGame());
 			_uiSoul = std::make_unique<UI>(_game.GetGame());
 			TimeClear();

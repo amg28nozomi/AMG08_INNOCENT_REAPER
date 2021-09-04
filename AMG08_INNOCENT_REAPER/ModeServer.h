@@ -7,6 +7,7 @@
 namespace inr {
 
 	class Game;
+	class ModeMain;
 
 	class ModeServer {
 	public:
@@ -18,9 +19,10 @@ namespace inr {
 		void Draw();
 
 		inline void ModeChange(std::string nextMode) { _ChangeKey = nextMode; }
-		std::unique_ptr<ModeBase>& GetMode(std::string modeKey);	// 指定したモードの参照を取得
+		// std::unique_ptr<ModeBase>& GetMode();	// 指定したモードの参照を取得
+		std::shared_ptr<ModeMain> GetModeMain();
 	private:
-		using ModeMap = std::unordered_map<std::string, std::unique_ptr<ModeBase>>;
+		using ModeMap = std::unordered_map<std::string, std::shared_ptr<ModeBase>>;
 
 		Game& _game;
 		ModeMap _modes;		// モード格納用

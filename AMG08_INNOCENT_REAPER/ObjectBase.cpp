@@ -24,6 +24,7 @@ namespace inr {
 
 	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2() ) {
 		_delete = false;
+		_changeDirection = false;
 		Init();
 	}
 
@@ -44,6 +45,8 @@ namespace inr {
 	}
 
 	void ObjectBase::Process() {
+		if (_changeDirection == true) _changeDirection = false;
+
 		_gravity += FRAME_G;	// ‰Á‘¬“x‚ð‰ÁŽZ
 		if (MAX_G < _gravity) _gravity = MAX_G;
 

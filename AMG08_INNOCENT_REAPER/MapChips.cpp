@@ -6,6 +6,7 @@
 #include "Collision.h"
 #include "Vector2.h"
 #include "ChipHitCheck.h"
+#include "Scenario.h"
 #include <tuple>
 #include <vector>
 #include <algorithm>
@@ -67,9 +68,10 @@ namespace inr {
 		SetChipsMap();
 
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
-
-		_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
+		// TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
+		TiledJsonLoad(stage::STAGE_2_1, filePath, tiledFileName + ".json");
+		// _mapManager->GetStageMap(stage::STAGE_1, _nowMap);
+		_mapManager->GetStageMap(stage::STAGE_2_1, _nowMap);
 
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
@@ -87,6 +89,10 @@ namespace inr {
 	}
 
 	void MapChips::Process() {
+		// キーが更新された場合はマップ情報を切り替える
+		if (_nextStage != stage::CHANGE_NULL) {
+			ChangeMap();
+		}
 		WorldClanp();
 
 
@@ -150,7 +156,7 @@ namespace inr {
 
 					if (0 <= no) {
 
-						auto gh = graph::ResourceServer::GetHandles(stage::STAGE_1, no);
+						auto gh = graph::ResourceServer::GetHandles(stage::KEY_NORMAL, no);
 						DrawGraph(posX, posY, gh, TRUE);
 
 #ifdef _DEBUG
@@ -387,15 +393,6 @@ namespace inr {
 						if (it == chiptype.end()) {
 							chiptype.emplace_back(mapchip_no);
 						}
-
-						//// 要素が空の場合は、末尾に追加
-						//if (addChipsType.empty()) {
-						//	addChipsType.emplace_back(mapchip_no);
-						//} 
-						/*for (int it = 0; it < addChipsType.size(); ++it) {
-							if (addChipsType[it] == mapchip_no) break;
-							if (it == addChipsType.size() - 1) addChipsType.emplace_back(mapchip_no);
-							} */
 					}
 				}
 				++layer;
@@ -406,18 +403,18 @@ namespace inr {
 		// 末尾に-1を追加
 		chiptype.emplace_back(-1);
 
-		// マップチップ情報の登録
+		// 配置情報の登録
 		MapDataManager::JsonMapData jmd{
 			{ skey, { std::make_pair(mapsizeWidth, mapsizeHeight), std::make_tuple(chipCount, chipCountW, chipCountH),
 					  std::make_pair(chipSizeW, chipSizeH), mapSizeLayer, fileChips, mapdata, chiptype }},
 		};
-		_mapManager->LoadStageMap(jmd);
+		_mapManager->LoadStageMap(jmd);	// マップマネージャーに登録
 
 		// ResourceServerでマップチップ画像の読み込み
 		auto filename = filePath + fileChips;
 		auto chipAllNum = chipCountW * chipCountH;
 		const graph::ResourceServer::DivGraphMap mapchip{
-			{ skey, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
+			{ stage::KEY_NORMAL, {(filename).c_str(), chipCountW, chipCountH, chipAllNum, chipSizeW, chipSizeH}},
 		};
 		graph::ResourceServer::LoadGraphList(mapchip);
 
@@ -847,11 +844,11 @@ namespace inr {
 	void MapChips::SetChipsMap() {
 		// 各種当たり判定を登録する
 		// 当たり判定を修正するチップ番号を登録
-		ChipHitCheck::ChipsMap stagechip1{
-			// 左辺:修正するチップ番号、右辺:修正した当たり判定
+		ChipHitCheck::ChipsMap stagechip {
+			// 左辺:修正するチップ番号、右辺:修正した当たり判定+チップに効果を持たせるかどうか
 			// 棘
-			{  2, {0, 40, 20 ,40}},
-			{  6, {0, 5}},
+			{  2, {0, 40, 20 ,40, mapchip::THORM}},
+			{  6, {0, 5}},	// 端のチップには判定を持たせない
 			{  7, {35, 40}},
 
 			// 左端
@@ -876,13 +873,40 @@ namespace inr {
 			{ 55, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
 			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
 
-			// 追加のマップチップ
+			// 追加のマップチップ（端）
 			{ 58, {0, 40, 0, 5}},
 			{ 59, {0, 40, 0, 5}},
 			// { 61, {0, 10, 0, 10}},
+
+			// 2面専用マップチップ
+			// 左端
+			{ 65, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 73, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			// 右端
+			{ 72, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 80, {CHIP_LEFT1, CHIP_LEFT2}},
+			// 天井
+			{ 81, {CHIP_TIP1, CHIP_TIP2, CHIP_TIP5, CHIP_TIP6}},
+			{ 82, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 83, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 84, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 85, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 86, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 87, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
+			{ 88, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
+
+			// その他
+			{ 90, {0, 40, 0, 5}},
+			{ 91, {0, 40, 0, 5}},
+
+			// 棘
+
+
+
+
 		};
-		_chipCheck->LoadChipsMap(stage::STAGE_1, stagechip1);
-		_chipCheck->ChangeStageKey(stage::STAGE_1);
+		_chipCheck->LoadChipsMap(stage::KEY_NORMAL, stagechip);
+		_chipCheck->ChangeStageKey(stage::KEY_NORMAL);	// 最初に呼び出すステージを登録
 	}
 
 	void MapChips::SetChipMember() {
@@ -891,8 +915,15 @@ namespace inr {
 
 	void MapChips::ChangeMap() {
 		// マップデータは読み込まれているか？
-		if (_mapManager->IsLoad(_skey)) {
-
+		if (_mapManager->IsLoad(_nextStage) == true) {
+			std::string stagePath = DEFAULT_PATH + _nextStage + JSON_FORMAT;	// パスを作成
+			TiledJsonLoad(_skey, DEFAULT_PATH, _skey);	// 対象の登録
 		}
+		/* ここにオブジェクトの初期化処理を挟む */
+
+		/* ここでシナリオクラスを使ってオブジェクトの生成を行う */
+
+		_skey = _nextStage;
+		_nextStage = stage::CHANGE_NULL;
 	}
 }

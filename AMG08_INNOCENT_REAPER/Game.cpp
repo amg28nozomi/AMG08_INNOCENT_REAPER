@@ -30,7 +30,10 @@ namespace inr {
 
 	constexpr auto PATH = "Resource/";
 	// constexpr auto CHIP_FILE = "platformer_simpleA";
-	constexpr auto CHIP_FILE = "stage1";
+	constexpr auto CHIP_FILE_1 = "stage1";
+	constexpr auto CHIP_FILE_2_1 = "stage2-1";
+	constexpr auto CHIP_FILE_2_2 = "stage2-2";
+	constexpr auto CHIP_FILE_2_3 = "stage2-3";
 
 	
 	// constexpr auto CHIP_FILE = "stage01";
@@ -97,7 +100,8 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(gimmick_se);
 
 		std::string filepath = PATH;
-		std::string filename = CHIP_FILE;
+		// std::string filename = CHIP_FILE_1;
+		std::string filename = CHIP_FILE_2_1;
 
 		auto _mapC = std::make_unique<MapChips>(*this, filepath, filename);
 		_mapChips = std::move(_mapC);
