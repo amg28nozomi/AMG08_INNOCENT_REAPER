@@ -7,7 +7,7 @@ namespace inr {
 	namespace background {
 		constexpr auto BACK_GROUND_1 = "back_ground1";
 		constexpr auto STAGE1_FILE = "bg_stage1_";
-		constexpr auto STAGE1_PATH = "Resource/BackGround/";
+		constexpr auto STAGE1_PATH = "Resource/BackGround/Stage1/";
 		constexpr auto STAGE1_MAP_HEIGHT = 2160;
 	}
 

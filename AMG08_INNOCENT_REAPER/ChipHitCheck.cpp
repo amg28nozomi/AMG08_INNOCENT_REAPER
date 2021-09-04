@@ -3,18 +3,20 @@
 #include "Vector2.h"
 
 namespace inr {
-	ChipNumber::ChipNumber(int width1, int width2, int height1, int height2) {
+	ChipNumber::ChipNumber(int width1, int width2, int height1, int height2, int type) {
 		widthMin = width1;
 		widthMax = width2;
 		heightMin = height1;
 		heightMax = height2;
+		chipType = type;
 	}
 
-	ChipNumber::ChipNumber(int width1, int width2) {
+	ChipNumber::ChipNumber(int width1, int width2, int type) {
 		widthMin = width1;
 		widthMax = width2;
 		heightMin = 0;
 		heightMax = 40;
+		chipType = type;
 	}
 
 	ChipHitCheck::ChipHitCheck() {

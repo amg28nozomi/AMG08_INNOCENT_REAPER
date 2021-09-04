@@ -40,6 +40,9 @@ namespace inr {
 		auto sh = SoundResearch(gimmick::lever::KEY_LEVER);
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 		_door->SwitchOn();	// スイッチオン
+#ifdef _DEBUG
+		_mainCollision.GetbDrawFlg() = false;
+#endif
 	}
 
 	void Lever::SetParameter(Vector2 spawnL, Vector2 spawnD, int doorno) {
