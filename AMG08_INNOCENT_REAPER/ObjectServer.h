@@ -19,10 +19,11 @@ namespace inr{
 
 		void Clear();	// コンテナ初期化
 		void Add(std::shared_ptr<ObjectBase> obj);
-		void Del(std::shared_ptr<ObjectBase> obj);
 
 		void Process();
 		void Draw();
+
+		void DeleteObject();	// オブジェクトの開放処理を行う
 
 		std::shared_ptr<Player> GetPlayer();
 		std::vector<std::shared_ptr<ObjectBase>> GetObjects() { return _objects; }
@@ -32,11 +33,14 @@ namespace inr{
 
 
 		inline void ObjectsClear() { _objects.clear(); }
+		inline void DelOn() { _delete = true; }
+		inline bool DelFlag() { return _delete; }
 		// AABB GetObjectPosition(std::string key);
 		// std::vector<std::unique_ptr<ObjectBase>>& GetObjectList(ObjectBase::ObjectType otype);
 	private:
 
 		bool _updateFlg;	// 更新があるか
+		bool _delete;
 		
 		std::vector<std::shared_ptr<ObjectBase>> _objects;
 		std::vector<std::shared_ptr<ObjectBase>> _addObj;

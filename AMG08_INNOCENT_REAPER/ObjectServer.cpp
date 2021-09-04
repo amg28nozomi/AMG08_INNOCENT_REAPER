@@ -9,6 +9,7 @@ namespace inr {
 
 	ObjectServer::ObjectServer() {
 		_updateFlg = false;
+		_delete = false;
 		Clear();
 	}
 
@@ -32,12 +33,22 @@ namespace inr {
 		}
 	}
 
-	void ObjectServer::Del(std::shared_ptr<ObjectBase> obj) {
-		if (_updateFlg) {
-			_delObj.emplace_back(std::move(obj));
-		} else {
-			obj.reset();	// フラグがない場合は直接所有権を放棄する
+	void ObjectServer::DeleteObject() {
+		auto osize = static_cast<int>(_objects.size());
+		auto fix = 0;
+		for (int number = 0; number < osize; ++number) {
+			// 処理前と処理中でサイズが違う場合は修正を行う
+			if (static_cast<int>(_objects.size()) < osize) {
+				++fix;
+			}
+			// 対象を消去するか？
+			if (_objects.at(number - fix)->IsDelete() == false) continue;
+			_delObj.emplace_back(std::move(_objects.at(number - fix)));
+			_objects.erase(_objects.begin() + (number - fix));
 		}
+
+		_delObj.clear();	// オブジェクトを開放
+		_delete = false;	// 消去フラグをオフにする
 	}
 
 	void ObjectServer::Process() {
@@ -50,7 +61,6 @@ namespace inr {
 		// 要素があるかどうか
 		if (_addObj.empty()) {
 			// ない場合は脱出
-			return;
 		} else {
 			// ある場合は_objectsに移す
 			for (auto&& obj : _addObj) {
@@ -59,8 +69,7 @@ namespace inr {
 			_addObj.clear();
 		}
 
-		if (_delObj.empty()) return;
-		else _delObj.clear();
+		if (_delete == true) DeleteObject();
 	}
 
 	void ObjectServer::Draw() {

@@ -23,6 +23,7 @@ namespace {
 namespace inr {
 
 	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2() ) {
+		_delete = false;
 		Init();
 	}
 
@@ -222,5 +223,10 @@ namespace inr {
 
 	AABB ObjectBase::NowCollision(std::string key) {
 		return AABB(Vector2(), Vector2());
+	}
+
+	void ObjectBase::Del() {
+		_delete = true;
+		if (_game.GetObjectServer()->DelFlag() != true) _game.GetObjectServer()->DelOn();
 	}
 }

@@ -36,6 +36,7 @@ namespace inr {
 		bool _direction;	// 向きフラグ
 		bool _stand;	// 地面に立っているかどうか
 		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
+		bool _delete;	// デリートするか否か？（true：ObjectServerから消去　false:生存中）
 
 		Vector2 _position;	// 座標
 		AABB _mainCollision;	// キャラの当たり判定
@@ -49,6 +50,7 @@ namespace inr {
 		int AnimationNumber();	// 現在の描画番号を取得
 		bool IsAnimationMax();	// アニメーションは描画し終えたか？
 		bool AnimationCountMax();
+		
 
 		virtual int SoundResearch(const std::string& key);
 		virtual int GetSoundFrame(const std::string& key);
@@ -56,7 +58,6 @@ namespace inr {
 
 		void ActionBox(double dx, double dy, const std::pair<int, int> wid);
 		void GimmickCheck(Vector2& move);	// ギミックにめり込んでいるか？
-
 #ifdef _DEBUG
 		void DrawDebugBox(Collision cb, int color = GetColor(255, 0, 255));
 #endif
@@ -71,6 +72,7 @@ namespace inr {
 		// virtual void CollisionHit(std::string ckey, Collision acollision, bool direction);	// 各種衝突判定
 
 		inline bool GetDirection() { return _direction; }
+		inline bool IsDelete() { return _delete; }	// オブジェクトを開放するか？
 		inline ObjectType GetType() { return _type; }
 		inline Vector2 GetPosition() { return _position; }
 		inline virtual Vector2 GetMoveVector() { return Vector2(); }	// 移動ベクトルのゲッター
@@ -78,6 +80,7 @@ namespace inr {
 
 		virtual void SetStatus(Vector2 spawn, std::string soulcolor) { return; } // status
 		virtual void SetSpeed(double speed) { return; }
+		void Del();	//　自身の消去フラグを変更
 		// ここまで
 
 		using boxs = std::unordered_map<std::string, AABB>;

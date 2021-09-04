@@ -554,7 +554,9 @@ namespace inr {
 			PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
 
 			if (_souls.empty() == false) {
+				_souls.front()->Del();
 				_souls.pop();
+				
 			}
 
 			// ノックバック量（方向の設定）
