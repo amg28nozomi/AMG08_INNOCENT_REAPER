@@ -28,6 +28,7 @@ namespace inr {
 		inline int HeightMin() { return heightMin; }
 		inline int HeightMax() { return heightMax; }
 		inline int ChipType() { return chipType; }
+		inline bool HitType() { return hitType; }
 
 	private:
 		int widthMin;	// 横幅(Min)
@@ -47,6 +48,8 @@ namespace inr {
 
 		void LoadChipsMap(std::string key, ChipsMap& chipsMap);	// マップチップの当たり判定登録
 		inline void ChangeStageKey(std::string nextkey) { _chipKey = nextkey; }	// 読み込むキー情報の更新
+		int IsChipType(ChipNumber chipnumber);
+		bool IsHitType(ChipNumber chipnumber);	// 対象に当たり判定はあるか？
 		AABB ChipCollision(const int no);	// 対象のマップチップ
 	private:
 		using StageMaps = std::unordered_map<std::string, ChipsMap>;

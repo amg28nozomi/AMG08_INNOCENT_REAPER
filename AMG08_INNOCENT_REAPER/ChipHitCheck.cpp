@@ -47,6 +47,30 @@ namespace inr {
 		_stageChipsMap.emplace(key, chipsMap);	// 連想配列に登録
 	}
 
+	int ChipHitCheck::IsChipType(ChipNumber chipnumber) {
+		// 効果はあるか？
+		switch (chipnumber.ChipType()) {
+		case mapchip::NORMAL:
+			return mapchip::NORMAL;	// 効果なし
+		case mapchip::THORM:
+			return mapchip::THORM;	// ダメージ判定
+		case mapchip::IVY:
+			return mapchip::IVY;	// 蔦判定
+		default:
+			return -1;	// 登録されていないチップ番号
+		}
+	}
+
+	bool ChipHitCheck::IsHitType(ChipNumber chipnumber) {
+		// 当たり判定はあるか？
+		switch (chipnumber.HitType()) {
+		case mapchip::HIT_ON:
+			return true;
+		case mapchip::HIT_OFF:
+			return false;	// 処理なし
+		}
+	}
+
 	AABB ChipHitCheck::ChipCollision(const int no) {
 		Vector2 min;
 		Vector2 max;

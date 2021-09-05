@@ -38,6 +38,29 @@ namespace {
 	constexpr auto CHIP_TIP5 = 0;
 	constexpr auto CHIP_TIP6 = 5;
 
+	constexpr auto CHIP_THORM1 = 0;
+	constexpr auto CHIP_THORM2 = 40;
+	constexpr auto CHIP_THORM3 = 20;
+	constexpr auto CHIP_THORM4 = 40;
+
+	constexpr auto CHIP_THORM_LEFT1 = 20;	// 棘左端(xmin)
+	constexpr auto CHIP_THORM_LEFT2 = 40;	// 棘左端(xmax)
+	constexpr auto CHIP_THORM_LEFT3 = 0;
+	constexpr auto CHIP_THORM_LEFT4 = 40;
+
+	constexpr auto CHIP_THORM_TOP1 = 0;
+	constexpr auto CHIP_THORM_TOP2 = 40;
+	constexpr auto CHIP_THORM_TOP3 = 0;
+	constexpr auto CHIP_THORM_TOP4 = 20;
+
+
+	constexpr auto CHIP_THORM_RIGHT1 = 0;
+	constexpr auto CHIP_THORM_RIGHT2 = 20;
+
+	// 蔦
+	constexpr auto CHIP_IVY1 = 10;
+	constexpr auto CHIP_IVY2 = 30;
+
 	constexpr auto DEFAULT_W = 960;
 	constexpr auto DEFAULT_H = 540;
 
@@ -428,6 +451,7 @@ namespace inr {
 
 		auto chips = _nowMap.MapDatas();
 		auto chiptype = _nowMap.ChipType();
+		
 
 		if (0 <= x && x < mapSizeW && 0 <= y && y < mapSizeH) {
 			int chip_no = chips[y * mapSizeW + x];
@@ -882,9 +906,17 @@ namespace inr {
 			// 左端
 			{ 65, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			{ 73, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 97, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 105, {CHIP_RIGHT1, CHIP_RIGHT2}},
+			{ 113, {CHIP_RIGHT1, CHIP_RIGHT2}},
 			// 右端
 			{ 72, {CHIP_LEFT1, CHIP_LEFT2}},
 			{ 80, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 100, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 108, {CHIP_LEFT1, CHIP_LEFT2}},
+			{ 116, {CHIP_LEFT1, CHIP_LEFT2}},
+
+
 			// 天井
 			{ 81, {CHIP_TIP1, CHIP_TIP2, CHIP_TIP5, CHIP_TIP6}},
 			{ 82, {CHIP_UP1, CHIP_UP2, CHIP_UP3, CHIP_UP4}},
@@ -899,11 +931,33 @@ namespace inr {
 			{ 90, {0, 40, 0, 5}},
 			{ 91, {0, 40, 0, 5}},
 
-			// 棘
-
-
-
-
+			// 棘(床)
+			{ 95, {0, 6}},
+			{ 96, {35, 40}},
+			{ 103, {CHIP_THORM1, CHIP_THORM2, CHIP_THORM3, CHIP_THORM4, mapchip::THORM}},
+			{ 104, {CHIP_THORM1, CHIP_THORM2, CHIP_THORM3, CHIP_THORM4, mapchip::THORM}},
+			{ 111, {CHIP_THORM1, CHIP_THORM2, CHIP_THORM3, CHIP_THORM4, mapchip::THORM}},
+			{ 112, {CHIP_THORM1, CHIP_THORM2, CHIP_THORM3, CHIP_THORM4, mapchip::THORM}},
+			// 棘左端
+			{ 101, {CHIP_THORM_LEFT1, CHIP_THORM_LEFT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			{ 109, {CHIP_THORM_LEFT1, CHIP_THORM_LEFT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			{ 117, {CHIP_THORM_LEFT1, CHIP_THORM_LEFT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			{ 125, {CHIP_THORM_LEFT1, CHIP_THORM_LEFT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			// 棘右端
+			{ 102, {CHIP_THORM_RIGHT1, CHIP_THORM_RIGHT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			{ 110, {CHIP_THORM_RIGHT1, CHIP_THORM_RIGHT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			{ 118, {CHIP_THORM_RIGHT1, CHIP_THORM_RIGHT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			{ 126, {CHIP_THORM_RIGHT1, CHIP_THORM_RIGHT2, CHIP_THORM_LEFT3, CHIP_THORM_LEFT4, mapchip::THORM}},
+			// 棘(天井)
+			{ 121, {CHIP_THORM_TOP1, CHIP_THORM_TOP2, CHIP_THORM_TOP3, CHIP_THORM_TOP4, mapchip::THORM}},
+			{ 122, {CHIP_THORM_TOP1, CHIP_THORM_TOP2, CHIP_THORM_TOP3, CHIP_THORM_TOP4, mapchip::THORM}},
+			{ 123, {CHIP_THORM_TOP1, CHIP_THORM_TOP2, CHIP_THORM_TOP3, CHIP_THORM_TOP4, mapchip::THORM}},
+			{ 124, {CHIP_THORM_TOP1, CHIP_THORM_TOP2, CHIP_THORM_TOP3, CHIP_THORM_TOP4, mapchip::THORM}},
+			// 蔦
+			{ 119, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
+			{ 120, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
+			{ 127, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
+			{ 128, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 		};
 		_chipCheck->LoadChipsMap(stage::KEY_NORMAL, stagechip);
 		_chipCheck->ChangeStageKey(stage::KEY_NORMAL);	// 最初に呼び出すステージを登録
