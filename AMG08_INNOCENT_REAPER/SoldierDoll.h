@@ -55,6 +55,8 @@ namespace inr {
 		void PositionUpdate();
 		void StateUpdate();	// 状態の切り替え
 
+		void Death();	// 死亡処理
+
 		// 干渉可能範囲の算出
 		AABB VitalPart(Collision& col);
 		AABB DamageBox();	// ダメージボックスの算出

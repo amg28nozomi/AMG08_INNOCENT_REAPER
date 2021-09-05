@@ -100,8 +100,8 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(gimmick_se);
 
 		std::string filepath = PATH;
-		// std::string filename = CHIP_FILE_1;
-		std::string filename = CHIP_FILE_2_1;
+		 std::string filename = CHIP_FILE_1;
+		//std::string filename = CHIP_FILE_2_1;
 
 		auto _mapC = std::make_unique<MapChips>(*this, filepath, filename);
 		_mapChips = std::move(_mapC);

@@ -365,7 +365,10 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		_game.GetMapChips()->IsHit(_mainCollision, _position,_moveVector, _direction, _changeDirection);
+		if (_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction, _changeDirection) == mapchip::THORM) {
+			// 棘に接触した場合は死亡処理を呼び出す
+			if (_soul != nullptr)Death();
+		}
 		GimmickCheck(_moveVector);
 		_position = _position + _moveVector;	// 位置座標を更新
 
@@ -496,6 +499,12 @@ namespace inr {
 				}
 			}
 		}
+	}
+
+	void SoldierDoll::Death() {
+		ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
+		_soul->SetSpwan(_position);	// 自身の座標に魂を実体化する
+		_soul.reset();	// 魂の所有権を手放す
 	}
 
 	AABB SoldierDoll::VitalPart(Collision& col) {

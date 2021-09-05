@@ -35,7 +35,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			auto scenarioD = Loads::LoadScenario();
+			auto scenarioD = Loads::LoadScenario();	// 対応するシナリオを読み込み
 			_game.GetScenario()->LoadObjectData(stage::STAGE_1, scenarioD);
 			_game.GetScenario()->AddObjects(stage::STAGE_1);
 

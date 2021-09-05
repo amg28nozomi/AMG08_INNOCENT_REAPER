@@ -91,10 +91,10 @@ namespace inr {
 		SetChipsMap();
 
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		// TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
-		TiledJsonLoad(stage::STAGE_2_1, filePath, tiledFileName + ".json");
-		// _mapManager->GetStageMap(stage::STAGE_1, _nowMap);
-		_mapManager->GetStageMap(stage::STAGE_2_1, _nowMap);
+		 TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
+		//TiledJsonLoad(stage::STAGE_2_1, filePath, tiledFileName + ".json");
+		_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
+		//_mapManager->GetStageMap(stage::STAGE_2_1, _nowMap);
 
 		// スクリーン座標初期化
 		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
@@ -664,11 +664,11 @@ namespace inr {
 									auto cave = box.GetWidthMin();
 									move.GetPX() = 0;
 									pos.GetPX() = chipMinX - cave;
-									return _chipCheck->IsChipType(chip_no);;
+									return _chipCheck->IsChipType(chip_no);
 								}
 							}
 						}
-
+					return _chipCheck->IsChipType(chip_no);
 					// 向きに更新がかかっているかどうか？
 					//if (isUpdate == false) {
 					//	// 横のみ判定（移動量はxのみ加算）
