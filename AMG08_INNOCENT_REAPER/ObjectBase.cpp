@@ -25,6 +25,7 @@ namespace inr {
 	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2() ) {
 		_delete = false;
 		_changeDirection = false;
+		_lastChip = { 0, 0 };
 		Init();
 	}
 
@@ -54,7 +55,7 @@ namespace inr {
 
 		// マップチップの上に立っているかどうか
 		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
-		if (_game.GetMapChips()->IsStand(nowcol, _position, _gravity)) {
+		if (_game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip)) {
 			// 加速度が0の時だけ立っている
 			if (0 < _gravity) {
 				_stand = true;

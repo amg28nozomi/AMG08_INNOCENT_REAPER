@@ -47,9 +47,12 @@ namespace inr {
 		_stageChipsMap.emplace(key, chipsMap);	// 連想配列に登録
 	}
 
-	int ChipHitCheck::IsChipType(ChipNumber chipnumber) {
+	int ChipHitCheck::IsChipType(const int no) {
+		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
+		auto chipnumber = stage->second.find(no);	// チップ番号の当たり判定を取得
+		if (chipnumber == stage->second.end()) return mapchip::NORMAL;
 		// 効果はあるか？
-		switch (chipnumber.ChipType()) {
+		switch (chipnumber->second.ChipType()) {
 		case mapchip::NORMAL:
 			return mapchip::NORMAL;	// 効果なし
 		case mapchip::THORM:
@@ -61,9 +64,12 @@ namespace inr {
 		}
 	}
 
-	bool ChipHitCheck::IsHitType(ChipNumber chipnumber) {
+	bool ChipHitCheck::IsHitType(const int no) {
+		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
+		auto chipnumber = stage->second.find(no);	// チップ番号の当たり判定を取得
+		if (chipnumber == stage->second.end()) return true;
 		// 当たり判定はあるか？
-		switch (chipnumber.HitType()) {
+		switch (chipnumber->second.HitType()) {
 		case mapchip::HIT_ON:
 			return true;
 		case mapchip::HIT_OFF:

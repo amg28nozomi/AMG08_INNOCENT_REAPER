@@ -609,7 +609,7 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		_game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction);
+		_game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, _changeDirection);
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);
 		

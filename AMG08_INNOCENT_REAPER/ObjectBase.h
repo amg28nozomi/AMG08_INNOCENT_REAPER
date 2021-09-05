@@ -40,6 +40,7 @@ namespace inr {
 		bool _changeDirection;	// 向きの変更が入ったか否か
 
 		Vector2 _position;	// 座標
+		Vector2 _lastChip;	// 最後に立っていたマップチップ
 		AABB _mainCollision;	// キャラの当たり判定
 		Keys _divKey;	// 左辺:グラフィック用、右辺:サウンド用
 		KeyDatas _motionKey;	// first:キー, s.first:総フレーム数, SEの再生時間
