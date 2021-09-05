@@ -105,7 +105,7 @@ namespace inr {
 
 		bool IsEmpty();
 
-		void SetParameter(Vector2 spwan, int soult);	// parameter
+		void SetParameter(ObjectValue objValue) override;	// parameter
 
 		// virtual void Process() override;
 		// virtual void Draw() override;

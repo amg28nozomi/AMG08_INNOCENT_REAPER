@@ -45,13 +45,15 @@ namespace inr {
 #endif
 	}
 
-	void Lever::SetParameter(Vector2 spawnL, Vector2 spawnD, int doorno) {
-		_position = spawnL;
+	void Lever::SetParameter(ObjectValue objValue) {
+		_oValue = objValue;
+
+		_position = _oValue.Positions()[0];
 		_mainCollision = {  _position, 30, 30, 50, 70, true  };	// ìñÇΩÇËîªíËÇÃê›íË
 
 		auto gdoor = std::make_shared<Door>(_game.GetGame());
 		std::string gh;
-		switch (doorno) {
+		switch (_oValue.GimmickType()) {
 		case gimmick::door::D_LEVER:
 			gh = gimmick::door::KEY_DOOR_LEVER;
 			break;
@@ -64,7 +66,7 @@ namespace inr {
 		default:
 			return;
 		}
-		gdoor->SetParameter(spawnD, gh);	// Ç∑Ç€Å[ÇÒ
+		gdoor->SetParameter(_oValue.Positions()[1], gh);	// Ç∑Ç€Å[ÇÒ
 		_door = gdoor;
 		_game.GetObjectServer()->Add(gdoor);
 	}

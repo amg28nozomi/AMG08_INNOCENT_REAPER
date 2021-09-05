@@ -21,11 +21,14 @@ namespace inr {
 
 	private:
 		std::string _stageKey;	// ステージ検索用
-		std::string _changeKey;	
+		std::string _changeKey;		// ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;	// 背景
 		std::unique_ptr<UI> _uiSoul;
 
 		Vector2 _worldPosition;	// ワールド座標
+
+		bool IsStageChange();	// ステージの切り替えを行うか？
+		void SetObjects();	// オブジェクトの生成（再配置）
 	};
 
 }

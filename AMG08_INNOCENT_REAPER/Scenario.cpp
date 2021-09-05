@@ -18,19 +18,29 @@ namespace {
 
 namespace inr {
 
-	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor, int gimmicktype) {
+	ObjectValue::ObjectValue() {
+		_class = oscenario::OBJ_NULL;
+		_spawnPos.clear();
+		_soulType = 0;
+		_gimmickType = oscenario::gimmick::TYPE_NULL;
+		_gimmickFlag = oscenario::gimmick::FLAG_NULL;
+	}
+
+	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor, int gimmicktype, int gimmickflag) {
 		// 各種情報の登録
 		_class = classtype;
 		_spawnPos.emplace_back(xy);
 		_soulType = soulcolor;
 		_gimmickType = gimmicktype;
+		_gimmickFlag = gimmickflag;
 	}
 
-	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor, int gimmicktype) {
+	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor, int gimmicktype, int gimmickflag) {
 		_class = classtype;
 		_spawnPos = xy;
 		_soulType = soulcolor;
 		_gimmickType = gimmicktype;
+		_gimmickFlag = gimmickflag;
 	}
 
 	Scenario::Scenario(Game& game) : _game(game) {
@@ -130,15 +140,38 @@ namespace inr {
 		for (auto ovalue : it->second) {
 			auto classType = ovalue.ClassName();	// 生成するオブジェクトは何なのか？
 			switch (classType) {
+			// 自機の生成
 			case oscenario::OBJ_PLAYER:
-				// プレイヤーの登録情報を設定
 				AddPlayer(ovalue);
-				break;
+				continue;
+			// ソルジャードールの生成
 			case oscenario::OBJ_SOLDIER_DOLL:
-				AddEnemy(ovalue);
-				break;
+				AddSoldierDoll(ovalue);
+				continue;
+			// ビッグドールの生成
+			case oscenario::OBJ_BIG_DOLL:
+				AddBigDoll(ovalue);
+				continue;
+			// クロウドールの生成
+			case oscenario::OBJ_CROW_DOLL:
+				AddCrowDoll(ovalue);
+				continue;
+			// レバーの生成
 			case oscenario::OBJ_LEVER:
 				AddLever(ovalue);
+				continue;
+			// 水晶の生成
+			case oscenario::OBJ_CRYSTAL:
+				AddCrystal(ovalue);
+				continue;
+			// ブロックの生成
+			case oscenario::OBJ_BLOCK:
+				AddBlock(ovalue);
+				continue;
+			default:
+#ifdef _DEBUG
+				OutputDebugString("error：オブジェクトの生成に失敗しました　Scenatio->AddObjectsで存在しないクラスの値が登録されています\n");
+#endif
 			}
 		}
 		return false;
@@ -146,7 +179,7 @@ namespace inr {
 
 	void Scenario::AddPlayer(ObjectValue ovalue) {
 		auto player = std::make_shared<Player>(_game.GetGame());
-		player->SetParameter(ovalue.Positions()[0]);
+		player->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(player));
 	}
 
@@ -157,35 +190,41 @@ namespace inr {
 
 	void Scenario::AddEnemy(ObjectValue ovalue) {
 		auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
-		enemy->SetParameter(ovalue.Positions()[0], ovalue.SoulType());
+		enemy->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(enemy));
 		
 	}
 
-	void Scenario::AddSoldierDoll(ObjectBase* obj, ObjectValue ovalue) {
+	void Scenario::AddSoldierDoll(ObjectValue ovalue) {
+		auto enemy = std::make_shared<SoldierDoll>(_game.GetGame());
+		enemy->SetParameter(ovalue);
+		_game.GetObjectServer()->Add(std::move(enemy));
 	}
 
-	void Scenario::AddBigDoll(ObjectBase* obj, ObjectValue ovalue) {
+	void Scenario::AddBigDoll(ObjectValue ovalue) {
 
 	}
 
-	void Scenario::AddCrowDoll(ObjectBase* obj, ObjectValue ovalue) {
+	void Scenario::AddCrowDoll(ObjectValue ovalue) {
 
 	}
 
-	void Scenario::AddSoul(ObjectBase* obj, ObjectValue ovalue) {
+	void Scenario::AddSoul(ObjectValue ovalue) {
 
 	}
 
 	void Scenario::AddLever(ObjectValue ovalue) {
 		auto glever = std::make_shared<Lever>(_game.GetGame());
 		auto posv = ovalue.Positions();
-		glever->SetParameter(posv[0], posv[1], ovalue.GimmickType());
+		glever->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(glever));
 	}
 
-	void Scenario::AddQuarts(ObjectBase* obj, ObjectValue ovalue) {
+	void Scenario::AddCrystal(ObjectValue ovalue) {
 
 	}
 
+	void Scenario::AddBlock(ObjectValue ovalue) {
+
+	}
 }

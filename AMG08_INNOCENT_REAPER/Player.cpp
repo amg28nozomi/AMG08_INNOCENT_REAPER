@@ -221,8 +221,9 @@ namespace inr {
 #endif
 	}
 
-	void Player::SetParameter(Vector2 spwan) {
-		_position = spwan;
+	void Player::SetParameter(ObjectValue objValue) {
+		_oValue = objValue;
+		_position = _oValue.Positions()[0];
 
 		auto it = _collisions.find(_divKey.first);
 		if (it != _collisions.end()) it->second.Update(_position, _direction);

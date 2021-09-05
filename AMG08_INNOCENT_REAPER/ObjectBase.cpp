@@ -22,7 +22,7 @@ namespace {
 
 namespace inr {
 
-	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2() ) {
+	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2()), _oValue() {
 		_delete = false;
 		_changeDirection = false;
 		_lastChip = { 0, 0 };
@@ -232,5 +232,9 @@ namespace inr {
 	void ObjectBase::Del() {
 		_delete = true;
 		if (_game.GetObjectServer()->DelFlag() != true) _game.GetObjectServer()->DelOn();
+	}
+
+	void ObjectBase::SetParameter(ObjectValue objValue) {
+
 	}
 }

@@ -148,24 +148,30 @@ namespace inr {
 		return false;
 	}
 
-	void EnemyBase::SetParameter(Vector2 spwan, int soult) {
-		_position = spwan;	// 座標更新
+	void EnemyBase::SetParameter(ObjectValue objValue) {
+		_oValue = objValue;
+		_position = _oValue.Positions()[0];	// 座標更新
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
-		if (soult == 0) { 
+		if (_oValue.SoulType() == 0) { 
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 			return;
 		}
 		auto soul_n =  std::make_shared<SoulSkin>(_game.GetGame());
 		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
-		switch (soult) {
+		switch (_oValue.SoulType()) {
 		case 1:
-			soul_n->SetParameter(soult, 7);
+			soul_n->SetParameter(_oValue.SoulType(), 7);
 			ChangeState(ActionState::PATROL, enemy::red::SOLDIER_PATROL);
 			break;
 		case 2:
-			soul_n->SetParameter(soult, 7);
+			soul_n->SetParameter(_oValue.SoulType(), 7);
 			ChangeState(ActionState::PATROL, enemy::blue::SOLDIER_PATROL);
+			break;
+		default:
+#ifdef _DEBUG
+			OutputDebugString("error：EnemyBase->SetParameter　ObjectValueの_soulTypeの値が不正です\n");
+#endif
 			break;
 		}
 		_soul = soul_n;

@@ -3,6 +3,7 @@
 #include <DxLib.h>
 #include "Collision.h"
 #include "ResourceServer.h"
+#include "Scenario.h"
 
 class Vector2;
 class AABB;
@@ -39,6 +40,7 @@ namespace inr {
 		bool _delete;	// デリートするか否か？（true：ObjectServerから消去　false:生存中）
 		bool _changeDirection;	// 向きの変更が入ったか否か
 
+		ObjectValue _oValue;	// 生成時の情報
 		Vector2 _position;	// 座標
 		Vector2 _lastChip;	// 最後に立っていたマップチップ
 		AABB _mainCollision;	// キャラの当たり判定
@@ -80,6 +82,7 @@ namespace inr {
 		inline virtual Vector2 GetMoveVector() { return Vector2(); }	// 移動ベクトルのゲッター
 		inline AABB& GetMainCollision() { return _mainCollision; }
 
+		virtual void SetParameter(ObjectValue objValue);
 		virtual void SetStatus(Vector2 spawn, std::string soulcolor) { return; } // status
 		virtual void SetSpeed(double speed) { return; }
 		void Del();	//　自身の消去フラグを変更

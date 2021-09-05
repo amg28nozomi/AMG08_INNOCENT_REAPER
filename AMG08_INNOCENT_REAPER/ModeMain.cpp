@@ -67,4 +67,17 @@ namespace inr {
 		_game.GetObjectServer()->Draw();
 		_uiSoul->Draw();
 	}
+
+
+	bool ModeMain::IsStageChange() {
+		// キーは切り替わっているか？
+		if (_changeKey == stage::CHANGE_NULL) return false;
+		// 現在の登録されているオブジェクトの削除を行う
+		
+		// 自機(+保持している魂)、
+	}
+
+	void ModeMain::SetObjects() {
+
+	}
 }
