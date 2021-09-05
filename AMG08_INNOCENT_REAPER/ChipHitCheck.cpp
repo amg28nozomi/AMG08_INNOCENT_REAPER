@@ -21,6 +21,15 @@ namespace inr {
 		hitType = ishit;
 	}
 
+	ChipNumber::ChipNumber(int type, bool ishit) {
+		widthMin = 0;
+		widthMax = 40;
+		heightMin = 0;
+		heightMax = 40;
+		chipType = type;
+		hitType = ishit;
+	}
+
 	ChipHitCheck::ChipHitCheck() {
 		_chipKey = "";
 		ClearStageMaps();
@@ -59,8 +68,10 @@ namespace inr {
 			return mapchip::THORM;	// ダメージ判定
 		case mapchip::IVY:
 			return mapchip::IVY;	// 蔦判定
+		case mapchip::TRANSITION:
+			return mapchip::TRANSITION;	// ステージ遷移判定
 		default:
-			return -1;	// 登録されていないチップ番号
+			return mapchip::NONE;	// 登録されていないチップ番号
 		}
 	}
 

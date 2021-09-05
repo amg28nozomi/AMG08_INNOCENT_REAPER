@@ -26,6 +26,13 @@ namespace inr {
 		constexpr auto KEY_NORMAL = "mapchip_normal";	// 通常マップチップ
 	}
 
+	namespace mapchip {
+		constexpr auto TYPE_NULL = -1;	// 未登録番号
+		constexpr auto TYPE_NORMAL = 0;	// 通常
+		constexpr auto TYPE_THORM = 1;	// 棘
+		constexpr auto TYPE_IVX = 2;	// 蔦
+	}
+
 	class Game;
 	class ObjectBase;
 

@@ -184,14 +184,15 @@ namespace inr {
 
 #ifdef _DEBUG
 						auto chiptype = _chipCheck->IsChipType(no + 1);
-						unsigned int color = GetColor(255, 0, 0);
-						if (chiptype == mapchip::IVY) color = GetColor(255, 255, 0);
-						if (chiptype == mapchip::THORM) color = GetColor(255, 255, 255);
+						std::tuple<int, int, int> colortype = std::make_tuple(255, 0, 0);
+						if (chiptype == mapchip::IVY) colortype = std::make_tuple(255, 255, 0);
+						if (chiptype == mapchip::THORM) colortype = std::make_tuple(255, 255, 255);
+						if (chiptype == mapchip::TRANSITION) colortype = std::make_tuple(0, 0, 255);
 
 						// デバッグ用：当たり判定の描画
 						if (CheckHit(x, y)) {
 							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, color, TRUE);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(std::get<0>(colortype), std::get<1>(colortype), std::get<2>(colortype)), TRUE);
 							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
 							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 						}
@@ -998,6 +999,23 @@ namespace inr {
 			{ 120, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 			{ 127, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 			{ 128, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
+			// ステージ遷移
+			{ 129, {mapchip::TRANSITION}},
+			{ 130, {mapchip::TRANSITION}},
+			{ 131, {mapchip::TRANSITION}},
+			{ 132, {mapchip::TRANSITION}},
+			{ 133, {mapchip::TRANSITION}},
+			{ 134, {mapchip::TRANSITION}},
+			{ 135, {mapchip::TRANSITION}},
+			{ 136, {mapchip::TRANSITION}},
+			{ 137, {mapchip::TRANSITION}},
+			{ 138, {mapchip::TRANSITION}},
+			{ 139, {mapchip::TRANSITION}},
+			{ 140, {mapchip::TRANSITION}},
+			{ 141, {mapchip::TRANSITION}},
+			{ 142, {mapchip::TRANSITION}},
+			{ 143, {mapchip::TRANSITION}},
+			{ 144, {mapchip::TRANSITION}},
 		};
 		_chipCheck->LoadChipsMap(stage::KEY_NORMAL, stagechip);
 		_chipCheck->ChangeStageKey(stage::KEY_NORMAL);	// 最初に呼び出すステージを登録

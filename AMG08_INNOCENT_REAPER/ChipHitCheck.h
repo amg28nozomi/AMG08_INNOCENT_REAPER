@@ -12,6 +12,7 @@ namespace inr {
 		constexpr auto NORMAL = 0;	// 通常チップ(効果なし)
 		constexpr auto THORM = 1;	// 棘(ダメージ判定あり)
 		constexpr auto IVY = 2;		// 蔦(ぶら下がり可能)
+		constexpr auto TRANSITION = 3;	// ステージ遷移
 
 		constexpr auto HIT_ON = true;	// 当たり判定/押し出し処理有り
 		constexpr auto HIT_OFF = false;	// 当たり判定/押し出し処理無し
@@ -23,6 +24,7 @@ namespace inr {
 		// 当たり判定に修正がない場合は引数指定なしでOK
 		ChipNumber(int width1, int width2, int height1, int height2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
+		ChipNumber(int type, bool ishit = mapchip::HIT_ON);
 
 		inline int WidthMin() { return widthMin; }
 		inline int WidthMax() { return widthMax; }
