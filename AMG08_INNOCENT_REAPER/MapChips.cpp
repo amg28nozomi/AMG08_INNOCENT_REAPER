@@ -183,10 +183,15 @@ namespace inr {
 						DrawGraph(posX, posY, gh, TRUE);
 
 #ifdef _DEBUG
+						auto chiptype = _chipCheck->IsChipType(no + 1);
+						unsigned int color = GetColor(255, 0, 0);
+						if (chiptype == mapchip::IVY) color = GetColor(255, 255, 0);
+						if (chiptype == mapchip::THORM) color = GetColor(255, 255, 255);
+
 						// デバッグ用：当たり判定の描画
 						if (CheckHit(x, y)) {
 							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(255, 0, 0), TRUE);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, color, TRUE);
 							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
 							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 						}
@@ -578,7 +583,7 @@ namespace inr {
 	//	return false;
 	//}
 
-	bool MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool isUpdate) {
+	int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool isUpdate) {
 		int x, y;
 
 		auto thisbox = box;
@@ -642,26 +647,26 @@ namespace inr {
 					}
 
 					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
-								if (vectorX < 0) {
-									if (minx < chipMaxX && chipMinX < maxx) {
+						if (vectorX < 0) {
+							if (minx < chipMaxX && chipMinX < maxx) {
 										// if (minx < chipMinX && chipMinX < maxx) {
-										auto cave = box.GetWidthMin();
-										move.GetPX() = 0;
-										pos.GetPX() = chipMaxX + cave;
-										return true;
-									}
-								}
-								if (0 < vectorX) {
-									if (chipMinX < maxx && minx < chipMaxX) {
-										// if (chipMaxX < maxx && minx < chipMaxX) {
-										// if (chipMinX < maxx && minx < chipMaxX) {
-										auto cave = box.GetWidthMin();
-										move.GetPX() = 0;
-										pos.GetPX() = chipMinX - cave;
-										return true;
-									}
+								auto cave = box.GetWidthMin();
+								move.GetPX() = 0;
+								pos.GetPX() = chipMaxX + cave;
+								return _chipCheck->IsChipType(chip_no);
 								}
 							}
+							if (0 < vectorX) {
+								if (chipMinX < maxx && minx < chipMaxX) {
+										// if (chipMaxX < maxx && minx < chipMaxX) {
+										// if (chipMinX < maxx && minx < chipMaxX) {
+									auto cave = box.GetWidthMin();
+									move.GetPX() = 0;
+									pos.GetPX() = chipMinX - cave;
+									return _chipCheck->IsChipType(chip_no);;
+								}
+							}
+						}
 
 					// 向きに更新がかかっているかどうか？
 					//if (isUpdate == false) {
@@ -897,7 +902,7 @@ namespace inr {
 				}
 			}
 		}
-		return false;
+		return mapchip::NONE;
 	}
 
 	void MapChips::SetChipsMap() {

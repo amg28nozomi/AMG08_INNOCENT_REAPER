@@ -8,6 +8,7 @@ namespace inr {
 
 	namespace mapchip {
 		// マップチップに特殊効果はあるか？
+		constexpr auto NONE = -1;	// チップ無し
 		constexpr auto NORMAL = 0;	// 通常チップ(効果なし)
 		constexpr auto THORM = 1;	// 棘(ダメージ判定あり)
 		constexpr auto IVY = 2;		// 蔦(ぶら下がり可能)
