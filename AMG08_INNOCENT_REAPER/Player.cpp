@@ -164,7 +164,7 @@ namespace inr {
 
 
 		// AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
-		AABB dashBox = { _position, 35, 40 };
+		AABB dashBox = { _position, 35, 40, true };
 		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
 		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
 		
@@ -431,6 +431,8 @@ namespace inr {
 				// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
 				// (_direction == PL_LEFT) ? _dashX = x - DASH_MAX : _dashX = x + DASH_MAX;
+				/*auto it = _collisions.find(_divKey.first);
+				it->second.GetCollisionFlgB() = true;*/
 				_dashX = DASH_MAX;
 				_input = false;	// 他アクションの入力を停止する
 			}

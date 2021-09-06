@@ -59,35 +59,48 @@ namespace inr {
 		box.Update(newpos, direction);
 		// ‘ÎÛ‚ÍÚG‚µ‚Ä‚¢‚é‚©H
 		if (_mainCollision.HitCheck(box) == false) return false;	// Õ“Ë‚µ‚Ä‚¢‚È‚¢
-		// ”½“]ƒtƒ‰ƒO‚Í—§‚Á‚Ä‚¢‚é‚©H
-		switch (changedirection) {
-		case true:
-			// ‰E‚©‚çÚG‚µ‚½ê‡‚É¶•ûŒü‚É“ü—Í‚ª‚ ‚éê‡
-			if (move.GetX() < 0) {
-				double fix = _mainCollision.GetWidthMin() + box.GetWidthMin() + 1;
-				pos.GetPX() = _position.GetX() - fix;
-				move.GetPX() = 0;
-			}
-			else {
-				// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
-				double fix = _mainCollision.GetWidthMin() + box.GetWidthMin();
-				pos.GetPX() = _position.GetX() + fix;
-				move.GetPX() = 0;
-			}
-			return true;
-		case false:
-			// Õ“Ë‚µ‚Ä‚¢‚éê‡‚Í‚Ç‚¿‚ç‘¤‚©‚ç‚ß‚è‚ñ‚Å‚¢‚é‚©‚ğZo‚·‚é
-			if (move.GetX() < 0) {
-				// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
-				pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMin();
-				move.GetPX() = 0;
-			}
-			else {
-				pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
-				move.GetPX() = 0;
-			}
-			return true;
+
+		// Õ“Ë‚µ‚Ä‚¢‚éê‡‚Í‚Ç‚¿‚ç‘¤‚©‚ç‚ß‚è‚ñ‚Å‚¢‚é‚©‚ğZo‚·‚é
+		if (move.GetX() < 0) {
+			// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
+			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMax();
+			move.GetPX() = 0;
+		}
+		else if (0 < move.GetX()){
+			pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
+			move.GetPX() = 0;
 		}
 		return true;
+
+		// ”½“]ƒtƒ‰ƒO‚Í—§‚Á‚Ä‚¢‚é‚©H
+		//switch (changedirection) {
+		//case true:
+		//	// ‰E‚©‚çÚG‚µ‚½ê‡‚É¶•ûŒü‚É“ü—Í‚ª‚ ‚éê‡
+		//	if (move.GetX() < 0) {
+		//		double fix = _mainCollision.GetWidthMin() + box.GetWidthMin();
+		//		pos.GetPX() = _position.GetX() - fix;
+		//		move.GetPX() = 0;
+		//	}
+		//	else {
+		//		// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
+		//		double fix = _mainCollision.GetWidthMin() + box.GetWidthMin();
+		//		pos.GetPX() = _position.GetX() + fix;
+		//		move.GetPX() = 0;
+		//	}
+		//	return true;
+		//case false:
+		//	// Õ“Ë‚µ‚Ä‚¢‚éê‡‚Í‚Ç‚¿‚ç‘¤‚©‚ç‚ß‚è‚ñ‚Å‚¢‚é‚©‚ğZo‚·‚é
+		//	if (move.GetX() < 0) {
+		//		// ¶‚©‚çÚG‚µ‚Ä‚¢‚é
+		//		pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMin();
+		//		move.GetPX() = 0;
+		//	}
+		//	else {
+		//		pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
+		//		move.GetPX() = 0;
+		//	}
+		//	return true;
+		//}
+		//return true;
 	}
 }

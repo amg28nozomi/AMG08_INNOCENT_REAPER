@@ -24,9 +24,9 @@ namespace {
 
 	// ê∂ê¨ç¿ïW
 	namespace stage_1 {
-		constexpr auto START_POS_X = 200;
+		// constexpr auto START_POS_X = 200;
 		constexpr auto START_POS_Y = 1970;
-		// constexpr auto START_POS_X = 8000;
+		constexpr auto START_POS_X = 8000;
 		// constexpr auto START_POS_Y = 1700;
 	}
 }

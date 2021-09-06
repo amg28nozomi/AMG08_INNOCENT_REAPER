@@ -44,8 +44,8 @@ namespace {
 	constexpr auto PATROL_MAX = 280;
 
 	// UŒ‚—p”ÍˆÍ
-	constexpr auto ATTACK_W1 = SOLDIER_BOX_W + 60;
-	constexpr auto ATTACK_W2 = SOLDIER_W;
+	constexpr auto ATTACK_W1 = SOLDIER_BOX_W + 30;
+	constexpr auto ATTACK_W2 = SOLDIER_W / 2;
 	constexpr auto ATTACK_H = 30;
 
 	constexpr auto FRAME = 30;
@@ -92,7 +92,7 @@ namespace inr {
 		_collisions = {
 			{ enemy::SOLDIER_EMPTY, { _position, 60, 60, -25, 60 , true}},	// ”²‚¯ŠkŽž‚Ìî•ñ
 			// { enemy::SOLDIER_EMPTY, { _position, 65, 60, -45, 80 , true}},	// ”²‚¯ŠkŽž‚Ìî•ñ
-			{ enemy::red::SOLDIER_ATTACK, {_position, ATTACK_W1, ATTACK_W2, ATTACK_H, ATTACK_H}},
+			{ enemy::red::SOLDIER_ATTACK, {_position, ATTACK_W1, ATTACK_W2, ATTACK_H, ATTACK_H, true}},
 		};
 
 		_motionKey =
@@ -310,7 +310,7 @@ namespace inr {
 				_moveVector.GetPX() = mv;
 				if (_actionX == 0) { 
 					PatrolOn();
-					_stay = 30;
+					// _stay = 30;
 				}
 			}
 			return;
@@ -379,7 +379,7 @@ namespace inr {
 		if (_aState == ActionState::ATTACK) {
 			auto it = _collisions.find(_divKey.first);
 			it->second.Update(_position, _direction);
-			it->second.GetbDrawFlg() = true;
+			if(it->second.GetbDrawFlg() == false) it->second.GetbDrawFlg() = true;
 		}
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
