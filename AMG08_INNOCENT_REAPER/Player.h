@@ -102,6 +102,8 @@ namespace inr {
 		void ChangeSoul(); // 魂の切り替え
 		// bool IsDamage(); // ダメージ判定を受けるか？
 		bool Dead(); // 死亡判定
+		bool IsStandChip() override;
+		void DamageThorm();	// 棘のダメージ処理
 
 		void StateUpdate();	// 状態遷移およびその他処理
 

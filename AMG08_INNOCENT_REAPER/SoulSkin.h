@@ -45,6 +45,7 @@ namespace inr {
 		double _space;	// 間隔
 		bool _active;	// 実体化しているか？
 		bool _give;	// 所有権を譲渡するか
+		bool _isOwner;	// 所有者はいるか？
 
 		void Tracking(); // 追跡処理
 		void Move();	// 移動
@@ -60,7 +61,9 @@ namespace inr {
 		inline void Inactive() { _active = false; }
 		inline void Active() { _active = true; }
 		inline void Space(double space) { _space = space; }
+		inline void OwnerNull() { _isOwner = false; }
 		inline bool IsGive() { return _give; }
+		inline bool IsOwner() { return _isOwner; }	// 所有者はいますか？
 		bool SoulColor();	// 魂はどちらか？
 	};
 }

@@ -520,7 +520,7 @@ namespace inr {
 								auto cavep = box.GetHeightMax();
 								pos.GetPY() = minY - cavep;
 								// 通常判定チップの場合、座標を更新する
-								if (_chipCheck->IsChipType(chip_no) == mapchip::NORMAL) *lastpos = { maxX - cbox.GetWidthMax(), pos.GetY() };
+								if (_chipCheck->IsChipType(chip_no) == mapchip::NORMAL) *lastpos = { maxX , pos.GetY() };
 								return _chipCheck->IsChipType(chip_no);
 							}
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/

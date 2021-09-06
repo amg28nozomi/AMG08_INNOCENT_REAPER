@@ -22,6 +22,7 @@ namespace inr {
 		_type = ObjectType::SOUL;
 		_sType = Type::RED;
 		_space = 0;
+		_isOwner = false;
 		Init();
 	}
 
@@ -94,19 +95,21 @@ namespace inr {
 	void SoulSkin::Move() {
 		_position =  _position + _moveVector;	// 座標更新
 		_mainCollision.Update(_position, _direction);
-		if (_space == 0 && _mainCollision.GetCollisionFlg() == false) _mainCollision.GetCollisionFlgB() = true;
+		if (_isOwner == false && _mainCollision.GetCollisionFlg() == false) _mainCollision.GetCollisionFlgB() = true;
 	}
 
 	void SoulSkin::Give() {
 		// 所有者がいる場合は飛ばす
-		if (_space != 0) return;
+		if (_isOwner == true) return;
 		auto player = _game.GetObjectServer()->GetPlayer();
 		if (player->IsSoulMax() == true) return;
 		if(_mainCollision.HitCheck(player->GetMainCollision())) {
 			_give = true;
 			// 接触した場合は自身の所有権を付与
 			player->SoulCatch(_game.GetObjectServer()->GetSoul());
+			_space = 1;
 			_give = false;
+			_isOwner = true;
 			_mainCollision.GetCollisionFlgB() = false;
 		}
 	}
@@ -125,6 +128,7 @@ namespace inr {
 
 	void SoulSkin::SetParameter(int soulcolor, double speed) {
 		_speed = speed;
+		_isOwner = true;
 		switch (soulcolor) {
 		case 1:
 			_sType = Type::RED;

@@ -669,6 +669,36 @@ namespace inr {
 		return std::move(givesoul);
 	}
 
+	bool Player::IsStandChip() {
+		// 主人公に
+		auto nowcol = NowCollision(_divKey.first);
+		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip);
+		switch (chipType) {
+		case mapchip::IVY:
+		case mapchip::NONE:
+			return false;
+		case mapchip::THORM:
+			// 飛ばし処理を呼び出す
+			DamageThorm();
+		default:
+			return true;
+		}
+	}
+
+	void Player::DamageThorm() {
+		auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
+		auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+		PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
+		// 魂を手放す
+		if (_souls.empty() == false) {
+			_souls.front()->Del();
+			_souls.pop();
+		}
+		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
+		_position = _lastChip;	// 座標切り替え
+
+	}
+
 	AABB Player::NowCollision(std::string key) {
 		// 現在のアクション状態はボックスを修正する必要があるか？
 		if (_aState == ActionState::DASH) {

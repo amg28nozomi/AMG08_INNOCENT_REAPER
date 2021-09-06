@@ -477,6 +477,7 @@ namespace inr {
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {
+						_soul->OwnerNull();
 						_soul.reset();	// 所有権を手放す
 						return;
 					}
