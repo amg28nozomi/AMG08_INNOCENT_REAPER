@@ -35,12 +35,12 @@ namespace inr {
 
 	const graph::ResourceServer::DivGraphMap div{
 		{PKEY_IDOL , {"Resource/Player/r_stand.png", 7, 3, 15, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_RUN, {"Resource/Player/r_move.png", 7, 2, 9, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{PKEY_RUN, {"Resource/Player/r_move.png", 7, 4, 25, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_DASH,{"Resource/Player/r_dash.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_ROB , {"Resource/Player/r_rob.png", 7, 2, 13, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_GIVE, {"Resource/Player/r_give.png", 7, 3, 16, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_JUMP, {"Resource/Player/r_jump.png", 7, 1, 6, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_FALL, {"Resource/Player/r_fall.png", 7, 2, 10, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{PKEY_JUMP, {"Resource/Player/r_jump.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{PKEY_FALL, {"Resource/Player/r_fall.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_HIT, {"Resource/Player/r_hit.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
 	};
 

@@ -84,7 +84,7 @@ namespace {
 
 	// Šeíƒ‚[ƒVƒ‡ƒ“‚Ì‰æ‘œ”
 	constexpr auto PF_IDOL = 13;
-	constexpr auto PF_RUN = 9;
+	constexpr auto PF_RUN = 25;
 	constexpr auto PF_DASH = 13;
 	constexpr auto PF_JUMP = 6;
 	constexpr auto PF_FALL = 10;
