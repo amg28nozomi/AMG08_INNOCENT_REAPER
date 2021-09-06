@@ -107,7 +107,6 @@ namespace inr {
 			_give = true;
 			// ÚG‚µ‚½ê‡‚ÍŽ©g‚ÌŠ—LŒ ‚ð•t—^
 			player->SoulCatch(_game.GetObjectServer()->GetSoul());
-			_space = 1;
 			_give = false;
 			_isOwner = true;
 			_mainCollision.GetCollisionFlgB() = false;

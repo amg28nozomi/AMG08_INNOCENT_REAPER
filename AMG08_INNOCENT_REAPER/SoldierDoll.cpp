@@ -80,14 +80,18 @@ namespace inr {
 
 	void SoldierDoll::Init() {
 		// メインの当たり判定を初期化
-		_mainCollision = { _position, SOLDIER_BOX_W, SOLDIER_BOX_W, SOLDIER_BOX_H1, SOLDIER_BOX_H2, true };
-		_searchBox = { _position, SEARCH_X, SEARCH_X, SOLDIER_BOX_H1, SOLDIER_BOX_H2, true };
+		// _mainCollision = { _position, SOLDIER_BOX_W, SOLDIER_BOX_W, SOLDIER_BOX_H1, SOLDIER_BOX_H2, true };
+		_mainCollision = { _position, 30, 60, true };
+
+		// _searchBox = { _position, SEARCH_X, SEARCH_X, SOLDIER_BOX_H1, SOLDIER_BOX_H2, true };
+		_searchBox = { _position, SEARCH_X, SEARCH_X, 70, 60, true };
 
 		/*_searchBox = { { _mainCollision.GetMin().GetX() - SEARCH_X, _mainCollision.GetMin().GetY() - SEARCH_Y }, {
 						_mainCollision.GetMax().GetX() + SEARCH_X, _mainCollision.GetMax().GetY() + SEARCH_Y } };*/
 		// 各種判定の格納（攻撃判定・）
 		_collisions = {
-			{ enemy::SOLDIER_EMPTY, { _position, 65, 60, -45, 80 , true}},	// 抜け殻時の情報
+			{ enemy::SOLDIER_EMPTY, { _position, 60, 60, -25, 60 , true}},	// 抜け殻時の情報
+			// { enemy::SOLDIER_EMPTY, { _position, 65, 60, -45, 80 , true}},	// 抜け殻時の情報
 			{ enemy::red::SOLDIER_ATTACK, {_position, ATTACK_W1, ATTACK_W2, ATTACK_H, ATTACK_H}},
 		};
 
@@ -516,6 +520,7 @@ namespace inr {
 	void SoldierDoll::Death() {
 		ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 		_soul->SetSpwan(_position);	// 自身の座標に魂を実体化する
+		_soul->OwnerNull();
 		_soul.reset();	// 魂の所有権を手放す
 	}
 

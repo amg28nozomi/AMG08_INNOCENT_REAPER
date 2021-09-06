@@ -131,7 +131,11 @@ namespace inr {
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
 		_moveVector = { 0, 0 };
 		// _moveVector = std::make_pair(0, 0);
+		
 		_mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX , true};
+		_mainCollision = { _position, 25, 55 , true };
+		
+		
 		//(_position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2);
 		Init();
 	}
@@ -159,7 +163,8 @@ namespace inr {
 		auto y = _position.GetY();
 
 
-		AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
+		// AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
+		AABB dashBox = { _position, 35, 40 };
 		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
 		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
 		
