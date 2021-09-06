@@ -365,10 +365,7 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		if (_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction, _changeDirection) == mapchip::THORM) {
-			// 棘に接触した場合は死亡処理を呼び出す
-			if (_soul != nullptr)Death();
-		}
+		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction, _changeDirection) == mapchip::THORM;
 		GimmickCheck(_moveVector);
 		_position = _position + _moveVector;	// 位置座標を更新
 
@@ -449,6 +446,20 @@ namespace inr {
 			player->GetMainCollision();
 		}
 		return false;
+	}
+
+	bool SoldierDoll::IsStandChip() {
+		auto nowcol = NowCollision(_divKey.first);
+		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip);
+		switch (chipType) {
+		case mapchip::IVY:
+		case mapchip::NONE:
+			return false;
+		case mapchip::THORM:
+			if(_soul != nullptr) Death();
+		default:
+			return true;
+		}
 	}
 
 	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {

@@ -475,7 +475,7 @@ namespace inr {
 		return 0;
 	}
 
-	bool MapChips::IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos) {
+	int MapChips::IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos) {
 		auto gs = static_cast<int>(g);
 
 		auto footMinX = box.GetMin().IntX();
@@ -521,7 +521,7 @@ namespace inr {
 								pos.GetPY() = minY - cavep;
 								// 通常判定チップの場合、座標を更新する
 								if (_chipCheck->IsChipType(chip_no) == mapchip::NORMAL) *lastpos = { maxX - cbox.GetWidthMax(), pos.GetY() };
-								return true;
+								return _chipCheck->IsChipType(chip_no);
 							}
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
 						} if (g < 0) {
@@ -530,7 +530,7 @@ namespace inr {
 							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
 								auto cavep = box.GetHeightMin();
 								pos.GetPY() = maxY + cavep;
-								return true;
+								return _chipCheck->IsChipType(chip_no);
 							}
 							
 						}
@@ -539,7 +539,7 @@ namespace inr {
 			}
 		}
 
-		return false;
+		return mapchip::TYPE_NULL;
 	}
 
 	// 当たり判定の取得
@@ -668,7 +668,6 @@ namespace inr {
 								}
 							}
 						}
-					return _chipCheck->IsChipType(chip_no);
 					// 向きに更新がかかっているかどうか？
 					//if (isUpdate == false) {
 					//	// 横のみ判定（移動量はxのみ加算）

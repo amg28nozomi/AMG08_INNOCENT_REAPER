@@ -56,6 +56,7 @@ namespace inr {
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦
 
 		void Death();	// €–Sˆ—
+		bool IsStandChip() override;
 
 		// Š±Â‰Â”\”ÍˆÍ‚ÌZo
 		AABB VitalPart(Collision& col);

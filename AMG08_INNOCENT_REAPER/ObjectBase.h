@@ -48,6 +48,7 @@ namespace inr {
 		KeyDatas _motionKey;	// first:キー, s.first:総フレーム数, SEの再生時間
 
 		virtual bool GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
+		virtual bool IsStandChip();	// マップチップの上に立っているか？
 		virtual int GetSize(const std::string& key);	// アニメーションの再生フレーム
 		virtual void AnimationCount();	// アニメーションカウンタの増減
 		int AnimationInterval();	// アニメーションの描画間隔

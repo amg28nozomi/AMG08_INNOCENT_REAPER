@@ -55,7 +55,7 @@ namespace inr {
 
 		// マップチップの上に立っているかどうか
 		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
-		if (_game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip)) {
+		if (IsStandChip()) {
 			// 加速度が0の時だけ立っている
 			if (0 < _gravity) {
 				_stand = true;
@@ -72,7 +72,6 @@ namespace inr {
 			// 抜け殻の当たり判定を取得
 			auto emptyBox = obj->GetMainCollision();
 				// x座標は範囲内に収まっているか
-			auto nowcol = NowCollision(_divKey.first);
 				if ((emptyBox.GetMin().GetX() < nowcol.GetMin().GetX() && nowcol.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
 					(emptyBox.GetMin().GetX() < nowcol.GetMax().GetX() && nowcol.GetMax().GetX() < emptyBox.GetMax().GetX())) {
 
@@ -220,8 +219,20 @@ namespace inr {
 			// 押し出し処理があるか？
 			if (g->GimmickType() == gimmick::DOOR) {
 				auto door = std::dynamic_pointer_cast<Door>(g);
-				if(door->IsSwitch() == gimmick::OFF) door->Extrude(NowCollision(_divKey.first), _position, move, _direction);
+				if(door->IsSwitch() == gimmick::OFF) door->Extrude(NowCollision(_divKey.first), _position, move, _direction, _changeDirection);
 			}
+		}
+	}
+
+	bool ObjectBase::IsStandChip() {
+		auto nowcol = NowCollision(_divKey.first);
+		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip);
+		switch (chipType) {
+		case mapchip::IVY:
+		case mapchip::NONE:
+			return false;
+		default:
+			return true;
 		}
 	}
 
