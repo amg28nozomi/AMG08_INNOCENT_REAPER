@@ -19,6 +19,7 @@ namespace inr {
 	}
 
 	SoulSkin::SoulSkin(Game& game) : ObjectBase(game), _moveVector() {
+		_type = ObjectType::SOUL;
 		_sType = Type::RED;
 		_space = 0;
 		Init();
@@ -35,7 +36,9 @@ namespace inr {
 		};
 		_divKey = { soul::R_FLOAT, key::SOUND_NUM };
 		_position = { 500, 1000 };
+		_mainCollision = { _position, 50, 50, false};
 		_speed = SPEED;
+		_give = false;
 		_active = false;
 	}
 
@@ -45,6 +48,7 @@ namespace inr {
 			AnimationCount();
 			Tracking();
 			Move();
+			Give();
 		}
 		if (_space != 0) _space = 0;
 	}
@@ -89,8 +93,23 @@ namespace inr {
 
 	void SoulSkin::Move() {
 		_position =  _position + _moveVector;	// 座標更新
+		_mainCollision.Update(_position, _direction);
+		if (_space == 0 && _mainCollision.GetCollisionFlg() == false) _mainCollision.GetCollisionFlgB() = true;
 	}
 
+	void SoulSkin::Give() {
+		// 所有者がいる場合は飛ばす
+		if (_space != 0) return;
+		auto player = _game.GetObjectServer()->GetPlayer();
+		if (player->IsSoulMax() == true) return;
+		if(_mainCollision.HitCheck(player->GetMainCollision())) {
+			_give = true;
+			// 接触した場合は自身の所有権を付与
+			player->SoulCatch(_game.GetObjectServer()->GetSoul());
+			_give = false;
+			_mainCollision.GetCollisionFlgB() = false;
+		}
+	}
 
 	void SoulSkin::SetStatus(Vector2 spawn, std::string soulcolor) {
 		_position = spawn;

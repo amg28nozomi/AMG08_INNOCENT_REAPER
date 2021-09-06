@@ -30,6 +30,7 @@ namespace inr{
 
 		std::vector<std::shared_ptr<EnemyBase>> GetEnemys();
 		std::vector<std::shared_ptr<GimmickBase>> GetGimmicks();
+		std::shared_ptr<SoulSkin> GetSoul();
 
 
 		inline void ObjectsClear() { _objects.clear(); }

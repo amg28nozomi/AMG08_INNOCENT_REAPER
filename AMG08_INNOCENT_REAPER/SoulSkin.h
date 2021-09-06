@@ -44,9 +44,11 @@ namespace inr {
 		double _speed;
 		double _space;	// 間隔
 		bool _active;	// 実体化しているか？
+		bool _give;	// 所有権を譲渡するか
 
 		void Tracking(); // 追跡処理
 		void Move();	// 移動
+		void Give();	// 自機に所有権を移すか？（所有者が居ない時限定）
 	public:
 		inline Type GetType() { return _sType; }
 		void SetStatus(Vector2 spawn, std::string soulcolor)override;
@@ -58,6 +60,7 @@ namespace inr {
 		inline void Inactive() { _active = false; }
 		inline void Active() { _active = true; }
 		inline void Space(double space) { _space = space; }
+		inline bool IsGive() { return _give; }
 		bool SoulColor();	// 魂はどちらか？
 	};
 }
