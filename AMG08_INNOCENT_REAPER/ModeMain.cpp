@@ -35,7 +35,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			auto scenarioD = Loads::LoadScenario();	// 対応するシナリオを読み込み
+			auto scenarioD = Loads::LoadScenario1();	// 対応するシナリオを読み込み
 			_game.GetScenario()->LoadObjectData(stage::STAGE_1, scenarioD);
 			_game.GetScenario()->AddObjects(stage::STAGE_1);
 
@@ -51,6 +51,7 @@ namespace inr {
 	}
 
 	void ModeMain::Process() {
+		IsStageChange();
 		++_modeFrame;
 		// ワールド座標更新
 		// _worldPosition = _game.GetObjectServer()->GetPlayer().GetPosition();

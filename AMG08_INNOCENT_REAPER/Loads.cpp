@@ -150,6 +150,8 @@ namespace inr {
 	// 封印の祭壇
 	std::vector<ObjectValue> Loads::LoadScenarioS() {
 		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
+		std::vector<ObjectValue> _stage;
+		return _stage;
 		/*std::vector<ObjectValue>_stageS {
 			{ oscenario::OBJ_SOLDIER_DOLL, {}}
 		}
@@ -184,19 +186,24 @@ namespace inr {
 		// レバー/扉(2)
 		// 岩(1-3)
 		// 水晶(2/4)
+		std::vector<ObjectValue> _stage;
+		return _stage;
 	}
 
 	// 森林-2
 	std::vector<ObjectValue> Loads::LoadScenario2_1() {
-		
+		std::vector<ObjectValue> _stage;
+		return _stage;
 	}
 	// 森林-3
 	std::vector<ObjectValue> Loads::LoadScenario2_2() {
-
+		std::vector<ObjectValue> _stage;
+		return _stage;
 	}
 	// ボスステージ
 	std::vector<ObjectValue> Loads::LoadScenarioB() {
-
+		std::vector<ObjectValue> _stage;
+		return _stage;
 	}
 
 }

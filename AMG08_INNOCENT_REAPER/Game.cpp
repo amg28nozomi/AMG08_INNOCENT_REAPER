@@ -17,6 +17,7 @@
 #include "Image.h"
 #include "Scenario.h"
 #include "EffectBase.h"
+#include "FadeBlack.h"
 
 #include "GimmickBase.h"
 
@@ -90,6 +91,7 @@ namespace inr {
 		_objServer = std::make_unique<ObjectServer>();
 		_scenario = std::make_unique<Scenario>(*this);
 		_modeServer = std::make_unique<ModeServer>(*this);
+		_fadeBlack = std::make_unique<FadeBlack>(*this);
 
 		graph::ResourceServer::Init();
 		Loads::ResourceLoad();
@@ -100,7 +102,7 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(gimmick_se);
 
 		std::string filepath = PATH;
-		 std::string filename = CHIP_FILE_1;
+		std::string filename = CHIP_FILE_1;
 		//std::string filename = CHIP_FILE_2_1;
 
 		auto _mapC = std::make_unique<MapChips>(*this, filepath, filename);

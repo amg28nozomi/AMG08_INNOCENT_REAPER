@@ -87,6 +87,7 @@ namespace inr {
 		std::unique_ptr<ObjectServer> _objServer;	// オブジェサーバー
 		std::unique_ptr<MapChips> _mapChips;	// マップチップ
 		std::unique_ptr<Scenario> _scenario;	// シナリオ
+		std::unique_ptr<FadeBlack> _fadeBlack;	// フェードブラック
 
 		Vector2 _worldPosition;	// world座標
 

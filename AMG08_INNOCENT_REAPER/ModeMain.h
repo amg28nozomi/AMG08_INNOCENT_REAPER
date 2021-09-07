@@ -29,6 +29,7 @@ namespace inr {
 
 		bool IsStageChange();	// ステージの切り替えを行うか？
 		void SetObjects();	// オブジェクトの生成（再配置）
+		bool StageChange();		// ステージの切り替え
 	};
 
 }

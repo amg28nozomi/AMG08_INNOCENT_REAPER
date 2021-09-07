@@ -7,8 +7,8 @@ namespace inr {
 	namespace image {
 		constexpr auto BLACK = "black";
 
-		constexpr auto FADEIN = true;
-		constexpr auto FADEOUT = false;
+		constexpr auto FADE_OUT = true;
+		constexpr auto FADE_IN = false;
 	}
 
 	class FadeBlack : public Image {
@@ -19,12 +19,19 @@ namespace inr {
 		void Init() override;
 		void Process() override;
 		void Draw() override;
+
+		inline void FlagChange(bool fadeType) { _type = fadeType; }	// フェードイン・フェードアウト切り替え
 	private:
-		RedGreenBlue _rgb;	// 色調
+		int _pal;	// 輝度
 
 		int _count;	// 何フレーム生存するか
 		bool _calculation;	// 加算減算の判定()
 		bool _end;	// 処理は終了したか
+		bool _type;	// 加算・減算処理のどちらを行うか
+
+		void FadeOut();
+		void FadeIn();
+		bool FadeEnd();
 
 	};
 }
