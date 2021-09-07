@@ -50,6 +50,7 @@ namespace inr {
 			_resetFlg = false;
 		}
 		_stageKey = stage::STAGE_1;
+		_changeKey = stage::CHANGE_NULL;
 		_worldPosition = { 1920 / 2, 1080 / 2 };
 	}
 

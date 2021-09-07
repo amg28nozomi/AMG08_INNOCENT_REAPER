@@ -4,7 +4,6 @@
 #include "ModeMain.h"
 #include "ModeEnd.h"
 #include "Game.h"
-#include "FadeBlack.h"
 #include <memory>
 #include <unordered_map>
 #include <string>
@@ -103,6 +102,10 @@ namespace inr {
 			// 更新用キーを初期化
 			_ChangeKey = MODE_NULL;
 		}
+	}
+
+	bool ModeServer::IsFadeChange() { 
+		return _fadeBlack->PalChange();
 	}
 
 	void ModeServer::GameEnd() {

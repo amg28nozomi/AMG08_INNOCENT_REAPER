@@ -3,12 +3,12 @@
 #include <memory>
 #include "ModeBase.h"
 #include "Game.h"
+#include "FadeBlack.h"
 
 namespace inr {
 
 	class Game;
 	class ModeMain;
-	class FadeBlack;
 
 	class ModeServer {
 	public:
@@ -25,7 +25,7 @@ namespace inr {
 		std::shared_ptr<ModeMain> GetModeMain();
 
 		inline void FadeOut() { _fadeBlack->FlagChange(image::FADE_OUT, 60); }
-		inline bool IsFadeChange() { return _fadeBlack->PalChange(); }
+		bool IsFadeChange();
 	private:
 		using ModeMap = std::unordered_map<std::string, std::shared_ptr<ModeBase>>;
 
