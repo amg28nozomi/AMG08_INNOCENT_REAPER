@@ -17,7 +17,7 @@ namespace inr {
 		void Draw() override;
 
 		inline std::string GetKey() { return _stageKey; }
-		inline void ChangeKey(const std::string nextStage) override { _changeKey = nextStage; }
+		void ChangeKey(const std::string nextStage) override;
 
 	private:
 		std::string _stageKey;	// ステージ検索用

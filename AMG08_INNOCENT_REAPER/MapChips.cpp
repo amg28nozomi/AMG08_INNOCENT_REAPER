@@ -77,13 +77,15 @@ namespace inr {
 	MapChips::MapChips(Game& game) : _game(game), _nowMap() {
 		_chipCheck = std::make_unique<ChipHitCheck>();	// チップ当たり判定修正
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		SetChipsMap();
+		_stageTransition = std::make_unique<StageTransition>(_game.GetGame());
+		_stageTransition->Init();	// 初期化処理を行う
+		SetChipsMap();	// マップチップの当たり判定を登録
 
 		_worldPosition = { DEFAULT_W, DEFAULT_H };
 		_worldLast = _worldPosition;
 
-		_sFiles = { { DEFAULT_PATH, "stage1", JSON_FORMAT},
-		};
+		/*_sFiles = { { DEFAULT_PATH, "stage1", JSON_FORMAT},
+		};*/
 	}
 
 	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
@@ -108,14 +110,11 @@ namespace inr {
 	}
 
 	void MapChips::Init() {
-
+		_mapManager->StageMapClear();
 	}
 
 	void MapChips::Process() {
 		// キーが更新された場合はマップ情報を切り替える
-		if (_nextStage != stage::CHANGE_NULL) {
-			ChangeMap();
-		}
 		WorldClanp();
 
 

@@ -34,10 +34,11 @@ namespace inr {
 
 	constexpr auto PATH = "Resource/";
 	// constexpr auto CHIP_FILE = "platformer_simpleA";
+	constexpr auto CHIP_FILE_S = "stage0";
 	constexpr auto CHIP_FILE_1 = "stage1";
-	constexpr auto CHIP_FILE_2_1 = "stage2-1";
-	constexpr auto CHIP_FILE_2_2 = "stage2-2";
-	constexpr auto CHIP_FILE_2_3 = "stage2-3";
+	constexpr auto CHIP_FILE_2_1 = "stage2";
+	constexpr auto CHIP_FILE_2_2 = "stage2-1";
+	constexpr auto CHIP_FILE_2_3 = "stage2-2";
 
 	
 	// constexpr auto CHIP_FILE = "stage01";
@@ -112,7 +113,7 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(system_se);
 
 		std::string filepath = PATH;
-		std::string filename = CHIP_FILE_1;
+		std::string filename = CHIP_FILE_S;
 		//std::string filename = CHIP_FILE_2_1;
 
 		auto _mapC = std::make_unique<MapChips>(*this, filepath, filename);
@@ -143,18 +144,8 @@ namespace inr {
 	}
 
 	void Game::Draw() {
-		
-		// gra = _frameCount / 5 % static_cast<int>(_graphs.size());
-		// auto motion = _graphs[gra];
-
 		ClearDrawScreen();
-		// ‰æ–Ê‚É•`‰æ‚³‚ê‚È‚¢B
-		//DrawGraph(960, 540, motion, FALSE);
-		// DrawGraph(960, 540, s[0], FALSE);
-		// DrawRotaGraph(960, 540, 1.0, 0, motion, TRUE, FALSE);
 		_modeServer->Draw();
-		//_mapChips->Draw();
-		//_objServer->Draw();
 		ScreenFlip();
 	}
 
@@ -166,8 +157,4 @@ namespace inr {
 			_endFlag = true;
 		}
 	}
-
-	/*Vector2 Game::RepairPosition(const Vector2 pos, const int width, const int height) {
-		return { 0, 0 };
-	}*/
 }

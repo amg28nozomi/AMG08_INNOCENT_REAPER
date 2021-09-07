@@ -10,6 +10,7 @@
 #include "Scenario.h"
 #include "Loads.h"
 #include "ModeServer.h"
+#include "StageTransition.h"
 
 #include <memory>
 #include <unordered_map>
@@ -22,7 +23,7 @@ namespace inr {
 
 	ModeMain::ModeMain(Game& game) : ModeBase(game) {
 		_resetFlg = true;
-		_stageKey = "null";
+		_stageKey = stage::CHANGE_NULL;
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -73,14 +74,29 @@ namespace inr {
 		_uiSoul->Draw();
 	}
 
+	void ModeMain::ChangeKey(const std::string nextStage) { 
+		_changeKey = nextStage; 
+		_game.GetModeServer()->FadeOut();	// 暗転処理を行う
+	}
+
 
 	bool ModeMain::IsStageChange() {
 		// キーは切り替わっているか？
 		if (_changeKey == stage::CHANGE_NULL) return false;
-		_game.GetModeServer()->FadeOut();	// 暗転処理を行う
+		if (_game.GetModeServer()->PalChange() == true) {
+			// ギミックの状態を更新する
+			_game.GetScenario()->ScenarioUpdate(_stageKey);
+			_game.GetMapChips()->
+			_stageKey = _changeKey;	// キーを更新する
+
+		}
 		// 現在の登録されているオブジェクトの削除を行う
 		
 		// 自機(+保持している魂)、
+	}
+
+	bool ModeMain::StageChange() {
+		// ステージの切り替え
 	}
 
 	void ModeMain::SetObjects() {

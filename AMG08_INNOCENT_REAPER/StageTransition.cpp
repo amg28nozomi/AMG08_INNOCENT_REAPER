@@ -7,6 +7,14 @@ namespace {
 
 namespace inr {
 
+	namespace start {
+		// 対応座標
+		constexpr auto TPOS_0_X = 200;
+		constexpr auto TPOS_0_Y = 1900;
+
+		// constexpr auto TPOS_1_X =
+	}
+
 	Transition::Transition(std::string stageKey, Vector2 position) {
 		_nextKey = stageKey;
 		_position = position;
@@ -26,9 +34,10 @@ namespace inr {
 
 	bool StageTransition::Init() {
 		// 対応するチップの当たり判定を設定する
-		/*_transitions = {
-			{129}, 
-		};*/
+		_transitions = {
+			{ 129, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}}},
+			{ 130, {stage::STAGE_0, {start::TPOS_0_X, start::TPOS_0_Y}}},
+		};
 
 		/*
 		{ 129, {mapchip::TRANSITION}},	// ステージS(1)→ステージ1(2)

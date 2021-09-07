@@ -9,20 +9,11 @@
 #include "Vector2.h"
 #include "ChipHitCheck.h"
 #include "FileData.h"
+#include "StageTransition.h"
 
 namespace inr {
 
 	namespace stage {
-		// ステージ読み込み用のキー
-		constexpr auto CHANGE_NULL = "change_null";	// 通常状態のキー切り替え
-
-		constexpr auto STAGE_0 = "stage0";	// チュートリアル
-		constexpr auto STAGE_1 = "stage1";		// ステージ1(廃村)
-		constexpr auto STAGE_2 = "stage2";	// ステージ2(森林-中央)
-		constexpr auto STAGE_2_1 = "stage2-1";	// ステージ2(森林-上部)
-		constexpr auto STAGE_2_2 = "stage2-2";	// ステージ2(森林-下部)
-		constexpr auto STAGE_3 = "boss_stage";	// ステージ3(ボス戦)
-
 		constexpr auto KEY_NORMAL = "mapchip_normal";	// 通常マップチップ
 	}
 
@@ -78,13 +69,13 @@ namespace inr {
 		MapData _nowMap;	// 現在のマップチップ情報
 		std::unique_ptr<MapDataManager> _mapManager;
 		std::unique_ptr<ChipHitCheck> _chipCheck;
+		std::unique_ptr<StageTransition> _stageTransition;
 
 		std::string _skey;	// 現在のステージ
-		std::string _nextStage;	// 次のステージ
 
 		std::string _chipKey;	// 取り出すマップチップのキー
 
-		std::vector<FileData> _sFiles;
+		// std::vector<FileData> _sFiles;
 
 		Vector2 _worldPosition;	// ワールド座標
 		Vector2 _worldLast;	// 前フレームのワールド座標

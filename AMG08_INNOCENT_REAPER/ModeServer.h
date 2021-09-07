@@ -25,6 +25,7 @@ namespace inr {
 		std::shared_ptr<ModeMain> GetModeMain();
 
 		inline void FadeOut() { _fadeBlack->FlagChange(image::FADE_OUT, 60); }
+		inline bool PalChange() { return _fadeBlack->PalChange(); }
 		bool IsFadeChange();
 	private:
 		using ModeMap = std::unordered_map<std::string, std::shared_ptr<ModeBase>>;
