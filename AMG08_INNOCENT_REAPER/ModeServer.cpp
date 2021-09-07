@@ -105,6 +105,12 @@ namespace inr {
 		}
 	}
 
+	void ModeServer::GameEnd() {
+		// ƒQ[ƒ€‚ðI—¹‚·‚é
+		_fadeBlack->FlagChange(image::FADE_OUT, CHANGE_INTERVAL);
+		_game.ProgramEnd();
+	}
+
 	/*std::unique_ptr<ModeBase>& ModeServer::GetMode() {
 		auto mode = _modes.find(_modeKey);
 		return mode->second;

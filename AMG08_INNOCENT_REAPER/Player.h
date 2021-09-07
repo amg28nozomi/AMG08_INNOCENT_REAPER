@@ -41,6 +41,7 @@ namespace inr {
 		inline bool HaveSoul() { return !_souls.empty(); }	// 与える魂を有しているか？
 		inline bool IsSoulMax() { return _souls.size() == SOUL_MAX; };	// 魂は入手上限に到達しているか？
 		inline int SoulsSize() { return static_cast<int>(_souls.size()); }
+		inline void InputChange(bool input) { _input = input; }
 
 		bool Damage(bool mv);
 

@@ -44,6 +44,12 @@ namespace inr {
 		constexpr auto SOUND_PLAYER_HIT = "player_hit";
 	}
 
+	namespace system {
+		constexpr auto SOUDN_GAME_START = "game_start";
+		constexpr auto SOUND_GAME_END = "game_end";
+		constexpr auto SOUDN_CANCEL = "cancel"; // cancel
+	}
+
 
 	class Game {
 	public:
@@ -68,8 +74,8 @@ namespace inr {
 		inline int GetFrameCount() { return _frameCount; }
 		// プログラムを終了するか否か
 		inline bool GetEndFlag() { return _endFlag; }
-		// プログラム終了フラグをオンにする
-		inline void ProgramEnd() { _endFlag = GAME_END; }
+		// プログラム終了をする
+		inline void ProgramEnd() { ++_endCount; }
 		// Gameクラスの参照
 		inline Game& GetGame() { return *this; }
 
@@ -97,6 +103,9 @@ namespace inr {
 		static int _frameCount;	// フレーム情報
 
 		bool _endFlag;	// プログラムを終了するか否か
+		int _endCount;	// ゲームが終了するまでのカウンタ
+
+		void CountUp();
 		// int _leverLR;	// ジョイパッドのレバー情報(左右)
 		// int _leverUD;	// ジョイパッドのレバー情報
 		// int _inputKey;	// ジョイパッドの入力状態

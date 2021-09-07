@@ -20,6 +20,7 @@ namespace inr {
 		std::string _graphKey2;	// ‚à‚¤ˆê‚Â‚ÌƒOƒ‰ƒnƒ“
 
 		void DebugBox(Collision col);
+		void CollisionOut();
 	};
 }
 

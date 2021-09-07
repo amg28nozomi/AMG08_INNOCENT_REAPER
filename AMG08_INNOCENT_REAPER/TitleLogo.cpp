@@ -1,5 +1,6 @@
 #include "TitleLogo.h"
 #include "ResourceServer.h"
+#include "SoundServer.h"
 #include "ObjectServer.h"
 #include "ModeServer.h"
 #include "Game.h"
@@ -40,13 +41,20 @@ namespace inr {
 			if (_hitCol1.HitCheck(collision)) {
 				if (_game.GetTrgKey() == PAD_INPUT_3) {
 					// ゲーム本編に遷移する
+					auto sound = se::SoundServer::GetSound(system::SOUDN_GAME_START);
+					PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUDN_GAME_START));
+
 					_game.GetModeServer()->ModeChange(mode::MAIN);
+					CollisionOut();
 				}
 			}
 			if (_hitCol2.HitCheck(collision)) {
 				if (_game.GetTrgKey() == PAD_INPUT_3) {
+					auto sound = se::SoundServer::GetSound(system::SOUND_GAME_END);
+					PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUND_GAME_END));
 					// プログラムを終了する
-					_game.ProgramEnd();
+					_game.GetModeServer()->GameEnd();
+					CollisionOut();
 				}
 			}
 		}
@@ -84,5 +92,10 @@ namespace inr {
 			auto maxy = max.IntY();
 			DxLib::DrawBox(minx, miny, maxx, maxy, GetColor(255, 255, 0), FALSE);
 		}
+	}
+
+	void TitleLogo::CollisionOut() {
+		_hitCol1.GetCollisionFlgB() = false;
+		_hitCol2.GetCollisionFlgB() = false;
 	}
 }

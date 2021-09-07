@@ -20,6 +20,7 @@ namespace inr {
 		void Draw();
 
 		void ModeChange(std::string nextMode);
+		void GameEnd();	// 終了処理を呼び出す
 		// std::unique_ptr<ModeBase>& GetMode();	// 指定したモードの参照を取得
 		std::shared_ptr<ModeMain> GetModeMain();
 	private:

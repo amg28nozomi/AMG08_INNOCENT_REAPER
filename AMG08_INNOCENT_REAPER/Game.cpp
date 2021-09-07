@@ -22,6 +22,10 @@
 
 #include "Loads.h"
 
+namespace {
+	constexpr auto END_MAX = 90;
+}
+
 namespace inr {
 
 	// Ã“Iƒƒ“ƒo•Ï”’è‹`
@@ -72,6 +76,13 @@ namespace inr {
 		{ {gimmick::door::KEY_DOOR}, {"Resource/SE/Gimmick/door.wav", DX_PLAYTYPE_BACK}},
 	};
 
+	// System‰¹
+	const se::SoundServer::SoundMap system_se{
+		{ {system::SOUDN_GAME_START}, {"Resource/SE/System/gamestart.wav", DX_PLAYTYPE_BACK}},
+		{ {system::SOUND_GAME_END}, {"Resource/SE/System/1.wav", DX_PLAYTYPE_BACK}},
+		{ {system::SOUDN_CANCEL}, {"Resource/SE/System/cancel.wav", DX_PLAYTYPE_BACK}},
+	};
+
 	Game::Game()
 	{
 		Init();
@@ -98,6 +109,7 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(player_se);
 		se::SoundServer::LoadSoundMap(ses);
 		se::SoundServer::LoadSoundMap(gimmick_se);
+		se::SoundServer::LoadSoundMap(system_se);
 
 		std::string filepath = PATH;
 		std::string filename = CHIP_FILE_1;
@@ -124,7 +136,7 @@ namespace inr {
 	}
 
 	void Game::Process() {
-		++_frameCount;
+		CountUp();
 		_modeServer->Process();
 		/*_mapChips->Process();
 		_objServer->Process();*/
@@ -144,6 +156,15 @@ namespace inr {
 		//_mapChips->Draw();
 		//_objServer->Draw();
 		ScreenFlip();
+	}
+
+	void Game::CountUp() {
+		++_frameCount;
+		if (_endCount == 0) return;
+		++_endCount;
+		if (_endCount == END_MAX) {
+			_endFlag = true;
+		}
 	}
 
 	/*Vector2 Game::RepairPosition(const Vector2 pos, const int width, const int height) {

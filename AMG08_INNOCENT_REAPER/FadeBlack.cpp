@@ -11,7 +11,7 @@ namespace {
 namespace inr {
 
 	FadeBlack::FadeBlack(Game& game) : Image(game) {
-		_pal = 255;
+		_pal = 0;
 		_type = image::FADE_OUT;
 		Init();
 	}
@@ -56,7 +56,7 @@ namespace inr {
 		auto graph = graph::ResourceServer::GetHandles(image::BLACK, 0);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
-		DrawRotaGraph(0, 0, 1.0, 0, graph, true);
+		DrawRotaGraph(960, 540, 1.0, 0, graph, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
@@ -77,13 +77,14 @@ namespace inr {
 	}
 
 	bool FadeBlack::FadeEnd() {
-		if (0 < _pal && _pal < 255) return false;
 		switch (_type) {
 		case image::FADE_IN:
+			if (0 < _pal) return false;
 			if (_pal < 0) _pal = 0;
 			_end = true;
 			break;
 		case image::FADE_OUT:
+			if (_pal < 255) return false;
 			if (255 < _pal) _pal = 255;
 			_addEnd = true;
 			break;
