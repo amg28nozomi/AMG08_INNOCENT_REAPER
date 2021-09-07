@@ -23,6 +23,9 @@ namespace inr {
 		void GameEnd();	// 終了処理を呼び出す
 		// std::unique_ptr<ModeBase>& GetMode();	// 指定したモードの参照を取得
 		std::shared_ptr<ModeMain> GetModeMain();
+
+		inline void FadeOut() { _fadeBlack->FlagChange(image::FADE_OUT, 60); }
+		inline bool IsFadeChange() { return _fadeBlack->PalChange(); }
 	private:
 		using ModeMap = std::unordered_map<std::string, std::shared_ptr<ModeBase>>;
 

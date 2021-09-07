@@ -187,6 +187,7 @@
     <ClCompile Include="SoulSkin.cpp" />
     <ClCompile Include="SoulManager.cpp" />
     <ClCompile Include="SoundServer.cpp" />
+    <ClCompile Include="StageTransition.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="SoulSkin.h" />
     <ClInclude Include="SoulManager.h" />
     <ClInclude Include="SoundServer.h" />
+    <ClInclude Include="StageTransition.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />

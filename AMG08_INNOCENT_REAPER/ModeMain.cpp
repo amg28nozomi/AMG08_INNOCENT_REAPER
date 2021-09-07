@@ -76,7 +76,7 @@ namespace inr {
 	bool ModeMain::IsStageChange() {
 		// キーは切り替わっているか？
 		if (_changeKey == stage::CHANGE_NULL) return false;
-		_game.GetModeServer()->
+		_game.GetModeServer()->FadeOut();	// 暗転処理を行う
 		// 現在の登録されているオブジェクトの削除を行う
 		
 		// 自機(+保持している魂)、
