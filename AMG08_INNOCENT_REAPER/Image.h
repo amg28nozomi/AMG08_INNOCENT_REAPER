@@ -5,10 +5,21 @@
 namespace inr {
 
 	namespace background {
+
+		constexpr auto BACK_GROUND_S = "back_groundS";
+		constexpr auto STAGES_FILE = "bg_stageS_";
+		constexpr auto STAGES_PATH = "Resource/BackGround/Stage0/";
+		constexpr auto STAGES_HEIGHT = 1080;
+
 		constexpr auto BACK_GROUND_1 = "back_ground1";
 		constexpr auto STAGE1_FILE = "bg_stage1_";
 		constexpr auto STAGE1_PATH = "Resource/BackGround/Stage1/";
 		constexpr auto STAGE1_MAP_HEIGHT = 2160;
+
+		constexpr auto BACK_GROUND_2 = "back_ground2";	// ステージ2
+		constexpr auto STAGE2_FILE = "bg_stage2_";
+		constexpr auto STAGE2_PATH = "Resource/BackGround/Stage2/";
+		constexpr auto STAGE2_MAP_HEIGHT = 2160;
 	}
 
 

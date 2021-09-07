@@ -12,7 +12,6 @@ namespace inr {
 
 	FadeBlack::FadeBlack(Game& game) : Image(game) {
 		_pal = 255;
-		_end = false;
 		_type = image::FADE_OUT;
 		Init();
 	}
@@ -22,7 +21,7 @@ namespace inr {
 	}
 
 	void FadeBlack::Init() {
-		_end = false;
+		_end = true;
 		_interval = 0;
 		_isInterval = false;
 		_addEnd = true;
@@ -53,6 +52,7 @@ namespace inr {
 	}
 
 	void FadeBlack::Draw() {
+		if (_end == true) return;
 		auto graph = graph::ResourceServer::GetHandles(image::BLACK, 0);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
@@ -67,7 +67,7 @@ namespace inr {
 	}
 
 	void FadeBlack::FadeIn() {
-		_pal += FADE_VALUE;
+		_pal -= FADE_VALUE;
 		FadeEnd();
 	}
 

@@ -86,7 +86,7 @@ namespace inr {
 	const graph::ResourceServer::DivGraphMap images{
 		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
 
-		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, 1922, 1360}},
 
 		// äeéÌUI
 		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
@@ -145,6 +145,7 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
+		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_2, background::STAGE2_PATH, background::STAGE2_FILE, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT);
 	}
 
 	// ïïàÛÇÃç’íd

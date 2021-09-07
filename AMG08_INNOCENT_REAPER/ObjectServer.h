@@ -34,6 +34,7 @@ namespace inr{
 
 
 		void ObjectsClear();
+		inline void AllClear() { _objects.clear(); }
 		inline void DelOn() { _delete = true; }
 		inline bool DelFlag() { return _delete; }
 		// AABB GetObjectPosition(std::string key);

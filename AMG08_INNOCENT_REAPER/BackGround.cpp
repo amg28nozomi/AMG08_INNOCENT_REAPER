@@ -26,8 +26,6 @@ namespace inr {
 
 	BackGround::BackGround(Game& game) : Image(game){
 		ChangeGraph(stage::number::SN_1);	// 最初のキーを読み込み
-
-		Init();
 	}
 
 	void BackGround::Init() {
@@ -111,11 +109,11 @@ namespace inr {
 			_scrSpeed = { 0, 0, 0, 0, 0, 0, 0 };
 			break;
 		case stage::number::SN_1:	// ステージ1
-			_graphKey = stage::STAGE_1;
+			_graphKey = background::BACK_GROUND_1;
 			_scrSpeed = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
 			break;
 		case stage::number::SN_2:	// ステージ2
-			_graphKey = stage::STAGE_2;
+			_graphKey = background::BACK_GROUND_2;
 			_scrSpeed = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			break;
 		case stage::number::SN_B:		// ボスステージ

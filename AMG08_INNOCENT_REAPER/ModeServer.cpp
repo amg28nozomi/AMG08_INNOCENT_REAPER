@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <string>
 
+#include "ObjectServer.h"
+
 namespace {
 	constexpr auto MODE_NULL = "null";
 
@@ -88,11 +90,12 @@ namespace inr {
 
 	void ModeServer::IsModeChange() {
 		// フラグがオフの場合は抜ける
-		if (_ChangeKey != MODE_NULL) return;
+		if (_ChangeKey == MODE_NULL) return;
 		// 処理が切り替わった瞬間に一度だけ、オブジェクトの再配置等を行う
 		if (_fadeBlack->PalChange() == true) {
 			// 現在のモードを初期化
 			ModeInit();
+			_game.GetObjectServer()->AllClear();
 			// 更新が入っている場合は実行用キーを更新
 			_modeKey = _ChangeKey;
 			// 次のモードを初期化
