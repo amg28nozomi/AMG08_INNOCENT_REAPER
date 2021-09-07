@@ -48,7 +48,7 @@ namespace inr {
 		bool IsScrollX();	// 横スクロールしているか？
 		bool IsScrollY();	// 縦スクロールしているか？
 
-		void ChangeMap();	// マップの切り替え処理
+		void ChangeMap(std::string nextStage);	// マップの切り替え処理
 
 		// ゲッター
 		inline int GetMapSizeWidth() { return _nowMap.MapSizeWidth() * _nowMap.ChipSizeWidth(); }
@@ -61,6 +61,8 @@ namespace inr {
 		inline Vector2 GetWorldPosition() { return _worldPosition; }
 		// ワールド座標の移動量を取得
 		inline Vector2 BeforeWorldPos() { return _worldPosition - _worldLast; }
+		inline std::shared_ptr<StageTransition>& GetStageTransition() { _stageTransition; }
+		
 		void WorldUpdate(Vector2 pos);	// ワールド座標の更新
 
 	private:

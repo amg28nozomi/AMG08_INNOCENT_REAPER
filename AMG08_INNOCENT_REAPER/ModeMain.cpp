@@ -86,13 +86,19 @@ namespace inr {
 		if (_game.GetModeServer()->PalChange() == true) {
 			// ギミックの状態を更新する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);
-			_game.GetMapChips()->
+			_game.GetMapChips()->ChangeMap(_changeKey);
+			_game.GetScenario()->
 			_stageKey = _changeKey;	// キーを更新する
 
 		}
 		// 現在の登録されているオブジェクトの削除を行う
 		
 		// 自機(+保持している魂)、
+	}
+
+	bool ModeMain::IsKeyNull() {
+		bool flag = _changeKey == stage::CHANGE_NULL;
+		return flag;
 	}
 
 	bool ModeMain::StageChange() {

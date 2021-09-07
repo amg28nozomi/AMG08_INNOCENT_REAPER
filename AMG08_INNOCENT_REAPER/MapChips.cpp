@@ -1023,17 +1023,13 @@ namespace inr {
 
 	}
 
-	void MapChips::ChangeMap() {
+	void MapChips::ChangeMap(std::string nextStage) {
 		// マップデータは読み込まれているか？
-		if (_mapManager->IsLoad(_nextStage) == true) {
-			std::string stagePath = DEFAULT_PATH + _nextStage + JSON_FORMAT;	// パスを作成
-			TiledJsonLoad(_skey, DEFAULT_PATH, _skey);	// 対象の登録
+		if (_mapManager->IsLoad(nextStage) == true) {
+			// 読み込まれいない場合は
+			std::string stagePath = DEFAULT_PATH + nextStage + JSON_FORMAT;	// パスを作成
+			TiledJsonLoad(nextStage, DEFAULT_PATH, nextStage);	// 対象の登録
 		}
-		/* ここにオブジェクトの初期化処理を挟む */
-
-		/* ここでシナリオクラスを使ってオブジェクトの生成を行う */
-
-		_skey = _nextStage;
-		_nextStage = stage::CHANGE_NULL;
+		_mapManager->GetStageMap(nextStage, _nowMap);	// 配置情報の取得
 	}
 }

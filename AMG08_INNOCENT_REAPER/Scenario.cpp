@@ -153,6 +153,10 @@ namespace inr {
 		return false;
 	}
 
+	bool Scenario::IsLoad(const std::string key) {
+
+	}
+
 	void Scenario::AddPlayer(ObjectValue ovalue) {
 		auto player = std::make_shared<Player>(_game.GetGame());
 		player->SetParameter(ovalue);

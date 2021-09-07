@@ -1,4 +1,6 @@
 #include "StageTransition.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
 #include "Game.h"
 
 namespace {
@@ -12,7 +14,8 @@ namespace inr {
 		constexpr auto TPOS_0_X = 200;
 		constexpr auto TPOS_0_Y = 1900;
 
-		// constexpr auto TPOS_1_X =
+		constexpr auto TPOS_1_X = 3750;
+		constexpr auto TPOS_1_Y = 305;
 	}
 
 	Transition::Transition(std::string stageKey, Vector2 position) {
@@ -36,7 +39,7 @@ namespace inr {
 		// 対応するチップの当たり判定を設定する
 		_transitions = {
 			{ 129, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}}},
-			{ 130, {stage::STAGE_0, {start::TPOS_0_X, start::TPOS_0_Y}}},
+			{ 130, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}}},
 		};
 
 		/*
@@ -60,19 +63,27 @@ namespace inr {
 		return true;
 	}
 
-	bool StageTransition::IsStageChange(const int no) {
+	bool StageTransition::IsHit(const int no) {
 		auto it = _transitions.find(no);
 		if (it == _transitions.end()) return false;	// 接触していない
 		_number = no;	// 接触したキーを記録
+
+		auto modemain = _game.GetModeServer()->GetModeMain();
+		if (modemain->IsKeyNull()) modemain->ChangeKey(it->second.NextKey());
 		return true;// 接触した（ヒットした）
 	}
 
-	std::string StageTransition::StageChange(Vector2& _pos) {
+	bool StageTransition::IsStageChange() {
+		// -1ではない場合（値に更新がかかっている場合、更新を処理を行う）
+		bool flag = _number == CHIP_NULL;
+		return flag;
+	}
+
+	Vector2 StageTransition::SetPosition() {
 		// 対応するキーと情報を付与する
 		auto it = _transitions.find(_number);
-		_pos = it->second.NextPosition();	//	ポジションを更新
 		_number = CHIP_NULL;	// キーを空にする
-		return it->second.NextKey();
+		return it->second.NextPosition();
 	}
 
 	// どうやって自機が接触したかどうかの判定を行うのか

@@ -32,8 +32,9 @@ namespace inr {
 		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// 情報読み込み
 		void ScenarioUpdate(std::string key);	// シナリオを更新する
 
-		bool AddObjects(const std::string key);	// オブジェクトの生成
 
+		bool AddObjects(const std::string key);	// オブジェクトの生成
+		bool IsLoad(const std::string key);	// 対象のキーは読み込んだか？
 	private:
 
 		Game& _game;

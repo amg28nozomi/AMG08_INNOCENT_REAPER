@@ -37,10 +37,11 @@ namespace inr {
 		~StageTransition();
 
 		bool Init();
-		bool IsStageChange(const int no);	// ステージ遷移用チップに接触したか？
+		bool IsHit(const int no);	// 衝突したか？
+		bool IsStageChange();	// 遷移処理を行うか？
 
 
-		std::string StageChange(Vector2& _pos);
+		Vector2 SetPosition();
 	private:
 		Game& _game;	// ゲーム
 		int _number;	// 接触したチップ

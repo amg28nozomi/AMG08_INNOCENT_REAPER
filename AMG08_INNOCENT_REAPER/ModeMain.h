@@ -16,9 +16,10 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
-		inline std::string GetKey() { return _stageKey; }
 		void ChangeKey(const std::string nextStage) override;
+		bool IsKeyNull();	// キーは空か？
 
+		inline std::string StageKey() { return _stageKey; }
 	private:
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
