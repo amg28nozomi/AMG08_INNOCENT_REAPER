@@ -18,6 +18,7 @@ namespace inr {
 	class ObjectServer;
 	class ModeServer;
 	class Scenario;
+	class FadeBlack;
 
 	constexpr auto WINDOW_W = 1920;
 	constexpr auto WINDOW_H = 1080;
@@ -78,6 +79,7 @@ namespace inr {
 		inline std::unique_ptr<ObjectServer>& GetObjectServer() { return _objServer; }
 		inline std::unique_ptr<MapChips>& GetMapChips() { return _mapChips; }
 		inline std::unique_ptr<Scenario>& GetScenario() { return _scenario; }
+		inline std::unique_ptr<FadeBlack>& GetFadeBlack() { return _fadeBlack; }
 
 		// Vector2 RepairPosition(const Vector2 pos, const int width, const int height);
 

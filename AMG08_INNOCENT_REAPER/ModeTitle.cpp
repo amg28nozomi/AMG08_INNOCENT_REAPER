@@ -3,6 +3,7 @@
 #include "ModeServer.h"
 #include "ObjectServer.h"
 #include "Logo.h"
+#include "FadeBlack.h"
 #include <memory>
 #include <DxLib.h>
 
@@ -23,6 +24,7 @@ namespace inr {
 	void ModeTitle::Process() {
 			_titleGh->Process();
 			_game.GetObjectServer()->Process();
+			_game.GetFadeBlack()->Process();
 
 		/*_titleGh->Process();
 		_ui->Process();
@@ -32,5 +34,6 @@ namespace inr {
 	void ModeTitle::Draw() {
 		_titleGh->Draw();
 		_game.GetObjectServer()->Draw();
+		_game.GetFadeBlack()->Process();
 	}
 }

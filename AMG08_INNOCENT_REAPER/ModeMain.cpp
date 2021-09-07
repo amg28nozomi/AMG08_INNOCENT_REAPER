@@ -6,6 +6,7 @@
 #include "ObjectServer.h"
 #include "ObjectBase.h"
 #include "BackGround.h"
+#include "FadeBlack.h"
 #include "Scenario.h"
 #include "Loads.h"
 #include <memory>
@@ -60,6 +61,7 @@ namespace inr {
 		_game.GetMapChips()->Process();
 		_game.GetObjectServer()->Process();
 		_uiSoul->Process();
+		_game.GetFadeBlack()->Process();
 	}
 
 	void ModeMain::Draw() {
@@ -67,6 +69,7 @@ namespace inr {
 		_game.GetMapChips()->Draw();
 		_game.GetObjectServer()->Draw();
 		_uiSoul->Draw();
+		_game.GetFadeBlack()->Draw();
 	}
 
 
