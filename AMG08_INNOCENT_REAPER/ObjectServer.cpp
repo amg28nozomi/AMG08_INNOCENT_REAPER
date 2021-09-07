@@ -4,6 +4,7 @@
 #include "GimmickBase.h"
 #include "SoulSkin.h"
 #include "Player.h"
+#include "ObjectValue.h"
 #include <vector>
 
 namespace inr {
@@ -85,10 +86,9 @@ namespace inr {
 		// プレイヤー以外をサーバーから削除
 		int fix = 0;	// 修正値
 		std::shared_ptr<ObjectBase> player = nullptr;
+		std::vector<ObjectValue> _gimmickValues;	// ギミックの情報更新用
 		for (auto obj : _objects) {
-			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) { 
-				continue;
-			}
+			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
 			player = obj;	// 自機のみ保持
 		}
 		_objects.clear();	// 配列初期化
@@ -129,6 +129,11 @@ namespace inr {
 			return osoul;
 		}
 	}
+
+	void ObjectServer::GimmickUpdate() {
+
+	}
+
 
 	// 指定したオブジェクトの参照を取り出す（配列）
 	/*std::vector<std::unique_ptr<ObjectBase>>& ObjectServer::GetObjectList(ObjectBase::ObjectType otype) {

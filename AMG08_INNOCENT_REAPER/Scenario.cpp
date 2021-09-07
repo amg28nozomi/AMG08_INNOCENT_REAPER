@@ -203,4 +203,22 @@ namespace inr {
 	void Scenario::AddBlock(ObjectValue ovalue) {
 
 	}
+
+	void Scenario::ScenarioUpdate(std::string key) {
+		// 現在登録されているギミックの値を取得する
+		auto nowGimmicks = _game.GetObjectServer()->GetGimmicks();
+		auto scenario = _scenarios.find(key);
+#ifdef _DEBUG
+		if (scenario == _scenarios.end()) {
+			OutputDebugString("Scenario->ScenarioUpdate(std::string key)：登録されていないキーが渡されています。修正してください。\n");
+			return;
+		}
+#endif
+		for (auto&& ovalue : scenario->second) {
+			// ギミックにのみ更新をかける
+			if (ovalue.ObjectType() != oscenario::type::GIMMICK) continue;
+			ovalue = nowGimmicks.front()->GetObjectValue();	// 現在の情報に上書きする
+			nowGimmicks.erase(nowGimmicks.begin());	// 先端の要素を削除する
+		}
+	}
 }

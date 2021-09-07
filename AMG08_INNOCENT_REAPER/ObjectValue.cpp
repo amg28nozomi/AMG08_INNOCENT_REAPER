@@ -12,6 +12,7 @@ namespace inr {
 		_spawnPos.clear();
 		_soulType = 0;
 		_gimmick = GimmickValue();
+		_objType = IsObjectType(_class);
 	}
 
 	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor, GimmickValue gvalue) {
@@ -20,6 +21,7 @@ namespace inr {
 		_spawnPos.emplace_back(xy);
 		_soulType = soulcolor;
 		_gimmick = gvalue;
+		_objType = IsObjectType(_class);
 	}
 
 	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor, GimmickValue gvalue) {
@@ -27,5 +29,25 @@ namespace inr {
 		_spawnPos = xy;
 		_soulType = soulcolor;
 		_gimmick = gvalue;
+		_objType = IsObjectType(_class);
+	}
+
+	int ObjectValue::IsObjectType(int classname) {
+		switch (classname) {
+		case oscenario::OBJ_PLAYER:
+			return oscenario::type::PLAYER;
+		case oscenario::OBJ_SOLDIER_DOLL:
+		case oscenario::OBJ_BIG_DOLL:
+		case oscenario::OBJ_CROW_DOLL:
+			return oscenario::type::ENEMY;
+		case oscenario::OBJ_SOUL:
+			return oscenario::type::SOUL;
+		case oscenario::OBJ_LEVER:
+		case oscenario::OBJ_BLOCK:
+		case oscenario::OBJ_CRYSTAL:
+			return oscenario::type::GIMMICK;
+		default:
+			return -1;	// ƒoƒO
+		}
 	}
 }

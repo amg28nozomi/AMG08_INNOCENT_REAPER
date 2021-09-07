@@ -9,6 +9,11 @@
 
 namespace inr{
 
+	namespace object {
+		constexpr auto CONTINUE = false;
+		constexpr auto TRANSITION = true;
+	}
+
 	class EnemyBase;
 	class GimmickBase;
 
@@ -33,7 +38,7 @@ namespace inr{
 		std::shared_ptr<SoulSkin> GetSoul();
 
 
-		void ObjectsClear();
+		void ObjectsClear();	// 
 		inline void AllClear() { _objects.clear(); }
 		inline void DelOn() { _delete = true; }
 		inline bool DelFlag() { return _delete; }
@@ -47,6 +52,8 @@ namespace inr{
 		std::vector<std::shared_ptr<ObjectBase>> _objects;
 		std::vector<std::shared_ptr<ObjectBase>> _addObj;
 		std::vector<std::shared_ptr<ObjectBase>> _delObj;
+
+		void GimmickUpdate();	// ÉMÉ~ÉbÉNÇ…èCê≥ÇÇ©ÇØÇÈ 
 	};
 }
 

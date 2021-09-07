@@ -30,6 +30,7 @@ namespace inr {
 
 		void Init();	// 初期化処理
 		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// 情報読み込み
+		void ScenarioUpdate(std::string key);	// シナリオを更新する
 
 		bool AddObjects(const std::string key);	// オブジェクトの生成
 

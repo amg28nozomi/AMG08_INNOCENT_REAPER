@@ -75,7 +75,7 @@ namespace inr {
 	constexpr auto CHIP_KEY = "chips";
 
 	MapChips::MapChips(Game& game) : _game(game), _nowMap() {
-		_chipCheck = std::make_unique<ChipHitCheck>();
+		_chipCheck = std::make_unique<ChipHitCheck>();	// ƒ`ƒbƒv“–‚½‚è”»’èC³
 		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
 		SetChipsMap();
 

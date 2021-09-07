@@ -9,6 +9,8 @@
 #include "FadeBlack.h"
 #include "Scenario.h"
 #include "Loads.h"
+#include "ModeServer.h"
+
 #include <memory>
 #include <unordered_map>
 
@@ -74,6 +76,7 @@ namespace inr {
 	bool ModeMain::IsStageChange() {
 		// キーは切り替わっているか？
 		if (_changeKey == stage::CHANGE_NULL) return false;
+		_game.GetModeServer()->
 		// 現在の登録されているオブジェクトの削除を行う
 		
 		// 自機(+保持している魂)、

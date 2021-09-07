@@ -10,6 +10,7 @@ namespace inr {
 		inline std::string Path() { return _path; }
 		inline std::string FileName() { return _fileName; }
 		inline std::string Format() { return _format; }
+		inline std::string AllPath() { return _path + _fileName + _format; }
 	private:
 		std::string _path;
 		std::string _fileName;
