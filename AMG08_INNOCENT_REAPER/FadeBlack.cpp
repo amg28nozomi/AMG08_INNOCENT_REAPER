@@ -12,9 +12,7 @@ namespace inr {
 
 	FadeBlack::FadeBlack(Game& game) : Image(game) {
 		_pal = 255;
-		_count = 0;
 		_end = false;
-		_calculation = 0;
 		_type = image::FADE_OUT;
 		Init();
 	}
@@ -24,14 +22,26 @@ namespace inr {
 	}
 
 	void FadeBlack::Init() {
-		_count = 0;
 		_end = false;
-		_calculation = 0;
-
+		_interval = 0;
+		_isInterval = false;
+		_addEnd = true;
 	}
 
 	void FadeBlack::Process() {
 		if (_end == true) return;	// 処理がない場合はスキップ
+		if (_addEnd == true) _addEnd = false;
+		if (_isInterval) {	// 猶予時間がある場合はカウンタを減らす
+			if (_interval == 0) {
+				_isInterval = false;
+				_type = image::FADE_IN;
+				return;
+			}
+			--_interval;
+			return;
+		}
+
+		// 処理がある場合は回す
 		switch (_type) {
 		case image::FADE_IN:
 			FadeIn();
@@ -50,6 +60,12 @@ namespace inr {
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
+	void FadeBlack::FlagChange(bool fadeType, int interval) { 
+		_type = fadeType;
+		_end = false;
+		_interval = interval;
+	}
+
 	void FadeBlack::FadeIn() {
 		_pal += FADE_VALUE;
 		FadeEnd();
@@ -65,12 +81,14 @@ namespace inr {
 		switch (_type) {
 		case image::FADE_IN:
 			if (_pal < 0) _pal = 0;
+			_end = true;
 			break;
 		case image::FADE_OUT:
 			if (255 < _pal) _pal = 255;
+			_addEnd = true;
 			break;
 		}
-		_end = true;
+		_isInterval = true;
 		return true;
 	}
 }

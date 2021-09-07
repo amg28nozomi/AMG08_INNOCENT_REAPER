@@ -4,12 +4,15 @@
 #include "ModeMain.h"
 #include "ModeEnd.h"
 #include "Game.h"
+#include "FadeBlack.h"
 #include <memory>
 #include <unordered_map>
 #include <string>
 
 namespace {
 	constexpr auto MODE_NULL = "null";
+
+	constexpr auto CHANGE_INTERVAL = 60;
 }
 
 namespace inr {
@@ -30,6 +33,8 @@ namespace inr {
 		// セレクト（未実装）
 		_modes.emplace(mode::MAIN, std::make_shared<ModeMain>(_game.GetGame()));	// ゲーム本編
 		_modes.emplace(mode::FIN, std::make_shared<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
+
+		_fadeBlack = std::make_unique<FadeBlack>(_game.GetGame());
 		
 		// 検索キーをTitleModeに設定
 #ifdef _DEBUG
@@ -45,21 +50,13 @@ namespace inr {
 
 	void ModeServer::Process() {
 		// Modeの更新用キーが変更されているかどうか
-		if (_ChangeKey != MODE_NULL) {
-			// 現在のモードを初期化
-			ModeInit();
-			// 更新が入っている場合は実行用キーを更新
-			_modeKey = _ChangeKey;
-			// 次のモードを初期化
-			ModeInit();
-			// 更新用キーを初期化
-			_ChangeKey = MODE_NULL;
-		}
+		IsModeChange();
 
 		// 現在設定されているモードを取り出し、更新処理を実行。
 		auto mode = _modes.find(_modeKey);
 		if (mode == _modes.end()) return;
 		mode->second->Process();
+		_fadeBlack->Process();
 	}
 
 	void ModeServer::Draw() {
@@ -67,10 +64,16 @@ namespace inr {
 		auto mode = _modes.find(_modeKey);
 		if (mode == _modes.end()) return;
 		mode->second->Draw();
+		_fadeBlack->Draw();
 	}
 
 	void ModeServer::ClearModeLists() {
 		_modes.clear();
+	}
+
+	void ModeServer::ModeChange(std::string nextMode) {
+		_ChangeKey = nextMode;	// モード切り替えフラグオン
+		_fadeBlack->FlagChange(image::FADE_OUT, CHANGE_INTERVAL);
 	}
 
 	bool ModeServer::ModeInit() {
@@ -81,6 +84,22 @@ namespace inr {
 		// 初期化処理実行
 		mode->second->Init();
 		return true;
+	}
+
+	void ModeServer::IsModeChange() {
+		// フラグがオフの場合は抜ける
+		if (_ChangeKey != MODE_NULL) return;
+		// 処理が切り替わった瞬間に一度だけ、オブジェクトの再配置等を行う
+		if (_fadeBlack->PalChange() == true) {
+			// 現在のモードを初期化
+			ModeInit();
+			// 更新が入っている場合は実行用キーを更新
+			_modeKey = _ChangeKey;
+			// 次のモードを初期化
+			ModeInit();
+			// 更新用キーを初期化
+			_ChangeKey = MODE_NULL;
+		}
 	}
 
 	/*std::unique_ptr<ModeBase>& ModeServer::GetMode() {

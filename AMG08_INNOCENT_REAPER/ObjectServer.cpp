@@ -81,6 +81,20 @@ namespace inr {
 		_updateFlg = false;
 	}
 
+	void ObjectServer::ObjectsClear() {
+		// プレイヤー以外をサーバーから削除
+		int fix = 0;	// 修正値
+		std::shared_ptr<ObjectBase> player = nullptr;
+		for (auto obj : _objects) {
+			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) { 
+				continue;
+			}
+			player = obj;	// 自機のみ保持
+		}
+		_objects.clear();	// 配列初期化
+		if(player != nullptr)_objects.emplace_back(std::move(player));	// 自機のアドレスがある場合のみ登録
+	}
+
 	std::shared_ptr<Player> ObjectServer::GetPlayer() {
 		for (auto& it : _objects) {
 			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {

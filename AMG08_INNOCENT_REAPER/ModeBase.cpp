@@ -28,6 +28,4 @@ namespace inr {
 	void ModeBase::Draw() {
 
 	}
-
-
 }

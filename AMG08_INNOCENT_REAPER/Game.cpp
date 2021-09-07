@@ -17,7 +17,6 @@
 #include "Image.h"
 #include "Scenario.h"
 #include "EffectBase.h"
-#include "FadeBlack.h"
 
 #include "GimmickBase.h"
 
@@ -91,7 +90,6 @@ namespace inr {
 		_objServer = std::make_unique<ObjectServer>();
 		_scenario = std::make_unique<Scenario>(*this);
 		_modeServer = std::make_unique<ModeServer>(*this);
-		_fadeBlack = std::make_unique<FadeBlack>(*this);
 
 		graph::ResourceServer::Init();
 		Loads::ResourceLoad();

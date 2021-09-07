@@ -33,7 +33,7 @@ namespace inr{
 		std::shared_ptr<SoulSkin> GetSoul();
 
 
-		inline void ObjectsClear() { _objects.clear(); }
+		void ObjectsClear();
 		inline void DelOn() { _delete = true; }
 		inline bool DelFlag() { return _delete; }
 		// AABB GetObjectPosition(std::string key);

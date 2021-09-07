@@ -20,14 +20,18 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
-		inline void FlagChange(bool fadeType) { _type = fadeType; }	// フェードイン・フェードアウト切り替え
+		void FlagChange(bool fadeType, int interval = 0);	// フェードイン・フェードアウト切り替え(処理切り替え後の猶予時間)
+		inline bool IsEnd() { return _end; }	// 処理は終了しているか？
+		inline bool PalChange() { return _addEnd; }	// 加算減算は切り替わったか？
+
 	private:
 		int _pal;	// 輝度
 
-		int _count;	// 何フレーム生存するか
-		bool _calculation;	// 加算減算の判定()
+		int _interval;	// 処理終了後の待ち時間
+		bool _isInterval;	// 現在は待ち時間か？
 		bool _end;	// 処理は終了したか
 		bool _type;	// 加算・減算処理のどちらを行うか
+		bool _addEnd;
 
 		void FadeOut();
 		void FadeIn();

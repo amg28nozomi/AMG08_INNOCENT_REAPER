@@ -8,6 +8,7 @@ namespace inr {
 
 	class Game;
 	class ModeMain;
+	class FadeBlack;
 
 	class ModeServer {
 	public:
@@ -18,7 +19,7 @@ namespace inr {
 		void Process();
 		void Draw();
 
-		inline void ModeChange(std::string nextMode) { _ChangeKey = nextMode; }
+		void ModeChange(std::string nextMode);
 		// std::unique_ptr<ModeBase>& GetMode();	// 指定したモードの参照を取得
 		std::shared_ptr<ModeMain> GetModeMain();
 	private:
@@ -26,11 +27,14 @@ namespace inr {
 
 		Game& _game;
 		ModeMap _modes;		// モード格納用
+		std::unique_ptr<FadeBlack> _fadeBlack;
 		std::string _modeKey;	// 検索用キー情報
 		std::string _ChangeKey;	// 検索キー格納用
 
 		void ClearModeLists();	// モード開放
 		bool ModeInit();	// モードの初期化
+
+		void IsModeChange();	// モード切り替え
 	};
 
 }

@@ -40,7 +40,6 @@ namespace inr {
 			if (_hitCol1.HitCheck(collision)) {
 				if (_game.GetTrgKey() == PAD_INPUT_3) {
 					// ƒQ[ƒ€–{•Ò‚É‘JˆÚ‚·‚é
-					_game.GetObjectServer()->ObjectsClear();
 					_game.GetModeServer()->ModeChange(mode::MAIN);
 				}
 			}
