@@ -151,11 +151,11 @@ namespace inr {
 	void EnemyBase::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];	// À•WXV
-		_mainCollision.Update(_position, _direction);
-		_searchBox.Update(_position, _direction);
-		if (_oValue.SoulType() == 0) { 
+		_mainCollision.Update(_position, _direction);	// “–‚½‚è”»’èC³
+		_searchBox.Update(_position, _direction);	// õ“G”ÍˆÍ‚ÌC³
+		if (_oValue.SoulType() == 0) {	// °‚ª‹ó‚Ìê‡‚Í”²‚¯Šk‚É‚È‚é
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
-			return;
+			return;	// ˆ—‚ğ”²‚¯‚é
 		}
 		auto soul_n =  std::make_shared<SoulSkin>(_game.GetGame());
 		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);

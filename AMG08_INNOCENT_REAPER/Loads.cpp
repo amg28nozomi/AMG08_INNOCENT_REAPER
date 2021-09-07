@@ -147,11 +147,22 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
 	}
 
-	std::vector<ObjectValue> Loads::LoadScenario() {
+	// 封印の祭壇
+	std::vector<ObjectValue> Loads::LoadScenarioS() {
+		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
+		/*std::vector<ObjectValue>_stageS {
+			{ oscenario::OBJ_SOLDIER_DOLL, {}}
+		}
+
+		return _stageS;*/
+	}
+
+	// 荒廃し街
+	std::vector<ObjectValue> Loads::LoadScenario1() {
 
 		std::vector<ObjectValue> _stage1 {
 			// プレイヤーの登録情報
-			{ oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)} },
+			{ oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)}, 0 },
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1950}, 1},
 			{ oscenario::OBJ_SOLDIER_DOLL, {2200, 1750}, 2},
@@ -160,9 +171,32 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, 0},
 
 			// ギミック
-			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, 0, gimmick::door::D_LEVER},
+			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, 0, {gimmick::door::D_LEVER}},
 		};
 
 		return _stage1;
 	}
+
+	// 森林-1
+	std::vector<ObjectValue> Loads::LoadScenario2() {
+		// ソルジャードール9(赤5、青3、空1)
+		// ビッグドール3(赤2、青1)
+		// レバー/扉(2)
+		// 岩(1-3)
+		// 水晶(2/4)
+	}
+
+	// 森林-2
+	std::vector<ObjectValue> Loads::LoadScenario2_1() {
+		
+	}
+	// 森林-3
+	std::vector<ObjectValue> Loads::LoadScenario2_2() {
+
+	}
+	// ボスステージ
+	std::vector<ObjectValue> Loads::LoadScenarioB() {
+
+	}
+
 }

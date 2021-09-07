@@ -177,6 +177,7 @@
     <ClCompile Include="ModeTitle.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectServer.cpp" />
+    <ClCompile Include="ObjectValue.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RedGreenBlue.cpp" />
     <ClCompile Include="ResourceServer.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="ModeTitle.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectServer.h" />
+    <ClInclude Include="ObjectValue.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RedGreenBlue.h" />
     <ClInclude Include="ResourceServer.h" />

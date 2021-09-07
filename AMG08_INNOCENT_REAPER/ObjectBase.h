@@ -3,7 +3,7 @@
 #include <DxLib.h>
 #include "Collision.h"
 #include "ResourceServer.h"
-#include "Scenario.h"
+#include "ObjectValue.h"
 
 class Vector2;
 class AABB;

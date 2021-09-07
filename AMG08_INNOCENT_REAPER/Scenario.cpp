@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 
+#include "ObjectValue.h"
 
 #include "Player.h"
 #include "EnemyBase.h"
@@ -17,31 +18,6 @@ namespace {
 }
 
 namespace inr {
-
-	ObjectValue::ObjectValue() {
-		_class = oscenario::OBJ_NULL;
-		_spawnPos.clear();
-		_soulType = 0;
-		_gimmickType = oscenario::gimmick::TYPE_NULL;
-		_gimmickFlag = oscenario::gimmick::FLAG_NULL;
-	}
-
-	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor, int gimmicktype, int gimmickflag) {
-		// äeéÌèÓïÒÇÃìoò^
-		_class = classtype;
-		_spawnPos.emplace_back(xy);
-		_soulType = soulcolor;
-		_gimmickType = gimmicktype;
-		_gimmickFlag = gimmickflag;
-	}
-
-	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor, int gimmicktype, int gimmickflag) {
-		_class = classtype;
-		_spawnPos = xy;
-		_soulType = soulcolor;
-		_gimmickType = gimmicktype;
-		_gimmickFlag = gimmickflag;
-	}
 
 	Scenario::Scenario(Game& game) : _game(game) {
 

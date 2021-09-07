@@ -999,8 +999,8 @@ namespace inr {
 			{ 127, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 			{ 128, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 			// ステージ遷移
-			{ 129, {mapchip::TRANSITION}},
-			{ 130, {mapchip::TRANSITION}},
+			{ 129, {mapchip::TRANSITION}},	// ステージS(1)→ステージ1(2)
+			{ 130, {mapchip::TRANSITION}},	// ステージ1(3)→ステージ2-2()
 			{ 131, {mapchip::TRANSITION}},
 			{ 132, {mapchip::TRANSITION}},
 			{ 133, {mapchip::TRANSITION}},

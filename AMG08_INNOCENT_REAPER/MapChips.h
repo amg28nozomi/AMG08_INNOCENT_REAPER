@@ -18,9 +18,9 @@ namespace inr {
 
 		constexpr auto STAGE_0 = "stage0";	// チュートリアル
 		constexpr auto STAGE_1 = "stage1";		// ステージ1(廃村)
-		constexpr auto STAGE_2_1 = "stage2-1";	// ステージ2(森林-中央)
-		constexpr auto STAGE_2_2 = "stage2-2";	// ステージ2(森林-上部)
-		constexpr auto STAGE_2_3 = "stage2-3";	// ステージ2(森林-下部)
+		constexpr auto STAGE_2 = "stage2";	// ステージ2(森林-中央)
+		constexpr auto STAGE_2_1 = "stage2-1";	// ステージ2(森林-上部)
+		constexpr auto STAGE_2_2 = "stage2-2";	// ステージ2(森林-下部)
 		constexpr auto STAGE_3 = "boss_stage";	// ステージ3(ボス戦)
 
 		constexpr auto KEY_NORMAL = "mapchip_normal";	// 通常マップチップ
