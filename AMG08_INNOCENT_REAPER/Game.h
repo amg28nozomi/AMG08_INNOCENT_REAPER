@@ -29,8 +29,8 @@ namespace inr {
 	constexpr auto DEBUG_WINDOW_W = 1280;
 	constexpr auto DEBUG_WINDOW_H = 720;
 #endif
-	constexpr auto PLAYER_WIDTH = 60;
-	constexpr auto PLAYER_HIGHT = 100;
+	constexpr auto PLAYER_WIDTH = 50;
+	constexpr auto PLAYER_HEIGHT = 110;
 
 	namespace key {
 		constexpr auto SOUND_NUM = "num";

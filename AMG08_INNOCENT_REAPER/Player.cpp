@@ -42,10 +42,10 @@ namespace {
 
 
 	// 奪うアクションの当たり判定
-	constexpr auto ROB_WIDTH1 = 20 + 50; //-75;
-	constexpr auto ROB_WIDTH2 = -20;
-	constexpr auto ROB_HEIGHT1 = -20;
-	constexpr auto ROB_HEIGHT2 = 60;
+	constexpr auto ROB_WIDTH1 = 25 + 50; //-75;
+	constexpr auto ROB_WIDTH2 = -25;
+	constexpr auto ROB_HEIGHT1 = 0;
+	constexpr auto ROB_HEIGHT2 = 40;
 	// 奪うアクションの判定フレーム数
 	constexpr auto JUDGE_MIN = -1;
 	constexpr auto ROB_JUDGEMENT = 8 * 4;// judgement
@@ -53,8 +53,8 @@ namespace {
 	// 与えるアクションの当たり判定
 	constexpr auto GIVE_WIDTH1 = 60;
 	constexpr auto GIVE_WIDTH2 = -10;
-	constexpr auto GIVE_HEIGHT1 = -30;
-	constexpr auto GIVE_HEIGHT2 = 70;
+	constexpr auto GIVE_HEIGHT1 = -15;
+	constexpr auto GIVE_HEIGHT2 = 55;
 	// 与えるアクションの判定フレーム数
 	constexpr auto GIVE_JUDGEMENT = 10 * 4;
 
@@ -132,8 +132,8 @@ namespace inr {
 		_moveVector = { 0, 0 };
 		// _moveVector = std::make_pair(0, 0);
 		
-		_mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX , true};
-		_mainCollision = { _position, 25, 55 , true };
+		// _mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX , true};
+		_mainCollision = { _position, (PLAYER_WIDTH / 2), (PLAYER_HEIGHT / 2), true };
 		
 		
 		//(_position, PLAYER_WIDTH / 2, PLAYER_HIGHT / 2);
@@ -605,8 +605,8 @@ namespace inr {
 	AABB Player::GetAABB() {
 		auto dx = _position.GetX();
 		auto dy = _position.GetY();
-		Vector2 minV(dx - PLAYER_WIDTH / 2, dy + PLAYER_HIGHT / 2);
-		Vector2 maxV(dx + PLAYER_WIDTH / 2, dy - PLAYER_HIGHT / 2);
+		Vector2 minV(dx - PLAYER_WIDTH / 2, dy + PLAYER_HEIGHT / 2);
+		Vector2 maxV(dx + PLAYER_WIDTH / 2, dy - PLAYER_HEIGHT / 2);
 		AABB playerAABB(minV, maxV);
 
 		return playerAABB;
