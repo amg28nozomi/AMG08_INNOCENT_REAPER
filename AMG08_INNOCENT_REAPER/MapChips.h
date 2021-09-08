@@ -62,7 +62,7 @@ namespace inr {
 		inline Vector2 GetWorldPosition() { return _worldPosition; }
 		// ワールド座標の移動量を取得
 		inline Vector2 BeforeWorldPos() { return _worldPosition - _worldLast; }
-		inline std::shared_ptr<StageTransition>& GetStageTransition() { _stageTransition; }
+		inline std::unique_ptr<StageTransition>& GetStageTransition() { return _stageTransition; }
 		
 		void WorldUpdate(Vector2 pos);	// ワールド座標の更新
 

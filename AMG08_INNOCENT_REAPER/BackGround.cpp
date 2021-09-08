@@ -3,6 +3,8 @@
 #include "ResourceServer.h"
 #include "Game.h"
 #include "MapChips.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
 #include <DxLib.h>
 
 namespace {
@@ -25,7 +27,8 @@ namespace {
 namespace inr {
 
 	BackGround::BackGround(Game& game) : Image(game){
-		ChangeGraph(stage::number::SN_1);	// 最初のキーを読み込み
+		_stageNo = -1;
+		// ChangeGraph();	// 最初のキーを読み込み
 	}
 
 	void BackGround::Init() {
@@ -37,6 +40,7 @@ namespace inr {
 	}
 
 	void BackGround::Process() {
+		ChangeGraph();
 		// ワールド座標の移動量を取得
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
 		auto moveY = _game.GetMapChips()->BeforeWorldPos().GetY() * -1;
@@ -100,13 +104,17 @@ namespace inr {
 		}
 	}
 
-	void BackGround::ChangeGraph(const int stageNo) {
+	void BackGround::ChangeGraph() {
+		if (IsChanege() != true) return;
+		_graphKey.clear();
 		_scrSpeed.clear();	// 中身を空にする
+		_positions.first.clear();
+		_positions.second.clear();
 		// 現在のステージに応じて各種値を更新
-		switch (stageNo) {
+		switch (_stageNo) {
 		case stage::number::SN_S:	// ステージS
-			_graphKey = stage::STAGE_0;
-			_scrSpeed = { 0, 0, 0, 0, 0, 0, 0 };
+			_graphKey = background::BACK_GROUND_S;
+			_scrSpeed = { 0.6, 0 };
 			break;
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;
@@ -125,5 +133,23 @@ namespace inr {
 			return;
 		}
 		Init();	// 初期化をかける
+	}
+
+	bool BackGround::IsChanege() {
+		auto no = KeyNumber();
+		if (_stageNo == no) return false;
+		_stageNo = no;
+		return true;
+	}
+
+	int BackGround::KeyNumber() {
+		auto skey = _game.GetModeServer()->GetModeMain()->StageKey();
+		if (skey == stage::STAGE_0) return stage::number::SN_S;
+		if (skey == stage::STAGE_1) return stage::number::SN_1;
+		if (skey == stage::STAGE_2) return stage::number::SN_2;
+		if (skey == stage::STAGE_2_1) return stage::number::SN_2;
+		if (skey == stage::STAGE_2_2) return stage::number::SN_2;
+		if (skey == stage::STAGE_3) return stage::number::SN_B;
+		return -1;
 	}
 }

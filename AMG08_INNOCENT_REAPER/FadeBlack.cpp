@@ -82,7 +82,8 @@ namespace inr {
 			if (0 < _pal) return false;
 			if (_pal < 0) _pal = 0;
 			_end = true;
-			break;
+			_isInterval = false;
+			return true;
 		case image::FADE_OUT:
 			if (_pal < 255) return false;
 			if (255 < _pal) _pal = 255;
