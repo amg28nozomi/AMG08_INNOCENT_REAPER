@@ -110,7 +110,6 @@ namespace inr {
 		};
 
 		PatrolOn();
-		_stay = 0;
 	}
 
 	void SoldierDoll::Process() {
@@ -527,9 +526,7 @@ namespace inr {
 
 	void SoldierDoll::Death() {
 		ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
-		_soul->SetSpwan(_position);	// ©g‚ÌÀ•W‚É°‚ğÀ‘Ì‰»‚·‚é
-		_soul->OwnerNull();
-		_soul.reset();	// °‚ÌŠ—LŒ ‚ğè•ú‚·
+		EnemyBase::Death();
 	}
 
 	AABB SoldierDoll::NowCollision(std::string key) {

@@ -26,12 +26,16 @@ namespace inr {
 		_position = { 0, 0 };
 		_moveVector = { 0, 0 };
 		_actionX = 0;
+		_patrolX = 0;
+		_aInterval = 0;
 
 		_aFrame = 0;
 		_aCount = 0;
 		_sounds = 0;
+		_stay = 0;
 		_direction = false;
 		_changeGraph = true;
+		_drawStop = false;
 
 		_soul = nullptr;
 
@@ -185,6 +189,12 @@ namespace inr {
 	bool EnemyBase::IsEmpty() {
 		if (_soul == nullptr) return true;
 		return false;
+	}
+
+	void EnemyBase::Death() {
+		_soul->SetSpwan(_position);	// ©g‚ÌÀ•W‚É°‚ğÀ‘Ì‰»‚·‚é
+		_soul->OwnerNull();
+		_soul.reset();	// °‚ÌŠ—LŒ ‚ğè•ú‚·
 	}
 
 	AABB EnemyBase::VitalPart(Collision& col, int vital) {

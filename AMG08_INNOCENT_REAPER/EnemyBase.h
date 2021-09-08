@@ -72,8 +72,13 @@ namespace inr {
 		int _aFrame;	// アクション実行のためのフレーム
 		int _sounds;
 
+		int _aInterval;	// アクションインターバル
+		int _stay;	// 待機カウンタ
+
 		double _actionX;	// アクション実行時のx座標
+		double _patrolX;
 		bool _isSearch;	// プレイヤーを
+		bool _drawStop;	// 描画更新停止
 
 		void AnimationCount() override;
 
@@ -87,6 +92,7 @@ namespace inr {
 		virtual void EscapeOn();	// 逃避
 		virtual void AttackOn();	// 攻撃開始
 		virtual bool Hit();	// オブジェクトと接触したかどうか
+		virtual void Death();
 
 		void ChangeState(ActionState nextstate, std::string key);
 		// 干渉可能範囲の算出

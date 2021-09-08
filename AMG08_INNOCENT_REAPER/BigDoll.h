@@ -20,6 +20,9 @@ namespace inr {
 		void Draw() override;
 	private:
 		void HipDrop();	// ヒップドロップ
+		void StateUpdate();	// 状態に応じた処理を行う
+
+		void Death() override;
 	};
 }
 
