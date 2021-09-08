@@ -10,6 +10,16 @@ namespace {
 	constexpr auto BIG_EMPTY_HEIGHT = 100;
 
 	constexpr auto PATROL_MAX = 280;
+	constexpr auto PATROL_VECTOR = 40.0 / 60.0;
+
+	constexpr auto BIG_DOLL_VITAL = 40;
+
+	constexpr auto STAY_MAX = 60;
+
+	// 攻撃
+	constexpr auto ATTACK_VECTOR_MIN = 1.0;
+	constexpr auto ATTACK_VECTOR_MAX = 2.5;
+	constexpr auto ADD_VECTOR = 0.1;
 }
 
 namespace inr {
@@ -20,6 +30,7 @@ namespace inr {
 		_aState = ActionState::EMPTY;
 		_divKey = std::make_pair(enemy::BIG_EMPTY, key::SOUND_NUM);
 		_position = { 0, 0 };
+		_atkVec = 0;
 	}
 
 	BigDoll::~BigDoll() {
@@ -54,7 +65,8 @@ namespace inr {
 		_moveVector.GetPX() = 0;	// 初期化
 
 		AnimationCount();
-
+		Action();
+		StateUpdate();
 
 	}
 
@@ -76,10 +88,84 @@ namespace inr {
 
 		switch (_aState) {
 		case ActionState::IDOL:
-			EnemyBase::PatrolOn();
+			PatrolOn();
 			return;
 		case ActionState::PATROL:
+			// 左移動
+			if (_patrolX < 0) {
+				_moveVector.GetPX() = PATROL_VECTOR;
+				_patrolX += PATROL_VECTOR;
+				return;
+				// 右移動
+			}
+			else if (0 < _patrolX) {
+				_moveVector.GetPX() = -PATROL_VECTOR;
+				_patrolX -= PATROL_VECTOR;
+				return;
+			}
+			// 移動量が0の場合は待機状態に遷移する
+			_aState = ActionState::IDOL;
+			switch (_soul->SoulColor()) {
+			case soul::RED:
+				_divKey.first = enemy::red::BIG_IDOL;
+				break;
+			case soul::BLUE:
+				_divKey.first = enemy::blue::BIG_IDOL;
+				break;
+			}
+			_stay = STAY_MAX;
+			return;
+		case ActionState::ATTACK:
+			// 左移動
+			if (_actionX < 0) {
+				if(-ATTACK_VECTOR_MAX < _atkVec ) _atkVec += ADD_VECTOR;
+				_actionX += _atkVec;
+				_moveVector.GetPX() = -_atkVec;
+				if (0 < _actionX) _actionX = 0;
+
+			} else if (0 < _actionX) {
+				if (_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
+				_actionX -= _atkVec;
+				_moveVector.GetPX() = _atkVec;
+				if (_actionX < 0) _actionX = 0;
+			}
+			if(_actionX == 0) ChangeIdol();
+			return;
+		case ActionState::ESCAPE:
+			// 左移動
+			if (_actionX < 0) {
+				if (-ATTACK_VECTOR_MAX < _atkVec) _atkVec += ADD_VECTOR;
+				_actionX += _atkVec;
+				_moveVector.GetPX() = -_atkVec;
+				if (0 < _actionX) _actionX = 0;
+
+			}
+			else if (0 < _actionX) {
+				if (_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
+				_actionX -= _atkVec;
+				_moveVector.GetPX() = _atkVec;
+				if (_actionX < 0) _actionX = 0;
+			}
+			if (_actionX == 0) ChangeIdol();
+			return;
+			// 起き上がりモーション時
+		case ActionState::WAKEUP:
+			// 起き上がりアニメーションの再生が終わったなら、巡回状態に遷移する
+			if (IsAnimationMax()) {
+				ChangeIdol();
+				_stay = STAY_MAX;
+#ifdef _DEBUG
+				_searchBox.GetbDrawFlg() = true;
+#endif
+
+			}
+			return;
 		}
+	}
+
+	void BigDoll::Move() {
+		if (_moveVector.GetX() < 0) _direction = enemy::MOVE_LEFT;
+		else if (0 < _moveVector.GetX()) _direction = enemy::MOVE_RIGHT;
 	}
 
 	void BigDoll::Death() {
@@ -127,5 +213,19 @@ namespace inr {
 			if (_direction) _patrolX = -PATROL_MAX;
 			else _patrolX = PATROL_MAX;
 		}
+	}
+
+	void BigDoll::ChangeIdol() {
+		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
+		std::string nextkey = "";
+		switch (_soul->SoulColor()) {
+		case soul::RED:
+			nextkey = enemy::red::BIG_IDOL;
+			break;
+		case soul::BLUE:
+			nextkey = enemy::blue::BIG_IDOL;
+			break;
+		}
+		ChangeState(ActionState::IDOL, nextkey);
 	}
 }

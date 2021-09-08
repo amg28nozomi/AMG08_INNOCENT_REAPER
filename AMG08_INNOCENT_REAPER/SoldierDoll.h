@@ -20,7 +20,6 @@ namespace inr {
 	private:
 
 		void Move() override;
-		void Action() override;
 
 		void Patrol();	// „‰ñ
 		void PatrolOn() override;	// „‰ñó‘Ô‚ÉˆÚs
@@ -28,7 +27,7 @@ namespace inr {
 		void AttackOn() override;	// UŒ‚ŠJn
 		void Attack();	// UŒ‚ˆ—
 
-		void ChangeIdol();
+		void ChangeIdol() override;
 		void PositionUpdate();
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦
 

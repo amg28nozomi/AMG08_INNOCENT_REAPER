@@ -85,7 +85,7 @@ namespace inr {
 		bool SearchPlayer(); // 索敵処理(自機の索敵
 
 		virtual void Move() = 0; // 移動処理(派生先で定義)
-		virtual void Action() = 0; // 行動(派生先で定義)
+		virtual void Action();
 		// virtual void AnimationInit() = 0;
 		// プレイヤーの現在座標から、左右どちらに居るかを割り出す
 		virtual bool SearchPosition();
@@ -95,6 +95,7 @@ namespace inr {
 		virtual bool Hit();	// オブジェクトと接触したかどうか
 		virtual bool IsStandChip();
 		virtual void Death();
+		virtual void ChangeIdol();
 
 		void ChangeState(ActionState nextstate, std::string key);
 		// 干渉可能範囲の算出

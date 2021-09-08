@@ -154,6 +154,10 @@ namespace inr {
 		_divKey.first = key;
 	}
 
+	void EnemyBase::ChangeIdol() {
+
+	}
+
 	bool EnemyBase::Hit() {
 		return false;
 	}
@@ -178,6 +182,30 @@ namespace inr {
 		_soul->SetSpwan(_position);	// 自身の座標に魂を実体化する
 		_soul->OwnerNull();
 		_soul.reset();	// 魂の所有権を手放す
+	}
+
+	void EnemyBase::Action() {
+		// プレイヤーを発見できるか
+		if (SearchPlayer() == true) {
+			// 入っている魂に応じて処理を変更する
+			switch (_soul->SoulColor()) {
+				// 赤い魂の時は、突進処理を実行する。
+			case soul::RED:
+				AttackOn();
+				if (_actionX == 0) {
+					PatrolOn();
+				}
+				break;
+			case soul::BLUE:
+				EscapeOn();
+				if (_actionX == 0) {
+					PatrolOn();
+				}
+				break;
+			}
+		}
+		// 発見できなかった場合は移動処理を行う
+		if (_soul == nullptr) _actionX = 0;
 	}
 
 	AABB EnemyBase::VitalPart(Collision& col, int vital) {
