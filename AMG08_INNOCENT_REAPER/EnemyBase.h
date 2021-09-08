@@ -57,7 +57,7 @@ namespace inr {
 		};
 		// 抜け殻、巡回、攻撃、逃避、起き上がり
 		enum class ActionState {
-			EMPTY, IDOL, PATROL, ATTACK, ESCAPE, WAKEUP
+			EMPTY, IDOL, PATROL, ATTACK, HIPDROP, ESCAPE, WAKEUP
 		};
 
 		// Soul _soul;
@@ -96,6 +96,7 @@ namespace inr {
 		virtual bool IsStandChip();
 		virtual void Death();
 		virtual void ChangeIdol();
+		virtual void PositionUpdate();
 
 		void ChangeState(ActionState nextstate, std::string key);
 		// 干渉可能範囲の算出

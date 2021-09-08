@@ -68,10 +68,10 @@ namespace inr {
 		{ enemy::blue::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_b_move.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::blue::SOLDIER_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 6, 1, 6, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		// ビッグドール
-		{ enemy::blue::BIG_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::blue::BIG_IDOL, {"Resource/SoldierDoll/sd_b_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::blue::BIG_PATROL, {"Resource/SoldierDoll/sd_b_move.png", 4, 1, 4, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::blue::BIG_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_WAKEUP, {"Resource/BigDoll/sd_b_wakeup.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_IDOL, {"Resource/BigDoll/sd_b_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_PATROL, {"Resource/BigDoll/sd_b_move.png", 4, 1, 4, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_ESCAPE, {"Resource/BigDoll/sd_b_escape.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 	};
 
 	// 魂くんの各種モーション
@@ -152,7 +152,8 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenarioS() {
 		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
 		std::vector<ObjectValue> _stageS{
-			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 305}},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 605}},
+			{ oscenario::OBJ_BIG_DOLL, {2800, 605}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {

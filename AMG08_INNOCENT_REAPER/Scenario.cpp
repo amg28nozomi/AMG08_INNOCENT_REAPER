@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
+#include "BigDoll.h"
 #include "GimmickBase.h"
 #include "Lever.h"
 
@@ -196,7 +197,9 @@ namespace inr {
 	}
 
 	void Scenario::AddBigDoll(ObjectValue ovalue) {
-
+		auto enemy = std::make_shared<BigDoll>(_game.GetGame());
+		enemy->SetParameter(ovalue);
+		_game.GetObjectServer()->Add(std::move(enemy));
 	}
 
 	void Scenario::AddCrowDoll(ObjectValue ovalue) {

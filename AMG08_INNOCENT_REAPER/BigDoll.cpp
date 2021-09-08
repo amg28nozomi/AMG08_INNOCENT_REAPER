@@ -20,6 +20,8 @@ namespace {
 	constexpr auto ATTACK_VECTOR_MIN = 1.0;
 	constexpr auto ATTACK_VECTOR_MAX = 2.5;
 	constexpr auto ADD_VECTOR = 0.1;
+
+	constexpr auto TACKLE_MAX = 1200;
 }
 
 namespace inr {
@@ -29,8 +31,10 @@ namespace inr {
 		_eType = EnemyType::BIG_DOLL;
 		_aState = ActionState::EMPTY;
 		_divKey = std::make_pair(enemy::BIG_EMPTY, key::SOUND_NUM);
-		_position = { 0, 0 };
+		_position = { 0, 500 };
 		_atkVec = 0;
+
+		Init();
 	}
 
 	BigDoll::~BigDoll() {
@@ -62,16 +66,12 @@ namespace inr {
 
 	void BigDoll::Process() {
 		ObjectBase::Process();	// 重力処理
-		_moveVector.GetPX() = 0;	// 初期化
+		_moveVector = { 0, 0 };	// 初期化
 
 		AnimationCount();
 		Action();
 		StateUpdate();
-
-	}
-
-	void BigDoll::Draw() {
-
+		PositionUpdate();
 	}
 
 
@@ -134,16 +134,14 @@ namespace inr {
 		case ActionState::ESCAPE:
 			// 左移動
 			if (_actionX < 0) {
-				if (-ATTACK_VECTOR_MAX < _atkVec) _atkVec += ADD_VECTOR;
-				_actionX += _atkVec;
-				_moveVector.GetPX() = -_atkVec;
+				_actionX += (enemy::ESCAPE_VECTOR / 30);
+				_moveVector.GetPX() = -(enemy::ESCAPE_VECTOR / 30);
 				if (0 < _actionX) _actionX = 0;
 
 			}
 			else if (0 < _actionX) {
-				if (_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
-				_actionX -= _atkVec;
-				_moveVector.GetPX() = _atkVec;
+				_actionX -= (enemy::ESCAPE_VECTOR / 30);
+				_moveVector.GetPX() = (enemy::ESCAPE_VECTOR / 30);
 				if (_actionX < 0) _actionX = 0;
 			}
 			if (_actionX == 0) ChangeIdol();
@@ -178,6 +176,7 @@ namespace inr {
 		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
 			ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
+			_changeGraph = false;
 			return;	// 処理を抜ける
 		}
 		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
@@ -201,6 +200,34 @@ namespace inr {
 		_game.GetObjectServer()->Add(std::move(soul_n));
 	}
 
+	void BigDoll::PositionUpdate() {
+		// 移動ベクトルYに加速度を代入
+		_moveVector.GetPY() = _gravity;
+		// マップチップにめり込んでいる場合は座標を修正
+		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction, _changeDirection);
+		GimmickCheck(_moveVector);
+		_position = _position + _moveVector;	// 位置座標を更新
+
+		_mainCollision.Update(_position, _direction);
+		_searchBox.Update(_position, _direction);
+
+		if (_aState == ActionState::ATTACK) {
+			auto it = _collisions.find(_divKey.first);
+			it->second.Update(_position, _direction);
+#ifdef _DEBUG
+			if (it->second.GetbDrawFlg() == false) it->second.GetbDrawFlg() = true;
+#endif
+		}
+
+		if (_soul == nullptr && IsAnimationMax() == true) {
+			auto col = _collisions.find(enemy::BIG_EMPTY);
+			col->second.Update(_position, _direction);
+			_mainCollision.Swap(col->second);
+			_searchBox.GetbDrawFlg() = false;
+
+		}
+	}
+
 	void BigDoll::PatrolOn() {
 		if (_soul == nullptr) return;
 		EnemyBase::PatrolOn();
@@ -212,6 +239,36 @@ namespace inr {
 		if (_actionX == 0) {
 			if (_direction) _patrolX = -PATROL_MAX;
 			else _patrolX = PATROL_MAX;
+		}
+	}
+
+	void BigDoll::AttackOn() {
+		if (_aState != ActionState::ATTACK) {
+			ChangeState(ActionState::ATTACK, enemy::red::BIG_TACKLE);
+			_searchBox.GetCollisionFlgB() = true;
+			switch (_direction) {
+			case enemy::MOVE_LEFT:
+				_actionX = -TACKLE_MAX;
+				return;
+			case enemy::MOVE_RIGHT:
+				_actionX = TACKLE_MAX;
+				return;
+			}
+		}
+	}
+
+	void BigDoll::EscapeOn() {
+		if (_aState != ActionState::ESCAPE) {
+			ChangeState(ActionState::ATTACK, enemy::blue::BIG_ESCAPE);
+			_searchBox.GetCollisionFlgB() = true;
+			switch (_direction) {
+			case enemy::MOVE_LEFT:
+				_actionX = -enemy::ESCAPE_MAX;
+				return;
+			case enemy::MOVE_RIGHT:
+				_actionX = enemy::ESCAPE_MAX;
+				return;
+			}
 		}
 	}
 

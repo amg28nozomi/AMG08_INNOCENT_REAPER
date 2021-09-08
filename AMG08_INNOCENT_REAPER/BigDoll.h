@@ -17,7 +17,6 @@ namespace inr {
 
 		void Init() override;
 		void Process() override;
-		void Draw() override;
 
 		void SetParameter(ObjectValue objValue);
 	private:
@@ -28,9 +27,11 @@ namespace inr {
 
 		void PatrolOn() override;
 		void AttackOn() override;
+		void EscapeOn() override;
 		void Death() override;
 		void ChangeIdol() override;
 		void Move();	// ˆÚ“®ˆ—
+		void PositionUpdate() override;
 	};
 }
 

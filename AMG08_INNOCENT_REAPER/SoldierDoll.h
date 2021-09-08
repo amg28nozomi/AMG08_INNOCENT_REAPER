@@ -24,11 +24,12 @@ namespace inr {
 		void Patrol();	// „‰ñ
 		void PatrolOn() override;	// „‰ñó‘Ô‚ÉˆÚs
 		void Escape();
+		void EscapeOn() override;
 		void AttackOn() override;	// UŒ‚ŠJn
 		void Attack();	// UŒ‚ˆ—
 
 		void ChangeIdol() override;
-		void PositionUpdate();
+		void PositionUpdate() override;
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦
 
 		void Death() override;	// €–Sˆ—

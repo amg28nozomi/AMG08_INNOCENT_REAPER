@@ -14,7 +14,7 @@
 #ifdef _DEBUG
 namespace {
 	constexpr auto START_POS_X = 500;
-	constexpr auto START_POS_Y = 0;
+	constexpr auto START_POS_Y = 400;
 
 	// ïùÅEçÇÇ≥
 	constexpr auto SOLDIER_W = 60;
@@ -338,6 +338,15 @@ namespace inr {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
 			_searchBox.GetCollisionFlgB() = true;
+			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
+		}
+	}
+
+	void SoldierDoll::EscapeOn() {
+
+		// ì¶ëñèÛë‘Ç≈ÇÕÇ»Ç¢èÍçáÇÃÇ›ÅA
+		if (_aState != ActionState::ESCAPE) {
+			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
 		}
 	}
