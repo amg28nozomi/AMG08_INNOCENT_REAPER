@@ -1,10 +1,15 @@
 #include "BigDoll.h"
 #include "SoundServer.h"
 #include "Game.h"
+#include "ObjectServer.h"
+#include "SoulSkin.h"
+#include <memory>
 
 namespace {
 	constexpr auto BIG_EMPTY_WIDTH = 200;
 	constexpr auto BIG_EMPTY_HEIGHT = 100;
+
+	constexpr auto PATROL_MAX = 280;
 }
 
 namespace inr {
@@ -63,15 +68,64 @@ namespace inr {
 	}
 
 	void BigDoll::StateUpdate() {
+		if (_soul == nullptr) return;
+		if (0 < _stay) {
+			--_stay;
+			return;
+		}
+
 		switch (_aState) {
 		case ActionState::IDOL:
-
-			break;
+			EnemyBase::PatrolOn();
+			return;
+		case ActionState::PATROL:
 		}
 	}
 
 	void BigDoll::Death() {
 		ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 		EnemyBase::Death();
+	}
+
+	void BigDoll::SetParameter(ObjectValue objValue) {
+		EnemyBase::SetParameter(objValue);
+		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
+			ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
+			_aCount = AnimationCountMax();	// カウンタをマックスにする
+			return;	// 処理を抜ける
+		}
+		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
+		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
+		switch (_oValue.SoulType()) {
+		case 1:
+			soul_n->SetParameter(_oValue.SoulType(), 7);
+			ChangeState(ActionState::PATROL, enemy::red::BIG_PATROL);
+			break;
+		case 2:
+			soul_n->SetParameter(_oValue.SoulType(), 7);
+			ChangeState(ActionState::PATROL, enemy::blue::BIG_PATROL);
+			break;
+		default:
+#ifdef _DEBUG
+			OutputDebugString("error：EnemyBase->SetParameter　ObjectValueの_soulTypeの値が不正です\n");
+#endif
+			break;
+		}
+		_soul = soul_n;
+		_game.GetObjectServer()->Add(std::move(soul_n));
+	}
+
+	void BigDoll::PatrolOn() {
+		if (_soul == nullptr) return;
+		EnemyBase::PatrolOn();
+
+		// 魂の色に応じてキーを切り替え
+		(_soul->SoulColor() == soul::BLUE) ?
+			_divKey.first = enemy::blue::BIG_PATROL : _divKey.first = enemy::red::BIG_PATROL;
+
+		if (_actionX == 0) {
+			if (_direction) _patrolX = -PATROL_MAX;
+			else _patrolX = PATROL_MAX;
+		}
 	}
 }

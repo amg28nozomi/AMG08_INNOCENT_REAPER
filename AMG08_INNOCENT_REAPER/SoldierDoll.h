@@ -15,13 +15,15 @@ namespace inr {
 		void Process() override;
 
 		bool Hit() override;
+
+		void SetParameter(ObjectValue objValue) override;
 	private:
 
 		void Move() override;
 		void Action() override;
 
 		void Patrol();	// „‰ñ
-		void PatrolOn();	// „‰ñó‘Ô‚ÉˆÚs
+		void PatrolOn() override;	// „‰ñó‘Ô‚ÉˆÚs
 		void Escape();
 		void AttackOn() override;	// UŒ‚ŠJn
 		void Attack();	// UŒ‚ˆ—
@@ -31,7 +33,6 @@ namespace inr {
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦
 
 		void Death() override;	// €–Sˆ—
-		bool IsStandChip() override;
 
 		AABB NowCollision(std::string key) override;
 

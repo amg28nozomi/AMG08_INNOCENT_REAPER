@@ -18,6 +18,10 @@ namespace inr {
 		void Init() override;
 		void Process() override;
 		void Draw() override;
+
+		void SetParameter(ObjectValue objValue);
+
+		void PatrolOn() override;
 	private:
 		void HipDrop();	// ヒップドロップ
 		void StateUpdate();	// 状態に応じた処理を行う

@@ -89,9 +89,11 @@ namespace inr {
 		// virtual void AnimationInit() = 0;
 		// プレイヤーの現在座標から、左右どちらに居るかを割り出す
 		virtual bool SearchPosition();
+		virtual void PatrolOn();	// 巡回
 		virtual void EscapeOn();	// 逃避
 		virtual void AttackOn();	// 攻撃開始
 		virtual bool Hit();	// オブジェクトと接触したかどうか
+		virtual bool IsStandChip();
 		virtual void Death();
 
 		void ChangeState(ActionState nextstate, std::string key);
@@ -114,7 +116,7 @@ namespace inr {
 
 		bool IsEmpty();
 
-		void SetParameter(ObjectValue objValue) override;	// parameter
+		virtual void SetParameter(ObjectValue objValue) override;	// parameter
 
 		// virtual void Process() override;
 		// virtual void Draw() override;

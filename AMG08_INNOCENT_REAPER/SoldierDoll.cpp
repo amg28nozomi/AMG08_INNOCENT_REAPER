@@ -346,9 +346,7 @@ namespace inr {
 
 	void SoldierDoll::PatrolOn() {
 		if (_soul == nullptr) return;
-		_searchBox.GetCollisionFlgB() = true;
-		_changeGraph = true;
-		_aState = ActionState::PATROL;
+		EnemyBase::PatrolOn();
 
 		// 魂の色に応じてキーを切り替え
 		(_soul->SoulColor() == soul::BLUE) ?
@@ -458,19 +456,6 @@ namespace inr {
 		return false;
 	}
 
-	bool SoldierDoll::IsStandChip() {
-		auto nowcol = NowCollision(_divKey.first);
-		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip);
-		switch (chipType) {
-		case mapchip::IVY:
-		case mapchip::NONE:
-			return false;
-		case mapchip::THORM:
-			if(_soul != nullptr) Death();
-		default:
-			return true;
-		}
-	}
 
 	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		// 現在の急所がある座標を算出
@@ -524,13 +509,43 @@ namespace inr {
 		}
 	}
 
+	void SoldierDoll::SetParameter(ObjectValue objValue) {
+		EnemyBase::SetParameter(objValue);
+		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
+			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
+			_aCount = AnimationCountMax();	// カウンタをマックスにする
+			return;	// 処理を抜ける
+		}
+		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
+		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
+		switch (_oValue.SoulType()) {
+		case 1:
+			soul_n->SetParameter(_oValue.SoulType(), 7);
+			ChangeState(ActionState::PATROL, enemy::red::SOLDIER_PATROL);
+			break;
+		case 2:
+			soul_n->SetParameter(_oValue.SoulType(), 7);
+			ChangeState(ActionState::PATROL, enemy::blue::SOLDIER_PATROL);
+			break;
+		default:
+#ifdef _DEBUG
+			OutputDebugString("error：EnemyBase->SetParameter　ObjectValueの_soulTypeの値が不正です\n");
+#endif
+			break;
+		}
+		_soul = soul_n;
+		_game.GetObjectServer()->Add(std::move(soul_n));
+	}
+
 	void SoldierDoll::Death() {
 		ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 		EnemyBase::Death();
 	}
 
 	AABB SoldierDoll::NowCollision(std::string key) {
+		if(_soul != nullptr) return _mainCollision;
+		auto it = _collisions.find(key);
 		// 現在のアクション状態はボックスを修正する必要があるか？
-		return _mainCollision;
+		return it->second;
 	}
 }

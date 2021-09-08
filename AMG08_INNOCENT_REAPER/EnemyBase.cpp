@@ -138,6 +138,12 @@ namespace inr {
 		}
 	}
 
+	void EnemyBase::PatrolOn() {
+		_searchBox.GetCollisionFlgB() = true;
+		_changeGraph = true;
+		_aState = ActionState::PATROL;
+	}
+
 	void EnemyBase::AttackOn() {
 
 	}
@@ -157,29 +163,6 @@ namespace inr {
 		_position = _oValue.Positions()[0];	// 座標更新
 		_mainCollision.Update(_position, _direction);	// 当たり判定修正
 		_searchBox.Update(_position, _direction);	// 索敵範囲の修正
-		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
-			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
-			return;	// 処理を抜ける
-		}
-		auto soul_n =  std::make_shared<SoulSkin>(_game.GetGame());
-		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
-		switch (_oValue.SoulType()) {
-		case 1:
-			soul_n->SetParameter(_oValue.SoulType(), 7);
-			ChangeState(ActionState::PATROL, enemy::red::SOLDIER_PATROL);
-			break;
-		case 2:
-			soul_n->SetParameter(_oValue.SoulType(), 7);
-			ChangeState(ActionState::PATROL, enemy::blue::SOLDIER_PATROL);
-			break;
-		default:
-#ifdef _DEBUG
-			OutputDebugString("error：EnemyBase->SetParameter　ObjectValueの_soulTypeの値が不正です\n");
-#endif
-			break;
-		}
-		_soul = soul_n;
-		_game.GetObjectServer()->Add(std::move(soul_n));
 	}
 
 	void EnemyBase::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
@@ -224,5 +207,19 @@ namespace inr {
 			damageMin.GetPX() += fix;
 		}
 		return AABB(damageMin, damageMax, true);
+	}
+
+	bool EnemyBase::IsStandChip() {
+		auto nowcol = NowCollision(_divKey.first);
+		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip);
+		switch (chipType) {
+		case mapchip::IVY:
+		case mapchip::NONE:
+			return false;
+		case mapchip::THORM:
+			if (_soul != nullptr) Death();
+		default:
+			return true;
+		}
 	}
 }
