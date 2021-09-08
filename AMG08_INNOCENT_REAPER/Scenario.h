@@ -29,19 +29,16 @@ namespace inr {
 		~Scenario();
 
 		void Init();	// 初期化処理
-		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// 情報読み込み
 		void ScenarioUpdate(std::string key);	// シナリオを更新する
 
-
 		bool AddObjects(const std::string key);	// オブジェクトの生成
-		bool IsLoad(const std::string key);	// 対象のキーは読み込んだか？
 	private:
 
 		Game& _game;
 		ScenarioMap _scenarios;
 		// ObjectSize _objSize;	// 登録されているキーのカウンタ
 
-		void AddPlayer(ObjectValue ovalue);
+		void AddPlayer();
 		void AddEnemy(ObjectValue ovalue);
 
 		void AddSoldierDoll(ObjectValue ovalue);
@@ -52,6 +49,8 @@ namespace inr {
 		void AddCrystal(ObjectValue ovalue);
 		void AddBlock(ObjectValue ovalue);
 
+		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// 情報読み込み
+		bool IsLoad(const std::string key);	// 対象のキーは読み込んだか？
 		void ClearScenario();	// 連想配列の初期化
 		//void CheckSize(const char* objkey);	// この
 	};

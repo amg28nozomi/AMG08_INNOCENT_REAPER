@@ -95,6 +95,15 @@ namespace inr {
 		if(player != nullptr)_objects.emplace_back(std::move(player));	// Ž©‹@‚ÌƒAƒhƒŒƒX‚ª‚ ‚éê‡‚Ì‚Ý“o˜^
 	}
 
+	bool ObjectServer::IsPlayer() {
+		if (_objects.empty()) return false;	// ‹‚È‚¢
+		for (auto obj : _objects) {
+			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
+			return true;
+		}
+		return false;
+	}
+
 	std::shared_ptr<Player> ObjectServer::GetPlayer() {
 		for (auto& it : _objects) {
 			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {

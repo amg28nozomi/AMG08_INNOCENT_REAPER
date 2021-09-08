@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "ObjectValue.h"
+#include "Loads.h"
 
 #include "Player.h"
 #include "EnemyBase.h"
@@ -111,15 +112,12 @@ namespace inr {
 	//}
 
 	bool Scenario::AddObjects(const std::string key) {
+		IsLoad(key);
 		auto it = _scenarios.find(key);
 		// 登録されているオブジェクト(ObjectBase限定)の生成
 		for (auto ovalue : it->second) {
 			auto classType = ovalue.ClassName();	// 生成するオブジェクトは何なのか？
 			switch (classType) {
-			// 自機の生成
-			case oscenario::OBJ_PLAYER:
-				AddPlayer(ovalue);
-				continue;
 			// ソルジャードールの生成
 			case oscenario::OBJ_SOLDIER_DOLL:
 				AddSoldierDoll(ovalue);
@@ -153,11 +151,25 @@ namespace inr {
 		return false;
 	}
 
-	bool Scenario::IsLoad(const std::string key) {
 
+	bool Scenario::IsLoad(const std::string key) {
+		auto it = _scenarios.find(key);
+		if (it != _scenarios.end()) return false;	// 登録されている場合はそのまま生成に移る
+
+		// 該当するシナリオの読み込みを行う
+		std::vector<ObjectValue> _ovalue;
+		if (key == stage::STAGE_0) _ovalue = Loads::LoadScenarioS();
+		if (key == stage::STAGE_1) _ovalue = Loads::LoadScenario1();
+		if (key == stage::STAGE_2) _ovalue = Loads::LoadScenario2();
+		if (key == stage::STAGE_2_1) _ovalue = Loads::LoadScenario2_1();
+		if (key == stage::STAGE_2_2) _ovalue = Loads::LoadScenario2_2();
+		if (key == stage::STAGE_3) _ovalue = Loads::LoadScenarioB();
+		LoadObjectData(key, _ovalue);	// 登録
+		return true;
 	}
 
-	void Scenario::AddPlayer(ObjectValue ovalue) {
+	void Scenario::AddPlayer() {
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 550, 905 });
 		auto player = std::make_shared<Player>(_game.GetGame());
 		player->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(player));

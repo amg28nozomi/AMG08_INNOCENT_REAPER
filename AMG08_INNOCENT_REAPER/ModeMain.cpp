@@ -24,6 +24,10 @@ namespace inr {
 	ModeMain::ModeMain(Game& game) : ModeBase(game) {
 		_resetFlg = true;
 		_stageKey = stage::CHANGE_NULL;
+		_changeKey = stage::CHANGE_NULL;
+
+		_bg = std::make_unique<BackGround>(_game.GetGame());
+		_uiSoul = std::make_unique<UI>(_game.GetGame());
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -39,20 +43,15 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			auto scenarioD = Loads::LoadScenario1();	// 対応するシナリオを読み込み
-			_game.GetScenario()->LoadObjectData(stage::STAGE_1, scenarioD);
-			_game.GetScenario()->AddObjects(stage::STAGE_1);
+			_stageKey = stage::STAGE_0;
+			_changeKey = stage::CHANGE_NULL;
+			_worldPosition = { 1920 / 2, 1080 / 2 };
 
-			// auto soul_r = std::make_shared<SoulSkin>(_game.GetGame());
-			// _game.GetObjectServer()->Add(std::move(soul_r));
-			_bg = std::make_unique<BackGround>(_game.GetGame());
-			_uiSoul = std::make_unique<UI>(_game.GetGame());
 			TimeClear();
+			_game.GetMapChips()->ChangeMap(_stageKey);
+			_game.GetScenario()->AddObjects(_stageKey);
 			_resetFlg = false;
 		}
-		_stageKey = stage::STAGE_1;
-		_changeKey = stage::CHANGE_NULL;
-		_worldPosition = { 1920 / 2, 1080 / 2 };
 	}
 
 	void ModeMain::Process() {
@@ -87,7 +86,7 @@ namespace inr {
 			// ギミックの状態を更新する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);
 			_game.GetMapChips()->ChangeMap(_changeKey);
-			_game.GetScenario()->
+			_game.GetScenario()->AddObjects(_changeKey);
 			_stageKey = _changeKey;	// キーを更新する
 
 		}

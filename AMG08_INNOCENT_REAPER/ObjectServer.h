@@ -38,7 +38,8 @@ namespace inr{
 		std::shared_ptr<SoulSkin> GetSoul();
 
 
-		void ObjectsClear();	// 
+		bool IsPlayer();	// プレイヤーは生成されているか？
+		void ObjectsClear();
 		inline void AllClear() { _objects.clear(); }
 		inline void DelOn() { _delete = true; }
 		inline bool DelFlag() { return _delete; }
