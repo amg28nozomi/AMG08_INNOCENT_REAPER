@@ -19,6 +19,7 @@ namespace inr {
 		void Process() override;
 
 		void SetParameter(ObjectValue objValue);
+		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	private:
 		double _atkVec;	// ˆÚ“®—Ê
 
@@ -32,6 +33,8 @@ namespace inr {
 		void ChangeIdol() override;
 		void Move();	// ˆÚ“®ˆ—
 		void PositionUpdate() override;
+
+		AABB NowCollision(std::string key) override;
 	};
 }
 

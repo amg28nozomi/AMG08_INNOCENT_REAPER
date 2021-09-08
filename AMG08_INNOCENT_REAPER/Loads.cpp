@@ -154,7 +154,7 @@ namespace inr {
 		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
 		std::vector<ObjectValue> _stageS{
 			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 605}},
-			{ oscenario::OBJ_BIG_DOLL, {2600, 605}},
+			{ oscenario::OBJ_BIG_DOLL, {2800, 905}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {
@@ -192,7 +192,23 @@ namespace inr {
 		// レバー/扉(2)
 		// 岩(1-3)
 		// 水晶(2/4)
-		std::vector<ObjectValue> _stage;
+		std::vector<ObjectValue> _stage{
+			// ソルジャードール
+			{ oscenario::OBJ_SOLDIER_DOLL, {3520, 780}, 0},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1400, 1500}, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {7640, 1970}, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1640, 1500}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2120, 860}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {7320, 1970}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {7960, 340}, 2},
+			// ビッグドール
+			{ oscenario::OBJ_BIG_DOLL, {1640, 840}, 1},
+			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, 1},
+			{ oscenario::OBJ_BIG_DOLL, {6840, 1970}, 1},
+			// ギミック
+			{ oscenario::OBJ_LEVER, {{2200, 2000}, {2440, 2000}},  0, {gimmick::door::D_LEVER}},
+			{ oscenario::OBJ_LEVER, {{3280, 800}, {3640, 800}},  0, {gimmick::door::D_LEVER}},
+		};
 		return _stage;
 	}
 

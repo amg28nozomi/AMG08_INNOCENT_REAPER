@@ -46,7 +46,7 @@ namespace inr {
 		_mainCollision = { _position, enemy::BIG_WIDTH / 2, enemy::BIG_HEIGHT / 2, true };
 		_collisions = {
 			// 抜け殻
-			{enemy::BIG_EMPTY, {_position, BIG_EMPTY_WIDTH / 2, BIG_EMPTY_WIDTH / 2, 0, BIG_EMPTY_HEIGHT / 2, true}},
+			{enemy::BIG_EMPTY, {_position, BIG_EMPTY_WIDTH / 2, BIG_EMPTY_WIDTH / 2, 0, BIG_EMPTY_HEIGHT, true}},
 		};
 		_motionKey = {
 			{ enemy::BIG_EMPTY, {40, 0}},
@@ -95,12 +95,14 @@ namespace inr {
 			if (_patrolX < 0) {
 				_moveVector.GetPX() = PATROL_VECTOR;
 				_patrolX += PATROL_VECTOR;
+				if (0 < _patrolX) _patrolX = 0;
 				return;
 				// 右移動
 			}
 			else if (0 < _patrolX) {
 				_moveVector.GetPX() = -PATROL_VECTOR;
 				_patrolX -= PATROL_VECTOR;
+				if (_patrolX < 0) _patrolX = 0;
 				return;
 			}
 			// 移動量が0の場合は待機状態に遷移する
@@ -114,6 +116,7 @@ namespace inr {
 				break;
 			}
 			_stay = STAY_MAX;
+			_searchBox.GetCollisionFlgB() = false;	// 索敵を切る
 			return;
 		case ActionState::ATTACK:
 			// 左移動
@@ -211,17 +214,10 @@ namespace inr {
 		_mainCollision.Update(_position, _direction);
 		_searchBox.Update(_position, _direction);
 
-		if (_aState == ActionState::ATTACK) {
-			auto it = _collisions.find(_divKey.first);
-			it->second.Update(_position, _direction);
-#ifdef _DEBUG
-			if (it->second.GetbDrawFlg() == false) it->second.GetbDrawFlg() = true;
-#endif
-		}
+		auto col = _collisions.find(enemy::BIG_EMPTY);
+		col->second.Update(_position, _direction);
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
-			auto col = _collisions.find(enemy::BIG_EMPTY);
-			col->second.Update(_position, _direction);
 			_mainCollision.Swap(col->second);
 			_searchBox.GetbDrawFlg() = false;
 
@@ -257,6 +253,13 @@ namespace inr {
 		}
 	}
 
+	AABB BigDoll::NowCollision(std::string key) {
+		if (_soul != nullptr) return _mainCollision;
+		auto it = _collisions.find(enemy::BIG_EMPTY);
+		// 現在のアクション状態はボックスを修正する必要があるか？
+		return it->second;
+	}
+
 	void BigDoll::EscapeOn() {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ATTACK, enemy::blue::BIG_ESCAPE);
@@ -284,5 +287,57 @@ namespace inr {
 			break;
 		}
 		ChangeState(ActionState::IDOL, nextkey);
+	}
+
+	void BigDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
+		// 現在の急所がある座標を算出
+		auto vitalPart = VitalPart(_mainCollision, BIG_DOLL_VITAL);
+		auto player = _game.GetObjectServer()->GetPlayer();
+		// 魂は奪われるか？
+		if (ckey == PKEY_ROB) {
+			if (_soul != nullptr) {
+				if (_direction == direction && vitalPart.HitCheck(acollision)) {
+					// 魂を奪われる
+					ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
+					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
+
+					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
+
+					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
+					if (player->IsSoulMax()) {
+						_soul->OwnerNull();
+						_soul.reset();	// 所有権を手放す
+						return;
+					}
+					player->SoulCatch(std::move(_soul));	// 魂の所有権をプレイヤーに譲渡
+					return;
+				}
+			}
+		}
+		// 魂を与えられるか？
+		if (ckey == PKEY_GIVE) {
+			// プレイヤーは魂を所持しているか？
+			if (player->HaveSoul()) {
+				// 魂が空の場合にボックスが接触したら
+				if (_soul == nullptr) {
+					// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
+					if (_mainCollision.HitCheck(acollision)) {
+						// プレイヤーを取得
+						auto player = _game.GetObjectServer()->GetPlayer();
+						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
+						_soul->Inactive();	// 魂を非活性状態にする
+						switch (_soul->SoulColor()) {
+						case soul::RED:
+							ChangeState(ActionState::WAKEUP, enemy::red::BIG_WAKEUP);
+							return;
+						case soul::BLUE:
+							ChangeState(ActionState::WAKEUP, enemy::blue::BIG_WAKEUP);
+							return;
+						}
+						return;
+					}
+				}
+			}
+		}
 	}
 }

@@ -355,7 +355,10 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction);
+		if (_soul != nullptr) {
+			int i = 0;
+		}
+		_game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction);
 		GimmickCheck(_moveVector);
 		_position = _position + _moveVector;	// 位置座標を更新
 
@@ -370,9 +373,10 @@ namespace inr {
 #endif
 		}
 
+		auto col = _collisions.find(enemy::SOLDIER_EMPTY);
+		col->second.Update(_position, _direction);
+
 		if (_soul == nullptr && IsAnimationMax() == true) {
-			auto col = _collisions.find(enemy::SOLDIER_EMPTY);
-			col->second.Update(_position, _direction);
 			_mainCollision.Swap(col->second);
 			_searchBox.GetbDrawFlg() = false;
 			
@@ -529,7 +533,7 @@ namespace inr {
 
 	AABB SoldierDoll::NowCollision(std::string key) {
 		if(_soul != nullptr) return _mainCollision;
-		auto it = _collisions.find(key);
+		auto it = _collisions.find(enemy::SOLDIER_EMPTY);
 		// 現在のアクション状態はボックスを修正する必要があるか？
 		return it->second;
 	}

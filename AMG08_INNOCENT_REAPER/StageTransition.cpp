@@ -16,6 +16,12 @@ namespace inr {
 
 		constexpr auto TPOS_1_X = 3750;
 		constexpr auto TPOS_1_Y = 305;
+
+		constexpr auto TPOS_2_X = 100;
+		constexpr auto TPOS_2_Y = 1970;
+
+		constexpr auto TPOS_4_X = 9500;
+		constexpr auto TPOS_4_Y = 1970;
 	}
 
 	Transition::Transition(std::string stageKey, Vector2 position) {
@@ -40,6 +46,10 @@ namespace inr {
 		_transitions = {
 			{ 129, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}}},
 			{ 130, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}}},
+			{ 131, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}}},
+			// { 132, {stage::STAGE_1, {}}
+			{ 133, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}}},
+
 		};
 
 		/*

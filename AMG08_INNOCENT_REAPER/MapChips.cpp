@@ -635,7 +635,7 @@ namespace inr {
 						if (vectorY < 0) {
 							if (miny < chipMinY && chipMinY < maxy) {
 								auto cave = box.GetHeightMin();
-								TransitionResearch(chip_no);
+								if(isUpdate)TransitionResearch(chip_no);
 								move.GetPY() = 0;	// ˆÚ“®—Ê‰Šú‰»
 								pos.GetPY() = chipMaxY + cave;
 							}
@@ -643,6 +643,7 @@ namespace inr {
 						else if (0 < vectorY) {
 							if (chipMaxY < maxy && miny < chipMaxY) {
 								auto cave = box.GetHeightMin();
+								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPY() = 0;	// ˆÚ“®—Ê‰Šú‰»
 								pos.GetPY() = chipMinY + cave;
 							}
@@ -654,7 +655,7 @@ namespace inr {
 							if (minx < chipMaxX && chipMinX < maxx) {
 								// if (minx < chipMinX && chipMinX < maxx) {
 								auto cave = box.GetWidthMin();
-								TransitionResearch(chip_no);
+								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPX() = 0;
 								pos.GetPX() = chipMaxX + cave;
 								return _chipCheck->IsChipType(chip_no);
@@ -665,7 +666,7 @@ namespace inr {
 								// if (chipMaxX < maxx && minx < chipMaxX) {
 								// if (chipMinX < maxx && minx < chipMaxX) {
 								auto cave = box.GetWidthMin();
-								TransitionResearch(chip_no);
+								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPX() = 0;
 								pos.GetPX() = chipMinX - cave;
 								return _chipCheck->IsChipType(chip_no);
