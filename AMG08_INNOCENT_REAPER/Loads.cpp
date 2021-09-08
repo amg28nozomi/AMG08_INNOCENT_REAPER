@@ -151,8 +151,10 @@ namespace inr {
 	// 封印の祭壇
 	std::vector<ObjectValue> Loads::LoadScenarioS() {
 		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
-		std::vector<ObjectValue> _stage;
-		return _stage;
+		std::vector<ObjectValue> _stageS{
+			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 305}},
+		};
+		return _stageS;
 		/*std::vector<ObjectValue>_stageS {
 			{ oscenario::OBJ_SOLDIER_DOLL, {}}
 		}
@@ -165,7 +167,7 @@ namespace inr {
 
 		std::vector<ObjectValue> _stage1 {
 			// プレイヤーの登録情報
-			{ oscenario::OBJ_PLAYER, { 200,800}, 0 },
+			// { oscenario::OBJ_PLAYER, { 200,800}, 0 },
 			// { oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)}, 0 },
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1950}, 1},

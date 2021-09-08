@@ -113,6 +113,7 @@ namespace inr {
 
 	bool Scenario::AddObjects(const std::string key) {
 		IsLoad(key);
+		AddPlayer();
 		auto it = _scenarios.find(key);
 		// 登録されているオブジェクト(ObjectBase限定)の生成
 		for (auto ovalue : it->second) {
@@ -169,7 +170,8 @@ namespace inr {
 	}
 
 	void Scenario::AddPlayer() {
-		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 550, 905 });
+		if (_game.GetObjectServer()->IsPlayer() == true) return;
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 550, 905 });	// ステージSに合わせた地点に生成する
 		auto player = std::make_shared<Player>(_game.GetGame());
 		player->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(player));

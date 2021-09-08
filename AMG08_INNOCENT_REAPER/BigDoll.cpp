@@ -11,7 +11,7 @@ namespace inr {
 	}
 
 	void BigDoll::Init() {
-
+		_mainCollision = { _position, 160 / 2, 200 / 2, true };
 	}
 
 	void BigDoll::Process() {

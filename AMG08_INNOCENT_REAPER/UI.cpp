@@ -21,7 +21,7 @@ namespace {
 namespace inr {
 
 	UI::UI(Game& game) : Image(game) {
-		_player = _game.GetObjectServer()->GetPlayer();
+		_player = nullptr;
 		_pos = { 300, 200 };
 		_ghKeys = { ui::KEY_HP };
 		_count = { 0 };
@@ -59,6 +59,10 @@ namespace inr {
 	void UI::DrawEmptyBox() {
 		auto gh = GraphHandle(ui::KEY_BOX, 0);
 		DrawRotaGraph(550, 200, 1.0, 0, gh, true);
+	}
+
+	void UI::PlayerUpdate() {
+		if (_player == nullptr) _player = _game.GetObjectServer()->GetPlayer();
 	}
 
 	std::string UI::GetGraphKey(int number) {

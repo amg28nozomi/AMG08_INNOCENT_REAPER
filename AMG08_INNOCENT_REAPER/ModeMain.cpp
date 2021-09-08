@@ -50,6 +50,7 @@ namespace inr {
 			TimeClear();
 			_game.GetMapChips()->ChangeMap(_stageKey);
 			_game.GetScenario()->AddObjects(_stageKey);
+			_uiSoul->PlayerUpdate();
 			_resetFlg = false;
 		}
 	}
@@ -102,6 +103,7 @@ namespace inr {
 
 	bool ModeMain::StageChange() {
 		// ステージの切り替え
+		return false;
 	}
 
 	void ModeMain::SetObjects() {

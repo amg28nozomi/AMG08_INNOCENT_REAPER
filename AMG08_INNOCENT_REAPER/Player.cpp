@@ -234,6 +234,14 @@ namespace inr {
 		if (it != _collisions.end()) it->second.Update(_position, _direction);
 
 		_mainCollision.Update(_position, _direction);
+
+		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
+		if (_souls.empty()) return;
+		auto addSoul = _souls;
+		for (auto i = 0; i < _souls.size(); ++i) {
+			_game.GetObjectServer()->Add(addSoul.front());
+			addSoul.pop();
+		}
 	}
 
 	void Player::StateUpdate() {

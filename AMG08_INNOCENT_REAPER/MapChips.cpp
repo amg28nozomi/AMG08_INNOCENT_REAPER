@@ -1027,8 +1027,8 @@ namespace inr {
 		// マップデータは読み込まれているか？
 		if (_mapManager->IsLoad(nextStage) == true) {
 			// 読み込まれいない場合は
-			std::string stagePath = DEFAULT_PATH + nextStage + JSON_FORMAT;	// パスを作成
-			TiledJsonLoad(nextStage, DEFAULT_PATH, nextStage);	// 対象の登録
+			std::string stagePath = nextStage + JSON_FORMAT;	// パスを作成
+			TiledJsonLoad(nextStage, DEFAULT_PATH, stagePath);	// 対象の登録
 		}
 		_mapManager->GetStageMap(nextStage, _nowMap);	// 配置情報の取得
 	}

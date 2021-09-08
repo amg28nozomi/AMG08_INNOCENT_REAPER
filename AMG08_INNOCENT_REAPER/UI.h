@@ -28,6 +28,8 @@ namespace inr {
 		void Init() override;
 		void Process() override;
 		void Draw() override;
+
+		void PlayerUpdate();	// 自機のポインタを取得する
 	private:
 		std::shared_ptr<Player> _player;	// 自機のポインタ
 		std::queue<std::shared_ptr<SoulSkin>> _uiSoul;	// 1フレーム前の情報
