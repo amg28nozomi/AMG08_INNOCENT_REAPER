@@ -153,7 +153,7 @@ namespace inr {
 		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
 		std::vector<ObjectValue> _stageS{
 			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 605}},
-			{ oscenario::OBJ_BIG_DOLL, {2800, 605}},
+			{ oscenario::OBJ_BIG_DOLL, {2600, 605}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {

@@ -31,7 +31,7 @@ namespace inr {
 		_eType = EnemyType::BIG_DOLL;
 		_aState = ActionState::EMPTY;
 		_divKey = std::make_pair(enemy::BIG_EMPTY, key::SOUND_NUM);
-		_position = { 0, 500 };
+		_position = { 500, 500 };
 		_atkVec = 0;
 
 		Init();
@@ -176,7 +176,7 @@ namespace inr {
 		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
 			ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
-			_changeGraph = false;
+			_changeGraph = true;
 			return;	// 処理を抜ける
 		}
 		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
