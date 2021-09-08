@@ -186,4 +186,33 @@ namespace inr {
 		if (_soul == nullptr) return true;
 		return false;
 	}
+
+	AABB EnemyBase::VitalPart(Collision& col, int vital) {
+		// 座標を算出（y座標は変更ない）
+		Vector2 vitalMin(0.0, col.GetMin().GetY());
+		Vector2 vitalMax(0.0, col.GetMax().GetY());
+		if (_direction) {
+			vitalMin.GetPX() = col.GetMax().GetX() - vital;
+			vitalMax.GetPX() = col.GetMax().GetX();
+		}
+		else {
+			// 右に向いている場合
+			vitalMin.GetPX() = col.GetMin().GetX();
+			vitalMax.GetPX() = col.GetMin().GetX() + vital;
+		}
+		return AABB(vitalMin, vitalMax, true);
+	}
+
+	AABB EnemyBase::DamageBox(int fix) {
+		// ベクトル作成
+		auto damageMin(_mainCollision.GetMin());
+		auto damageMax(_mainCollision.GetMax());
+		if (_direction) {
+			damageMax.GetPX() -= fix;
+		}
+		else {
+			damageMin.GetPX() += fix;
+		}
+		return AABB(damageMin, damageMax, true);
+	}
 }

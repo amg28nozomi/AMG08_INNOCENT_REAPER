@@ -89,6 +89,9 @@ namespace inr {
 		virtual bool Hit();	// オブジェクトと接触したかどうか
 
 		void ChangeState(ActionState nextstate, std::string key);
+		// 干渉可能範囲の算出
+		AABB VitalPart(Collision& col, int vital = 0);
+		AABB DamageBox(int fix = 0);	// ダメージボックスの算出
 
 	public:
 		EnemyBase(Game& game);

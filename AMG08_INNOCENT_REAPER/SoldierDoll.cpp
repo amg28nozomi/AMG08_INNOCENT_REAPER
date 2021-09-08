@@ -187,7 +187,9 @@ namespace inr {
 			if (IsAnimationMax()) {
 				ChangeIdol();
 				_stay = STAY_MAX;
+#ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
+#endif
 
 			}
 			return;
@@ -345,6 +347,7 @@ namespace inr {
 
 	void SoldierDoll::PatrolOn() {
 		if (_soul == nullptr) return;
+		_searchBox.GetCollisionFlgB() = true;
 		_changeGraph = true;
 		_aState = ActionState::PATROL;
 
@@ -361,6 +364,7 @@ namespace inr {
 	void SoldierDoll::AttackOn() {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
+			_searchBox.GetCollisionFlgB() = true;
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
 		}
 	}
@@ -379,7 +383,9 @@ namespace inr {
 		if (_aState == ActionState::ATTACK) {
 			auto it = _collisions.find(_divKey.first);
 			it->second.Update(_position, _direction);
+#ifdef _DEBUG
 			if(it->second.GetbDrawFlg() == false) it->second.GetbDrawFlg() = true;
+#endif
 		}
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
@@ -408,7 +414,7 @@ namespace inr {
 		}
 
 		// 自身の当たり判定と接触判定を行う
-		auto dmb = DamageBox();
+		auto dmb = DamageBox(10);
 		if (dmb.HitCheck(playerBox)) {
 			player->Damage(SearchPosition());
 			return;
@@ -429,7 +435,8 @@ namespace inr {
 	}
 
 	void SoldierDoll::ChangeIdol() {
-		std::string nextkey;
+		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
+		std::string nextkey = "";
 		switch (_soul->SoulColor()) {
 		case soul::RED:
 			nextkey = enemy::red::SOLDIER_IDOL;
@@ -468,7 +475,7 @@ namespace inr {
 
 	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		// 現在の急所がある座標を算出
-		auto vitalPart = VitalPart(_mainCollision);
+		auto vitalPart = VitalPart(_mainCollision, SOLDIER_VITAL);
 		auto player = _game.GetObjectServer()->GetPlayer();
 		// 魂は奪われるか？
 		if (ckey == PKEY_ROB) {
@@ -476,6 +483,7 @@ namespace inr {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
+					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 
@@ -522,34 +530,6 @@ namespace inr {
 		_soul->SetSpwan(_position);	// 自身の座標に魂を実体化する
 		_soul->OwnerNull();
 		_soul.reset();	// 魂の所有権を手放す
-	}
-
-	AABB SoldierDoll::VitalPart(Collision& col) {
-		// 座標を算出（y座標は変更ない）
-		Vector2 vitalMin(0.0, col.GetMin().GetY());
-		Vector2 vitalMax(0.0, col.GetMax().GetY());
-		if (_direction) {
-			vitalMin.GetPX() = col.GetMax().GetX() - SOLDIER_VITAL;
-			vitalMax.GetPX() = col.GetMax().GetX();
-		} else {
-			// 右に向いている場合
-			vitalMin.GetPX() = col.GetMin().GetX();
-			vitalMax.GetPX() = col.GetMin().GetX() + SOLDIER_VITAL;
-		}
-		return AABB(vitalMin, vitalMax, true);
-	}
-
-	AABB SoldierDoll::DamageBox() {
-		// ベクトル作成
-		auto damageMin(_mainCollision.GetMin());
-		auto damageMax(_mainCollision.GetMax());
-		if (_direction) {
-			damageMax.GetPX() -= 10;
-		}
-		else {
-			damageMin.GetPX() += 10;
-		}
-		return AABB(damageMin, damageMax, true);
 	}
 
 	AABB SoldierDoll::NowCollision(std::string key) {

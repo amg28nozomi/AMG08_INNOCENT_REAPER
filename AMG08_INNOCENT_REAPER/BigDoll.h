@@ -5,6 +5,9 @@ namespace inr {
 
 	namespace enemy {
 		constexpr auto BIG_IMAGE = 280;
+
+		constexpr auto BIG_WIDTH = 160;
+		constexpr auto BIG_HEIGHT = 200;
 	}
 
 	class BigDoll : public EnemyBase {
@@ -16,7 +19,7 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 	private:
-
+		void HipDrop();	// ヒップドロップ
 	};
 }
 
