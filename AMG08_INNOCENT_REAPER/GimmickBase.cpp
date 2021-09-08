@@ -44,4 +44,7 @@ namespace inr {
 			return gimmick::DOOR;
 		}
 	}
+
+	void GimmickBase::ObjValueUpdate() {
+	}
 }

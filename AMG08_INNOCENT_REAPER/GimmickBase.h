@@ -78,6 +78,8 @@ namespace inr {
 		virtual void Process() override;
 		virtual void Draw() override;
 
+		virtual void ObjValueUpdate();	// ƒtƒ‰ƒO‚Æ°‚ğØ‚è‘Ö‚¦‚é
+
 		int GimmickType();
 
 		// virtual bool HitCollision();	// Õ“Ë‚µ‚½‚©H

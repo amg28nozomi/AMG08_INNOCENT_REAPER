@@ -25,6 +25,7 @@ namespace inr {
 
 		void OpenDoor();
 		void SetParameter(ObjectValue objValue) override;	// 引数1:座標(レバー)　引数2;座標(ドア)
+		void ObjValueUpdate() override;
 	private:
 		std::shared_ptr<Door> _door;
 	};

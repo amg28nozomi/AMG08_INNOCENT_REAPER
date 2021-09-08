@@ -235,6 +235,11 @@ namespace inr {
 			return;
 		}
 #endif
+		// ギミックの数値を修正する
+		for (auto gimmick : nowGimmicks) {
+			gimmick->ObjValueUpdate();
+		}
+
 		for (auto&& ovalue : scenario->second) {
 			// ギミックにのみ更新をかける
 			if (ovalue.ObjectType() != oscenario::type::GIMMICK) continue;

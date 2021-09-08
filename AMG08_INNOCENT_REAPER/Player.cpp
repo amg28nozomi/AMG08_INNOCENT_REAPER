@@ -238,7 +238,7 @@ namespace inr {
 	}
 
 	void Player::SetParameter(Vector2 newpos) {
-		_oValue.Positions()
+		_oValue.PositionsUpdate(newpos);
 		_position = newpos;
 		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
 		if (_souls.empty()) return;
