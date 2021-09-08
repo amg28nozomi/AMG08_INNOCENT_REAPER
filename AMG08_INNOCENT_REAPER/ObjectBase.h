@@ -60,6 +60,7 @@ namespace inr {
 		virtual int SoundResearch(const std::string& key);
 		virtual int GetSoundFrame(const std::string& key);
 		virtual AABB NowCollision(std::string key);	// 現在の当たり判定を返す
+		bool ThisPlayer();	// これは自機か
 
 		void ActionBox(double dx, double dy, const std::pair<int, int> wid);
 		void GimmickCheck(Vector2& move);	// ギミックにめり込んでいるか？
@@ -85,6 +86,7 @@ namespace inr {
 		inline ObjectValue GetObjectValue() { return _oValue; }
 
 		virtual void SetParameter(ObjectValue objValue);
+		virtual void SetParameter(Vector2 newpos);
 		virtual void SetStatus(Vector2 spawn, std::string soulcolor) { return; } // status
 		virtual void SetSpeed(double speed) { return; }
 		void Del();	//　自身の消去フラグを変更

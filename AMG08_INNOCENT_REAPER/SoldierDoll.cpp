@@ -355,7 +355,7 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction, _changeDirection) == mapchip::THORM;
+		_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction);
 		GimmickCheck(_moveVector);
 		_position = _position + _moveVector;	// 位置座標を更新
 

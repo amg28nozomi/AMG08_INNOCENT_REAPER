@@ -235,6 +235,11 @@ namespace inr {
 
 		_mainCollision.Update(_position, _direction);
 
+	}
+
+	void Player::SetParameter(Vector2 newpos) {
+		_oValue.Positions()
+		_position = newpos;
 		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
 		if (_souls.empty()) return;
 		auto addSoul = _souls;
@@ -242,6 +247,10 @@ namespace inr {
 			_game.GetObjectServer()->Add(addSoul.front());
 			addSoul.pop();
 		}
+		auto it = _collisions.find(_divKey.first);
+		if (it != _collisions.end()) it->second.Update(_position, _direction);
+
+		_mainCollision.Update(_position, _direction);
 	}
 
 	void Player::StateUpdate() {
@@ -625,7 +634,7 @@ namespace inr {
 		// 移動ベクトルYに加速度を代入
 		_moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
-		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, _changeDirection);
+		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, ThisPlayer());
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);
 		

@@ -87,6 +87,7 @@ namespace inr {
 			// ギミックの状態を更新する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);
 			_game.GetMapChips()->ChangeMap(_changeKey);
+			_game.GetObjectServer()->GetPlayer()->SetParameter(_game.GetMapChips()->GetStageTransition()->SetPosition());	// 自機の座標を更新する
 			_game.GetScenario()->AddObjects(_changeKey);
 			_stageKey = _changeKey;	// キーを更新する
 

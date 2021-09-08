@@ -50,4 +50,15 @@ namespace inr {
 			return -1;	// ƒoƒO
 		}
 	}
+
+	void ObjectValue::PositionsUpdate(Vector2 newpos) {
+		_spawnPos.clear();
+		_spawnPos.emplace_back(newpos);
+	}
+
+	void ObjectValue::FlagUpdate(bool flag, int soul) {
+		if (_gimmick.GimmickFlag() != flag) _gimmick.AddFlag(flag);
+		if (soul == 0) return;
+		if (_soulType != soul) _soulType = soul;
+	}
 }

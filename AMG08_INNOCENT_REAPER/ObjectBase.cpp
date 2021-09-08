@@ -236,6 +236,15 @@ namespace inr {
 		}
 	}
 
+	bool ObjectBase::ThisPlayer() {
+		switch (_type) {
+		case ObjectType::PLAYER:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	AABB ObjectBase::NowCollision(std::string key) {
 		return AABB(Vector2(), Vector2());
 	}
@@ -246,6 +255,10 @@ namespace inr {
 	}
 
 	void ObjectBase::SetParameter(ObjectValue objValue) {
+
+	}
+
+	void ObjectBase::SetParameter(Vector2 newpos) {
 
 	}
 }

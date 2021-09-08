@@ -41,6 +41,7 @@ namespace inr {
 		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL);
 		inline int GimmickType() { return _gimmickType; }
 		inline int GimmickFlag() { return _gimmickFlag; }
+		inline void AddFlag(bool flag) { _gimmickFlag = flag; }
 	private:
 		int _gimmickType;	// ギミックの種類（-1:対象外　0:レバー　1:水晶　2:　3:ドア）
 		int _gimmickFlag;	// ギミックのフラグ（-1:対象外　0:false　1:true）
@@ -60,6 +61,9 @@ namespace inr {
 		inline int GimmickFlag() { return _gimmick.GimmickFlag(); }
 		inline int ObjectType() { return _objType; }
 		inline std::vector<Vector2> Positions() { return _spawnPos; }
+
+		void PositionsUpdate(Vector2 newpos);
+		void FlagUpdate(bool flag, int soul = 0);
 		
 	private:
 		int _class;	// 生成するクラスは何か
