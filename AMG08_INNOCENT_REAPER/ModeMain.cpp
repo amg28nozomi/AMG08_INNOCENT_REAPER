@@ -61,7 +61,7 @@ namespace inr {
 		IsStageChange();
 		++_modeFrame;
 
-		if (_pause->Active() != true) {
+		if (_pause->IsActive() != true) {
 			_bg->Process();
 			_game.GetMapChips()->Process();
 			_game.GetObjectServer()->Process();
@@ -72,14 +72,11 @@ namespace inr {
 	}
 
 	void ModeMain::Draw() {
-		if (_pause->Active() != true) {
-			_bg->Draw();
-			_game.GetMapChips()->Draw();
-			_game.GetObjectServer()->Draw();
-			_uiSoul->Draw();
-			return;
-		}
-		_pause->Draw();
+		_bg->Draw();
+		_game.GetMapChips()->Draw();
+		_game.GetObjectServer()->Draw();
+		_uiSoul->Draw();
+		if(_pause->Active() == true) _pause->Draw();
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 
@@ -101,6 +98,7 @@ namespace inr {
 			_game.GetScenario()->AddObjects(_changeKey);
 			_stageKey = _changeKey;	// キーを更新する
 			_changeKey = stage::CHANGE_NULL;
+			return true;
 		}
 		// 現在の登録されているオブジェクトの削除を行う
 		

@@ -10,8 +10,9 @@ namespace inr {
 		~Pause_UI() = default;
 
 		void Process() override;
-
+		void ChangePosition(bool type) override;
 	private:
+		int _no;	// Œ»İ‚¢‚éêŠ‚Í‚Ç‚±‚©
 		
 	};
 }

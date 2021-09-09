@@ -82,6 +82,7 @@ namespace inr {
 		{ {system::SOUDN_GAME_START}, {"Resource/SE/System/gamestart.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUND_GAME_END}, {"Resource/SE/System/1.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUDN_CANCEL}, {"Resource/SE/System/cancel.wav", DX_PLAYTYPE_BACK}},
+		{ {system::SOUND_PAUSE}, {"Resource/SE/System/pose.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	Game::Game()

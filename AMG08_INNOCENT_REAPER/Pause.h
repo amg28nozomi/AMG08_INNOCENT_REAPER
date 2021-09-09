@@ -1,12 +1,11 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include "Particle_Image.h"
 
 namespace inr {
 
 	class Game;
-	class Pause_UI;
-	class Particle_Image;
 	// ポーズ機能制御用
 	class Pause {
 	public:
@@ -17,14 +16,17 @@ namespace inr {
 		void Process();
 		void Draw();
 
+		bool IsActive();	// 活動状態に入っているか？
 		bool Active() { return _active; }
 	private:
 		Game& _game;
 		std::vector<std::unique_ptr<Particle_Image>> _uis;	// 各種UI
 
 		bool _active;	// 活性化しているか
-		bool IsActive();	// 活動状態に入っているか？
+		bool Input();
 		bool PauseOn();	// キー入力はあったかどうか
+
+		void Sound(std::string soundkey);
 
 		// 必要なもの
 		// 背景*

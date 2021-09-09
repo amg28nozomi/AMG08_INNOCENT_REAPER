@@ -23,6 +23,9 @@ namespace inr {
 			constexpr auto CURSOR = "cursor";	// Cursor
 			constexpr auto CURSOR_W = 500;
 			constexpr auto CURSOR_H = 150;
+
+			constexpr auto NORMAL = false;
+			constexpr auto UI = true;
 		}
 	}
 
@@ -33,6 +36,18 @@ namespace inr {
 	}
 
 	class Particle_Image : public Image {
+	protected:
+		int _animation;	// アニメーションを行うか
+		int _pal;	// 透明値
+		double _maxExt;		// 最大拡大率
+		double _extRate;	// 拡大率
+		bool _isDraw;	// 描画処理を行っているか
+		bool _imageType;
+		bool _end;	// 処理を終了するか
+		Vector2 _startPos;
+
+		bool AddPal();
+		bool SubPal();
 	public:
 		Particle_Image(Game& game);
 		~Particle_Image() = default;
@@ -45,16 +60,11 @@ namespace inr {
 		bool Animation();
 		bool DrawStart();
 		bool DrawEnd();
-	private:
-		int _animation;	// アニメーションを行うか
-		int _pal;	// 透明値
-		double _maxExt;		// 最大拡大率
-		double _extRate;	// 拡大率
-		bool _isDraw;	// 描画処理を行っているか
-		Vector2 _startPos;
+		bool End();
 
-		bool AddPal();
-		bool SubPal();
+		inline bool IsType() { return _imageType; }
+		inline bool IsDraw() { return _isDraw; }
+		virtual void ChangePosition(bool type);
 	};
 }
 

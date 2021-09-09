@@ -48,6 +48,7 @@ namespace inr {
 		constexpr auto SOUDN_GAME_START = "game_start";
 		constexpr auto SOUND_GAME_END = "game_end";
 		constexpr auto SOUDN_CANCEL = "cancel"; // cancel
+		constexpr auto SOUND_PAUSE = "pause";
 	}
 
 

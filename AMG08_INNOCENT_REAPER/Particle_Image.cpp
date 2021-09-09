@@ -9,6 +9,7 @@ namespace {
 namespace inr {
 
 	Particle_Image::Particle_Image(Game& game) : Image(game) {
+		_imageType = image::particle::NORMAL;
 		_startPos = { 0, 0 };
 		Init();
 	}
@@ -20,6 +21,7 @@ namespace inr {
 		_extRate = 1.0;
 		_maxExt = _extRate;
 		_isDraw = false;
+		_end = false;
 	}
 
 	void Particle_Image::Process() {
@@ -61,6 +63,7 @@ namespace inr {
 			return false;
 		}
 		_animation = animation::A_NORMAL;
+		if (_end == true) _isDraw = false;
 		return true;
 	}
 
@@ -87,5 +90,16 @@ namespace inr {
 		if (0 < _pal) return false;
 		if (_pal < 0) _pal = 255;
 		return true;
+	}
+
+	bool Particle_Image::End() {
+		if (_end == true) return false;
+		DrawEnd();
+		_end = true;
+		return false;
+	}
+
+	void Particle_Image::ChangePosition(bool type) {
+
 	}
 }
