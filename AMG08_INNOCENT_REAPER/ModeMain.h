@@ -7,6 +7,8 @@
 
 namespace inr {
 
+	class Pause;
+
 	class ModeMain : public ModeBase {
 	public:
 		ModeMain(Game& game);
@@ -25,6 +27,7 @@ namespace inr {
 		std::string _changeKey;		// ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;	// 背景
 		std::unique_ptr<UI> _uiSoul;
+		std::unique_ptr<Pause> _pause;
 
 		Vector2 _worldPosition;	// ワールド座標
 

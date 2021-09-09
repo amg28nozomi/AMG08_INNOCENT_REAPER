@@ -9,13 +9,16 @@ namespace {
 namespace inr {
 
 	Particle_Image::Particle_Image(Game& game) : Image(game) {
+		_startPos = { 0, 0 };
 		Init();
 	}
 
 	void Particle_Image::Init() {
 		_animation = animation::A_ADD;
+		_pos = _startPos;
 		_pal = 0;
 		_extRate = 1.0;
+		_maxExt = _extRate;
 		_isDraw = false;
 	}
 
@@ -35,11 +38,12 @@ namespace inr {
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 	}
 
-	void Particle_Image::SetParameter(Vector2 pos, std::string graph, int pal, double extrate) {
+	void Particle_Image::SetParameter(std::string graph, Vector2 pos, int pal, double extrate) {
 		_pos = pos;
+		_startPos = pos;
 		_graphKey = graph;
 		_pal = pal;
-		_extRate = extrate;
+		_maxExt = extrate;
 	}
 
 	bool Particle_Image::Animation() {

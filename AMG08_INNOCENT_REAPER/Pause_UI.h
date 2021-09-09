@@ -1,18 +1,16 @@
 #pragma once
-#include "Vector2.h"
-#
+#include "Particle_Image.h"
 
 
 namespace inr {
 
-	class Pause_UI {
+	class Pause_UI : Particle_Image {
 	public:
-		Pause_UI();
+		Pause_UI(Game& game);
 		~Pause_UI() = default;
 
-		void Init();
-		void Process();
-		void Draw();
+		void Process() override;
+
 	private:
 		
 	};

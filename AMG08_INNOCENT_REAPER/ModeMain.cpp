@@ -11,6 +11,7 @@
 #include "Loads.h"
 #include "ModeServer.h"
 #include "StageTransition.h"
+#include "Pause.h"
 
 #include <memory>
 #include <unordered_map>
@@ -28,6 +29,7 @@ namespace inr {
 
 		_bg = std::make_unique<BackGround>(_game.GetGame());
 		_uiSoul = std::make_unique<UI>(_game.GetGame());
+		_pause = std::make_unique<Pause>(_game.GetGame());
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -58,20 +60,26 @@ namespace inr {
 	void ModeMain::Process() {
 		IsStageChange();
 		++_modeFrame;
-		// ワールド座標更新
-		// _worldPosition = _game.GetObjectServer()->GetPlayer().GetPosition();
 
-		_bg->Process();
-		_game.GetMapChips()->Process();
-		_game.GetObjectServer()->Process();
-		_uiSoul->Process();
+		if (_pause->Active() != true) {
+			_bg->Process();
+			_game.GetMapChips()->Process();
+			_game.GetObjectServer()->Process();
+			_uiSoul->Process();
+			return;
+		}
+		_pause->Process();
 	}
 
 	void ModeMain::Draw() {
-		_bg->Draw();
-		_game.GetMapChips()->Draw();
-		_game.GetObjectServer()->Draw();
-		_uiSoul->Draw();
+		if (_pause->Active() != true) {
+			_bg->Draw();
+			_game.GetMapChips()->Draw();
+			_game.GetObjectServer()->Draw();
+			_uiSoul->Draw();
+			return;
+		}
+		_pause->Draw();
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 

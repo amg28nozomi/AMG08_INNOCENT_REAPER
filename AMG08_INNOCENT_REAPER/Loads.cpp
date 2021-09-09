@@ -10,6 +10,7 @@
 #include "SoulSkin.h"
 #include "EffectBase.h"
 #include "Image.h"
+#include "Particle_Image.h"
 #include "Logo.h"
 #include "FadeBlack.h"
 #include "UI.h"
@@ -87,6 +88,13 @@ namespace inr {
 		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
 
 		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, 1922, 1360}},
+		// ポーズ画面
+		{ image::particle::BG_BLACK, {"Resource/UI/bg_black.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
+		{ image::particle::BG_OPERATION, {"Resource/UI/operation.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
+		{ image::particle::CONTINUE, {"Resource/UI/continue.png", 1, 1, 1, image::particle::CONTINUE_W, image::particle::UI_H_1}},
+		{ image::particle::CONTROLS, {"Resource/UI/controls.png", 1, 1, 1, image::particle::CONTROLS_W, image::particle::UI_H_1}},
+		{ image::particle::QUIT_TO_TITLE, {"Resource/UI/quittotitle.png",1, 1, 1, image::particle::QUIT_TO_TITLE_W, image::particle::UI_H_2}},
+		{ image::particle::CURSOR, {"Resource/cursor.png", 4, 8, 30, image::particle::CURSOR_W, image::particle::CURSOR_H}},
 
 		// 各種UI
 		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
