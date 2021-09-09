@@ -52,7 +52,7 @@ namespace inr {
 		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 赤い魂の状態
 		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
-		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 8, 1, 8, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 6, 2, 11, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_r_move.png", 9, 1, 9, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_ATTACK, {"Resource/SoldierDoll/sd_r_attack.png", 4, 1, 4, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		// ビッグドール
