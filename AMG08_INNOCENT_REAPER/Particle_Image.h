@@ -4,7 +4,18 @@
 namespace inr {
 
 	class Particle_Image : public Image {
-		Particle_Image()
+	public:
+		Particle_Image(Game& game);
+		~Particle_Image() = default;
+
+		void Init() override;
+		void Process() override;
+		void Draw() override;
+
+		void SetParameter(Vector2 pos, std::string graph, int pal, double extrate);
+	private:
+		int _pal;	// “§–¾’l
+		double _extRate;	// Šg‘å—¦
 	};
 }
 
