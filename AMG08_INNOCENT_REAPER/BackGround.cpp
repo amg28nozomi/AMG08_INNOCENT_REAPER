@@ -13,7 +13,6 @@ namespace {
 	constexpr auto MIN_SCROLL = -960;
 
 
-
 	constexpr auto STAGE1_BACK_00 = 0.30;
 	constexpr auto STAGE1_BACK_01 = 0.4;
 	constexpr auto STAGE1_BACK_02 = 0.6;
@@ -114,7 +113,7 @@ namespace inr {
 		switch (_stageNo) {
 		case stage::number::SN_S:	// ステージS
 			_graphKey = background::BACK_GROUND_S;
-			_scrSpeed = { 0.6, 0 };
+			_scrSpeed = { 0.5, 0 };
 			break;
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;

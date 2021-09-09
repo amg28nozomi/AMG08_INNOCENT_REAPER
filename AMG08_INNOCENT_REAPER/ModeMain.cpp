@@ -45,7 +45,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_0;
+			_stageKey = stage::STAGE_2;
 			_changeKey = stage::CHANGE_NULL;
 			_worldPosition = { 1920 / 2, 1080 / 2 };
 

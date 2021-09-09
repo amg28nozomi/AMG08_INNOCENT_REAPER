@@ -179,9 +179,11 @@ namespace inr {
 		AnimationCount();
 		// 入力情報を取得
 		auto leverLR = _game.GetLeverLR();
+		auto leverUD = _game.GetLeverUD();
 		auto key = _game.GetTrgKey();
 
 		Move(leverLR); // 移動処理
+		Climb(leverUD);	// 上下移動
 		Action(key); // アクション
 		Dash();	// ダッシュ
 		Jump(); // ジャンプ処理
@@ -297,6 +299,7 @@ namespace inr {
 				PlaySoundMem(land, soundType);
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
+			if (_gran) _aState = ActionState::GRAN;	// 掴み状態に遷移する
 			return;
 		// 奪うアクション時
 		case ActionState::ROB:
@@ -395,6 +398,77 @@ namespace inr {
 		return false;
 	}
 
+	void Player::IsHit() {
+		//if (_changeDirection == true) _changeDirection = false;
+
+		//_gravity += FRAME_G;	// 加速度を加算
+		//if (MAX_G < _gravity) _gravity = MAX_G;
+
+		//auto nowcol = NowCollision(_divKey.first);
+
+		//// マップチップの上に立っているかどうか
+		//// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
+		//if (IsStandChip()) {
+		//	// 加速度が0の時だけ立っている
+		//	if (0 < _gravity) {
+		//		_stand = true;
+		//	}
+		//	_gravity = 0;
+		//}
+		//else {
+		//	_stand = false;
+		//}
+
+		//auto&& objs = _game.GetObjectServer()->GetEnemys();
+		//for (auto&& obj : objs) {
+		//	if (obj->GetType() != ObjectType::ENEMY) continue;
+		//	if (obj->IsEmpty() != true) continue;
+		//	// 抜け殻の当たり判定を取得
+		//	auto emptyBox = obj->GetMainCollision();
+		//	// x座標は範囲内に収まっているか
+		//	if ((emptyBox.GetMin().GetX() < nowcol.GetMin().GetX() && nowcol.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
+		//		(emptyBox.GetMin().GetX() < nowcol.GetMax().GetX() && nowcol.GetMax().GetX() < emptyBox.GetMax().GetX())) {
+
+		//		if (nowcol.GetMax().GetY() <= emptyBox.GetMin().GetY() + 20 && emptyBox.GetMin().GetY() <= nowcol.GetMax().GetY()) {
+		//			_stand = true;
+		//			_gravity = 0;
+
+		//			auto h = nowcol.GetHeightMax();
+		//			_position.GetPY() = emptyBox.GetMin().GetY() - h;
+		//		}
+
+		//	}
+		//}
+
+		//if (nowcol.GetMin().GetY() < 0) {
+		//	_gravity = 0;
+		//	_position.GetPY() = nowcol.GetHeightMin();
+		//}
+	}
+
+	void Player::Gran() {
+		if (_input != true) {
+			if (_gran == true) _gran = false;
+			return;	// 入力状態ではない場合は処理を行わない
+		}
+
+		int lever = _game.GetLeverUD();
+		if (-50 < lever && lever < 50) return;	// 入力なし or 最低値未満の場合は処理を行わない
+		// 掴みフラグはオンになっているかどうか
+		switch (_gran) {
+		case true:
+			_stand = true;
+			_gravity = 0;
+			return;
+		case false:
+			_gran = true;
+			_stand = true;
+			_gravity = 0;
+			return;
+		}
+
+	}
+
 	void Player::Move(int lever) {
 		// 入力可能か？
 		if (_input == true) {
@@ -462,6 +536,7 @@ namespace inr {
 				it->second.GetCollisionFlgB() = true;*/
 				_dashX = DASH_MAX;
 				_input = false;	// 他アクションの入力を停止する
+				_gran = false;
 			}
 		}
 	}
@@ -505,6 +580,16 @@ namespace inr {
 				}
 			}
 		}
+	}
+
+	void Player::Climb(int leverUD) {
+		if (_gran != true) return;	// 掴みフラグがオンではない場合は処理を行わない
+		if (-50 < leverUD && leverUD < 50) return;		
+		// 座標変更
+		_speed = (leverUD * MAX_SPPED) / 1000;
+		// 移動ベクトル代入
+		_moveVector.GetPY() = 1.0 * _speed;
+		_speed = 0;
 	}
 
 	void Player::Jump() {
@@ -642,9 +727,12 @@ namespace inr {
 	// 位置座標更新
 	void Player::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
-		_moveVector.GetPY() = _gravity;
+		if (_gran != true) _moveVector.GetPY() = _gravity;
 		// マップチップにめり込んでいる場合は座標を修正
 		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, ThisPlayer());
+		// 蔦に接触している場合のみ処理を実行する
+		if (hitchip == mapchip::IVY) Gran();
+		else _gran = false;
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);
 		

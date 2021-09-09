@@ -617,7 +617,7 @@ namespace inr {
 				int chip_no = CheckHit(x, y);
 				// ƒ`ƒbƒv”Ô†‚ª0‚©‚Ç‚¤‚©
 				if (chip_no != 0) {
-					if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// “–‚½‚è”»’è‚ª‚È‚¢ê‡‚Í”²‚¯‚é
+					// if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// “–‚½‚è”»’è‚ª‚È‚¢ê‡‚Í”²‚¯‚é
 					// “–‚½‚è”»’è‚ðŽæ“¾
 					auto c = _chipCheck->ChipCollision(chip_no);
 					auto minX = c.GetMin().IntX();
@@ -654,6 +654,7 @@ namespace inr {
 						if (vectorX < 0) {
 							if (minx < chipMaxX && chipMinX < maxx) {
 								// if (minx < chipMinX && chipMinX < maxx) {
+								if (_chipCheck->IsChipType(chip_no) == mapchip::IVY) return mapchip::IVY;
 								auto cave = box.GetWidthMin();
 								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPX() = 0;
@@ -665,6 +666,7 @@ namespace inr {
 							if (chipMinX < maxx && minx < chipMaxX) {
 								// if (chipMaxX < maxx && minx < chipMaxX) {
 								// if (chipMinX < maxx && minx < chipMaxX) {
+								if (_chipCheck->IsChipType(chip_no) == mapchip::IVY) return mapchip::IVY;
 								auto cave = box.GetWidthMin();
 								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPX() = 0;

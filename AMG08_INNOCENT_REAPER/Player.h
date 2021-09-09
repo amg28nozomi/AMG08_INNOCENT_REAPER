@@ -54,8 +54,8 @@ namespace inr {
 	private:
 		// アクションの状態
 		enum class ActionState {
-			// 待機、移動、ダッシュ、奪う、与える、ノックバック
-			IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT
+			// 待機、移動、ダッシュ、奪う、与える、ノックバック、ツタ登り
+			IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT, GRAN
 		};
 		enum class State {
 			// 生存、ダメージ、死亡
@@ -79,6 +79,7 @@ namespace inr {
 		int _invincible;	// 無敵時間
 		double _jumpPower;	// ジャンプ溜め
 		bool _input;	// 入力処理を受け付けるか
+		bool _gran;	// 掴み判定
 		// std::string _divKey;	// 読み込み用識別キー
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
 
@@ -97,6 +98,7 @@ namespace inr {
 		
 		// 各種アクション
 		void Move(int lever); // 移動
+		void Climb(int leverUD);	// 上下移動
 		void Dash(); // ダッシュ
 		void Jump(); // ジャンプ
 		void Rob(double x, double y); // 奪う
@@ -106,6 +108,9 @@ namespace inr {
 		bool Dead(); // 死亡判定
 		bool IsStandChip() override;
 		void DamageThorm();	// 棘のダメージ処理
+		void Gran();	// 掴みアクション
+
+		void IsHit();	// 当たり判定等の処理
 
 		void StateUpdate();	// 状態遷移およびその他処理
 
