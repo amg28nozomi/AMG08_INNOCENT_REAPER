@@ -287,6 +287,7 @@ namespace inr {
 			else if (_stand) {	// 重力加速がない場合はアイドル状態に遷移
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
+			if (_gran) _aState = ActionState::GRAN;
 			return;
 		// 落下時
 		case ActionState::FALL:
@@ -451,70 +452,62 @@ namespace inr {
 			if (_gran == true) _gran = false;
 			return;	// 入力状態ではない場合は処理を行わない
 		}
+		if (_gran == true) return;
 
-		int lever = _game.GetLeverUD();
-		if (-50 < lever && lever < 50) return;	// 入力なし or 最低値未満の場合は処理を行わない
-		// 掴みフラグはオンになっているかどうか
-		switch (_gran) {
-		case true:
-			_stand = true;
-			_gravity = 0;
-			return;
-		case false:
-			_gran = true;
-			_stand = true;
-			_gravity = 0;
-			return;
+		if (_game.GetTrgKey() == PAD_INPUT_4) { 
+			_aState = ActionState::GRAN;
+			_gran = true; 
 		}
-
 	}
 
 	void Player::Move(int lever) {
 		// 入力可能か？
 		if (_input == true) {
-			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
-			auto direction = _direction;
-			if (lever < -10) _direction = PL_LEFT;
-			else if (10 < lever) _direction = PL_RIGHT;
+			if (_aState != ActionState::GRAN) {
+				// 状態がアイドル、またはモーブの時だけ移動処理を行う。
+				auto direction = _direction;
+				if (lever < -10) _direction = PL_LEFT;
+				else if (10 < lever) _direction = PL_RIGHT;
 
-			// 向きが変わった場合はフラグを切り替える
-			if (_direction != direction) _changeDirection = true;
+				// 向きが変わった場合はフラグを切り替える
+				if (_direction != direction) _changeDirection = true;
 
-			if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
-				// 入力情報がある場合
-				if (lever < -100 || 100 < lever) {
-					// moveではない時、キーと状態を更新
-					if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
-						ChangeState(ActionState::MOVE, PKEY_RUN);
+				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
+					// 入力情報がある場合
+					if (lever < -100 || 100 < lever) {
+						// moveではない時、キーと状態を更新
+						if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
+							ChangeState(ActionState::MOVE, PKEY_RUN);
+						}
+						// SEの管理
+						if (_aCount % GetSoundFrame(_divKey.first) == 0) {
+							auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
+							auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+							PlaySoundMem(sound1, soundType);
+						}
+						// return;
+						// 立っていてかつ入力がない場合
 					}
-					// SEの管理
-					if (_aCount % GetSoundFrame(_divKey.first) == 0) {
-						auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
-						auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-						PlaySoundMem(sound1, soundType);
+					else if (_aState == ActionState::MOVE) {
+						switch (_stand) {
+						case true:	// 立っている場合
+							ChangeState(ActionState::IDOL, PKEY_IDOL);
+							_speed = 0;
+							break;
+							//case false:	// 落下状態の場合
+							//	ChangeState(ActionState::FALL, PKEY_FALL);
+							//	_speed = 0;
+							//	break;
+						}
+						return;
 					}
-					// return;
-					// 立っていてかつ入力がない場合
 				}
-				else if (_aState == ActionState::MOVE) {
-					switch (_stand) {
-					case true:	// 立っている場合
-						ChangeState(ActionState::IDOL, PKEY_IDOL);
-						_speed = 0;
-						break;
-					//case false:	// 落下状態の場合
-					//	ChangeState(ActionState::FALL, PKEY_FALL);
-					//	_speed = 0;
-					//	break;
-					}
-					return;
-				}
+				// 座標変更
+				_speed = (lever * MAX_SPPED) / 1000;
+				// 移動ベクトル代入
+				_moveVector.GetPX() = 1.0 * _speed;
+				_speed = 0;
 			}
-			// 座標変更
-			_speed = (lever * MAX_SPPED) / 1000;
-			// 移動ベクトル代入
-			_moveVector.GetPX() = 1.0 * _speed;
-			_speed = 0;
 		}
 	}
 
@@ -586,14 +579,13 @@ namespace inr {
 		if (_gran != true) return;	// 掴みフラグがオンではない場合は処理を行わない
 		if (-50 < leverUD && leverUD < 50) return;		
 		// 座標変更
-		_speed = (leverUD * MAX_SPPED) / 1000;
+		double spd = (leverUD * MAX_SPPED) / 1000.0;
 		// 移動ベクトル代入
-		_moveVector.GetPY() = 1.0 * _speed;
-		_speed = 0;
+		_moveVector.GetPY() = 1.0 * spd;
 	}
 
 	void Player::Jump() {
-		if (_input == true && _stand) {
+		if ((_input == true && _stand) || _gran == true) {
 				// 溜めはあるか？
 					auto pressKey = _game.GetKey();
 					if (pressKey & PAD_INPUT_3) {
@@ -615,6 +607,7 @@ namespace inr {
 						// ジャンプの飛距離を登録
 						// この値は地面に触れた or 天井に接触した場合、0にする。
 						_gravity = -jumpPower;
+						_gran = false;
 					}
 			}
 		//if(_jumpPower) _jumpPower = 0;
@@ -728,10 +721,11 @@ namespace inr {
 	void Player::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
 		if (_gran != true) _moveVector.GetPY() = _gravity;
+		auto isGran = false;
 		// マップチップにめり込んでいる場合は座標を修正
-		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, ThisPlayer());
+		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, &isGran);
 		// 蔦に接触している場合のみ処理を実行する
-		if (hitchip == mapchip::IVY) Gran();
+		if (isGran == true) Gran();
 		else _gran = false;
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);

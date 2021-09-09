@@ -43,7 +43,9 @@ namespace inr {
 		int IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos);	// マップチップの上に立っているかどうか？
 		// マップチップと当たっているかどうか（マップチップの上に立っているかどうか）
 		// bool IsHit(AABB box, double g);	// pos:ボックス　mx:xの移動距離　my:yの移動距離
-		int IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool objType = false);	// 押し出し処理用
+		int IsHit(AABB box, Vector2& pos, Vector2& move, bool direction);	// 押し出し処理用
+		int IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool* isGran);
+		bool HitIvy(AABB box, Vector2 pos, Vector2 move, bool direction);
 		// int IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool isUpdate);	// 押し出し処理用
 		bool Clamp(Vector2& pos);	// ワールド座標をスクリーン座標に修正
 		bool IsScrollX();	// 横スクロールしているか？

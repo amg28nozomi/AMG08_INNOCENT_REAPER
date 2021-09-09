@@ -585,7 +585,7 @@ namespace inr {
 	//	return false;
 	//}
 
-	int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool isUpdate) {
+	int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction) {
 		int x, y;
 
 		auto thisbox = box;
@@ -635,7 +635,6 @@ namespace inr {
 						if (vectorY < 0) {
 							if (miny < chipMinY && chipMinY < maxy) {
 								auto cave = box.GetHeightMin();
-								if(isUpdate)TransitionResearch(chip_no);
 								move.GetPY() = 0;	// 移動量初期化
 								pos.GetPY() = chipMaxY + cave;
 							}
@@ -643,7 +642,6 @@ namespace inr {
 						else if (0 < vectorY) {
 							if (chipMaxY < maxy && miny < chipMaxY) {
 								auto cave = box.GetHeightMin();
-								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPY() = 0;	// 移動量初期化
 								pos.GetPY() = chipMinY + cave;
 							}
@@ -653,10 +651,7 @@ namespace inr {
 					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
 						if (vectorX < 0) {
 							if (minx < chipMaxX && chipMinX < maxx) {
-								// if (minx < chipMinX && chipMinX < maxx) {
-								if (_chipCheck->IsChipType(chip_no) == mapchip::IVY) return mapchip::IVY;
 								auto cave = box.GetWidthMin();
-								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPX() = 0;
 								pos.GetPX() = chipMaxX + cave;
 								return _chipCheck->IsChipType(chip_no);
@@ -664,11 +659,7 @@ namespace inr {
 						}
 						if (0 < vectorX) {
 							if (chipMinX < maxx && minx < chipMaxX) {
-								// if (chipMaxX < maxx && minx < chipMaxX) {
-								// if (chipMinX < maxx && minx < chipMaxX) {
-								if (_chipCheck->IsChipType(chip_no) == mapchip::IVY) return mapchip::IVY;
 								auto cave = box.GetWidthMin();
-								if (isUpdate)TransitionResearch(chip_no);
 								move.GetPX() = 0;
 								pos.GetPX() = chipMinX - cave;
 								return _chipCheck->IsChipType(chip_no);
@@ -679,6 +670,142 @@ namespace inr {
 			}
 		}
 		return mapchip::NONE;
+	}
+
+	int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool* isGran) {
+		int x, y;
+
+		auto thisbox = box;
+		auto movepos = pos + move;
+		thisbox.Update(movepos, direction);
+		//thisbox.Update()
+
+		auto vectorX = move.GetX();
+		auto vectorY = move.GetY();
+
+		auto minx = thisbox.GetMin().IntX();
+		auto miny = thisbox.GetMin().IntY();
+		auto maxx = thisbox.GetMax().IntX();
+		auto maxy = thisbox.GetMax().IntY();
+		/*Vector2 minp = { static_cast<double>(minx), static_cast<double>(miny) };
+		Vector2 maxp = { static_cast<double>(maxx), static_cast<double>(maxy) };*/
+
+		/*AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
+			{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() }, box.GetCollisionFlg());*/
+
+
+			/* 検証用 */
+			// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
+			/* 検証用 */
+
+		for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
+			for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
+				// マップチップと接触しているかどうか？
+				int chip_no = CheckHit(x, y);
+				// チップ番号が0かどうか
+				if (chip_no != 0) {
+					// if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
+					// 当たり判定を取得
+					auto c = _chipCheck->ChipCollision(chip_no);
+					auto minX = c.GetMin().IntX();
+					auto maxX = c.GetMax().IntX();
+					auto minY = c.GetMin().IntY();
+					auto maxY = c.GetMax().IntY();
+
+					// 新規追加
+					auto chipMinX = x * _nowMap.ChipSizeWidth() + minX;
+					auto chipMinY = y * _nowMap.ChipSizeHeight() + minY;
+					auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
+					auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
+
+					auto chiptype = _chipCheck->IsChipType(chip_no);
+					auto hittype = _chipCheck->IsHitType(chip_no);
+
+					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+						if (vectorY < 0) {
+							if (miny < chipMinY && chipMinY < maxy) {
+								if (hittype == mapchip::HIT_ON) {
+									auto cave = box.GetHeightMin();
+									TransitionResearch(chip_no);
+									move.GetPY() = 0;	// 移動量初期化
+									pos.GetPY() = chipMaxY + cave;
+								}
+								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+							}
+						}
+						else if (0 < vectorY) {
+								if (chipMaxY < maxy && miny < chipMaxY) {
+									if (hittype == mapchip::HIT_ON) {
+										auto cave = box.GetHeightMin();
+										TransitionResearch(chip_no);
+										move.GetPY() = 0;	// 移動量初期化
+										pos.GetPY() = chipMinY + cave;
+									} else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+								}
+							}
+						}
+
+					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
+						if (vectorX < 0) {
+							if (minx < chipMaxX && chipMinX < maxx) {
+								// if (minx < chipMinX && chipMinX < maxx) {
+								if (hittype == mapchip::HIT_ON) {
+									auto cave = box.GetWidthMin();
+									TransitionResearch(chip_no);
+									move.GetPX() = 0;
+									pos.GetPX() = chipMaxX + cave;
+									return _chipCheck->IsChipType(chip_no);
+								}
+								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+							}
+						}
+						if (0 < vectorX) {
+							if (chipMinX < maxx && minx < chipMaxX) {
+								// if (chipMaxX < maxx && minx < chipMaxX) {
+								// if (chipMinX < maxx && minx < chipMaxX) {
+								if (hittype == mapchip::HIT_ON) {
+									auto cave = box.GetWidthMin();
+									TransitionResearch(chip_no);
+									move.GetPX() = 0;
+									pos.GetPX() = chipMinX - cave;
+									return _chipCheck->IsChipType(chip_no);
+								}
+								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return mapchip::NONE;
+	}
+
+	bool MapChips::HitIvy(AABB box, Vector2 pos, Vector2 move, bool direction) {
+		pos + move;
+		box.Update(pos, direction);
+
+		auto minx = box.GetMin().IntX();
+		auto maxx = box.GetMax().IntX();
+		auto miny = box.GetMin().IntY();
+		auto maxy = box.GetMax().IntY();
+
+		int x = 0, y = 0;
+		for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
+			for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
+				// マップチップと接触しているかどうか？
+				int chip_no = CheckHit(x, y);
+				// チップ番号が0かどうか
+				if (_chipCheck->IsChipType(chip_no) != mapchip::IVY) continue;
+
+				auto c = _chipCheck->ChipCollision(chip_no);
+				
+				Vector2 cmin = { x * _nowMap.ChipSizeWidth() + c.GetMin().IntX(), y * _nowMap.ChipSizeHeight() + c.GetMin().IntY() };
+				Vector2 cmax = { x * _nowMap.ChipSizeWidth() + c.GetMax().IntX(), y * _nowMap.ChipSizeHeight() + c.GetMax().IntY() };
+				AABB cBox = { cmin, cmax };
+				if (cBox.HitCheck(box) == true) return true;
+			}
+		}
+		return false;	// ヒットしなかった
 	}
 
 	//int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool isUpdate) {
