@@ -9,7 +9,7 @@ namespace inr {
 		constexpr auto BACK_GROUND_S = "back_groundS";
 		constexpr auto STAGES_FILE = "bg_stageS_";
 		constexpr auto STAGES_PATH = "Resource/BackGround/Stage0/";
-		constexpr auto STAGES_HEIGHT = 1080;
+		constexpr auto STAGES_HEIGHT = 2160;
 
 		constexpr auto BACK_GROUND_1 = "back_ground1";
 		constexpr auto STAGE1_FILE = "bg_stage1_";

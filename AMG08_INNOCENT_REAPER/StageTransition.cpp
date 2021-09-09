@@ -15,7 +15,7 @@ namespace inr {
 		constexpr auto TPOS_0_Y = 1900;
 
 		constexpr auto TPOS_1_X = 3750;
-		constexpr auto TPOS_1_Y = 305;
+		constexpr auto TPOS_1_Y = 300;
 
 		constexpr auto TPOS_2_X = 100;
 		constexpr auto TPOS_2_Y = 1970;

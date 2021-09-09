@@ -75,6 +75,7 @@ namespace inr {
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 
+		if (_game.GetModeServer()->IsFadeEnd() == false) return;
 		_changeKey = nextStage; 
 		_game.GetModeServer()->FadeOut();	// ˆÃ“]ˆ—‚ğs‚¤
 	}

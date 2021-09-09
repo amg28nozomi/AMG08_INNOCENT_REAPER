@@ -97,7 +97,7 @@ namespace {
 
 	// çƒê∂éûä‘ÅiPlayer Motion FrameÅj
 	constexpr auto PMF_IDOL = PF_IDOL * MF_INTERVAL;
-	constexpr auto PMF_RUN = PF_RUN * MF_INTERVAL;
+	constexpr auto PMF_RUN = PF_RUN * 3;
 	constexpr auto PMF_DASH = PF_DASH * MF_INTERVAL;
 	constexpr auto PMF_JUMP = PF_JUMP * MF_INTERVAL;
 	constexpr auto PMF_FALL = PF_FALL * MF_INTERVAL;
