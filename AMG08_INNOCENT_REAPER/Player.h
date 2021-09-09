@@ -108,9 +108,9 @@ namespace inr {
 		bool Dead(); // 死亡判定
 		bool IsStandChip() override;
 		void DamageThorm();	// 棘のダメージ処理
-		void Gran();	// 掴みアクション
 
-		void IsHit();	// 当たり判定等の処理
+		void IsGran();	// 当たり判定等の処理
+		void Gran();
 
 		void StateUpdate();	// 状態遷移およびその他処理
 

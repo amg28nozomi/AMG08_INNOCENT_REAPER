@@ -185,6 +185,7 @@ namespace inr {
 		Move(leverLR); // 移動処理
 		Climb(leverUD);	// 上下移動
 		Action(key); // アクション
+		Gran();
 		Dash();	// ダッシュ
 		Jump(); // ジャンプ処理
 
@@ -349,6 +350,14 @@ namespace inr {
 			}
 			_moveVector.GetPX() = _knockBack / HIT_FRAME;	// 移動量
 			break;
+
+		case ActionState::GRAN:
+			if (_gran == false || _input == false) {
+				_gran = false;
+				if (0 <= _gravity) ChangeState(ActionState::FALL, PKEY_FALL);
+				else if(_stand == true) ChangeState(ActionState::IDOL, PKEY_IDOL);
+			}
+			break;
 		default:
 			return;
 		}
@@ -378,7 +387,7 @@ namespace inr {
 			//	// 
 			//	//if (_aState != ActionState::IDOL && _aState != ActionState::MOVE || _aState == ActionState::JUMP) break;
 			//	Jump();
-				break;
+
 			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
 				ChangeSoul();
 				break;
@@ -399,78 +408,33 @@ namespace inr {
 		return false;
 	}
 
-	void Player::IsHit() {
-		//if (_changeDirection == true) _changeDirection = false;
+	void Player::IsGran() {
+		// 蔦と接触しているかどうか
+		if (_input != true) return;	//　入力を受け付けていない場合は、掴めない
+		if (_gran == true) return;
 
-		//_gravity += FRAME_G;	// 加速度を加算
-		//if (MAX_G < _gravity) _gravity = MAX_G;
-
-		//auto nowcol = NowCollision(_divKey.first);
-
-		//// マップチップの上に立っているかどうか
-		//// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
-		//if (IsStandChip()) {
-		//	// 加速度が0の時だけ立っている
-		//	if (0 < _gravity) {
-		//		_stand = true;
-		//	}
-		//	_gravity = 0;
-		//}
-		//else {
-		//	_stand = false;
-		//}
-
-		//auto&& objs = _game.GetObjectServer()->GetEnemys();
-		//for (auto&& obj : objs) {
-		//	if (obj->GetType() != ObjectType::ENEMY) continue;
-		//	if (obj->IsEmpty() != true) continue;
-		//	// 抜け殻の当たり判定を取得
-		//	auto emptyBox = obj->GetMainCollision();
-		//	// x座標は範囲内に収まっているか
-		//	if ((emptyBox.GetMin().GetX() < nowcol.GetMin().GetX() && nowcol.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
-		//		(emptyBox.GetMin().GetX() < nowcol.GetMax().GetX() && nowcol.GetMax().GetX() < emptyBox.GetMax().GetX())) {
-
-		//		if (nowcol.GetMax().GetY() <= emptyBox.GetMin().GetY() + 20 && emptyBox.GetMin().GetY() <= nowcol.GetMax().GetY()) {
-		//			_stand = true;
-		//			_gravity = 0;
-
-		//			auto h = nowcol.GetHeightMax();
-		//			_position.GetPY() = emptyBox.GetMin().GetY() - h;
-		//		}
-
-		//	}
-		//}
-
-		//if (nowcol.GetMin().GetY() < 0) {
-		//	_gravity = 0;
-		//	_position.GetPY() = nowcol.GetHeightMin();
-		//}
+		if (_game.GetTrgKey() == PAD_INPUT_4) {
+			_aState = ActionState::GRAN;
+			_gran = true;
+		}
 	}
 
 	void Player::Gran() {
-		if (_input != true) {
-			if (_gran == true) _gran = false;
-			return;	// 入力状態ではない場合は処理を行わない
-		}
-		if (_gran == true) return;
-
-		if (_game.GetTrgKey() == PAD_INPUT_4) { 
-			_aState = ActionState::GRAN;
-			_gran = true; 
-		}
+		if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
+		else _gran = false;
 	}
 
 	void Player::Move(int lever) {
 		// 入力可能か？
 		if (_input == true) {
-			if (_aState != ActionState::GRAN) {
-				// 状態がアイドル、またはモーブの時だけ移動処理を行う。
-				auto direction = _direction;
-				if (lever < -10) _direction = PL_LEFT;
-				else if (10 < lever) _direction = PL_RIGHT;
+			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
+			auto direction = _direction;
+			if (lever < -10) _direction = PL_LEFT;
+			else if (10 < lever) _direction = PL_RIGHT;
 
-				// 向きが変わった場合はフラグを切り替える
-				if (_direction != direction) _changeDirection = true;
+			// 向きが変わった場合はフラグを切り替える
+			if (_direction != direction) _changeDirection = true;
+			if (_aState != ActionState::GRAN) {
 
 				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
 					// 入力情報がある場合
@@ -576,7 +540,7 @@ namespace inr {
 	}
 
 	void Player::Climb(int leverUD) {
-		if (_gran != true) return;	// 掴みフラグがオンではない場合は処理を行わない
+		if (_aState != ActionState::GRAN) return;	// 掴みフラグがオンではない場合は処理を行わない
 		if (-50 < leverUD && leverUD < 50) return;		
 		// 座標変更
 		double spd = (leverUD * MAX_SPPED) / 1000.0;
@@ -720,13 +684,11 @@ namespace inr {
 	// 位置座標更新
 	void Player::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
-		if (_gran != true) _moveVector.GetPY() = _gravity;
+		if (_aState != ActionState::GRAN) _moveVector.GetPY() = _gravity;
 		auto isGran = false;
 		// マップチップにめり込んでいる場合は座標を修正
 		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, &isGran);
 		// 蔦に接触している場合のみ処理を実行する
-		if (isGran == true) Gran();
-		else _gran = false;
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);
 		
