@@ -5,7 +5,7 @@ namespace inr {
 
 	namespace image {
 		namespace particle {
-			constexpr auto BG_BLACK = "bg_black";
+			constexpr auto BG_BLACK = "bg_black1";
 			constexpr auto BG_OPERATION = "oparation";
 			constexpr auto BG_SIZE_W = 1920;
 			constexpr auto BG_SIZE_H = 1080;
@@ -14,7 +14,7 @@ namespace inr {
 			constexpr auto CONTROLS = "controls";// controller
 			constexpr auto QUIT_TO_TITLE = "quit_to_title";
 
-			constexpr auto CONTINUE_W = 277;
+			constexpr auto CONTINUE_W = 272;
 			constexpr auto CONTROLS_W = 284;
 			constexpr auto QUIT_TO_TITLE_W = 365;
 			constexpr auto UI_H_1 = 55;
