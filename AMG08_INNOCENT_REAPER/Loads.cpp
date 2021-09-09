@@ -94,7 +94,7 @@ namespace inr {
 		{ image::particle::CONTINUE, {"Resource/UI/continue.png", 1, 1, 1, image::particle::CONTINUE_W, image::particle::UI_H_1}},
 		{ image::particle::CONTROLS, {"Resource/UI/controls.png", 1, 1, 1, image::particle::CONTROLS_W, image::particle::UI_H_1}},
 		{ image::particle::QUIT_TO_TITLE, {"Resource/UI/quittotitle.png",1, 1, 1, image::particle::QUIT_TO_TITLE_W, image::particle::UI_H_2}},
-		{ image::particle::CURSOR, {"Resource/cursor.png", 4, 8, 30, image::particle::CURSOR_W, image::particle::CURSOR_H}},
+		{ image::particle::CURSOR, {"Resource/UI/cursor.png", 4, 8, 30, image::particle::CURSOR_W, image::particle::CURSOR_H}},
 
 		// äeéÌUI
 		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},

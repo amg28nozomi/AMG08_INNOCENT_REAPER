@@ -241,12 +241,14 @@ namespace inr {
 		_oValue.PositionsUpdate(newpos);
 		_position = newpos;
 		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
-		if (_souls.empty()) return;
-		auto addSoul = _souls;
-		for (auto i = 0; i < _souls.size(); ++i) {
-			_game.GetObjectServer()->Add(addSoul.front());
-			addSoul.pop();
+		if (_souls.empty() != false) {
+			auto addSoul = _souls;
+			for (auto i = 0; i < _souls.size(); ++i) {
+				_game.GetObjectServer()->Add(addSoul.front());
+				addSoul.pop();
+			}
 		}
+
 		auto it = _collisions.find(_divKey.first);
 		if (it != _collisions.end()) it->second.Update(_position, _direction);
 
