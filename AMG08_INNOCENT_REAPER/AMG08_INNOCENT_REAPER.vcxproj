@@ -180,6 +180,7 @@
     <ClCompile Include="ObjectValue.cpp" />
     <ClCompile Include="Particle_Image.cpp" />
     <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="Pause_UI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RedGreenBlue.cpp" />
     <ClCompile Include="ResourceServer.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="ObjectValue.h" />
     <ClInclude Include="Particle_Image.h" />
     <ClInclude Include="Pause.h" />
+    <ClInclude Include="Pause_UI.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RedGreenBlue.h" />
     <ClInclude Include="ResourceServer.h" />

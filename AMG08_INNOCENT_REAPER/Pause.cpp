@@ -1,5 +1,7 @@
 #include "Pause.h"
 #include "Game.h"
+#include "Particle_Image.h"
+#include "Pause_UI.h"
 #include <DxLib.h>
 
 namespace {
@@ -10,7 +12,10 @@ namespace {
 namespace inr {
 
 	Pause::Pause(Game& game) : _game(game) {
-
+		_bg = std::make_unique<Particle_Image>(_game.GetGame());
+		_operation = std::make_unique<Particle_Image>(_game.GetGame());
+		for (auto number = 0; number < 4; ++number) _uis.emplace_back(std::move(std::make_unique<Pause_UI>()));
+		Init();
 	}
 
 	Pause::~Pause() {
@@ -18,7 +23,7 @@ namespace inr {
 	}
 
 	void Pause::Init() {
-
+		_active = INACTIVE;
 	}
 
 	void Pause::Process() {
