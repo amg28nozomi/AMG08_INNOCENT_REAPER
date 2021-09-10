@@ -1,4 +1,5 @@
 #include "ModeMain.h"
+#include "SoundServer.h"
 #include "Player.h"
 #include "SoldierDoll.h"
 #include "SoulSkin.h"
@@ -47,6 +48,7 @@ namespace inr {
 			// オブジェクトサーバにプレイヤーを登録
 			_stageKey = stage::STAGE_2_1;
 			_changeKey = stage::CHANGE_NULL;
+			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
 
 			TimeClear();
@@ -91,6 +93,7 @@ namespace inr {
 		if (_changeKey == stage::CHANGE_NULL) return false;
 		if (_game.GetModeServer()->PalChange() == true) {
 			// ギミックの状態を更新する
+			BgmManage(_changeKey);	// bgm切り替え
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
 			_game.GetObjectServer()->ObjectsClear();
@@ -117,5 +120,25 @@ namespace inr {
 
 	void ModeMain::SetObjects() {
 
+	}
+
+	bool ModeMain::BgmManage(std::string nextStage) {
+		auto bgm = BgmKey(nextStage);	// キー取得
+		if (_bgmKey == bgm)	return false;	// キーが等しい場合はBGMを切り替えず鳴らし続ける
+
+		StopSoundMem(se::SoundServer::GetSound(_bgmKey));	// 現在のキーを止める
+		_bgmKey = bgm;	// 違う場合はbgmを切り替える
+		PlaySoundMem(se::SoundServer::GetSound(_bgmKey), se::SoundServer::GetPlayType(_bgmKey));
+		return true;
+	}
+
+	std::string ModeMain::BgmKey(std::string key) {
+		if (key == stage::STAGE_0) return bgm::SOUND_STAGE_0;
+		if (key == stage::STAGE_1) return bgm::SOUND_STAGE_1;
+		if (key == stage::STAGE_2) return bgm::SOUND_STAGE_2;
+		if (key == stage::STAGE_2_1) return bgm::SOUND_STAGE_2;
+		if (key == stage::STAGE_2_2) return bgm::SOUND_STAGE_2;
+		if (key == stage::STAGE_3) return bgm::SOUND_STAGE_3;
+		else return "";	// 登録されていない
 	}
 }

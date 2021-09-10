@@ -1,6 +1,7 @@
 #include "ModeBase.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "SoundServer.h"
 
 namespace inr {
 
@@ -28,5 +29,17 @@ namespace inr {
 
 	void ModeBase::Draw() {
 
+	}
+
+	bool ModeBase::BgmManage() {
+		auto sound = se::SoundServer::GetSound(_bgmKey);
+		if (CheckSoundMem(sound) == TRUE) {
+			StopSoundMem(sound);	// BGM’â~
+			return true;
+		}
+		else {	// Ä¶‚µ‚Ä‚¢‚È‚¢ê‡‚ÍÄ¶‚ğŠJn‚·‚é
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
+			return false;
+		}
 	}
 }

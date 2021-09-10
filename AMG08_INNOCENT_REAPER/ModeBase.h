@@ -25,6 +25,8 @@ namespace inr {
 		std::string _bgmKey;	// bgm‚ÌƒL[
 
 		using ModeData = std::unordered_map<std::string, int>;
+
+		bool BgmManage();
 	public:
 		ModeBase(Game& game);
 		~ModeBase();

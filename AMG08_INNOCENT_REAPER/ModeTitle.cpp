@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "ModeServer.h"
 #include "ObjectServer.h"
-#include "SoundServer.h"
 #include "Logo.h"
 #include <memory>
 #include <DxLib.h>
@@ -20,11 +19,7 @@ namespace inr {
 
 	void ModeTitle::Init() {
 		// BGM‚ª–Â‚è‘±‚¯‚Ä‚¢‚éê‡‚Í’â~‚·‚é
-		auto sound = se::SoundServer::GetSound(_bgmKey);
-		if (CheckSoundMem(sound) == TRUE) StopSoundMem(sound);	// BGM’â~
-		else {	// Ä¶‚µ‚Ä‚¢‚È‚¢ê‡‚ÍÄ¶‚ğŠJn‚·‚é
-			PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
-		}
+		BgmManage();
 	}
 
 	void ModeTitle::Process() {

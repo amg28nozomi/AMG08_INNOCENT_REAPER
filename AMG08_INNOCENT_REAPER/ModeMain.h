@@ -34,6 +34,9 @@ namespace inr {
 		bool IsStageChange();	// ステージの切り替えを行うか？
 		void SetObjects();	// オブジェクトの生成（再配置）
 		bool StageChange();		// ステージの切り替え
+
+		bool BgmManage(std::string nextStage);
+		std::string BgmKey(std::string key);	// キーの切り替え
 	};
 
 }
