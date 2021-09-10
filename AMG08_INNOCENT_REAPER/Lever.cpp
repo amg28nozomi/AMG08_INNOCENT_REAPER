@@ -72,7 +72,6 @@ namespace inr {
 	}
 
 	void Lever::ObjValueUpdate() {
-		if (_door->IsSwitch() != gimmick::ON) return;	// フラグが変わっていない場合は更新を行わない
-		_oValue.FlagUpdate(gimmick::ON);	// 更新を行う
+		_oValue.FlagUpdate(_door->IsSwitch());	// 更新を行う
 	}
 }

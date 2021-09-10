@@ -227,7 +227,7 @@ namespace inr {
 
 	void Scenario::ScenarioUpdate(std::string key) {
 		// 現在登録されているギミックの値を取得する
-		auto nowGimmicks = _game.GetObjectServer()->GetGimmicks();
+		auto Gimmicks = _game.GetObjectServer()->GetGimmicks();
 		auto scenario = _scenarios.find(key);
 #ifdef _DEBUG
 		if (scenario == _scenarios.end()) {
@@ -235,16 +235,23 @@ namespace inr {
 			return;
 		}
 #endif
+		std::vector<std::shared_ptr<GimmickBase>> gs;
+		auto gsize = static_cast<int>(Gimmicks.size());
+		int fix = 0;
 		// ギミックの数値を修正する
-		for (auto gimmick : nowGimmicks) {
-			gimmick->ObjValueUpdate();
+		for (auto gimmick = 0; gimmick < gsize; ++gimmick) {
+			if (gsize != static_cast<int>(Gimmicks.size())) fix = (gsize - static_cast<int>(Gimmicks.size()));
+			if (Gimmicks.at(gimmick + fix)->GimmickType() == oscenario::gimmick::TYPE_DOOR) continue;	// ドアの場合は処理を飛ばす
+			Gimmicks.at(gimmick + fix)->ObjValueUpdate();
+			gs.emplace_back(std::move(Gimmicks.at(gimmick + fix)));
 		}
-
+		Gimmicks.clear();	// 役目を終えたのでメモリ処理
 		for (auto&& ovalue : scenario->second) {
+			if (gs.empty())	break;	// 要素が空になった場合は処理を終了する
 			// ギミックにのみ更新をかける
 			if (ovalue.ObjectType() != oscenario::type::GIMMICK) continue;
-			ovalue = nowGimmicks.front()->GetObjectValue();	// 現在の情報に上書きする
-			nowGimmicks.erase(nowGimmicks.begin());	// 先端の要素を削除する
+			ovalue = gs.front()->GetObjectValue();	// 現在の情報に上書きする
+			gs.erase(gs.begin());	// 先端の要素を削除する
 		}
 	}
 }
