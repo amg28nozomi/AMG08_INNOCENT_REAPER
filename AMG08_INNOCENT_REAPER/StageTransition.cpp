@@ -45,17 +45,17 @@ namespace inr {
 		constexpr auto TPOS_5_X = 9500;
 		constexpr auto TPOS_5_Y = 585;
 
-		constexpr auto TPOS_6_X = 1700;
-		constexpr auto TPOS_6_Y = 1800;
+		constexpr auto TPOS_6_X = 1770;
+		constexpr auto TPOS_6_Y = 1985;
 
 		constexpr auto TPOS_7_X = 2120;
-		constexpr auto TPOS_7_Y = 540;
+		constexpr auto TPOS_7_Y = 185;
 
 		constexpr auto TPOS_8_X = 7820;
-		constexpr auto TPOS_8_Y = 540;
+		constexpr auto TPOS_8_Y = 145;
 
-		constexpr auto TPOS_9_X = 7900;
-		constexpr auto TPOS_9_Y = 1900;
+		constexpr auto TPOS_9_X = 8030;
+		constexpr auto TPOS_9_Y = 1985;
 
 		constexpr auto TPOS_10_X = 1960;
 		constexpr auto TPOS_10_Y = 100;

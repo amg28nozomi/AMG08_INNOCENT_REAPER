@@ -13,7 +13,7 @@ namespace inr {
 		constexpr auto STAGE_2 = "stage2";	// ステージ2(森林-中央)
 		constexpr auto STAGE_2_1 = "stage2-1";	// ステージ2(森林-上部)
 		constexpr auto STAGE_2_2 = "stage2-2";	// ステージ2(森林-下部)
-		constexpr auto STAGE_3 = "boss_stage";	// ステージ3(ボス戦)
+		constexpr auto STAGE_3 = "stageb";	// ステージ3(ボス戦)
 	}
 
 	class Game;

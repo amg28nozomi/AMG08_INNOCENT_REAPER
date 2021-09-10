@@ -516,8 +516,8 @@ namespace inr {
 							if (mn.GetMin().GetY() < cbox.GetMin().GetY() &&
 								// マップチップの上部に対象の下が足元が埋まっているかどうか
 								cbox.GetMin().GetY() < mn.GetMax().GetY()) {
-								// TransitionResearch(chip_no);
 								auto cavep = box.GetHeightMax();
+								TransitionResearch(chip_no);
 								pos.GetPY() = minY - cavep;
 								// 通常判定チップの場合、座標を更新する
 								if (_chipCheck->IsChipType(chip_no) == mapchip::NORMAL) *lastpos = { maxX , pos.GetY() };
@@ -528,7 +528,7 @@ namespace inr {
 							// 加速度が負の場合（）
 								// プレイヤーの下部はマップチップの下部より大きいか
 							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
-								// TransitionResearch(chip_no);
+								TransitionResearch(chip_no);
 								auto cavep = box.GetHeightMin();
 								pos.GetPY() = maxY + cavep;
 								return _chipCheck->IsChipType(chip_no);
