@@ -11,6 +11,7 @@ namespace inr {
 
 	ModeTitle::ModeTitle(Game& game) : ModeBase(game) {
 		_titleGh = std::make_unique<Logo>(_game.GetGame());
+		_bgmKey = bgm::SOUND_TITLE;
 	}
 
 	ModeTitle::~ModeTitle() {
@@ -19,10 +20,10 @@ namespace inr {
 
 	void ModeTitle::Init() {
 		// BGM‚ª–Â‚è‘±‚¯‚Ä‚¢‚éê‡‚Í’â~‚·‚é
-		auto sound = se::SoundServer::GetSound(bgm::SOUND_TITLE);
+		auto sound = se::SoundServer::GetSound(_bgmKey);
 		if (CheckSoundMem(sound) == TRUE) StopSoundMem(sound);	// BGM’â~
 		else {	// Ä¶‚µ‚Ä‚¢‚È‚¢ê‡‚ÍÄ¶‚ğŠJn‚·‚é
-			PlaySoundMem(sound, se::SoundServer::GetPlayType(bgm::SOUND_TITLE));
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
 		}
 	}
 

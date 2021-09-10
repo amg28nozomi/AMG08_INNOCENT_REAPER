@@ -7,6 +7,7 @@ namespace inr {
 	int ModeBase::_modeFrame = 0;
 
 	ModeBase::ModeBase(Game& game) : _game(game), _resetFlg(true){
+		_bgmKey = "";
 		Init();
 	}
 

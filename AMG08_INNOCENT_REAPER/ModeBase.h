@@ -22,6 +22,7 @@ namespace inr {
 		bool _update;	// 処理を更新するかどうか
 		bool _resetFlg; // モード切り替え時に初期化するかどうか
 		Game& _game;
+		std::string _bgmKey;	// bgmのキー
 
 		using ModeData = std::unordered_map<std::string, int>;
 	public:
