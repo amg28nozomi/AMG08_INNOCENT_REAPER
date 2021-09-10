@@ -156,7 +156,7 @@ namespace inr {
 			if (usize < i) break;
 			int no;
 			if (usize != _count.size()) { 
-				no = usize - static_cast<int>(_count.size());
+				no = (static_cast<int>(_count.size()) - usize) * -1;
 			}
 			else no = i;
 

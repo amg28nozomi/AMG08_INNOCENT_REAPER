@@ -5,6 +5,22 @@
 
 namespace {
 	constexpr auto CHIP_NULL = -1;
+	constexpr auto CHIP_1 = 129;
+	constexpr auto CHIP_2 = 130;
+	constexpr auto CHIP_3 = 131;
+	constexpr auto CHIP_4 = 132;
+	constexpr auto CHIP_5 = 133;
+	constexpr auto CHIP_6 = 134;
+	constexpr auto CHIP_7 = 135;
+	constexpr auto CHIP_8 = 136;
+	constexpr auto CHIP_9 = 137;
+	constexpr auto CHIP_10 = 138;
+	constexpr auto CHIP_11 = 139;
+	constexpr auto CHIP_12 = 140;
+	constexpr auto CHIP_13 = 141;
+	constexpr auto CHIP_14 = 142;
+	constexpr auto CHIP_15 = 143;
+	constexpr auto CHIP_16 = 144;
 }
 
 namespace inr {
@@ -20,8 +36,38 @@ namespace inr {
 		constexpr auto TPOS_2_X = 100;
 		constexpr auto TPOS_2_Y = 1970;
 
+		constexpr auto TPOS_3_X = 100;
+		constexpr auto TPOS_3_Y = 585;
+
 		constexpr auto TPOS_4_X = 9500;
 		constexpr auto TPOS_4_Y = 1970;
+
+		constexpr auto TPOS_5_X = 9500;
+		constexpr auto TPOS_5_Y = 585;
+
+		constexpr auto TPOS_6_X = 1700;
+		constexpr auto TPOS_6_Y = 1800;
+
+		constexpr auto TPOS_7_X = 2120;
+		constexpr auto TPOS_7_Y = 540;
+
+		constexpr auto TPOS_8_X = 7820;
+		constexpr auto TPOS_8_Y = 540;
+
+		constexpr auto TPOS_9_X = 7900;
+		constexpr auto TPOS_9_Y = 1900;
+
+		constexpr auto TPOS_10_X = 1960;
+		constexpr auto TPOS_10_Y = 100;
+
+		constexpr auto TPOS_11_X = 5500;
+		constexpr auto TPOS_11_Y = 1985;
+
+		constexpr auto TPOS_12_X = 100;
+		constexpr auto TPOS_12_Y = 800;
+
+		constexpr auto TPOS_13_X = 9500;
+		constexpr auto TPOS_13_Y = 1265;
 	}
 
 	Transition::Transition(std::string stageKey, Vector2 position) {
@@ -44,12 +90,22 @@ namespace inr {
 	bool StageTransition::Init() {
 		// ëŒâûÇ∑ÇÈÉ`ÉbÉvÇÃìñÇΩÇËîªíËÇê›íËÇ∑ÇÈ
 		_transitions = {
-			{ 129, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}}},
-			{ 130, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}}},
-			{ 131, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}}},
-			// { 132, {stage::STAGE_1, {}}
-			{ 133, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}}},
-
+			{ CHIP_1, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}}},	// (1)Å®(2)
+			{ CHIP_2, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}}},	// (2)Å®(1)
+			{ CHIP_3, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}}},	// (3)Å®(5)
+			{ CHIP_4, {stage::STAGE_2, {start::TPOS_3_X, start::TPOS_3_Y}}},	// (4)Å®(6)
+			{ CHIP_5, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}}},	// (5)Å®(3)
+			{ CHIP_6, {stage::STAGE_1, {start::TPOS_5_X, start::TPOS_5_Y}}},	// (6)Å®(4)
+			{ CHIP_7, {stage::STAGE_2_1, {start::TPOS_6_X, start::TPOS_6_Y}}},	// (7)Å®(8)
+			{ CHIP_8, {stage::STAGE_2, { start::TPOS_7_X, start::TPOS_7_Y}}},	// (8)Å®(7)
+			{ CHIP_9, {stage::STAGE_2, { start::TPOS_8_X, start::TPOS_8_Y}}},	// (9)Å®(10)
+			{ CHIP_10, {stage::STAGE_2_1, { start::TPOS_9_X, start::TPOS_9_Y}}},	// (10)Å®(9)
+			{ CHIP_11, {stage::STAGE_2_2, { start::TPOS_10_X, start::TPOS_10_Y}}},	// (11)Å®(12)
+			{ CHIP_12, {stage::STAGE_2, { start::TPOS_11_X, start::TPOS_11_Y}}},	// (12)Å®(11)
+			{ CHIP_13, {stage::STAGE_3, { start::TPOS_12_X, start::TPOS_12_Y}}},	// (13)Å®(14)
+			{ CHIP_14, {stage::STAGE_2, { start::TPOS_13_X, start::TPOS_13_Y}}},	// (14)Å®(13)
+			// { CHIP_15, {, { ,}}},	// ()Å®()
+			// { CHIP_16, {, { ,}}},	// ()Å®()
 		};
 
 		/*

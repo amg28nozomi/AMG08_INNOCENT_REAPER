@@ -412,7 +412,7 @@ namespace inr {
 		// 蔦と接触しているかどうか
 		if (_input != true) return;	//　入力を受け付けていない場合は、掴めない
 		if (_gran == true) return;
-
+		// Bボタン入力があった場合、蔦登り状態に遷移する
 		if (_game.GetTrgKey() == PAD_INPUT_4) {
 			_aState = ActionState::GRAN;
 			_gran = true;
@@ -688,6 +688,7 @@ namespace inr {
 		auto isGran = false;
 		// マップチップにめり込んでいる場合は座標を修正
 		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, &isGran);
+		if (hitchip == mapchip::THORM) DamageThorm();	// 横から接触した場合もダメージ処理を呼び出す
 		// 蔦に接触している場合のみ処理を実行する
 		// ギミックにめり込んでいるか？
 		GimmickCheck(_moveVector);
@@ -774,6 +775,10 @@ namespace inr {
 		}
 		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
 		_position = _lastChip;	// 座標切り替え
+		// 移動後にバグが発生しないように調整
+		_knockBack = 0;
+		_dashX = 0;
+		_gravity = 0;
 
 	}
 
