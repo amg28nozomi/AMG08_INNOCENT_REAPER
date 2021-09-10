@@ -56,7 +56,7 @@ namespace inr {
 		_spawnPos.emplace_back(newpos);
 	}
 
-	void ObjectValue::FlagUpdate(bool flag, int soul) {
+	void ObjectValue::FlagUpdate(int flag, int soul) {
 		if (_gimmick.GimmickFlag() != flag) _gimmick.AddFlag(flag);
 		if (soul == 0) return;
 		if (_soulType != soul) _soulType = soul;

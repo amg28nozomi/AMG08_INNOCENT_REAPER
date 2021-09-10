@@ -240,10 +240,10 @@ namespace inr {
 		int fix = 0;
 		// ギミックの数値を修正する
 		for (auto gimmick = 0; gimmick < gsize; ++gimmick) {
-			if (gsize != static_cast<int>(Gimmicks.size())) fix = (gsize - static_cast<int>(Gimmicks.size()));
-			if (Gimmicks.at(gimmick + fix)->GimmickType() == gimmick::NOT_GIMMICK) continue;	// ドアの場合は処理を飛ばす
-			Gimmicks.at(gimmick + fix)->ObjValueUpdate();
-			gs.emplace_back(std::move(Gimmicks[gimmick + fix]));
+			// if (gsize != static_cast<int>(Gimmicks.size())) fix = (gsize - static_cast<int>(Gimmicks.size()));
+			if (Gimmicks[gimmick]->GimmickType() == gimmick::DOOR) continue;	// ドアの場合は処理を飛ばす
+			Gimmicks[gimmick]->ObjValueUpdate();
+			gs.emplace_back(std::move(Gimmicks[gimmick]));
 		}
 		Gimmicks.clear();	// 役目を終えたのでメモリ処理
 		for (auto&& ovalue : scenario->second) {

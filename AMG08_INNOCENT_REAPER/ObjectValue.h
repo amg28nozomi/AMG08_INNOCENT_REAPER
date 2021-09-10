@@ -63,7 +63,7 @@ namespace inr {
 		inline std::vector<Vector2> Positions() { return _spawnPos; }
 
 		void PositionsUpdate(Vector2 newpos);
-		void FlagUpdate(bool flag, int soul = 0);
+		void FlagUpdate(int flag, int soul = 0);
 		
 	private:
 		int _class;	// ê∂ê¨Ç∑ÇÈÉNÉâÉXÇÕâΩÇ©

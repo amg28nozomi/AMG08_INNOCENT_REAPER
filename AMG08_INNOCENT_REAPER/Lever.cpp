@@ -72,6 +72,8 @@ namespace inr {
 	}
 
 	void Lever::ObjValueUpdate() {
-		_oValue.FlagUpdate(_door->IsSwitch());	// 更新を行う
+		auto flag = oscenario::gimmick::FLAG_FALSE;
+		if (_door->IsSwitch() == gimmick::ON) flag = oscenario::gimmick::FLAG_TRUE;
+		_oValue.FlagUpdate(flag);	// 更新を行う
 	}
 }
