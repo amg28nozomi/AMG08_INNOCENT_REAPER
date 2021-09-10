@@ -56,7 +56,7 @@ namespace inr {
 	};
 
 	const se::SoundServer::SoundMap player_se{
-		{ {key::SOUND_PLAYER_HIT}, {"Resource/SE/Player/damage.wav", DX_PLAYTYPE_BACK}},
+		{ {key::SOUND_PLAYER_HIT}, {"Resource/SE/Player/damege.wav", DX_PLAYTYPE_BACK}},
 		{ {key::SOUND_PLAYER_DASH}, {"Resource/SE/Player/dash.wav", DX_PLAYTYPE_BACK}},
 		// { {key::SOUND_PLAYER_RUN1}}
 	};
