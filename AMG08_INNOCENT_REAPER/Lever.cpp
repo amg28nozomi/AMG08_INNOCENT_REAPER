@@ -66,7 +66,15 @@ namespace inr {
 		default:
 			return;
 		}
-		gdoor->SetParameter(_oValue.Positions()[1], gh);	// ВЈВџБ[Вс
+
+		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
+			_aCount = AnimationCountMax();
+#ifdef _DEBUG
+			_mainCollision.GetbDrawFlg() = false;
+#endif
+		}
+
+		gdoor->SetParameter(_oValue.Positions()[1], gh, _oValue.GimmickFlag());	// ВЈВџБ[Вс
 		_door = gdoor;
 		_game.GetObjectServer()->Add(gdoor);
 	}

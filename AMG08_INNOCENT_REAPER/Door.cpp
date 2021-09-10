@@ -38,11 +38,26 @@ namespace inr {
 		DrawDebugBox(_mainCollision);
 	}
 
-	void Door::SetParameter(Vector2 spwan, std::string key) {
+	void Door::SetParameter(Vector2 spwan, std::string key, int flag) {
 		_position = spwan;
 		_mainCollision = { _position, 20, 20, 10, 70, true };
 		_divKey.first = key;
 		_motionKey = { { _divKey.first, {25, 50}} };
+		switch (flag) {
+		case oscenario::gimmick::FLAG_FALSE:
+			_switch = gimmick::OFF;
+			break;
+		case oscenario::gimmick::FLAG_TRUE:
+			_switch = gimmick::ON;
+			_pal = 0;
+#ifdef _DEBUG
+			_mainCollision.GetbDrawFlg() = false;
+#endif
+			break;
+		default:
+			_switch = gimmick::OFF;
+			break;
+		}
 	}
 
 	void Door::SwitchOn() {

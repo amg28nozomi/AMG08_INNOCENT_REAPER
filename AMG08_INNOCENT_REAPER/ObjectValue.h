@@ -41,7 +41,7 @@ namespace inr {
 		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL);
 		inline int GimmickType() { return _gimmickType; }
 		inline int GimmickFlag() { return _gimmickFlag; }
-		inline void AddFlag(bool flag) { _gimmickFlag = flag; }
+		inline void AddFlag(int flag) { _gimmickFlag = flag; }
 	private:
 		int _gimmickType;	// ギミックの種類（-1:対象外　0:レバー　1:水晶　2:　3:ドア）
 		int _gimmickFlag;	// ギミックのフラグ（-1:対象外　0:false　1:true）

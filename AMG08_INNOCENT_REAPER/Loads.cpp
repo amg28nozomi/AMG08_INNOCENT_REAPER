@@ -214,8 +214,8 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, 1},
 			{ oscenario::OBJ_BIG_DOLL, {6840, 1970}, 1},
 			// ÉMÉ~ÉbÉN
-			{ oscenario::OBJ_LEVER, {{2200, 2000}, {2440, 1900}},  0, {gimmick::door::D_LEVER}},
-			{ oscenario::OBJ_LEVER, {{3280, 750}, {3640, 800}},  0, {gimmick::door::D_LEVER}},
+			{ oscenario::OBJ_LEVER, {{2200, 1980}, {2400, 2000}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{3280, 780}, {3500, 500}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 		};
 		return _stage;
 	}
