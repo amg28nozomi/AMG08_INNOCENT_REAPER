@@ -56,7 +56,7 @@ namespace inr {
 	};
 
 	const se::SoundServer::SoundMap player_se{
-		{ {key::SOUND_PLAYER_HIT}, {"Resource/SE/Player/hit.wav", DX_PLAYTYPE_BACK}},
+		{ {key::SOUND_PLAYER_HIT}, {"Resource/SE/Player/damage.wav", DX_PLAYTYPE_BACK}},
 		{ {key::SOUND_PLAYER_DASH}, {"Resource/SE/Player/dash.wav", DX_PLAYTYPE_BACK}},
 		// { {key::SOUND_PLAYER_RUN1}}
 	};
@@ -85,6 +85,10 @@ namespace inr {
 		{ {system::SOUND_PAUSE}, {"Resource/SE/System/pose.wav", DX_PLAYTYPE_BACK}},
 	};
 
+	const se::SoundServer::SoundMap bgms{
+		{ {bgm::SOUND_TITLE}, {"Resource/SE/BGM/title.wav", DX_PLAYTYPE_LOOP}}	// É^ÉCÉgÉãBGM
+	};
+
 	Game::Game()
 	{
 		Init();
@@ -100,10 +104,6 @@ namespace inr {
 		_trgKey = 0;
 		_frameCount = 0;
 
-		_objServer = std::make_unique<ObjectServer>();
-		_scenario = std::make_unique<Scenario>(*this);
-		_modeServer = std::make_unique<ModeServer>(*this);
-
 		graph::ResourceServer::Init();
 		Loads::ResourceLoad();
 		// ì«Ç›çûÇ›
@@ -112,6 +112,11 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(ses);
 		se::SoundServer::LoadSoundMap(gimmick_se);
 		se::SoundServer::LoadSoundMap(system_se);
+		se::SoundServer::LoadSoundMap(bgms);
+
+		_objServer = std::make_unique<ObjectServer>();
+		_scenario = std::make_unique<Scenario>(*this);
+		_modeServer = std::make_unique<ModeServer>(*this);
 
 		/*std::string filepath = PATH;
 		std::string filename = CHIP_FILE_S;*/

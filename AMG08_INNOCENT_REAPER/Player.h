@@ -8,6 +8,7 @@
 
 namespace inr {
 	// 検索用キー
+	constexpr auto PKEY_DEATH = "player_hit";	// 死亡（モーションがないのでダメージモーション流用）
 	constexpr auto PKEY_IDOL = "player_idol";	// 待機
 	constexpr auto PKEY_RUN = "player_run";		// 移動
 	constexpr auto PKEY_DASH = "player_dash";	// ダッシュ
@@ -54,8 +55,8 @@ namespace inr {
 	private:
 		// アクションの状態
 		enum class ActionState {
-			// 待機、移動、ダッシュ、奪う、与える、ノックバック、ツタ登り
-			IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT, GRAN
+			// 死亡、待機、移動、ダッシュ、奪う、与える、ノックバック、ツタ登り
+			DEATH, IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT, GRAN
 		};
 		enum class State {
 			// 生存、ダメージ、死亡
@@ -67,6 +68,8 @@ namespace inr {
 		std::queue<std::shared_ptr<SoulSkin>> _souls;
 
 		double _dashX;	// ダッシュの最大移動距離(座標)
+
+		int _pal;
 		
 		int _judegFrame;	// 判定フレーム数
 		int _aFrame;	// アクション実行のためのフレーム
@@ -106,6 +109,7 @@ namespace inr {
 		void ChangeSoul(); // 魂の切り替え
 		// bool IsDamage(); // ダメージ判定を受けるか？
 		bool Dead(); // 死亡判定
+		void Death();	// 死亡処理（）
 		bool IsStandChip() override;
 		void DamageThorm();	// 棘のダメージ処理
 
@@ -116,7 +120,7 @@ namespace inr {
 
 		AABB GetAABB();
 		AABB NowCollision(std::string key) override;
-
+		
 #ifdef _DEBUG
 		void DebugInfo();
 #endif

@@ -51,6 +51,14 @@ namespace inr {
 		constexpr auto SOUND_PAUSE = "pause";
 	}
 
+	namespace bgm {
+		constexpr auto SOUND_TITLE = "sound_title";
+		constexpr auto SOUND_STAGE_0 = "sound_stage0";
+		constexpr auto SOUND_STAGE_1 = "sound_stage1";
+		constexpr auto SOUND_STAGE_2 = "sound_stage2";
+		constexpr auto SOUND_STAGE_3 = "sound_stageb";
+	}
+
 
 	class Game {
 	public:

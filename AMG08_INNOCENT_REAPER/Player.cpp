@@ -92,6 +92,8 @@ namespace {
 	constexpr auto PF_GIVE = 16;
 	constexpr auto PF_HIT = 7;
 
+	constexpr auto PF_DEATH = PF_HIT;	// モーションが上がってきていないため代用
+
 	// 描画切り替えまでに必要なフレーム数
 	constexpr auto MF_INTERVAL = 4;
 
@@ -105,6 +107,7 @@ namespace {
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
 	// constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
 	constexpr auto PMF_HIT = 60;
+	constexpr auto PMF_DEATH = PMF_HIT;
 }
 
 namespace inr {
@@ -147,9 +150,12 @@ namespace inr {
 
 	void Player::Init() {
 		_invincible = 0;	// 無敵時間
+		_pal = 255;
 
 		// キー名　first:アニメーションの総フレーム数、second:SEの再生フレーム数
-		_motionKey = {{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
+		_motionKey = {
+					{PKEY_DEATH, {PMF_DEATH, 50}},
+					{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
 					{PKEY_RUN, {PMF_RUN, SE_RUN1}}, 
 					{PKEY_DASH, {PMF_DASH, 50}},
 					{PKEY_JUMP, {PMF_JUMP, 50}},
@@ -214,7 +220,9 @@ namespace inr {
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, _pal);	// 透明度切り替え
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);	// 通常状態に切り替え
 
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
@@ -659,6 +667,10 @@ namespace inr {
 
 	bool Player::Dead() {
 		return false; 
+	}
+
+	void Player::Death() {
+		// 死亡処理（アニメーションを挟む）
 	}
 
 	void Player::AnimationInit() { 
