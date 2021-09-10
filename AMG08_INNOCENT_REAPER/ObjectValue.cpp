@@ -7,7 +7,7 @@ namespace inr {
 		_gimmickFlag = flag;
 	}
 
-	ObjectValue::ObjectValue() {
+	ObjectValue::ObjectValue() : _gimmick(){
 		_class = oscenario::OBJ_NULL;
 		_spawnPos.clear();
 		_soulType = 0;

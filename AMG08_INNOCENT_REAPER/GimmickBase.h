@@ -66,7 +66,7 @@ namespace inr {
 	protected:
 		enum class GimmickType {
 			// レバー、岩、水晶
-			LEVER, BLOCK, CRYSTAL, DOOR
+			NOT_GIMMICK, LEVER, BLOCK, CRYSTAL, DOOR
 		};
 		GimmickType _gType;
 		// bool _extrude;	// 押し出し処理を行うか？

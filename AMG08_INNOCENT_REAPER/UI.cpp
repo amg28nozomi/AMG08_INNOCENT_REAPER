@@ -105,6 +105,9 @@ namespace inr {
 		return graph::ResourceServer::GetHandles(key, no);
 	}
 
+	// アニメーションが終了してから魂を解放するようにする
+	// 魂が三つ以上登録されている場合は更新を行わない
+
 	void UI::SoulResearch() {
 		auto ps = _player->GetSouls();
 		// サイズが違う場合は更新をかける
@@ -153,7 +156,7 @@ namespace inr {
 		auto usize = static_cast<int>(_count.size());
 		for (auto i = 0; i < usize; ++i) {
 			if (i == 0)continue;
-			if (usize < i) break;
+			if (static_cast<int>(_count.size()) <= i) break;
 			int no;
 			if (usize != _count.size()) { 
 				no = (static_cast<int>(_count.size()) - usize) * -1;
