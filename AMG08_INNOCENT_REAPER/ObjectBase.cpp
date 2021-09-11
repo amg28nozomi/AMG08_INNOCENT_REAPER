@@ -10,6 +10,7 @@
 
 #include "GimmickBase.h"
 #include "Door.h"
+#include "Block.h"
 
 #include <DxLib.h>
 #include <memory>
@@ -220,6 +221,10 @@ namespace inr {
 			if (g->GimmickType() == gimmick::DOOR) {
 				auto door = std::dynamic_pointer_cast<Door>(g);
 				if(door->IsSwitch() == gimmick::OFF) door->Extrude(NowCollision(_divKey.first), _position, move, _direction, _changeDirection);
+			}
+			else if (g->GimmickType() == gimmick::BLOCK) {
+				auto block = std::dynamic_pointer_cast<Block>(g);
+				if (block->IsBreak() == gimmick::block::BRAKE_OFF) block->Extrude(NowCollision(_divKey.first), _position, move, _direction, _changeDirection);
 			}
 		}
 	}

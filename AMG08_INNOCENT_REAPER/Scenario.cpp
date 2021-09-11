@@ -14,6 +14,7 @@
 #include "BigDoll.h"
 #include "GimmickBase.h"
 #include "Lever.h"
+#include "Block.h"
 
 namespace {
 	constexpr auto COUNT_MIN = 0;
@@ -222,7 +223,10 @@ namespace inr {
 	}
 
 	void Scenario::AddBlock(ObjectValue ovalue) {
-
+		auto glever = std::make_shared<Block>(_game.GetGame());
+		auto posv = ovalue.Positions();
+		glever->SetParameter(ovalue);
+		_game.GetObjectServer()->Add(std::move(glever));
 	}
 
 	void Scenario::ScenarioUpdate(std::string key) {
