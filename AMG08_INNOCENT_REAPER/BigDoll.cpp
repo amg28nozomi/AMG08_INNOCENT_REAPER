@@ -3,6 +3,9 @@
 #include "Game.h"
 #include "ObjectServer.h"
 #include "SoulSkin.h"
+#include "GimmickBase.h"
+#include "Lever.h"
+#include "Block.h"
 #include <memory>
 
 namespace {
@@ -71,9 +74,58 @@ namespace inr {
 		AnimationCount();
 		Action();
 		StateUpdate();
+		Attack();
 		PositionUpdate();
 	}
 
+	void BigDoll::Attack() {
+		if (_soul == nullptr || _aState == ActionState::WAKEUP) return;	// 魂がない場合は処理をスキップ
+		auto&& player = _game.GetObjectServer()->GetPlayer();
+		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定を取得
+
+		// ギミック（レバー）と衝突したか？
+		if (_aState == ActionState::ATTACK) {
+			auto gs = _game.GetObjectServer()->GetGimmicks();
+			for (auto gg : gs) {
+				if (gg->GimmickType() == gimmick::DOOR) continue;	// レバーではない場合はスキップ
+				if (_mainCollision.HitCheck(gg->GetMainCollision())) {
+					switch (gg->GimmickType()) {
+					case gimmick::BLOCK:
+						if (std::dynamic_pointer_cast<Block>(gg)->IsBreak() != gimmick::block::BRAKE_ON) {
+							_stay = 30;
+							std::string key = "";
+							if (_soul->SoulColor() == soul::BLUE) key = enemy::blue::BIG_IDOL;
+							else key = enemy::red::BIG_IDOL;
+							ChangeState(ActionState::IDOL, key);
+							std::dynamic_pointer_cast<Block>(gg)->Break(); 
+						}
+						continue;
+					case gimmick::LEVER:
+						std::dynamic_pointer_cast<Lever>(gg)->OpenDoor();
+						continue;
+					default:
+						continue;
+					}
+				}
+			}
+		}
+
+		// 自身の当たり判定と接触判定を行う
+		auto dmb = DamageBox(10);
+		if (dmb.HitCheck(playerBox)) {
+			player->Damage(SearchPosition());
+			return;
+		}
+		// 攻撃状態の場合は追加で処理を行う
+		//if (_aState == ActionState::ATTACK) {
+		//	auto box = _collisions.find(_divKey.first);
+		//	// 接触している場合は自機の衝突処理を呼び出す
+		//	if (box->second.HitCheck(playerBox)) {
+		//		// 進行方向とは同方向に対象を飛ばす
+		//		player->Damage(SearchPosition());
+		//	}
+		//}
+	}
 
 	void BigDoll::HipDrop() {
 

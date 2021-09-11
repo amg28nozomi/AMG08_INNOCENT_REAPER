@@ -42,11 +42,14 @@ namespace inr {
 	void Block::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];
-		_mainCollision = { _position, 40, 40, 0, 80, true };
+		_mainCollision = { _position, 45, 45, 170, 70, true };
 
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
 			_break = gimmick::block::BRAKE_ON;
 			_pal = 0;
+#ifdef _DEBUG
+			_mainCollision.GetbDrawFlg() = false;
+#endif
 			return;
 		}
 		_break = gimmick::block::BRAKE_OFF;
@@ -83,5 +86,9 @@ namespace inr {
 		auto sound = SoundResearch(_divKey.second);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 		_break = gimmick::block::BRAKE_ON;
+#ifdef _DEBUG
+		_mainCollision.GetbDrawFlg() = false;
+#endif
+		return true;
 	}
 }

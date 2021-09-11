@@ -33,6 +33,7 @@ namespace inr {
 		void ChangeIdol() override;
 		void Move();	// ˆÚ“®ˆ—
 		void PositionUpdate() override;
+		void Attack();	// UŒ‚
 
 		AABB NowCollision(std::string key) override;
 	};

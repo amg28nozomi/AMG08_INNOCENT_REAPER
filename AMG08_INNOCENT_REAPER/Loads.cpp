@@ -114,6 +114,7 @@ namespace inr {
 	const graph::ResourceServer::DivGraphMap gimmicks{
 		{ gimmick::lever::KEY_LEVER, {"Resource/Gimmick/Lever/lever.png", 3, 2, 5, gimmick::lever::LEVER_SIZE, gimmick::lever::LEVER_SIZE}},
 		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
+		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock.png", 1, 1, 1, gimmick::block::BLOCK_SIZE, gimmick::block::BLOCK_SIZE}},
 	};
 
 	// 各種エフェクト
@@ -163,6 +164,9 @@ namespace inr {
 		std::vector<ObjectValue> _stageS{
 			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 605}},
 			{ oscenario::OBJ_BIG_DOLL, {2800, 905}},
+
+			// ギミック（壊れる岩1, 水晶1）
+			{ oscenario::OBJ_BLOCK, {3180, 890}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {
