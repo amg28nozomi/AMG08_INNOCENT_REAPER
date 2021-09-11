@@ -1,11 +1,12 @@
 #include "Block.h"
 #include "Game.h"
+#include "SoundServer.h"
 
 namespace inr {
 
 	Block::Block(Game& game) : GimmickBase(game) {
 		_gType = GimmickType::BLOCK;
-		_divKey = { gimmick::block::KEY_BLOCK, "" };
+		_divKey = { gimmick::block::KEY_BLOCK, gimmick::block::KEY_BLOCK };
 		_motionKey.clear();
 
 		_pal = 255;
@@ -32,7 +33,7 @@ namespace inr {
 		GraphResearch(&graph);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
-		DrawRotaGraph(x, y, 1.0, 0, graph, TRUE);
+		for (auto fix = 0; fix < 3; ++fix) DrawRotaGraph(x, (y - (fix * 80)), 1.0, 0, graph, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 		DrawDebugBox(_mainCollision);
@@ -42,6 +43,14 @@ namespace inr {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];
 		_mainCollision = { _position, 40, 40, 0, 80, true };
+
+		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
+			_break = gimmick::block::BRAKE_ON;
+			_pal = 0;
+			return;
+		}
+		_break = gimmick::block::BRAKE_OFF;
+		_pal = 255;
 	}
 
 	void Block::ObjValueUpdate() {
@@ -68,5 +77,11 @@ namespace inr {
 			move.GetPX() = 0;
 		}
 		return true;
+	}
+
+	bool Block::Break() {
+		auto sound = SoundResearch(_divKey.second);
+		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+		_break = gimmick::block::BRAKE_ON;
 	}
 }

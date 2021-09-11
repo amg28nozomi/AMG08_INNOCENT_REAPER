@@ -24,6 +24,7 @@ namespace inr {
 
 		inline bool IsBreak() { return _break; }
 		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection);
+		bool Break();
 	private:
 		int _pal;	// “§–¾“x
 		bool _break;	// ‰ó‚³‚ê‚½‚©”Û‚©
