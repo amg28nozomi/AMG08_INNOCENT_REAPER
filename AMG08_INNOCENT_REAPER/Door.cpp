@@ -77,6 +77,7 @@ namespace inr {
 #ifdef _DEBUG
 		_mainCollision.GetbDrawFlg() = true;
 #endif
+		_mainCollision.GetCollisionFlgB() = true;	// “–‚½‚è”»’è‚ðŒ³‚É–ß‚·
 		_pal = 255;
 	}
 
