@@ -47,6 +47,7 @@ namespace inr {
 	void BigDoll::Init() {
 		// 当たり判定
 		_mainCollision = { _position, enemy::BIG_WIDTH / 2, enemy::BIG_HEIGHT / 2, true };
+		_searchBox = { _position, 200, 200, enemy::BIG_WIDTH / 2 + 30, enemy::BIG_WIDTH / 2, true};
 		_collisions = {
 			// 抜け殻
 			{enemy::BIG_EMPTY, {_position, BIG_EMPTY_WIDTH / 2, BIG_EMPTY_WIDTH / 2, 0, BIG_EMPTY_HEIGHT, true}},
@@ -74,6 +75,7 @@ namespace inr {
 		AnimationCount();
 		Action();
 		StateUpdate();
+		Move();
 		Attack();
 		PositionUpdate();
 	}
@@ -84,7 +86,7 @@ namespace inr {
 		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定を取得
 
 		// ギミック（レバー）と衝突したか？
-		if (_aState == ActionState::ATTACK) {
+		if (_aState == ActionState::ATTACK || _aState == ActionState::ESCAPE) {
 			auto gs = _game.GetObjectServer()->GetGimmicks();
 			for (auto gg : gs) {
 				if (gg->GimmickType() == gimmick::DOOR) continue;	// レバーではない場合はスキップ
@@ -101,6 +103,7 @@ namespace inr {
 						}
 						continue;
 					case gimmick::LEVER:
+						if (_aState != ActionState::ATTACK) continue;
 						std::dynamic_pointer_cast<Lever>(gg)->OpenDoor();
 						continue;
 					default:
@@ -143,13 +146,13 @@ namespace inr {
 			PatrolOn();
 			return;
 		case ActionState::PATROL:
-			// 左移動
+			// 右移動
 			if (_patrolX < 0) {
 				_moveVector.GetPX() = PATROL_VECTOR;
 				_patrolX += PATROL_VECTOR;
 				if (0 < _patrolX) _patrolX = 0;
 				return;
-				// 右移動
+				// ←移動
 			}
 			else if (0 < _patrolX) {
 				_moveVector.GetPX() = -PATROL_VECTOR;
@@ -171,15 +174,15 @@ namespace inr {
 			_searchBox.GetCollisionFlgB() = false;	// 索敵を切る
 			return;
 		case ActionState::ATTACK:
-			// 左移動
+			// 右移動
 			if (_actionX < 0) {
-				if(-ATTACK_VECTOR_MAX < _atkVec ) _atkVec += ADD_VECTOR;
+				if(_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
 				_actionX += _atkVec;
 				_moveVector.GetPX() = -_atkVec;
 				if (0 < _actionX) _actionX = 0;
 
 			} else if (0 < _actionX) {
-				if (_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
+				if (-ATTACK_VECTOR_MAX < _atkVec) _atkVec += ADD_VECTOR;
 				_actionX -= _atkVec;
 				_moveVector.GetPX() = _atkVec;
 				if (_actionX < 0) _actionX = 0;
@@ -316,20 +319,21 @@ namespace inr {
 
 	void BigDoll::EscapeOn() {
 		if (_aState != ActionState::ESCAPE) {
-			ChangeState(ActionState::ATTACK, enemy::blue::BIG_ESCAPE);
+			ChangeState(ActionState::ESCAPE, enemy::blue::BIG_ESCAPE);
 			_searchBox.GetCollisionFlgB() = true;
 			switch (_direction) {
 			case enemy::MOVE_LEFT:
-				_actionX = -enemy::ESCAPE_MAX;
+				_actionX = enemy::ESCAPE_MAX;
 				return;
 			case enemy::MOVE_RIGHT:
-				_actionX = enemy::ESCAPE_MAX;
+				_actionX = -enemy::ESCAPE_MAX;
 				return;
 			}
 		}
 	}
 
 	void BigDoll::ChangeIdol() {
+		_atkVec = 0;
 		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
 		std::string nextkey = "";
 		switch (_soul->SoulColor()) {
