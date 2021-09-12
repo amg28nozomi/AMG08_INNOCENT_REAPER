@@ -32,19 +32,34 @@ namespace inr {
 			constexpr auto FLAG_NULL = -1;
 			constexpr auto FLAG_FALSE = 0;
 			constexpr auto FLAG_TRUE = 1;
+
+			namespace crystal {
+				constexpr auto TYPE_NULL = -1;
+				constexpr auto TYPE_STAGE_0 = 0;
+				constexpr auto TYPE_STAGE_2 = 1;
+
+				constexpr auto DOOR_NULL = -1;
+				constexpr auto DOOR_RED = 0;
+				constexpr auto DOOR_BLUE = 1;
+			}
 		}
 	}
 
 	// ギミックの情報
 	class GimmickValue {
 	public:
-		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL);
+		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL, int ctype = oscenario::gimmick::crystal::TYPE_NULL, std::vector<int> types = { oscenario::gimmick::crystal::DOOR_NULL });
 		inline int GimmickType() { return _gimmickType; }
 		inline int GimmickFlag() { return _gimmickFlag; }
+		inline int CrystalType() { return _crystalType; }
+		inline std::vector<int> DoorType() { return _dtype; }
 		inline void AddFlag(int flag) { _gimmickFlag = flag; }
 	private:
 		int _gimmickType;	// ギミックの種類（-1:対象外　0:レバー　1:水晶　2:　3:ドア）
 		int _gimmickFlag;	// ギミックのフラグ（-1:対象外　0:false　1:true）
+		int _crystalType;	// クリスタルの種類(-1:対象外、0:ステージ0、1:ステージ2)
+		std::vector<int> _dtype;	// ドアの種類
+
 	};
 
 	// 登録情報
@@ -59,8 +74,10 @@ namespace inr {
 		inline int SoulType() { return _soulType; }
 		inline int GimmickType() { return _gimmick.GimmickType(); }
 		inline int GimmickFlag() { return _gimmick.GimmickFlag(); }
+		inline int CrystalType() { return _gimmick.CrystalType(); }
 		inline int ObjectType() { return _objType; }
 		inline std::vector<Vector2> Positions() { return _spawnPos; }
+		inline std::vector<int> DoorType() { return _gimmick.DoorType(); }
 
 		void PositionsUpdate(Vector2 newpos);
 		void FlagUpdate(int flag, int soul = 0);

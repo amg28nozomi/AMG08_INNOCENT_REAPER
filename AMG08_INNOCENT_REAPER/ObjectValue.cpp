@@ -2,9 +2,11 @@
 
 namespace inr {
 
-	GimmickValue::GimmickValue(int type, int flag) {
+	GimmickValue::GimmickValue(int type, int flag, int ctype, std::vector<int> types) {
 		_gimmickType = type;
 		_gimmickFlag = flag;
+		_crystalType = ctype;
+		_dtype = types;
 	}
 
 	ObjectValue::ObjectValue() : _gimmick(){
