@@ -27,6 +27,7 @@ namespace inr {
 
 	BackGround::BackGround(Game& game) : Image(game){
 		_stageNo = -1;
+		_pos = { 960 , 1080 };
 		// ChangeGraph();	// 最初のキーを読み込み
 	}
 
@@ -101,6 +102,7 @@ namespace inr {
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
 			DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
 		}
+		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}
 
 	void BackGround::ChangeGraph() {
@@ -113,7 +115,7 @@ namespace inr {
 		switch (_stageNo) {
 		case stage::number::SN_S:	// ステージS
 			_graphKey = background::BACK_GROUND_S;
-			_scrSpeed = { 0.5, 0 };
+			_scrSpeed = { 0.5 };
 			break;
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;
@@ -150,5 +152,14 @@ namespace inr {
 		if (skey == stage::STAGE_2_2) return stage::number::SN_2;
 		if (skey == stage::STAGE_3) return stage::number::SN_B;
 		return -1;
+	}
+
+	void BackGround::BackDraw() {
+		Vector2 xy = _pos;
+		_game.GetMapChips()->Clamp(xy);
+		auto x = xy.IntX();
+		auto y = xy.IntY();
+		auto gh = graph::ResourceServer::GetHandles(_graphKey, 1);
+		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);
 	}
 }

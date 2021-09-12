@@ -498,10 +498,10 @@ namespace inr {
 			// ダッシュ状態ではない場合、各種初期化処理を実行
 			if (_aState != ActionState::DASH) {
 				ChangeState(ActionState::DASH, PKEY_DASH);
-
-				auto soundKey = SoundResearch(key::SOUND_PLAYER_DASH);
-				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-				PlaySoundMem(soundKey, soundType);
+				auto soundKey = SoundResearch(key::SOUND_PLAYER_ROB);
+				// auto soundKey = SoundResearch(key::SOUND_PLAYER_DASH);
+				// auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+				PlaySoundMem(soundKey, DX_PLAYTYPE_BACK);
 				// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
 				// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
