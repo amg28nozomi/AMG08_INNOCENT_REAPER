@@ -59,6 +59,8 @@ namespace inr {
 			// ƒTƒEƒ“ƒh
 			constexpr auto KEY_DOOR = "door_se";
 			constexpr auto SE_OPEN = 40;
+
+			constexpr auto SE_CLOSE_DOOR = "door_close";	// ”à‚ª•Â‚Ü‚é‰¹
 		}
 	}
 

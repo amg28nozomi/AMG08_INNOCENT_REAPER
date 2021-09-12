@@ -19,13 +19,18 @@ namespace inr {
 
 		void SetParameter(ObjectValue objValue) override;
 		void ObjValueUpdate() override;
+		void CollisionHit(const std::string ckey, Collision acollision, bool direction);
 
-		int HaveSoul();
+		// int HaveSoul();
 	private:
 		std::shared_ptr<SoulSkin> _soul;	// 保持している魂
-		std::vector<Door> _doors;	// 保持しているドア
+		std::vector<std::shared_ptr<Door>> _doors;	// 保持しているドア
 
 		void SetDoors(std::string key);
+		void GraphKey();
+		void AddSoul();	// 魂の生成
+
+		
 	};
 }
 

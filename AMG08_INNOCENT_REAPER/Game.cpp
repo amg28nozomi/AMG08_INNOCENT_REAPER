@@ -75,6 +75,8 @@ namespace inr {
 		{ {gimmick::block::KEY_BLOCK}, {"Resource/SE/Gimmick/breakblok.wav", DX_PLAYTYPE_BACK}},
 		{ {gimmick::crystal::KEY_CRYSTAL}, {"Resource/SE/Gimmick/crystal.wav", DX_PLAYTYPE_BACK}},
 		{ {gimmick::door::KEY_DOOR}, {"Resource/SE/Gimmick/door.wav", DX_PLAYTYPE_BACK}},
+
+		{ {gimmick::door::SE_CLOSE_DOOR}, {"Resource/SE/Gimmick/door_close.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	// System‰¹

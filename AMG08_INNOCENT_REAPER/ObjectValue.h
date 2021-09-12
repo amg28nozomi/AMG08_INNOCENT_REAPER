@@ -81,6 +81,7 @@ namespace inr {
 
 		void PositionsUpdate(Vector2 newpos);
 		void FlagUpdate(int flag, int soul = 0);
+		inline void SoulUpdate(int soul) { _soulType = soul; }
 		
 	private:
 		int _class;	// ¶¬‚·‚éƒNƒ‰ƒX‚Í‰½‚©

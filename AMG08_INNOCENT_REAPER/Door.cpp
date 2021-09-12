@@ -2,11 +2,13 @@
 #include "Game.h"
 #include "ObjectServer.h"
 #include "SoundServer.h"
+#include "SoulSkin.h"
 
 namespace inr {
 
 	Door::Door(Game& game) : GimmickBase(game) {
 		_gType = GimmickType::DOOR;
+		_color = -1;
 		Init();
 	}
 
@@ -69,6 +71,14 @@ namespace inr {
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 	}
 
+	void Door::SwitchOff() {
+		_switch = gimmick::OFF;
+#ifdef _DEBUG
+		_mainCollision.GetbDrawFlg() = true;
+#endif
+		_pal = 255;
+	}
+
 	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
 		auto newpos = pos + move;
 		box.Update(newpos, direction);
@@ -117,5 +127,12 @@ namespace inr {
 		//	return true;
 		//}
 		//return true;
+	}
+
+	void Door::SetColor(std::string key) {
+		// êFéwíË
+		if (key == gimmick::door::KEY_DOOR_RED) _color = soul::RED;
+		if (key == gimmick::door::KEY_DOOR_BLUE) _color = soul::BLUE;
+		else _color = -1;
 	}
 }
