@@ -27,8 +27,7 @@ namespace inr {
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
 		auto y = xy.IntY();
-		int graph;
-		GraphResearch(&graph);
+		int graph = graph::ResourceServer::GetHandles(_divKey.first, 0);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
 
 		DrawDebugBox(_mainCollision);
@@ -64,24 +63,24 @@ namespace inr {
 	void Crystal::SetDoors(std::string key) {
 		// 魂の色を見て対応したものを開ける
 		if (_soul == nullptr) { // 魂が空ではない時
-			for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key, gimmick::OFF);
+			for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key, oscenario::gimmick::FLAG_FALSE);
 			return;
 		}
 		if (_doors.size() == 1) {
 			// 色を比較する（アイテム）
-			auto flag = gimmick::OFF;
-			if (_doors[0]->DoorColor() == _soul->SoulColor()) flag = gimmick::ON;
+			auto flag = oscenario::gimmick::FLAG_FALSE;
+			if (_doors[0]->DoorColor() == static_cast<int>(_soul->SoulColor())) flag = oscenario::gimmick::FLAG_TRUE;
 			_doors[0]->SetParameter(_oValue.Positions()[1], key, gimmick::ON);
 			return;
 		}
 		// ドアが1つ以上ある場合
-		std::vector<bool> flag;
+		std::vector<int> flag;
 		switch (_soul->SoulColor()) {
 		case soul::RED:
-			flag = { gimmick::ON, gimmick::OFF };
+			flag = { oscenario::gimmick::FLAG_TRUE, oscenario::gimmick::FLAG_FALSE };
 			break;
 		case soul::BLUE:
-			flag = { gimmick::ON, gimmick::OFF };
+			flag = { oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::FLAG_TRUE };
 			break;
 		}
 		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key, flag.at(i));
@@ -184,7 +183,7 @@ namespace inr {
 						GraphKey();	// 画像切り替え
 						// 対応したドアを開く
 						for (auto door : _doors) {
-							if (_soul->SoulColor() != door->DoorColor()) continue;
+							if (_soul->SoulColor() != static_cast<int>(door->DoorColor())) continue;
 							door->SwitchOn();	// 一致した場合は扉を開く
 						}
 					}

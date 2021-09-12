@@ -8,6 +8,8 @@
 #include "SoundServer.h"
 #include "SoulSkin.h"
 #include "MapChips.h"
+#include "GimmickBase.h"
+#include "Crystal.h"
 #include <DxLib.h>
 #include <vector>
 #include <memory>
@@ -205,6 +207,13 @@ namespace inr {
 		if (cBox != _collisions.end()) {
 			for (auto&& obj : objs) {
 				obj->CollisionHit(_divKey.first, cBox->second, _direction);
+			}
+		}
+		auto&& crystal = _game.GetObjectServer()->GetGimmicks();
+		if (cBox != _collisions.end()) {
+			for (auto obj : crystal) {
+				if (obj->GimmickType() != gimmick::CRYSTAL) continue;
+				std::dynamic_pointer_cast<Crystal>(obj)->CollisionHit(_divKey.first, cBox->second, _direction);
 			}
 		}
 	}

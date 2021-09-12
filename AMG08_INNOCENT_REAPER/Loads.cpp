@@ -114,14 +114,16 @@ namespace inr {
 	const graph::ResourceServer::DivGraphMap gimmicks{
 		{ gimmick::lever::KEY_LEVER, {"Resource/Gimmick/Lever/lever.png", 3, 2, 5, gimmick::lever::LEVER_SIZE, gimmick::lever::LEVER_SIZE}},
 		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
+		{ gimmick::door::KEY_DOOR_RED, {"Resource/Gimmick/Crystal/r_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
+		{ gimmick::door::KEY_DOOR_BLUE, {"Resource/Gimmick/Crystal/b_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
 		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock.png", 1, 1, 1, gimmick::block::BLOCK_SIZE, gimmick::block::BLOCK_SIZE}},
 
-		{ gimmick::crystal::type1::KEY_CRYSTAL_EMPTY, {"Resource/Gimmick/Crystal/.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
-		{ gimmick::crystal::type1::KEY_CRYSTAL_RRD, {"Resource/Gimmick/Crystal/.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
-		{ gimmick::crystal::type1::KEY_CRYSTAL_BLUE, {"Resource/Gimmick/Crystal/.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
-		{ gimmick::crystal::type2::KEY_CRYSTAL_EMPTY, {"Resource/Gimmick/Crystal/.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
-		{ gimmick::crystal::type2::KEY_CRYSTAL_RED, {"Resource/Gimmick/Crystal/.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
-		{ gimmick::crystal::type2::KEY_CRTSTAL_BLUE, {"Resource/Gimmick/Crystal/.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
+		{ gimmick::crystal::type1::KEY_CRYSTAL_EMPTY, {"Resource/Gimmick/Crystal/e_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
+		{ gimmick::crystal::type1::KEY_CRYSTAL_RRD, {"Resource/Gimmick/Crystal/r_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
+		{ gimmick::crystal::type1::KEY_CRYSTAL_BLUE, {"Resource/Gimmick/Crystal/b_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
+		{ gimmick::crystal::type2::KEY_CRYSTAL_EMPTY, {"Resource/Gimmick/Crystal/e_crystal_v2.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
+		{ gimmick::crystal::type2::KEY_CRYSTAL_RED, {"Resource/Gimmick/Crystal/r_crystal_v2.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
+		{ gimmick::crystal::type2::KEY_CRTSTAL_BLUE, {"Resource/Gimmick/Crystal/b_crystal_v2.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
 	};
 
 	// 各種エフェクト
@@ -174,6 +176,7 @@ namespace inr {
 
 			// ギミック（壊れる岩1, 水晶1）
 			{ oscenario::OBJ_BLOCK, {3180, 890}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {
@@ -220,6 +223,7 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {2120, 860}, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {7320, 1970}, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {7960, 340}, 2},
+
 			// ビッグドール
 			{ oscenario::OBJ_BIG_DOLL, {1640, 840}, 1},
 			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, 1},

@@ -15,6 +15,7 @@
 #include "GimmickBase.h"
 #include "Lever.h"
 #include "Block.h"
+#include "Crystal.h"
 
 namespace {
 	constexpr auto COUNT_MIN = 0;
@@ -173,7 +174,9 @@ namespace inr {
 
 	void Scenario::AddPlayer() {
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
-		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 550, 905 });	// ステージSに合わせた地点に生成する
+		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 550, 905 });	// ステージSに合わせた地点に生成する
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 2620, 1890 });
+		// 2620, 1890
 		auto player = std::make_shared<Player>(_game.GetGame());
 		player->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(player));
@@ -213,13 +216,14 @@ namespace inr {
 
 	void Scenario::AddLever(ObjectValue ovalue) {
 		auto glever = std::make_shared<Lever>(_game.GetGame());
-		auto posv = ovalue.Positions();
 		glever->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(glever));
 	}
 
 	void Scenario::AddCrystal(ObjectValue ovalue) {
-
+		auto gcrystal = std::make_shared<Crystal>(_game.GetGame());
+		gcrystal->SetParameter(ovalue);
+		_game.GetObjectServer()->Add(std::move(gcrystal));
 	}
 
 	void Scenario::AddBlock(ObjectValue ovalue) {

@@ -30,8 +30,7 @@ namespace inr {
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
 		auto y = xy.IntY();
-		int graph;
-		GraphResearch(&graph);
+		int graph = graph::ResourceServer::GetHandles(_divKey.first, 0);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
@@ -48,6 +47,7 @@ namespace inr {
 		switch (flag) {
 		case oscenario::gimmick::FLAG_FALSE:
 			_switch = gimmick::OFF;
+			_pal = 255;
 			break;
 		case oscenario::gimmick::FLAG_TRUE:
 			_switch = gimmick::ON;
