@@ -503,6 +503,7 @@ namespace inr {
 		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
+			_changeGraph = false;
 			return;	// 処理を抜ける
 		}
 		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());

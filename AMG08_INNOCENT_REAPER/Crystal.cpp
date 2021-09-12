@@ -41,36 +41,38 @@ namespace inr {
 
 		for (auto i = 0; i < _oValue.DoorType().size(); ++i) _doors.emplace_back(std::move(std::make_shared<Door>(_game.GetGame())));
 		// ドアの調整
-		std::string key = "";
+		std::vector<std::string> key;
 		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) {
 			switch (_oValue.DoorType().at(i)) {
 			case oscenario::gimmick::crystal::DOOR_RED:
-				key = gimmick::door::KEY_DOOR_RED;
+				key.emplace_back(gimmick::door::KEY_DOOR_RED);
 				break;
 			case oscenario::gimmick::crystal::DOOR_BLUE:
-				key = gimmick::door::KEY_DOOR_BLUE;
+				key.emplace_back(gimmick::door::KEY_DOOR_BLUE);
 				break;
 			default:
 				break;	// そんなものはない
 			}
 		}
 		SetDoors(key);
-		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _game.GetObjectServer()->Add(std::move(_doors.at(i)));
+		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _game.GetObjectServer()->Add(_doors.at(i));
 		
 		_mainCollision = { _position, 50, 50, 30, 70, true };	// 当たり判定
 	}
 
-	void Crystal::SetDoors(std::string key) {
+	void Crystal::SetDoors(std::vector<std::string> key) {
 		// 魂の色を見て対応したものを開ける
 		if (_soul == nullptr) { // 魂が空ではない時
-			for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key, oscenario::gimmick::FLAG_FALSE);
+			for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) { 
+				_doors[i]->SetParameter(_oValue.Positions()[1 + i], key.at(i), oscenario::gimmick::FLAG_FALSE); 
+			}
 			return;
 		}
 		if (_doors.size() == 1) {
 			// 色を比較する（アイテム）
 			auto flag = oscenario::gimmick::FLAG_FALSE;
 			if (_doors[0]->DoorColor() == static_cast<int>(_soul->SoulColor())) flag = oscenario::gimmick::FLAG_TRUE;
-			_doors[0]->SetParameter(_oValue.Positions()[1], key, gimmick::ON);
+			_doors[0]->SetParameter(_oValue.Positions()[1], key.at(0), gimmick::ON);
 			return;
 		}
 		// ドアが1つ以上ある場合
@@ -83,7 +85,7 @@ namespace inr {
 			flag = { oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::FLAG_TRUE };
 			break;
 		}
-		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key, flag.at(i));
+		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key.at(i), flag.at(i));
 	}
 
 	void Crystal::GraphKey() {
@@ -163,9 +165,11 @@ namespace inr {
 					if (player->IsSoulMax()) {
 						_soul->OwnerNull();
 						_soul.reset();	// 所有権を手放す
+						GraphKey();	// 画像切り替え
 						return;
 					}
 					player->SoulCatch(std::move(_soul));	// 魂の所有権をプレイヤーに譲渡
+					GraphKey();	// 画像切り替え
 					return;
 				}
 			}
@@ -183,13 +187,25 @@ namespace inr {
 						GraphKey();	// 画像切り替え
 						// 対応したドアを開く
 						for (auto door : _doors) {
-							if (_soul->SoulColor() != static_cast<int>(door->DoorColor())) continue;
+							if (IsOpen(door->DoorColor()) != true) continue;
 							door->SwitchOn();	// 一致した場合は扉を開く
+							
 						}
 					}
 				}
 			}
 		}
+	}
+
+	bool Crystal::IsOpen(int type) {
+		if (static_cast<int>(_soul->SoulColor()) != type) return false;
+		return true;
+		// この色と魂の色が一致しているか？
+		/*auto color = 0;
+		if (_soul->SoulColor() == soul::BLUE) color = 1;
+		if (color != type) return false;
+		return true;*/
+
 	}
 
 

@@ -43,6 +43,7 @@ namespace inr {
 		_position = spwan;
 		_mainCollision = { _position, 20, 20, 10, 70, true };
 		_divKey.first = key;
+		SetColor(key);
 		_motionKey = { { _divKey.first, {25, 50}} };
 		switch (flag) {
 		case oscenario::gimmick::FLAG_FALSE:
@@ -131,8 +132,9 @@ namespace inr {
 
 	void Door::SetColor(std::string key) {
 		// êFéwíË
-		if (key == gimmick::door::KEY_DOOR_RED) _color = soul::RED;
-		if (key == gimmick::door::KEY_DOOR_BLUE) _color = soul::BLUE;
+		//if (key == gimmick::door::KEY_DOOR_RED) _color = static_cast<int>(soul::RED);
+		if (key == gimmick::door::KEY_DOOR_RED) _color = static_cast<int>(soul::RED);
+		else if (key == gimmick::door::KEY_DOOR_BLUE) _color = static_cast<int>(soul::BLUE);
 		else _color = -1;
 	}
 }

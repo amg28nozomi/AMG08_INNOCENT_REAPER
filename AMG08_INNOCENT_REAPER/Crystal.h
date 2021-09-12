@@ -26,9 +26,11 @@ namespace inr {
 		std::shared_ptr<SoulSkin> _soul;	// 保持している魂
 		std::vector<std::shared_ptr<Door>> _doors;	// 保持しているドア
 
-		void SetDoors(std::string key);
+		void SetDoors(std::vector<std::string> key);
 		void GraphKey();
 		void AddSoul();	// 魂の生成
+
+		bool IsOpen(int crystal);	// ドアを開けるか？
 
 		
 	};
