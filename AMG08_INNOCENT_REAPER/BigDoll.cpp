@@ -229,6 +229,8 @@ namespace inr {
 	void BigDoll::SetParameter(ObjectValue objValue) {
 		EnemyBase::SetParameter(objValue);
 		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
+			auto embox = _collisions.find(enemy::BIG_EMPTY);
+			embox->second.Update(_position, _direction);
 			ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
 			_changeGraph = true;

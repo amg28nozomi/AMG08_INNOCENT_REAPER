@@ -281,7 +281,7 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {2240, 2030}, 2},
 			{ oscenario::OBJ_BIG_DOLL, {490, 2390}, 1},
 			{ oscenario::OBJ_BIG_DOLL, {1320, 2990}},
-			{ oscenario::OBJ_BIG_DOLL, {3320, 2950}},
+			{ oscenario::OBJ_BIG_DOLL, {3320, 2950}, 1},
 			// レバー（y -90）
 			{ oscenario::OBJ_LEVER, {{3650 ,2970}, {630, 870}}, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{150 ,3010}, {3190, 870}}, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
@@ -292,7 +292,7 @@ namespace inr {
 			// 水晶
 			{ oscenario::OBJ_CRYSTAL, {{910, 1610}, {350, 1550}, {1430, 1550}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{910, 2410}, {1430, 2350}, {270, 2350}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
-			{ oscenario::OBJ_CRYSTAL, {{150, 3010}, {310, 2950}} , 0, {gimmick::door::D_BLUE, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
+			{ oscenario::OBJ_CRYSTAL, {{630, 3010}, {310, 2950}} , 0, {gimmick::door::D_BLUE, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stage;
 	}

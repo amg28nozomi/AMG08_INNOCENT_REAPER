@@ -501,6 +501,8 @@ namespace inr {
 	void SoldierDoll::SetParameter(ObjectValue objValue) {
 		EnemyBase::SetParameter(objValue);
 		if (_oValue.SoulType() == 0) {	// 魂が空の場合は抜け殻になる
+			auto embox = _collisions.find(enemy::SOLDIER_EMPTY);
+			embox->second.Update(_position, _direction);
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
 			_changeGraph = false;
