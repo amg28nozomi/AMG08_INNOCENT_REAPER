@@ -29,6 +29,7 @@ namespace inr {
 		_stageNo = -1;
 		_pos = { 960 , 1080 };
 		_fix = { 0, 0 };
+		_scroll = true;
 		// ChangeGraph();	// Å‰‚ÌƒL[‚ð“Ç‚Ýž‚Ý
 	}
 
@@ -176,6 +177,7 @@ namespace inr {
 	}
 
 	void BackGround::NormalManage() {
+		if (_scroll != true) return;
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
 
 		for (auto i = 0; i < _positions.first.size(); ++i) {

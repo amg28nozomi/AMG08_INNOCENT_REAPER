@@ -15,6 +15,7 @@ namespace inr{
 	}
 
 	class EnemyBase;
+	class CrowDoll;
 	class GimmickBase;
 
 	class ObjectServer {
@@ -36,6 +37,7 @@ namespace inr{
 		std::vector<std::shared_ptr<EnemyBase>> GetEnemys();
 		std::vector<std::shared_ptr<GimmickBase>> GetGimmicks();
 		std::shared_ptr<SoulSkin> GetSoul();
+		std::shared_ptr<CrowDoll> GetBoss();
 
 
 		bool IsPlayer();	// プレイヤーは生成されているか？

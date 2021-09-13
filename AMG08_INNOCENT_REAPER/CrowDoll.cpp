@@ -29,12 +29,14 @@ namespace inr {
 
 	CrowDoll::CrowDoll(Game& game) : EnemyBase(game), _cState(CrowState::SLEEP) {
 		_type = ObjectBase::ObjectType::ENEMY;
+		_aState = ActionState::IDOL;
 		_eType = EnemyType::CROW_DOLL;
 		Init();
 	}
 
 	void CrowDoll::Init() {
 		_target = { 0, 0 };
+		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
 			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 ,CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
@@ -49,7 +51,7 @@ namespace inr {
 			{enemy::crowdoll::CROW_DEBUF, {30, 50}},
 			{enemy::crowdoll::CROW_DOWN , {25, 50}},
 		};
-
+		_aCount = AnimationCountMax();	// カウントをマックスにする
 	}
 
 	void CrowDoll::SetParameter(ObjectValue objValue) {
@@ -59,7 +61,9 @@ namespace inr {
 	}
 
 	void CrowDoll::Process() {
-
+		IsBattle();
+		if (IsActive() != true) return;	// 活動状態でない場合は処理を行わない
+		Move();
 	}
 
 	void CrowDoll::Draw() {
@@ -106,6 +110,7 @@ namespace inr {
 	}
 
 	void CrowDoll::Move() {
+		ChangeDirection();	// 向きの調整
 
 	}
 
@@ -157,6 +162,21 @@ namespace inr {
 		default:
 			return false;
 		}
+	}
+
+	bool CrowDoll::IsActive() {
+		if (_cState == CrowState::DEATH || _cState == CrowState::SLEEP) {
+			if (IsAnimationMax() != true) AnimationCount();
+			return false;
+		}
+		AnimationCount();	// カウントを増やす
+		return true;
+	}
+
+	bool CrowDoll::IsBattle() {
+		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return false;
+		if (_game.GetObjectServer()->GetPlayer()->GetPosition().GetX() < _game.GetMapChips()->GetMapSizeWidth() - HALF_WINDOW_W) return false;
+		_game.GetModeServer()->GetModeMain()->BossBattle();	// ボスバトルを開始する
 	}
 
 	void CrowDoll::AddSoul() {

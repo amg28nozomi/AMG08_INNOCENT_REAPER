@@ -14,6 +14,7 @@
 #include "StageTransition.h"
 #include "Pause.h"
 #include "EffectServer.h"
+#include "CrowDoll.h"
 
 #include <memory>
 #include <unordered_map>
@@ -26,6 +27,7 @@ namespace inr {
 
 	ModeMain::ModeMain(Game& game) : ModeBase(game) {
 		_resetFlg = true;
+		_bossBattle = false;
 		_stageKey = stage::CHANGE_NULL;
 		_changeKey = stage::CHANGE_NULL;
 
@@ -61,6 +63,7 @@ namespace inr {
 			_resetFlg = false;
 		}
 		_bossOpen = false;	// ボスの扉
+		_bossBattle = false;
 	}
 
 	void ModeMain::Process() {
@@ -131,6 +134,16 @@ namespace inr {
 
 	}
 
+	bool ModeMain::BossBattle() {
+		if (_stageKey != stage::STAGE_3) return false;
+		_bossBattle = true;
+		_bg->ScrollOff();
+		_game.GetObjectServer()->GetBoss()->WakeUp();	// 起き上がらせる
+
+		auto sound = se::SoundServer::GetSound(_bgmKey);
+		PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
+	}
+
 	bool ModeMain::BgmManage(std::string nextStage) {
 		auto bgm = BgmKey(nextStage);	// キー取得
 		if (_bgmKey == bgm)	return false;	// キーが等しい場合はBGMを切り替えず鳴らし続ける
@@ -166,6 +179,7 @@ namespace inr {
 	bool ModeMain::StageReset() {
 		if (_isReset != true) return false;	// フラグが不十分
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
+		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
 		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
 		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す

@@ -117,6 +117,7 @@ namespace inr {
 		virtual void CollisionHit(const std::string ckey, Collision acollision, bool direction);
 
 		bool IsEmpty();
+		inline bool IsBoss() { return _eType == EnemyType::CROW_DOLL; }
 
 		virtual void SetParameter(ObjectValue objValue) override;	// parameter
 

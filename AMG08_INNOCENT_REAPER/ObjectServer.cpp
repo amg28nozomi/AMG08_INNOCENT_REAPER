@@ -4,6 +4,7 @@
 #include "GimmickBase.h"
 #include "SoulSkin.h"
 #include "Player.h"
+#include "CrowDoll.h"
 #include "ObjectValue.h"
 #include <vector>
 
@@ -109,6 +110,14 @@ namespace inr {
 			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
 				return std::dynamic_pointer_cast<Player>(it);
 			}
+		}
+	}
+
+	std::shared_ptr<CrowDoll> ObjectServer::GetBoss() {
+		auto enemys = GetEnemys();
+		for (auto& it : enemys) {
+			if (it->IsBoss() != true) continue;
+			return std::dynamic_pointer_cast<CrowDoll>(it);
 		}
 	}
 

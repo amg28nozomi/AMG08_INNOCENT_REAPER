@@ -26,7 +26,9 @@ namespace inr {
 		bool OpenBossStage();	// ボスステージへの扉を解放する
 		inline std::string StageKey() { return _stageKey; }
 		inline bool BossOpen() { return _bossOpen; }
+		inline bool BossFlag() { return _bossBattle; }
 		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
+		bool BossBattle();	// ボス戦開始フラグ
 		std::shared_ptr<EffectServer> GetEffectServer() { return _eServer; }
 	private:
 		std::string _stageKey;	// ステージ検索用
@@ -38,6 +40,7 @@ namespace inr {
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？
+		bool _bossBattle;	// ボス戦は行われているか？
 
 		Vector2 _worldPosition;	// ワールド座標
 

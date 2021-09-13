@@ -51,6 +51,8 @@ namespace inr {
 		void Warp();	// 特定座標までワープする
 		
 		void ChangeDirection();	// 向きの変更
+		bool IsActive();	// 活動状態にあるか？
+		bool IsBattle();
 
 		void Move() override;	// 移動
 		void Debuf();	// デバフ処理

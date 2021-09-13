@@ -7,6 +7,8 @@
 #include "Vector2.h"
 #include "ChipHitCheck.h"
 #include "Scenario.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
 #include <tuple>
 #include <vector>
 #include <algorithm>
@@ -327,6 +329,7 @@ namespace inr {
 	}
 
 	void MapChips::WorldUpdate(Vector2 pos) {
+		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return;	//　フラグがオンの場合は更新を行わない
 		// 前フレームの座標として登録
 		_worldLast = _worldPosition;
 
