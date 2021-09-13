@@ -14,7 +14,7 @@
 
 namespace {
 	constexpr auto CROW_WIDTH = 60;	// 横の当たり判定
-	constexpr auto CROW_HEIGHT = 120;	// 縦の当たり判定
+	constexpr auto CROW_HEIGHT = 180;	// 縦の当たり判定
 
 	constexpr auto CROW_VITAL = 20;
 	constexpr auto CROW_LIFE_MAX = 10;
@@ -31,7 +31,17 @@ namespace inr {
 
 	void CrowDoll::Init() {
 		_target = { 0, 0 };
-		_mainCollision;
+		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
+		_collisions = {
+			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 ,CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
+			{enemy::}
+		};
+
+	}
+
+	void CrowDoll::SetParameter(ObjectValue objValue) {
+		_oValue = objValue;
+
 	}
 
 	void CrowDoll::Process() {
@@ -65,8 +75,8 @@ namespace inr {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// 怯み状態にする
-
-					player->SoulCatch(std::move(_soul));	// 魂の所有権をプレイヤーに譲渡
+					AddSoul();	// 魂を生み出す
+					// ここで死亡処理を行うか判定を行う
 					return;
 			}
 		}
