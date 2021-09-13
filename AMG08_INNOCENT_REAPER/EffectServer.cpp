@@ -23,7 +23,10 @@ namespace inr {
 
 	void EffectServer::Process() {
 		// 要素が空ではない場合、要素を全て移植する
-		if (_addEffects.empty() != true) _effects.emplace_back(std::move(_addEffects));	// コンテナを全移植する
+		if (_addEffects.empty() != true) {
+			for(auto&& add : _addEffects) _effects.emplace_back(std::move(add)); 	// コンテナを全移植する
+			_addEffects.clear();
+		}
 		IsDelete();
 		_update = true;
 		for (auto&& eff : _effects) eff->Process();
@@ -51,6 +54,7 @@ namespace inr {
 			if (eff->IsDel() == true) continue;
 			alives.emplace_back(std::move(eff));
 		}
-		_effects.swap(alives);
+		_effects.clear();
+		for (auto&& eff : alives) _effects.emplace_back(std::move(eff));
 	}
 }
