@@ -17,6 +17,7 @@ namespace inr {
 	constexpr auto PKEY_GIVE = "player_give";	// 魂を与える
 	constexpr auto PKEY_FALL = "player_fall";	// 落下
 	constexpr auto PKEY_HIT = "player_hit";
+	constexpr auto PKEY_CLIMB = "player_climb";	// 蔦登り
 
 	constexpr auto PIMAGE_SIZE = 140;	// プレイヤーの描画サイズ
 

@@ -42,7 +42,7 @@ namespace {
 
 	// アクションのフレーム数
 	constexpr auto ACTION_MAX = 3;
-	
+
 	// SEのフレーム数
 	constexpr auto SE_RUN1 = 50;	// 移動SEのフレーム数 
 
@@ -68,7 +68,7 @@ namespace {
 	constexpr auto JUMP_VECTOR = 2;	// ジャンプの移動ベクトル
 	constexpr auto JUMP_MAX = 16; // 15
 	constexpr auto JUMP_Y = 5;
-	
+
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
 	constexpr auto DASH_TIME = 50 / 4;	// ダッシュアクションが完了するまでの時間
@@ -97,6 +97,7 @@ namespace {
 	constexpr auto PF_ROB = 13;
 	constexpr auto PF_GIVE = 16;
 	constexpr auto PF_HIT = 7;
+	constexpr auto PF_CLIMB = 13;
 
 	constexpr auto PF_DEATH = 7;	// モーションが上がってきていないため代用
 
@@ -114,6 +115,7 @@ namespace {
 	// constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
 	constexpr auto PMF_HIT = 60;
 	constexpr auto PMF_DEATH = 60;
+	constexpr auto PMF_CLIMB = PF_CLIMB * MF_INTERVAL;
 }
 
 namespace inr {
@@ -169,6 +171,7 @@ namespace inr {
 					{PKEY_ROB, {PMF_ROB, 10}}, 
 					{PKEY_GIVE, {PMF_GIVE, 10}},
 					{PKEY_HIT, {PMF_HIT, 50}},
+					{PKEY_CLIMB, {PMF_CLIMB, 0}},
 		};
 
 		auto x = _position.GetX();
@@ -445,14 +448,17 @@ namespace inr {
 		if (_gran == true) return;
 		// Bボタン入力があった場合、蔦登り状態に遷移する
 		if (_game.GetTrgKey() == PAD_INPUT_4 || CheckHitKey(KEY_INPUT_UP) == TRUE) {
-			_aState = ActionState::GRAN;
+			ChangeState(ActionState::GRAN, PKEY_CLIMB);
 			_gran = true;
 		}
 	}
 
 	void Player::Gran() {
 		if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
-		else _gran = false;
+		else {
+			ChangeState(ActionState::GRAN, PKEY_CLIMB);
+			_gran = true;
+		}
 	}
 
 	void Player::Move(int lever) {
