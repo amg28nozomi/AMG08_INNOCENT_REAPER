@@ -8,6 +8,8 @@
 #include "SoundServer.h"
 #include "SoulSkin.h"
 #include "MapChips.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
 #include "GimmickBase.h"
 #include "Crystal.h"
 #include <DxLib.h>
@@ -156,7 +158,7 @@ namespace inr {
 
 		// キー名　first:アニメーションの総フレーム数、second:SEの再生フレーム数
 		_motionKey = {
-					{PKEY_DEATH, {PMF_DEATH, 50}},
+					{PKEY_DEATH, {PMF_DEATH, 50}},	// 死亡処理
 					{PKEY_IDOL, {PMF_IDOL, SE_NUM}}, 
 					{PKEY_RUN, {PMF_RUN, SE_RUN1}}, 
 					{PKEY_DASH, {PMF_DASH, 50}},
@@ -182,9 +184,9 @@ namespace inr {
 }
 
 	void Player::Process() {
-		ObjectBase::Process();
+		if(_aState != ActionState::DEATH) ObjectBase::Process();
 
-		AnimationCount();
+		if (Dead() == true) return;
 		// 入力情報を取得
 		auto leverLR = _game.GetLeverLR();
 		auto leverUD = _game.GetLeverUD();
@@ -646,15 +648,21 @@ namespace inr {
 		if (_invincible == 0) {
 			// ダメージ処理
 			_input = false;	// 入力処理を弾く
-			ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
-			auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
-			auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-			PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
 
 			if (_souls.empty() == false) {
 				_souls.front()->Del();
 				_souls.pop();
+
+				ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
+				auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
+				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+				PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
 				
+			}
+			else {
+				// 空の場合は死亡処理を行う
+				Death();
+				return true;
 			}
 
 			// ノックバック量（方向の設定）
@@ -675,11 +683,29 @@ namespace inr {
 	}
 
 	bool Player::Dead() {
-		return false; 
+		if (_aState == ActionState::DEATH) {
+			if (IsAnimationMax() == true) {
+				_game.GetModeServer()->GetModeMain()->GameOver();	// 現在のステージの初期化を行う
+			} else AnimationCount();
+			return true;
+		}
+		else AnimationCount();
+		return false;
 	}
 
 	void Player::Death() {
+		auto sound = se::SoundServer::GetSound(key::SOUND_PLAYER_DEAD);
+		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 		// 死亡処理（アニメーションを挟む）
+		ChangeState(ActionState::DEATH, PKEY_DEATH);	// 死亡状態に切り替える
+		_input = false;	// 入力を無効化する
+		_mainCollision.GetCollisionFlgB() = false;	// 当たり判定が機能しないようにオフにする
+		auto box = _collisions.find(PKEY_DASH);
+		box->second.GetCollisionFlgB() = false;
+#ifdef _DEBUG
+		_mainCollision.GetbDrawFlg() = false;
+		box->second.GetbDrawFlg() = false;
+#endif
 	}
 
 	void Player::AnimationInit() { 
@@ -786,13 +812,18 @@ namespace inr {
 	}
 
 	void Player::DamageThorm() {
-		auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
-		auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-		PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
 		// 魂を手放す
 		if (_souls.empty() == false) {
 			_souls.front()->Del();
 			_souls.pop();
+
+			auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
+			auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+			PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
+		}
+		else {
+			Death();	//　死亡処理
+			return;
 		}
 		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
 		_position = _lastChip;	// 座標切り替え
@@ -807,11 +838,20 @@ namespace inr {
 		// 各種初期化処理実行
 		_position = _oValue.Positions().at(0);
 		_mainCollision.Update(_position, _direction);
+		_mainCollision.GetCollisionFlgB() = true;
 		auto dashcol = _collisions.find(PKEY_DASH);
 		dashcol->second.Update(_position, _direction);
+		dashcol->second.GetCollisionFlgB() = true;
+
+#ifdef _DEBUG
+		_mainCollision.GetbDrawFlg() = true;
+		dashcol->second.GetbDrawFlg() = true;
+#endif
+
 		ChangeState(ActionState::IDOL, PKEY_IDOL);
 		_input = true;
 		_gran = false;
+		return true;
 	}
 
 	AABB Player::NowCollision(std::string key) {

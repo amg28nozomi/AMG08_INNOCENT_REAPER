@@ -18,6 +18,7 @@ namespace inr {
 		// レバー
 		namespace lever {
 			constexpr auto KEY_LEVER = "lever";
+			constexpr auto KEY_LEVER_BOSS = "boss_lever";
 			constexpr auto LEVER_SIZE = 140;
 			// サウンド
 			constexpr auto SE_LEVER = 50;
@@ -53,6 +54,7 @@ namespace inr {
 		// 扉
 		namespace door {
 			constexpr auto KEY_DOOR_LEVER = "door_lever";
+			constexpr auto KEY_DOOR_BOSS = "door_boss";
 			constexpr auto KEY_DOOR_RED = "door_red";
 			constexpr auto KEY_DOOR_BLUE = "door_blue";
 			constexpr auto DOOR_SIZE = 280;

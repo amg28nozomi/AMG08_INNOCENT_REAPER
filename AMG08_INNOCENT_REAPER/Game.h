@@ -42,6 +42,7 @@ namespace inr {
 		constexpr auto SOUND_PLAYER_FALL = "player_fall";
 		constexpr auto SOUND_PLAYER_DASH = "player_dash";
 		constexpr auto SOUND_PLAYER_HIT = "player_hit";
+		constexpr auto SOUND_PLAYER_DEAD = "player_dead";	// Ž€–S‰¹
 	}
 
 	namespace system {
