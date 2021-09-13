@@ -803,6 +803,17 @@ namespace inr {
 
 	}
 
+	bool Player::Reset() {
+		// 各種初期化処理実行
+		_position = _oValue.Positions().at(0);
+		_mainCollision.Update(_position, _direction);
+		auto dashcol = _collisions.find(PKEY_DASH);
+		dashcol->second.Update(_position, _direction);
+		ChangeState(ActionState::IDOL, PKEY_IDOL);
+		_input = true;
+		_gran = false;
+	}
+
 	AABB Player::NowCollision(std::string key) {
 		// 現在のアクション状態はボックスを修正する必要があるか？
 		if (_aState == ActionState::DASH) {

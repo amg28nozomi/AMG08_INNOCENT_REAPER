@@ -21,13 +21,17 @@ namespace inr {
 		void ChangeKey(const std::string nextStage) override;
 		bool IsKeyNull();	// キーは空か？
 
+		bool GameOver();	// フラグ変更
 		inline std::string StageKey() { return _stageKey; }
+		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
 	private:
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;	// 背景
 		std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;
+
+		bool _isReset;	// 現在のステージの初期化を行うか？（）
 
 		Vector2 _worldPosition;	// ワールド座標
 

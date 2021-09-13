@@ -60,17 +60,18 @@ namespace inr {
 	}
 
 	void ModeMain::Process() {
-		IsStageChange();
+		IsStageChange();	// ステージを切り替えるか？
+		StageReset();	// ステージを初期化するか？
 		++_modeFrame;
 
-		if (_pause->IsActive() != true) {
+		if (_pause->IsActive() != true) {	// ポーズ画面が起動していない間のみ実行
 			_bg->Process();
 			_game.GetMapChips()->Process();
 			_game.GetObjectServer()->Process();
 			_uiSoul->Process();
 			return;
 		}
-		_pause->Process();
+		_pause->Process();	// ポーズ画面更新処理
 	}
 
 	void ModeMain::Draw() {
@@ -140,5 +141,20 @@ namespace inr {
 		if (key == stage::STAGE_2_2) return bgm::SOUND_STAGE_2;
 		if (key == stage::STAGE_3) return bgm::SOUND_STAGE_3;
 		else return "";	// 登録されていない
+	}
+
+	bool ModeMain::GameOver() {
+		if (_isReset == true) return false;	// すでに初期化予約が入っている場合は処理を終了する
+		_isReset = true;	// フラグを起動
+		_game.GetModeServer()->FadeOut();	// 暗転処理を開始
+	}
+
+	bool ModeMain::StageReset() {
+		if (_isReset != true) return false;	// フラグが不十分
+		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
+		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
+		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す
+		_game.GetScenario()->AddObjects(_stageKey);		// オブジェクトを再配置する
+		_isReset = false;	// 処理終了
 	}
 }

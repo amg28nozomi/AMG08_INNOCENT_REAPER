@@ -45,6 +45,7 @@ namespace inr {
 		inline void InputChange(bool input) { _input = input; }
 
 		bool Damage(bool mv);
+		bool Reset();	// 開始地点に戻す
 
 		void SetParameter(ObjectValue objValue) override;	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
 		void SetParameter(Vector2 newpos) override;
