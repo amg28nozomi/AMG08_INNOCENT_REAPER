@@ -93,6 +93,7 @@ namespace inr {
 		{ {bgm::SOUND_STAGE_0}, {"Resource/SE/BGM/stage0.wav", DX_PLAYTYPE_LOOP}},	// ステージ0
 		{ {bgm::SOUND_STAGE_1}, {"Resource/SE/BGM/stage1.wav", DX_PLAYTYPE_LOOP}},	// ステージ1
 		{ {bgm::SOUND_STAGE_2}, {"Resource/SE/BGM/stage2.wav", DX_PLAYTYPE_LOOP}},	// ステージ2
+		{ {bgm::SOUND_STAGE_3}, {"Resource/SE/BGM/stageboss_batle.wav", DX_PLAYTYPE_LOOP}},
 	};
 
 	Game::Game()

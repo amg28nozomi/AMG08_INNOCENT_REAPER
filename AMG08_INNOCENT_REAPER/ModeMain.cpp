@@ -147,9 +147,9 @@ namespace inr {
 	bool ModeMain::BgmManage(std::string nextStage) {
 		auto bgm = BgmKey(nextStage);	// キー取得
 		if (_bgmKey == bgm)	return false;	// キーが等しい場合はBGMを切り替えず鳴らし続ける
-
 		StopSoundMem(se::SoundServer::GetSound(_bgmKey));	// 現在のキーを止める
 		_bgmKey = bgm;	// 違う場合はbgmを切り替える
+		if (bgm == bgm::SOUND_STAGE_3) return true;
 		PlaySoundMem(se::SoundServer::GetSound(_bgmKey), se::SoundServer::GetPlayType(_bgmKey));
 		return true;
 	}
