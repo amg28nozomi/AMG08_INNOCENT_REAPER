@@ -78,6 +78,7 @@ namespace inr {
 	void ModeMain::Draw() {
 		_bg->Draw();
 		_game.GetMapChips()->Draw();
+		// ここで各種エフェクトの描画処理を行う
 		_game.GetObjectServer()->Draw();
 		_uiSoul->Draw();
 		if(_pause->Active() == true) _pause->Draw();
