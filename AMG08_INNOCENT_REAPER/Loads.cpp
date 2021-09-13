@@ -82,6 +82,7 @@ namespace inr {
 		{ enemy::crowdoll::CROW_GROWARM, {"Resource/CrowDoll/cd_growarm.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_WINCE, {"Resource/CrowDoll/cd_wince.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_ROAR, {"Resource/CrowDoll/cd_roar.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_DOWN, {"Resource/CrowDoll/cd_down.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
 		{ enemy::crowdoll::CROW_ARM, {"Resource/CrowDoll/cd_arm.png", 1, 1, 1, 140, 140 }},
 	};
 

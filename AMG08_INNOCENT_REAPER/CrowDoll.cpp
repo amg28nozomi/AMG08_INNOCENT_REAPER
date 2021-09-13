@@ -34,14 +34,24 @@ namespace inr {
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
 			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 ,CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
-			{enemy::}
+		//	{enemy::crowdoll::CROW_BLINK, {_position, }}
+		};
+		_motionKey = {
+			{enemy::crowdoll::CROW_IDOL, {25, 0}},
+			{enemy::crowdoll::CROW_RASH , {40, 20}},
+			{enemy::crowdoll::CROW_BLINK , {25, 20}},
+			{enemy::crowdoll::CROW_GROWARM , {25, 20}},
+			{enemy::crowdoll::CROW_ROAR , {25, 50}},
+			{enemy::crowdoll::CROW_DEBUF, {30, 50}},
+			{enemy::crowdoll::CROW_DOWN , {25, 50}},
 		};
 
 	}
 
 	void CrowDoll::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;
-
+		_position = _oValue.Positions().at(0);	// 座標を更新
+		Init();
 	}
 
 	void CrowDoll::Process() {
@@ -49,7 +59,25 @@ namespace inr {
 	}
 
 	void CrowDoll::Draw() {
+		Vector2 xy = _position;
+		_game.GetMapChips()->Clamp(xy);
+		auto x = xy.IntX();
+		auto y = xy.IntY();
 
+		int graph;	// グラフィックハンドル格納用
+		GraphResearch(&graph);	// ハンドル取得
+		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
+
+#ifdef _DEBUG
+		DrawDebugBox(_mainCollision);
+		std::string& key = _divKey.first;
+		auto box = _collisions.find(key);
+		if (box != _collisions.end()) {
+			if (box->second.GetDrawFlg() == true) {
+				DrawDebugBox(box->second, GetColor(255, 0, 0));
+			}
+		}
+#endif
 	}
 
 	void CrowDoll::WakeUp() {
@@ -59,6 +87,12 @@ namespace inr {
 
 	void CrowDoll::GetTarget() {
 		_target = _game.GetObjectServer()->GetPlayer()->GetPosition();	// 目標の現在地点を取得する
+	}
+
+	void CrowDoll::ChangeDirection() {
+		// 移動方向に応じて向きを変更する
+		if (_moveVector.GetX() < 0) _direction = enemy::MOVE_LEFT;
+		else if (0 < _moveVector.GetX()) _direction = enemy::MOVE_RIGHT;
 	}
 
 	void CrowDoll::ModeChange(CrowState nextState, std::string key) {

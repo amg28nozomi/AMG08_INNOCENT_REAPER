@@ -14,6 +14,7 @@ namespace inr {
 			constexpr auto CROW_BLINK = "crow_brink";	// 頭上からの強襲
 			constexpr auto CROW_ROAR = "crow_roar";
 			constexpr auto CROW_WINCE = "crow_wince";
+			constexpr auto CROW_DOWN = "crow_down";	// 倒れる
 			// 画像サイズ
 			constexpr auto CROW_SIZE = 380;	// 画像サイズ
 
@@ -47,6 +48,8 @@ namespace inr {
 		bool IsAnger();	// 起こり状態になっているか？
 		bool IsVital();	// 現在のアニメーション中、魂は奪えるか？
 		bool Damage();	// 自身のダメージ処理を行う
+		
+		void ChangeDirection();	// 向きの変更
 
 		void Debuf();	// デバフ処理
 		void AddSoul();		// 魂を生み出す
