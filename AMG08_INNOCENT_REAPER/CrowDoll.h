@@ -27,7 +27,7 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
-		void WakeUp();	// 活動開始
+		void WakeUp();	// 活動開
 	private:
 		enum class CrowState {
 			// 死亡、待機、デバフ、咆哮(行動不能)、連続斬り、怯み、非活動状態
@@ -35,9 +35,21 @@ namespace inr {
 		};
 		CrowState _cState;	// クロウドールの状態
 		Vector2 _target;	// 攻撃目標座標
+		int _life;	// 体力
 
 		void ModeChange(CrowState nextState, std::string key);
+		void GetTarget();	// 自機の座標を取得する
+		bool SetState();	// 各種状態の管理
+		bool IsAnger();	// 起こり状態になっているか？
+		bool IsVital();	// 現在のアニメーション中、魂は奪えるか？
+		bool Damage();	// 自身のダメージ処理を行う
 
+		void Debuf();	// デバフ処理
+		void AddSoul();		// 魂を生み出す
+
+		AABB NowCollision(std::string key) override;
+
+		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	};
 }
 
