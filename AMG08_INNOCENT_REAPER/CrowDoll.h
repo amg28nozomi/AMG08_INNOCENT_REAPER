@@ -45,7 +45,7 @@ namespace inr {
 		int _atkInterval;	// 攻撃の猶予時間
 		int _pattern;	// 行動パターン
 
-		int _rashCount;	// ラッシュカウント
+		int _actionCount;	// ラッシュカウント
 
 		bool _setup;	// 準備は完了したか？
 
@@ -67,6 +67,7 @@ namespace inr {
 		bool Floating();	// 浮遊処理
 		void Debuf();	// デバフ処理
 		void Rash();	// 連続攻撃
+		void Blink();	// 落下攻撃
 		void AddSoul();		// 魂を生み出す
 
 		bool IsGravity();	// 重力処理を行うか？

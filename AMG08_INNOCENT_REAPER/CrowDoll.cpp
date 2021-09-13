@@ -61,7 +61,7 @@ namespace inr {
 		};
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;
-		_rashCount = 0;
+		_actionCount = 0;
 		_setup = false;
 		_changeGraph = false;
 	}
@@ -157,10 +157,13 @@ namespace inr {
 			if (MAX_G < _gravity) _gravity = MAX_G;
 			if (IsStandChip()) {
 				if (0 < _gravity) _stand = true;
+				if (_cState == CrowState::BLINK) {
+				}	// ワープ処理を呼び出す
 				_gravity = 0;
 			} else {
 				_stand = false;
 			}
+
 			break;
 		default:
 			if (0 < _gravity) _gravity = 0;
@@ -170,7 +173,7 @@ namespace inr {
 
 	bool CrowDoll::Floating() {
 		if (_cState != CrowState::IDOL) return false;
-		if (_position.GetY() == DEFAULT_Y) return false;
+		if (_position.GetY() <= DEFAULT_Y) return false;
 		_gravity -= 0.25;
 		if (_position.GetY() + _gravity < DEFAULT_Y) { 
 			_position.GetPY() = DEFAULT_Y;
@@ -181,21 +184,55 @@ namespace inr {
 
 	void CrowDoll::Warp() {
 		auto p = _position.GetX() - _target.GetX();	// 自機はどちら側にいるか？
+		double px = 0;
+		int sound = 0;
 		if (p < 0) {	// 自機は右に居る
-			_direction = enemy::MOVE_RIGHT;
-			auto px = (_target.GetX() - (_mainCollision.GetWidthMin()) * 3);
-			_position = { px, 870 };
-			_actionEnd.GetPX() = px - RASH_MAX;
+			switch (_cState) {
+			case CrowState::RASH:
+				_direction = enemy::MOVE_RIGHT;
+				px = (_target.GetX() - (_mainCollision.GetWidthMin()) * 3);
+				_position = { px, 870 };
+				_actionEnd.GetPX() = px - RASH_MAX;
+				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RASH));
+				break;
+			default:
+				break;
+			}
 		}// 自機は右側にいる
 		else if (0 < p) { 
-			_direction = enemy::MOVE_LEFT;
-			auto px = (_target.GetX() + (_mainCollision.GetWidthMax()) * 3);
-			_position = { px, 870 };
-			_actionEnd.GetPX() = px + RASH_MAX;
+			switch (_cState) {
+			case CrowState::RASH:
+				_direction = enemy::MOVE_LEFT;
+				px = (_target.GetX() + (_mainCollision.GetWidthMax()) * 3);
+				_position = { px, 870 };
+				_actionEnd.GetPX() = px + RASH_MAX;
+				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RASH));
+				break;
+			default:
+				break;
+			}
 		}// 自機は左側にいる
+		switch (_cState) {
+		case inr::CrowDoll::CrowState::DEBUF:
+			//中心座標にワープする
+			_position = { static_cast<double>(_game.GetMapChips()->GetMapSizeWidth()) - HALF_WINDOW_W, HALF_WINDOW_H};
+			_moveVector = { 0, 0 };
+			break;
+		case inr::CrowDoll::CrowState::ROAR:
+			break;
+		case inr::CrowDoll::CrowState::BLINK:
+			// 自機の頭上にワープする
+			GetTarget();
+			_position = { _target.GetX(), _target.GetY() - 300 };	// 座標変更
+			_moveVector = { 0, 0 };	// 移動量は消す
+			break;
+		default:
+			break;
+		}
+
 		_atkInterval = 10;	// 10フレーム後にアクションを実行する
-		auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
-		PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RASH));
 	}
 
 	void CrowDoll::Rash() {
@@ -208,7 +245,7 @@ namespace inr {
 			_moveVector.GetPX() = mx;
 			nextpos = _position.GetX() + mx;
 			if (IsAttackEnd() == true) {
-				--_rashCount;
+				--_actionCount;
 				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RASH));
 				return;
 			}
@@ -220,7 +257,7 @@ namespace inr {
 			_moveVector.GetPX() = mx;
 			nextpos = _position.GetX() + mx;
 			if (IsAttackEnd() == true) {
-				--_rashCount;
+				--_actionCount;
 				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RASH));
 				return;
 			}
@@ -228,8 +265,12 @@ namespace inr {
 			_actionEnd.GetPX() = nextpos + RASH_MAX;
 			break;
 		}
-		--_rashCount;
+		--_actionCount;
 		_atkInterval = 20;
+	}
+
+	void CrowDoll::Blink() {
+		_gravity += 0.5;	// 重力加速
 	}
 
 	void CrowDoll::Debuf() {
@@ -254,20 +295,35 @@ namespace inr {
 				ModeChange(CrowState::RASH, enemy::crowdoll::CROW_RASH);	// 状態切り替え
 				GetTarget();	// 自機の現在座標を取得する
 				Warp();	// 自機の前に跳ぶ
-				_rashCount = 3;
+				_actionCount = 4;
 			}
 			break;
 		case CrowState::RASH:
 			if (_atkInterval == 0) {
-				if (0 < _rashCount) {
+				if (0 < _actionCount) {
 					Rash();	// ラッシュアクション実行
 					break;
 				}
-				_actionEnd.GetPX() = 0;
-				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
-				_atkInterval = 20;
+				else if (_actionCount == 0) {
+					_actionEnd.GetPX() = 0;
+					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
+					_atkInterval = 60;
+				}
 				// 次の状態に遷移する
+				break;
 			} 
+		case CrowState::BLINK:
+			if (_atkInterval == 0) {
+				if (0 != _actionCount) {
+					Blink();	// ラッシュアクション実行
+					break;
+				}
+				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+				_atkInterval = 60;
+				break;
+			}
+
 		}
 		return true;
 	}
