@@ -22,7 +22,7 @@ namespace inr {
 	}
 
 	void EffectBase::Process() {
-		if (_count == 0) {
+		if (_count == _alive) {
 			_delete = true;	// 消去フラグをオンにする（消去予約）
 			return;
 		}

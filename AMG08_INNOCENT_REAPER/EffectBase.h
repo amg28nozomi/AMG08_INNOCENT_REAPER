@@ -14,7 +14,8 @@ namespace inr {
 		constexpr auto JUMP = "jump_effect";	// ジャンプエフェクトのキー
 
 		// 画像サイズ
-		constexpr auto JUMP_IMAGE = 50;
+		constexpr auto JUMP_IMAGE_W = 80;
+		constexpr auto JUMP_IMAGE_H = 50;
 	}
 
 	class Game;

@@ -10,7 +10,13 @@ namespace inr {
 	CrowDoll::CrowDoll(Game& game) : EnemyBase(game) {
 		_type = ObjectBase::ObjectType::ENEMY;
 		_eType = EnemyType::CROW_DOLL;
+		
 
+	}
+
+	void CrowDoll::Init() {
+		_target = { 0, 0 };
+		_mainCollision;
 	}
 
 	void CrowDoll::Process() {
@@ -19,5 +25,16 @@ namespace inr {
 
 	void CrowDoll::Draw() {
 
+	}
+
+	void CrowDoll::WakeUp() {
+		// ãNÇ´è„Ç™ÇËÉÇÅ[ÉVÉáÉì
+
+	}
+
+	void CrowDoll::ModeChange(CrowState nextState, std::string key) {
+		_divKey.first = key;
+		_cState = nextState;
+		_changeGraph = true;
 	}
 }

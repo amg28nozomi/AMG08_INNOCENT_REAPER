@@ -30,6 +30,7 @@ namespace inr {
 		IsDelete();
 		_update = true;
 		for (auto&& eff : _effects) eff->Process();
+		_update = false;
 	}
 
 	void EffectServer::Draw() {

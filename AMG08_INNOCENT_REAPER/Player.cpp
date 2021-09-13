@@ -12,6 +12,8 @@
 #include "ModeMain.h"
 #include "GimmickBase.h"
 #include "Crystal.h"
+#include "EffectBase.h"
+#include "EffectServer.h"
 #include <DxLib.h>
 #include <vector>
 #include <memory>
@@ -231,9 +233,7 @@ namespace inr {
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
-		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, _pal);	// 透明度切り替え
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
-		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);	// 通常状態に切り替え
 
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
@@ -583,6 +583,10 @@ namespace inr {
 						ChangeState(ActionState::JUMP, PKEY_JUMP);
 						auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
 						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+
+						auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::JUMP, _position, 30);
+						_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff));
+
 						// 飛距離を算出
 						auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
 						// 飛距離が最大値を超えた場合は修正

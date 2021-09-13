@@ -7,6 +7,7 @@
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
 #include "BigDoll.h"
+#include "CrowDoll.h"
 #include "SoulSkin.h"
 #include "EffectBase.h"
 #include "Image.h"
@@ -73,6 +74,15 @@ namespace inr {
 		{ enemy::blue::BIG_IDOL, {"Resource/BigDoll/bd_b_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::blue::BIG_PATROL, {"Resource/BigDoll/bd_b_move.png", 4, 1, 4, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::blue::BIG_ESCAPE, {"Resource/BigDoll/bd_b_escape.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+
+		// クロウドール
+		{ enemy::crowdoll::CROW_IDOL, {"Resource/CrowDoll/cd_stand.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_RASH, {"Resource/CrowDoll/cd_rash.png", 5, 2, 10, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_DEBUF, {"Resource/CrowDoll/cd_debuf.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_GROWARM, {"Resource/CrowDoll/cd_growarm.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_WINCE, {"Resource/CrowDoll/cd_wince.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_ROAR, {"Resource/CrowDoll/cd_roar.png", 5, 1, 5, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_ARM, {"Resource/CrowDoll/cd_arm.png", 1, 1, 1, 140, 140 }},
 	};
 
 	// 魂くんの各種モーション
@@ -130,7 +140,7 @@ namespace inr {
 
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
-		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE, effect::JUMP_IMAGE}},	// ジャンプ
+		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
 
 	};
 
