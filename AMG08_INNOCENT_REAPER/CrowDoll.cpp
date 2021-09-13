@@ -7,6 +7,7 @@
 #include "EffectBase.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
+#include "MapChips.h"
 #include "SoulSkin.h"
 
 #include <random>
@@ -20,6 +21,9 @@ namespace {
 	constexpr auto CROW_VITAL = 20;
 	constexpr auto CROW_LIFE_MAX = 10;
 	constexpr auto CROW_ANGER = 5;	// 怒り状態になるか
+
+	constexpr auto FLAOT_MAX = 200;
+	constexpr auto DEFAULT_Y = 870 - 300;
 
 	constexpr auto IS_ANGER = 1;
 	constexpr auto IS_NORMAL = 0;
@@ -39,7 +43,7 @@ namespace inr {
 		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
-			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 ,CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
+			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
 		//	{enemy::crowdoll::CROW_BLINK, {_position, }}
 		};
 		_motionKey = {
@@ -51,7 +55,10 @@ namespace inr {
 			{enemy::crowdoll::CROW_DEBUF, {30, 50}},
 			{enemy::crowdoll::CROW_DOWN , {25, 50}},
 		};
-		_aCount = AnimationCountMax();	// カウントをマックスにする
+		_aCount = GetSize(_divKey.first) - 1;
+		_atkInterval = 0;
+		_setup = false;
+		_changeGraph = false;
 	}
 
 	void CrowDoll::SetParameter(ObjectValue objValue) {
@@ -61,8 +68,11 @@ namespace inr {
 	}
 
 	void CrowDoll::Process() {
+		// バトル開始前の処理
 		IsBattle();
+		WakeUp();	// 起き上がり
 		if (IsActive() != true) return;	// 活動状態でない場合は処理を行わない
+		Floating();
 		Move();
 	}
 
@@ -89,8 +99,16 @@ namespace inr {
 	}
 
 	void CrowDoll::WakeUp() {
-		// 起き上がりモーション
-
+		if (_game.GetModeServer()->GetModeMain()->BossFlag() != true) return;
+		if (_setup == true) return;
+		--_aCount;	// 立ち上がらせる
+		if (_aCount == 0) {
+			_setup = true;	// セットアップ完了
+			auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
+			ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+			return;
+		}
 	}
 
 	void CrowDoll::GetTarget() {
@@ -111,7 +129,42 @@ namespace inr {
 
 	void CrowDoll::Move() {
 		ChangeDirection();	// 向きの調整
+		_moveVector.GetPY() = _gravity;
+		_game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction);	// 押し出し処理
 
+		_position = _position + _moveVector;
+		_mainCollision.Update(_position, _direction);
+	}
+
+	bool CrowDoll::IsGravity() {
+		switch (_cState) {
+		case CrowState::DEATH:
+		case CrowState::RASH:
+		case CrowState::SLEEP:
+		case CrowState::BLINK:
+			_gravity += FRAME_G;	// 加速度を加算
+			if (MAX_G < _gravity) _gravity = MAX_G;
+			if (IsStandChip()) {
+				if (0 < _gravity) _stand = true;
+				_gravity = 0;
+			} else {
+				_stand = false;
+			}
+			break;
+		default:
+			return false;	// 重力処理は行わない
+		}
+	}
+
+	bool CrowDoll::Floating() {
+		if (_cState != CrowState::IDOL) return false;
+		if (_position.GetY() == DEFAULT_Y) return false;
+		_gravity -= 0.25;
+		if (_position.GetY() + _gravity < DEFAULT_Y) { 
+			_position.GetPY() = DEFAULT_Y;
+			_gravity = 0;
+		}
+		return true;
 	}
 
 	void CrowDoll::Warp() {
@@ -165,11 +218,14 @@ namespace inr {
 	}
 
 	bool CrowDoll::IsActive() {
+		if (_setup != true) return false;
 		if (_cState == CrowState::DEATH || _cState == CrowState::SLEEP) {
-			if (IsAnimationMax() != true) AnimationCount();
+			if (IsAnimationMax() != true) ObjectBase::AnimationCount();
 			return false;
 		}
-		AnimationCount();	// カウントを増やす
+		// 待ち時間の場合は
+		if (0 < _atkInterval) --_atkInterval;	// 待ち時間を減らす
+		else ObjectBase::AnimationCount();	// カウントを増やす
 		return true;
 	}
 

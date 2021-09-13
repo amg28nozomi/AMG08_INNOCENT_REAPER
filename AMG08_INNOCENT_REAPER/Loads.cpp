@@ -324,7 +324,7 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {3090, 870}},
 			{ oscenario::OBJ_BIG_DOLL, {3290, 870}},
 
-			{ oscenario::OBJ_CROW_DOLL, {5450, 870}},
+			{ oscenario::OBJ_CROW_DOLL, {5450, 840}},
 		};
 		return _stage;
 	}

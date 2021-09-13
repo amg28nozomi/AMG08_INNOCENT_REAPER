@@ -138,7 +138,6 @@ namespace inr {
 		if (_stageKey != stage::STAGE_3) return false;
 		_bossBattle = true;
 		_bg->ScrollOff();
-		_game.GetObjectServer()->GetBoss()->WakeUp();	// ‹N‚«ã‚ª‚ç‚¹‚é
 
 		auto sound = se::SoundServer::GetSound(_bgmKey);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));

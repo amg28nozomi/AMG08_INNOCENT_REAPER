@@ -18,6 +18,8 @@ namespace inr {
 			// 画像サイズ
 			constexpr auto CROW_SIZE = 380;	// 画像サイズ
 
+
+			constexpr auto SE_VOICE = "crow_voice";	// 鳴き声
 		}
 	}
 
@@ -28,8 +30,6 @@ namespace inr {
 		void Init() override;
 		void Process() override;
 		void Draw() override;
-
-		void WakeUp();	// 活動開
 
 		void SetParameter(ObjectValue objValue) override;
 	private:
@@ -42,6 +42,9 @@ namespace inr {
 		int _life;	// 体力
 		int _atkInterval;	// 攻撃の猶予時間
 
+		bool _setup;	// 準備は完了したか？
+
+
 		void ModeChange(CrowState nextState, std::string key);
 		void GetTarget();	// 自機の座標を取得する
 		bool SetState();	// 各種状態の管理
@@ -49,15 +52,19 @@ namespace inr {
 		bool IsVital();	// 現在のアニメーション中、魂は奪えるか？
 		// bool Damage();	// 自身のダメージ処理を行う
 		void Warp();	// 特定座標までワープする
-		
+		void WakeUp();	// 活動開
+
 		void ChangeDirection();	// 向きの変更
 		bool IsActive();	// 活動状態にあるか？
 		bool IsBattle();
 
 		void Move() override;	// 移動
+		bool Floating();	// 浮遊処理
 		void Debuf();	// デバフ処理
 		void Rash();	// 連続攻撃
 		void AddSoul();		// 魂を生み出す
+
+		bool IsGravity();	// 重力処理を行うか？
 
 		AABB NowCollision(std::string key) override;
 

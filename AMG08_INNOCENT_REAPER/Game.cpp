@@ -17,6 +17,7 @@
 #include "Image.h"
 #include "Scenario.h"
 #include "EffectBase.h"
+#include "CrowDoll.h"
 
 #include "GimmickBase.h"
 
@@ -68,6 +69,8 @@ namespace inr {
 		{{key::SOUND_PLAYER_GIVE}, {"Resource/SE/reflection.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_JUMP}, {"Resource/SE/putting_a_jar.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_FALL}, {"Resource/SE/defense1.mp3", DX_PLAYTYPE_BACK}},
+
+		{{enemy::crowdoll::SE_VOICE}, {"Resource/SE/CrowDoll/cd_voice.wav", DX_PLAYTYPE_BACK}},	
 	};
 
 	// ÉMÉ~ÉbÉNSE
