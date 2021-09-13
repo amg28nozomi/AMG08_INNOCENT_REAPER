@@ -1,6 +1,7 @@
 #include "CrowDoll.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "SoundServer.h"
 #include "Player.h"
 #include "EffectServer.h"
 #include "EffectBase.h"
@@ -19,6 +20,9 @@ namespace {
 	constexpr auto CROW_VITAL = 20;
 	constexpr auto CROW_LIFE_MAX = 10;
 	constexpr auto CROW_ANGER = 5;	// 怒り状態になるか
+
+	constexpr auto IS_ANGER = 1;
+	constexpr auto IS_NORMAL = 0;
 }
 
 namespace inr {
@@ -101,6 +105,30 @@ namespace inr {
 		_changeGraph = true;
 	}
 
+	void CrowDoll::Move() {
+
+	}
+
+	void CrowDoll::Warp() {
+		// 自機の隣に向かって転移する
+	}
+
+	void CrowDoll::Rash() {
+		// 連続攻撃
+		
+	}
+
+	void CrowDoll::Debuf() {
+		// 自機に対して弱体効果を付与する
+		_game.GetObjectServer()->GetPlayer()->Debuf();
+		// デバフエフェクトの生成
+		// auto debufEff = std::make_unique<EffectBase>(_game.GetGame(), )
+	}
+
+	bool CrowDoll::SetState() {
+		return true;
+	}
+
 	void CrowDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		if (_cState == CrowState::DEATH) return;	// 死んでいる場合は魂を奪えない
 		if (IsVital() != true) return;	// 隙がない場合も魂を奪えない
@@ -156,9 +184,10 @@ namespace inr {
 		player->SoulCatch(std::move(_soul));	// そうではない場合は魂の所有権をプレイヤーに譲渡
 	}
 
-	bool CrowDoll::IsAnger() {
-		if (CROW_ANGER < _life) return false;	// 怒り状態になっていない
-		return true;
+	int CrowDoll::IsAnger() {
+		// 怒り状態に突入しているか？
+		if (CROW_ANGER < _life) return IS_NORMAL;	// 怒り状態になっていない
+		return IS_ANGER;	// 怒っている
 	}
 
 	AABB CrowDoll::NowCollision(std::string key) {

@@ -686,6 +686,12 @@ namespace inr {
 		return false;
 	}
 
+	bool Player::Debuf() {
+		// 自機はアイテムを保持しているか？
+		// 保持していない場合、一定時間の間移動速度にマイナス補正がかかる
+		return true;
+	}
+
 	bool Player::Dead() {
 		if (_aState == ActionState::DEATH) {
 			if (IsAnimationMax() == true) {

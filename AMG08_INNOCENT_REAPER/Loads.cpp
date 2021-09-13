@@ -178,6 +178,7 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_S, background::STAGES_PATH, background::STAGES_FILE, 2, WINDOW_W, background::STAGES_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_2, background::STAGE2_PATH, background::STAGE2_FILE, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT);
+		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_B, background::STAGEB_PATH, background::STAGEB_FILE, 4, WINDOW_W, WINDOW_H);
 	}
 
 	// 封印の祭壇
@@ -315,7 +316,16 @@ namespace inr {
 	}
 	// ボスステージ
 	std::vector<ObjectValue> Loads::LoadScenarioB() {
-		std::vector<ObjectValue> _stage;
+		std::vector<ObjectValue> _stage{
+			{ oscenario::OBJ_SOLDIER_DOLL, {1210, 870}},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2880, 870}},
+
+			{ oscenario::OBJ_BIG_DOLL, {1770, 870}},
+			{ oscenario::OBJ_BIG_DOLL, {3090, 870}},
+			{ oscenario::OBJ_BIG_DOLL, {3290, 870}},
+
+			{ oscenario::OBJ_CROW_DOLL, {5450, 870}},
+		};
 		return _stage;
 	}
 

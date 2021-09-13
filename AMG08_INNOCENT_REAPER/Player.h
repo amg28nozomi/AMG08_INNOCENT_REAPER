@@ -44,6 +44,7 @@ namespace inr {
 		inline int SoulsSize() { return static_cast<int>(_souls.size()); }
 		inline void InputChange(bool input) { _input = input; }
 
+		bool Debuf();	// 被デバフ攻撃
 		bool Damage(bool mv);
 		bool Reset();	// 開始地点に戻す
 

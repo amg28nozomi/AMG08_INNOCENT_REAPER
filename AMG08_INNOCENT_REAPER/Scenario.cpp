@@ -12,6 +12,7 @@
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
 #include "BigDoll.h"
+#include "CrowDoll.h"
 #include "GimmickBase.h"
 #include "Lever.h"
 #include "Door.h"
@@ -211,7 +212,9 @@ namespace inr {
 	}
 
 	void Scenario::AddCrowDoll(ObjectValue ovalue) {
-
+		auto enemy = std::make_shared<CrowDoll>(_game.GetGame());
+		enemy->SetParameter(ovalue);
+		_game.GetObjectServer()->Add(std::move(enemy));
 	}
 
 	void Scenario::AddSoul(ObjectValue ovalue) {

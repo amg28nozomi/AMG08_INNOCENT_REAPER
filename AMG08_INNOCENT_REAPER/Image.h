@@ -20,6 +20,10 @@ namespace inr {
 		constexpr auto STAGE2_FILE = "bg_stage2_";
 		constexpr auto STAGE2_PATH = "Resource/BackGround/Stage2/";
 		constexpr auto STAGE2_MAP_HEIGHT = 2160;
+
+		constexpr auto BACK_GROUND_B = "back_groundB";
+		constexpr auto STAGEB_FILE = "bg_stageb_";
+		constexpr auto STAGEB_PATH = "Resource/BackGround/StageBoss/";
 	}
 
 

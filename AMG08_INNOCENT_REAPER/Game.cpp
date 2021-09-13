@@ -45,7 +45,7 @@ namespace inr {
 
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
-		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE, effect::JUMP_IMAGE}},	// ジャンプ
+		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
 
 
 		// AMGロゴアニメーション

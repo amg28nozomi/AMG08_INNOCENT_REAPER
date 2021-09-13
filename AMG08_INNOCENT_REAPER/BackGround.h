@@ -28,11 +28,14 @@ namespace inr {
 		int KeyNumber();
 	private:
 		std::pair<std::vector<Vector2>, std::vector<Vector2>> _positions;	// 描画座標(左辺:1枚目の描画座標, 右辺2枚目の描画座標)
+		std::pair<int, int> _fix;	// 描画修正値
 		std::vector<double> _scrSpeed;	// スクロール移動量
 		int _stageNo;	// 現在のステージ
 
 		std::string zKey;	// 前景
 		void BackDraw();	// 前景の描画
+		void BigManage();
+		void NormalManage();
 	};
 }
 

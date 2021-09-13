@@ -45,13 +45,16 @@ namespace inr {
 		void ModeChange(CrowState nextState, std::string key);
 		void GetTarget();	// 自機の座標を取得する
 		bool SetState();	// 各種状態の管理
-		bool IsAnger();	// 起こり状態になっているか？
+		int IsAnger();	// 起こり状態になっているか？
 		bool IsVital();	// 現在のアニメーション中、魂は奪えるか？
-		bool Damage();	// 自身のダメージ処理を行う
+		// bool Damage();	// 自身のダメージ処理を行う
+		void Warp();	// 特定座標までワープする
 		
 		void ChangeDirection();	// 向きの変更
 
+		void Move() override;	// 移動
 		void Debuf();	// デバフ処理
+		void Rash();	// 連続攻撃
 		void AddSoul();		// 魂を生み出す
 
 		AABB NowCollision(std::string key) override;
