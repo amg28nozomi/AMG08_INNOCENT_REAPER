@@ -22,7 +22,9 @@ namespace inr {
 		bool IsKeyNull();	// キーは空か？
 
 		bool GameOver();	// フラグ変更
+		bool OpenBossStage();	// ボスステージへの扉を解放する
 		inline std::string StageKey() { return _stageKey; }
+		inline bool BossOpen() { return _bossOpen; }
 		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
 	private:
 		std::string _stageKey;	// ステージ検索用
@@ -32,6 +34,7 @@ namespace inr {
 		std::unique_ptr<Pause> _pause;
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
+		bool _bossOpen;	// ボスステージへの扉は開かれているか？
 
 		Vector2 _worldPosition;	// ワールド座標
 

@@ -9,6 +9,7 @@ namespace inr {
 			constexpr auto D_LEVER = 1;
 			constexpr auto D_RED = 2;
 			constexpr auto D_BLUE = 3;
+			constexpr auto D_BOSS = 4;
 		}
 	}
 

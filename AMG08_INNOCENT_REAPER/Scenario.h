@@ -48,6 +48,7 @@ namespace inr {
 		void AddLever(ObjectValue ovalue);
 		void AddCrystal(ObjectValue ovalue);
 		void AddBlock(ObjectValue ovalue);
+		void AddDoor(ObjectValue ovalue);
 
 		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// î•ñ“Ç‚İ‚İ
 		bool IsLoad(const std::string key);	// ‘ÎÛ‚ÌƒL[‚Í“Ç‚İ‚ñ‚¾‚©H

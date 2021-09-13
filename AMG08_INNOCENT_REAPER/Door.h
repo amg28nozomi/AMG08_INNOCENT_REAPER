@@ -16,6 +16,8 @@ namespace inr {
 		void SwitchOn();
 		void SwitchOff();	// 扉を閉める
 
+		void SetParameter(ObjectValue objValue) override;
+
 		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection);
 
 		inline bool IsSwitch() { return _switch; }	// スイッチは入力可能か否か

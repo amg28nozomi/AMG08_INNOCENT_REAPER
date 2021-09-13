@@ -14,6 +14,7 @@
 #include "BigDoll.h"
 #include "GimmickBase.h"
 #include "Lever.h"
+#include "Door.h"
 #include "Block.h"
 #include "Crystal.h"
 
@@ -146,6 +147,9 @@ namespace inr {
 			case oscenario::OBJ_BLOCK:
 				AddBlock(ovalue);
 				continue;
+			// ボス専用ドアの生成
+			case oscenario::OBJ_DOOR:
+				AddDoor(ovalue);
 			default:
 #ifdef _DEBUG
 				OutputDebugString("error：オブジェクトの生成に失敗しました　Scenatio->AddObjectsで存在しないクラスの値が登録されています\n");
@@ -231,6 +235,12 @@ namespace inr {
 		auto posv = ovalue.Positions();
 		glever->SetParameter(ovalue);
 		_game.GetObjectServer()->Add(std::move(glever));
+	}
+
+	void Scenario::AddDoor(ObjectValue ovalue) {
+		auto gdoor = std::make_shared<Door>(_game.GetGame());
+		gdoor->SetParameter(ovalue);
+		_game.GetObjectServer()->Add(std::move(gdoor));
 	}
 
 	void Scenario::ScenarioUpdate(std::string key) {

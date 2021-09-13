@@ -14,6 +14,7 @@ namespace inr {
 		constexpr auto OBJ_LEVER = 5;
 		constexpr auto OBJ_BLOCK = 6;
 		constexpr auto OBJ_CRYSTAL = 7; // quartz
+		constexpr auto OBJ_DOOR = 8;
 
 		namespace type {
 			constexpr auto PLAYER = 0;

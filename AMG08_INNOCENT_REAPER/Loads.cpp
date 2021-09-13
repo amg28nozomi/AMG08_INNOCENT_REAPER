@@ -233,6 +233,8 @@ namespace inr {
 			// ギミック
 			{ oscenario::OBJ_LEVER, {{2200, 1970}, {2500, 1900}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{3680, 770}, {3200, 700}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			// ボス扉
+			{ oscenario::OBJ_DOOR, {8470, 1190}, 0, {gimmick::door::D_BOSS}},
 		};
 		return _stage;
 	}
@@ -287,6 +289,8 @@ namespace inr {
 			// レバー（y -90）
 			{ oscenario::OBJ_LEVER, {{3650 ,2970}, {630, 870}}, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{150 ,3010}, {3190, 870}}, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			// ボスレバーのみ
+			{ oscenario::OBJ_LEVER, {3440, 930}, 0, {gimmick::door::D_BOSS}},
 			// 壊れる岩
 			{ oscenario::OBJ_BLOCK, {2670, 2050}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_BLOCK, {990, 3010}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},

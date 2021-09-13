@@ -4,6 +4,9 @@
 #include "SoundServer.h"
 #include "SoulSkin.h"
 
+#include "ModeServer.h"
+#include "ModeMain.h"
+
 namespace inr {
 
 	Door::Door(Game& game) : GimmickBase(game) {
@@ -137,5 +140,30 @@ namespace inr {
 		if (key == gimmick::door::KEY_DOOR_RED) _color = static_cast<int>(soul::RED);
 		else if (key == gimmick::door::KEY_DOOR_BLUE) _color = static_cast<int>(soul::BLUE);
 		else _color = -1;
+	}
+
+	void Door::SetParameter(ObjectValue objValue) {
+		_oValue = objValue;	// オブジェクト情報の更新
+		_divKey.first = gimmick::door::KEY_DOOR_BOSS;
+		_position = objValue.Positions().at(0);
+		_mainCollision = { _position, 20, 20, 10, 70, true };
+		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	// 扉は開かれているか？
+		case true:	// 空いている場合
+			_switch = gimmick::ON;
+			_pal = 0;
+			_mainCollision.GetCollisionFlgB() = false;
+#ifdef _DEBUG
+			_mainCollision.GetbDrawFlg() = false;
+#endif
+			return;
+		case false:	// 閉じている場合
+			_switch = gimmick::OFF;
+			_pal = 255;
+			_mainCollision.GetCollisionFlgB() = true;
+#ifdef _DEBUG
+			_mainCollision.GetbDrawFlg() = true;
+#endif
+			return;
+		}
 	}
 }

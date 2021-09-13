@@ -46,7 +46,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_2_1;
+			_stageKey = stage::STAGE_2_2;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -57,6 +57,7 @@ namespace inr {
 			_uiSoul->PlayerUpdate();
 			_resetFlg = false;
 		}
+		_bossOpen = false;	// ボスの扉
 	}
 
 	void ModeMain::Process() {
@@ -148,6 +149,12 @@ namespace inr {
 		_isReset = true;	// フラグを起動
 		_game.GetModeServer()->FadeOut();	// 暗転処理を開始
 	}
+
+	bool ModeMain::OpenBossStage() {
+		if (_bossOpen == true) return false;
+		_bossOpen = true;
+	}
+
 
 	bool ModeMain::StageReset() {
 		if (_isReset != true) return false;	// フラグが不十分
