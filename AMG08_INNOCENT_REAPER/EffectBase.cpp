@@ -8,12 +8,12 @@
 
 namespace inr {
 
-	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame) : _game(game), _position(spawnpos){
-		// 
+	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame) : _game(game), _position(spawnpos), _collision(Vector2(), Vector2()) {
 		_count = 0;
 		_graphKey = gh;
 		_alive = maxFrame;
 		_delete = false;
+		_isDamage = false;
 	}
 
 
