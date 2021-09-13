@@ -27,6 +27,8 @@ namespace {
 
 	constexpr auto IS_ANGER = 1;
 	constexpr auto IS_NORMAL = 0;
+
+	constexpr auto RASH_MAX = 150;
 }
 
 namespace inr {
@@ -39,12 +41,13 @@ namespace inr {
 	}
 
 	void CrowDoll::Init() {
+		_actionEnd = { 0, 0 };
 		_target = { 0, 0 };
 		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
 			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
-		//	{enemy::crowdoll::CROW_BLINK, {_position, }}
+			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
 		_motionKey = {
 			{enemy::crowdoll::CROW_IDOL, {25, 0}},
@@ -54,9 +57,11 @@ namespace inr {
 			{enemy::crowdoll::CROW_ROAR , {25, 50}},
 			{enemy::crowdoll::CROW_DEBUF, {30, 50}},
 			{enemy::crowdoll::CROW_DOWN , {25, 50}},
+			{enemy::crowdoll::CROW_WINCE, {25, 50}},
 		};
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;
+		_rashCount = 0;
 		_setup = false;
 		_changeGraph = false;
 	}
@@ -67,11 +72,15 @@ namespace inr {
 		Init();
 	}
 
+	// 攻撃パターンは「ラッシュ→落下→空中待機→腕刺し→待機→空中待機」
+
 	void CrowDoll::Process() {
+		IsGravity();
 		// バトル開始前の処理
 		IsBattle();
 		WakeUp();	// 起き上がり
 		if (IsActive() != true) return;	// 活動状態でない場合は処理を行わない
+		SetState();
 		Floating();
 		Move();
 	}
@@ -134,6 +143,8 @@ namespace inr {
 
 		_position = _position + _moveVector;
 		_mainCollision.Update(_position, _direction);
+
+		_moveVector = { 0, 0 };
 	}
 
 	bool CrowDoll::IsGravity() {
@@ -152,6 +163,7 @@ namespace inr {
 			}
 			break;
 		default:
+			if (0 < _gravity) _gravity = 0;
 			return false;	// 重力処理は行わない
 		}
 	}
@@ -168,12 +180,56 @@ namespace inr {
 	}
 
 	void CrowDoll::Warp() {
-		// 自機の隣に向かって転移する
+		auto p = _position.GetX() - _target.GetX();	// 自機はどちら側にいるか？
+		if (p < 0) {	// 自機は右に居る
+			_direction = enemy::MOVE_RIGHT;
+			auto px = (_target.GetX() - (_mainCollision.GetWidthMin()) * 3);
+			_position = { px, 870 };
+			_actionEnd.GetPX() = px - RASH_MAX;
+		}// 自機は右側にいる
+		else if (0 < p) { 
+			_direction = enemy::MOVE_LEFT;
+			auto px = (_target.GetX() + (_mainCollision.GetWidthMax()) * 3);
+			_position = { px, 870 };
+			_actionEnd.GetPX() = px + RASH_MAX;
+		}// 自機は左側にいる
+		_atkInterval = 10;	// 10フレーム後にアクションを実行する
+		auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
+		PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RASH));
 	}
 
 	void CrowDoll::Rash() {
 		// 連続攻撃
-		
+		double mx = 0;
+		double nextpos = 0;
+		switch (_direction) {
+		case enemy::MOVE_LEFT:
+			mx = -RASH_MAX / 15;
+			_moveVector.GetPX() = mx;
+			nextpos = _position.GetX() + mx;
+			if (IsAttackEnd() == true) {
+				--_rashCount;
+				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RASH));
+				return;
+			}
+			if (_actionEnd.GetX() < nextpos) return;
+			_actionEnd.GetPX() = nextpos - RASH_MAX;
+			break;
+		case enemy::MOVE_RIGHT:
+			mx = RASH_MAX / 15;
+			_moveVector.GetPX() = mx;
+			nextpos = _position.GetX() + mx;
+			if (IsAttackEnd() == true) {
+				--_rashCount;
+				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RASH));
+				return;
+			}
+			if (nextpos < _actionEnd.GetX()) return;
+			_actionEnd.GetPX() = nextpos + RASH_MAX;
+			break;
+		}
+		--_rashCount;
+		_atkInterval = 20;
 	}
 
 	void CrowDoll::Debuf() {
@@ -183,7 +239,36 @@ namespace inr {
 		// auto debufEff = std::make_unique<EffectBase>(_game.GetGame(), )
 	}
 
+	bool CrowDoll::IsAttackEnd() {
+		if (_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction) == mapchip::NORMAL) return true;
+		auto moveout = _position + _moveVector;
+		return false;
+	}
+
 	bool CrowDoll::SetState() {
+		// 状態に応じた処理を行う
+		switch (_cState) {
+		case CrowState::IDOL:	// 空中待機の場合
+			// インタール明けに次のアクションを実行する
+			if (_atkInterval == 0) {
+				ModeChange(CrowState::RASH, enemy::crowdoll::CROW_RASH);	// 状態切り替え
+				GetTarget();	// 自機の現在座標を取得する
+				Warp();	// 自機の前に跳ぶ
+				_rashCount = 3;
+			}
+			break;
+		case CrowState::RASH:
+			if (_atkInterval == 0) {
+				if (0 < _rashCount) {
+					Rash();	// ラッシュアクション実行
+					break;
+				}
+				_actionEnd.GetPX() = 0;
+				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+				_atkInterval = 20;
+				// 次の状態に遷移する
+			} 
+		}
 		return true;
 	}
 
@@ -239,25 +324,24 @@ namespace inr {
 		auto player = _game.GetObjectServer()->GetPlayer();	// 自機の情報を取得する
 		auto soul = std::make_shared<SoulSkin>(_game.GetGame());	// 魂を生成する
 		srand((unsigned int)time(NULL));	// 乱数初期化
-		auto type = rand() % 2;
+		auto type = rand() % 3 + 1;
 		switch (type) {
-		case 0:
+		case 1:
 			soul->SetParameter(1, 7);	// 赤の魂
 			break;
-		case 1:
+		case 2:
 			soul->SetParameter(2, 7);	// 青の魂
 			break;
 		default:
 			break;
 		}
-		soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 		// 自機は魂の所持上限に到達しているか？
 		if (player->IsSoulMax()) {
 			_soul->OwnerNull();	// 所有者はいない
+			soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 			_game.GetObjectServer()->Add(std::move(soul));	// オブジェクトサーバーに登録する
 			return;
-		}
-		player->SoulCatch(std::move(_soul));	// そうではない場合は魂の所有権をプレイヤーに譲渡
+		} else player->SoulCatch(std::move(soul));	// そうではない場合は魂の所有権をプレイヤーに譲渡
 	}
 
 	int CrowDoll::IsAnger() {
@@ -267,6 +351,7 @@ namespace inr {
 	}
 
 	AABB CrowDoll::NowCollision(std::string key) {
+
 		return _mainCollision;
 	}
 }

@@ -63,14 +63,15 @@ namespace inr {
 		// { {key::SOUND_PLAYER_RUN1}}
 	};
 
-	const se::SoundServer::SoundMap ses{
+	const se::SoundServer::SoundMap ses {
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/snapping1.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_GIVE}, {"Resource/SE/reflection.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_JUMP}, {"Resource/SE/putting_a_jar.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_FALL}, {"Resource/SE/defense1.mp3", DX_PLAYTYPE_BACK}},
 
-		{{enemy::crowdoll::SE_VOICE}, {"Resource/SE/CrowDoll/cd_voice.wav", DX_PLAYTYPE_BACK}},	
+		{{enemy::crowdoll::SE_VOICE}, {"Resource/SE/CrowDoll/cd_voice.wav", DX_PLAYTYPE_BACK}},
+		{{enemy::crowdoll::SE_RASH}, {"Resource/SE/CrowDoll/cd_rush.wav", DX_PLAYTYPE_BACK} },
 	};
 
 	// ギミックSE
@@ -142,13 +143,16 @@ namespace inr {
 		auto beforeUD = std::get<LEVER_UD>(_joyKey);
 		auto beforeKey = std::get<KEY_JOYPAD>(_joyKey);
 
+
 		// アナログスティックの押下情報を取得
 		GetJoypadAnalogInput(&std::get<LEVER_LR>(_joyKey), &std::get<LEVER_UD>(_joyKey), DX_INPUT_PAD1);
+
 		// キー入力を取得
 		std::get<KEY_JOYPAD>(_joyKey) = GetJoypadInputState(DX_INPUT_PAD1);
 
 		// トリガ入力を取得
 		_trgKey = (std::get<KEY_JOYPAD>(_joyKey) ^ beforeKey) & std::get<KEY_JOYPAD>(_joyKey);
+
 	}
 
 	void Game::Process() {

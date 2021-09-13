@@ -54,7 +54,7 @@ namespace inr {
 		if (_tlogo != nullptr) _tlogo->Process();
 		if (_animation) {
 			// Aボタンの入力があった場合は処理をスキップする
-			if (_number != LOGO_MAX && _game.GetTrgKey() == PAD_INPUT_3) {
+			if (_number != LOGO_MAX && (_game.GetTrgKey() == PAD_INPUT_3 || CheckHitKey(KEY_INPUT_A) == TRUE)) {
 				AnimaSkip();
 			}
 			// 待機時間がある場合は減算処理だけを行い処理から抜ける

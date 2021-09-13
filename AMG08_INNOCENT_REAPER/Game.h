@@ -76,6 +76,13 @@ namespace inr {
 		inline int GetLeverUD() { return std::get<LEVER_UD>(_joyKey); }
 		// アナログスティックの入力情報を取得（押下情報）
 		inline int GetKey() { return std::get<KEY_JOYPAD>(_joyKey); }
+		// キーボード入力の取得（押下情報）
+		inline int GetInputKey() { return _inputKey; }
+		// 
+		inline int GetInputTrg() { return _inputTrg; }
+
+
+
 		// 全情報取得
 		inline std::tuple<int, int, int> GetInputs() { return _joyKey; }
 		// トリガ情報を取得
@@ -108,6 +115,8 @@ namespace inr {
 
 
 		std::tuple<int, int, int> _joyKey;	// ジョイパッドの入力情報
+		int _inputKey;	// キー入力
+		int _inputTrg;	// トリガ入力
 
 		static int _trgKey;	// トリガー
 		static int _frameCount;	// フレーム情報

@@ -103,7 +103,9 @@ namespace inr {
 		
 		// 各種アクション
 		void Move(int lever); // 移動
+		void Move();	// キー入力対応
 		void Climb(int leverUD);	// 上下移動
+		void Climb();	// キー入力版
 		void Dash(); // ダッシュ
 		void Jump(); // ジャンプ
 		void Rob(double x, double y); // 奪う

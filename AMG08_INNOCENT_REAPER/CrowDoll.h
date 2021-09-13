@@ -20,6 +20,7 @@ namespace inr {
 
 
 			constexpr auto SE_VOICE = "crow_voice";	// 鳴き声
+			constexpr auto SE_RASH = "crow_rash";	// 連撃
 		}
 	}
 
@@ -39,8 +40,12 @@ namespace inr {
 		};
 		CrowState _cState;	// クロウドールの状態
 		Vector2 _target;	// 攻撃目標座標
+		Vector2 _actionEnd;	// アクション終了
 		int _life;	// 体力
 		int _atkInterval;	// 攻撃の猶予時間
+		int _pattern;	// 行動パターン
+
+		int _rashCount;	// ラッシュカウント
 
 		bool _setup;	// 準備は完了したか？
 
@@ -65,6 +70,7 @@ namespace inr {
 		void AddSoul();		// 魂を生み出す
 
 		bool IsGravity();	// 重力処理を行うか？
+		bool IsAttackEnd();	// 強制終了
 
 		AABB NowCollision(std::string key) override;
 

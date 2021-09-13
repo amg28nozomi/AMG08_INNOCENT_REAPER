@@ -121,7 +121,7 @@ namespace inr {
 
 				
 				for (auto i = 0; i < changes; ++i) {
-					_ghKeys.emplace_back(GetGraphKey(static_cast<int>(it.back()->SoulColor())));
+					_ghKeys.emplace_back(GetGraphKey(static_cast<int>(it.back()->SoulColor())));	// ‚±‚±‚ÅŽ~‚Ü‚é
 					_count.emplace_back(0);
 					_active.emplace_back(true);
 					_pal.emplace_back(0);

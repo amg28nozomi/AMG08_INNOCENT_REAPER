@@ -194,8 +194,10 @@ namespace inr {
 		auto leverUD = _game.GetLeverUD();
 		auto key = _game.GetTrgKey();
 
-		Move(leverLR); // 移動処理
-		Climb(leverUD);	// 上下移動
+		Move();
+		Climb();
+		// Move(leverLR); // 移動処理（レバー入力受付のため停止中）
+		// Climb(leverUD);	// 上下移動（レバー入力受付のため停止中）
 		Action(key); // アクション
 		Gran();
 		Dash();	// ダッシュ
@@ -416,6 +418,16 @@ namespace inr {
 				break;
 			}
 		}
+
+		// 緊急実装
+
+		if (CheckHitKey(KEY_INPUT_A) == TRUE) Rob(x, y); //　奪うアクション実行
+		else if (CheckHitKey(KEY_INPUT_S) == TRUE) {
+			if (_aState == ActionState::GIVE || _aState != ActionState::ROB) Give(x, y);		// 与えるアクション実行
+		}
+		else if (CheckHitKey(KEY_INPUT_D) == TRUE)ChangeSoul();
+		else if (CheckHitKey(KEY_INPUT_F) == TRUE) if (_aState != ActionState::HIT) InputDash(x);
+
 		// アイドル状態以外で、アニメーションが終わってない場合
 		StateUpdate();
 		
@@ -432,7 +444,7 @@ namespace inr {
 		if (_input != true) return;	//　入力を受け付けていない場合は、掴めない
 		if (_gran == true) return;
 		// Bボタン入力があった場合、蔦登り状態に遷移する
-		if (_game.GetTrgKey() == PAD_INPUT_4) {
+		if (_game.GetTrgKey() == PAD_INPUT_4 || CheckHitKey(KEY_INPUT_UP) == TRUE) {
 			_aState = ActionState::GRAN;
 			_gran = true;
 		}
@@ -489,6 +501,58 @@ namespace inr {
 				_speed = (lever * MAX_SPPED) / 1000;
 				// 移動ベクトル代入
 				_moveVector.GetPX() = 1.0 * _speed;
+				_speed = 0;
+			}
+		}
+	}
+
+	void Player::Move() {
+		// 入力可能か？
+		if (_input == true) {
+			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
+			auto direction = _direction;
+			if (CheckHitKey(KEY_INPUT_LEFT) == TRUE) _direction = PL_LEFT;
+			else if (CheckHitKey(KEY_INPUT_RIGHT) == TRUE) _direction = PL_RIGHT;
+
+			// 向きが変わった場合はフラグを切り替える
+			if (_direction != direction) _changeDirection = true;
+			if (_aState != ActionState::GRAN) {
+
+				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
+					// 入力情報がある場合
+					if (CheckHitKey(KEY_INPUT_LEFT) == TRUE || CheckHitKey(KEY_INPUT_RIGHT) == TRUE) {
+						// moveではない時、キーと状態を更新
+						if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
+							ChangeState(ActionState::MOVE, PKEY_RUN);
+						}
+						// SEの管理
+						if (_aCount % GetSoundFrame(_divKey.first) == 0) {
+							auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
+							auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+							PlaySoundMem(sound1, soundType);
+						}
+						// return;
+						// 立っていてかつ入力がない場合
+						if (CheckHitKey(KEY_INPUT_LEFT) == TRUE) _moveVector.GetPX() = -8.0;
+						else if (CheckHitKey(KEY_INPUT_RIGHT) == TRUE) _moveVector.GetPX() = 8.0;
+					}
+					else if (_aState == ActionState::MOVE) {
+						switch (_stand) {
+						case true:	// 立っている場合
+							ChangeState(ActionState::IDOL, PKEY_IDOL);
+							_speed = 0;
+							break;
+							//case false:	// 落下状態の場合
+							//	ChangeState(ActionState::FALL, PKEY_FALL);
+							//	_speed = 0;
+							//	break;
+						}
+						return;
+					}
+				}
+				// 座標変更
+				// _speed = (lever * MAX_SPPED) / 1000;
+				// 移動ベクトル代入
 				_speed = 0;
 			}
 		}
@@ -567,11 +631,17 @@ namespace inr {
 		_moveVector.GetPY() = 1.0 * spd;
 	}
 
+	void Player::Climb() {
+		if (_aState != ActionState::GRAN) return;	// 掴みフラグがオンではない場合は処理を行わない
+		if (CheckHitKey(KEY_INPUT_UP) == TRUE) _moveVector.GetPY() = 3.0;
+		else if (CheckHitKey(KEY_INPUT_DOWN) == TRUE) _moveVector.GetPY() = -3.0;
+	}
+
 	void Player::Jump() {
 		if ((_input == true && _stand) || _gran == true) {
 				// 溜めはあるか？
 					auto pressKey = _game.GetKey();
-					if (pressKey & PAD_INPUT_3) {
+					if (pressKey & PAD_INPUT_3 || CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
 						// 溜めカウンタを増やす
 						_jumpPower += 1;
 						// 溜めカウンタがマックスではない場合、処理から抜ける
