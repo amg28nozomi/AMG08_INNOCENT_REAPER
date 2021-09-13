@@ -455,10 +455,7 @@ namespace inr {
 
 	void Player::Gran() {
 		if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
-		else {
-			ChangeState(ActionState::GRAN, PKEY_CLIMB);
-			_gran = true;
-		}
+		else _gran = false;
 	}
 
 	void Player::Move(int lever) {

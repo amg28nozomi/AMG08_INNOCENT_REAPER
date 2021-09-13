@@ -69,9 +69,12 @@ namespace inr {
 		void Rash();	// 連続攻撃
 		void Blink();	// 落下攻撃
 		void AddSoul();		// 魂を生み出す
+		void Attack();	// 攻撃処理
 
 		bool IsGravity();	// 重力処理を行うか？
 		bool IsAttackEnd();	// 強制終了
+
+		bool IsPlayerPos(double px);	// 自機は左右どちらにいるのか？
 
 		AABB NowCollision(std::string key) override;
 

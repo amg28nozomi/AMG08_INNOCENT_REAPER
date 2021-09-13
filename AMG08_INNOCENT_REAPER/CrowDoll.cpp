@@ -82,6 +82,7 @@ namespace inr {
 		if (IsActive() != true) return;	// 活動状態でない場合は処理を行わない
 		SetState();
 		Floating();
+		Attack();	// ダメージ処理
 		Move();
 	}
 
@@ -113,6 +114,7 @@ namespace inr {
 		--_aCount;	// 立ち上がらせる
 		if (_aCount == 0) {
 			_setup = true;	// セットアップ完了
+			_mainCollision.GetCollisionFlgB() = true;	// 当たり判定をオンにする
 			auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
 			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 			ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
@@ -144,7 +146,25 @@ namespace inr {
 		_position = _position + _moveVector;
 		_mainCollision.Update(_position, _direction);
 
+		for (auto it : _collisions) it.second.Update(_position, _direction);
 		_moveVector = { 0, 0 };
+	}
+
+	void CrowDoll::Attack() {
+		// 攻撃処理
+		auto player = _game.GetObjectServer()->GetPlayer();	// 自機
+		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定
+		
+		// まずは敵の当たり判定と接触判定を行う
+		if (_mainCollision.HitCheck(playerBox) == true) {
+			// 当たったか？
+			player->Damage(IsPlayerPos(player->GetPosition().GetX()));	// 座標方向に飛ばす
+			return;	// 攻撃判定が入った場合は処理を終了する
+		}
+		
+		auto damageBox = _collisions.find(_divKey.first);	// ボックスはあるか？
+		if (damageBox == _collisions.end()) return;
+		if(damageBox->second.HitCheck(playerBox) == true) player->Damage(IsPlayerPos(player->GetPosition().GetX()));	// 座標方向に飛ばす
 	}
 
 	bool CrowDoll::IsGravity() {
@@ -158,6 +178,10 @@ namespace inr {
 			if (IsStandChip()) {
 				if (0 < _gravity) _stand = true;
 				if (_cState == CrowState::BLINK) {
+					_atkInterval = 30;
+					_gravity = 0;
+					Warp();	// ワープ移動
+					return true;
 				}	// ワープ処理を呼び出す
 				_gravity = 0;
 			} else {
@@ -186,11 +210,11 @@ namespace inr {
 		auto p = _position.GetX() - _target.GetX();	// 自機はどちら側にいるか？
 		double px = 0;
 		int sound = 0;
-		if (p < 0) {	// 自機は右に居る
+		if (p < 0) {	// 自機は左に居る
 			switch (_cState) {
 			case CrowState::RASH:
 				_direction = enemy::MOVE_RIGHT;
-				px = (_target.GetX() - (_mainCollision.GetWidthMin()) * 3);
+				px = (_target.GetX() - (_mainCollision.GetWidthMin()) * 5);
 				_position = { px, 870 };
 				_actionEnd.GetPX() = px - RASH_MAX;
 				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
@@ -204,7 +228,7 @@ namespace inr {
 			switch (_cState) {
 			case CrowState::RASH:
 				_direction = enemy::MOVE_LEFT;
-				px = (_target.GetX() + (_mainCollision.GetWidthMax()) * 3);
+				px = (_target.GetX() + (_mainCollision.GetWidthMax()) * 5);
 				_position = { px, 870 };
 				_actionEnd.GetPX() = px + RASH_MAX;
 				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
@@ -225,7 +249,7 @@ namespace inr {
 		case inr::CrowDoll::CrowState::BLINK:
 			// 自機の頭上にワープする
 			GetTarget();
-			_position = { _target.GetX(), _target.GetY() - 300 };	// 座標変更
+			_position = { _target.GetX(), _target.GetY() - 600 };	// 座標変更
 			_moveVector = { 0, 0 };	// 移動量は消す
 			break;
 		default:
@@ -323,7 +347,11 @@ namespace inr {
 				_atkInterval = 60;
 				break;
 			}
-
+		case CrowState::WINCE:
+			if (IsAnimationMax() == true) {
+				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+				_atkInterval = 60;
+			}
 		}
 		return true;
 	}
@@ -336,6 +364,8 @@ namespace inr {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// 怯み状態にする
+					auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
+					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 					AddSoul();	// 魂を生み出す
 					// ここで死亡処理を行うか判定を行う
 					return;
@@ -345,13 +375,14 @@ namespace inr {
 
 	bool CrowDoll::IsVital() {
 		switch (_cState) {
-		case CrowState::IDOL:
 		case CrowState::DEBUF:
 		case CrowState::ROAR:
 		case CrowState::WINCE:
 		case CrowState::SLEEP:
-				return false;
+			return false;
 		case CrowState::RASH:
+		case CrowState::BLINK:
+		case CrowState::IDOL:
 			return true;
 		default:
 			return false;
@@ -398,6 +429,12 @@ namespace inr {
 			_game.GetObjectServer()->Add(std::move(soul));	// オブジェクトサーバーに登録する
 			return;
 		} else player->SoulCatch(std::move(soul));	// そうではない場合は魂の所有権をプレイヤーに譲渡
+	}
+
+	bool CrowDoll::IsPlayerPos(double px) {
+		auto fix = _position.GetX() - px;
+		if (fix < 0) return false;
+		if (0 < fix) return true;
 	}
 
 	int CrowDoll::IsAnger() {

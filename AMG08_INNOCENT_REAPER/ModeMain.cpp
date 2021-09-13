@@ -178,6 +178,9 @@ namespace inr {
 	bool ModeMain::StageReset() {
 		if (_isReset != true) return false;	// フラグが不十分
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
+		_bossBattle = false;
+		if (CheckSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3)) == 1) StopSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3));
+
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
 		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
