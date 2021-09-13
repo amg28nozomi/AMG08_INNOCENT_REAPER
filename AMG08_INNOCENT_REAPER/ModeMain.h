@@ -8,6 +8,7 @@
 namespace inr {
 
 	class Pause;
+	class EffectServer;
 
 	class ModeMain : public ModeBase {
 	public:
@@ -26,12 +27,14 @@ namespace inr {
 		inline std::string StageKey() { return _stageKey; }
 		inline bool BossOpen() { return _bossOpen; }
 		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
+		std::shared_ptr<EffectServer> GetEffectServer() { return _eServer; }
 	private:
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;	// 背景
 		std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;
+		std::shared_ptr<EffectServer> _eServer;
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？

@@ -13,6 +13,7 @@
 #include "ModeServer.h"
 #include "StageTransition.h"
 #include "Pause.h"
+#include "EffectServer.h"
 
 #include <memory>
 #include <unordered_map>
@@ -31,6 +32,7 @@ namespace inr {
 		_bg = std::make_unique<BackGround>(_game.GetGame());
 		_uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
+		_eServer = std::make_shared<EffectServer>(_game.GetGame());
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -54,6 +56,7 @@ namespace inr {
 			TimeClear();
 			_game.GetMapChips()->ChangeMap(_stageKey);
 			_game.GetScenario()->AddObjects(_stageKey);
+			_eServer->Init();
 			_uiSoul->PlayerUpdate();
 			_resetFlg = false;
 		}
@@ -68,6 +71,7 @@ namespace inr {
 		if (_pause->IsActive() != true) {	// ポーズ画面が起動していない間のみ実行
 			_bg->Process();
 			_game.GetMapChips()->Process();
+			_eServer->Process();
 			_game.GetObjectServer()->Process();
 			_uiSoul->Process();
 			return;
@@ -79,6 +83,7 @@ namespace inr {
 		_bg->Draw();
 		_game.GetMapChips()->Draw();
 		// ここで各種エフェクトの描画処理を行う
+		_eServer->Draw();
 		_game.GetObjectServer()->Draw();
 		_uiSoul->Draw();
 		if(_pause->Active() == true) _pause->Draw();
@@ -97,6 +102,7 @@ namespace inr {
 		if (_game.GetModeServer()->PalChange() == true) {
 			// ギミックの状態を更新する
 			BgmManage(_changeKey);	// bgm切り替え
+			_eServer->Init();	// 各種エフェクトを消去する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
 			_game.GetObjectServer()->ObjectsClear();
@@ -160,6 +166,7 @@ namespace inr {
 	bool ModeMain::StageReset() {
 		if (_isReset != true) return false;	// フラグが不十分
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
+		_eServer->Init();	// エフェクトの消去
 		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
 		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す
 		_game.GetScenario()->AddObjects(_stageKey);		// オブジェクトを再配置する
