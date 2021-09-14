@@ -334,6 +334,7 @@ namespace inr {
 				case 2:
 					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
+					Warp();	// 自機の前に跳ぶ
 					_atkInterval = 60;
 					break;
 				}
@@ -374,7 +375,7 @@ namespace inr {
 		case CrowState::GROWARM:
 			// 腕を挿した瞬間にエフェクトを発生させる
 			if (AnimationNumber() == 4 && _arm == false) {
-				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), enemy::crowdoll::CROW_ARM, Vector2(_target.GetX(), 800), 90);	// エフェクトを作成
+				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), enemy::crowdoll::CROW_ARM, Vector2(_target.GetX(), 950), 30);	// エフェクトを作成
 				effarm->SetDamageEffect(50, 40);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm));
 				_arm = true;
@@ -404,6 +405,8 @@ namespace inr {
 					auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 					AddSoul();	// 魂を生み出す
+					--_life;
+					if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 怯み状態にする
 					// ここで死亡処理を行うか判定を行う
 					_muteki = 60;	// 一定時間の間、無敵状態にする
 					return;
