@@ -57,7 +57,7 @@ namespace inr {
 			auto gh = graph::ResourceServer::GetHandles(_graphKey, number);
 			DrawRotaGraph(x1, y1, 1.0, 0, gh, true, false);
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
-			DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
+			// DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
 		}
 		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}

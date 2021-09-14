@@ -130,8 +130,8 @@ namespace inr {
 
 	void MapChips::Draw() {
 #ifdef _DEBUG
-		DrawFormatString(0, 300, GetColor(255, 0, 0), "worldPosition.x = %d\n", _worldPosition.IntX());
-		DrawFormatString(0, 325, GetColor(255, 0, 0), "worldPosition.y = %d\n", _worldPosition.IntY());
+		/*DrawFormatString(0, 300, GetColor(255, 0, 0), "worldPosition.x = %d\n", _worldPosition.IntX());
+		DrawFormatString(0, 325, GetColor(255, 0, 0), "worldPosition.y = %d\n", _worldPosition.IntY());*/
 #endif
 		auto mswidth = _nowMap.MapSizeWidth();
 		auto msheight = _nowMap.MapSizeHeight();

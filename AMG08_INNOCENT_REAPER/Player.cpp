@@ -233,23 +233,23 @@ namespace inr {
 		 auto x = xy.IntX();
 		 auto y = xy.IntY();
 
-		DrawFormatString(1500, 100, GetColor(0, 255, 0), "描画座標x = %d", x);
-		DrawFormatString(1500, 150, GetColor(0, 255, 0), "描画座標y = %d", y);
+		/*DrawFormatString(1500, 100, GetColor(0, 255, 0), "描画座標x = %d", x);
+		DrawFormatString(1500, 150, GetColor(0, 255, 0), "描画座標y = %d", y);*/
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
-		std::string& key = _divKey.first;
+		/*std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlg() == true) {
 				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
-		}
+		}*/
 
 #ifdef _DEBUG
-		DebugInfo();
+		// DebugInfo();
 #endif
 	}
 

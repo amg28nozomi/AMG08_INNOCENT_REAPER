@@ -47,13 +47,13 @@ namespace inr {
 	}
 
 	void UI::Draw() {
-		DrawEmptyBox();
+		/*DrawEmptyBox();
 		for (auto number = 0; number < _count.size(); ++number) {
 			auto gh = GraphHandle(_ghKeys[number], _count[number]);
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal[number]);
 			DrawRotaGraph(_pos.IntX() + ((number + 1) * 100), _pos.IntY(), 1.0, 0, gh, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		}
+		}*/
 	}
 
 	void UI::DrawEmptyBox() {

@@ -51,12 +51,6 @@ namespace inr {
 		void GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
 		void Damage();	// ダメージ処理（自機へ）
 		bool IsPlayerPosition();
-		//int GetSize(const std::string& key);	// アニメーションの再生フレーム
-		//void AnimationCount();	// アニメーションカウンタの増減
-		//int AnimationInterval();	// アニメーションの描画間隔
-		//int AnimationNumber();	// 現在の描画番号を取得
-		//bool IsAnimationMax();	// アニメーションは描画し終えたか？
-		//bool AnimationCountMax();
 	};
 }
 
