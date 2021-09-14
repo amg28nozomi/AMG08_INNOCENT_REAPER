@@ -424,12 +424,12 @@ namespace inr {
 
 		// 緊急実装
 
-		if (CheckHitKey(KEY_INPUT_A) == TRUE) Rob(x, y); //　奪うアクション実行
-		else if (CheckHitKey(KEY_INPUT_S) == TRUE) {
-			if (_aState == ActionState::GIVE || _aState != ActionState::ROB) Give(x, y);		// 与えるアクション実行
-		}
-		else if (CheckHitKey(KEY_INPUT_D) == TRUE)ChangeSoul();
-		else if (CheckHitKey(KEY_INPUT_F) == TRUE) if (_aState != ActionState::HIT) InputDash(x);
+		//if (CheckHitKey(KEY_INPUT_A) == TRUE) Rob(x, y); //　奪うアクション実行
+		//else if (CheckHitKey(KEY_INPUT_S) == TRUE) {
+		//	if (_aState == ActionState::GIVE || _aState != ActionState::ROB) Give(x, y);		// 与えるアクション実行
+		//}
+		//else if (CheckHitKey(KEY_INPUT_D) == TRUE)ChangeSoul();
+		//else if (CheckHitKey(KEY_INPUT_F) == TRUE) if (_aState != ActionState::HIT) InputDash(x);
 
 		// アイドル状態以外で、アニメーションが終わってない場合
 		StateUpdate();

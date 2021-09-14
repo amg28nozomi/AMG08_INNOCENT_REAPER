@@ -35,8 +35,8 @@ namespace inr {
 		void SetParameter(ObjectValue objValue) override;
 	private:
 		enum class CrowState {
-			// 死亡、待機、デバフ、咆哮(行動不能)、連続斬り、頭上からの強襲、怯み、非活動状態
-			DEATH, IDOL, DEBUF, ROAR, RASH, BLINK, WINCE, SLEEP
+			// 死亡、待機、デバフ、咆哮(行動不能)、連続斬り、頭上からの強襲、伸びる爪、怯み、非活動状態
+			DEATH, IDOL, DEBUF, ROAR, RASH, BLINK, GROWARM, WINCE, SLEEP
 		};
 		CrowState _cState;	// クロウドールの状態
 		Vector2 _target;	// 攻撃目標座標
@@ -48,6 +48,7 @@ namespace inr {
 		int _actionCount;	// ラッシュカウント
 
 		bool _setup;	// 準備は完了したか？
+		bool _arm;	// 腕は生成したか？
 		int _muteki;	// 無敵時間
 
 

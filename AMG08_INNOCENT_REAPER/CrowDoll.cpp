@@ -63,6 +63,8 @@ namespace inr {
 		_atkInterval = 0;
 		_actionCount = 0;
 		_muteki = 0;
+		_life = 10;
+		_arm = false;
 		_setup = false;
 		_changeGraph = false;
 	}
@@ -317,10 +319,24 @@ namespace inr {
 		case CrowState::IDOL:	// 空中待機の場合
 			// インタール明けに次のアクションを実行する
 			if (_atkInterval == 0) {
-				ModeChange(CrowState::RASH, enemy::crowdoll::CROW_RASH);	// 状態切り替え
-				GetTarget();	// 自機の現在座標を取得する
-				Warp();	// 自機の前に跳ぶ
-				_actionCount = 4;
+				auto number = rand() % 3;
+				switch (number) {
+				case 0:
+					ModeChange(CrowState::RASH, enemy::crowdoll::CROW_RASH);	// 状態切り替え
+					GetTarget();	// 自機の現在座標を取得する
+					Warp();	// 自機の前に跳ぶ
+					_actionCount = 4;
+					break;
+				case 1:
+					ModeChange(CrowState::GROWARM, enemy::crowdoll::CROW_GROWARM);	// 状態切り替え
+					GetTarget();
+					break;
+				case 2:
+					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
+					_atkInterval = 60;
+					break;
+				}
 			}
 			break;
 		case CrowState::RASH:
@@ -337,7 +353,7 @@ namespace inr {
 				}
 				// 次の状態に遷移する
 				break;
-			} 
+			}
 		case CrowState::BLINK:
 			if (_atkInterval == 0) {
 				if (0 != _actionCount) {
@@ -352,8 +368,27 @@ namespace inr {
 			if (IsAnimationMax() == true) {
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
+				break;
 			}
+			break;
+		case CrowState::GROWARM:
+			// 腕を挿した瞬間にエフェクトを発生させる
+			if (AnimationNumber() == 4 && _arm == false) {
+				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), enemy::crowdoll::CROW_ARM, Vector2(_target.GetX(), 800), 90);	// エフェクトを作成
+				effarm->SetDamageEffect(50, 40);
+				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm));
+				_arm = true;
+				break;
+			}
+			else if (IsAnimationMax() == true) {
+				_arm = false;
+				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+				_atkInterval = 60;
+				break;
+			}
+			break;
 		}
+
 		return true;
 	}
 
@@ -415,20 +450,20 @@ namespace inr {
 		auto player = _game.GetObjectServer()->GetPlayer();	// 自機の情報を取得する
 		auto soul = std::make_shared<SoulSkin>(_game.GetGame());	// 魂を生成する
 		srand((unsigned int)time(NULL));	// 乱数初期化
-		auto type = rand() % 3 + 1;
+		auto type = rand() % 2;
 		switch (type) {
-		case 1:
+		case 0:
 			soul->SetParameter(1, 7);	// 赤の魂
 			break;
-		case 2:
+		case 1:
 			soul->SetParameter(2, 7);	// 青の魂
 			break;
 		default:
 			break;
 		}
 		// 自機は魂の所持上限に到達しているか？
-		if (player->IsSoulMax()) {
-			_soul->OwnerNull();	// 所有者はいない
+		if (player->IsSoulMax() == true) {
+			soul->OwnerNull();	// 所有者はいない
 			soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 			_game.GetObjectServer()->Add(std::move(soul));	// オブジェクトサーバーに登録する
 			return;

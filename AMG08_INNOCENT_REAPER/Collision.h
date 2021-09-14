@@ -43,7 +43,7 @@ public:
 
 	virtual void Update(Vector2& pos, bool inv); // 更新・反転処理有
 	virtual void Swap(Collision col);	// 一時的に当たり判定を切り替える
-	//void DrawBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
+	void DrawDBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
 	bool HitCheck(Collision collision); // 全方向の当たり判定
 	bool HitUpDown(Collision col);	// 上下の当たり判定
 	double HitDirection(Collision col);	// 左右の当たり判定

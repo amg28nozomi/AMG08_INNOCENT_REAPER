@@ -39,6 +39,13 @@ namespace inr {
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
+
+		auto db = _collision;
+		auto min = db.GetMin();
+		auto max = db.GetMax();
+		_game.GetMapChips()->Clamp(min);	// 画像位置を修正する
+		_game.GetMapChips()->Clamp(max);	// 画像位置を修正する
+		DxLib::DrawBox(min.IntX(), min.IntY(), max.IntX(), max.IntY(), GetColor(255, 255, 255), FALSE);
 	}
 
 	void EffectBase::GraphResearch(int* gh) {
@@ -70,7 +77,7 @@ namespace inr {
 	void EffectBase::Damage() {
 		// ダメージ処理を行う
 		auto player = _game.GetObjectServer()->GetPlayer();
-		if (_collision.HitCheck(player->GetMainCollision()) != false) return;
+		if (_collision.HitCheck(player->GetMainCollision()) != true) return;
 		player->Damage(IsPlayerPosition());	// 自機のダメージ処理を呼び出す
 	}
 

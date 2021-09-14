@@ -82,14 +82,14 @@ void Collision::Swap(Collision col){
 	center = { maxV.GetX() - minV.GetX(), maxV.GetY() - minV.GetY() };
 }
 
-//void Collision::DrawBox(int color) {
-//	auto minX = minV.IntX();
-//	auto minY = minV.IntY();
-//	auto maxX = maxV.IntX();
-//	auto maxY = maxV.IntY();
-//
-//	DxLib::DrawBox(minX, minY, maxX, maxY, color, FALSE);
-//}
+void Collision::DrawDBox(int color) {
+	auto minX = minV.IntX();
+	auto minY = minV.IntY();
+	auto maxX = maxV.IntX();
+	auto maxY = maxV.IntY();
+
+	DxLib::DrawBox(minX, minY, maxX, maxY, color, FALSE);
+}
 
 bool Collision::HitCheck(Collision collision) {
 	if (_collisionFlg == true && collision._collisionFlg == true) {
