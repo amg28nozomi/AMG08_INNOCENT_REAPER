@@ -129,11 +129,11 @@ namespace inr {
 		_speed = speed;
 		_isOwner = true;
 		switch (soulcolor) {
-		case 0:
+		case 1:
 			_sType = Type::RED;
 			_divKey = { soul::R_FLOAT, key::SOUND_NUM };
 			break;
-		case 1:
+		case 2:
 			_sType = Type::BLUE;
 			_divKey = { soul::B_FLOAT, key::SOUND_NUM };
 			break;

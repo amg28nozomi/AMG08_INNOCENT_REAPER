@@ -127,7 +127,7 @@ namespace inr {
 		{ gimmick::lever::KEY_LEVER, {"Resource/Gimmick/Lever/lever.png", 3, 2, 5, gimmick::lever::LEVER_SIZE, gimmick::lever::LEVER_SIZE}},
 		{ gimmick::lever::KEY_LEVER_BOSS, {"Resource/Gimmick/Lever/lever_boss.png", 3, 2, 5, gimmick::lever::LEVER_SIZE,  gimmick::lever::LEVER_SIZE}},
 		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
-		{ gimmick::door::KEY_DOOR_BOSS, {"Resource/Gimmcik/Lever/door_boss.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
+		{ gimmick::door::KEY_DOOR_BOSS, {"Resource/Gimmick/Lever/door_boss.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
 		{ gimmick::door::KEY_DOOR_RED, {"Resource/Gimmick/Crystal/r_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
 		{ gimmick::door::KEY_DOOR_BLUE, {"Resource/Gimmick/Crystal/b_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
 		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock.png", 1, 1, 1, gimmick::block::BLOCK_SIZE, gimmick::block::BLOCK_SIZE}},
@@ -143,6 +143,7 @@ namespace inr {
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
 		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
+		{ effect::DASH, {"Resource/effect/Player/re_dash.png", 5, 1, 5, 360, 360}},
 
 	};
 

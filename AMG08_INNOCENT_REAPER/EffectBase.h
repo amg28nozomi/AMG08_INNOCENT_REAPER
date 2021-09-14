@@ -12,6 +12,7 @@ namespace inr {
 
 		// キー名
 		constexpr auto JUMP = "jump_effect";	// ジャンプエフェクトのキー
+		constexpr auto DASH = "dash_effect";
 
 		// 画像サイズ
 		constexpr auto JUMP_IMAGE_W = 80;
