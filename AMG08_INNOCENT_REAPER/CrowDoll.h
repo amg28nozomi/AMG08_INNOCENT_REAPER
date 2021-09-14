@@ -48,6 +48,7 @@ namespace inr {
 		int _actionCount;	// ラッシュカウント
 
 		bool _setup;	// 準備は完了したか？
+		int _muteki;	// 無敵時間
 
 
 		void ModeChange(CrowState nextState, std::string key);

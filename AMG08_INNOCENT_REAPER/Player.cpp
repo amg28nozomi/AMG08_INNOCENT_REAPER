@@ -197,10 +197,10 @@ namespace inr {
 		auto leverUD = _game.GetLeverUD();
 		auto key = _game.GetTrgKey();
 
-		Move();
-		Climb();
-		// Move(leverLR); // 移動処理（レバー入力受付のため停止中）
-		// Climb(leverUD);	// 上下移動（レバー入力受付のため停止中）
+		/*Move();
+		Climb();*/
+		Move(leverLR); // 移動処理（レバー入力受付のため停止中）
+		Climb(leverUD);	// 上下移動（レバー入力受付のため停止中）
 		Action(key); // アクション
 		Gran();
 		Dash();	// ダッシュ

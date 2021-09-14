@@ -39,7 +39,7 @@ namespace inr {
 		for (auto& obj : objs) {
 			const auto& collision = obj->GetMainCollision();
 			if (_hitCol1.HitCheck(collision)) {
-				if (_game.GetTrgKey() == PAD_INPUT_3 || CheckHitKey(KEY_INPUT_A) == TRUE) {
+				if (_game.GetTrgKey() == PAD_INPUT_3) {
 					// ゲーム本編に遷移する
 					auto sound = se::SoundServer::GetSound(system::SOUDN_GAME_START);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUDN_GAME_START));
@@ -49,7 +49,7 @@ namespace inr {
 				}
 			}
 			if (_hitCol2.HitCheck(collision)) {
-				if (_game.GetTrgKey() == PAD_INPUT_3 || CheckHitKey(KEY_INPUT_S) == TRUE) {
+				if (_game.GetTrgKey() == PAD_INPUT_3) {
 					auto sound = se::SoundServer::GetSound(system::SOUND_GAME_END);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUND_GAME_END));
 					// プログラムを終了する

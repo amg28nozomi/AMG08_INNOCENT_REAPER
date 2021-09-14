@@ -67,19 +67,14 @@ namespace inr {
 	}
 
 	void SoulCursor::Move(int lever1, int lever2) {
-		/*if (_input) {
+		if (_input) {
 			if (lever1 < -50 || 50 < lever1) {
 				_moveVector.GetPX() = (lever1 / MOVE_VEC);
 			}
 			if (lever2 < -50 || 50 < lever2) {
 				_moveVector.GetPY() = (lever2 / MOVE_VEC);
 			}
-		}*/
-
-		if (CheckHitKey(KEY_INPUT_LEFT) == TRUE) _moveVector.GetPX() = -5.0;
-		else if (CheckHitKey(KEY_INPUT_RIGHT) == TRUE) _moveVector.GetPX() = 5.0;
-		if (CheckHitKey(KEY_INPUT_UP) == TRUE) _moveVector.GetPY() = -5.0;
-		else if (CheckHitKey(KEY_INPUT_DOWN) == TRUE) _moveVector.GetPY() = 5.0;
+		}
 
 	}
 

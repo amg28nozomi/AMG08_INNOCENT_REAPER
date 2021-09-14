@@ -62,6 +62,7 @@ namespace inr {
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;
 		_actionCount = 0;
+		_muteki = 0;
 		_setup = false;
 		_changeGraph = false;
 	}
@@ -358,6 +359,7 @@ namespace inr {
 
 	void CrowDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		if (_cState == CrowState::DEATH) return;	// €‚ñ‚Å‚¢‚éê‡‚Í°‚ğ’D‚¦‚È‚¢
+		if (_muteki != 0) return;	// –³“GŠÔ‚ª‚ ‚éê‡‚à’D‚¦‚È‚¢
 		if (IsVital() != true) return;	// Œ„‚ª‚È‚¢ê‡‚à°‚ğ’D‚¦‚È‚¢
 		if (ckey == PKEY_ROB) {	// °‚ğ’D‚¢‚É‚«‚Ä‚¢‚é‚©H
 			auto vitalPart = VitalPart(_mainCollision, CROW_VITAL);
@@ -368,6 +370,7 @@ namespace inr {
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// –Â‚«º‚ğ–Â‚ç‚·
 					AddSoul();	// °‚ğ¶‚İo‚·
 					// ‚±‚±‚Å€–Sˆ—‚ğs‚¤‚©”»’è‚ğs‚¤
+					_muteki = 60;	// ˆê’èŠÔ‚ÌŠÔA–³“Gó‘Ô‚É‚·‚é
 					return;
 			}
 		}
@@ -391,6 +394,7 @@ namespace inr {
 
 	bool CrowDoll::IsActive() {
 		if (_setup != true) return false;
+		if (_muteki != 0) --_muteki;	// –³“GŠÔ‚ª‚ ‚éê‡‚ÍŒ¸‚ç‚·‚ ‚é
 		if (_cState == CrowState::DEATH || _cState == CrowState::SLEEP) {
 			if (IsAnimationMax() != true) ObjectBase::AnimationCount();
 			return false;
