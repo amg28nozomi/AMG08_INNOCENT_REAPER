@@ -191,12 +191,12 @@ namespace inr {
 						if (chiptype == mapchip::TRANSITION) colortype = std::make_tuple(0, 0, 255);
 
 						// デバッグ用：当たり判定の描画
-						if (CheckHit(x, y)) {
-							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(std::get<0>(colortype), std::get<1>(colortype), std::get<2>(colortype)), TRUE);
-							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						}
+						//if (CheckHit(x, y)) {
+						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(std::get<0>(colortype), std::get<1>(colortype), std::get<2>(colortype)), TRUE);
+						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						//}
 #endif
 					}
 				}
