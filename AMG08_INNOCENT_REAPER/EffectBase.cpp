@@ -8,11 +8,12 @@
 
 namespace inr {
 
-	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame) : _game(game), _position(spawnpos), _collision(Vector2(), Vector2()) {
+	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, bool direction) : _game(game), _position(spawnpos), _collision(Vector2(), Vector2()) {
 		_count = 0;
 		_graphKey = gh;
 		_alive = maxFrame;
 		_delete = false;
+		_direction = direction;	
 		_isDamage = false;
 	}
 
@@ -38,7 +39,7 @@ namespace inr {
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
-		DrawRotaGraph(x, y, 1.0, 0, graph, true);
+		DrawRotaGraph(x, y, 1.0, 0, graph, TRUE, _direction);
 
 		auto db = _collision;
 		auto min = db.GetMin();

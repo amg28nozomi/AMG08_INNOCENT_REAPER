@@ -24,7 +24,7 @@ namespace inr {
 	// エフェクト
 	class EffectBase {
 	public:
-		EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame);	// 生成座標および、生存フレーム数、分割数、一画像当たりの待ち時間
+		EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);	// 生成座標および、生存フレーム数、分割数、一画像当たりの待ち時間
 		~EffectBase() = default;
 
 		virtual void Init();
@@ -44,6 +44,7 @@ namespace inr {
 		int _alive;	// 生存時間
 		int _allNum;	// 総描画枚数
 		int _interval;	// モーションが完了するまでの猶予時間]
+		bool _direction;	// 生成時の向き
 		bool _isDamage;	// ダメージ判定はあるか？
 		bool _delete;	// 消去するかの判定
 		std::string _graphKey;	// グラフィックハンドルのキー

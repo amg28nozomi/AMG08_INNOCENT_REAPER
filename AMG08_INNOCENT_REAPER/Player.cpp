@@ -581,7 +581,7 @@ namespace inr {
 				_input = false;	// ‘¼ƒAƒNƒVƒ‡ƒ“‚Ì“ü—Í‚ğ’â~‚·‚é
 				_gran = false;
 
-				auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::DASH, _position, 30);
+				auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::DASH, _position, 30, _direction);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff));
 			}
 		}
