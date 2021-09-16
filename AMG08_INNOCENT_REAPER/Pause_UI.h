@@ -6,6 +6,10 @@ namespace inr {
 
 	namespace system {
 		constexpr auto CURSOR_MOVE = "cursor_move";
+
+		constexpr auto CONTINUE = 0;
+		constexpr auto CONTROLS = 1;
+		constexpr auto QUIT_TO_TITLE = 2;
 	}
 
 	class Pause_UI : public Particle_Image {
@@ -13,8 +17,12 @@ namespace inr {
 		Pause_UI(Game& game);
 		~Pause_UI() = default;
 
+		void Init() override;
 		void Process() override;
 		void ChangePosition(bool type) override;
+
+		bool IsMove() { return _move; }
+		int UiNumber() { return _no; }
 	private:
 		int _no;	// åªç›Ç¢ÇÈèÍèäÇÕÇ«Ç±Ç©
 		int _upDown;	// è„â∫Ç«ÇøÇÁÇ…à⁄ìÆÇ∑ÇÈÇ©Åi1:è„ÅA-1:â∫Åj

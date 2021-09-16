@@ -51,7 +51,8 @@ namespace inr {
 			Init();
 			return;
 		}
-		Input();	// 入力処理
+		InputLever();	// 入力処理
+		InputButton();	// ボタン入力
 		for (auto& ui : _uis) ui->Process();
 	}
 
@@ -66,16 +67,15 @@ namespace inr {
 	}
 
 	bool Pause::PauseOn() {
+		if (_active == true) return false;
 		if (_game.GetTrgKey() != PAD_INPUT_13) return false;
 		Sound(system::SOUND_PAUSE);
-		if (_active == false) {
-			for (auto i = 0; i < _uis.size() - 1; ++i) _uis.at(i)->DrawStart();
-			_active = true;
-		} else if(_active == true) for (auto i = 0; i < _uis.size(); ++i) _uis.at(i)->End();
+		for (auto i = 0; i < _uis.size() - 1; ++i) _uis.at(i)->DrawStart();
+		_active = true;
 		return true;
 	}
 
-	bool Pause::Input() {
+	bool Pause::InputLever() {
 		// アナログスティックの入力情報を取得
 		auto lever = _game.GetLeverUD();
 		// 押し倒しがない or 足りない場合は処理を行わない
@@ -85,6 +85,25 @@ namespace inr {
 		else type = true;
 		// 番号を切り変える
 		std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->ChangePosition(type);
+		return true;
+	}
+
+	bool Pause::InputButton() {
+		if (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->IsMove() == true) return false;	// 移動処理がある場合は終了
+		auto key = _game.GetTrgKey();
+		if (key != PAD_INPUT_3 ) return false;	// Aボタンが押されていない時は処理を終了
+		// 現在の番号に応じて、処理を行う
+
+		switch (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->UiNumber()) {
+		case system::CONTINUE:	// ポーズ画面を終了し、ゲーム本編に戻る
+			for (auto i = 0; i < _uis.size(); ++i) _uis.at(i)->End();
+			return true;
+		case system::CONTROLS:	// 操作方法説明の表示切り替え
+			return true;
+		case system::QUIT_TO_TITLE:	// ゲーム本編終了
+			return true;
+		}
+		
 		return true;
 	}
 

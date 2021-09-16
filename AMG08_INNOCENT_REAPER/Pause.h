@@ -24,7 +24,8 @@ namespace inr {
 		std::vector<std::shared_ptr<Particle_Image>> _uis;	// 各種UI
 
 		bool _active;	// 活性化しているか
-		bool Input();
+		bool InputLever();	// レバー
+		bool InputButton();	// ボタン
 		bool PauseOn();	// キー入力はあったかどうか
 
 		void Sound(std::string soundkey);
