@@ -1,7 +1,8 @@
 #pragma once
-#include <memory>
 #include <vector>
+#include <memory>
 #include "Particle_Image.h"
+#include "Image.h"
 
 namespace inr {
 
@@ -20,7 +21,7 @@ namespace inr {
 		bool Active() { return _active; }
 	private:
 		Game& _game;
-		std::vector<std::unique_ptr<Particle_Image>> _uis;	// ŠeíUI
+		std::vector<std::shared_ptr<Particle_Image>> _uis;	// ŠeíUI
 
 		bool _active;	// Šˆ«‰»‚µ‚Ä‚¢‚é‚©
 		bool Input();

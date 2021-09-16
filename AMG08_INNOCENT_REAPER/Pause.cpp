@@ -21,17 +21,17 @@ namespace {
 namespace inr {
 
 	Pause::Pause(Game& game) : _game(game) {
-		for (auto number = 0; number < 4; ++number) _uis.emplace_back(std::move(std::make_unique<Particle_Image>(_game.GetGame())));
+		for (auto number = 0; number < 4; ++number) _uis.emplace_back(std::make_shared<Particle_Image>(_game.GetGame()));
 		// _uis.emplace_back(std::move(std::make_unique<Pause_UI>(_game.GetGame())));
-		_uis.emplace_back(std::move(std::make_unique<Particle_Image>(_game.GetGame())));
-		_uis.emplace_back(std::move(std::make_unique<Particle_Image>(_game.GetGame())));
+		_uis.emplace_back(std::make_shared<Pause_UI>(_game.GetGame()));
+		_uis.emplace_back(std::make_shared<Particle_Image>(_game.GetGame()));
 		// 描画座標修正
-		_uis[UI_BG]->SetParameter(image::particle::BG_BLACK, { 960, 540 });
-		_uis[UI_CONTINUE]->SetParameter(image::particle::CONTINUE, {960 ,300});
-		_uis[UI_CONTROLS]->SetParameter(image::particle::CONTROLS, {960, 420});
-		_uis[UI_QUIT_TO_TITLE]->SetParameter(image::particle::QUIT_TO_TITLE, {960, 540});
-		_uis[UI_CURSOL]->SetParameter(image::particle::CURSOR, {960, 300}, 0, 1.2);
-		_uis[UI_OPERATION]->SetParameter(image::particle::BG_OPERATION, { WINDOW_W / 2, WINDOW_H / 2 });
+		_uis[UI_BG]->SetParameter(image::particle::BG_BLACK, { 960, 540 });	// 背景(UI)
+		_uis[UI_CONTINUE]->SetParameter(image::particle::CONTINUE, {960 ,300});	// ゲームを続ける(UI)
+		_uis[UI_CONTROLS]->SetParameter(image::particle::CONTROLS, {960, 420});	// 操作方法へ(UI)
+		_uis[UI_QUIT_TO_TITLE]->SetParameter(image::particle::QUIT_TO_TITLE, {960, 540});	// タイトルに戻る(UI)
+		std::dynamic_pointer_cast<Pause_UI>(_uis[UI_CURSOL])->SetParameter(image::particle::CURSOR, {960, 300}, 0, 1.2);	// カーソル(UI)
+		_uis[UI_OPERATION]->SetParameter(image::particle::BG_OPERATION, { WINDOW_W / 2, WINDOW_H / 2 });	// 操作方法(画像)
 
 		Pause::Init();
 	}
@@ -83,8 +83,8 @@ namespace inr {
 		auto type = false;
 		if (lever < -50) type = false;
 		else type = true;
-		// 番号を切
-		_uis.at(UI_CURSOL)->ChangePosition(type);
+		// 番号を切り変える
+		std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->ChangePosition(type);
 		return true;
 	}
 

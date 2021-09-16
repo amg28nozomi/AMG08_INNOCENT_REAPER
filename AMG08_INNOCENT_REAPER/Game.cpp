@@ -20,7 +20,7 @@
 #include "CrowDoll.h"
 
 #include "GimmickBase.h"
-
+#include "Pause_UI.h"
 #include "Loads.h"
 
 namespace {
@@ -90,6 +90,7 @@ namespace inr {
 		{ {system::SOUND_GAME_END}, {"Resource/SE/System/1.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUDN_CANCEL}, {"Resource/SE/System/cancel.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUND_PAUSE}, {"Resource/SE/System/pose.wav", DX_PLAYTYPE_BACK}},
+		{ {system::CURSOR_MOVE}, {"Resource/SE/System/cursormove.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	const se::SoundServer::SoundMap bgms{
