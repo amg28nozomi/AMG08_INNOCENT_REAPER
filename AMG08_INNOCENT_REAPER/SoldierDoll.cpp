@@ -35,7 +35,7 @@ namespace {
 	constexpr auto EMPTY_H = 100;
 
 	// çıìGîÕàÕ
-	constexpr auto SEARCH_X = 100 + (SOLDIER_BOX_W * 2);
+	constexpr auto SEARCH_X = 200 + (SOLDIER_BOX_W * 2);	//Å@260
 	constexpr auto SEARCH_Y1 = SOLDIER_BOX_H1;
 	constexpr auto SEARCH_Y2 = SOLDIER_BOX_H2;
 

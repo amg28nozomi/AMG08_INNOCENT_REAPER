@@ -70,10 +70,10 @@ namespace inr {
 		//// アニメーションが終わっていない場合はカウントを増やす
 		//if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		//else AnimationInit();	// カウンター初期化
-		/*DrawDebugBox(_mainCollision);
+		/*DrawDebugBox(_mainCollision);*/
 		DrawDebugBox(_searchBox);
 
-		auto it = _collisions.find(_divKey.first);
+		/*auto it = _collisions.find(_divKey.first);
 		if (it == _collisions.end()) return;
 		DrawDebugBox(it->second);*/
 	}

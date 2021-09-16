@@ -47,7 +47,7 @@ namespace inr {
 	void BigDoll::Init() {
 		// “–‚½‚è”»’è
 		_mainCollision = { _position, enemy::BIG_WIDTH / 2, enemy::BIG_HEIGHT / 2, true };
-		_searchBox = { _position, 200, 200, enemy::BIG_WIDTH / 2 + 30, enemy::BIG_WIDTH / 2, true};
+		_searchBox = { _position, 260, 260, enemy::BIG_HEIGHT / 2 + 30, enemy::BIG_HEIGHT / 2, true};
 		_collisions = {
 			// ”²‚¯Šk
 			{enemy::BIG_EMPTY, {_position, BIG_EMPTY_WIDTH / 2, BIG_EMPTY_WIDTH / 2, 0, BIG_EMPTY_HEIGHT, true}},

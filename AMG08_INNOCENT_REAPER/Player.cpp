@@ -48,10 +48,11 @@ namespace {
 
 
 	// 奪うアクションの当たり判定
-	constexpr auto ROB_WIDTH1 = 25 + 50; //-75;
+	constexpr auto ROB_WIDTH1 = 100;
+	// constexpr auto ROB_WIDTH1 = 25 + 50; //75;
 	constexpr auto ROB_WIDTH2 = -25;
-	constexpr auto ROB_HEIGHT1 = 0;
-	constexpr auto ROB_HEIGHT2 = 40;
+	constexpr auto ROB_HEIGHT1 = 10;	// 0
+	constexpr auto ROB_HEIGHT2 = 50;	// 40
 	// 奪うアクションの判定フレーム数
 	constexpr auto JUDGE_MIN = -1;
 	constexpr auto ROB_JUDGEMENT = 8 * 4;// judgement
@@ -240,13 +241,13 @@ namespace inr {
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
-		/*std::string& key = _divKey.first;
+		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlg() == true) {
 				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
-		}*/
+		}
 
 #ifdef _DEBUG
 		// DebugInfo();
