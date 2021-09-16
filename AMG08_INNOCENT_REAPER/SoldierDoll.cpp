@@ -96,17 +96,17 @@ namespace inr {
 		};
 
 		_motionKey =
-		{	{ enemy::SOLDIER_EMPTY, {40, 0}},
+		{	{ enemy::SOLDIER_EMPTY, {19 * 3, 0}},
 
-			{ enemy::red::SOLDIER_WAKEUP, {30, 0}},
-			{ enemy::red::SOLDIER_IDOL, {28, 0}},
-			{ enemy::red::SOLDIER_PATROL, {36, 0}},
-			{ enemy::red::SOLDIER_ATTACK, {20, 50}},	// SE—L‚è
+			{ enemy::red::SOLDIER_WAKEUP, {17 * 3, 0}},
+			{ enemy::red::SOLDIER_IDOL, {11 * 3, 0}},
+			{ enemy::red::SOLDIER_PATROL, {13 * 3, 0}},
+			{ enemy::red::SOLDIER_ATTACK, {11 * 3, 50}},	// SE—L‚è
 
-			{ enemy::blue::SOLDIER_WAKEUP, {30, 0}},
-			{ enemy::blue::SOLDIER_IDOL, {28, 0}},
-			{ enemy::blue::SOLDIER_PATROL, {42, 0}},
-			{ enemy::blue::SOLDIER_ESCAPE, {24, 0}}
+			{ enemy::blue::SOLDIER_WAKEUP, {17 * 3, 0}},
+			{ enemy::blue::SOLDIER_IDOL, {11 * 3, 0}},
+			{ enemy::blue::SOLDIER_PATROL, {13 * 3, 0}},
+			{ enemy::blue::SOLDIER_ESCAPE, {17 * 3, 0}}
 		};
 
 		PatrolOn();
