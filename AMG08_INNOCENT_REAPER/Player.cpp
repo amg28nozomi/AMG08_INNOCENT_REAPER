@@ -180,7 +180,7 @@ namespace inr {
 
 
 		// AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
-		AABB dashBox = { _position, 35, 40, true };
+		AABB dashBox = { _position, 35, 55, true };
 		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
 		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
 		
@@ -242,6 +242,7 @@ namespace inr {
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
 #ifdef _DEBUG
+		DrawDebugBox(_mainCollision);
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {

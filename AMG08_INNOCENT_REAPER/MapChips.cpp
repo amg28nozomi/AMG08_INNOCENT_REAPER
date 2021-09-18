@@ -29,16 +29,16 @@ namespace {
 	constexpr auto CHIP_UP1 = 0;
 	constexpr auto CHIP_UP2 = 40;
 	constexpr auto CHIP_UP3 = 0;
-	constexpr auto CHIP_UP4 = 5;
+	constexpr auto CHIP_UP4 = 6;
 
 	// 端
 	constexpr auto CHIP_TIP1 = 35;
 	constexpr auto CHIP_TIP2 = 40;
 	constexpr auto CHIP_TIP3 = 0;
-	constexpr auto CHIP_TIP4 = 5;
+	constexpr auto CHIP_TIP4 = 6;
 
 	constexpr auto CHIP_TIP5 = 0;
-	constexpr auto CHIP_TIP6 = 5;
+	constexpr auto CHIP_TIP6 = 6;
 
 	constexpr auto CHIP_THORM1 = 0;
 	constexpr auto CHIP_THORM2 = 40;
@@ -191,12 +191,12 @@ namespace inr {
 						if (chiptype == mapchip::TRANSITION) colortype = std::make_tuple(0, 0, 255);
 
 						// デバッグ用：当たり判定の描画
-						//if (CheckHit(x, y)) {
-						//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-						//	DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(std::get<0>(colortype), std::get<1>(colortype), std::get<2>(colortype)), TRUE);
-						//	// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
-						//	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-						//}
+						if (CheckHit(x, y)) {
+							SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+							DrawBox(posX + minX , posY + minY, posX + maxX, posY + maxY, GetColor(std::get<0>(colortype), std::get<1>(colortype), std::get<2>(colortype)), TRUE);
+							// DrawBox(posX, posY, posX + _chipSize.first, posY + _chipSize.second, GetColor(255, 0, 0), TRUE);
+							SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+						}
 #endif
 					}
 				}
@@ -527,10 +527,10 @@ namespace inr {
 								return _chipCheck->IsChipType(chip_no);
 							}
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
-						} if (g < 0) {
+						} else if (g < 0) {
 							// 加速度が負の場合（）
 								// プレイヤーの下部はマップチップの下部より大きいか
-							if (cbox.GetMax().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
+							if (cbox.GetMin().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
 								TransitionResearch(chip_no);
 								auto cavep = box.GetHeightMin();
 								pos.GetPY() = maxY + cavep;
@@ -1173,8 +1173,8 @@ bool MapChips::TransitionResearch(const int no) {
 			{ 56, {CHIP_TIP3, CHIP_TIP4, CHIP_TIP5, CHIP_TIP6}},
 
 			// 追加のマップチップ（端）
-			{ 58, {0, 40, 0, 5}},
-			{ 59, {0, 40, 0, 5}},
+			{ 58, {0, 40, 0, 6}},
+			{ 59, {0, 40, 0, 6}},
 			// { 61, {0, 10, 0, 10}},
 
 			// 2面専用マップチップ
