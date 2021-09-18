@@ -42,7 +42,7 @@ namespace inr {
 	}
 
 	void Pause::Init() {
-		_active = INACTIVE;
+		_active = INACTIVE;	// ”ñŠˆ«ó‘Ô‚É‚·‚é
 		for (auto& ui : _uis) ui->Init();
 	}
 

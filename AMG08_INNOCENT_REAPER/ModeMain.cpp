@@ -65,7 +65,10 @@ namespace inr {
 			_resetFlg = false;
 		} else {
 			_game.GetScenario()->Init();
-			_bg->Init();
+			_eServer->Init();	// 各種エフェクトを消去する
+			_game.GetObjectServer()->DeleteObject();	// 全オブジェクト抹消
+			_pause->Init();
+			_bg->ChangeGraph();
 			_resetFlg = true;
 		}
 	}
