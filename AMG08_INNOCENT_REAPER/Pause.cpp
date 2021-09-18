@@ -47,7 +47,7 @@ namespace inr {
 
 	void Pause::Process() {
 		if (_active == INACTIVE) return;	// ”ñŠˆ«ó‘Ô‚Ìê‡‚Íˆ—‚ðs‚í‚È‚¢
-		if (_uis[0]->IsDraw() == false) {
+		if (_uis[UI_CURSOL]->IsDraw() == false) {
 			Init();
 			return;
 		}
