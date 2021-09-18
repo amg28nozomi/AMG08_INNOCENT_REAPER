@@ -50,6 +50,7 @@ namespace inr {
 	}
 
 	void EffectServer::IsDelete() {
+		if (_del != true) return;	// フラグがオンの時以外は実行しない
 		std::vector<std::unique_ptr<EffectBase>> alives;
 		for (auto&& eff : _effects) {
 			if (eff->IsDel() == true) continue;

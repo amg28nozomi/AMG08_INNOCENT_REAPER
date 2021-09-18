@@ -1,6 +1,9 @@
 #include "EffectBase.h"
 #include "MapChips.h"
 #include "ResourceServer.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
+#include "EffectServer.h"
 #include "Game.h"
 #include "ObjectServer.h"
 #include "Player.h"
@@ -23,12 +26,13 @@ namespace inr {
 	}
 
 	void EffectBase::Process() {
-		if (_count == _alive) {
-			_delete = true;	// 消去フラグをオンにする（消去予約）
-			return;
-		}
 		++_count;
 		if (_isDamage == true) Damage();
+		if (_count == (_alive - 1)) {
+			_delete = true;	// 消去フラグをオンにする（消去予約）
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->DelOn();
+			return;
+		}
 	}
 
 	void EffectBase::Draw() {
@@ -40,18 +44,21 @@ namespace inr {
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, TRUE, _direction);
-
+		// デバッグ時のみ、当たり判定を描画する
+#ifdef _DEBUG
 		auto db = _collision;
 		auto min = db.GetMin();
 		auto max = db.GetMax();
 		_game.GetMapChips()->Clamp(min);	// 画像位置を修正する
 		_game.GetMapChips()->Clamp(max);	// 画像位置を修正する
 		DxLib::DrawBox(min.IntX(), min.IntY(), max.IntX(), max.IntY(), GetColor(255, 255, 255), FALSE);
+#endif
 	}
 
 	void EffectBase::GraphResearch(int* gh) {
-		auto interval = _alive / graph::ResourceServer::GetAllNum(_graphKey);	// 猶予時間の割り出し
-		auto no = _count / interval % graph::ResourceServer::GetAllNum(_graphKey);	// 描画する画像の算出
+		auto allnum = graph::ResourceServer::GetAllNum(_graphKey);
+		auto interval = _alive / allnum;	// 猶予時間の割り出し
+		auto no = _count / interval % allnum;	// 描画する画像の算出
 		*gh = graph::ResourceServer::GetHandles(_graphKey, no);
 
 		// フラグがオンの時、描画するグラフィックを切り替える

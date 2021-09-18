@@ -13,10 +13,12 @@ namespace inr {
 		// キー名
 		constexpr auto JUMP = "jump_effect";	// ジャンプエフェクトのキー
 		constexpr auto DASH = "dash_effect";
+		constexpr auto ROB = "rob_effect";
 
 		// 画像サイズ
 		constexpr auto JUMP_IMAGE_W = 80;
 		constexpr auto JUMP_IMAGE_H = 50;
+		constexpr auto ROB_IMAGE = 140;	// 奪うエフェクトの画像サイズ
 	}
 
 	class Game;

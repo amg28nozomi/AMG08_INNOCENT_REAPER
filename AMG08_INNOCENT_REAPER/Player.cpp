@@ -689,7 +689,18 @@ namespace inr {
 #ifdef _DEBUG
 			it->second.GetbDrawFlg() = true;
 #endif
-
+			auto pos_eff = _position;
+			switch (_direction) {
+			case true:	// 左向きの場合
+				pos_eff.GetPX() -= _mainCollision.GetWidthMin();
+				break;
+			case false:
+				pos_eff.GetPX() += _mainCollision.GetWidthMax();
+				break;
+			}
+			// エフェクトを作成
+			auto rob_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::ROB, pos_eff, 27, _direction);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rob_eff));
 			}
 			_input = false; // 入力を受け付けなくする
 			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
