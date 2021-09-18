@@ -20,14 +20,16 @@ namespace inr {
 	// 遷移後のキーと座標
 	class Transition {
 	public:
-		Transition(std::string stageKey, Vector2 position);
+		Transition(std::string stageKey, Vector2 position, bool direction);
 		~Transition() = default;
 
 		inline std::string NextKey() { return _nextKey; }
 		inline Vector2 NextPosition() { return _position; }
+		inline bool NextDirection() { return _direction; }
 	private:
 		std::string _nextKey;	// 遷移先のキー
 		Vector2 _position;	// 遷移後の座標(自機)
+		bool _direction;
 	};
 
 	// ステージ遷移実行用
@@ -41,7 +43,7 @@ namespace inr {
 		bool IsStageChange();	// 遷移処理を行うか？
 
 
-		Vector2 SetPosition();
+		std::pair<Vector2, bool> SetPosition();
 	private:
 		Game& _game;	// ゲーム
 		int _number;	// 接触したチップ

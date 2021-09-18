@@ -192,8 +192,8 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {2800, 905}},
 
 			// ギミック（壊れる岩1, 水晶1）
-			{ oscenario::OBJ_BLOCK, {3180, 890}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
+			{ oscenario::OBJ_BLOCK, {3180, 890}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {
@@ -211,14 +211,14 @@ namespace inr {
 			// { oscenario::OBJ_PLAYER, { 200,800}, 0 },
 			// { oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)}, 0 },
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1950}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {2200, 1750}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {5000, 1800}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {6900, 1700}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, 0},
+			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1950}, true, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2200, 1750}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {5000, 1800}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {6900, 1700}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, false, 0},
 
 			// ギミック
-			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, 0, {gimmick::door::D_LEVER}},
+			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, false, 0, {gimmick::door::D_LEVER}},
 		};
 
 		return _stage1;
@@ -233,23 +233,23 @@ namespace inr {
 		// 水晶(2/4)
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, {3520, 780}, 0},
-			{ oscenario::OBJ_SOLDIER_DOLL, {1400, 1500}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {7640, 1970}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {1640, 1500}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {2120, 860}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {7320, 1970}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {7960, 340}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {3520, 780}, false, 0},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1400, 1500}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {7640, 1970}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1640, 1500}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2120, 860}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {7320, 1970}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {7960, 340}, false, 2},
 
 			// ビッグドール
-			{ oscenario::OBJ_BIG_DOLL, {1640, 840}, 1},
-			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, 1},
-			{ oscenario::OBJ_BIG_DOLL, {6840, 1970}, 1},
+			{ oscenario::OBJ_BIG_DOLL, {1640, 840}, false, 1},
+			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, false, 1},
+			{ oscenario::OBJ_BIG_DOLL, {6840, 1970}, false, 1},
 			// ギミック
-			{ oscenario::OBJ_LEVER, {{2200, 1970}, {2500, 1900}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_LEVER, {{3680, 770}, {3200, 700}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{2200, 1970}, {2500, 1900}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{3680, 770}, {3200, 700}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// ボス扉
-			{ oscenario::OBJ_DOOR, {8470, 1190}, 0, {gimmick::door::D_BOSS}},
+			{ oscenario::OBJ_DOOR, {8470, 1190}, false, 0, {gimmick::door::D_BOSS}},
 		};
 		return _stage;
 	}
@@ -258,27 +258,27 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenario2_1() {
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, 1 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1260, 150}, 2 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 2060, 900}, 1 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1660, 1390}, 2 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 3760, 190}},
-			{ oscenario::OBJ_SOLDIER_DOLL, { 6220, 1910}, 1 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 6620, 1340}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, { 7940, 630}, 2 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 8820, 270}, 1 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, false, 1 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 1260, 150}, false, 2 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 2060, 900}, false, 1 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 1660, 1390}, false, 2 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 3760, 190}, false },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 6220, 1910}, false, 1 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 6620, 1340}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, { 7940, 630}, false, 2 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 8820, 270}, false, 1 },
 			// ビッグドール
-			{ oscenario::OBJ_BIG_DOLL, { 1130, 560}, 1 },
-			{ oscenario::OBJ_BIG_DOLL, { 4560, 820}, 2 },
-			{ oscenario::OBJ_BIG_DOLL, { 5240, 820}, 1 },
+			{ oscenario::OBJ_BIG_DOLL, { 1130, 560}, false, 1 },
+			{ oscenario::OBJ_BIG_DOLL, { 4560, 820}, false, 2 },
+			{ oscenario::OBJ_BIG_DOLL, { 5240, 820}, false, 1 },
 			// レバー
-			{ oscenario::OBJ_LEVER, {{6880, 1370}, {6840, 830}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_LEVER, {{8320, 1210}, {9000, 1150}},  0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{6880, 1370}, {6840, 830}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{8320, 1210}, {9000, 1150}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// 壊れる岩
-			{ oscenario::OBJ_BLOCK, {1440, 530}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {1440, 530}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// 水晶（x-90）
-			{ oscenario::OBJ_CRYSTAL, {{2870, 1570}, {3180, 1410}, {3180, 1810}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
-			{ oscenario::OBJ_CRYSTAL, {{8370, 610}, {9000, 230}, {9000, 590}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
+			{ oscenario::OBJ_CRYSTAL, {{2870, 1570}, {3180, 1410}, {3180, 1810}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
+			{ oscenario::OBJ_CRYSTAL, {{8370, 610}, {9000, 230}, {9000, 590}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 		};
 		return _stage;
 	}
@@ -286,34 +286,34 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenario2_2() {
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, {2130, 310}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {1430, 910}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {670, 1590}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {1230, 1590}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {2830, 1470}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {3350, 2030}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {830, 2390}, 2},
-			{ oscenario::OBJ_SOLDIER_DOLL, {1310, 2390}, 1},
-			{ oscenario::OBJ_SOLDIER_DOLL, {3110, 2950}, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2130, 310}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1430, 910}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {670, 1590}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1230, 1590}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2830, 1470}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {3350, 2030}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {830, 2390}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1310, 2390}, false, 1},
+			{ oscenario::OBJ_SOLDIER_DOLL, {3110, 2950}, false, 2},
 			// ビッグドール
-			{ oscenario::OBJ_BIG_DOLL, {2720, 910}, 1},
-			{ oscenario::OBJ_BIG_DOLL, {2240, 2030}, 2},
-			{ oscenario::OBJ_BIG_DOLL, {490, 2390}, 1},
+			{ oscenario::OBJ_BIG_DOLL, {2720, 910}, false, 1},
+			{ oscenario::OBJ_BIG_DOLL, {2240, 2030}, false, 2},
+			{ oscenario::OBJ_BIG_DOLL, {490, 2390}, false, 1},
 			{ oscenario::OBJ_BIG_DOLL, {1320, 2990}},
-			{ oscenario::OBJ_BIG_DOLL, {3320, 2950}, 1},
+			{ oscenario::OBJ_BIG_DOLL, {3320, 2950}, false, 1},
 			// レバー（y -90）
-			{ oscenario::OBJ_LEVER, {{3650 ,2970}, {630, 870}}, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_LEVER, {{150 ,3010}, {3190, 870}}, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{3650 ,2970}, {630, 870}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{150 ,3010}, {3190, 870}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// ボスレバーのみ
-			{ oscenario::OBJ_LEVER, {3440, 930}, 0, {gimmick::door::D_BOSS}},
+			{ oscenario::OBJ_LEVER, {3440, 930}, false, 0, {gimmick::door::D_BOSS}},
 			// 壊れる岩
-			{ oscenario::OBJ_BLOCK, {2670, 2050}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_BLOCK, {990, 3010}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_BLOCK, {1790, 3010}, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {2670, 2050}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {990, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {1790, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// 水晶
-			{ oscenario::OBJ_CRYSTAL, {{910, 1610}, {350, 1550}, {1430, 1550}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
-			{ oscenario::OBJ_CRYSTAL, {{910, 2410}, {1430, 2350}, {270, 2350}} , 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
-			{ oscenario::OBJ_CRYSTAL, {{630, 3010}, {310, 2950}} , 0, {gimmick::door::D_BLUE, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
+			{ oscenario::OBJ_CRYSTAL, {{910, 1610}, {350, 1550}, {1430, 1550}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
+			{ oscenario::OBJ_CRYSTAL, {{910, 2410}, {1430, 2350}, {270, 2350}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
+			{ oscenario::OBJ_CRYSTAL, {{630, 3010}, {310, 2950}} , false, 0, {gimmick::door::D_BLUE, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stage;
 	}

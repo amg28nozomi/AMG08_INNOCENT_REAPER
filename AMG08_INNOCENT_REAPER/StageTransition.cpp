@@ -68,11 +68,15 @@ namespace inr {
 
 		constexpr auto TPOS_13_X = 9500;
 		constexpr auto TPOS_13_Y = 1265;
+
+		constexpr auto START_LEFT = true;
+		constexpr auto START_RIGHT = false;
 	}
 
-	Transition::Transition(std::string stageKey, Vector2 position) {
+	Transition::Transition(std::string stageKey, Vector2 position, bool direction) {
 		_nextKey = stageKey;
 		_position = position;
+		_direction = direction;
 	}
 
 	StageTransition::StageTransition(Game& game) : _game(game) {
@@ -90,20 +94,20 @@ namespace inr {
 	bool StageTransition::Init() {
 		// 対応するチップの当たり判定を設定する
 		_transitions = {
-			{ CHIP_1, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}}},	// (1)→(2)
-			{ CHIP_2, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}}},	// (2)→(1)
-			{ CHIP_3, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}}},	// (3)→(5)
-			{ CHIP_4, {stage::STAGE_2, {start::TPOS_3_X, start::TPOS_3_Y}}},	// (4)→(6)
-			{ CHIP_5, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}}},	// (5)→(3)
-			{ CHIP_6, {stage::STAGE_1, {start::TPOS_5_X, start::TPOS_5_Y}}},	// (6)→(4)
-			{ CHIP_7, {stage::STAGE_2_1, {start::TPOS_6_X, start::TPOS_6_Y}}},	// (7)→(8)
-			{ CHIP_8, {stage::STAGE_2, { start::TPOS_7_X, start::TPOS_7_Y}}},	// (8)→(7)
-			{ CHIP_9, {stage::STAGE_2, { start::TPOS_8_X, start::TPOS_8_Y}}},	// (9)→(10)
-			{ CHIP_10, {stage::STAGE_2_1, { start::TPOS_9_X, start::TPOS_9_Y}}},	// (10)→(9)
-			{ CHIP_11, {stage::STAGE_2_2, { start::TPOS_10_X, start::TPOS_10_Y}}},	// (11)→(12)
-			{ CHIP_12, {stage::STAGE_2, { start::TPOS_11_X, start::TPOS_11_Y}}},	// (12)→(11)
-			{ CHIP_13, {stage::STAGE_3, { start::TPOS_12_X, start::TPOS_12_Y}}},	// (13)→(14)
-			{ CHIP_14, {stage::STAGE_2, { start::TPOS_13_X, start::TPOS_13_Y}}},	// (14)→(13)
+			{ CHIP_1, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}, start::START_RIGHT}},	// (1)→(2)
+			{ CHIP_2, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}, start::START_LEFT}},	// (2)→(1)
+			{ CHIP_3, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}, start::START_RIGHT}},	// (3)→(5)
+			{ CHIP_4, {stage::STAGE_2, {start::TPOS_3_X, start::TPOS_3_Y}, start::START_RIGHT}},	// (4)→(6)
+			{ CHIP_5, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}, start::START_LEFT}},	// (5)→(3)
+			{ CHIP_6, {stage::STAGE_1, {start::TPOS_5_X, start::TPOS_5_Y}, start::START_LEFT}},	// (6)→(4)
+			{ CHIP_7, {stage::STAGE_2_1, {start::TPOS_6_X, start::TPOS_6_Y}, start::START_LEFT}},	// (7)→(8)
+			{ CHIP_8, {stage::STAGE_2, { start::TPOS_7_X, start::TPOS_7_Y}, start::START_RIGHT}},	// (8)→(7)
+			{ CHIP_9, {stage::STAGE_2, { start::TPOS_8_X, start::TPOS_8_Y}, start::START_LEFT}},	// (9)→(10)
+			{ CHIP_10, {stage::STAGE_2_1, { start::TPOS_9_X, start::TPOS_9_Y}, start::START_RIGHT}},	// (10)→(9)
+			{ CHIP_11, {stage::STAGE_2_2, { start::TPOS_10_X, start::TPOS_10_Y}, start::START_RIGHT}},	// (11)→(12)
+			{ CHIP_12, {stage::STAGE_2, { start::TPOS_11_X, start::TPOS_11_Y}, start::START_LEFT}},	// (12)→(11)
+			{ CHIP_13, {stage::STAGE_3, { start::TPOS_12_X, start::TPOS_12_Y}, start::START_RIGHT}},	// (13)→(14)
+			{ CHIP_14, {stage::STAGE_2, { start::TPOS_13_X, start::TPOS_13_Y}, start::START_LEFT }},	// (14)→(13)
 			// { CHIP_15, {, { ,}}},	// ()→()
 			// { CHIP_16, {, { ,}}},	// ()→()
 		};
@@ -145,11 +149,11 @@ namespace inr {
 		return flag;
 	}
 
-	Vector2 StageTransition::SetPosition() {
+	std::pair<Vector2, bool> StageTransition::SetPosition() {
 		// 対応するキーと情報を付与する
 		auto it = _transitions.find(_number);
 		_number = CHIP_NULL;	// キーを空にする
-		return it->second.NextPosition();
+		return std::make_pair(it->second.NextPosition(), it->second.NextDirection());
 	}
 
 	// どうやって自機が接触したかどうかの判定を行うのか

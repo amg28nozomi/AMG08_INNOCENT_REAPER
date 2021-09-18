@@ -67,8 +67,8 @@ namespace inr {
 	class ObjectValue {
 	public:
 		ObjectValue();
-		ObjectValue(int classtype, Vector2 xy, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
-		ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
+		ObjectValue(int classtype, Vector2 xy, bool direction = false, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
+		ObjectValue(int classtype, std::vector<Vector2> xy, bool direction = false, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
 		~ObjectValue() = default;
 
 		inline int ClassName() { return _class; }
@@ -77,16 +77,19 @@ namespace inr {
 		inline int GimmickFlag() { return _gimmick.GimmickFlag(); }
 		inline int CrystalType() { return _gimmick.CrystalType(); }
 		inline int ObjectType() { return _objType; }
+		inline bool Direction() { return _direction; }
 		inline std::vector<Vector2> Positions() { return _spawnPos; }
 		inline std::vector<int> DoorType() { return _gimmick.DoorType(); }
 
 		void PositionsUpdate(Vector2 newpos);
 		void FlagUpdate(int flag, int soul = 0);
 		inline void SoulUpdate(int soul) { _soulType = soul; }
+		inline void DirectionUpdate(bool newdir) { _direction = newdir; }
 		
 	private:
 		int _class;	// 生成するクラスは何か
 		std::vector<Vector2> _spawnPos;	// 出現地点
+		bool _direction;	// 向き
 		int _soulType;	// 魂の有無（0:未所持　1:赤　2:青）
 		GimmickValue _gimmick;	// ギミックの登録情報
 		int _objType;	// オブジェクトの種類

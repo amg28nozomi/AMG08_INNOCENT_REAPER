@@ -256,6 +256,7 @@ namespace inr {
 	void Player::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];
+		_direction = _oValue.Direction();
 
 		auto it = _collisions.find(_divKey.first);
 		if (it != _collisions.end()) it->second.Update(_position, _direction);
@@ -271,9 +272,12 @@ namespace inr {
 
 	}
 
-	void Player::SetParameter(Vector2 newpos) {
-		_oValue.PositionsUpdate(newpos);
-		_position = newpos;
+	void Player::SetParameter(std::pair<Vector2, bool> newdata) {
+		_oValue.PositionsUpdate(newdata.first);
+		_oValue.DirectionUpdate(newdata.second);
+		_position = newdata.first;
+		_direction = newdata.second;
+
 		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
 		if (_souls.empty() != true) {
 			auto addSoul = _souls;
@@ -936,6 +940,7 @@ namespace inr {
 	bool Player::Reset() {
 		// 各種初期化処理実行
 		_position = _oValue.Positions().at(0);
+		_direction = _oValue.Direction();
 		_mainCollision.Update(_position, _direction);
 		_mainCollision.GetCollisionFlgB() = true;
 		auto dashcol = _collisions.find(PKEY_DASH);

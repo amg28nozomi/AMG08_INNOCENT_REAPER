@@ -166,6 +166,7 @@ namespace inr {
 	void EnemyBase::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];	// À•WXV
+		_direction = _oValue.Direction();
 		_mainCollision.Update(_position, _direction);	// “–‚½‚è”»’èC³
 		_searchBox.Update(_position, _direction);	// õ“G”ÍˆÍ‚ÌC³
 	}

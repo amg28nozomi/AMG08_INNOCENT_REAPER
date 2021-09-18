@@ -17,18 +17,20 @@ namespace inr {
 		_objType = IsObjectType(_class);
 	}
 
-	ObjectValue::ObjectValue(int classtype, Vector2 xy, int soulcolor, GimmickValue gvalue) {
+	ObjectValue::ObjectValue(int classtype, Vector2 xy, bool direction, int soulcolor, GimmickValue gvalue) {
 		// äeéÌèÓïÒÇÃìoò^
 		_class = classtype;
 		_spawnPos.emplace_back(xy);
+		_direction = direction;
 		_soulType = soulcolor;
 		_gimmick = gvalue;
 		_objType = IsObjectType(_class);
 	}
 
-	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, int soulcolor, GimmickValue gvalue) {
+	ObjectValue::ObjectValue(int classtype, std::vector<Vector2> xy, bool direction, int soulcolor, GimmickValue gvalue) {
 		_class = classtype;
 		_spawnPos = xy;
+		_direction = direction;
 		_soulType = soulcolor;
 		_gimmick = gvalue;
 		_objType = IsObjectType(_class);
