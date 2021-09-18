@@ -38,7 +38,6 @@ namespace {
 namespace inr {
 
 	Logo::Logo(Game& game) : Image(game), _rgb(rgb::MAX_BLEND, rgb::MAX_BLEND, rgb::MAX_BLEND) {
-		_tlogo = nullptr;
 		Init();
 	}
 
@@ -47,6 +46,7 @@ namespace inr {
 		_number = LOGO_FIRST;
 		_calculation = rgb::ADD;	// å∏éZèàóùÇ…êÿÇËë÷Ç¶
 		_animation = true;
+		_tlogo = nullptr;
 		ChangeGraph();
 	}
 

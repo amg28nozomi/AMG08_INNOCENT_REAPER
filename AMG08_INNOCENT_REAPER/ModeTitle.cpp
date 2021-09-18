@@ -20,6 +20,7 @@ namespace inr {
 	void ModeTitle::Init() {
 		// BGM‚ª–Â‚è‘±‚¯‚Ä‚¢‚éê‡‚Í’âŽ~‚·‚é
 		BgmManage();
+		_titleGh->Init();
 	}
 
 	void ModeTitle::Process() {

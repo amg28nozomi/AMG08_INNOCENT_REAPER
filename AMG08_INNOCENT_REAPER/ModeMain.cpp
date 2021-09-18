@@ -50,7 +50,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_3;
+			_stageKey = stage::STAGE_0;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -60,10 +60,14 @@ namespace inr {
 			_game.GetScenario()->AddObjects(_stageKey);
 			_eServer->Init();
 			_uiSoul->PlayerUpdate();
+			_bossOpen = false;	// ボスの扉
+			_bossBattle = false;
 			_resetFlg = false;
+		} else {
+			_game.GetScenario()->Init();
+			_bg->Init();
+			_resetFlg = true;
 		}
-		_bossOpen = false;	// ボスの扉
-		_bossBattle = false;
 	}
 
 	void ModeMain::Process() {

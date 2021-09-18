@@ -3,6 +3,7 @@
 #include "SoundServer.h"
 #include "Particle_Image.h"
 #include "Pause_UI.h"
+#include "ModeServer.h"
 #include <DxLib.h>
 
 namespace {
@@ -95,12 +96,15 @@ namespace inr {
 		// 現在の番号に応じて、処理を行う
 
 		switch (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->UiNumber()) {
-		case system::CONTINUE:	// ポーズ画面を終了し、ゲーム本編に戻る
+		case system::CONTINUE:	// ポーズ画面を終了し、ゲーム本編に戻る。
 			for (auto i = 0; i < _uis.size(); ++i) _uis.at(i)->End();
 			return true;
 		case system::CONTROLS:	// 操作方法説明の表示切り替え
 			return true;
 		case system::QUIT_TO_TITLE:	// ゲーム本編終了
+			_game.GetModeServer()->ModeChange(mode::TITLE);	// タイトルに遷移する
+			auto sound = se::SoundServer::GetSound(system::SOUND_SELECT);	// SEを鳴らす
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUND_SELECT));
 			return true;
 		}
 		

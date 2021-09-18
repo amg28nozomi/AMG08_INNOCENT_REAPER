@@ -91,6 +91,7 @@ namespace inr {
 		{ {system::SOUDN_CANCEL}, {"Resource/SE/System/cancel.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUND_PAUSE}, {"Resource/SE/System/pose.wav", DX_PLAYTYPE_BACK}},
 		{ {system::CURSOR_MOVE}, {"Resource/SE/System/cursormove.wav", DX_PLAYTYPE_BACK}},
+		{ {system::SOUND_SELECT}, {"Resource/SE/System/select_0.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	const se::SoundServer::SoundMap bgms{

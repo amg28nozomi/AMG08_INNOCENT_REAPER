@@ -50,6 +50,7 @@ namespace inr {
 		constexpr auto SOUND_GAME_END = "game_end";
 		constexpr auto SOUDN_CANCEL = "cancel"; // cancel
 		constexpr auto SOUND_PAUSE = "pause";
+		constexpr auto SOUND_SELECT = "select";	// ÉZÉåÉNÉgâπ
 	}
 
 	namespace bgm {
