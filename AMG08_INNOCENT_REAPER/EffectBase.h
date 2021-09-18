@@ -36,7 +36,7 @@ namespace inr {
 		virtual void SetDamageEffect(int width, int height);	// エフェクトにダメージ判定を持たせる
 		inline bool IsDel() { return _delete; }	// このエフェクトを削除するか？
 
-	private:
+	protected:
 
 		Game& _game;	// ゲーム参照
 
