@@ -155,6 +155,7 @@ namespace inr {
 #ifdef _DEBUG
 				OutputDebugString("error：オブジェクトの生成に失敗しました　Scenatio->AddObjectsで存在しないクラスの値が登録されています\n");
 #endif
+				continue;
 			}
 		}
 		return false;

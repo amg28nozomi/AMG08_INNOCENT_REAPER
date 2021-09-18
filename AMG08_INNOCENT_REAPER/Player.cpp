@@ -241,6 +241,7 @@ namespace inr {
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
+#ifdef _DEBUG
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
@@ -248,9 +249,6 @@ namespace inr {
 				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
 		}
-
-#ifdef _DEBUG
-		// DebugInfo();
 #endif
 	}
 
@@ -796,6 +794,7 @@ namespace inr {
 	}
 
 	void Player::AnimationInit() { 
+#ifdef _DEBUG
 		if (_aState != ActionState::IDOL && _aState !=ActionState::MOVE && _aState != ActionState::JUMP && _aState!= ActionState::FALL && _aState!=ActionState::DASH) {
 			// 以下のコードは修正予定
 			// フラグをオフにする
@@ -803,6 +802,7 @@ namespace inr {
 			it->second.GetbDrawFlg() = false;
 		}
 		_aCount = 0;
+#endif
 	}
 
 	AABB Player::GetAABB() {

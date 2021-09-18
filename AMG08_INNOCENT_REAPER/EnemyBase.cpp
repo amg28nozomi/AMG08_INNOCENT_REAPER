@@ -71,7 +71,9 @@ namespace inr {
 		//if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
 		//else AnimationInit();	// カウンター初期化
 		/*DrawDebugBox(_mainCollision);*/
+#ifdef _DEBUG
 		DrawDebugBox(_searchBox);
+#endif
 
 		/*auto it = _collisions.find(_divKey.first);
 		if (it == _collisions.end()) return;

@@ -42,7 +42,7 @@ namespace inr {
 		// _modeKey = mode::MAIN;
 		_modeKey = mode::TITLE;
 #endif
-#ifdef _RELEASE
+#ifndef _DEBUG
 		_modeKey = mode::TITLE;
 #endif
 		_ChangeKey = MODE_NULL;

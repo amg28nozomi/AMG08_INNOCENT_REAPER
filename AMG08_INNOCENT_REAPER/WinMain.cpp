@@ -7,7 +7,7 @@
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	ChangeWindowMode(TRUE);
 
-#ifdef _RELEASE
+#ifndef _DEBUG
 	SetGraphMode(inr::WINDOW_W, inr::WINDOW_H, inr::WINDOW_B);
 #endif
 #ifdef _DEBUG

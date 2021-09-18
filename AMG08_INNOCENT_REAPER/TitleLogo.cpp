@@ -79,6 +79,7 @@ namespace inr {
 #endif
 	}
 
+#ifdef _DEBUG
 	void TitleLogo::DebugBox(Collision col) {
 		auto drawFlg = col.GetbDrawFlg();
 		// ï`âÊîªíËÇÕÉIÉìÇ…Ç»Ç¡ÇƒÇ¢ÇÈÇ©Ç«Ç§Ç©ÅH
@@ -93,6 +94,7 @@ namespace inr {
 			DxLib::DrawBox(minx, miny, maxx, maxy, GetColor(255, 255, 0), FALSE);
 		}
 	}
+#endif
 
 	void TitleLogo::CollisionOut() {
 		_hitCol1.GetCollisionFlgB() = false;

@@ -276,7 +276,9 @@ namespace inr {
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
 			_mainCollision.Swap(col->second);
+#ifdef _DEBUG
 			_searchBox.GetbDrawFlg() = false;
+#endif
 
 		}
 	}

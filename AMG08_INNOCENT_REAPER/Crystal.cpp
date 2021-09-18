@@ -29,8 +29,9 @@ namespace inr {
 		auto y = xy.IntY();
 		int graph = graph::ResourceServer::GetHandles(_divKey.first, 0);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
-
+#ifdef _DEBUG
 		DrawDebugBox(_mainCollision);
+#endif
 	}
 
 	void Crystal::SetParameter(ObjectValue objValue) {

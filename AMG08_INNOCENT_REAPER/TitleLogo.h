@@ -19,7 +19,9 @@ namespace inr {
 		int _pal;	// 
 		std::string _graphKey2;	// ‚à‚¤ˆê‚Â‚ÌƒOƒ‰ƒnƒ“
 
+#ifdef _DEBUG
 		void DebugBox(Collision col);
+#endif
 		void CollisionOut();
 	};
 }

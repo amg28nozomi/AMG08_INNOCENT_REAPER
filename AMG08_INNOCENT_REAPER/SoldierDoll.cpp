@@ -11,7 +11,6 @@
 #include "SoulSkin.h"
 #include <memory>
 
-#ifdef _DEBUG
 namespace {
 	constexpr auto START_POS_X = 500;
 	constexpr auto START_POS_Y = 400;
@@ -53,7 +52,7 @@ namespace {
 	// アイドルモーション時間
 	constexpr auto STAY_MAX = 60;	//　stay
 }
-#endif
+
 namespace inr {
 
 	SoldierDoll::SoldierDoll(Game& game) : EnemyBase(game){
@@ -61,7 +60,7 @@ namespace inr {
 		_eType = EnemyType::SOLDIER_DOLL;
 		_aState = ActionState::EMPTY;
 		_divKey = std::make_pair(enemy::SOLDIER_EMPTY, key::SOUND_NUM);
-		_position = { START_POS_X, START_POS_Y };
+		_position = { 0, 0 };
 
 		_aFrame = 0;
 		_aCount = 0;
@@ -378,7 +377,9 @@ namespace inr {
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
 			_mainCollision.Swap(col->second);
+#ifdef _DEBUG
 			_searchBox.GetbDrawFlg() = false;
+#endif
 			
 		}
 	}

@@ -38,8 +38,9 @@ namespace inr {
 		int graph;
 		GraphResearch(&graph);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
-
+#ifdef _DEBUG
 		DrawDebugBox(_mainCollision);
+#endif
 	}
 
 	void Lever::OpenDoor() {

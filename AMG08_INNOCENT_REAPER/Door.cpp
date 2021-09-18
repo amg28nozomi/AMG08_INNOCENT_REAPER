@@ -39,7 +39,10 @@ namespace inr {
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+#ifdef _DEBUG
 		DrawDebugBox(_mainCollision);
+#endif
+
 	}
 
 	void Door::SetParameter(Vector2 spwan, std::string key, int flag) {

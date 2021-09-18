@@ -35,8 +35,9 @@ namespace inr {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
 		for (auto fix = 0; fix < 3; ++fix) DrawRotaGraph(x, (y - (fix * 80)), 1.0, 0, graph, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
+#ifdef _DEBUG
 		DrawDebugBox(_mainCollision);
+#endif
 	}
 
 	void Block::SetParameter(ObjectValue objValue) {
