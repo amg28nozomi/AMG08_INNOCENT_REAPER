@@ -130,14 +130,14 @@ namespace inr {
 		return enemys;
 	}
 
-	std::vector<std::shared_ptr<GimmickBase>> ObjectServer::GetGimmicks() {
+	/*std::vector<std::shared_ptr<GimmickBase>> ObjectServer::GetGimmicks() {
 		std::vector<std::shared_ptr<GimmickBase>> gimmicks;
 		for (auto obj : _objects) {
 			if (obj->GetType() != ObjectBase::ObjectType::GIMMICK) continue;
 			gimmicks.emplace_back(std::dynamic_pointer_cast<GimmickBase>(obj));
 		}
 		return gimmicks;
-	}
+	}*/
 
 	std::shared_ptr<SoulSkin> ObjectServer::GetSoul() {
 		for (auto obj : _objects) {

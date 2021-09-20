@@ -2,6 +2,7 @@
 #include "SoundServer.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "GimmickServer.h"
 #include "SoulSkin.h"
 #include "GimmickBase.h"
 #include "Lever.h"
@@ -87,7 +88,7 @@ namespace inr {
 
 		// ギミック（レバー）と衝突したか？
 		if (_aState == ActionState::ATTACK || _aState == ActionState::ESCAPE) {
-			auto gs = _game.GetObjectServer()->GetGimmicks();
+			auto gs = _game.GetGimmickServer()->GetGimmicks();
 			for (auto gg : gs) {
 				if (gg->GimmickType() == gimmick::DOOR) continue;	// レバーではない場合はスキップ
 				if (_mainCollision.HitCheck(gg->GetMainCollision())) {

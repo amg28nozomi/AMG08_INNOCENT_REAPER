@@ -3,6 +3,7 @@
 #include "ObjectServer.h"
 #include "MapChips.h"
 #include "Player.h"
+#include "GimmickServer.h"
 #include "GimmickBase.h"
 #include "Lever.h"
 #include "ResourceServer.h"
@@ -396,7 +397,7 @@ namespace inr {
 
 		// ギミック（レバー）と衝突したか？
 		if (_aState == ActionState::ATTACK) {
-			auto gs = _game.GetObjectServer()->GetGimmicks();
+			auto gs = _game.GetGimmickServer()->GetGimmicks();
 			for (auto gg : gs) {
 				if (gg->GimmickType() != gimmick::LEVER) continue;	// レバーではない場合はスキップ
 				if (_mainCollision.HitCheck(gg->GetMainCollision())) {

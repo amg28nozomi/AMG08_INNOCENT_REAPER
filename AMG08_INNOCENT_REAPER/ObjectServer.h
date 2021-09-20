@@ -35,7 +35,7 @@ namespace inr{
 		std::vector<std::shared_ptr<ObjectBase>> GetObjects() { return _objects; }
 
 		std::vector<std::shared_ptr<EnemyBase>> GetEnemys();
-		std::vector<std::shared_ptr<GimmickBase>> GetGimmicks();
+		/*std::vector<std::shared_ptr<GimmickBase>> GetGimmicks();*/
 		std::shared_ptr<SoulSkin> GetSoul();
 		std::shared_ptr<CrowDoll> GetBoss();
 

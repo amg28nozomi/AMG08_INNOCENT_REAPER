@@ -7,6 +7,7 @@
 #include "ResourceServer.h"
 #include "SoundServer.h"
 #include "ObjectServer.h"
+#include "GimmickServer.h"
 
 #include "GimmickBase.h"
 #include "Door.h"
@@ -216,7 +217,7 @@ namespace inr {
 	}
 
 	void ObjectBase::GimmickCheck(Vector2& move) {
-		auto gimmicks = _game.GetObjectServer()->GetGimmicks();
+		auto gimmicks = _game.GetGimmickServer()->GetGimmicks();
 		for (auto g : gimmicks) {
 			// ‰Ÿ‚µo‚µˆ—‚ª‚ ‚é‚©H
 			if (g->GimmickType() == gimmick::DOOR) {

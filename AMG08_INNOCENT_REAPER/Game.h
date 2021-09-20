@@ -17,6 +17,7 @@ namespace inr {
 
 	class ObjectServer;
 	class ModeServer;
+	class GimmickServer;
 	class Scenario;
 
 	constexpr auto WINDOW_W = 1920;
@@ -105,6 +106,7 @@ namespace inr {
 		// 各種参照ゲッター
 		inline std::unique_ptr<ModeServer>& GetModeServer() { return _modeServer; }
 		inline std::unique_ptr<ObjectServer>& GetObjectServer() { return _objServer; }
+		inline std::unique_ptr<GimmickServer>& GetGimmickServer() { return _gServer; }
 		inline std::unique_ptr<MapChips>& GetMapChips() { return _mapChips; }
 		inline std::unique_ptr<Scenario>& GetScenario() { return _scenario; }
 
@@ -114,6 +116,7 @@ namespace inr {
 		// ObjectServer& _objServer;
 		std::unique_ptr<ModeServer> _modeServer;	// モードサーバー
 		std::unique_ptr<ObjectServer> _objServer;	// オブジェサーバー
+		std::unique_ptr<GimmickServer> _gServer;
 		std::unique_ptr<MapChips> _mapChips;	// マップチップ
 		std::unique_ptr<Scenario> _scenario;	// シナリオ
 

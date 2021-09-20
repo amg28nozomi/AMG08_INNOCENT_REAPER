@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "ObjectServer.h"
+#include "GimmickServer.h"
 #include "SoundServer.h"
 
 namespace inr {
@@ -56,7 +57,7 @@ namespace inr {
 			}
 		}
 		SetDoors(key);
-		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _game.GetObjectServer()->Add(_doors.at(i));
+		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _game.GetGimmickServer()->Add(_doors.at(i));
 		
 		_mainCollision = { _position, 50, 50, 30, 70, true };	// “–‚½‚è”»’è
 	}

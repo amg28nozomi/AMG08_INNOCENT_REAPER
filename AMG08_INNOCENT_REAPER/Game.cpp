@@ -20,6 +20,7 @@
 #include "CrowDoll.h"
 
 #include "GimmickBase.h"
+#include "GimmickServer.h"
 #include "Pause_UI.h"
 #include "Loads.h"
 
@@ -144,6 +145,7 @@ namespace inr {
 		_objServer = std::make_unique<ObjectServer>();
 		_scenario = std::make_unique<Scenario>(*this);
 		_modeServer = std::make_unique<ModeServer>(*this);
+		_gServer = std::make_unique<GimmickServer>(*this);
 
 		/*std::string filepath = PATH;
 		std::string filename = CHIP_FILE_S;*/

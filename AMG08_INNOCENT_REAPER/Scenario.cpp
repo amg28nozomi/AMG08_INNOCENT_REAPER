@@ -1,6 +1,7 @@
 #include "Scenario.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "GimmickServer.h"
 #include <unordered_set>
 #include <string>
 #include <algorithm>
@@ -225,31 +226,31 @@ namespace inr {
 	void Scenario::AddLever(ObjectValue ovalue) {
 		auto glever = std::make_shared<Lever>(_game.GetGame());
 		glever->SetParameter(ovalue);
-		_game.GetObjectServer()->Add(std::move(glever));
+		_game.GetGimmickServer()->Add(std::move(glever));
 	}
 
 	void Scenario::AddCrystal(ObjectValue ovalue) {
 		auto gcrystal = std::make_shared<Crystal>(_game.GetGame());
 		gcrystal->SetParameter(ovalue);
-		_game.GetObjectServer()->Add(std::move(gcrystal));
+		_game.GetGimmickServer()->Add(std::move(gcrystal));
 	}
 
 	void Scenario::AddBlock(ObjectValue ovalue) {
 		auto glever = std::make_shared<Block>(_game.GetGame());
 		auto posv = ovalue.Positions();
 		glever->SetParameter(ovalue);
-		_game.GetObjectServer()->Add(std::move(glever));
+		_game.GetGimmickServer()->Add(std::move(glever));
 	}
 
 	void Scenario::AddDoor(ObjectValue ovalue) {
 		auto gdoor = std::make_shared<Door>(_game.GetGame());
 		gdoor->SetParameter(ovalue);
-		_game.GetObjectServer()->Add(std::move(gdoor));
+		_game.GetGimmickServer()->Add(std::move(gdoor));
 	}
 
 	void Scenario::ScenarioUpdate(std::string key) {
 		// Œ»Ý“o˜^‚³‚ê‚Ä‚¢‚éƒMƒ~ƒbƒN‚Ì’l‚ðŽæ“¾‚·‚é
-		auto Gimmicks = _game.GetObjectServer()->GetGimmicks();
+		auto Gimmicks = _game.GetGimmickServer()->GetGimmicks();
 		auto scenario = _scenarios.find(key);
 #ifdef _DEBUG
 		if (scenario == _scenarios.end()) {

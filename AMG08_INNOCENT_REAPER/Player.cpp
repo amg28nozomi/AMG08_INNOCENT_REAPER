@@ -4,6 +4,7 @@
 #include "Collision.h"
 #include "ResourceServer.h"
 #include "ObjectServer.h"
+#include "GimmickServer.h"
 #include "EnemyBase.h"
 #include "SoundServer.h"
 #include "SoulSkin.h"
@@ -222,7 +223,7 @@ namespace inr {
 				obj->CollisionHit(_divKey.first, cBox->second, _direction);
 			}
 		}
-		auto&& crystal = _game.GetObjectServer()->GetGimmicks();
+		auto&& crystal = _game.GetGimmickServer()->GetGimmicks();
 		if (cBox != _collisions.end()) {
 			for (auto obj : crystal) {
 				if (obj->GimmickType() != gimmick::CRYSTAL) continue;

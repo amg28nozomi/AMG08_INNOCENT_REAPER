@@ -5,6 +5,7 @@
 #include "SoulSkin.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "GimmickServer.h"
 #include "ObjectBase.h"
 #include "BackGround.h"
 #include "FadeBlack.h"
@@ -67,6 +68,7 @@ namespace inr {
 			_game.GetScenario()->Init();
 			_eServer->Init();	// 各種エフェクトを消去する
 			_game.GetObjectServer()->DeleteObject();	// 全オブジェクト抹消
+			_game.GetGimmickServer()->Clear();
 			_pause->Init();
 			_bg->ChangeGraph();
 			_resetFlg = true;
@@ -80,6 +82,7 @@ namespace inr {
 
 		if (_pause->IsActive() != true) {	// ポーズ画面が起動していない間のみ実行
 			_bg->Process();
+			_game.GetGimmickServer()->Process();
 			_game.GetMapChips()->Process();
 			_eServer->Process();
 			_game.GetObjectServer()->Process();
@@ -91,6 +94,7 @@ namespace inr {
 
 	void ModeMain::Draw() {
 		_bg->Draw();
+		_game.GetGimmickServer()->Draw();
 		_game.GetMapChips()->Draw();
 		// ここで各種エフェクトの描画処理を行う
 		_eServer->Draw();
@@ -115,6 +119,7 @@ namespace inr {
 			_eServer->Init();	// 各種エフェクトを消去する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
+			_game.GetGimmickServer()->Clear();
 			_game.GetObjectServer()->ObjectsClear();
 			_game.GetObjectServer()->GetPlayer()->SetParameter(_game.GetMapChips()->GetStageTransition()->SetPosition(), _changeKey);	// 自機の座標を更新する
 			_game.GetScenario()->AddObjects(_changeKey);
@@ -190,6 +195,7 @@ namespace inr {
 
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
+		_game.GetGimmickServer()->Clear();
 		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
 		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す
 		_game.GetScenario()->AddObjects(_stageKey);		// オブジェクトを再配置する

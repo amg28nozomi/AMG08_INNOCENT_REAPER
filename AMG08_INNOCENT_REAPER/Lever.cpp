@@ -1,6 +1,6 @@
 #include "Lever.h"
 #include "Game.h"
-#include "ObjectServer.h"
+#include "GimmickServer.h"
 #include "SoundServer.h"
 #include "Door.h"
 #include "ModeServer.h"
@@ -99,7 +99,7 @@ namespace inr {
 
 		gdoor->SetParameter(_oValue.Positions()[1], gh, _oValue.GimmickFlag());	// ВЈВџБ[Вс
 		_door = gdoor;
-		_game.GetObjectServer()->Add(gdoor);
+		_game.GetGimmickServer()->Add(gdoor);
 	}
 
 	void Lever::ObjValueUpdate() {
