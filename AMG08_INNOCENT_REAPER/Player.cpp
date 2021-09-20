@@ -101,7 +101,7 @@ namespace {
 	constexpr auto PF_HIT = 7;
 	constexpr auto PF_CLIMB = 13;
 
-	constexpr auto PF_DEATH = 7;	// モーションが上がってきていないため代用
+	constexpr auto PF_DEATH = 40;	// モーションが上がってきていないため代用
 
 	// 描画切り替えまでに必要なフレーム数
 	constexpr auto MF_INTERVAL = 4;
@@ -116,7 +116,7 @@ namespace {
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
 	// constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
 	constexpr auto PMF_HIT = 60;
-	constexpr auto PMF_DEATH = 60;
+	constexpr auto PMF_DEATH = 40 * 2;
 	constexpr auto PMF_CLIMB = PF_CLIMB * MF_INTERVAL;
 
 }
@@ -878,8 +878,8 @@ namespace inr {
 				ss.pop();
 			}
 		}
-
-		_game.GetMapChips()->WorldUpdate(_position);
+		// 生存している間のみ、座標を切り替える
+		if(_aState != ActionState::DEATH) _game.GetMapChips()->WorldUpdate(_position);
 		// 移動ベクトル初期化
 		_moveVector = { 0, 0 };
 	}

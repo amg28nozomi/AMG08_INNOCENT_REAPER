@@ -116,6 +116,7 @@ namespace inr {
 	}
 
 	void MapChips::Process() {
+		_worldLast = _worldPosition;
 		// キーが更新された場合はマップ情報を切り替える
 		WorldClanp();
 

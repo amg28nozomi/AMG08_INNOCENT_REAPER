@@ -8,7 +8,7 @@
 
 namespace inr {
 	// 検索用キー
-	constexpr auto PKEY_DEATH = "player_hit";	// 死亡（モーションがないのでダメージモーション流用）
+	constexpr auto PKEY_DEATH = "player_death";	// 死亡（モーションがないのでダメージモーション流用）
 	constexpr auto PKEY_IDOL = "player_idol";	// 待機
 	constexpr auto PKEY_RUN = "player_run";		// 移動
 	constexpr auto PKEY_DASH = "player_dash";	// ダッシュ
@@ -20,6 +20,7 @@ namespace inr {
 	constexpr auto PKEY_CLIMB = "player_climb";	// 蔦登り
 
 	constexpr auto PIMAGE_SIZE = 140;	// プレイヤーの描画サイズ
+	constexpr auto PLAYER_DEATH_IMAGE = 400;
 
 	// プレイヤーの向き
 	constexpr auto PL_LEFT = true;
