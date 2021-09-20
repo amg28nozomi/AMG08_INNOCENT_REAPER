@@ -367,6 +367,8 @@ namespace inr {
 				auto it = _collisions.find(_divKey.first);
 				// “–‚½‚è”»’è‚ğ~‚ß‚é
 				it->second.GetCollisionFlgB() = false;
+				auto sound = se::SoundServer::GetSound(key::SOUND_PLAYER_GIVE_FALSE);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 #ifdef _DEBUG
 				it->second.GetbDrawFlg() = false;
 #endif
@@ -490,11 +492,13 @@ namespace inr {
 							ChangeState(ActionState::MOVE, PKEY_RUN);
 							_aCount = 0;
 						}
-						// SE‚ÌŠÇ—
+						// SE‚ğ–Â‚ç‚·‚©‚Ç‚¤‚©H
 						if (_aCount % GetSoundFrame(_divKey.first) == 0 && IsAnimationMax() != true) {
 							auto sound1 = SoundResearch(_moveType);
-							auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-							PlaySoundMem(sound1, soundType);
+							if (CheckSoundMem(sound1) != TRUE) {
+								auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+								PlaySoundMem(sound1, soundType);
+							}
 						}
 						// return;
 						// —§‚Á‚Ä‚¢‚Ä‚©‚Â“ü—Í‚ª‚È‚¢ê‡
@@ -718,8 +722,8 @@ namespace inr {
 		if (_input == true) {
 			ChangeState(ActionState::GIVE, PKEY_GIVE);
 			// SE“Ç‚İ‚İ
-			auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE);
-			PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
+			//auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE_TRUE);
+			//PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
 			auto it = _collisions.find(PKEY_GIVE);
 			it->second.GetCollisionFlgB() = true;	// ”»’èƒIƒ“

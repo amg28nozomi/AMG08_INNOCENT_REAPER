@@ -64,6 +64,8 @@ namespace inr {
 		{ {key::SOUND_PLAYER_HIT}, {"Resource/SE/Player/damege.wav", DX_PLAYTYPE_BACK}},
 		{ {key::SOUND_PLAYER_DASH}, {"Resource/SE/Player/dash.wav", DX_PLAYTYPE_BACK}},
 		{ {key::SOUND_PLAYER_DEAD}, {"Resource/SE/Player/dead_01.wav", DX_PLAYTYPE_BACK}},
+		{ {key::SOUND_PLAYER_GIVE_TRUE}, {"Resource/SE/Player/give_true.wav", DX_PLAYTYPE_BACK}},
+		{ {key::SOUND_PLAYER_GIVE_FALSE}, {"Resource/SE/Player/give_false.wav", DX_PLAYTYPE_BACK}},
 		// { {key::SOUND_PLAYER_RUN1}}
 	};
 
@@ -80,7 +82,6 @@ namespace inr {
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/Player/landing_stage1.wav", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_RUN2}, {"Resource/SE/Player/landing_stage2.wav", DX_PLAYTYPE_BACK}},
-		{{key::SOUND_PLAYER_GIVE}, {"Resource/SE/reflection.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_JUMP}, {"Resource/SE/putting_a_jar.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_FALL}, {"Resource/SE/defense1.mp3", DX_PLAYTYPE_BACK}},
 
@@ -116,8 +117,7 @@ namespace inr {
 		{ {bgm::SOUND_STAGE_3}, {"Resource/SE/BGM/stageboss_batle.wav", DX_PLAYTYPE_LOOP}},
 	};
 
-	Game::Game()
-	{
+	Game::Game() {
 		Init();
 	}
 

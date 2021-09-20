@@ -491,6 +491,7 @@ namespace inr {
 						auto player = _game.GetObjectServer()->GetPlayer();
 						_soul = player->GiveSoul();	// ƒvƒŒƒCƒ„\‚©‚ç‘ÎÛ‚Ì°‚ðŽó‚¯Žæ‚é
 						_soul->Inactive();	// °‚ð”ñŠˆ«ó‘Ô‚É‚·‚é
+						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
