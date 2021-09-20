@@ -116,7 +116,7 @@ namespace inr {
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
 			_game.GetObjectServer()->ObjectsClear();
-			_game.GetObjectServer()->GetPlayer()->SetParameter(_game.GetMapChips()->GetStageTransition()->SetPosition());	// 自機の座標を更新する
+			_game.GetObjectServer()->GetPlayer()->SetParameter(_game.GetMapChips()->GetStageTransition()->SetPosition(), _changeKey);	// 自機の座標を更新する
 			_game.GetScenario()->AddObjects(_changeKey);
 			_stageKey = _changeKey;	// キーを更新する
 			_changeKey = stage::CHANGE_NULL;

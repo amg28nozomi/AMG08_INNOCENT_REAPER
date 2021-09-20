@@ -45,7 +45,7 @@ namespace {
 	constexpr auto ACTION_MAX = 3;
 
 	// SEのフレーム数
-	constexpr auto SE_RUN1 = 50;	// 移動SEのフレーム数 
+	constexpr auto SE_RUN1 = 37;	// 移動SEのフレーム数 
 
 
 	// 奪うアクションの当たり判定
@@ -118,6 +118,7 @@ namespace {
 	constexpr auto PMF_HIT = 60;
 	constexpr auto PMF_DEATH = 60;
 	constexpr auto PMF_CLIMB = PF_CLIMB * MF_INTERVAL;
+
 }
 
 namespace inr {
@@ -132,6 +133,7 @@ namespace inr {
 		_knockBack = 0;
 		_dashInterval = 0;
 		_judegFrame = 0;
+		_moveType = "";
 
 		_souls;
 		// _souls.push(nullptr);
@@ -270,10 +272,10 @@ namespace inr {
 		}
 
 		_mainCollision.Update(_position, _direction);
-
+		_moveType = key::SOUND_PLAYER_RUN1;
 	}
 
-	void Player::SetParameter(std::pair<Vector2, bool> newdata) {
+	void Player::SetParameter(std::pair<Vector2, bool> newdata, std::string sKey) {
 		_oValue.PositionsUpdate(newdata.first);
 		_oValue.DirectionUpdate(newdata.second);
 		_position = newdata.first;
@@ -294,6 +296,9 @@ namespace inr {
 
 		_mainCollision.Update(_position, _direction);
 		_game.GetMapChips()->WorldUpdate(_position);
+
+		if (sKey == stage::STAGE_0 && sKey == stage::STAGE_1) _moveType = key::SOUND_PLAYER_RUN1;
+		else if (_moveType != key::SOUND_PLAYER_RUN2) _moveType = key::SOUND_PLAYER_RUN2;
 	}
 
 	void Player::StateUpdate() {
@@ -482,10 +487,11 @@ namespace inr {
 						// moveではない時、キーと状態を更新
 						if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
 							ChangeState(ActionState::MOVE, PKEY_RUN);
+							_aCount = 0;
 						}
 						// SEの管理
-						if (_aCount % GetSoundFrame(_divKey.first) == 0) {
-							auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
+						if (_aCount % GetSoundFrame(_divKey.first) == 0 && IsAnimationMax() != true) {
+							auto sound1 = SoundResearch(_moveType);
 							auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 							PlaySoundMem(sound1, soundType);
 						}

@@ -25,6 +25,9 @@
 
 namespace {
 	constexpr auto END_MAX = 90;
+
+	constexpr auto DEBUG_OFF = false;
+	constexpr auto DEBUG_PN = true;
 }
 
 namespace inr {
@@ -65,7 +68,8 @@ namespace inr {
 
 	const se::SoundServer::SoundMap ses {
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
-		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/snapping1.mp3", DX_PLAYTYPE_BACK}},
+		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/Player/landing_stage1.wav", DX_PLAYTYPE_BACK}},
+		{{key::SOUND_PLAYER_RUN2}, {"Resource/SE/Player/landing_stage2.wav", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_GIVE}, {"Resource/SE/reflection.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_JUMP}, {"Resource/SE/putting_a_jar.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_FALL}, {"Resource/SE/defense1.mp3", DX_PLAYTYPE_BACK}},
@@ -154,6 +158,11 @@ namespace inr {
 
 		// トリガ入力を取得
 		_trgKey = (std::get<KEY_JOYPAD>(_joyKey) ^ beforeKey) & std::get<KEY_JOYPAD>(_joyKey);
+
+#ifdef _DEBUG
+		// 入力があった場合、デバッグモードを切り替える
+		if (_trgKey == PAD_INPUT_7) _debug = !_debug;
+#endif
 
 	}
 

@@ -50,7 +50,7 @@ namespace inr {
 		bool Reset();	// 開始地点に戻す
 
 		void SetParameter(ObjectValue objValue) override;	// 引数1:初期座標　引数2:魂を保有しているか　引数3:
-		void SetParameter(std::pair<Vector2, bool> newdata);
+		void SetParameter(std::pair<Vector2, bool> newdata, std::string sKey);
 		void SoulCatch(std::shared_ptr<SoulSkin> soul);
 		std::shared_ptr<SoulSkin> GiveSoul();	// 魂の譲渡
 		inline std::queue<std::shared_ptr<SoulSkin>> GetSouls() { return _souls; }
@@ -83,6 +83,7 @@ namespace inr {
 		int _dashInterval;	// ダッシュの再使用間隔
 		int _knockBack;	// ノックバックカウンタ
 		int _invincible;	// 無敵時間
+		std::string _moveType;	// 移動音
 		double _jumpPower;	// ジャンプ溜め
 		bool _input;	// 入力処理を受け付けるか
 		bool _gran;	// 掴み判定

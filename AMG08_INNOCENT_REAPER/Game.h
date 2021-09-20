@@ -36,6 +36,7 @@ namespace inr {
 		constexpr auto SOUND_NUM = "num";
 
 		constexpr auto SOUND_PLAYER_RUN1 = "player_run1";
+		constexpr auto SOUND_PLAYER_RUN2 = "player_run2";
 		constexpr auto SOUND_PLAYER_ROB = "player_rob";
 		constexpr auto SOUND_PLAYER_GIVE = "player_give";
 		constexpr auto SOUND_PLAYER_JUMP = "player_jump";
@@ -97,6 +98,10 @@ namespace inr {
 		// Gameクラスの参照
 		inline Game& GetGame() { return *this; }
 
+#ifdef _DEBUG
+		inline bool IsDebugMode() { return _debug; }	// 当たり判定を描画するか否か？
+#endif
+
 		// 各種参照ゲッター
 		inline std::unique_ptr<ModeServer>& GetModeServer() { return _modeServer; }
 		inline std::unique_ptr<ObjectServer>& GetObjectServer() { return _objServer; }
@@ -126,9 +131,10 @@ namespace inr {
 		int _endCount;	// ゲームが終了するまでのカウンタ
 
 		void CountUp();
-		// int _leverLR;	// ジョイパッドのレバー情報(左右)
-		// int _leverUD;	// ジョイパッドのレバー情報
-		// int _inputKey;	// ジョイパッドの入力状態
+		
+#ifdef _DEBUG
+		bool _debug;	// デバッグ状態か否か
+#endif
 	};
 }
 

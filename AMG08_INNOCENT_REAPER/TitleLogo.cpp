@@ -41,8 +41,8 @@ namespace inr {
 			if (_hitCol1.HitCheck(collision)) {
 				if (_game.GetTrgKey() == PAD_INPUT_3) {
 					// ƒQ[ƒ€–{•Ò‚É‘JˆÚ‚·‚é
-					auto sound = se::SoundServer::GetSound(system::SOUDN_GAME_START);
-					PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUDN_GAME_START));
+					auto sound = se::SoundServer::GetSound(system::SOUND_SELECT);
+					PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUND_SELECT));
 
 					_game.GetModeServer()->ModeChange(mode::MAIN);
 					CollisionOut();
@@ -73,11 +73,11 @@ namespace inr {
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 #ifdef _DEBUG
-		/*
-		auto c = DxLib::GetColor(255, 255, 0);
-		DebugBox(_hitCol1);
-		DebugBox(_hitCol2);
-		*/
+		if (_game.IsDebugMode() == true) {
+			auto c = DxLib::GetColor(255, 255, 0);
+			DebugBox(_hitCol1);
+			DebugBox(_hitCol2);
+		}
 #endif
 	}
 

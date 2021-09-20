@@ -27,7 +27,7 @@ namespace inr {
 
 	void SoulCursor::Init() {
 		_moveVector = { 0, 0 };
-		_position = { 960, 540 };
+		_position = { 960, 540};
 		_mainCollision = { _position, HALF_SOUL, HALF_SOUL, true };
 		_divKey = { ui::CURSOR, key::SOUND_NUM };
 		_setBlend = false;
@@ -61,8 +61,10 @@ namespace inr {
 		ChangeBlendGraph();
 
 #ifdef _DEBUG
-		/*auto c = DxLib::GetColor(255, 255, 0);
-		DrawDebugBox(_mainCollision, c);*/
+		if (_game.IsDebugMode() == true) {
+		auto c = DxLib::GetColor(255, 255, 0);
+		DrawDebugBox(_mainCollision, c);
+		}
 #endif
 	}
 
