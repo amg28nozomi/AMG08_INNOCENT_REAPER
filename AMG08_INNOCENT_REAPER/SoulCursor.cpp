@@ -9,7 +9,7 @@ namespace {
 
 	constexpr auto MOVE_VEC = 100;
 
-	constexpr auto HALF_SOUL = 25;
+	constexpr auto HALF_SOUL = 10;
 
 	constexpr auto SPEED_MAX = 10;
 

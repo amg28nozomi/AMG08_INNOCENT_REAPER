@@ -36,7 +36,7 @@ namespace inr {
 		auto graph = graph::ResourceServer::GetHandles(_graphKey, 0);
 
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, _pal);
-		DrawRotaGraph(x, y, _extRate, 0, graph, TRUE, FALSE);
+		DrawRotaGraph(x, y, _extRate, 0, graph, TRUE);
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 	}
 

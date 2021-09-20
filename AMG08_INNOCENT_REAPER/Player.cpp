@@ -293,6 +293,7 @@ namespace inr {
 		if (it != _collisions.end()) it->second.Update(_position, _direction);
 
 		_mainCollision.Update(_position, _direction);
+		_game.GetMapChips()->WorldUpdate(_position);
 	}
 
 	void Player::StateUpdate() {

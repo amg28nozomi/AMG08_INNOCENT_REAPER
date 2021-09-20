@@ -40,6 +40,7 @@ namespace inr {
 		void BackDraw();	// ‘OŒi‚Ì•`‰æ
 		void BigManage();
 		void NormalManage();
+		void ScrollY();	// YÀ•W‚ÌC³‚·‚é
 	};
 }
 

@@ -39,6 +39,7 @@ namespace inr {
 			_positions.first.emplace_back(HALF_WINDOW_W, _fix.first);
 			_positions.second.emplace_back(MAX_SCROLL, _fix.second);
 		}
+		ScrollY();	// èCê≥ÇÇ©ÇØÇÈ
 	}
 
 	void BackGround::Process() {
@@ -204,6 +205,24 @@ namespace inr {
 				else if (WINDOW_W + HALF_WINDOW_W < _positions.second[i].IntX()) {
 					auto vec = _positions.second[i].GetX() - MAX_SCROLL;
 					_positions.second[i].GetPX() = -HALF_WINDOW_W + vec;
+				}
+			}
+		}
+	}
+
+	void BackGround::ScrollY() {
+		for (auto i = 0; i < _positions.first.size(); ++i) {
+			if (_game.GetMapChips()->IsScrollY() == true) {
+				_positions.first[i].GetPY() = _game.GetMapChips()->GetWorldPosition().GetY();
+				_positions.second[i].GetPY() = _game.GetMapChips()->GetWorldPosition().GetY();
+
+				if (_positions.first[i].GetY() < 0) {
+					_positions.first[i].GetPY() = 0;
+					_positions.second[i].GetPY() = _positions.first[i].GetY();
+				}
+				else if (WINDOW_H < _positions.first[i].GetY()) {
+					_positions.first[i].GetPY() = WINDOW_H;
+					_positions.second[i].GetPY() = _positions.first[i].GetY();
 				}
 			}
 		}
