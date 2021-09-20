@@ -66,6 +66,15 @@ namespace inr {
 		// { {key::SOUND_PLAYER_RUN1}}
 	};
 
+	const se::SoundServer::SoundMap enemy_se{
+		{ {enemy::soldier::ATTACK_SE}, {"Resource/SE/SoldierDoll/sd_attack.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::soldier::ATTACK_VOICE}, {"Resource/SE/SoldierDoll/sd_attackvoice.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::soldier::DOWN}, {"Resource/SE/SoldierDoll/sd_down.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::soldier::ESCAPE_SE}, {"Resource/SE/SoldierDoll/sd_escape.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::soldier::ESCAPE_VOICE}, {"Resource/SE/SoldierDoll/escapevoice.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::soldier::MOVE}, {"Resource/SE/SoldierDoll/sd_move.wav", DX_PLAYTYPE_BACK}},
+	};
+
 	const se::SoundServer::SoundMap ses {
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
 		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/Player/landing_stage1.wav", DX_PLAYTYPE_BACK}},
@@ -126,6 +135,7 @@ namespace inr {
 		// ì«Ç›çûÇ›
 		se::SoundServer::Init();
 		se::SoundServer::LoadSoundMap(player_se);
+		se::SoundServer::LoadSoundMap(enemy_se);
 		se::SoundServer::LoadSoundMap(ses);
 		se::SoundServer::LoadSoundMap(gimmick_se);
 		se::SoundServer::LoadSoundMap(system_se);

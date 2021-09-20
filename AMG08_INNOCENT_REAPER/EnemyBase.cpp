@@ -153,6 +153,7 @@ namespace inr {
 		_changeGraph = true;
 		_aState = nextstate;
 		_divKey.first = key;
+		_aCount = 0;
 	}
 
 	void EnemyBase::ChangeIdol() {
@@ -251,5 +252,12 @@ namespace inr {
 		default:
 			return true;
 		}
+	}
+
+	bool EnemyBase::PlaySe(const std::string key) {
+		auto sound = SoundResearch(key);
+		if (sound == -1) return false;
+		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+		return true;
 	}
 }

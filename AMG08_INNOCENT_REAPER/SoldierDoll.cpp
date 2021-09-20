@@ -99,12 +99,12 @@ namespace inr {
 
 			{ enemy::red::SOLDIER_WAKEUP, {17 * 3, 0}},
 			{ enemy::red::SOLDIER_IDOL, {11 * 3, 0}},
-			{ enemy::red::SOLDIER_PATROL, {13 * 3, 0}},
+			{ enemy::red::SOLDIER_PATROL, {13 * 3, 13 * 3}},
 			{ enemy::red::SOLDIER_ATTACK, {11 * 3, 50}},	// SE有り
 
 			{ enemy::blue::SOLDIER_WAKEUP, {17 * 3, 0}},
 			{ enemy::blue::SOLDIER_IDOL, {11 * 3, 0}},
-			{ enemy::blue::SOLDIER_PATROL, {13 * 3, 0}},
+			{ enemy::blue::SOLDIER_PATROL, {13 * 3, 13 * 3}},
 			{ enemy::blue::SOLDIER_ESCAPE, {17 * 3, 0}}
 		};
 
@@ -237,6 +237,9 @@ namespace inr {
 		if (_actionX < 0) { 
 			_direction = enemy::MOVE_LEFT; }
 		else if (0 < _actionX) _direction = enemy::MOVE_RIGHT;
+		/*if (_aState == ActionState::PATROL && _aCount % GetSoundFrame(_divKey.first) == 0 && IsAnimationMax() != true) {
+			PlaySe(enemy::soldier::MOVE);
+		}*/
 
 		
 
@@ -267,6 +270,7 @@ namespace inr {
 			return;
 
 		case ActionState::ESCAPE:
+			if (_aCount == 0 && _stand == true) PlaySe(enemy::soldier::ESCAPE_SE);
 			if (_actionX < 0) {
 				_direction = enemy::MOVE_LEFT;
 			}
@@ -288,6 +292,7 @@ namespace inr {
 			}
 			return;
 		case ActionState::ATTACK:
+			if (_aCount == 0) PlaySe(enemy::soldier::ATTACK_SE);
 			if (_actionX < 0) {
 				_direction = enemy::MOVE_RIGHT;
 			}
@@ -457,6 +462,7 @@ namespace inr {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
+					PlaySe(enemy::soldier::DOWN);
 					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
@@ -533,6 +539,7 @@ namespace inr {
 	void SoldierDoll::Death() {
 		ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 		EnemyBase::Death();
+		PlaySe(enemy::soldier::DOWN);
 	}
 
 	AABB SoldierDoll::NowCollision(std::string key) {

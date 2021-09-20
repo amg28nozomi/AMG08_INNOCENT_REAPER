@@ -3,6 +3,17 @@
 
 namespace inr {
 
+	namespace enemy {
+		namespace soldier {
+			constexpr auto ATTACK_SE = "sd_attack_se";	// êÿÇËÇ¬ÇØ
+			constexpr auto ATTACK_VOICE = "sd_attack_voice";	// êÿÇËïtÇØê∫
+			constexpr auto DOWN = "sd_down";	// ì|ÇÍÇΩç€ÇÃSE
+			constexpr auto ESCAPE_SE = "sd_escape_se";
+			constexpr auto ESCAPE_VOICE = "sd_escape_voice";
+			constexpr auto MOVE = "sd_move";
+		}
+	}
+
 	constexpr auto SOLDIER_IMAGE_W = 160;
 	constexpr auto SOLDIER_IMAGE_H = 160;
 

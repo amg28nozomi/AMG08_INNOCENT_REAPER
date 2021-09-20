@@ -752,7 +752,9 @@ namespace inr {
 				auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
 				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 				PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
-				
+
+				auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::HIT, _position, 45);
+				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff));
 			}
 			else {
 				// ‹ó‚Ìê‡‚Í€–Sˆ—‚ğs‚¤

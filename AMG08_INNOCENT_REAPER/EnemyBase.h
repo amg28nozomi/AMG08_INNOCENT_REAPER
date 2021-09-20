@@ -98,6 +98,8 @@ namespace inr {
 		virtual void ChangeIdol();
 		virtual void PositionUpdate();
 
+		bool PlaySe(const std::string skey);
+
 		void ChangeState(ActionState nextstate, std::string key);
 		// Š±Â‰Â”\”ÍˆÍ‚ÌZo
 		AABB VitalPart(Collision& col, int vital = 0);
