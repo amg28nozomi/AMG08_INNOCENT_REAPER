@@ -74,7 +74,7 @@ namespace inr {
 		case stage::number::SN_S:	// ステージS
 			_graphKey = background::BACK_GROUND_S;
 			_scrSpeed = { 0.5 };
-			_fix = { 0 , 0 };
+			_fix = { 1080 , 1080 };
 			break;
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;

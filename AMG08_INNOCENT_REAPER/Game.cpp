@@ -74,7 +74,7 @@ namespace inr {
 		{ {enemy::soldier::ATTACK_VOICE}, {"Resource/SE/SoldierDoll/sd_attackvoice.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::soldier::DOWN}, {"Resource/SE/SoldierDoll/sd_down.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::soldier::ESCAPE_SE}, {"Resource/SE/SoldierDoll/sd_escape.wav", DX_PLAYTYPE_BACK}},
-		{ {enemy::soldier::ESCAPE_VOICE}, {"Resource/SE/SoldierDoll/escapevoice.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::soldier::ESCAPE_VOICE}, {"Resource/SE/SoldierDoll/sd_escapevoice.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::soldier::MOVE}, {"Resource/SE/SoldierDoll/sd_move.wav", DX_PLAYTYPE_BACK}},
 	};
 

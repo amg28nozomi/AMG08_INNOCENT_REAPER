@@ -344,6 +344,7 @@ namespace inr {
 			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
 			_searchBox.GetCollisionFlgB() = true;
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
+			PlaySe(enemy::soldier::ATTACK_VOICE);
 		}
 	}
 
@@ -353,6 +354,7 @@ namespace inr {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
+			PlaySe(enemy::soldier::ESCAPE_VOICE);
 		}
 	}
 
