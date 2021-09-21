@@ -41,7 +41,7 @@ namespace inr {
 		constexpr auto ESCAPE_VECTOR = 120;	// 1•bŠÔ(60frame)‚ÅˆÚ“®‚·‚é‹——£S
 
 		constexpr auto ATTACK_MAX = 1000;
-		constexpr auto ATTACK_VECTOR = 120;
+		constexpr auto ATTACK_VECTOR = 180;
 
 		constexpr auto MOVE_LEFT = true;
 		constexpr auto MOVE_RIGHT = false;

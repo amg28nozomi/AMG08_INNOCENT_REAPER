@@ -63,6 +63,7 @@ namespace inr {
 			_game.GetScenario()->AddObjects(_stageKey);
 			_eServer->Init();
 			_uiSoul->PlayerUpdate();
+			_stageUi->ChangeNumber(_stageKey);
 			_bossOpen = false;	// ボスの扉
 			_bossBattle = false;
 			_resetFlg = false;
@@ -80,8 +81,7 @@ namespace inr {
 	void ModeMain::Process() {
 		IsStageChange();	// ステージを切り替えるか？
 		StageReset();	// ステージを初期化するか？
-		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) 
-			_stageUi->DrawStart();
+		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
 
 		if (_pause->IsActive() != true) {	// ポーズ画面が起動していない間のみ実行
@@ -119,6 +119,7 @@ namespace inr {
 	bool ModeMain::IsStageChange() {
 		// キーは切り替わっているか？
 		if (_changeKey == stage::CHANGE_NULL) return false;
+		if (CheckSoundMem(se::SoundServer::GetSound(system::MOVE_STAGE1)) == 0) PlaySoundMem(se::SoundServer::GetSound(system::MOVE_STAGE1), DX_PLAYTYPE_BACK);
 		if (_game.GetModeServer()->PalChange() == true) {
 			// ギミックの状態を更新する
 			BgmManage(_changeKey);	// bgm切り替え

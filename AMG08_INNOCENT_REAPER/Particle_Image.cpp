@@ -89,7 +89,7 @@ namespace inr {
 	bool Particle_Image::SubPal() {
 		_pal -= PAL_VALUE;
 		if (0 < _pal) return false;
-		if (_pal < 0) _pal = 255;
+		if (_pal < 0) _pal = 0;
 		return true;
 	}
 

@@ -7,6 +7,7 @@
 #include "GimmickBase.h"
 #include "Lever.h"
 #include "ResourceServer.h"
+#include "SoundServer.h"
 
 // α仮
 #include "SoulSkin.h"
@@ -328,6 +329,7 @@ namespace inr {
 	void SoldierDoll::PatrolOn() {
 		if (_soul == nullptr) return;
 		EnemyBase::PatrolOn();
+		StopSound();
 
 		// 魂の色に応じてキーを切り替え
 		(_soul->SoulColor() == soul::BLUE) ?
@@ -465,6 +467,7 @@ namespace inr {
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
+					StopSound();
 					PlaySe(enemy::soldier::DOWN);
 					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
 
@@ -516,6 +519,7 @@ namespace inr {
 			embox->second.Update(_position, _direction);
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
+			_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
 			_changeGraph = false;
 			return;	// 処理を抜ける
 		}
@@ -551,5 +555,13 @@ namespace inr {
 		auto it = _collisions.find(enemy::SOLDIER_EMPTY);
 		// 現在のアクション状態はボックスを修正する必要があるか？
 		return it->second;
+	}
+
+	bool SoldierDoll::StopSound() {
+		auto attack = se::SoundServer::GetSound(enemy::soldier::ATTACK_SE);
+		auto escape = se::SoundServer::GetSound(enemy::soldier::ESCAPE_SE);
+		if (CheckSoundMem(attack) == 1) StopSoundMem(attack);
+		if (CheckSoundMem(escape) == 1) StopSoundMem(escape);
+		return true;
 	}
 }

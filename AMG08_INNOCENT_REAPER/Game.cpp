@@ -108,6 +108,9 @@ namespace inr {
 		{ {system::SOUND_PAUSE}, {"Resource/SE/System/pose.wav", DX_PLAYTYPE_BACK}},
 		{ {system::CURSOR_MOVE}, {"Resource/SE/System/cursormove.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUND_SELECT}, {"Resource/SE/System/select_0.wav", DX_PLAYTYPE_BACK}},
+
+		{ {system::MOVE_STAGE1}, {"Resource/SE/System/move_stage1.wav", DX_PLAYTYPE_BACK}},
+		{ {system::MOVE_STAGE2}, {"Resource/SE/System/move_stage2.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	const se::SoundServer::SoundMap bgms{

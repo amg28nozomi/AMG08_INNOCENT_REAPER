@@ -181,6 +181,7 @@ namespace inr {
 
 					if (0 <= no) {
 
+						if (128 <= no) continue;	// 遷移チップの場合は処理を行わない
 						auto gh = graph::ResourceServer::GetHandles(stage::KEY_NORMAL, no);
 						DrawGraph(posX, posY, gh, TRUE);
 
@@ -502,7 +503,7 @@ namespace inr {
 			for (x = footMinX / csw; x <= footMaxX / csw; ++x) {
 				int chip_no = CheckHit(x, y);	// この場所には何のチップがあるか？
 				if (chip_no != 0) {
-					if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
+					if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON && _chipCheck->IsChipType(chip_no) != mapchip::TRANSITION) continue;	// 当たり判定がない場合は抜ける
 					// 衝突判定
 					auto c = _chipCheck->ChipCollision(chip_no);
 
@@ -516,28 +517,36 @@ namespace inr {
 
 					// 判定範囲内に収まっているか？
 					if (mn.GetMin().GetX() < cbox.GetMax().GetX() && cbox.GetMin().GetX() < mn.GetMax().GetX()) {
+						auto chiptype = _chipCheck->IsChipType(chip_no);
 						// 加速値が正の場合（落下中、床と接触しているか？）
 						if (0 < g) {
 							// 足元は埋まっていないか？
 							if (mn.GetMin().GetY() < cbox.GetMin().GetY() &&
 								// マップチップの上部に対象の下が足元が埋まっているかどうか
 								cbox.GetMin().GetY() < mn.GetMax().GetY()) {
+								if (chiptype == mapchip::TRANSITION) {
+									// 遷移チップの場合は遷移処理を実行
+									TransitionResearch(chip_no);
+									return chiptype;
+								}
 								auto cavep = box.GetHeightMax();
-								TransitionResearch(chip_no);
 								pos.GetPY() = minY - cavep;
 								// 通常判定チップの場合、座標を更新する
-								if (_chipCheck->IsChipType(chip_no) == mapchip::NORMAL) *lastpos = { maxX , pos.GetY() };
-								return _chipCheck->IsChipType(chip_no);
+								if (chiptype == mapchip::NORMAL) *lastpos = { maxX , pos.GetY() };
+								return chiptype;
 							}
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
 						} else if (g < 0) {
 							// 加速度が負の場合（）
 								// プレイヤーの下部はマップチップの下部より大きいか
 							if (cbox.GetMin().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
-								TransitionResearch(chip_no);
+								if (chiptype == mapchip::TRANSITION) {
+									TransitionResearch(chip_no);
+									return chiptype;
+								}
 								auto cavep = box.GetHeightMin();
 								pos.GetPY() = maxY + cavep;
-								return _chipCheck->IsChipType(chip_no);
+								return chiptype;
 							}
 							
 						}
@@ -732,21 +741,20 @@ namespace inr {
 							if (miny < chipMinY && chipMinY < maxy) {
 								if (hittype == mapchip::HIT_ON) {
 									auto cave = box.GetHeightMin();
-									TransitionResearch(chip_no);
 									move.GetPY() = 0;	// 移動量初期化
 									pos.GetPY() = chipMaxY + cave;
-								}
-								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+								} else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+								else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 							}
 						}
 						else if (0 < vectorY) {
 								if (chipMaxY < maxy && miny < chipMaxY) {
 									if (hittype == mapchip::HIT_ON) {
 										auto cave = box.GetHeightMin();
-										TransitionResearch(chip_no);
 										move.GetPY() = 0;	// 移動量初期化
 										pos.GetPY() = chipMinY + cave;
 									} else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+									else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 								}
 							}
 						}
@@ -757,12 +765,12 @@ namespace inr {
 								// if (minx < chipMinX && chipMinX < maxx) {
 								if (hittype == mapchip::HIT_ON) {
 									auto cave = box.GetWidthMin();
-									TransitionResearch(chip_no);
 									move.GetPX() = 0;
 									pos.GetPX() = chipMaxX + cave;
 									return _chipCheck->IsChipType(chip_no);
 								}
 								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+								else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 							}
 						}
 						if (0 < vectorX) {
@@ -771,12 +779,12 @@ namespace inr {
 								// if (chipMinX < maxx && minx < chipMaxX) {
 								if (hittype == mapchip::HIT_ON) {
 									auto cave = box.GetWidthMin();
-									TransitionResearch(chip_no);
 									move.GetPX() = 0;
 									pos.GetPX() = chipMinX - cave;
 									return _chipCheck->IsChipType(chip_no);
 								}
 								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+								else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 							}
 						}
 					}
@@ -1237,22 +1245,22 @@ bool MapChips::TransitionResearch(const int no) {
 			{ 127, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 			{ 128, {CHIP_IVY1, CHIP_IVY2, mapchip::IVY, mapchip::HIT_OFF}},
 			// ステージ遷移
-			{ 129, {mapchip::TRANSITION}},	// ステージS(1)→ステージ1(2)
-			{ 130, {mapchip::TRANSITION}},	// ステージ1(3)→ステージ2-2()
-			{ 131, {mapchip::TRANSITION}},
-			{ 132, {mapchip::TRANSITION}},
-			{ 133, {mapchip::TRANSITION}},
-			{ 134, {mapchip::TRANSITION}},
-			{ 135, {mapchip::TRANSITION}},
-			{ 136, {mapchip::TRANSITION}},
-			{ 137, {mapchip::TRANSITION}},
-			{ 138, {mapchip::TRANSITION}},
-			{ 139, {mapchip::TRANSITION}},
-			{ 140, {mapchip::TRANSITION}},
-			{ 141, {mapchip::TRANSITION}},
-			{ 142, {mapchip::TRANSITION}},
-			{ 143, {mapchip::TRANSITION}},
-			{ 144, {mapchip::TRANSITION}},
+			{ 129, {mapchip::TRANSITION, mapchip::HIT_OFF}},	// ステージS(1)→ステージ1(2)
+			{ 130, {mapchip::TRANSITION, mapchip::HIT_OFF}},	// ステージ1(3)→ステージ2-2()
+			{ 131, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 132, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 133, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 134, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 135, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 136, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 137, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 138, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 139, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 140, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 141, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 142, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 143, {mapchip::TRANSITION, mapchip::HIT_OFF}},
+			{ 144, {mapchip::TRANSITION, mapchip::HIT_OFF}},
 		};
 		_chipCheck->LoadChipsMap(stage::KEY_NORMAL, stagechip);
 		_chipCheck->ChangeStageKey(stage::KEY_NORMAL);	// 最初に呼び出すステージを登録

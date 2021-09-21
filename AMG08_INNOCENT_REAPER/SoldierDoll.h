@@ -44,6 +44,7 @@ namespace inr {
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦
 
 		void Death() override;	// €–Sˆ—
+		bool StopSound();
 
 		AABB NowCollision(std::string key) override;
 

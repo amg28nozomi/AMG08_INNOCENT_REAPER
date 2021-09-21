@@ -12,11 +12,13 @@ namespace inr {
 	}
 
 	void StageUi::Init() {
-		_alive = 60;
+		_alive = 0;
 		_pos = { 0, 100 };
 		_pal = 0;
 		_fadeDraw = false;
 		_end = false;
+		_isDraw = false;
+		_animation = animation::A_NORMAL;
 	}
 
 	void StageUi::Process() {
@@ -55,12 +57,12 @@ namespace inr {
 		if (_animation == animation::A_NORMAL && _end == false) {
 			if (_alive == 0) {
 				_animation = animation::A_SUB;
-				_end = true;
 				return true;
 			}
-			--_alive;	// カウンタ
+			else if (0 < _alive) --_alive;	// カウンタ
 			return false;
 		}
+		else if (_animation == animation::A_SUB && _end == false) _end = true;
 		return false;
 	}
 

@@ -55,6 +55,9 @@ namespace inr {
 		constexpr auto SOUDN_CANCEL = "cancel"; // cancel
 		constexpr auto SOUND_PAUSE = "pause";
 		constexpr auto SOUND_SELECT = "select";	// ÉZÉåÉNÉgâπ
+
+		constexpr auto MOVE_STAGE1 = "move_stage1";
+		constexpr auto MOVE_STAGE2 = "move_stage2";
 	}
 
 	namespace bgm {

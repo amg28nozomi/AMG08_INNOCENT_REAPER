@@ -83,6 +83,8 @@ namespace {
 	constexpr auto DASH_HEIGHT1 = 10;
 	constexpr auto DASH_HEIGHT2 = 70;
 
+	constexpr auto DASH_EFFECT = 150;
+
 	// ノックバック関連
 	constexpr auto HIT_MAX = 300; // 最大移動量
 	constexpr auto HIT_FRAME = 60;	// ノックバック時間
@@ -598,7 +600,11 @@ namespace inr {
 				_input = false;	// 他アクションの入力を停止する
 				_gran = false;
 
-				auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::DASH, _position, 30, _direction);
+				double fix = 0;
+				(_direction == enemy::MOVE_LEFT) ? fix = DASH_EFFECT : fix = -DASH_EFFECT;
+				Vector2 effpos = { _position.GetX() + fix, _position.GetY() };
+
+				auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::DASH, effpos, 30, _direction);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff));
 			}
 		}
