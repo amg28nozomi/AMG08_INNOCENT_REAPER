@@ -495,7 +495,7 @@ namespace inr {
 						// SEÇñ¬ÇÁÇ∑Ç©Ç«Ç§Ç©ÅH
 						if (_aCount % GetSoundFrame(_divKey.first) == 0 && IsAnimationMax() != true) {
 							auto sound1 = SoundResearch(_moveType);
-							if (CheckSoundMem(sound1) == 0) {
+							if (CheckSoundMem(sound1) == 0 && CheckSoundMem(se::SoundServer::GetSound(key::SOUND_PLAYER_FALL)) == 0) {
 								auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 								PlaySoundMem(sound1, soundType);
 							}
@@ -740,6 +740,8 @@ namespace inr {
 		if (2 <= _souls.size()) {
 			_souls.push(_souls.front());
 			_souls.pop();
+			auto sound = se::SoundServer::GetSound(key::SOUND_PLAYER_SWITCH);
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(key::SOUND_PLAYER_SWITCH));
 		}
 	}
 

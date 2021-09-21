@@ -81,7 +81,7 @@ namespace inr {
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;
 			_scrSpeed.first = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
-			_scrSpeed.second = { STAGE1_BACK_00, STAGE1_BACK_01, 1.0 };
+			_scrSpeed.second = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
 			_fix = { 0, 0};
 			break;
 		case stage::number::SN_2:	// ステージ2
