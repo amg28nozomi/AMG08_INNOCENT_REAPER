@@ -1,13 +1,16 @@
 #include "Block.h"
 #include "Game.h"
 #include "SoundServer.h"
+#include "GimmickServer.h"
 
 namespace inr {
 
 	Block::Block(Game& game) : GimmickBase(game) {
 		_gType = GimmickType::BLOCK;
 		_divKey = { gimmick::block::KEY_BLOCK, gimmick::block::KEY_BLOCK };
-		_motionKey.clear();
+		_motionKey = { 
+			{gimmick::block::KEY_BLOCK, {1, 0}},
+			{gimmick::block::KEY_BREAK, { 26 * 2, 0}} };
 
 		_pal = 255;
 		_break = gimmick::block::BRAKE_OFF;	// 壊れていない
@@ -18,10 +21,14 @@ namespace inr {
 	}
 
 	void Block::Process() {
-		if (_break == gimmick::block::BRAKE_ON && _pal == 0) return;	// 処理を終了する
+		if (_break == gimmick::block::BRAKE_ON && AnimationCountMax() == true) {
+			// フラグがオンかつ、アニメーションが終了している場合は該当オブジェクトを消去する
+			_delete = true;
+			_game.GetGimmickServer()->DelOn();
+			return;
+		}
 		if (_break != gimmick::block::BRAKE_ON) return;	// 壊れていない場合も処理を抜ける
-		_pal -= 5;	// 減算処理を行う
-		if (_pal < 0) _pal = 0;	// 小さくなった場合は値を修正
+		++_aCount;
 	}
 
 	void Block::Draw() {
@@ -33,7 +40,7 @@ namespace inr {
 		GraphResearch(&graph);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
-		for (auto fix = 0; fix < 3; ++fix) DrawRotaGraph(x, (y - (fix * 80)), 1.0, 0, graph, TRUE);
+		DrawRotaGraph(x, y, 1.0, 0, graph, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 #ifdef _DEBUG
 		DrawDebugBox(_mainCollision);
@@ -43,7 +50,7 @@ namespace inr {
 	void Block::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];
-		_mainCollision = { _position, 45, 45, 170, 70, true };
+		_mainCollision = { _position, 45, 45, 100, 140, true };
 
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
 			_break = gimmick::block::BRAKE_ON;
@@ -86,7 +93,8 @@ namespace inr {
 	bool Block::Break() {
 		auto sound = SoundResearch(_divKey.second);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-		_break = gimmick::block::BRAKE_ON;
+		_break = gimmick::block::BRAKE_ON;	// 破壊フラグをオンにする
+		_divKey.first = gimmick::block::KEY_BREAK;	// キーを破壊エフェクトに切り替え
 #ifdef _DEBUG
 		_mainCollision.GetbDrawFlg() = false;
 #endif

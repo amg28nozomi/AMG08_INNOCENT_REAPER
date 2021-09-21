@@ -27,7 +27,10 @@ namespace inr {
 		// Šâ
 		namespace block {
 			constexpr auto KEY_BLOCK = "block_key";
-			constexpr auto BLOCK_SIZE = 140;
+			constexpr auto KEY_BREAK = "break_key";
+			constexpr auto BLOCK_SIZE_W = 140;
+			constexpr auto BLOCK_SIZE_H = 280;
+			constexpr auto BRAKE_SIZE = 500;
 			// ƒTƒEƒ“ƒh
 			constexpr auto SE_BREAK = 50;
 		}

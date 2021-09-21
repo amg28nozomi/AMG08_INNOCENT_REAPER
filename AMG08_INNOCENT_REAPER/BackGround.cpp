@@ -35,7 +35,7 @@ namespace inr {
 
 	void BackGround::Init() {
 		// スクリーン座標のサイズ分だけ初期化を行う
-		for (int n = 0; n < static_cast<int>(_scrSpeed.size()); ++n) {
+		for (int n = 0; n < static_cast<int>(_scrSpeed.first.size()); ++n) {
 			_positions.first.emplace_back(HALF_WINDOW_W, _fix.first);
 			_positions.second.emplace_back(MAX_SCROLL, _fix.second);
 		}
@@ -66,29 +66,34 @@ namespace inr {
 	void BackGround::ChangeGraph() {
 		if (IsChanege() != true) return;
 		_graphKey.clear();
-		_scrSpeed.clear();	// 中身を空にする
+		_scrSpeed.first.clear();	// 中身を空にする
+		_scrSpeed.second.clear();
 		_positions.first.clear();
 		_positions.second.clear();
 		// 現在のステージに応じて各種値を更新
 		switch (_stageNo) {
 		case stage::number::SN_S:	// ステージS
 			_graphKey = background::BACK_GROUND_S;
-			_scrSpeed = { 0.5 };
+			_scrSpeed.first = { 0.5 };
+			_scrSpeed.second = { 0.75 };
 			_fix = { 1080 , 1080 };
 			break;
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;
-			_scrSpeed = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
+			_scrSpeed.first = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
+			_scrSpeed.second = { STAGE1_BACK_00, STAGE1_BACK_01, 1.0 };
 			_fix = { 0, 0};
 			break;
 		case stage::number::SN_2:	// ステージ2
 			_graphKey = background::BACK_GROUND_2;
-			_scrSpeed = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
+			_scrSpeed.first = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
+			_scrSpeed.second = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			_fix = { 0, 0 };
 			break;
 		case stage::number::SN_B:		// ボスステージ
 			_graphKey = background::BACK_GROUND_B;
-			_scrSpeed = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
+			_scrSpeed.first = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
+			_scrSpeed.second = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			_fix = { 540, 540 };
 			break;
 		default:	// 該当なし
@@ -138,8 +143,8 @@ namespace inr {
 			// ワールドX座標はスクロール開始地点を超えているか？
 			if (_game.GetMapChips()->IsScrollX() == true) {
 				// 移動量分だけ座標をずらす
-				_positions.first[i].GetPX() += moveX * _scrSpeed[i];
-				_positions.second[i].GetPX() += moveX * _scrSpeed[i];
+				_positions.first[i].GetPX() += moveX * _scrSpeed.first[i];
+				_positions.second[i].GetPX() += moveX * _scrSpeed.first[i];
 				// 一枚目の修正処理
 				if (_positions.first[i].IntX() < -HALF_WINDOW_W) {
 					// 漏れた値を算出
@@ -162,8 +167,8 @@ namespace inr {
 			}
 
 			if (_game.GetMapChips()->IsScrollY() == true) {
-				_positions.first[i].GetPY() += moveY * _scrSpeed[i];
-				_positions.second[i].GetPY() += moveY * _scrSpeed[i];
+				_positions.first[i].GetPY() += moveY * _scrSpeed.second[i];
+				_positions.second[i].GetPY() += moveY * _scrSpeed.second[i];
 
 				if (_positions.first[i].GetY() < 0) {
 					_positions.first[i].GetPY() = 0;
@@ -185,8 +190,8 @@ namespace inr {
 			// ワールドX座標はスクロール開始地点を超えているか？
 			if (_game.GetMapChips()->IsScrollX() == true) {
 				// 移動量分だけ座標をずらす
-				_positions.first[i].GetPX() += moveX * _scrSpeed[i];
-				_positions.second[i].GetPX() += moveX * _scrSpeed[i];
+				_positions.first[i].GetPX() += moveX * _scrSpeed.first[i];
+				_positions.second[i].GetPX() += moveX * _scrSpeed.first[i];
 				// 一枚目の修正処理
 				if (_positions.first[i].IntX() < -HALF_WINDOW_W) {
 					// 漏れた値を算出

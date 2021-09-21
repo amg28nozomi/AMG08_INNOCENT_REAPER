@@ -131,7 +131,8 @@ namespace inr {
 		{ gimmick::door::KEY_DOOR_BOSS, {"Resource/Gimmick/Lever/door_boss.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
 		{ gimmick::door::KEY_DOOR_RED, {"Resource/Gimmick/Crystal/r_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
 		{ gimmick::door::KEY_DOOR_BLUE, {"Resource/Gimmick/Crystal/b_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
-		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock.png", 1, 1, 1, gimmick::block::BLOCK_SIZE, gimmick::block::BLOCK_SIZE}},
+		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock3.png", 1, 1, 1, gimmick::block::BLOCK_SIZE_W, gimmick::block::BLOCK_SIZE_H}},
+		{ gimmick::block::KEY_BREAK, {"Resource/Gimmick/Break/breakeffect.png", 4, 7, 26, gimmick::block::BRAKE_SIZE, gimmick::block::BRAKE_SIZE}},
 
 		{ gimmick::crystal::type1::KEY_CRYSTAL_EMPTY, {"Resource/Gimmick/Crystal/e_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
 		{ gimmick::crystal::type1::KEY_CRYSTAL_RRD, {"Resource/Gimmick/Crystal/r_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
@@ -194,7 +195,8 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {2800, 905}},
 
 			// ギミック（壊れる岩1, 水晶1）
-			{ oscenario::OBJ_BLOCK, {3180, 890}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			// 岩はyを-70する
+			{ oscenario::OBJ_BLOCK, {3120, 820}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stageS;
@@ -277,7 +279,7 @@ namespace inr {
 			{ oscenario::OBJ_LEVER, {{6880, 1370}, {6840, 830}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{8320, 1210}, {9000, 1150}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// 壊れる岩
-			{ oscenario::OBJ_BLOCK, {1440, 530}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {1370, 530}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// 水晶（x-90）
 			{ oscenario::OBJ_CRYSTAL, {{2870, 1570}, {3180, 1410}, {3180, 1810}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{8370, 610}, {9000, 230}, {9000, 590}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
@@ -309,9 +311,9 @@ namespace inr {
 			// ボスレバーのみ
 			{ oscenario::OBJ_LEVER, {3440, 930}, false, 0, {gimmick::door::D_BOSS}},
 			// 壊れる岩
-			{ oscenario::OBJ_BLOCK, {2670, 2050}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_BLOCK, {990, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_BLOCK, {1790, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {2600, 2050}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {920, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {1720, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// 水晶
 			{ oscenario::OBJ_CRYSTAL, {{910, 1610}, {350, 1550}, {1430, 1550}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{910, 2410}, {1430, 2350}, {270, 2350}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
