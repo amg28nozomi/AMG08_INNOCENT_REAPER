@@ -264,8 +264,8 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenario2_1() {
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, enemy::MOVE_LEFT, 1 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1260, 150}, false, 2 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, enemy::MOVE_LEFT, 0 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 1260, 150}, enemy::MOVE_LEFT, 2 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 2060, 900}, false, 1 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 1660, 1390}, false, 2 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 3760, 190}, false },
@@ -313,7 +313,7 @@ namespace inr {
 			// ボスレバーのみ
 			{ oscenario::OBJ_LEVER, {3440, 930}, false, 0, {gimmick::door::D_BOSS}},
 			// 壊れる岩
-			{ oscenario::OBJ_BLOCK, {2600, 2050}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {2650, 2050}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_BLOCK, {920, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_BLOCK, {1720, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// 水晶
