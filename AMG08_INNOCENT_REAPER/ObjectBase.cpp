@@ -233,7 +233,7 @@ namespace inr {
 
 	bool ObjectBase::IsStandChip() {
 		auto nowcol = NowCollision(_divKey.first);
-		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip);
+		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip, ThisPlayer());
 		switch (chipType) {
 		case mapchip::IVY:
 		case mapchip::NONE:

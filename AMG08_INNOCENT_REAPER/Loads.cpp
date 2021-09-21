@@ -264,7 +264,7 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenario2_1() {
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, false, 1 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, enemy::MOVE_LEFT, 1 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 1260, 150}, false, 2 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 2060, 900}, false, 1 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 1660, 1390}, false, 2 },

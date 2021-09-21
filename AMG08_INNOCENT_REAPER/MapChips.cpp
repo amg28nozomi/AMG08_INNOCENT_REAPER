@@ -481,7 +481,7 @@ namespace inr {
 		return 0;
 	}
 
-	int MapChips::IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos) {
+	int MapChips::IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos, bool flag) {
 		auto gs = static_cast<int>(g);
 
 		auto footMinX = box.GetMin().IntX();
@@ -526,14 +526,16 @@ namespace inr {
 								cbox.GetMin().GetY() < mn.GetMax().GetY()) {
 								if (chiptype == mapchip::TRANSITION) {
 									// 遷移チップの場合は遷移処理を実行
-									TransitionResearch(chip_no);
+									if(flag == true) TransitionResearch(chip_no);
+									continue;
+								}
+								else {
+									auto cavep = box.GetHeightMax();
+									pos.GetPY() = minY - cavep;
+									// 通常判定チップの場合、座標を更新する
+									if (chiptype == mapchip::NORMAL) *lastpos = { maxX , pos.GetY() };
 									return chiptype;
 								}
-								auto cavep = box.GetHeightMax();
-								pos.GetPY() = minY - cavep;
-								// 通常判定チップの場合、座標を更新する
-								if (chiptype == mapchip::NORMAL) *lastpos = { maxX , pos.GetY() };
-								return chiptype;
 							}
 							/*if (mn.GetMin().GetY() < cbox.GetMax().GetY() && cbox.GetMin().GetY() < mn.GetMax().GetY()) return true;*/
 						} else if (g < 0) {
@@ -541,12 +543,14 @@ namespace inr {
 								// プレイヤーの下部はマップチップの下部より大きいか
 							if (cbox.GetMin().GetY() < mn.GetMax().GetY() && mn.GetMin().GetY() < cbox.GetMax().GetY()) { 
 								if (chiptype == mapchip::TRANSITION) {
-									TransitionResearch(chip_no);
+									if (flag == true) TransitionResearch(chip_no);
+									continue;
+								}
+								else {
+									auto cavep = box.GetHeightMin();
+									pos.GetPY() = maxY + cavep;
 									return chiptype;
 								}
-								auto cavep = box.GetHeightMin();
-								pos.GetPY() = maxY + cavep;
-								return chiptype;
 							}
 							
 						}
@@ -632,7 +636,7 @@ namespace inr {
 				int chip_no = CheckHit(x, y);
 				// チップ番号が0かどうか
 				if (chip_no != 0) {
-					// if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
+					if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
 					// 当たり判定を取得
 					auto c = _chipCheck->ChipCollision(chip_no);
 					auto minX = c.GetMin().IntX();
