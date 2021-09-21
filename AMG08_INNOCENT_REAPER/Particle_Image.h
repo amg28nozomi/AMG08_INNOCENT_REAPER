@@ -24,6 +24,10 @@ namespace inr {
 			constexpr auto CURSOR_W = 500;
 			constexpr auto CURSOR_H = 150;
 
+			constexpr auto STAGE_UI = "ui_stage";
+			constexpr auto STAGE_UI_W = 692;
+			constexpr auto STAGE_UI_H = 279;
+
 			constexpr auto NORMAL = false;
 			constexpr auto UI = true;
 		}
@@ -58,7 +62,7 @@ namespace inr {
 
 		void SetParameter(std::string graph, Vector2 pos, int pal = 0, double extrate = 1.0);
 		bool Animation();
-		bool DrawStart();
+		virtual bool DrawStart();
 		bool DrawEnd();
 		bool End();
 

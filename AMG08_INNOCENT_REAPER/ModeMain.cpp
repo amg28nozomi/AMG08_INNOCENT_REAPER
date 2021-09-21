@@ -11,6 +11,7 @@
 #include "FadeBlack.h"
 #include "Scenario.h"
 #include "Loads.h"
+#include "StageUi.h"
 #include "ModeServer.h"
 #include "StageTransition.h"
 #include "Pause.h"
@@ -33,6 +34,7 @@ namespace inr {
 		_changeKey = stage::CHANGE_NULL;
 
 		_bg = std::make_unique<BackGround>(_game.GetGame());
+		_stageUi = std::make_unique<StageUi>(_game.GetGame());
 		_uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
@@ -78,6 +80,8 @@ namespace inr {
 	void ModeMain::Process() {
 		IsStageChange();	// ステージを切り替えるか？
 		StageReset();	// ステージを初期化するか？
+		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) 
+			_stageUi->DrawStart();
 		++_modeFrame;
 
 		if (_pause->IsActive() != true) {	// ポーズ画面が起動していない間のみ実行
@@ -87,6 +91,7 @@ namespace inr {
 			_eServer->Process();
 			_game.GetObjectServer()->Process();
 			_uiSoul->Process();
+			_stageUi->Process();
 			return;
 		}
 		_pause->Process();	// ポーズ画面更新処理
@@ -100,6 +105,7 @@ namespace inr {
 		_eServer->Draw();
 		_game.GetObjectServer()->Draw();
 		_uiSoul->Draw();
+		_stageUi->Draw();
 		if(_pause->Active() == true) _pause->Draw();
 	}
 
@@ -116,6 +122,7 @@ namespace inr {
 		if (_game.GetModeServer()->PalChange() == true) {
 			// ギミックの状態を更新する
 			BgmManage(_changeKey);	// bgm切り替え
+			_stageUi->ChangeNumber(_changeKey);
 			_eServer->Init();	// 各種エフェクトを消去する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
@@ -192,7 +199,7 @@ namespace inr {
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
 		_bossBattle = false;
 		if (CheckSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3)) == 1) StopSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3));
-
+		_stageUi->Init();
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
 		_game.GetGimmickServer()->Clear();

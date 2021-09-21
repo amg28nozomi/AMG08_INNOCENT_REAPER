@@ -71,6 +71,7 @@ namespace inr {
 		if (_isDraw == true) return false;
 		_isDraw = true;
 		_animation = animation::A_ADD;
+		return true;
 	}
 
 	bool Particle_Image::DrawEnd() {

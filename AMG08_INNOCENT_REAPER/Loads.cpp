@@ -185,6 +185,8 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_2, background::STAGE2_PATH, background::STAGE2_FILE, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_B, background::STAGEB_PATH, background::STAGEB_FILE, 4, WINDOW_W, WINDOW_H);
+		std::string sui_path = "Resource/UI/";
+		graph::ResourceServer::SetLoadGraph(image::particle::STAGE_UI, sui_path, image::particle::STAGE_UI, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H);
 	}
 
 	// ïïàÛÇÃç’íd

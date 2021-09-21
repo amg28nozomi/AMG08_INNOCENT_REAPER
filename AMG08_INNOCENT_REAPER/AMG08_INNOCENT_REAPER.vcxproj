@@ -197,6 +197,7 @@
     <ClCompile Include="SoulManager.cpp" />
     <ClCompile Include="SoundServer.cpp" />
     <ClCompile Include="StageTransition.cpp" />
+    <ClCompile Include="StageUi.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="TrackingEffect.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="SoulManager.h" />
     <ClInclude Include="SoundServer.h" />
     <ClInclude Include="StageTransition.h" />
+    <ClInclude Include="StageUi.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TrackingEffect.h" />
     <ClInclude Include="UI.h" />

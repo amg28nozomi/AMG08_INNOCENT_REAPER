@@ -9,6 +9,7 @@ namespace inr {
 
 	class Pause;
 	class EffectServer;
+	class StageUi;
 
 	class ModeMain : public ModeBase {
 	public:
@@ -34,6 +35,7 @@ namespace inr {
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;	// 背景
+		std::unique_ptr<StageUi> _stageUi;
 		std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;
 		std::shared_ptr<EffectServer> _eServer;
