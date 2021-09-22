@@ -25,13 +25,12 @@ namespace inr {
 		_pos = { 50, 100 };
 		_active = { true, true};
 		_uiSoul;
-		Init();
+		Reset();
 	}
 
 	void UI::Init() {
 		// Šeíˆ—‚Ì‰Šú‰»
 		// _player.reset();	// Š—LŒ ‚ğè•ú‚·
-		_player.reset();
 		_ghKeys = { ui::KEY_HP };
 		_pal = { 255 };
 		_count = { 0 };
@@ -40,6 +39,11 @@ namespace inr {
 			int u_size = _uiSoul.size();
 			for (auto i = 0; i < u_size; ++i) _uiSoul.pop(); }
 
+	}
+
+	void UI::Reset() {
+		_player.reset();
+		Init();
 	}
 
 	void UI::Process() {

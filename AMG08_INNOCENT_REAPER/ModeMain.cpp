@@ -74,7 +74,7 @@ namespace inr {
 			_game.GetGimmickServer()->Clear();
 			_pause->Init();
 			_bg->ChangeGraph();
-			_uiSoul->Init();
+			_uiSoul->Reset();
 			_resetFlg = true;
 		}
 	}

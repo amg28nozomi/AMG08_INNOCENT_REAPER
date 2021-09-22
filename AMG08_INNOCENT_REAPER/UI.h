@@ -29,6 +29,8 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
+		void Reset();
+
 		void PlayerUpdate();	// 自機のポインタを取得する
 	private:
 		std::shared_ptr<Player> _player;	// 自機のポインタ
