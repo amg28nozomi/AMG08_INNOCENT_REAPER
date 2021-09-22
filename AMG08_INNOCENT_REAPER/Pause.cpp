@@ -27,6 +27,7 @@ namespace inr {
 		_uis.emplace_back(std::make_shared<Pause_UI>(_game.GetGame()));
 		_uis.emplace_back(std::make_shared<Particle_Image>(_game.GetGame()));
 		// 描画座標修正
+		// _uis[UI_BG]->SetParameter(image::BLACK, { 961, 540 });	// 背景(UI)
 		_uis[UI_BG]->SetParameter(image::BLACK, { 961, 540 });	// 背景(UI)
 		_uis[UI_CONTINUE]->SetParameter(image::particle::CONTINUE, {960 ,300});	// ゲームを続ける(UI)
 		_uis[UI_CONTROLS]->SetParameter(image::particle::CONTROLS, {960, 420});	// 操作方法へ(UI)
@@ -43,12 +44,14 @@ namespace inr {
 
 	void Pause::Init() {
 		_active = INACTIVE;	// 非活性状態にする
-		for (auto& ui : _uis) ui->Init();
+		_isEnd = false;
+		for (auto number = 0; number < _uis.size(); ++number) _uis[number]->Init();
+		// for (auto& ui : _uis) ui->Init();
 	}
 
 	void Pause::Process() {
 		if (_active == INACTIVE) return;	// 非活性状態の場合は処理を行わない
-		if (_uis[UI_CURSOL]->IsDraw() == false) {
+		if (_isEnd == true && _uis[UI_CURSOL]->IsDraw() == false) {
 			Init();
 			return;
 		}
@@ -71,12 +74,13 @@ namespace inr {
 		if (_active == true) return false;
 		if (_game.GetTrgKey() != PAD_INPUT_13) return false;
 		Sound(system::SOUND_PAUSE);
-		for (auto i = 0; i < _uis.size() - 1; ++i) _uis.at(i)->DrawStart();
+		for (auto i = 0; i < _uis.size() - 1; ++i) if(i != UI_OPERATION) _uis.at(i)->DrawStart();
 		_active = true;
 		return true;
 	}
 
 	bool Pause::InputLever() {
+		if (_isEnd == true) return false;	// 終了処理がある場合は入力を受け付けない
 		// アナログスティックの入力情報を取得
 		auto lever = _game.GetLeverUD();
 		// 押し倒しがない or 足りない場合は処理を行わない
@@ -91,6 +95,7 @@ namespace inr {
 
 	bool Pause::InputButton() {
 		if (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->IsMove() == true) return false;	// 移動処理がある場合は終了
+		if (_isEnd == true) return false;	// 終了処理がある場合も処理を行わない
 		auto key = _game.GetTrgKey();
 		if (key != PAD_INPUT_3 ) return false;	// Aボタンが押されていない時は処理を終了
 		// 現在の番号に応じて、処理を行う
@@ -98,11 +103,14 @@ namespace inr {
 		switch (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->UiNumber()) {
 		case system::CONTINUE:	// ポーズ画面を終了し、ゲーム本編に戻る。
 			for (auto i = 0; i < _uis.size(); ++i) _uis.at(i)->End();
+			_isEnd = true;
 			return true;
 		case system::CONTROLS:	// 操作方法説明の表示切り替え
+			_uis[UI_OPERATION]->DrawStart();	// 描画処理をオンにする
 			return true;
 		case system::QUIT_TO_TITLE:	// ゲーム本編終了
 			_game.GetModeServer()->ModeChange(mode::TITLE);	// タイトルに遷移する
+			_isEnd = true;
 			auto sound = se::SoundServer::GetSound(system::SOUND_SELECT);	// SEを鳴らす
 			PlaySoundMem(sound, se::SoundServer::GetPlayType(system::SOUND_SELECT));
 			return true;

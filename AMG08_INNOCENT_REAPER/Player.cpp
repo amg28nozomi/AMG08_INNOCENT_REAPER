@@ -958,6 +958,10 @@ namespace inr {
 		_direction = _oValue.Direction();
 		_mainCollision.Update(_position, _direction);
 		_mainCollision.GetCollisionFlgB() = true;
+
+		std::queue<std::shared_ptr<SoulSkin>> sss;
+		_souls = sss;
+
 		auto dashcol = _collisions.find(PKEY_DASH);
 		dashcol->second.Update(_position, _direction);
 		dashcol->second.GetCollisionFlgB() = true;

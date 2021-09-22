@@ -70,10 +70,11 @@ namespace inr {
 		} else {
 			_game.GetScenario()->Init();
 			_eServer->Init();	// 各種エフェクトを消去する
-			_game.GetObjectServer()->DeleteObject();	// 全オブジェクト抹消
+			_game.GetObjectServer()->AllClear();
 			_game.GetGimmickServer()->Clear();
 			_pause->Init();
 			_bg->ChangeGraph();
+			_uiSoul->Init();
 			_resetFlg = true;
 		}
 	}
@@ -200,7 +201,7 @@ namespace inr {
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
 		_bossBattle = false;
 		if (CheckSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3)) == 1) StopSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3));
-		_stageUi->Init();
+		_uiSoul->Init();
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
 		_game.GetGimmickServer()->Clear();

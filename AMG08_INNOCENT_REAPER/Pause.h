@@ -24,6 +24,7 @@ namespace inr {
 		std::vector<std::shared_ptr<Particle_Image>> _uis;	// 各種UI
 
 		bool _active;	// 活性化しているか
+		bool _isEnd;	// ポーズを終了するか？
 		bool InputLever();	// レバー
 		bool InputButton();	// ボタン
 		bool PauseOn();	// キー入力はあったかどうか

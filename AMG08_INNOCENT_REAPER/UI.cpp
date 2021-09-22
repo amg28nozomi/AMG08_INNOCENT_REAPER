@@ -23,16 +23,23 @@ namespace inr {
 	UI::UI(Game& game) : Image(game) {
 		_player = nullptr;
 		_pos = { 50, 100 };
-		_ghKeys = { ui::KEY_HP };
-		_count = { 0 };
-		_pal = { 255 };
-		_active = { true, true };
+		_active = { true, true};
 		_uiSoul;
 		Init();
 	}
 
 	void UI::Init() {
 		// Šeíˆ—‚Ì‰Šú‰»
+		// _player.reset();	// Š—LŒ ‚ğè•ú‚·
+		_player.reset();
+		_ghKeys = { ui::KEY_HP };
+		_pal = { 255 };
+		_count = { 0 };
+		_active = { true, true };
+		if (_uiSoul.empty() != true) { 
+			int u_size = _uiSoul.size();
+			for (auto i = 0; i < u_size; ++i) _uiSoul.pop(); }
+
 	}
 
 	void UI::Process() {

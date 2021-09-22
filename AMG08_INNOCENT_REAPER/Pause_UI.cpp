@@ -23,6 +23,7 @@ namespace inr {
 		_no = system::CONTINUE;
 		_upDown = MOVE_NULL;
 		_nextY = 0;
+		_move = false;
 	}
 
 	void Pause_UI::Process() {
