@@ -3,6 +3,7 @@
 #include <string>
 #include "Particle_Image.h"
 #include "Collision.h"
+#include"ObjectValue.h"
 
 namespace inr {
 
@@ -34,11 +35,13 @@ namespace inr {
 		void Process();
 		void Draw();
 
-		void SetParameter(ImageValue ivef, ImageValue ives);
+		void SetParameter(ObjectValue ovalue, ImageValue ives);
 		inline bool IsGet() { return _isGet; }
+		inline bool IsDel() { return _del; }
 		inline std::string ThisNnumber() { return _stageNo; }
 	private:
 		Game& _game;
+		ObjectValue _oValue;
 		Particle_Image _pi;
 		Collision _col;	// 当たり判定
 
@@ -46,6 +49,7 @@ namespace inr {
 		Vector2 _position;
 		std::string _stageNo;	// ステージ番号
 		bool _isGet;	// すでに入手されているか？
+		bool _del;
 	};
 
 }

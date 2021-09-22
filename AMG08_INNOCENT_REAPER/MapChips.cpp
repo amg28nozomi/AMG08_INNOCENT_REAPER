@@ -528,8 +528,7 @@ namespace inr {
 									// 遷移チップの場合は遷移処理を実行
 									if(flag == true) TransitionResearch(chip_no);
 									continue;
-								}
-								else {
+								} else {
 									auto cavep = box.GetHeightMax();
 									pos.GetPY() = minY - cavep;
 									// 通常判定チップの場合、座標を更新する
@@ -742,7 +741,8 @@ namespace inr {
 
 					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
 						if (vectorY < 0) {
-							if (miny < chipMinY && chipMinY < maxy) {
+							if (miny < chipMaxY && chipMaxY < maxy) {
+								// < chipMinY && chipMinY < maxy) {
 								if (hittype == mapchip::HIT_ON) {
 									auto cave = box.GetHeightMin();
 									move.GetPY() = 0;	// 移動量初期化
@@ -752,14 +752,17 @@ namespace inr {
 							}
 						}
 						else if (0 < vectorY) {
-								if (chipMaxY < maxy && miny < chipMaxY) {
-									if (hittype == mapchip::HIT_ON) {
-										auto cave = box.GetHeightMin();
-										move.GetPY() = 0;	// 移動量初期化
-										pos.GetPY() = chipMinY + cave;
-									} else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
-									else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
+							if (chipMinY < maxY && miny < chipMinY) {
+								if (hittype == mapchip::HIT_ON) {
+									auto cave = box.GetHeightMin();
+									move.GetPY() = 0;	// 移動量初期化
+									pos.GetPY() = chipMinY + cave;
 								}
+								else if (chiptype == mapchip::TYPE_IVX) *isGran = true;
+								else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
+							}
+								//if (chipMaxY < maxy && miny < chipMaxY) {
+								//}
 							}
 						}
 

@@ -8,6 +8,10 @@
 #include "Lever.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"
+#include "EffectBase.h"
+#include "EffectServer.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
 
 // α仮
 #include "SoulSkin.h"
@@ -472,6 +476,9 @@ namespace inr {
 					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
+
+					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
+					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff));
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {

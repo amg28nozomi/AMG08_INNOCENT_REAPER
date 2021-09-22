@@ -148,6 +148,7 @@ namespace inr {
 		{ effect::DASH, {"Resource/effect/Player/re_dash.png", 5, 1, 5, 360, 360}},
 		{ effect::ROB, {"Resource/effect/Player/rob.png", 3, 3, 9, effect::ROB_IMAGE, effect::ROB_IMAGE}},	// 奪うアクション
 		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},	// ダメージ
+		{ effect::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::SHIT_IMAGE, effect::SHIT_IMAGE}},
 
 	};
 

@@ -4,6 +4,7 @@
 #include "Particle_Image.h"
 #include "ObjectServer.h"
 #include "Player.h"
+#include "ObjectValue.h"
 
 namespace inr {
 
@@ -14,11 +15,12 @@ namespace inr {
 		_height = height;
 	}
 
-	Item::Item(Game& game, std::string no) : _game(game), _pi(game) {
+	Item::Item(Game& game, std::string no) : _game(game), _pi(game), _oValue() {
 		_gkey = "";
 		_position = { 0, 0 };
 		_col = { _position, 0, 0, true };
 		_stageNo = no;
+		_del = false;
 	}
 
 	void Item::Init() {
@@ -45,10 +47,11 @@ namespace inr {
 		_pi.Draw();
 	}
 
-	void Item::SetParameter(ImageValue ivef, ImageValue ives) {
-		_gkey = ivef.GraphKey();
-		_position = ivef.Position();
-		_col = { _position, ivef.Width(), ivef.Height() };
+	void Item::SetParameter(ObjectValue ovalue, ImageValue ives) {
+		_oValue = ovalue;
+		_gkey = ives.GraphKey();
+		_position = ives.Position();
+		_col = { _position, ives.Width(), ives.Height() };
 		_pi.SetParameter(ives.GraphKey(), ives.Position());
 	}
 }

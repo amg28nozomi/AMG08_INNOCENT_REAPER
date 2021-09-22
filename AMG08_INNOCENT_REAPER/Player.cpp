@@ -186,7 +186,7 @@ namespace inr {
 
 
 		// AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
-		AABB dashBox = { _position, 35, 55, true };
+		AABB dashBox = { _position, 25, 55, true };
 		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
 		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
 		
@@ -977,7 +977,9 @@ namespace inr {
 		// 現在のアクション状態はボックスを修正する必要があるか？
 		if (_aState == ActionState::DASH) {
 			auto it = _collisions.find(key);
-			return it->second;
+			auto box = it->second;
+			box.Update(_position, _direction);
+			return box;
 		}
 		return _mainCollision;
 	}
