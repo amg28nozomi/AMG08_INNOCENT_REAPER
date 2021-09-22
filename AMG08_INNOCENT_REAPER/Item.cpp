@@ -28,7 +28,9 @@ namespace inr {
 	}
 
 	void Item::Process() {
-		auto pbox = _game.GetObjectServer()->GetPlayer()->GetMainCollision();
+
+		if (_isGet == true) return;	// Šù‚É“üŽè‚³‚ê‚Ä‚¢‚éê‡‚Íˆ—‚ðs‚í‚È‚¢
+		auto pbox = _game.GetObjectServer()->GetPlayer()->GetMainCollision();	// Ž©‹@‚Ì“–‚½‚è”»’è‚ðŽæ“¾
 		if (_col.HitCheck(pbox) == true) {
 			_pi.DrawStart();
 		} else { 

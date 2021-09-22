@@ -170,6 +170,8 @@
     <ClCompile Include="GimmickBase.cpp" />
     <ClCompile Include="GimmickServer.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImageServer.cpp" />
+    <ClCompile Include="ImageValue.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemServer.cpp" />
     <ClCompile Include="Lever.cpp" />
@@ -226,6 +228,8 @@
     <ClInclude Include="GimmickBase.h" />
     <ClInclude Include="GimmickServer.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="ImageServer.h" />
+    <ClInclude Include="ImageValue.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemServer.h" />
     <ClInclude Include="Lever.h" />
