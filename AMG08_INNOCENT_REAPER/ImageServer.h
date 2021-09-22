@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <memory>
 #include <string>
+#include <vector>
 #include "ImageValue.h"
 
 namespace inr {
@@ -15,8 +16,6 @@ namespace inr {
 	class Particle_Image;
 	class ImageValue;
 
-	using ImageDatas = std::unordered_map<int, ImageValue>;
-
 	class ImageServer {
 	public:
 		ImageServer();
@@ -27,6 +26,7 @@ namespace inr {
 		bool Draw();	// 描画
 
 		bool ImageChange(const int nextKey);
+		bool AddImage(const int number, std::shared_ptr<Particle_Image> image);
 	private:
 		int _imageKey;	// 検索用キー
 		int _changeKey;	// 切り替え用キー

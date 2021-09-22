@@ -18,6 +18,7 @@
 #include "SoulCursor.h"
 #include "Lever.h"
 #include "GimmickBase.h"
+#include "ImageValue.h"
 
 #include <vector>
 
@@ -188,6 +189,12 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_B, background::STAGEB_PATH, background::STAGEB_FILE, 4, WINDOW_W, WINDOW_H);
 		std::string sui_path = "Resource/UI/";
 		graph::ResourceServer::SetLoadGraph(image::particle::STAGE_UI, sui_path, image::particle::STAGE_UI, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H);
+	}
+
+	void Loads::LoadImages() {
+		/*std::vector<ImageValue> ive{
+			{ 0, { "Resource/UI/", {HALF_WINDOW_W, HALF_WINDOW_H}}},
+		};*/
 	}
 
 	// ïïàÛÇÃç’íd

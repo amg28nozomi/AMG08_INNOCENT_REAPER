@@ -99,14 +99,13 @@ namespace inr {
 	}
 
 	void ModeMain::Draw() {
-		_bg->Draw();
-		_game.GetGimmickServer()->Draw();
-		_game.GetMapChips()->Draw();
-		// ここで各種エフェクトの描画処理を行う
-		_eServer->Draw();
-		_game.GetObjectServer()->Draw();
-		_uiSoul->Draw();
-		_stageUi->Draw();
+		_bg->Draw();	// 背景
+		_game.GetGimmickServer()->Draw();	// ギミック
+		_game.GetMapChips()->Draw();	// マップチップ
+		_eServer->Draw();	// エフェクト
+		_game.GetObjectServer()->Draw();	// オブジェクト
+		_uiSoul->Draw();	// HP(UI)
+		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();
 	}
 

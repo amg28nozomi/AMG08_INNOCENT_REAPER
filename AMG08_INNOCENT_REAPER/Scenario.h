@@ -20,6 +20,7 @@ namespace inr {
 	class Player;
 	class EnemyBase;
 	class ObjectValue;
+	class ImageValue;
 
 
 	class Scenario {
