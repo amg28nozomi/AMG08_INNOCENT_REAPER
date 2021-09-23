@@ -85,6 +85,7 @@ namespace inr {
 		int _knockBack;	// ノックバックカウンタ
 		int _invincible;	// 無敵時間
 		std::string _moveType;	// 移動音
+		std::string _landingType;	// 着地音
 		double _jumpPower;	// ジャンプ溜め
 		bool _input;	// 入力処理を受け付けるか
 		bool _gran;	// 掴み判定

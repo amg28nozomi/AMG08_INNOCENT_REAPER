@@ -137,6 +137,7 @@ namespace inr {
 		_dashInterval = 0;
 		_judegFrame = 0;
 		_moveType = "";
+		_landingType = "";
 
 		_souls;
 		// _souls.push(nullptr);
@@ -276,6 +277,7 @@ namespace inr {
 
 		_mainCollision.Update(_position, _direction);
 		_moveType = key::SOUND_PLAYER_RUN1;
+		_landingType = key::SOUND_PLAYER_FALL1;
 	}
 
 	void Player::SetParameter(std::pair<Vector2, bool> newdata, std::string sKey) {
@@ -300,8 +302,14 @@ namespace inr {
 		_mainCollision.Update(_position, _direction);
 		_game.GetMapChips()->WorldUpdate(_position);
 
-		if (sKey == stage::STAGE_0 && sKey == stage::STAGE_1) _moveType = key::SOUND_PLAYER_RUN1;
-		else if (_moveType != key::SOUND_PLAYER_RUN2) _moveType = key::SOUND_PLAYER_RUN2;
+		if (sKey == stage::STAGE_0 || sKey == stage::STAGE_1) {
+			_moveType = key::SOUND_PLAYER_RUN1;
+			_landingType = key::SOUND_PLAYER_FALL1;
+		}
+		else if (_moveType != key::SOUND_PLAYER_RUN2) {
+			_moveType = key::SOUND_PLAYER_RUN2;
+			_landingType = key::SOUND_PLAYER_FALL2;
+		}
 	}
 
 	void Player::StateUpdate() {
@@ -334,9 +342,18 @@ namespace inr {
 			if (_stand) {
 			//if (_stand && _gravity == 0) {
 				//// íÖínâπÇñ¬ÇÁÇ∑
-				auto land = SoundResearch(key::SOUND_PLAYER_FALL);
+				// SEÇñ¬ÇÁÇ∑Ç©Ç«Ç§Ç©ÅH
+				// if (_aCount % GetSoundFrame(_landingType) == 0 ) {
+				auto sound1 = SoundResearch(_landingType);
+				if (CheckSoundMem(sound1) == 0) {
+					auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+					PlaySoundMem(sound1, soundType);
+				}
+			//	}
+
+				/*auto land = SoundResearch(key::SOUND_PLAYER_FALL);
 				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-				PlaySoundMem(land, soundType);
+				PlaySoundMem(land, soundType);*/
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
 			if (_gran) _aState = ActionState::GRAN;	// íÕÇ›èÛë‘Ç…ëJà⁄Ç∑ÇÈ
@@ -497,7 +514,7 @@ namespace inr {
 						// SEÇñ¬ÇÁÇ∑Ç©Ç«Ç§Ç©ÅH
 						if (_aCount % GetSoundFrame(_divKey.first) == 0 && IsAnimationMax() != true) {
 							auto sound1 = SoundResearch(_moveType);
-							if (CheckSoundMem(sound1) == 0 && CheckSoundMem(se::SoundServer::GetSound(key::SOUND_PLAYER_FALL)) == 0) {
+							if (CheckSoundMem(sound1) == 0 && CheckSoundMem(se::SoundServer::GetSound(key::SOUND_PLAYER_FALL1)) == 0) {
 								auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 								PlaySoundMem(sound1, soundType);
 							}

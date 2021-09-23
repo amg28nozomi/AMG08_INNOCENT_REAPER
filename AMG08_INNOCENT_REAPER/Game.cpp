@@ -82,9 +82,10 @@ namespace inr {
 
 	const se::SoundServer::SoundMap ses {
 		{{key::SOUND_PLAYER_ROB}, {"Resource/SE/swing1.mp3", DX_PLAYTYPE_BACK}},
-		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/Player/landing_stage1.wav", DX_PLAYTYPE_BACK}},
-		{{key::SOUND_PLAYER_RUN2}, {"Resource/SE/Player/landing_stage2.wav", DX_PLAYTYPE_BACK}},
-		{{key::SOUND_PLAYER_FALL}, {"Resource/SE/defense1.mp3", DX_PLAYTYPE_BACK}},
+		{{key::SOUND_PLAYER_RUN1}, {"Resource/SE/Player/move_stage1.wav", DX_PLAYTYPE_BACK}},
+		{{key::SOUND_PLAYER_RUN2}, {"Resource/SE/Player/move_stage2.wav", DX_PLAYTYPE_BACK}},
+		{{key::SOUND_PLAYER_FALL1}, {"Resource/SE/Player/landing_stage1.wav", DX_PLAYTYPE_BACK}},
+		{{key::SOUND_PLAYER_FALL2}, {"Resource/SE/Player/landing_stage2.wav", DX_PLAYTYPE_BACK}},
 
 		{{enemy::crowdoll::SE_VOICE}, {"Resource/SE/CrowDoll/cd_voice.wav", DX_PLAYTYPE_BACK}},
 		{{enemy::crowdoll::SE_RASH}, {"Resource/SE/CrowDoll/cd_rush.wav", DX_PLAYTYPE_BACK} },
@@ -109,8 +110,8 @@ namespace inr {
 		{ {system::CURSOR_MOVE}, {"Resource/SE/System/cursormove.wav", DX_PLAYTYPE_BACK}},
 		{ {system::SOUND_SELECT}, {"Resource/SE/System/select_0.wav", DX_PLAYTYPE_BACK}},
 
-		{ {system::MOVE_STAGE1}, {"Resource/SE/System/move_stage1.wav", DX_PLAYTYPE_BACK}},
-		{ {system::MOVE_STAGE2}, {"Resource/SE/System/move_stage2.wav", DX_PLAYTYPE_BACK}},
+		{ {system::MOVE_STAGE1}, {"Resource/SE/System/change_stage1.wav", DX_PLAYTYPE_BACK}},
+		{ {system::MOVE_STAGE2}, {"Resource/SE/System/change_stage2.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	const se::SoundServer::SoundMap bgms{

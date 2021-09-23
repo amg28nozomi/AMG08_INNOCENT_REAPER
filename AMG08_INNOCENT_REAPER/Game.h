@@ -42,7 +42,10 @@ namespace inr {
 		constexpr auto SOUND_PLAYER_GIVE_TRUE = "player_give_true";
 		constexpr auto SOUND_PLAYER_GIVE_FALSE = "player_give_false";
 		constexpr auto SOUND_PLAYER_JUMP = "player_jump";
-		constexpr auto SOUND_PLAYER_FALL = "player_fall";
+		
+		constexpr auto SOUND_PLAYER_FALL1 = "player_fall_1";
+		constexpr auto SOUND_PLAYER_FALL2 = "player_fall_2";
+
 		constexpr auto SOUND_PLAYER_DASH = "player_dash";
 		constexpr auto SOUND_PLAYER_SWITCH = "player_switch";	// ç∞ÇÃêÿÇËë÷Ç¶
 		constexpr auto SOUND_PLAYER_HIT = "player_hit";
