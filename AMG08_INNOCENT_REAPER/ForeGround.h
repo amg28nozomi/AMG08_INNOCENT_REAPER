@@ -17,8 +17,14 @@ namespace inr {
 		constexpr auto FORE0_H = 2160;
 		constexpr auto FORE1_W = 9600;
 		constexpr auto FORE1_H = 2160;
-		constexpr auto FORE2_W = 0;
-		constexpr auto FORE2_H = 0;
+		constexpr auto FORE2_W = 9600;
+		constexpr auto FORE2_H = 2160;
+		constexpr auto FORE2_1_W = 0;
+		constexpr auto FORE2_1_H = 0;
+		constexpr auto FORE2_2_W = 0;
+		constexpr auto FORE2_2_H = 0;
+		constexpr auto FORE3_W = 0;
+		constexpr auto FORE3_H = 0;
 	}
 
 	class ForeGround : public Image {

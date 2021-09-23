@@ -181,7 +181,7 @@ namespace inr {
 
 					if (0 <= no) {
 
-						if (128 <= no) continue;	// 遷移チップの場合は処理を行わない
+						// if (128 <= no) continue;	// 遷移チップの場合は処理を行わない
 						auto gh = graph::ResourceServer::GetHandles(stage::KEY_NORMAL, no);
 						DrawGraph(posX, posY, gh, TRUE);
 

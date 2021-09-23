@@ -90,7 +90,9 @@ namespace {
 	constexpr auto HIT_FRAME = 60;	// ノックバック時間
 	constexpr auto INVINCIBLE_TIME = 120;	// 無敵フレーム
 
-	// 押し出し処理
+	// 蔦登り
+	constexpr auto HAND_WIDTH = 10;
+	constexpr auto HAND_HEIGHT = 10;
 
 
 	// 各種モーションの画像数
@@ -190,10 +192,13 @@ namespace inr {
 		AABB dashBox = { _position, 25, 55, true };
 		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
 		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
+		AABB handBox = { _position, HAND_WIDTH, HAND_HEIGHT, true };
 		
 		_collisions = { {PKEY_ROB, {robBox}},
 						{PKEY_GIVE, {giveBox}},
-						{PKEY_DASH, {dashBox}} };
+						{PKEY_DASH, {dashBox}},
+						{PKEY_CLIMB, {handBox}},
+		};
 }
 
 	void Player::Process() {
@@ -487,7 +492,9 @@ namespace inr {
 	}
 
 	void Player::Gran() {
-		if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
+		// if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
+		auto hand = _collisions.find(PKEY_CLIMB);
+		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, _direction)) IsGran();
 		else _gran = false;
 	}
 

@@ -133,6 +133,7 @@ namespace inr {
 		// ‘OŒi
 		{ fgd::FORE_STAGE0, {"Resource/BackGround/Stage0/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
 		{ fgd::FORE_STAGE1, {"Resource/BackGround/Stage1/fg_stage1.png", 1, 1, 1, fgd::FORE1_W, fgd::FORE1_H}},
+		{ fgd::FORE_STAGE2, {"Resource/BackGround/Stage2/fg_stage2.png", 1, 1, 1, fgd::FORE2_W, fgd::FORE2_H}},
 	};
 
 	const graph::ResourceServer::DivGraphMap gimmicks{
@@ -216,6 +217,9 @@ namespace inr {
 			{ fgd::FORE_STAGE0, { fgd::FORE0_W / 2, fgd::FORE0_H / 2 }, {}  },
 			{ fgd::FORE_STAGE1, { fgd::FORE1_W / 2, fgd::FORE1_H / 2 }, {}  },
 			{ fgd::FORE_STAGE2, { fgd::FORE2_W / 2, fgd::FORE2_H / 2 }, {}  },
+			{ fgd::FORE_STAGE2_1, { fgd::FORE2_1_W / 2, fgd::FORE2_1_H / 2}, {}},
+			{ fgd::FORE_STAGE2_2, { fgd::FORE2_2_W / 2, fgd::FORE2_2_H / 2}, {}},
+			{ fgd::FORE_STAGE3, { fgd::FORE3_W / 2, fgd::FORE3_H / 2}, {}},
 		};
 		return fore_g;
 	}
