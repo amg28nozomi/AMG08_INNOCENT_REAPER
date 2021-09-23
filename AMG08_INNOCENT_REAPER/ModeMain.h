@@ -11,6 +11,7 @@ namespace inr {
 	class Pause;
 	class EffectServer;
 	class StageUi;
+	class ForeGround;
 
 	class ModeMain : public ModeBase {
 	public:
@@ -42,6 +43,7 @@ namespace inr {
 		std::unique_ptr<Pause> _pause;
 		std::shared_ptr<EffectServer> _eServer;
 		std::unique_ptr<ImageServer> _itemImages;
+		std::unique_ptr<ForeGround> _fg;	// 前景
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？

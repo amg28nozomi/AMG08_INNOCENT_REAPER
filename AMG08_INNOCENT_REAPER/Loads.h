@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Scenario.h"
+#include "ImageValue.h"
 
 namespace inr {
 
@@ -10,6 +11,7 @@ namespace inr {
 	public:
 		static void ResourceLoad();	// 各種素材の読み込み
 		static ImageMap LoadImages();	// 画像の読み込み
+		static std::vector<ImageValue> LoadForeGround1();	// 前景
 
 		static std::vector<ObjectValue> LoadScenarioS();	// ステージS
 		static std::vector<ObjectValue> LoadScenario1();	// ステージ1

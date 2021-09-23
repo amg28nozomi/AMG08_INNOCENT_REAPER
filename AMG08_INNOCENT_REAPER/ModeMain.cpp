@@ -17,6 +17,7 @@
 #include "Pause.h"
 #include "EffectServer.h"
 #include "CrowDoll.h"
+#include "ForeGround.h"
 
 #include <memory>
 #include <unordered_map>
@@ -39,6 +40,7 @@ namespace inr {
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
 		_itemImages = std::make_unique<ImageServer>();
+		_fg = std::make_unique<ForeGround>(_game.GetGame());
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -60,6 +62,7 @@ namespace inr {
 			_worldPosition = { 1920 / 2, 1080 / 2 };
 
 			TimeClear();
+			_fg->SetKey(_stageKey);
 			_game.GetMapChips()->ChangeMap(_stageKey);
 			_game.GetScenario()->AddObjects(_stageKey);
 			_eServer->Init();
@@ -92,6 +95,7 @@ namespace inr {
 			_game.GetMapChips()->Process();
 			_eServer->Process();
 			_game.GetObjectServer()->Process();
+			_fg->Process();
 			_uiSoul->Process();
 			_stageUi->Process();
 			return;
@@ -106,6 +110,7 @@ namespace inr {
 		_game.GetMapChips()->Draw();	// マップチップ
 		_eServer->Draw();	// エフェクト
 		_game.GetObjectServer()->Draw();	// オブジェクト
+		_fg->Draw();
 		_uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();
@@ -126,6 +131,7 @@ namespace inr {
 			// ギミックの状態を更新する
 			BgmManage(_changeKey);	// bgm切り替え
 			_stageUi->ChangeNumber(_changeKey);
+			_fg->SetKey(_changeKey);
 			_eServer->Init();	// 各種エフェクトを消去する
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);

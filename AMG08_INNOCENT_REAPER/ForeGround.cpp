@@ -2,20 +2,25 @@
 #include "ImageValue.h"
 #include "Game.h"
 #include "StageTransition.h"
+#include "Loads.h"
 #include <DxLib.h>
 
 namespace inr {
 
 	ForeGround::ForeGround(Game& game) : Image(game) {
-		Init();
+		_ivalue = Loads::LoadForeGround1();
+	}
+
+	ForeGround::~ForeGround() {
+		_ivalue.clear();
 	}
 
 	void ForeGround::Init() {
-		_ivalue.clear();
 	}
 
 	bool ForeGround::SetForeGround(std::vector<ImageValue> ive) {
 		_ivalue = ive;
+		return true;
 	}
 
 	void ForeGround::Draw() {
@@ -23,7 +28,7 @@ namespace inr {
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
 		auto y = xy.IntY();
-		auto gh = graph::ResourceServer::GetHandles(_graphKey, 1);
+		auto gh = graph::ResourceServer::GetHandles(_graphKey, 0);
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);
 	}
 

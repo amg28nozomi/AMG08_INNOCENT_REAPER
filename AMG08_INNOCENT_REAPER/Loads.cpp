@@ -18,7 +18,7 @@
 #include "SoulCursor.h"
 #include "Lever.h"
 #include "GimmickBase.h"
-#include "ImageValue.h"
+#include "ForeGround.h"
 
 #include <vector>
 
@@ -129,6 +129,10 @@ namespace inr {
 		{ item::MESSAGE_1, {"Resource/Item/message2.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_2, {"Resource/Item/message3.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_3, {"Resource/Item/message4.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+
+		// ëOåi
+		{ fgd::FORE_STAGE0, {"Resource/BackGround/Stage0/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
+		{ fgd::FORE_STAGE1, {"Resource/BackGround/Stage1/fg_stage1.png", 1, 1, 1, fgd::FORE1_W, fgd::FORE1_H}},
 	};
 
 	const graph::ResourceServer::DivGraphMap gimmicks{
@@ -205,6 +209,15 @@ namespace inr {
 			{ pvalue::ITEM_3, {item::MESSAGE_3, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
 		};
 		return imap;
+	}
+
+	std::vector<ImageValue> Loads::LoadForeGround1() {
+		std::vector<ImageValue> fore_g = {
+			{ fgd::FORE_STAGE0, { fgd::FORE0_W / 2, fgd::FORE0_H / 2 }, {}  },
+			{ fgd::FORE_STAGE1, { fgd::FORE1_W / 2, fgd::FORE1_H / 2 }, {}  },
+			{ fgd::FORE_STAGE2, { fgd::FORE2_W / 2, fgd::FORE2_H / 2 }, {}  },
+		};
+		return fore_g;
 	}
 
 	// ïïàÛÇÃç’íd
