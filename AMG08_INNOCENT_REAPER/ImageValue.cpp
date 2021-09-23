@@ -6,6 +6,10 @@ namespace {
 
 namespace inr {
 
+	ImageValue::ImageValue() : _particleValue(), _position() {
+		_graph = "";
+	}
+
 	ImageValue::ImageValue(std::string gkey, Vector2 pos, ParticleValue paricleValue) : _particleValue(paricleValue), _position(pos) {
 		_graph = gkey;
 	}

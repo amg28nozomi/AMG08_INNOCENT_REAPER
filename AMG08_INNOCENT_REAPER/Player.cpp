@@ -748,6 +748,13 @@ namespace inr {
 			//auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE_TRUE);
 			//PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
 
+			
+
+			Vector2 pos = { _position.GetX() + GetFix(60), _position.GetY() };
+
+			auto give_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::GIVE, pos, 60, _direction);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff));
+
 			auto it = _collisions.find(PKEY_GIVE);
 			it->second.GetCollisionFlgB() = true;	// ”»’èƒIƒ“
 #ifdef _DEBUG
@@ -1003,6 +1010,15 @@ namespace inr {
 			return box;
 		}
 		return _mainCollision;
+	}
+
+	double Player::GetFix(double value) {
+		switch (_direction) {
+		case enemy::MOVE_LEFT:
+			return -value;
+		case enemy::MOVE_RIGHT:
+			return value;
+		}
 	}
 
 

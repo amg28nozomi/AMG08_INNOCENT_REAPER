@@ -36,7 +36,7 @@ namespace inr {
 		_count = { 0 };
 		_active = { true, true };
 		if (_uiSoul.empty() != true) { 
-			int u_size = _uiSoul.size();
+			int u_size = static_cast<int>(_uiSoul.size());
 			for (auto i = 0; i < u_size; ++i) _uiSoul.pop(); }
 
 	}

@@ -16,6 +16,7 @@ namespace inr {
 		constexpr auto ROB = "rob_effect";
 		constexpr auto HIT = "hit_effect";	// 自機ダメージ時
 		constexpr auto DEAD = "dead_effect";	// ダメージ時エフェクト
+		constexpr auto GIVE = "give_effect";	// 与えるエフェクト
 
 		constexpr auto S_HIT = "soul_hit_effect";
 
@@ -27,6 +28,7 @@ namespace inr {
 		constexpr auto HIT_IMAGE_H = 430;
 
 		constexpr auto SHIT_IMAGE = 400;
+		constexpr auto GIVE_IMAGE = 140;
 	}
 
 	class Game;

@@ -35,6 +35,7 @@ namespace inr {
 
 	class ImageValue {
 	public:
+		ImageValue();
 		ImageValue(std::string gkey, Vector2 pos, ParticleValue paricleValue);
 		~ImageValue() = default;
 

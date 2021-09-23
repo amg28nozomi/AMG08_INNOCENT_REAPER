@@ -166,6 +166,7 @@
     <ClCompile Include="FadeBlack.cpp" />
     <ClCompile Include="FileData.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="ForeGround.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GimmickBase.cpp" />
     <ClCompile Include="GimmickServer.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="FadeBlack.h" />
     <ClInclude Include="FileData.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="ForeGround.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GimmickBase.h" />
     <ClInclude Include="GimmickServer.h" />

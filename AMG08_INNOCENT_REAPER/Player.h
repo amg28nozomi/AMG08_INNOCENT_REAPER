@@ -128,6 +128,8 @@ namespace inr {
 
 		AABB GetAABB();
 		AABB NowCollision(std::string key) override;
+
+		double GetFix(double value);	// Œü‚«‚É‰‚¶‚Ä”½“]ˆ—‚ğ‚©‚¯‚é
 		
 #ifdef _DEBUG
 		void DebugInfo();
