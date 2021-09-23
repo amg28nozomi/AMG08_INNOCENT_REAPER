@@ -21,7 +21,9 @@ namespace inr {
 	class EnemyBase;
 	class ObjectValue;
 	class ImageValue;
+	class Particle_Image;
 
+	using ImageMap = std::unordered_map<int, ImageValue>;
 
 	class Scenario {
 	public:
@@ -51,7 +53,10 @@ namespace inr {
 		void AddBlock(ObjectValue ovalue);
 		void AddDoor(ObjectValue ovalue);
 
+		std::unique_ptr<Particle_Image> AddImage(ImageValue pvalue);
+
 		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// 情報読み込み
+		void LoadImageData(ImageMap imap);
 		bool IsLoad(const std::string key);	// 対象のキーは読み込んだか？
 		void ClearScenario();	// 連想配列の初期化
 		//void CheckSize(const char* objkey);	// この

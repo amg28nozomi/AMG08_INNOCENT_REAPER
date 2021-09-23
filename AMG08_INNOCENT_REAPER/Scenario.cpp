@@ -20,6 +20,11 @@
 #include "Block.h"
 #include "Crystal.h"
 
+#include "ModeServer.h"
+#include "ModeMain.h"
+#include "ItemServer.h"
+#include "Particle_Image.h"
+
 namespace {
 	constexpr auto COUNT_MIN = 0;
 }
@@ -49,6 +54,14 @@ namespace inr {
 		//	//auto key = obj.first;
 		//	_scenarios.emplace(key, obj.second);
 		//}
+	}
+
+	void Scenario::LoadImageData(ImageMap imap) {
+		for (auto image : imap) {
+			// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©Šm”FB“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ì‚ÝAˆ—‚ð‘±‚¯‚é
+			if (_game.GetModeServer()->GetModeMain()->GetItemImages()->IsResister(image.first) != true) continue;
+			_game.GetModeServer()->GetModeMain()->GetItemImages()->AddImage(image.first, AddImage(image.second));
+		}
 	}
 
 	void Scenario::ClearScenario() {
@@ -246,6 +259,12 @@ namespace inr {
 		auto gdoor = std::make_shared<Door>(_game.GetGame());
 		gdoor->SetParameter(ovalue);
 		_game.GetGimmickServer()->Add(std::move(gdoor));
+	}
+
+	std::unique_ptr<Particle_Image> Scenario::AddImage(ImageValue pvalue) {
+		auto pimage = std::make_unique<Particle_Image>(_game.GetGame());
+		pimage->SetImage(pvalue);
+		return std::move(pimage);
 	}
 
 	void Scenario::ScenarioUpdate(std::string key) {

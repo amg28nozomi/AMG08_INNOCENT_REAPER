@@ -103,8 +103,8 @@ namespace inr {
 
 		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, 1922, 1360}},
 		// É|Å[ÉYâÊñ 
-		{ image::particle::BG_BLACK, {"Resource/UI/bg_black.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
-		{ image::particle::BG_OPERATION, {"Resource/UI/operation.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
+		{ image::particle::BG_BLACK, {"Resource/UI/bg_back.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
+		{ image::particle::BG_OPERATION, {"Resource/UI/bg_operation.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
 		{ image::particle::CONTINUE, {"Resource/UI/continue.png", 1, 1, 1, image::particle::CONTINUE_W, image::particle::UI_H_1}},
 		{ image::particle::CONTROLS, {"Resource/UI/controls.png", 1, 1, 1, image::particle::CONTROLS_W, image::particle::UI_H_1}},
 		{ image::particle::QUIT_TO_TITLE, {"Resource/UI/quittotitle.png",1, 1, 1, image::particle::QUIT_TO_TITLE_W, image::particle::UI_H_2}},
@@ -123,6 +123,12 @@ namespace inr {
 		{ ui::KEY_RED, {"Resource/UI/ui_hp1.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
 		{ ui::KEY_BLUE, {"Resource/UI/ui_hp2.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
 		{ ui::KEY_BOX, {"Resource/UI/ui_hp_box.png", 1, 1, 1, 420, 200}},
+
+		// ï∂èÕ
+		{ item::MESSAGE_0, {"Resource/Item/message1.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+		{ item::MESSAGE_1, {"Resource/Item/message2.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+		{ item::MESSAGE_2, {"Resource/Item/message3.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+		{ item::MESSAGE_3, {"Resource/Item/message4.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 	};
 
 	const graph::ResourceServer::DivGraphMap gimmicks{
@@ -191,10 +197,14 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(image::particle::STAGE_UI, sui_path, image::particle::STAGE_UI, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H);
 	}
 
-	void Loads::LoadImages() {
-		/*std::vector<ImageValue> ive{
-			{ 0, { "Resource/UI/", {HALF_WINDOW_W, HALF_WINDOW_H}}},
-		};*/
+	ImageMap Loads::LoadImages() {
+		ImageMap imap{
+			{ pvalue::ITEM_0, {item::MESSAGE_0, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
+			{ pvalue::ITEM_1, {item::MESSAGE_1, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
+			{ pvalue::ITEM_2, {item::MESSAGE_2, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
+			{ pvalue::ITEM_3, {item::MESSAGE_3, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
+		};
+		return imap;
 	}
 
 	// ïïàÛÇÃç’íd

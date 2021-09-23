@@ -39,6 +39,8 @@ namespace inr {
 		constexpr auto A_ADD = 1;
 	}
 
+	class ImageValue;
+
 	class Particle_Image : public Image {
 	protected:
 		int _animation;	// アニメーションを行うか
@@ -61,6 +63,7 @@ namespace inr {
 		void Draw() override;
 
 		void SetParameter(std::string graph, Vector2 pos, int pal = 0, double extrate = 1.0);
+		void SetImage(ImageValue ivalue);
 		bool Animation();
 		virtual bool DrawStart();
 		bool DrawEnd();

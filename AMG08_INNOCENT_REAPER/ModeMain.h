@@ -3,6 +3,7 @@
 #include "BackGround.h"
 #include "UI.h"
 #include "Vector2.h"
+#include "ImageServer.h"
 #include <memory>
 
 namespace inr {
@@ -31,6 +32,7 @@ namespace inr {
 		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
 		bool BossBattle();	// ボス戦開始フラグ
 		std::shared_ptr<EffectServer> GetEffectServer() { return _eServer; }
+		std::unique_ptr<ImageServer>& GetItemImages() { return _itemImages; }
 	private:
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
@@ -39,6 +41,7 @@ namespace inr {
 		std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;
 		std::shared_ptr<EffectServer> _eServer;
+		std::unique_ptr<ImageServer> _itemImages;
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？

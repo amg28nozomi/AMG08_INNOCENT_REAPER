@@ -53,6 +53,12 @@ namespace inr {
 		return true;
 	}
 
+	bool ImageServer::IsResister(const int number) {
+		auto ite = _images.find(_imageKey);
+		if (ite == _images.end()) return true;	// “o˜^ˆ—‚ğs‚¤
+		return false;	// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é‚½‚ß“o˜^ˆ—‚ğs‚í‚È‚¢
+	}
+
 	bool ImageServer::ImageChange(const int nextKey) {
 		if (_changeKey != image::number::NUM) return false;
 		_changeKey = nextKey;
@@ -60,8 +66,6 @@ namespace inr {
 	}
 
 	bool ImageServer::AddImage(const int number, std::shared_ptr<Particle_Image> image) {
-		auto ite = _images.find(number);
-		if (ite != _images.end()) return false;	// ”Ô†‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ì‚İAˆ—‚ğÀs‚·‚é
 		_images.emplace(number, std::move(image));	// —v‘f‚Ì\¬
 		return true;
 	}

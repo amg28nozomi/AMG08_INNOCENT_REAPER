@@ -28,7 +28,7 @@ namespace inr {
 		_uis.emplace_back(std::make_shared<Particle_Image>(_game.GetGame()));
 		// •`‰æÀ•WC³
 		// _uis[UI_BG]->SetParameter(image::BLACK, { 961, 540 });	// ”wŒi(UI)
-		_uis[UI_BG]->SetParameter(image::BLACK, { 961, 540 });	// ”wŒi(UI)
+		_uis[UI_BG]->SetParameter(image::particle::BG_BLACK, { 960, 540 });	// ”wŒi(UI)
 		_uis[UI_CONTINUE]->SetParameter(image::particle::CONTINUE, {960 ,300});	// ƒQ[ƒ€‚ð‘±‚¯‚é(UI)
 		_uis[UI_CONTROLS]->SetParameter(image::particle::CONTROLS, {960, 420});	// ‘€ì•û–@‚Ö(UI)
 		_uis[UI_QUIT_TO_TITLE]->SetParameter(image::particle::QUIT_TO_TITLE, {960, 540});	// ƒ^ƒCƒgƒ‹‚É–ß‚é(UI)

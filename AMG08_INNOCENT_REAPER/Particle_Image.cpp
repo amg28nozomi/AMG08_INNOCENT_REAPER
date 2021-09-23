@@ -1,5 +1,6 @@
 #include "Particle_Image.h"
 #include "ResourceServer.h"
+#include "ImageValue.h"
 #include <DxLib.h>
 
 namespace {
@@ -35,7 +36,7 @@ namespace inr {
 		auto y = _pos.IntY();
 		auto graph = graph::ResourceServer::GetHandles(_graphKey, 0);
 
-		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, _pal);
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_WIPE, _pal);
 		DrawRotaGraph(x, y, _extRate, 0, graph, TRUE);
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 	}
@@ -103,4 +104,11 @@ namespace inr {
 	void Particle_Image::ChangePosition(bool type) {
 
 	}
+
+	void Particle_Image::SetImage(ImageValue ivalue) {
+		_startPos = ivalue.Position();
+		_pos = _startPos;
+		_graphKey = ivalue.GraphKey();
+	}
+
 }

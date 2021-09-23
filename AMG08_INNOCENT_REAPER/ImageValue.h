@@ -4,6 +4,20 @@
 
 namespace inr {
 
+	namespace pvalue {
+		constexpr auto ITEM_0 = 0;
+		constexpr auto ITEM_1 = 1;
+		constexpr auto ITEM_2 = 2;
+		constexpr auto ITEM_3 = 3;
+	}
+
+	namespace item {
+		constexpr auto MESSAGE_0 = "message_0";
+		constexpr auto MESSAGE_1 = "message_1";
+		constexpr auto MESSAGE_2 = "message_2";
+		constexpr auto MESSAGE_3 = "message_3";
+	}
+
 	class ParticleValue {
 	public:
 		ParticleValue();

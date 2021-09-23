@@ -38,6 +38,7 @@ namespace inr {
 		_uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
+		_itemImages = std::make_unique<ImageServer>();
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
