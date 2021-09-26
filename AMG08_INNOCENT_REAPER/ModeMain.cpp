@@ -39,7 +39,7 @@ namespace inr {
 		_uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
-		_itemImages = std::make_unique<ImageServer>();
+		_itemServer = std::make_unique<ImageServer>();
 		_fg = std::make_unique<ForeGround>(_game.GetGame());
 
 		/*Scenario::ObjectData stage1;
@@ -68,6 +68,7 @@ namespace inr {
 			_eServer->Init();
 			_uiSoul->PlayerUpdate();
 			_stageUi->ChangeNumber(_stageKey);
+			//_itemImages->AddImage()
 			_bossOpen = false;	// ƒ{ƒX‚Ì”à
 			_bossBattle = false;
 			_resetFlg = false;

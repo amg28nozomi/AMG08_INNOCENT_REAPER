@@ -133,6 +133,8 @@ namespace inr {
 	bool Scenario::AddObjects(const std::string key) {
 		IsLoad(key);
 		AddPlayer();
+		if (_game.GetModeServer()->GetModeMain()->GetItemImages()->IsLoad() == true) LoadImageData(Loads::LoadImages());
+
 		auto it = _scenarios.find(key);
 		// 登録されているオブジェクト(ObjectBase限定)の生成
 		for (auto ovalue : it->second) {

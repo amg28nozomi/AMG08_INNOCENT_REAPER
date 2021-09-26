@@ -255,6 +255,8 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {3500, 300}, true, 1},
 
 			{ oscenario::OBJ_LEVER, {{3450, 500}, {3900 , 420}}, false, 0, {gimmick::door::D_LEVER} },
+			{ oscenario::OBJ_CRYSTAL, { {4550, 730}, {4320, 670}}, false, 1, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
+			{ oscenario::OBJ_CRYSTAL, { {5000, 730}, {5220, 670}}, false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stageT;
 	}
