@@ -131,9 +131,11 @@ namespace inr {
 		{ item::MESSAGE_3, {"Resource/Item/message4.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 
 		// ëOåi
-		{ fgd::FORE_STAGE0, {"Resource/BackGround/Stage0/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
-		{ fgd::FORE_STAGE1, {"Resource/BackGround/Stage1/fg_stage1.png", 1, 1, 1, fgd::FORE1_W, fgd::FORE1_H}},
-		{ fgd::FORE_STAGE2, {"Resource/BackGround/Stage2/fg_stage2.png", 1, 1, 1, fgd::FORE2_W, fgd::FORE2_H}},
+		{ fgd::FORE_STAGE0, {"Resource/ForeGround/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
+		{ fgd::FORE_STAGET, {"Resource/ForeGround/fg_stage0-2.png", 1, 1, 1, fgd::FORET_W, fgd::FORET_H} },
+		{ fgd::FORE_STAGE1, {"Resource/ForeGround/fg_stage1.png", 1, 1, 1, fgd::FORE1_W, fgd::FORE1_H}},
+		{ fgd::FORE_STAGE2, {"Resource/ForeGround/fg_stage2.png", 1, 1, 1, fgd::FORE2_W, fgd::FORE2_H}},
+
 	};
 
 	const graph::ResourceServer::DivGraphMap gimmicks{
@@ -215,6 +217,7 @@ namespace inr {
 	std::vector<ImageValue> Loads::LoadForeGround1() {
 		std::vector<ImageValue> fore_g = {
 			{ fgd::FORE_STAGE0, { fgd::FORE0_W / 2, fgd::FORE0_H / 2 }, {}  },
+			{ fgd::FORE_STAGET, { fgd::FORET_W / 2, fgd::FORET_H / 2}, {} },
 			{ fgd::FORE_STAGE1, { fgd::FORE1_W / 2, fgd::FORE1_H / 2 }, {}  },
 			{ fgd::FORE_STAGE2, { fgd::FORE2_W / 2, fgd::FORE2_H / 2 }, {}  },
 			{ fgd::FORE_STAGE2_1, { fgd::FORE2_1_W / 2, fgd::FORE2_1_H / 2}, {}},
@@ -242,6 +245,14 @@ namespace inr {
 		}
 
 		return _stageS;*/
+	}
+
+	std::vector<ObjectValue> Loads::LoadScenarioS_1() {
+		// 
+		std::vector<ObjectValue> _stageT{
+			{ oscenario::OBJ_SOLDIER_DOLL, {1500, 1000}},
+		};
+		return _stageT;
 	}
 
 	// çrîpÇµäX

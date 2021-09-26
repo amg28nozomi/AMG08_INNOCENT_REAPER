@@ -46,7 +46,7 @@ namespace inr {
 	}
 
 	bool StageUi::ChangeNumber(const std::string stageKey) {
-		if (stageKey == stage::STAGE_0) _gNumber = 0;
+		if (stageKey == stage::STAGE_0 || stageKey == stage::STAGE_T) _gNumber = 0;
 		else if (stageKey == stage::STAGE_1) _gNumber = 1;
 		else _gNumber = 2;
 		Init();

@@ -42,11 +42,12 @@ namespace inr {
 
 	int ForeGround::CheckKey(const std::string key) {
 		if (key == stage::STAGE_0) return 0;
-		else if (key == stage::STAGE_1) return 1;
-		else if (key == stage::STAGE_2) return 2;
-		else if (key == stage::STAGE_2_1) return 3;
-		else if (key == stage::STAGE_2_2) return 4;
-		else if (key == stage::STAGE_3) return 5;
+		else if (key == stage::STAGE_T) return 1;
+		else if (key == stage::STAGE_1) return 2;
+		else if (key == stage::STAGE_2) return 3;
+		else if (key == stage::STAGE_2_1) return 4;
+		else if (key == stage::STAGE_2_2) return 5;
+		else if (key == stage::STAGE_3) return 6;
 		else return -1;
 	}
 

@@ -14,6 +14,7 @@ namespace inr {
 		static std::vector<ImageValue> LoadForeGround1();	// 前景
 
 		static std::vector<ObjectValue> LoadScenarioS();	// ステージS
+		static std::vector<ObjectValue> LoadScenarioS_1();	// チュートリアル
 		static std::vector<ObjectValue> LoadScenario1();	// ステージ1
 		static std::vector<ObjectValue> LoadScenario2();	// ステージ2(中央)
 		static std::vector<ObjectValue> LoadScenario2_1();	// ステージ2(上部)

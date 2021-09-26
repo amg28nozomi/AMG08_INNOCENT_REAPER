@@ -7,6 +7,7 @@ namespace inr {
 
 	namespace fgd {
 		constexpr auto FORE_STAGE0 = "fore_stage0";
+		constexpr auto FORE_STAGET = "fore_stageT";
 		constexpr auto FORE_STAGE1 = "fore_stage1";
 		constexpr auto FORE_STAGE2 = "fore_stage2";
 		constexpr auto FORE_STAGE2_1 = "fore_stage2_1";
@@ -15,16 +16,20 @@ namespace inr {
 
 		constexpr auto FORE0_W = 3840;
 		constexpr auto FORE0_H = 2160;
+
+		constexpr auto FORET_W = 5760;
+		constexpr auto FORET_H = 1080;
+
 		constexpr auto FORE1_W = 9600;
 		constexpr auto FORE1_H = 2160;
 		constexpr auto FORE2_W = 9600;
 		constexpr auto FORE2_H = 2160;
-		constexpr auto FORE2_1_W = 0;
-		constexpr auto FORE2_1_H = 0;
-		constexpr auto FORE2_2_W = 0;
-		constexpr auto FORE2_2_H = 0;
-		constexpr auto FORE3_W = 0;
-		constexpr auto FORE3_H = 0;
+		constexpr auto FORE2_1_W = 9600;
+		constexpr auto FORE2_1_H = 2160;
+		constexpr auto FORE2_2_W = 3840;
+		constexpr auto FORE2_2_H = 3240;
+		constexpr auto FORE3_W = 5760;
+		constexpr auto FORE3_H = 1080;
 	}
 
 	class ForeGround : public Image {

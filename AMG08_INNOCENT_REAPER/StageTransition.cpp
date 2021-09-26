@@ -27,10 +27,10 @@ namespace inr {
 
 	namespace start {
 		// 対応座標
-		constexpr auto TPOS_0_X = 200;
-		constexpr auto TPOS_0_Y = 1900;
+		constexpr auto TPOS_0_X = 100;	//
+		constexpr auto TPOS_0_Y = 900;
 
-		constexpr auto TPOS_1_X = 3750;
+		constexpr auto TPOS_1_X = 5600;
 		constexpr auto TPOS_1_Y = 300;
 
 		constexpr auto TPOS_2_X = 100;
@@ -69,6 +69,12 @@ namespace inr {
 		constexpr auto TPOS_13_X = 9500;
 		constexpr auto TPOS_13_Y = 1265;
 
+		constexpr auto TPOS_14_X = 3750;	// チュートリアル入口→祭壇
+		constexpr auto TPOS_14_Y = 300;		
+
+		constexpr auto TPOS_15_X = 200;
+		constexpr auto TPOS_15_Y = 1900;
+
 		constexpr auto START_LEFT = true;
 		constexpr auto START_RIGHT = false;
 	}
@@ -94,8 +100,8 @@ namespace inr {
 	bool StageTransition::Init() {
 		// 対応するチップの当たり判定を設定する
 		_transitions = {
-			{ CHIP_1, {stage::STAGE_1, {start::TPOS_0_X, start::TPOS_0_Y}, start::START_RIGHT}},	// (1)→(2)
-			{ CHIP_2, {stage::STAGE_0, {start::TPOS_1_X, start::TPOS_1_Y}, start::START_LEFT}},	// (2)→(1)
+			{ CHIP_1, {stage::STAGE_T, {start::TPOS_0_X, start::TPOS_0_Y}, start::START_RIGHT}},	// (1)→(15)
+			{ CHIP_2, {stage::STAGE_T, {start::TPOS_1_X, start::TPOS_1_Y}, start::START_LEFT}},	// (2)→(16)
 			{ CHIP_3, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}, start::START_RIGHT}},	// (3)→(5)
 			{ CHIP_4, {stage::STAGE_2, {start::TPOS_3_X, start::TPOS_3_Y}, start::START_RIGHT}},	// (4)→(6)
 			{ CHIP_5, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}, start::START_LEFT}},	// (5)→(3)
@@ -108,8 +114,8 @@ namespace inr {
 			{ CHIP_12, {stage::STAGE_2, { start::TPOS_11_X, start::TPOS_11_Y}, start::START_LEFT}},	// (12)→(11)
 			{ CHIP_13, {stage::STAGE_3, { start::TPOS_12_X, start::TPOS_12_Y}, start::START_RIGHT}},	// (13)→(14)
 			{ CHIP_14, {stage::STAGE_2, { start::TPOS_13_X, start::TPOS_13_Y}, start::START_LEFT }},	// (14)→(13)
-			// { CHIP_15, {, { ,}}},	// ()→()
-			// { CHIP_16, {, { ,}}},	// ()→()
+			{ CHIP_15, {stage::STAGE_0, {start::TPOS_14_X ,start::TPOS_14_Y}, start::START_LEFT}},	// (15)→(1)
+			{ CHIP_16, {stage::STAGE_1, {start::TPOS_15_X ,start::TPOS_15_Y}, start::START_RIGHT}},	// (16)→(2)
 		};
 
 		/*

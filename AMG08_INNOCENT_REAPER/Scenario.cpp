@@ -183,6 +183,7 @@ namespace inr {
 		// 該当するシナリオの読み込みを行う
 		std::vector<ObjectValue> _ovalue;
 		if (key == stage::STAGE_0) _ovalue = Loads::LoadScenarioS();
+		if (key == stage::STAGE_T) _ovalue = Loads::LoadScenarioS_1();
 		if (key == stage::STAGE_1) _ovalue = Loads::LoadScenario1();
 		if (key == stage::STAGE_2) _ovalue = Loads::LoadScenario2();
 		if (key == stage::STAGE_2_1) _ovalue = Loads::LoadScenario2_1();

@@ -8,7 +8,8 @@ namespace inr {
 		// ステージ読み込み用のキー
 		constexpr auto CHANGE_NULL = "change_null";	// 通常状態のキー切り替え
 
-		constexpr auto STAGE_0 = "stage0";	// チュートリアル
+		constexpr auto STAGE_0 = "stage0";	// 最初
+		constexpr auto STAGE_T = "stage0-2";	// チュートリアル
 		constexpr auto STAGE_1 = "stage1";		// ステージ1(廃村)
 		constexpr auto STAGE_2 = "stage2";	// ステージ2(森林-中央)
 		constexpr auto STAGE_2_1 = "stage2-1";	// ステージ2(森林-上部)
