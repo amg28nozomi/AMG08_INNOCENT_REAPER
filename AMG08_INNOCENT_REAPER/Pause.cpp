@@ -45,12 +45,14 @@ namespace inr {
 	void Pause::Init() {
 		_active = INACTIVE;	// 非活性状態にする
 		_isEnd = false;
+		_input = false;
 		for (auto number = 0; number < _uis.size(); ++number) _uis[number]->Init();
 		// for (auto& ui : _uis) ui->Init();
 	}
 
 	void Pause::Process() {
 		if (_active == INACTIVE) return;	// 非活性状態の場合は処理を行わない
+		if (_input != true && _uis[UI_QUIT_TO_TITLE]->IsNormal() == true && _uis[UI_OPERATION]->IsDraw() != true) _input = true;
 		if (_isEnd == true && _uis[UI_CURSOL]->IsDraw() == false) {
 			Init();
 			return;
@@ -80,7 +82,7 @@ namespace inr {
 	}
 
 	bool Pause::InputLever() {
-		if (_isEnd == true) return false;	// 終了処理がある場合は入力を受け付けない
+		if (_isEnd == true || _input != true) return false;	// 終了処理 or 入力を受け付けていない場合は入力を受け付けない
 		// アナログスティックの入力情報を取得
 		auto lever = _game.GetLeverUD();
 		// 押し倒しがない or 足りない場合は処理を行わない
@@ -102,13 +104,26 @@ namespace inr {
 
 		switch (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->UiNumber()) {
 		case system::CONTINUE:	// ポーズ画面を終了し、ゲーム本編に戻る。
+			if (_input != true) return false;	// 入力負荷の場合は処理を行わない
 			for (auto i = 0; i < _uis.size(); ++i) _uis.at(i)->End();
 			_isEnd = true;
 			return true;
 		case system::CONTROLS:	// 操作方法説明の表示切り替え
-			_uis[UI_OPERATION]->DrawStart();	// 描画処理をオンにする
-			return true;
+			if (_uis[UI_OPERATION]->IsDraw() != true && _input == true) {
+				// 描画を行っていない倍は描画を開始する
+				_uis[UI_OPERATION]->DrawStart();	// 描画処理をオンにする
+				_input = false;
+				return true;
+			}
+			else if (_uis[UI_OPERATION]->IsNormal() == true && _input != true) {
+				// 描画を行っている場合は描画を終了する
+				_uis[UI_OPERATION]->End();	// 描画処理を終了する
+				_input = true;
+				return true;
+			}
+			return false;
 		case system::QUIT_TO_TITLE:	// ゲーム本編終了
+			if (_input != true) return false;	// 入力負荷の場合は処理を行わない
 			_game.GetModeServer()->ModeChange(mode::TITLE);	// タイトルに遷移する
 			_isEnd = true;
 			auto sound = se::SoundServer::GetSound(system::SOUND_SELECT);	// SEを鳴らす

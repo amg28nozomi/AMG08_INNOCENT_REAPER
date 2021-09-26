@@ -70,6 +70,7 @@ namespace inr {
 
 	bool Particle_Image::DrawStart() {
 		if (_isDraw == true) return false;
+		_end = false;
 		_isDraw = true;
 		_animation = animation::A_ADD;
 		return true;
@@ -78,6 +79,7 @@ namespace inr {
 	bool Particle_Image::DrawEnd() {
 		if (_isDraw != true && _animation != animation::A_SUB) return false;	// •`‰æˆ—‚ª‚ ‚éê‡‚Ì‚İ
 		_animation = animation::A_SUB;	// 
+		return true;
 	}
 
 	bool Particle_Image::AddPal() {
@@ -98,6 +100,12 @@ namespace inr {
 		if (_end == true) return false;
 		DrawEnd();
 		_end = true;
+		return false;
+	}
+
+	bool Particle_Image::IsNormal() {
+		if (_end == true) return false;
+		if (_isDraw == true && _animation == animation::A_NORMAL) return true;
 		return false;
 	}
 

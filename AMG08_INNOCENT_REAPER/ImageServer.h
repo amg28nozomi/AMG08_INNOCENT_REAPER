@@ -30,9 +30,11 @@ namespace inr {
 		bool AddImage(const int number, std::shared_ptr<Particle_Image> image);	// 新規画像の登録
 
 		bool IsLoad() { return _images.empty(); }
+		bool IsActive() { return _active; }
 	private:
 		int _imageKey;	// 検索用キー
 		int _changeKey;	// 切り替え用キー
+		bool _active;	// 処理を実行するかどうか
 		std::unordered_map<int, std::shared_ptr<Particle_Image>> _images;
 		bool ImageClear();	// 登録情報の解放
 

@@ -71,6 +71,7 @@ namespace inr {
 
 		inline bool IsType() { return _imageType; }
 		inline bool IsDraw() { return _isDraw; }
+		bool IsNormal();
 		virtual void ChangePosition(bool type);
 	};
 }

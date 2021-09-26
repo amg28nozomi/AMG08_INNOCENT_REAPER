@@ -56,7 +56,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_0;
+			_stageKey = stage::STAGE_2_1;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -90,19 +90,23 @@ namespace inr {
 		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
 
-		if (_pause->IsActive() != true) {	// ポーズ画面が起動していない間のみ実行
-			_bg->Process();
-			_game.GetGimmickServer()->Process();
-			_game.GetMapChips()->Process();
-			_eServer->Process();
-			_game.GetObjectServer()->Process();
-			_fg->Process();
-			_uiSoul->Process();
-			_stageUi->Process();
+		if (_pause->IsActive() == true) {
+			_pause->Process();	// ポーズ画面更新処理
 			return;
 		}
-		_pause->Process();	// ポーズ画面更新処理
-
+		if (_itemServer->IsActive() == true) {
+			_itemServer->Process();
+			return;
+		}
+		// どのフラグもオンになっていない場合のみ処理を実行する
+		_bg->Process();
+		_game.GetGimmickServer()->Process();
+		_game.GetMapChips()->Process();
+		_eServer->Process();
+		_game.GetObjectServer()->Process();
+		_fg->Process();
+		_uiSoul->Process();
+		_stageUi->Process();
 	}
 
 	void ModeMain::Draw() {
@@ -116,6 +120,7 @@ namespace inr {
 		_uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();
+		if (_itemServer->IsActive() == true) _itemServer->Draw();
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 

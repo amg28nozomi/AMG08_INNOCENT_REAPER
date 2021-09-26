@@ -135,6 +135,9 @@ namespace inr {
 		{ fgd::FORE_STAGET, {"Resource/ForeGround/fg_stage0-2.png", 1, 1, 1, fgd::FORET_W, fgd::FORET_H} },
 		{ fgd::FORE_STAGE1, {"Resource/ForeGround/fg_stage1.png", 1, 1, 1, fgd::FORE1_W, fgd::FORE1_H}},
 		{ fgd::FORE_STAGE2, {"Resource/ForeGround/fg_stage2.png", 1, 1, 1, fgd::FORE2_W, fgd::FORE2_H}},
+		{ fgd::FORE_STAGE2_1, {"Resource/ForeGround/fg_stage2-1.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}},
+		{ fgd::FORE_STAGE2_2,  {"Resource/ForeGround/fg_stage2-2.png", 1, 1, 1, fgd::FORE2_2_W, fgd::FORE2_2_H}},
+		{ fgd::FORE_STAGE3,  {"Resource/ForeGround/fg_stageboss.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}}, 
 
 	};
 
@@ -333,7 +336,7 @@ namespace inr {
 			{ oscenario::OBJ_LEVER, {{6880, 1370}, {6840, 830}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{8320, 1210}, {9000, 1150}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// âÛÇÍÇÈä‚
-			{ oscenario::OBJ_BLOCK, {1370, 530}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {1440, 510}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// êÖèªÅix-90Åj
 			{ oscenario::OBJ_CRYSTAL, {{2870, 1570}, {3180, 1410}, {3180, 1810}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{8370, 610}, {9000, 230}, {9000, 590}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},

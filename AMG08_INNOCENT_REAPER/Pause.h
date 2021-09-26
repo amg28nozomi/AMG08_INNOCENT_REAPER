@@ -25,6 +25,7 @@ namespace inr {
 
 		bool _active;	// 活性化しているか
 		bool _isEnd;	// ポーズを終了するか？
+		bool _input;	// 入力を受け付けているか
 		bool InputLever();	// レバー
 		bool InputButton();	// ボタン
 		bool PauseOn();	// キー入力はあったかどうか
