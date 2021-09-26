@@ -18,6 +18,7 @@
 #include "EffectServer.h"
 #include "CrowDoll.h"
 #include "ForeGround.h"
+#include "ItemServer.h"
 
 #include <memory>
 #include <unordered_map>
@@ -39,8 +40,9 @@ namespace inr {
 		_uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
-		_itemServer = std::make_unique<ImageServer>();
+		_messageServer = std::make_unique<ImageServer>(_game.GetGame());
 		_fg = std::make_unique<ForeGround>(_game.GetGame());
+		_itemServer = std::make_unique<ItemServer>(_game.GetGame());
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -94,8 +96,8 @@ namespace inr {
 			_pause->Process();	// ポーズ画面更新処理
 			return;
 		}
-		if (_itemServer->IsActive() == true) {
-			_itemServer->Process();
+		if (_messageServer->IsActive() == true) {
+			_messageServer->Process();
 			return;
 		}
 		// どのフラグもオンになっていない場合のみ処理を実行する
@@ -120,7 +122,7 @@ namespace inr {
 		_uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();
-		if (_itemServer->IsActive() == true) _itemServer->Draw();
+		if (_messageServer->IsActive() == true) _messageServer->Draw();
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 
@@ -143,6 +145,7 @@ namespace inr {
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
 			_game.GetGimmickServer()->Clear();
+			_itemServer->ItemClear();
 			_game.GetObjectServer()->ObjectsClear();
 			_game.GetObjectServer()->GetPlayer()->SetParameter(_game.GetMapChips()->GetStageTransition()->SetPosition(), _changeKey);	// 自機の座標を更新する
 			_game.GetScenario()->AddObjects(_changeKey);

@@ -15,10 +15,11 @@ namespace inr {
 
 	class Particle_Image;
 	class ImageValue;
+	class Game;
 
 	class ImageServer {
 	public:
-		ImageServer();
+		ImageServer(Game& game);
 		~ImageServer();
 
 		bool Init();	// 初期化
@@ -32,14 +33,17 @@ namespace inr {
 		bool IsLoad() { return _images.empty(); }
 		bool IsActive() { return _active; }
 	private:
+		Game& _game;
 		int _imageKey;	// 検索用キー
 		int _changeKey;	// 切り替え用キー
 		bool _active;	// 処理を実行するかどうか
+		bool _input;	// 入力処理を受け付けるか否か
 		std::unordered_map<int, std::shared_ptr<Particle_Image>> _images;
 		bool ImageClear();	// 登録情報の解放
 
 		bool ImageInit();	// 画像の初期化
 		bool ChangeKey();	// 検索用キーを切り替えるか？
+		bool Input();	// 入力処理の管理
 	};
 }
 

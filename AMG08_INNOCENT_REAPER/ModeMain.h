@@ -12,6 +12,7 @@ namespace inr {
 	class EffectServer;
 	class StageUi;
 	class ForeGround;
+	class ItemServer;
 
 	class ModeMain : public ModeBase {
 	public:
@@ -33,7 +34,8 @@ namespace inr {
 		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
 		bool BossBattle();	// ボス戦開始フラグ
 		std::shared_ptr<EffectServer> GetEffectServer() { return _eServer; }
-		std::unique_ptr<ImageServer>& GetItemImages() { return _itemServer; }
+		std::unique_ptr<ImageServer>& GetItemImages() { return _messageServer; }
+		std::unique_ptr<ItemServer>& GetItemServer() { return _itemServer; }
 	private:
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
@@ -42,8 +44,9 @@ namespace inr {
 		std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;
 		std::shared_ptr<EffectServer> _eServer;
-		std::unique_ptr<ImageServer> _itemServer;
+		std::unique_ptr<ImageServer> _messageServer;
 		std::unique_ptr<ForeGround> _fg;	// 前景
+		std::unique_ptr<ItemServer> _itemServer;
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？

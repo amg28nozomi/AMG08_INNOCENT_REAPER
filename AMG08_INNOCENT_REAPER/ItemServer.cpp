@@ -33,6 +33,7 @@ namespace inr {
 
 	bool ItemServer::Delete() {
 		if (_isDel == false) return false;
+
 		// 消去フラグがオンになっているオブジェクトのみを取り除く
 		/*_items = std::copy_if(_items.begin(), _items.end(), _items.begin(), [](Item* i) {return i->IsDel() != false; });
 		_items.clear();*/

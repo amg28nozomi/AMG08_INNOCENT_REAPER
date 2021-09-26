@@ -17,6 +17,8 @@ namespace inr {
 		void Add(std::shared_ptr<Item> item);
 		void ItemClear();	// アイテム全消去
 		bool DelOn();	// 消去フラグをオンにする
+
+		std::vector<std::shared_ptr<Item>> GetItems() { return _items; }
 	private:
 		bool _isDel;	// オブジェクトの消去を行うか
 		std::vector<std::shared_ptr<Item>> _items;	// アイテム管理用

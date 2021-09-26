@@ -15,12 +15,14 @@ namespace inr {
 		constexpr auto OBJ_BLOCK = 6;
 		constexpr auto OBJ_CRYSTAL = 7; // quartz
 		constexpr auto OBJ_DOOR = 8;
+		constexpr auto OBJ_ITEM = 9;
 
 		namespace type {
 			constexpr auto PLAYER = 0;
 			constexpr auto ENEMY = 1;
 			constexpr auto SOUL = 2;
 			constexpr auto GIMMICK = 3;
+			constexpr auto ITEM = 4;
 		}
 
 		namespace gimmick {

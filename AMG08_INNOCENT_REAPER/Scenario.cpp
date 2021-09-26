@@ -23,6 +23,7 @@
 #include "ModeServer.h"
 #include "ModeMain.h"
 #include "ItemServer.h"
+#include "Item.h"
 #include "Particle_Image.h"
 
 namespace {
@@ -167,6 +168,11 @@ namespace inr {
 			// ボス専用ドアの生成
 			case oscenario::OBJ_DOOR:
 				AddDoor(ovalue);
+				continue;
+			// アイテムの生成
+			case oscenario::OBJ_ITEM:
+				AddItem(ovalue);
+				continue;
 			default:
 #ifdef _DEBUG
 				OutputDebugString("error：オブジェクトの生成に失敗しました　Scenatio->AddObjectsで存在しないクラスの値が登録されています\n");
@@ -270,9 +276,17 @@ namespace inr {
 		return std::move(pimage);
 	}
 
+	void Scenario::AddItem(ObjectValue ovalue) {
+		auto item = std::make_shared<Item>(_game.GetGame());
+		item->SetParameter(ovalue);
+		_game.GetModeServer()->GetModeMain()->GetItemServer()->Add(std::move(item));
+	}
+
 	void Scenario::ScenarioUpdate(std::string key) {
 		// 現在登録されているギミックの値を取得する
 		auto Gimmicks = _game.GetGimmickServer()->GetGimmicks();
+		auto Items = _game.GetModeServer()->GetModeMain()->GetItemServer()->GetItems();
+
 		auto scenario = _scenarios.find(key);
 #ifdef _DEBUG
 		if (scenario == _scenarios.end()) {
@@ -291,10 +305,17 @@ namespace inr {
 			gs.emplace_back(std::move(Gimmicks[gimmick]));
 		}
 		Gimmicks.clear();	// 役目を終えたのでメモリ処理
+
+		for (auto ite : Items) ite->ObjValueUpdate();
+
 		for (auto&& ovalue : scenario->second) {
-			if (gs.empty())	break;	// 要素が空になった場合は処理を終了する
-			// ギミックにのみ更新をかける
-			if (ovalue.ObjectType() != oscenario::type::GIMMICK) continue;
+			if (gs.empty() && Items.empty())	break;	// 要素が空になった場合は処理を終了する
+			if (ovalue.ObjectType() == oscenario::OBJ_ITEM) {	// アイテムの場合は更新をかける
+				ovalue = Items.front()->GetObjectValue();
+				Items.erase(Items.begin());
+				continue;
+			}
+			if (ovalue.ObjectType() != oscenario::type::GIMMICK) continue;	// ギミックにのみ更新をかける
 			ovalue = gs.front()->GetObjectValue();	// 現在の情報に上書きする
 			gs.erase(gs.begin());	// 先端の要素を削除する
 		}

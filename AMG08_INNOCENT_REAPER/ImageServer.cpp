@@ -1,9 +1,10 @@
 #include "ImageServer.h"
 #include "Particle_Image.h"
+#include "Game.h"
 
 namespace inr {
 
-	ImageServer::ImageServer() {
+	ImageServer::ImageServer(Game& game) : _game(game) {
 		Init();
 	}
 
@@ -15,6 +16,7 @@ namespace inr {
 		ImageClear();
 		_imageKey = image::number::NUM;
 		_changeKey = image::number::NUM;
+		_input = false;
 		return true;
 	}
 
@@ -28,7 +30,17 @@ namespace inr {
 
 		auto ite = _images.find(_imageKey);
 		if (ite == _images.end()) return false;
-		ite->second->Process();
+		if (_input != true && ite->second->IsNormal() == true) {
+			_input = true;
+		}
+		else if (_input != false && ite->second->IsDraw() != true) {
+			ite->second->Init();
+			_active = false;
+			return false;
+		}
+		ite->second->Process();	// 現在のキーの処理を実行する
+		Input();
+		return true;
 	}
 
 	bool ImageServer::Draw() {
@@ -43,6 +55,7 @@ namespace inr {
 		ImageInit();
 		_imageKey = _changeKey;
 		_changeKey = image::number::NUM;
+		_active = true;
 		return true;
 	}
 
@@ -60,13 +73,24 @@ namespace inr {
 	}
 
 	bool ImageServer::ImageChange(const int nextKey) {
-		if (_changeKey != image::number::NUM) return false;
+		if (_active != true) return false;
+		if (_changeKey == image::number::NUM) return false;
 		_changeKey = nextKey;
 		return true;
 	}
 
 	bool ImageServer::AddImage(const int number, std::shared_ptr<Particle_Image> image) {
 		_images.emplace(number, std::move(image));	// 要素の構成
+		return true;
+	}
+
+	bool ImageServer::Input() {
+		if (_input != true) return false;
+		auto ite = _images.find(_imageKey);
+		if (ite->second->IsNormal() != true) return false;
+		if (_game.GetTrgKey() != PAD_INPUT_3) return false;
+		ite->second->DrawEnd();
+		_input = false;
 		return true;
 	}
 }

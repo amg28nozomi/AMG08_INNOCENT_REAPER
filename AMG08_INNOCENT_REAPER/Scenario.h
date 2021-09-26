@@ -52,6 +52,7 @@ namespace inr {
 		void AddCrystal(ObjectValue ovalue);
 		void AddBlock(ObjectValue ovalue);
 		void AddDoor(ObjectValue ovalue);
+		void AddItem(ObjectValue ovalue);
 
 		std::unique_ptr<Particle_Image> AddImage(ImageValue pvalue);
 

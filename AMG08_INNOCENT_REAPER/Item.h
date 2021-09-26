@@ -3,13 +3,18 @@
 #include <string>
 #include "Particle_Image.h"
 #include "Collision.h"
-#include"ObjectValue.h"
+#include "ObjectValue.h"
 
 namespace inr {
 
+	namespace item {
+		constexpr auto ITEM = "item_light";
+		constexpr auto ITEM_IMAGE = 120;
+	}
+
 	class Game;
 
-	class ImageValue {
+	/*class ImageValue {
 	public:
 		ImageValue(std::string key, Vector2 pos, int width = 0, int height = 0);
 		~ImageValue() = default;
@@ -24,7 +29,7 @@ namespace inr {
 
 		int _width;
 		int _height;
-	};
+	};*/
 
 	class Item {
 	public:
@@ -35,19 +40,24 @@ namespace inr {
 		void Process();
 		void Draw();
 
-		void SetParameter(ObjectValue ovalue, ImageValue ives);
+		void SetParameter(ObjectValue ovalue);
+		void ObjValueUpdate();
 		inline bool IsGet() { return _isGet; }
 		inline bool IsDel() { return _del; }
 		inline std::string ThisNnumber() { return _stageNo; }
+
+		inline ObjectValue GetObjectValue() { return _oValue; }
 	private:
 		Game& _game;
 		ObjectValue _oValue;
-		Particle_Image _pi;
 		Collision _col;	// 当たり判定
 
 		std::string _gkey;	// 画像のキー
 		Vector2 _position;
 		std::string _stageNo;	// ステージ番号
+		int _count;
+		int _maxFrame;	// アニメーションの描画フレーム数
+		int _messageNo;	//　対応しているmessage番号
 		bool _isGet;	// すでに入手されているか？
 		bool _del;
 	};

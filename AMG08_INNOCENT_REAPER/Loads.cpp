@@ -19,6 +19,7 @@
 #include "Lever.h"
 #include "GimmickBase.h"
 #include "ForeGround.h"
+#include "Item.h"
 
 #include <vector>
 
@@ -129,6 +130,8 @@ namespace inr {
 		{ item::MESSAGE_1, {"Resource/Item/message2.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_2, {"Resource/Item/message3.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_3, {"Resource/Item/message4.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
+
+		{ item::ITEM, {"Resource/Item/item.png", 4, 2, 8, item::ITEM_IMAGE, item::ITEM_IMAGE}},
 
 		// ‘OŒi
 		{ fgd::FORE_STAGE0, {"Resource/ForeGround/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
