@@ -307,7 +307,7 @@ namespace inr {
 		_mainCollision.Update(_position, _direction);
 		_game.GetMapChips()->WorldUpdate(_position);
 
-		if (sKey == stage::STAGE_0 || sKey == stage::STAGE_1) {
+		if (sKey == stage::STAGE_0 || sKey == stage::STAGE_T ||  sKey == stage::STAGE_1) {
 			_moveType = key::SOUND_PLAYER_RUN1;
 			_landingType = key::SOUND_PLAYER_FALL1;
 		}
@@ -629,7 +629,7 @@ namespace inr {
 				Vector2 effpos = { _position.GetX() + fix, _position.GetY() };
 
 				auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::DASH, effpos, 30, _direction);
-				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff));
+				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff), effect::type::BACK);
 			}
 		}
 	}
@@ -708,7 +708,7 @@ namespace inr {
 						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 
 						auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::JUMP, _position, 30);
-						_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff));
+						_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff), effect::type::BACK);
 
 						// 飛距離を算出
 						auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
@@ -740,7 +740,7 @@ namespace inr {
 			// エフェクトを作成
 			auto rob_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::ROB, _position, 27, _direction);
 			rob_eff->Set(this, _mainCollision.GetWidthMax());
-			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rob_eff));
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rob_eff), effect::type::FORMER);
 			}
 			_input = false; // 入力を受け付けなくする
 			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
@@ -760,7 +760,7 @@ namespace inr {
 			Vector2 pos = { _position.GetX() + GetFix(60), _position.GetY() };
 
 			auto give_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::GIVE, pos, 60, _direction);
-			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff));
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff), effect::type::FORMER);
 
 			auto it = _collisions.find(PKEY_GIVE);
 			it->second.GetCollisionFlgB() = true;	// 判定オン
@@ -798,7 +798,7 @@ namespace inr {
 				PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
 
 				auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::HIT, _position, 45);
-				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff));
+				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::BACK);
 			}
 			else {
 				// 空の場合は死亡処理を行う

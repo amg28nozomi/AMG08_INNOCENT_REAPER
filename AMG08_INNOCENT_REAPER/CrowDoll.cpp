@@ -377,7 +377,7 @@ namespace inr {
 			if (AnimationNumber() == 4 && _arm == false) {
 				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), enemy::crowdoll::CROW_ARM, Vector2(_target.GetX(), 950), 30);	// エフェクトを作成
 				effarm->SetDamageEffect(50, 40);
-				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm));
+				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm), effect::type::FORMER);
 				_arm = true;
 				break;
 			}

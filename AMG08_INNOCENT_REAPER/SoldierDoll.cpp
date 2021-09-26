@@ -478,7 +478,7 @@ namespace inr {
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 
 					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
-					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff));
+					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::FORMER);
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {

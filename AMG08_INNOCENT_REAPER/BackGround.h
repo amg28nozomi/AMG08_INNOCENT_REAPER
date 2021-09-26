@@ -9,9 +9,10 @@ namespace inr {
 		namespace number {
 			constexpr auto SN_NULL = -1;
 			constexpr auto SN_S = 0;
-			constexpr auto SN_1 = 1;
-			constexpr auto SN_2 = 2;
-			constexpr auto SN_B = 3;
+			constexpr auto SN_T = 1;
+			constexpr auto SN_1 = 2;
+			constexpr auto SN_2 = 3;
+			constexpr auto SN_B = 4;
 		}
 	}
 

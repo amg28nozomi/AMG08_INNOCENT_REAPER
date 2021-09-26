@@ -236,7 +236,7 @@ namespace inr {
 
 			// ギミック（壊れる岩1, 水晶1）
 			// 岩はyを-70する
-			{ oscenario::OBJ_BLOCK, {3120, 820}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {3240, 740}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
 		return _stageS;
@@ -250,7 +250,11 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenarioS_1() {
 		// 
 		std::vector<ObjectValue> _stageT{
-			{ oscenario::OBJ_SOLDIER_DOLL, {1500, 1000}},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1500, 500}, true, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2500, 500}, true },
+			{ oscenario::OBJ_SOLDIER_DOLL, {3500, 300}, true, 1},
+
+			{ oscenario::OBJ_LEVER, {{3450, 500}, {3900 , 420}}, false, 0, {gimmick::door::D_LEVER} },
 		};
 		return _stageT;
 	}

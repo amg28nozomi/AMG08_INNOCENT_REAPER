@@ -78,6 +78,12 @@ namespace inr {
 			_scrSpeed.second = { 0.75 };
 			_fix = { 1080 , 1080 };
 			break;
+		case stage::number::SN_T:	// チュートリアル
+			_graphKey = background::BACK_GROUND_S;
+			_scrSpeed.first = { 0.5 };
+			_scrSpeed.second = { 0.75 };
+			_fix = { 0, 0 };
+			break;
 		case stage::number::SN_1:	// ステージ1
 			_graphKey = background::BACK_GROUND_1;
 			_scrSpeed.first = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
@@ -115,6 +121,7 @@ namespace inr {
 	int BackGround::KeyNumber() {
 		auto skey = _game.GetModeServer()->GetModeMain()->StageKey();
 		if (skey == stage::STAGE_0) return stage::number::SN_S;
+		if (skey == stage::STAGE_T) return stage::number::SN_T;
 		if (skey == stage::STAGE_1) return stage::number::SN_1;
 		if (skey == stage::STAGE_2) return stage::number::SN_2;
 		if (skey == stage::STAGE_2_1) return stage::number::SN_2;

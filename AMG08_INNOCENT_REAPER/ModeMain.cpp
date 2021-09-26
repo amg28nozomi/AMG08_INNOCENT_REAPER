@@ -108,8 +108,9 @@ namespace inr {
 		_bg->Draw();	// 背景
 		_game.GetGimmickServer()->Draw();	// ギミック
 		_game.GetMapChips()->Draw();	// マップチップ
-		_eServer->Draw();	// エフェクト
+		_eServer->DrawBack();	// エフェクト(後)
 		_game.GetObjectServer()->Draw();	// オブジェクト
+		_eServer->DrawFormer();	// エフェクト(前)
 		_fg->Draw();
 		_uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI

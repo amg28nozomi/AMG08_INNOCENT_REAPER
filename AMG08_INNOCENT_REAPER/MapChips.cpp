@@ -181,9 +181,10 @@ namespace inr {
 
 					if (0 <= no) {
 
-						// if (128 <= no) continue;	// 遷移チップの場合は処理を行わない
-						auto gh = graph::ResourceServer::GetHandles(stage::KEY_NORMAL, no);
-						DrawGraph(posX, posY, gh, TRUE);
+						if (no < 128) {	// 遷移チップの場合は処理を行わない
+							auto gh = graph::ResourceServer::GetHandles(stage::KEY_NORMAL, no);
+							DrawGraph(posX, posY, gh, TRUE);
+						}
 
 #ifdef _DEBUG
 						if (_game.IsDebugMode() == true) {
@@ -490,6 +491,7 @@ namespace inr {
 		auto footMaxY = box.GetMax().IntY() + gs;
 		Vector2 m = { box.GetMin().GetX(), box.GetMin().GetY() + g };
 		Vector2 n = { box.GetMax().GetX(), box.GetMax().GetY() + g };
+		// 対象の当たり判定
 		AABB mn = { m, n, box.GetCollisionFlg() };
 
 
@@ -667,7 +669,9 @@ namespace inr {
 					}
 
 					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
+						// 左移動
 						if (vectorX < 0) {
+							//
 							if (minx < chipMaxX && chipMinX < maxx) {
 								auto cave = box.GetWidthMin();
 								move.GetPX() = 0;
@@ -675,6 +679,7 @@ namespace inr {
 								return _chipCheck->IsChipType(chip_no);
 							}
 						}
+						// 右移動
 						if (0 < vectorX) {
 							if (chipMinX < maxx && minx < chipMaxX) {
 								auto cave = box.GetWidthMin();
