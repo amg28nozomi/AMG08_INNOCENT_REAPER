@@ -42,7 +42,7 @@ namespace inr {
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
 		_messageServer = std::make_unique<ImageServer>(_game.GetGame());
 		_fg = std::make_unique<ForeGround>(_game.GetGame());
-		_itemServer = std::make_unique<ItemServer>(_game.GetGame());
+		_itemServer = std::make_unique<ItemServer>();
 
 		/*Scenario::ObjectData stage1;
 		stage1.emplace(objtype::PLAYER, {150, 1900});
@@ -106,6 +106,7 @@ namespace inr {
 		_game.GetMapChips()->Process();
 		_eServer->Process();
 		_game.GetObjectServer()->Process();
+		_itemServer->Process();
 		_fg->Process();
 		_uiSoul->Process();
 		_stageUi->Process();
@@ -117,6 +118,7 @@ namespace inr {
 		_game.GetMapChips()->Draw();	// マップチップ
 		_eServer->DrawBack();	// エフェクト(後)
 		_game.GetObjectServer()->Draw();	// オブジェクト
+		_itemServer->Draw();
 		_eServer->DrawFormer();	// エフェクト(前)
 		_fg->Draw();
 		_uiSoul->Draw();	// HP(UI)

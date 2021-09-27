@@ -16,6 +16,7 @@ namespace inr {
 		ImageClear();
 		_imageKey = image::number::NUM;
 		_changeKey = image::number::NUM;
+		_active = false;
 		_input = false;
 		return true;
 	}
@@ -26,17 +27,18 @@ namespace inr {
 	}
 
 	bool ImageServer::Process() {
-		ChangeKey();
+		// ChangeKey();
 
 		auto ite = _images.find(_imageKey);
 		if (ite == _images.end()) return false;
+		if (ite->second->IsDraw() != true) {
+			// ite->second->Init();
+			_active = false;
+			_input = false;
+			return false;
+		}
 		if (_input != true && ite->second->IsNormal() == true) {
 			_input = true;
-		}
-		else if (_input != false && ite->second->IsDraw() != true) {
-			ite->second->Init();
-			_active = false;
-			return false;
 		}
 		ite->second->Process();	// Œ»İ‚ÌƒL[‚Ìˆ—‚ğÀs‚·‚é
 		Input();
@@ -47,6 +49,7 @@ namespace inr {
 		auto ite = _images.find(_imageKey);
 		if (ite == _images.end()) return false;
 		ite->second->Draw();
+		return true;
 	}
 
 	bool ImageServer::ChangeKey() {
@@ -73,8 +76,8 @@ namespace inr {
 	}
 
 	bool ImageServer::ImageChange(const int nextKey) {
-		if (_active != true) return false;
-		if (_changeKey == image::number::NUM) return false;
+		if (_active == true) return false;
+		if (_changeKey == nextKey) return false;
 		_changeKey = nextKey;
 		return true;
 	}
@@ -88,9 +91,22 @@ namespace inr {
 		if (_input != true) return false;
 		auto ite = _images.find(_imageKey);
 		if (ite->second->IsNormal() != true) return false;
-		if (_game.GetTrgKey() != PAD_INPUT_3) return false;
-		ite->second->DrawEnd();
+		if (_game.GetTrgKey() != PAD_INPUT_4) return false;
+		ite->second->End();
 		_input = false;
+		return true;
+	}
+
+	bool ImageServer::IsActive() {
+		if (_active == true) return true;
+		if (_changeKey == image::number::NUM) return false;
+		ImageInit();
+		_imageKey = _changeKey;
+		_changeKey = image::number::NUM;
+		_active = true;
+
+		auto ite = _images.find(_imageKey);
+		ite->second->DrawStart();
 		return true;
 	}
 }

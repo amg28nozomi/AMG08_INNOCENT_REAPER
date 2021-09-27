@@ -24,13 +24,12 @@ namespace inr {
 		_height = height;
 	}*/
 
-	Item::Item(Game& game, std::string no) : _game(game), _oValue() {
+	Item::Item(Game& game) : _game(game), _oValue() {
 		_gkey = "";
 		_position = { 0, 0 };
 		_col = { _position, 0, 0, true };
 		_count = 0;
 		_maxFrame = ITEM_MAX;
-		_stageNo = no;
 		_del = false;
 		_isGet = false;
 	}
@@ -82,7 +81,7 @@ namespace inr {
 	void Item::SetParameter(ObjectValue ovalue) {
 		_oValue = ovalue;
 		_gkey = item::ITEM;
-		_isGet = ovalue.GimmickFlag();
+		_isGet = ovalue.GimmickFlag() == TRUE;
 		_messageNo = ovalue.GimmickType();
 		_position = ovalue.Positions().front();
 		_col = { _position, 50, 50, true };

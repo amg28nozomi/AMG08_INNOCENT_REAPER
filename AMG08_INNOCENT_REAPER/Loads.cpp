@@ -244,6 +244,9 @@ namespace inr {
 			// 岩はyを-70する
 			{ oscenario::OBJ_BLOCK, {3240, 740}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
+
+			// brooch
+			{ oscenario::OBJ_ITEM, {640, 1915}, false, 0, {pvalue::ITEM_1, FALSE}},
 		};
 		return _stageS;
 		/*std::vector<ObjectValue>_stageS {
@@ -283,6 +286,8 @@ namespace inr {
 
 			// ギミック
 			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, false, 0, {gimmick::door::D_LEVER}},
+
+			{ oscenario::OBJ_ITEM, {5640, 325}, false, 0, {pvalue::ITEM_3, FALSE}},
 		};
 
 		return _stage1;
@@ -343,6 +348,9 @@ namespace inr {
 			// 水晶（x-90）
 			{ oscenario::OBJ_CRYSTAL, {{2870, 1570}, {3180, 1410}, {3180, 1810}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{8370, 610}, {9000, 230}, {9000, 590}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
+
+			{ oscenario::OBJ_ITEM, {3840, 215}, false, 0, {pvalue::ITEM_0, FALSE}},
+			{ oscenario::OBJ_ITEM, {8280, 1965}, false, 0, {pvalue::ITEM_2, FALSE}},
 		};
 		return _stage;
 	}

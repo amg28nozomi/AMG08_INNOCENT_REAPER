@@ -31,7 +31,7 @@ namespace inr {
 		bool AddImage(const int number, std::shared_ptr<Particle_Image> image);	// V‹K‰æ‘œ‚Ì“o˜^
 
 		bool IsLoad() { return _images.empty(); }
-		bool IsActive() { return _active; }
+		bool IsActive();
 	private:
 		Game& _game;
 		int _imageKey;	// ŒŸõ—pƒL[

@@ -33,7 +33,7 @@ namespace inr {
 
 	class Item {
 	public:
-		Item(Game& game, std::string no);
+		Item(Game& game);
 		~Item() = default;
 
 		void Init();
@@ -44,7 +44,6 @@ namespace inr {
 		void ObjValueUpdate();
 		inline bool IsGet() { return _isGet; }
 		inline bool IsDel() { return _del; }
-		inline std::string ThisNnumber() { return _stageNo; }
 
 		inline ObjectValue GetObjectValue() { return _oValue; }
 	private:
@@ -54,7 +53,6 @@ namespace inr {
 
 		std::string _gkey;	// 画像のキー
 		Vector2 _position;
-		std::string _stageNo;	// ステージ番号
 		int _count;
 		int _maxFrame;	// アニメーションの描画フレーム数
 		int _messageNo;	//　対応しているmessage番号
