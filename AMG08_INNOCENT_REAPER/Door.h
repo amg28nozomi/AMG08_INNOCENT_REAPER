@@ -27,9 +27,11 @@ namespace inr {
 			// レバー、水晶(赤)、水晶(青)
 			LEVER, CRYSTAL_RED, CRYSTAL_BLUE
 		};
-		int _pal;	// 透明度
 		int _color;	// ドアの色
+		double _normalY;
 		bool _switch;
+		bool _ismove;	// 移動中か？
+		Vector2 _moves;
 
 		void SetColor(std::string key);
 	};

@@ -508,7 +508,7 @@ namespace inr {
 			auto footMinY = box.GetMin().IntY() + (gs * num);
 			auto footMaxY = box.GetMax().IntY() + (gs * num);
 
-			auto grvity = g * num;
+			auto grvity = gr * num;
 
 			Vector2 m = { box.GetMin().GetX(), box.GetMin().GetY() + grvity };
 			Vector2 n = { box.GetMax().GetX(), box.GetMax().GetY() + grvity };
@@ -696,86 +696,94 @@ namespace inr {
 	//}
 
 	int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction) {
+		//int x, y;
+
+		//auto thisbox = box;
+		//auto movepos = pos + move;
+		//thisbox.Update(movepos, direction);
+		////thisbox.Update()
+
+		//auto vectorX = move.GetX();
+		//auto vectorY = move.GetY();
+
+		//auto minx = thisbox.GetMin().IntX();
+		//auto miny = thisbox.GetMin().IntY();
+		//auto maxx = thisbox.GetMax().IntX();
+		//auto maxy = thisbox.GetMax().IntY();
+		
 		int x, y;
 
 		auto thisbox = box;
-		auto movepos = pos + move;
-		thisbox.Update(movepos, direction);
-		//thisbox.Update()
 
-		auto vectorX = move.GetX();
-		auto vectorY = move.GetY();
+		auto vectorX = move.GetX() / CHECK_MAX;
+		auto vectorY = move.GetY() / CHECK_MAX;
 
-		auto minx = thisbox.GetMin().IntX();
-		auto miny = thisbox.GetMin().IntY();
-		auto maxx = thisbox.GetMax().IntX();
-		auto maxy = thisbox.GetMax().IntY();
-		/*Vector2 minp = { static_cast<double>(minx), static_cast<double>(miny) };
-		Vector2 maxp = { static_cast<double>(maxx), static_cast<double>(maxy) };*/
+		for (auto num = CHECK_MIN; num < CHECK_MAX + 1; ++num) {
+			Vector2 move_s = { (vectorX * num), (vectorY * num) };
+			Vector2 movepos = { pos + move_s };
+			thisbox.Update(movepos, direction);
 
-		/*AABB boxcol({ box.GetMin().GetX() + move.GetX(), box.GetMin().GetY() + move.GetY() },
-			{ box.GetMax().GetX() + move.GetX(), box.GetMax().GetY() + move.GetY() }, box.GetCollisionFlg());*/
+			auto minx = thisbox.GetMin().IntX();
+			auto miny = thisbox.GetMin().IntY();
+			auto maxx = thisbox.GetMax().IntX();
+			auto maxy = thisbox.GetMax().IntY();
 
+			for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
+				for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
+					// マップチップと接触しているかどうか？
+					int chip_no = CheckHit(x, y);
+					// チップ番号が0かどうか
+					if (chip_no != 0) {
+						if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
 
-			/* 検証用 */
-			// _debugAABB = { {static_cast<double>(minx), static_cast<double>(miny)}, {static_cast<double>(maxx), static_cast<double>(maxy)} };
-			/* 検証用 */
+						auto c = _chipCheck->ChipCollision(chip_no);
+						auto minX = c.GetMin().IntX();
+						auto maxX = c.GetMax().IntX();
+						auto minY = c.GetMin().IntY();
+						auto maxY = c.GetMax().IntY();
 
-		for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
-			for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
-				// マップチップと接触しているかどうか？
-				int chip_no = CheckHit(x, y);
-				// チップ番号が0かどうか
-				if (chip_no != 0) {
-					if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
-					// 当たり判定を取得
-					auto c = _chipCheck->ChipCollision(chip_no);
-					auto minX = c.GetMin().IntX();
-					auto maxX = c.GetMax().IntX();
-					auto minY = c.GetMin().IntY();
-					auto maxY = c.GetMax().IntY();
+						// 新規追加
+						auto chipMinX = x * _nowMap.ChipSizeWidth() + minX;
+						auto chipMinY = y * _nowMap.ChipSizeHeight() + minY;
+						auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
+						auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
 
-					// 新規追加
-					auto chipMinX = x * _nowMap.ChipSizeWidth() + minX;
-					auto chipMinY = y * _nowMap.ChipSizeHeight() + minY;
-					auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
-					auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
+						auto chiptype = _chipCheck->IsChipType(chip_no);
+						auto hittype = _chipCheck->IsHitType(chip_no);
 
-					if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
-						if (vectorY < 0) {
-							if (miny < chipMinY && chipMinY < maxy) {
-								auto cave = box.GetHeightMin();
-								move.GetPY() = 0;	// 移動量初期化
-								pos.GetPY() = chipMaxY + cave;
+						if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+							if (vectorY * CHECK_MAX < 0) {
+								if (miny < chipMaxY && chipMaxY < maxy) {
+									auto cave = box.GetHeightMin();
+									move.GetPY() = 0;	// 移動量初期化
+									pos.GetPY() = chipMaxY + cave;
+								}
+							}
+							else if (0 < vectorY * CHECK_MAX) {
+								if (chipMinY < maxY && miny < chipMinY) {
+									auto cave = box.GetHeightMin();
+									move.GetPY() = 0;	// 移動量初期化
+									pos.GetPY() = chipMinY + cave;
+								}
 							}
 						}
-						else if (0 < vectorY) {
-							if (chipMaxY < maxy && miny < chipMaxY) {
-								auto cave = box.GetHeightMin();
-								move.GetPY() = 0;	// 移動量初期化
-								pos.GetPY() = chipMinY + cave;
-							}
-						}
-					}
 
-					if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
-						// 左移動
-						if (vectorX < 0) {
-							//
-							if (minx < chipMaxX && chipMinX < maxx) {
-								auto cave = box.GetWidthMin();
-								move.GetPX() = 0;
-								pos.GetPX() = chipMaxX + cave;
-								return _chipCheck->IsChipType(chip_no);
+						if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
+							if (vectorX < 0 * CHECK_MAX) {
+								if (minx < chipMaxX && chipMinX < maxx) {
+									auto cave = box.GetWidthMin();
+									move.GetPX() = 0;
+									pos.GetPX() = chipMaxX + cave;
+									return _chipCheck->IsChipType(chip_no);
+								}
 							}
-						}
-						// 右移動
-						if (0 < vectorX) {
-							if (chipMinX < maxx && minx < chipMaxX) {
-								auto cave = box.GetWidthMin();
-								move.GetPX() = 0;
-								pos.GetPX() = chipMinX - cave;
-								return _chipCheck->IsChipType(chip_no);
+							if (0 < vectorX * CHECK_MAX) {
+								if (chipMinX < maxx && minx < chipMaxX) {
+									auto cave = box.GetWidthMin();
+									move.GetPX() = 0;
+									pos.GetPX() = chipMinX - cave;
+									return _chipCheck->IsChipType(chip_no);
+								}
 							}
 						}
 					}
@@ -783,13 +791,76 @@ namespace inr {
 			}
 		}
 		return mapchip::NONE;
+
+
+		//for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
+		//	for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
+		//		// マップチップと接触しているかどうか？
+		//		int chip_no = CheckHit(x, y);
+		//		// チップ番号が0かどうか
+		//		if (chip_no != 0) {
+		//			if (_chipCheck->IsHitType(chip_no) != mapchip::HIT_ON) continue;	// 当たり判定がない場合は抜ける
+		//			// 当たり判定を取得
+		//			auto c = _chipCheck->ChipCollision(chip_no);
+		//			auto minX = c.GetMin().IntX();
+		//			auto maxX = c.GetMax().IntX();
+		//			auto minY = c.GetMin().IntY();
+		//			auto maxY = c.GetMax().IntY();
+
+		//			// 新規追加
+		//			auto chipMinX = x * _nowMap.ChipSizeWidth() + minX;
+		//			auto chipMinY = y * _nowMap.ChipSizeHeight() + minY;
+		//			auto chipMaxX = x * _nowMap.ChipSizeWidth() + maxX;
+		//			auto chipMaxY = y * _nowMap.ChipSizeHeight() + maxY;
+
+		//			if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
+		//				if (vectorY < 0) {
+		//					if (miny < chipMinY && chipMinY < maxy) {
+		//						auto cave = box.GetHeightMin();
+		//						move.GetPY() = 0;	// 移動量初期化
+		//						pos.GetPY() = chipMaxY + cave;
+		//					}
+		//				}
+		//				else if (0 < vectorY) {
+		//					if (chipMaxY < maxy && miny < chipMaxY) {
+		//						auto cave = box.GetHeightMin();
+		//						move.GetPY() = 0;	// 移動量初期化
+		//						pos.GetPY() = chipMinY + cave;
+		//					}
+		//				}
+		//			}
+
+		//			if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
+		//				// 左移動
+		//				if (vectorX < 0) {
+		//					//
+		//					if (minx < chipMaxX && chipMinX < maxx) {
+		//						auto cave = box.GetWidthMin();
+		//						move.GetPX() = 0;
+		//						pos.GetPX() = chipMaxX + cave;
+		//						return _chipCheck->IsChipType(chip_no);
+		//					}
+		//				}
+		//				// 右移動
+		//				if (0 < vectorX) {
+		//					if (chipMinX < maxx && minx < chipMaxX) {
+		//						auto cave = box.GetWidthMin();
+		//						move.GetPX() = 0;
+		//						pos.GetPX() = chipMinX - cave;
+		//						return _chipCheck->IsChipType(chip_no);
+		//					}
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+		//return mapchip::NONE;
 	}
 
 	int MapChips::IsHit(AABB box, Vector2& pos, Vector2& move, bool direction, bool* isGran) {
 		int x, y;
 
 		auto thisbox = box;
-		Vector2 n_move = { move.GetX() / CHECK_MAX, move.GetY() / CHECK_MAX };
 
 		// auto movepos = pos + move;
 		// thisbox.Update(movepos, direction);
@@ -832,7 +903,7 @@ namespace inr {
 						auto hittype = _chipCheck->IsHitType(chip_no);
 
 						if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
-							if (vectorY < 0) {
+							if (vectorY * CHECK_MAX < 0) {
 								if (miny < chipMaxY && chipMaxY < maxy) {
 									// < chipMinY && chipMinY < maxy) {
 									if (hittype == mapchip::HIT_ON){// num == CHECK_MAX) {
@@ -844,7 +915,7 @@ namespace inr {
 									else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 								}
 							}
-							else if (0 < vectorY) {
+							else if (0 < vectorY * CHECK_MAX) {
 								if (chipMinY < maxY && miny < chipMinY) {
 									if (hittype == mapchip::HIT_ON){/* && num == CHECK_MAX) {*/
 										auto cave = box.GetHeightMin();
@@ -858,7 +929,7 @@ namespace inr {
 						}
 
 						if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
-							if (vectorX < 0) {
+							if (vectorX < 0 * CHECK_MAX) {
 								if (minx < chipMaxX && chipMinX < maxx) {
 									if (hittype == mapchip::HIT_ON) {
 										auto cave = box.GetWidthMin();
@@ -870,7 +941,7 @@ namespace inr {
 									else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 								}
 							}
-							if (0 < vectorX) {
+							if (0 < vectorX * CHECK_MAX) {
 								if (chipMinX < maxx && minx < chipMaxX) {
 									if (hittype == mapchip::HIT_ON) {
 										auto cave = box.GetWidthMin();

@@ -7,6 +7,12 @@
 #include "ModeServer.h"
 #include "ModeMain.h"
 
+namespace {
+	constexpr auto OPEN_MAX = 200;
+	constexpr auto ANIMATION_FRAME = 50;
+	constexpr auto DOOR_VECTOR = OPEN_MAX / ANIMATION_FRAME;
+}
+
 namespace inr {
 
 	Door::Door(Game& game) : GimmickBase(game) {
@@ -17,15 +23,28 @@ namespace inr {
 
 	void Door::Init() {
 		_switch = gimmick::OFF;
-		_pal = 255;
+		_ismove = false;
+		_moves = {};
 	}
 
 	void Door::Process() {
-		if (_switch == gimmick::OFF) return;	// フラグがオンの場合は処理を終了する
-		if (_pal == 0) return;
-		_pal -= 5;
-		if (_mainCollision.GetCollisionFlg() == true) _mainCollision.GetCollisionFlgB() = false;
-		if (_pal < 0) _pal = 0;
+		// if (_switch == gimmick::OFF && _ismove == false) return;	// フラグがオンの場合は処理を終了する
+
+		if (_ismove == false) return;
+		switch (_switch) {
+		case false:
+			_moves.GetPY() = DOOR_VECTOR;
+			_position = _position + _moves;
+			if (_normalY <= _position.GetY()) _ismove = false;
+			break;
+		case true:
+			_moves.GetPY() = -DOOR_VECTOR;
+			_position = _position + _moves;
+			if (_position.GetY() <= _normalY - OPEN_MAX) _ismove = false;
+			break;
+		}
+
+		_moves = {};
 	}
 
 	void Door::Draw() {
@@ -34,10 +53,7 @@ namespace inr {
 		auto x = xy.IntX();
 		auto y = xy.IntY();
 		int graph = graph::ResourceServer::GetHandles(_divKey.first, 0);
-
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 #ifdef _DEBUG
 		DrawDebugBox(_mainCollision);
@@ -46,45 +62,51 @@ namespace inr {
 	}
 
 	void Door::SetParameter(Vector2 spwan, std::string key, int flag) {
-		_position = spwan;
-		_mainCollision = { _position, 20, 20, 10, 70, true };
 		_divKey.first = key;
+		_normalY = spwan.GetY();
 		SetColor(key);
 		_motionKey = { { _divKey.first, {25, 50}} };
+		_ismove = false;
 		switch (flag) {
 		case oscenario::gimmick::FLAG_FALSE:
+			_mainCollision.GetCollisionFlgB() = true;	// 当たり判定を元に戻す
+			_position = spwan;
 			_switch = gimmick::OFF;
-			_pal = 255;
 			break;
 		case oscenario::gimmick::FLAG_TRUE:
+			_position = { spwan.GetX(), _normalY - OPEN_MAX };
 			_switch = gimmick::ON;
-			_pal = 0;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = false;
 #endif
+			_mainCollision.GetCollisionFlgB() = false;	// 当たり判定を元に戻す
 			break;
 		default:
+			_position = spwan;
 			_switch = gimmick::OFF;
 			break;
 		}
+		_mainCollision = { _position, 20, 20, 10, 70, true };
 	}
 
 	void Door::SwitchOn() {
 		_switch = gimmick::ON;
+		_ismove = true;
 #ifdef _DEBUG
 		_mainCollision.GetbDrawFlg() = false;
 #endif
+		_mainCollision.GetCollisionFlgB() = false;	// 当たり判定を元に戻す
 		auto sh = SoundResearch(gimmick::door::KEY_DOOR);
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 	}
 
 	void Door::SwitchOff() {
 		_switch = gimmick::OFF;
+		_ismove = true;
 #ifdef _DEBUG
 		_mainCollision.GetbDrawFlg() = true;
 #endif
 		_mainCollision.GetCollisionFlgB() = true;	// 当たり判定を元に戻す
-		_pal = 255;
 	}
 
 	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
@@ -93,7 +115,7 @@ namespace inr {
 		// 対象は接触しているか？
 		if (_mainCollision.HitCheck(box) == false) return false;	// 衝突していない
 
-		// 衝突している場合はどちら側からめり込んでいるかを算出する
+
 		if (move.GetX() < 0) {
 			// 左から接触している
 			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMax();
@@ -149,11 +171,11 @@ namespace inr {
 		_oValue = objValue;	// オブジェクト情報の更新
 		_divKey.first = gimmick::door::KEY_DOOR_BOSS;
 		_position = objValue.Positions().at(0);
+		_normalY = _position.GetY();
 		_mainCollision = { _position, 20, 20, 10, 70, true };
 		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	// 扉は開かれているか？
 		case true:	// 空いている場合
 			_switch = gimmick::ON;
-			_pal = 0;
 			_mainCollision.GetCollisionFlgB() = false;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = false;
@@ -161,7 +183,6 @@ namespace inr {
 			return;
 		case false:	// 閉じている場合
 			_switch = gimmick::OFF;
-			_pal = 255;
 			_mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = true;

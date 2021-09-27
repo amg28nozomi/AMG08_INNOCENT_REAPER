@@ -72,6 +72,8 @@ namespace {
 	constexpr auto JUMP_MAX = 16; // 15
 	constexpr auto JUMP_Y = 5;
 
+	constexpr auto JUMP_EFFECT_Y = 20;
+
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
 	constexpr auto DASH_TIME = 50 / 4;	// ダッシュアクションが完了するまでの時間
@@ -707,7 +709,9 @@ namespace inr {
 						auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
 						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 
-						auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::JUMP, _position, 30);
+						Vector2 posj = { _position.GetX(), _position.GetY() + JUMP_EFFECT_Y };
+
+						auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::JUMP, posj, 30);
 						_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff), effect::type::BACK);
 
 						// 飛距離を算出
