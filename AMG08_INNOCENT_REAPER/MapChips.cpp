@@ -903,7 +903,7 @@ namespace inr {
 						auto hittype = _chipCheck->IsHitType(chip_no);
 
 						if (box.GetMin().IntX() < chipMaxX && chipMinX < box.GetMax().IntX()) {
-							if (vectorY * CHECK_MAX < 0) {
+							if (vectorY * num < 0) {
 								if (miny < chipMaxY && chipMaxY < maxy) {
 									// < chipMinY && chipMinY < maxy) {
 									if (hittype == mapchip::HIT_ON){// num == CHECK_MAX) {
@@ -915,7 +915,7 @@ namespace inr {
 									else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 								}
 							}
-							else if (0 < vectorY * CHECK_MAX) {
+							else if (0 < vectorY * num) {
 								if (chipMinY < maxY && miny < chipMinY) {
 									if (hittype == mapchip::HIT_ON){/* && num == CHECK_MAX) {*/
 										auto cave = box.GetHeightMin();
@@ -929,7 +929,7 @@ namespace inr {
 						}
 
 						if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
-							if (vectorX < 0 * CHECK_MAX) {
+							if (vectorX < 0 * num) {
 								if (minx < chipMaxX && chipMinX < maxx) {
 									if (hittype == mapchip::HIT_ON) {
 										auto cave = box.GetWidthMin();
@@ -941,7 +941,7 @@ namespace inr {
 									else if (chiptype == mapchip::TRANSITION) TransitionResearch(chip_no);
 								}
 							}
-							if (0 < vectorX * CHECK_MAX) {
+							if (0 < vectorX * num) {
 								if (chipMinX < maxx && minx < chipMaxX) {
 									if (hittype == mapchip::HIT_ON) {
 										auto cave = box.GetWidthMin();

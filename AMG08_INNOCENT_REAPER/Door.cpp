@@ -43,6 +43,7 @@ namespace inr {
 			if (_position.GetY() <= _normalY - OPEN_MAX) _ismove = false;
 			break;
 		}
+		_mainCollision.Update(_position, false);
 
 		_moves = {};
 	}
@@ -67,9 +68,11 @@ namespace inr {
 		SetColor(key);
 		_motionKey = { { _divKey.first, {25, 50}} };
 		_ismove = false;
+
+		bool colf;
 		switch (flag) {
 		case oscenario::gimmick::FLAG_FALSE:
-			_mainCollision.GetCollisionFlgB() = true;	// “–‚½‚è”»’è‚ðŒ³‚É–ß‚·
+			colf = true;	// “–‚½‚è”»’è‚ðŒ³‚É–ß‚·
 			_position = spwan;
 			_switch = gimmick::OFF;
 			break;
@@ -79,14 +82,15 @@ namespace inr {
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = false;
 #endif
-			_mainCollision.GetCollisionFlgB() = false;	// “–‚½‚è”»’è‚ðŒ³‚É–ß‚·
+			colf = false;	// “–‚½‚è”»’è‚ðŒ³‚É–ß‚·
 			break;
 		default:
 			_position = spwan;
 			_switch = gimmick::OFF;
+			colf = true;
 			break;
 		}
-		_mainCollision = { _position, 20, 20, 10, 70, true };
+		_mainCollision = { _position, 20, 20, 10, 70, colf };
 	}
 
 	void Door::SwitchOn() {
