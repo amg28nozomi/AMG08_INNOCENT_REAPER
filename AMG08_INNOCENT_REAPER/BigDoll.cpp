@@ -7,6 +7,10 @@
 #include "GimmickBase.h"
 #include "Lever.h"
 #include "Block.h"
+#include "ModeServer.h"
+#include "ModeMain.h"
+#include "EffectServer.h"
+#include "EffectBase.h"
 #include <memory>
 
 namespace {
@@ -65,8 +69,9 @@ namespace inr {
 			{ enemy::blue::BIG_WAKEUP, {20, 0}},
 			{ enemy::blue::BIG_IDOL, {15, 0}},
 			{ enemy::blue::BIG_PATROL, {20, 0}},
-			{ enemy::blue::BIG_ESCAPE, {20, 0}},
+			{ enemy::blue::BIG_ESCAPE, {20, 50}},
 		};
+		_moveCount = 0;
 	}
 
 	void BigDoll::Process() {
@@ -142,6 +147,11 @@ namespace inr {
 			return;
 		}
 
+		if (0 < _moveCount) {
+			--_moveCount;
+			if (_aState != ActionState::ATTACK && _aState != ActionState::ESCAPE) _moveCount = 0;
+		}
+
 		switch (_aState) {
 		case ActionState::IDOL:
 			PatrolOn();
@@ -175,6 +185,12 @@ namespace inr {
 			_searchBox.GetCollisionFlgB() = false;	// 索敵を切る
 			return;
 		case ActionState::ATTACK:
+			// 立っていてかつ、攻撃SEを鳴らしていない時限定で実装する
+			if (_stand == true && _moveCount == 0) { 
+				PlaySe(enemy::bigdoll::SE_TACKLE);
+				_moveCount = 30;
+			}
+
 			// 右移動
 			if (_actionX < 0) {
 				if(_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
@@ -191,6 +207,10 @@ namespace inr {
 			if(_actionX == 0) ChangeIdol();
 			return;
 		case ActionState::ESCAPE:
+			if (_stand == true && _moveCount == 0) {
+				PlaySe(enemy::bigdoll::SE_TACKLE);
+				_moveCount = 30;
+			}
 			// 左移動
 			if (_actionX < 0) {
 				_actionX += (enemy::ESCAPE_VECTOR / 30);
@@ -302,6 +322,9 @@ namespace inr {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::BIG_TACKLE);
 			_searchBox.GetCollisionFlgB() = true;
+
+			PlaySe(enemy::bigdoll::SE_TACKLE_VOICE);
+
 			switch (_direction) {
 			case enemy::MOVE_LEFT:
 				_actionX = -TACKLE_MAX;
@@ -324,6 +347,9 @@ namespace inr {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::BIG_ESCAPE);
 			_searchBox.GetCollisionFlgB() = true;
+
+			PlaySe(enemy::bigdoll::SE_ESCAP_VOICE);
+
 			switch (_direction) {
 			case enemy::MOVE_LEFT:
 				_actionX = enemy::ESCAPE_MAX;
@@ -362,7 +388,13 @@ namespace inr {
 					ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
 
+					PlaySe(enemy::bigdoll::SE_DOWN);
+
+					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
+					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::FORMER);
+
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
+					_moveCount = 0;
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {

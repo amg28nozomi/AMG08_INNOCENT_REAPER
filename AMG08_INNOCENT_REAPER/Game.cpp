@@ -13,6 +13,7 @@
 
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
+#include "BigDoll.h"
 #include "SoulSkin.h"
 #include "Image.h"
 #include "Scenario.h"
@@ -78,6 +79,11 @@ namespace inr {
 		{ {enemy::soldier::ESCAPE_SE}, {"Resource/SE/SoldierDoll/sd_escape.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::soldier::ESCAPE_VOICE}, {"Resource/SE/SoldierDoll/sd_escapevoice.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::soldier::MOVE}, {"Resource/SE/SoldierDoll/sd_move.wav", DX_PLAYTYPE_BACK}},
+
+		{ {enemy::bigdoll::SE_TACKLE}, {"Resource/SE/BigDoll/bd_tackle.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::bigdoll::SE_DOWN}, {"Resource/SE/BigDoll/bd_down.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::bigdoll::SE_TACKLE_VOICE}, {"Resource/SE/BigDoll/bd_tacklevoice.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::bigdoll::SE_ESCAP_VOICE}, {"Resource/SE/BigDoll/bd_escapevoice.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	const se::SoundServer::SoundMap ses {
