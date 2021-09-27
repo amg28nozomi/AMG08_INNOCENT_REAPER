@@ -21,7 +21,7 @@ namespace inr {
 		constexpr auto S_HIT = "soul_hit_effect";
 
 		// 画像サイズ
-		constexpr auto JUMP_IMAGE_W = 80;
+		constexpr auto JUMP_IMAGE_W = 150;
 		constexpr auto JUMP_IMAGE_H = 50;
 		constexpr auto ROB_IMAGE = 140;	// 奪うエフェクトの画像サイズ
 		constexpr auto HIT_IMAGE_W = 840;

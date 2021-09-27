@@ -10,17 +10,17 @@ namespace inr {
 			constexpr auto CROW_IDOL = "crow_stand";	// 待機
 			constexpr auto CROW_DEBUF = "crow_debuf";	// デバフモーション
 			constexpr auto CROW_GROWARM = "crow_growarm";	// 伸びる爪
-			constexpr auto CROW_RASH = "crow_rash";	// 連撃
+			constexpr auto CROW_RUSH = "crow_rash";	// 連撃
 			constexpr auto CROW_BLINK = "crow_brink";	// 頭上からの強襲
 			constexpr auto CROW_ROAR = "crow_roar";
 			constexpr auto CROW_WINCE = "crow_wince";
 			constexpr auto CROW_DOWN = "crow_down";	// 倒れる
 			// 画像サイズ
-			constexpr auto CROW_SIZE = 380;	// 画像サイズ
+			constexpr auto CROW_SIZE = 500;	// 画像サイズ
 
 
 			constexpr auto SE_VOICE = "crow_voice";	// 鳴き声
-			constexpr auto SE_RASH = "crow_rash";	// 連撃
+			constexpr auto SE_RUSH = "crow_rush";	// 連撃
 		}
 	}
 
@@ -36,7 +36,7 @@ namespace inr {
 	private:
 		enum class CrowState {
 			// 死亡、待機、デバフ、咆哮(行動不能)、連続斬り、頭上からの強襲、伸びる爪、怯み、非活動状態
-			DEATH, IDOL, DEBUF, ROAR, RASH, BLINK, GROWARM, WINCE, SLEEP
+			DEATH, IDOL, DEBUF, ROAR, RUSH, BLINK, GROWARM, WINCE, SLEEP
 		};
 		CrowState _cState;	// クロウドールの状態
 		Vector2 _target;	// 攻撃目標座標

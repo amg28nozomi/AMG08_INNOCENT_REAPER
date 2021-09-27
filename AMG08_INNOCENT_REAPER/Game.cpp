@@ -94,7 +94,7 @@ namespace inr {
 		{{key::SOUND_PLAYER_FALL2}, {"Resource/SE/Player/landing_stage2.wav", DX_PLAYTYPE_BACK}},
 
 		{{enemy::crowdoll::SE_VOICE}, {"Resource/SE/CrowDoll/cd_voice.wav", DX_PLAYTYPE_BACK}},
-		{{enemy::crowdoll::SE_RASH}, {"Resource/SE/CrowDoll/cd_rush.wav", DX_PLAYTYPE_BACK} },
+		{{enemy::crowdoll::SE_RUSH}, {"Resource/SE/CrowDoll/cd_rush.wav", DX_PLAYTYPE_BACK} },
 	};
 
 	// ÉMÉ~ÉbÉNSE

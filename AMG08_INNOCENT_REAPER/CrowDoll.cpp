@@ -46,18 +46,18 @@ namespace inr {
 		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
-			{enemy::crowdoll::CROW_RASH, {_position, 0, 120, 130 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
+			{enemy::crowdoll::CROW_RUSH, {_position, 0, 120, 130 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
 			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
 		_motionKey = {
-			{enemy::crowdoll::CROW_IDOL, {25, 0}},
-			{enemy::crowdoll::CROW_RASH , {40, 20}},
-			{enemy::crowdoll::CROW_BLINK , {25, 20}},
-			{enemy::crowdoll::CROW_GROWARM , {25, 20}},
-			{enemy::crowdoll::CROW_ROAR , {25, 50}},
-			{enemy::crowdoll::CROW_DEBUF, {30, 50}},
-			{enemy::crowdoll::CROW_DOWN , {25, 50}},
-			{enemy::crowdoll::CROW_WINCE, {25, 50}},
+			{enemy::crowdoll::CROW_IDOL, {60, 0}},
+			{enemy::crowdoll::CROW_RUSH , {70, 20}},
+			{enemy::crowdoll::CROW_BLINK , {13 * 3, 20}},
+			{enemy::crowdoll::CROW_GROWARM , {30, 20}},
+			{enemy::crowdoll::CROW_ROAR , {11*3, 50}},
+			{enemy::crowdoll::CROW_DEBUF, {22 * 3, 50}},
+			{enemy::crowdoll::CROW_DOWN , {28 * 2, 50}},
+			{enemy::crowdoll::CROW_WINCE, {7 * 3, 50}},
 		};
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;
@@ -173,7 +173,7 @@ namespace inr {
 	bool CrowDoll::IsGravity() {
 		switch (_cState) {
 		case CrowState::DEATH:
-		case CrowState::RASH:
+		case CrowState::RUSH:
 		case CrowState::SLEEP:
 		case CrowState::BLINK:
 			_gravity += FRAME_G;	// 加速度を加算
@@ -215,13 +215,13 @@ namespace inr {
 		int sound = 0;
 		if (p < 0) {	// 自機は左に居る
 			switch (_cState) {
-			case CrowState::RASH:
+			case CrowState::RUSH:
 				_direction = enemy::MOVE_RIGHT;
 				px = (_target.GetX() - (_mainCollision.GetWidthMin()) * 5);
 				_position = { px, 870 };
 				_actionEnd.GetPX() = px - RASH_MAX;
-				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
-				PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RASH));
+				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RUSH));
 				break;
 			default:
 				break;
@@ -229,13 +229,13 @@ namespace inr {
 		}// 自機は右側にいる
 		else if (0 < p) { 
 			switch (_cState) {
-			case CrowState::RASH:
+			case CrowState::RUSH:
 				_direction = enemy::MOVE_LEFT;
 				px = (_target.GetX() + (_mainCollision.GetWidthMax()) * 5);
 				_position = { px, 870 };
 				_actionEnd.GetPX() = px + RASH_MAX;
-				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RASH);
-				PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RASH));
+				sound = se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH);
+				PlaySoundMem(sound, se::SoundServer::GetPlayType(enemy::crowdoll::SE_RUSH));
 				break;
 			default:
 				break;
@@ -273,7 +273,7 @@ namespace inr {
 			nextpos = _position.GetX() + mx;
 			if (IsAttackEnd() == true) {
 				--_actionCount;
-				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RASH));
+				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH));
 				return;
 			}
 			if (_actionEnd.GetX() < nextpos) return;
@@ -285,7 +285,7 @@ namespace inr {
 			nextpos = _position.GetX() + mx;
 			if (IsAttackEnd() == true) {
 				--_actionCount;
-				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RASH));
+				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH));
 				return;
 			}
 			if (nextpos < _actionEnd.GetX()) return;
@@ -322,7 +322,7 @@ namespace inr {
 				auto number = rand() % 3;
 				switch (number) {
 				case 0:
-					ModeChange(CrowState::RASH, enemy::crowdoll::CROW_RASH);	// 状態切り替え
+					ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_RUSH);	// 状態切り替え
 					GetTarget();	// 自機の現在座標を取得する
 					Warp();	// 自機の前に跳ぶ
 					_actionCount = 4;
@@ -340,7 +340,7 @@ namespace inr {
 				}
 			}
 			break;
-		case CrowState::RASH:
+		case CrowState::RUSH:
 			if (_atkInterval == 0) {
 				if (0 < _actionCount) {
 					Rash();	// ラッシュアクション実行
@@ -421,7 +421,7 @@ namespace inr {
 		case CrowState::WINCE:
 		case CrowState::SLEEP:
 			return false;
-		case CrowState::RASH:
+		case CrowState::RUSH:
 		case CrowState::BLINK:
 		case CrowState::IDOL:
 			return true;
