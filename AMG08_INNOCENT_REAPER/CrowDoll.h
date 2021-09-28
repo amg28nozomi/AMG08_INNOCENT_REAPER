@@ -24,6 +24,16 @@ namespace inr {
 		}
 	}
 
+	namespace effect {
+		namespace crow {
+			constexpr auto ROAR = "cd_roar_effect";
+			constexpr auto ARM = "cd_arms_effect";
+
+			constexpr auto ARM_WIDTH = 750;
+			constexpr auto ARM_HEIGHT = 600;
+		}
+	}
+
 	class CrowDoll : public EnemyBase {
 	public:
 		CrowDoll(Game& game);

@@ -106,7 +106,7 @@ namespace graph {
 		auto it = _graphlists.find(gkey);
 		if (it != _graphlists.end()) return;
 		// ‹ó‚Ìƒf[ƒ^‚ğì¬
-		DivGraph dgraph = { path + filename, 1, 1, 1, xsize, ysize};
+		DivGraph dgraph = { path + filename, 1, 1, maxsize, xsize, ysize};
 		auto&& dghandle = dgraph.GetHandls();
 		dghandle.resize(maxsize);
 		for (auto i = 0; i < maxsize; ++i) {

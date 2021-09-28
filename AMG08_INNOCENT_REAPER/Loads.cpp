@@ -87,7 +87,7 @@ namespace inr {
 		{ enemy::crowdoll::CROW_GROWARM, {"Resource/CrowDoll/cd_growarm.png", 2, 5, 10, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_WINCE, {"Resource/CrowDoll/cd_wince.png", 2, 4, 7, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_ROAR, {"Resource/CrowDoll/cd_roar.png", 2, 6, 11, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_DOWN, {"Resource/CrowDoll/cd_dead.png", 2, 14, 28, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
+		{ enemy::crowdoll::CROW_DOWN, {"Resource/CrowDoll/cd_dead.png", 2, 13, 26, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
 		{ enemy::crowdoll::CROW_ARM, {"Resource/CrowDoll/cd_arm.png", 2, 4, 7,  enemy::crowdoll::CROW_SIZE,  enemy::crowdoll::CROW_SIZE}},
 	};
 
@@ -171,6 +171,8 @@ namespace inr {
 		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},	// É_ÉÅÅ[ÉW
 		{ effect::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::SHIT_IMAGE, effect::SHIT_IMAGE}},
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 10, 2, 10, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
+
+		{ effect::crow::ARM, {"Resource/effect/CrowDoll/arms.png", 5, 5, 24, effect::crow::ARM_WIDTH, effect::crow::ARM_HEIGHT}},
 	};
 
 
@@ -209,6 +211,8 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_B, background::STAGEB_PATH, background::STAGEB_FILE, 4, WINDOW_W, WINDOW_H);
 		std::string sui_path = "Resource/UI/";
 		graph::ResourceServer::SetLoadGraph(image::particle::STAGE_UI, sui_path, image::particle::STAGE_UI, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H);
+		std::string crow_path = "Resource/effect/CrowDoll/";
+		graph::ResourceServer::SetLoadGraph(effect::crow::ROAR, crow_path + "roar/", "roar", 10, WINDOW_W, WINDOW_H);
 	}
 
 	ImageMap Loads::LoadImages() {

@@ -16,7 +16,7 @@
 
 namespace {
 	constexpr auto CROW_WIDTH = 60;	// 横の当たり判定
-	constexpr auto CROW_HEIGHT = 180;	// 縦の当たり判定
+	constexpr auto CROW_HEIGHT = 260;	// 縦の当たり判定
 
 	constexpr auto CROW_VITAL = 20;
 	constexpr auto CROW_LIFE_MAX = 10;
@@ -37,6 +37,7 @@ namespace inr {
 		_type = ObjectBase::ObjectType::ENEMY;
 		_aState = ActionState::IDOL;
 		_eType = EnemyType::CROW_DOLL;
+		_cState = CrowState::SLEEP;
 		Init();
 	}
 
@@ -46,7 +47,7 @@ namespace inr {
 		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
-			{enemy::crowdoll::CROW_RUSH, {_position, 0, 120, 130 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
+			{enemy::crowdoll::CROW_RUSH, {_position, 160, -30, CROW_HEIGHT / 2 , 10, true}},	// 連撃攻撃の当たり判定
 			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
 		_motionKey = {
@@ -54,9 +55,9 @@ namespace inr {
 			{enemy::crowdoll::CROW_RUSH , {70, 20}},
 			{enemy::crowdoll::CROW_BLINK , {13 * 3, 20}},
 			{enemy::crowdoll::CROW_GROWARM , {30, 20}},
-			{enemy::crowdoll::CROW_ROAR , {11*3, 50}},
+			{enemy::crowdoll::CROW_ROAR , {11 * 3, 50}},
 			{enemy::crowdoll::CROW_DEBUF, {22 * 3, 50}},
-			{enemy::crowdoll::CROW_DOWN , {28 * 2, 50}},
+			{enemy::crowdoll::CROW_DOWN , {26 * 3, 50}},
 			{enemy::crowdoll::CROW_WINCE, {7 * 3, 50}},
 		};
 		_aCount = GetSize(_divKey.first) - 1;
@@ -67,6 +68,7 @@ namespace inr {
 		_arm = false;
 		_setup = false;
 		_changeGraph = false;
+		_direction = true;
 	}
 
 	void CrowDoll::SetParameter(ObjectValue objValue) {
@@ -120,7 +122,9 @@ namespace inr {
 			_mainCollision.GetCollisionFlgB() = true;	// 当たり判定をオンにする
 			auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
 			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
-			ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+			ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_ROAR);	// 状態切り替え
+			auto roar_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ROAR, _position, 30);// _game.GetMapChips()->GetWorldPosition(), 30);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(roar_eff), effect::type::FORMER);
 			return;
 		}
 	}
@@ -149,7 +153,7 @@ namespace inr {
 		_position = _position + _moveVector;
 		_mainCollision.Update(_position, _direction);
 
-		for (auto it : _collisions) it.second.Update(_position, _direction);
+		for (auto&& it : _collisions) it.second.Update(_position, _direction);
 		_moveVector = { 0, 0 };
 	}
 
@@ -248,6 +252,11 @@ namespace inr {
 			_moveVector = { 0, 0 };
 			break;
 		case inr::CrowDoll::CrowState::ROAR:
+			/*if (AnimationCountMax() == true) {
+				_atkInterval = 30;
+				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
+				Warp();
+			}*/
 			break;
 		case inr::CrowDoll::CrowState::BLINK:
 			// 自機の頭上にワープする
@@ -255,6 +264,9 @@ namespace inr {
 			_position = { _target.GetX(), _target.GetY() - 600 };	// 座標変更
 			_moveVector = { 0, 0 };	// 移動量は消す
 			break;
+		case inr::CrowDoll::CrowState::IDOL:
+			_position = _game.GetMapChips()->GetWorldPosition();
+			_moveVector = {};
 		default:
 			break;
 		}
@@ -386,6 +398,14 @@ namespace inr {
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
 				break;
+			}
+			break;
+
+		case CrowState::ROAR:
+			if (AnimationCountMax() == true) {
+				_atkInterval = 30;
+				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
+				Warp();
 			}
 			break;
 		}
