@@ -32,6 +32,7 @@ namespace inr {
 
 		bool IsLoad() { return _images.empty(); }
 		bool IsActive();
+		bool Active() { return _active; }
 	private:
 		Game& _game;
 		int _imageKey;	// ŒŸõ—pƒL[

@@ -35,12 +35,18 @@ namespace inr {
 		case false:
 			_moves.GetPY() = DOOR_VECTOR;
 			_position = _position + _moves;
-			if (_normalY <= _position.GetY()) _ismove = false;
+			if (_normalY <= _position.GetY()) { 
+				_position.GetPY() = _normalY;
+				_ismove = false; 
+			}
 			break;
 		case true:
 			_moves.GetPY() = -DOOR_VECTOR;
 			_position = _position + _moves;
-			if (_position.GetY() <= _normalY - OPEN_MAX) _ismove = false;
+			if (_position.GetY() <= _normalY - OPEN_MAX) { 
+				_position.GetPY() = _normalY - OPEN_MAX;
+				_ismove = false; 
+			}
 			break;
 		}
 		_mainCollision.Update(_position, false);

@@ -329,7 +329,7 @@ namespace inr {
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, enemy::MOVE_LEFT, 0 },
-			{ oscenario::OBJ_SOLDIER_DOLL, { 1260, 150}, enemy::MOVE_LEFT, 2 },
+			{ oscenario::OBJ_SOLDIER_DOLL, { 150, 200}, enemy::MOVE_LEFT, 2 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 2060, 900}, false, 1 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 1660, 1390}, false, 2 },
 			{ oscenario::OBJ_SOLDIER_DOLL, { 3760, 190}, false },

@@ -58,7 +58,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_T;
+			_stageKey = stage::STAGE_2_1;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -92,12 +92,11 @@ namespace inr {
 		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
 
-		if (_pause->IsActive() == true) {
-			_pause->Process();	// ポーズ画面更新処理
-			return;
-		}
 		if (_messageServer->IsActive() == true) {
 			_messageServer->Process();
+			return;
+		} else if (_pause->IsActive() == true) {
+			_pause->Process();	// ポーズ画面更新処理
 			return;
 		}
 		// どのフラグもオンになっていない場合のみ処理を実行する
