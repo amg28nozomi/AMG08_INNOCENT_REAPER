@@ -194,7 +194,7 @@ namespace inr {
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
-
+				_mainCollision.GetCollisionFlgB() = true;
 			}
 			return;
 		}
@@ -319,10 +319,7 @@ namespace inr {
 					break;
 				}
 				_moveVector.GetPX() = mv;
-				if (_actionX == 0) { 
-					ChangeIdol();
-					// _stay = 30;
-				}
+				if (_actionX == 0) PatrolOn();
 			}
 			return;
 		default:
@@ -507,9 +504,11 @@ namespace inr {
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
+							_mainCollision.GetCollisionFlgB() = false;
 							return;
 						case soul::BLUE:
 							ChangeState(ActionState::WAKEUP, enemy::blue::SOLDIER_WAKEUP);
+							_mainCollision.GetCollisionFlgB() = false;
 							return;
 						}
 						return;

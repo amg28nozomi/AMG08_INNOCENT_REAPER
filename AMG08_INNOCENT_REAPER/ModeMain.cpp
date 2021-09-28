@@ -53,7 +53,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_2_1;
+			_stageKey = stage::STAGE_3;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -115,7 +115,7 @@ namespace inr {
 		_game.GetObjectServer()->Draw();	// オブジェクト
 		_itemServer->Draw();
 		_eServer->DrawFormer();	// エフェクト(前)
-		// _fg->Draw();
+		_fg->Draw();
 		_uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();

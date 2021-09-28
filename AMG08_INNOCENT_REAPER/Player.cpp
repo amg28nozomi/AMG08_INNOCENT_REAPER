@@ -68,11 +68,12 @@ namespace {
 	constexpr auto GIVE_JUDGEMENT = 10 * 4;
 
 	// ジャンプアクション
-	constexpr auto JUMP_VECTOR = 2;	// ジャンプの移動ベクトル
-	constexpr auto JUMP_MAX = 16; // 15
+	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
+	constexpr auto JUMP_MIN = 5.5;
+	constexpr auto JUMP_MAX = 11; // 15
 	constexpr auto JUMP_Y = 5;
 
-	constexpr auto JUMP_EFFECT_Y = 20;
+	constexpr auto JUMP_EFFECT_Y = 30;
 
 	// ダッシュアクション関連
 	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
@@ -149,6 +150,7 @@ namespace inr {
 		_direction = false;
 		_changeGraph = true;
 		_input = true;
+		_isJump = false;
 		_jumpPower = 0;
 		_position = {0, 0};
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
@@ -446,8 +448,9 @@ namespace inr {
 				if (_aState == ActionState::GIVE || _aState == ActionState::ROB) break;
 				Give(x, y);		// 与えるアクション実行
 				break;
-			//case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
-			//	InputJump();
+			case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
+				InputJump();
+				break;
 			//	// 
 			//	//if (_aState != ActionState::IDOL && _aState != ActionState::MOVE || _aState == ActionState::JUMP) break;
 			//	Jump();
@@ -638,8 +641,25 @@ namespace inr {
 
 	void Player::InputJump() {
 		// 入力可能状態かつ、立っている場合のみ実行可能
-		if (_input == true && _stand) {
+		if (_input == true && (_stand == true || _gran == true)) {
 			_jumpPower += 1;	// 溜めカウンタを増やす
+			//// Aキーの入力がない場合、ジャンプを実行
+			ChangeState(ActionState::JUMP, PKEY_JUMP);
+			auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+
+			Vector2 posj = { _position.GetX(), _position.GetY() + JUMP_EFFECT_Y };
+
+			auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::JUMP, posj, 30);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff), effect::type::BACK);
+
+			// 飛距離を算出
+			// auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+			// 飛距離が最大値を超えた場合は修正
+			// _gravity = -jumpPower;
+			_gran = false;
+			_isJump = true;
+			_stand = false;
 		}
 	}
 
@@ -693,39 +713,44 @@ namespace inr {
 	}
 
 	void Player::Jump() {
-		if ((_input == true && _stand) || _gran == true) {
+		if (_jumpPower && _isJump == true) {
 				// 溜めはあるか？
 					auto pressKey = _game.GetKey();
-					if (pressKey & PAD_INPUT_3 ) {
+					if (pressKey & PAD_INPUT_3) {
 						// 溜めカウンタを増やす
 						_jumpPower += 1;
+						auto jumpPower = JUMP_VECTOR * (1.0 + JUMP_MAX);
+						_gravity = -jumpPower;
 						// 溜めカウンタがマックスではない場合、処理から抜ける
-						if (_jumpPower < JUMP_MAX) {
-							return;
+						if (JUMP_MAX <= _jumpPower) {
+							_jumpPower = 0;
+							_isJump = false;
 						}
-					}  if (_jumpPower) {
-						// Aキーの入力がない場合、ジャンプを実行
-						ChangeState(ActionState::JUMP, PKEY_JUMP);
-						auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
-						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+						return;
+					}  
 
-						Vector2 posj = { _position.GetX(), _position.GetY() + JUMP_EFFECT_Y };
 
-						auto eff = std::make_unique<EffectBase>(_game.GetGame(), effect::JUMP, posj, 30);
-						_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eff), effect::type::BACK);
-
-						// 飛距離を算出
+					if (_jumpPower < JUMP_MIN) { 
+						_jumpPower = JUMP_MIN; 
+					} else {
 						auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+						_gravity = -jumpPower;
+						_jumpPower = 0;
+						_isJump = false;
+						return;
+					}
+						auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
+						_gravity = -jumpPower;
+
 						// 飛距離が最大値を超えた場合は修正
-						if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
+						// if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
 						// ジャンプの飛距離を登録
 						// この値は地面に触れた or 天井に接触した場合、0にする。
-						_gravity = -jumpPower;
-						_gran = false;
-					}
+						
+					
 			}
 		//if(_jumpPower) _jumpPower = 0;
-		_jumpPower = 0;
+		// _jumpPower = 0;
 	}
 
 	void Player::Rob(double x, double y) {
@@ -1009,6 +1034,7 @@ namespace inr {
 		ChangeState(ActionState::IDOL, PKEY_IDOL);
 		_input = true;
 		_gran = false;
+		_isJump = false;
 		return true;
 	}
 

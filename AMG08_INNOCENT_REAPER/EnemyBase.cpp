@@ -37,6 +37,8 @@ namespace inr {
 		_changeGraph = true;
 		_drawStop = false;
 
+		_isAction = false;
+
 		_soul = nullptr;
 
 		Init();

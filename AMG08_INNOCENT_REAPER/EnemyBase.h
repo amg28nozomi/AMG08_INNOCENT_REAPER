@@ -78,6 +78,7 @@ namespace inr {
 		double _actionX;	// アクション実行時のx座標
 		double _patrolX;
 		bool _isSearch;	// プレイヤーを
+		bool _isAction;
 		bool _drawStop;	// 描画更新停止
 
 		void AnimationCount() override;
