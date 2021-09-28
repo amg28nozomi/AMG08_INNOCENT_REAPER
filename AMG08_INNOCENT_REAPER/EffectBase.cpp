@@ -19,6 +19,7 @@ namespace inr {
 		_delete = false;
 		_direction = direction;	
 		_isDamage = false;
+		_loop = 0;
 	}
 
 
@@ -32,9 +33,13 @@ namespace inr {
 			if(IsDamage() == true) Damage();
 		}
 		if (_count == (_alive - 1)) {
-			_delete = true;	// 消去フラグをオンにする（消去予約）
-			_game.GetModeServer()->GetModeMain()->GetEffectServer()->DelOn();
-			return;
+			if (_loop == 0) {
+				_delete = true;	// 消去フラグをオンにする（消去予約）
+				_game.GetModeServer()->GetModeMain()->GetEffectServer()->DelOn();
+				return;
+			}
+			--_loop;
+			_count = 0;
 		}
 	}
 
@@ -94,6 +99,11 @@ namespace inr {
 		_isDamage = true;	// ダメージオン
 		_collision = { _position, width1, width2, height1, height2, true };
 		_dInter = dinter;
+	}
+
+	void EffectBase::SerLoop(int max) {
+		if (max < 0) max = 0;
+		_loop = max;
 	}
 
 	void EffectBase::Damage() {
