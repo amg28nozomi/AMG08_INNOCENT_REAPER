@@ -120,6 +120,7 @@ namespace inr {
 	void SoldierDoll::Process() {
 		ObjectBase::Process();
 		_moveVector.GetPX() = 0;
+		if(_isAction != true && _searchBox.GetCollisionFlgB() == true)
 
 		// アニメーションが終わっていない場合はカウントを増やす
 		AnimationCount();
