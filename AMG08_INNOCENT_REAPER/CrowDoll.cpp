@@ -387,8 +387,8 @@ namespace inr {
 		case CrowState::GROWARM:
 			// 腕を挿した瞬間にエフェクトを発生させる
 			if (AnimationNumber() == 4 && _arm == false) {
-				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), enemy::crowdoll::CROW_ARM, Vector2(_target.GetX(), 950), 30);	// エフェクトを作成
-				effarm->SetDamageEffect(50, 40);
+				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 650), 24 * 2);	// エフェクトを作成(950)
+				effarm->SetDamageEffect(300, 300, 9);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm), effect::type::FORMER);
 				_arm = true;
 				break;

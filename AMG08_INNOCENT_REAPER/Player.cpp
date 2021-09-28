@@ -93,7 +93,7 @@ namespace {
 	constexpr auto INVINCIBLE_TIME = 120;	// 無敵フレーム
 
 	// 蔦登り
-	constexpr auto HAND_WIDTH = 10;
+	constexpr auto HAND_WIDTH = 25;
 	constexpr auto HAND_HEIGHT = 10;
 
 
@@ -696,7 +696,7 @@ namespace inr {
 		if ((_input == true && _stand) || _gran == true) {
 				// 溜めはあるか？
 					auto pressKey = _game.GetKey();
-					if (pressKey & PAD_INPUT_3 || CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
+					if (pressKey & PAD_INPUT_3 ) {
 						// 溜めカウンタを増やす
 						_jumpPower += 1;
 						// 溜めカウンタがマックスではない場合、処理から抜ける

@@ -27,7 +27,9 @@ namespace inr {
 
 	void EffectBase::Process() {
 		++_count;
-		if (_isDamage == true) Damage();
+		if (_isDamage == true) {
+			if(IsDamage() == true) Damage();
+		}
 		if (_count == (_alive - 1)) {
 			_delete = true;	// 消去フラグをオンにする（消去予約）
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->DelOn();
@@ -55,11 +57,15 @@ namespace inr {
 #endif
 	}
 
-	void EffectBase::GraphResearch(int* gh) {
+	int EffectBase::GraphNumber() {
 		auto allnum = graph::ResourceServer::GetAllNum(_graphKey);
 		auto interval = _alive / allnum;	// 猶予時間の割り出し
 		auto no = _count / interval % allnum;	// 描画する画像の算出
-		*gh = graph::ResourceServer::GetHandles(_graphKey, no);
+		return no;
+	}
+
+	void EffectBase::GraphResearch(int* gh) {
+		*gh = graph::ResourceServer::GetHandles(_graphKey, GraphNumber());
 
 		// フラグがオンの時、描画するグラフィックを切り替える
 	//	if (_changeGraph) {
@@ -76,10 +82,17 @@ namespace inr {
 	//}
 	}
 
-	void EffectBase::SetDamageEffect(int width, int height) {
+	void EffectBase::SetDamageEffect(int width, int height, int dinter) {
 		// ダメージ判定を持たせる
 		_isDamage = true;	// ダメージオン
 		_collision = { _position, width / 2, height / 2, true };
+		_dInter = dinter;
+	}
+
+	void EffectBase::SetDamageEffect(int width1, int width2, int height1, int height2, int dinter) {
+		_isDamage = true;	// ダメージオン
+		_collision = { _position, width1, width2, height1, height2, true };
+		_dInter = dinter;
 	}
 
 	void EffectBase::Damage() {
@@ -94,5 +107,10 @@ namespace inr {
 		auto pos = _position.GetX() - player->GetPosition().GetX();
 		if (pos < 0) return false;
 		else return true;
+	}
+
+	bool EffectBase::IsDamage() {
+		bool isdamage = GraphNumber() <= _dInter;
+		return isdamage;
 	}
 }

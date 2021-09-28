@@ -43,7 +43,8 @@ namespace inr {
 		virtual void Process();
 		virtual void Draw();	// 
 
-		virtual void SetDamageEffect(int width, int height);	// エフェクトにダメージ判定を持たせる
+		virtual void SetDamageEffect(int width, int height, int dinter = 0);	// エフェクトにダメージ判定を持たせる
+		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0);
 		inline bool IsDel() { return _delete; }	// このエフェクトを削除するか？
 
 	protected:
@@ -56,6 +57,7 @@ namespace inr {
 		int _alive;	// 生存時間
 		int _allNum;	// 総描画枚数
 		int _interval;	// モーションが完了するまでの猶予時間]
+		int _dInter;	//	ダメージ判定が発生するまでの猶予時間
 		bool _direction;	// 生成時の向き
 		bool _isDamage;	// ダメージ判定はあるか？
 		bool _delete;	// 消去するかの判定
@@ -64,6 +66,8 @@ namespace inr {
 		void GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
 		void Damage();	// ダメージ処理（自機へ）
 		bool IsPlayerPosition();
+		bool IsDamage();
+		int GraphNumber();
 	};
 }
 

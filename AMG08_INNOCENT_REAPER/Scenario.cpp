@@ -309,12 +309,13 @@ namespace inr {
 		for (auto ite : Items) ite->ObjValueUpdate();
 
 		for (auto&& ovalue : scenario->second) {
-			if (gs.empty() && Items.empty())	break;	// 要素が空になった場合は処理を終了する
+			if (gs.empty() && Items.empty()) break;	// 要素が空になった場合は処理を終了する
 			if (ovalue.ObjectType() == oscenario::OBJ_ITEM) {	// アイテムの場合は更新をかける
 				ovalue = Items.front()->GetObjectValue();
 				Items.erase(Items.begin());
 				continue;
 			}
+			if (gs.empty()) continue;
 			if (ovalue.ObjectType() != oscenario::type::GIMMICK) continue;	// ギミックにのみ更新をかける
 			ovalue = gs.front()->GetObjectValue();	// 現在の情報に上書きする
 			gs.erase(gs.begin());	// 先端の要素を削除する
