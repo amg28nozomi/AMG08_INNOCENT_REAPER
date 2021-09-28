@@ -505,8 +505,8 @@ namespace inr {
 
 
 		for (auto num = CHECK_MIN; num < CHECK_MAX + 1; ++num) {
-			auto footMinY = box.GetMin().IntY() + (gs * num);
-			auto footMaxY = box.GetMax().IntY() + (gs * num);
+			auto footMinY = static_cast<int>(box.GetMin().IntY() + (gr * num));
+			auto footMaxY = static_cast<int>(box.GetMax().IntY() + (gr * num));
 
 			auto grvity = gr * num;
 
@@ -718,6 +718,11 @@ namespace inr {
 		auto vectorX = move.GetX() / CHECK_MAX;
 		auto vectorY = move.GetY() / CHECK_MAX;
 
+		auto startX = static_cast<int>(box.GetMin().GetX() + move.GetX());
+		auto startY = static_cast<int>(box.GetMin().GetY() + move.GetY());
+		auto endY = static_cast<int>(box.GetMax().GetY() + move.GetY());
+		auto endX = static_cast<int>(box.GetMax().GetX() + move.GetX());
+
 		for (auto num = CHECK_MIN; num < CHECK_MAX + 1; ++num) {
 			Vector2 move_s = { (vectorX * num), (vectorY * num) };
 			Vector2 movepos = { pos + move_s };
@@ -728,8 +733,8 @@ namespace inr {
 			auto maxx = thisbox.GetMax().IntX();
 			auto maxy = thisbox.GetMax().IntY();
 
-			for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
-				for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
+			for (y = startY / _nowMap.ChipSizeHeight(); y <= endY / _nowMap.ChipSizeHeight(); ++y) {
+				for (x = startX / _nowMap.ChipSizeWidth(); x <= endX / _nowMap.ChipSizeWidth(); ++x) {
 					// マップチップと接触しているかどうか？
 					int chip_no = CheckHit(x, y);
 					// チップ番号が0かどうか
@@ -869,6 +874,11 @@ namespace inr {
 		auto vectorX = move.GetX() / CHECK_MAX;
 		auto vectorY = move.GetY() / CHECK_MAX;
 
+		auto startX = static_cast<int>(box.GetMin().GetX() + move.GetX());
+		auto startY = static_cast<int>(box.GetMin().GetY() + move.GetY());
+		auto endY = static_cast<int>(box.GetMax().GetY() + move.GetY());
+		auto endX = static_cast<int>(box.GetMax().GetX() + move.GetX());
+
 		for (auto num = CHECK_MIN; num < CHECK_MAX + 1; ++num) {
 			Vector2 move_s = { (vectorX * num), (vectorY * num) };
 			Vector2 movepos = { pos + move_s };
@@ -879,8 +889,8 @@ namespace inr {
 			auto maxx = thisbox.GetMax().IntX();
 			auto maxy = thisbox.GetMax().IntY();
 
-			for (y = miny / _nowMap.ChipSizeHeight(); y <= maxy / _nowMap.ChipSizeHeight(); ++y) {
-				for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
+			for (y = startY / _nowMap.ChipSizeHeight(); y <= endY / _nowMap.ChipSizeHeight(); ++y) {
+				for (x = startX / _nowMap.ChipSizeWidth(); x <= endX / _nowMap.ChipSizeWidth(); ++x) {
 					// マップチップと接触しているかどうか？
 					int chip_no = CheckHit(x, y);
 					// チップ番号が0かどうか
@@ -929,7 +939,7 @@ namespace inr {
 						}
 
 						if (box.GetMin().GetY() < chipMaxY && chipMinY < box.GetMax().GetY()) {
-							if (vectorX < 0 * num) {
+							if (vectorX * num < 0) {
 								if (minx < chipMaxX && chipMinX < maxx) {
 									if (hittype == mapchip::HIT_ON) {
 										auto cave = box.GetWidthMin();

@@ -43,11 +43,6 @@ namespace inr {
 		_messageServer = std::make_unique<ImageServer>(_game.GetGame());
 		_fg = std::make_unique<ForeGround>(_game.GetGame());
 		_itemServer = std::make_unique<ItemServer>();
-
-		/*Scenario::ObjectData stage1;
-		stage1.emplace(objtype::PLAYER, {150, 1900});
-		stage1.emplace(objtype::SOLDIER_DOLL, { 500, 0 });
-		};*/
 	}
 
 	ModeMain::~ModeMain() {
@@ -80,6 +75,7 @@ namespace inr {
 			_game.GetObjectServer()->AllClear();
 			_game.GetGimmickServer()->Clear();
 			_pause->Init();
+			_messageServer->Init();
 			_bg->ChangeGraph();
 			_uiSoul->Reset();
 			_resetFlg = true;
@@ -119,7 +115,7 @@ namespace inr {
 		_game.GetObjectServer()->Draw();	// オブジェクト
 		_itemServer->Draw();
 		_eServer->DrawFormer();	// エフェクト(前)
-		_fg->Draw();
+		// _fg->Draw();
 		_uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();
