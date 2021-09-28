@@ -57,6 +57,7 @@ namespace {
 
 	// アイドルモーション時間
 	constexpr auto STAY_MAX = 60;	//　stay
+	constexpr auto GIVE_STAY = 120;
 }
 
 namespace inr {
@@ -120,7 +121,11 @@ namespace inr {
 	void SoldierDoll::Process() {
 		ObjectBase::Process();
 		_moveVector.GetPX() = 0;
-		if(_isAction != true && _searchBox.GetCollisionFlgB() == true)
+
+		// アクション待機中かつ、
+		if (_isAction != true && _searchBox.GetCollisionFlgB() == true) {
+
+		}
 
 		// アニメーションが終わっていない場合はカウントを増やす
 		AnimationCount();
@@ -160,7 +165,9 @@ namespace inr {
 
 		switch (_aState) {
 		case ActionState::IDOL:
+			if (_mainCollision.GetCollisionFlg() != true) _mainCollision.GetCollisionFlgB() = true;	
 			PatrolOn();
+			_searchBox.GetCollisionFlgB() = true;
 			return;
 		case ActionState::PATROL:
 			// 左移動
@@ -191,11 +198,10 @@ namespace inr {
 			// 起き上がりアニメーションの再生が終わったなら、巡回状態に遷移する
 			if (IsAnimationMax()) {
 				ChangeIdol();
-				_stay = STAY_MAX;
+				_stay = GIVE_STAY;
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
-				_mainCollision.GetCollisionFlgB() = true;
 			}
 			return;
 		}
@@ -346,9 +352,9 @@ namespace inr {
 	void SoldierDoll::AttackOn() {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
-			_searchBox.GetCollisionFlgB() = true;
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
 			PlaySe(enemy::soldier::ATTACK_VOICE);
+			_searchBox.GetCollisionFlgB() = false;	// アクションに突入したら一時的に索敵処理を切る
 		}
 	}
 
@@ -359,6 +365,7 @@ namespace inr {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
 			PlaySe(enemy::soldier::ESCAPE_VOICE);
+			_searchBox.GetCollisionFlgB() = false;	// アクションに突入したら一時的に索敵処理を切る
 		}
 	}
 
@@ -502,14 +509,13 @@ namespace inr {
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
+						_mainCollision.GetCollisionFlgB() = false;	// 一時的に当たり判定をダメージ判定をオフにする
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
-							_mainCollision.GetCollisionFlgB() = false;
 							return;
 						case soul::BLUE:
 							ChangeState(ActionState::WAKEUP, enemy::blue::SOLDIER_WAKEUP);
-							_mainCollision.GetCollisionFlgB() = false;
 							return;
 						}
 						return;

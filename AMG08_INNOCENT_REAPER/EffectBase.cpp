@@ -1,4 +1,5 @@
 #include "EffectBase.h"
+#include "EffectBase.h"
 #include "MapChips.h"
 #include "ResourceServer.h"
 #include "ModeServer.h"

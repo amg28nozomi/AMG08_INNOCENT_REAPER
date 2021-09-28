@@ -239,7 +239,7 @@ namespace inr {
 		else {
 			damageMin.GetPX() += fix;
 		}
-		return AABB(damageMin, damageMax, true);
+		return AABB(damageMin, damageMax, _mainCollision.GetCollisionFlg());
 	}
 
 	bool EnemyBase::IsStandChip() {
