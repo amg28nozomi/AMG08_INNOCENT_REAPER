@@ -58,6 +58,8 @@ namespace {
 	// アイドルモーション時間
 	constexpr auto STAY_MAX = 60;	//　stay
 	constexpr auto GIVE_STAY = 120;
+
+	constexpr auto IDOL_FRAME = 33;
 }
 
 namespace inr {
@@ -301,7 +303,10 @@ namespace inr {
 					_moveVector.GetPX() = enemy::ESCAPE_VECTOR / FRAME;
 					break;
 				}
-				if (_actionX == 0) PatrolOn();
+				if (_actionX == 0) { 
+					ChangeIdol();
+					_stay = IDOL_FRAME;
+				}
 			}
 			return;
 		case ActionState::ATTACK:
@@ -326,7 +331,10 @@ namespace inr {
 					break;
 				}
 				_moveVector.GetPX() = mv;
-				if (_actionX == 0) PatrolOn();
+				if (_actionX == 0) { 
+					ChangeIdol();
+					_stay = IDOL_FRAME;
+				}
 			}
 			return;
 		default:

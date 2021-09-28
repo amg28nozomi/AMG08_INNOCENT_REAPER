@@ -30,6 +30,8 @@ namespace {
 	constexpr auto ADD_VECTOR = 0.1;
 
 	constexpr auto TACKLE_MAX = 1200;
+
+	constexpr auto GIVE_STAY = 120;
 }
 
 namespace inr {
@@ -154,6 +156,7 @@ namespace inr {
 
 		switch (_aState) {
 		case ActionState::IDOL:
+			if (_mainCollision.GetCollisionFlg() != true) _mainCollision.GetCollisionFlgB() = true;
 			PatrolOn();
 			return;
 		case ActionState::PATROL:
@@ -420,6 +423,9 @@ namespace inr {
 						_soul = player->GiveSoul();	// ƒvƒŒƒCƒ„\‚©‚ç‘ÎÛ‚Ì°‚ðŽó‚¯Žæ‚é
 						_soul->Inactive();	// °‚ð”ñŠˆ«ó‘Ô‚É‚·‚é
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
+						_mainCollision.GetCollisionFlgB() = false;
+						_searchBox.GetCollisionFlgB() = false;
+
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::BIG_WAKEUP);
