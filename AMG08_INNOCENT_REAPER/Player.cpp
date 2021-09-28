@@ -148,6 +148,7 @@ namespace inr {
 		// _souls.push(nullptr);
 
 		_direction = false;
+		_ivx = std::make_pair(0, 0);
 		_changeGraph = true;
 		_input = true;
 		_isJump = false;
@@ -490,7 +491,7 @@ namespace inr {
 		if (_input != true) return;	//　入力を受け付けていない場合は、掴めない
 		if (_gran == true) return;
 		// Bボタン入力があった場合、蔦登り状態に遷移する
-		if (_game.GetTrgKey() == PAD_INPUT_4 || CheckHitKey(KEY_INPUT_UP) == TRUE) {
+		if (_game.GetTrgKey() == PAD_INPUT_4) {
 			ChangeState(ActionState::GRAN, PKEY_CLIMB);
 			_gran = true;
 		}
@@ -499,7 +500,8 @@ namespace inr {
 	void Player::Gran() {
 		// if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
 		auto hand = _collisions.find(PKEY_CLIMB);
-		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, _direction)) IsGran();
+		std::pair<double, double>;
+		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, &_ivx,_direction)) IsGran();
 		else _gran = false;
 	}
 
@@ -510,9 +512,10 @@ namespace inr {
 			auto direction = _direction;
 			if (lever < -10) _direction = PL_LEFT;
 			else if (10 < lever) _direction = PL_RIGHT;
-
 			// 向きが変わった場合はフラグを切り替える
 			if (_direction != direction) _changeDirection = true;
+
+
 			if (_aState != ActionState::GRAN) {
 
 				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
@@ -553,6 +556,15 @@ namespace inr {
 				// 移動ベクトル代入
 				_moveVector.GetPX() = 1.0 * _speed;
 				_speed = 0;
+			}
+			else {
+				switch (_direction) {
+				case enemy::MOVE_LEFT:
+					_position.GetPX() = _ivx.second + (_mainCollision.GetWidthMax() / 2);
+					return;
+				case enemy::MOVE_RIGHT:
+					_position.GetPX() = _ivx.first - (_mainCollision.GetWidthMin() / 2);
+				}
 			}
 		}
 	}
@@ -704,12 +716,6 @@ namespace inr {
 		double spd = (leverUD * MAX_SPPED) / 1000.0;
 		// 移動ベクトル代入
 		_moveVector.GetPY() = 1.0 * spd;
-	}
-
-	void Player::Climb() {
-		if (_aState != ActionState::GRAN) return;	// 掴みフラグがオンではない場合は処理を行わない
-		if (CheckHitKey(KEY_INPUT_UP) == TRUE) _moveVector.GetPY() = 3.0;
-		else if (CheckHitKey(KEY_INPUT_DOWN) == TRUE) _moveVector.GetPY() = -3.0;
 	}
 
 	void Player::Jump() {

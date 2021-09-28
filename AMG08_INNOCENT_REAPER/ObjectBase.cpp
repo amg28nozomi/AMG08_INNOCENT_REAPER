@@ -59,7 +59,7 @@ namespace inr {
 		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
 		if (IsStandChip()) {
 			// ‰Á‘¬“x‚ª0‚ÌŽž‚¾‚¯—§‚Á‚Ä‚¢‚é
-			if (0 < _gravity) {
+			if (0 <= _gravity) {
 				_stand = true;
 			}
 			_gravity = 0;

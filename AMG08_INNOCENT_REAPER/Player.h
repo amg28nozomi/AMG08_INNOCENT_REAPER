@@ -87,6 +87,7 @@ namespace inr {
 		std::string _moveType;	// 移動音
 		std::string _landingType;	// 着地音
 		double _jumpPower;	// ジャンプ溜め
+		std::pair<double, double> _ivx;
 		bool _input;	// 入力処理を受け付けるか
 		bool _isJump;	// ジャンプの入力を行えるか
 		bool _gran;	// 掴み判定
@@ -110,7 +111,6 @@ namespace inr {
 		void Move(int lever); // 移動
 		void Move();	// キー入力対応
 		void Climb(int leverUD);	// 上下移動
-		void Climb();	// キー入力版
 		void Dash(); // ダッシュ
 		void Jump(); // ジャンプ
 		void Rob(double x, double y); // 奪う

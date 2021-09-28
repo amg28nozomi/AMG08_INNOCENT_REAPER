@@ -59,7 +59,7 @@ namespace inr {
 		int _allNum;	// 総描画枚数
 		int _interval;	// モーションが完了するまでの猶予時間]
 		int _dInter;	//	ダメージ判定が発生するまでの猶予時間
-		int _loop;	// ループ回数
+		int _loop;	// ループ回数（デフォルトだとなし）
 		bool _direction;	// 生成時の向き
 		bool _isDamage;	// ダメージ判定はあるか？
 		bool _delete;	// 消去するかの判定
