@@ -12,7 +12,7 @@
 
 namespace inr {
 
-	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, bool direction) : _game(game), _position(spawnpos), _collision(Vector2(), Vector2()) {
+	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, bool direction) : _game(game), _position(spawnpos),_collision(Vector2(), Vector2()) {
 		_count = 0;
 		_graphKey = gh;
 		_alive = maxFrame;
@@ -101,7 +101,7 @@ namespace inr {
 		_dInter = dinter;
 	}
 
-	void EffectBase::SerLoop(int max) {
+	void EffectBase::SetLoop(int max) {
 		if (max < 0) max = 0;
 		_loop = max;
 	}

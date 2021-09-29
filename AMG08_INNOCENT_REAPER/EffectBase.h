@@ -45,7 +45,7 @@ namespace inr {
 
 		virtual void SetDamageEffect(int width, int height, int dinter = 0);	// エフェクトにダメージ判定を持たせる
 		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0);
-		void SerLoop(int max);	// 引数1 何回繰り返すか
+		void SetLoop(int max);	// 引数1 何回繰り返すか
 		inline bool IsDel() { return _delete; }	// このエフェクトを削除するか？
 
 	protected:

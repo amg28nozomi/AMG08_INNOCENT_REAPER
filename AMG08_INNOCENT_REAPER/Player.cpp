@@ -796,9 +796,10 @@ namespace inr {
 
 			
 
-			Vector2 pos = { _position.GetX() + GetFix(60), _position.GetY() };
+			// Vector2 pos = { _position.GetX() + GetFix(60), _position.GetY() };
 
-			auto give_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::GIVE, pos, 60, _direction);
+			auto give_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::GIVE, _position, 60, _direction);
+			give_eff->Set(this, GetFix(60));
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff), effect::type::FORMER);
 
 			auto it = _collisions.find(PKEY_GIVE);

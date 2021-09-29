@@ -13,10 +13,10 @@ namespace inr {
 
 		void Process() override;
 		// void Draw() override;
-		void Set(ObjectBase* target, int fix = 0);	// C³’l
+		void Set(ObjectBase* target, double fixx = 0, double fixy = 0);	// C³’l
 	private:
 		ObjectBase* _target;	// ’ÇÕ–Ú•W
-		int _fix;
+		Vector2 _fix;
 	};
 }
 
