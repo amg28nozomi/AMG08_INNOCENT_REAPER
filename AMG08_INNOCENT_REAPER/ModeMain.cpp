@@ -37,7 +37,7 @@ namespace inr {
 
 		_bg = std::make_unique<BackGround>(_game.GetGame());
 		_stageUi = std::make_unique<StageUi>(_game.GetGame());
-		_uiSoul = std::make_unique<UI>(_game.GetGame());
+		// _uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
 		_messageServer = std::make_unique<ImageServer>(_game.GetGame());
@@ -63,7 +63,7 @@ namespace inr {
 			_game.GetMapChips()->ChangeMap(_stageKey);
 			_game.GetScenario()->AddObjects(_stageKey);
 			_eServer->Init();
-			_uiSoul->PlayerUpdate();
+			// _uiSoul->PlayerUpdate();
 			_stageUi->ChangeNumber(_stageKey);
 			//_itemImages->AddImage()
 			_bossOpen = false;	// ボスの扉
@@ -77,7 +77,7 @@ namespace inr {
 			_pause->Init();
 			_messageServer->Init();
 			_bg->ChangeGraph();
-			_uiSoul->Reset();
+			// _uiSoul->Reset();
 			_resetFlg = true;
 		}
 	}
@@ -103,7 +103,7 @@ namespace inr {
 		_game.GetObjectServer()->Process();
 		_itemServer->Process();
 		_fg->Process();
-		_uiSoul->Process();
+		// _uiSoul->Process();
 		_stageUi->Process();
 	}
 
@@ -116,7 +116,7 @@ namespace inr {
 		_itemServer->Draw();
 		_eServer->DrawFormer();	// エフェクト(前)
 		_fg->Draw();
-		_uiSoul->Draw();	// HP(UI)
+		// _uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
 		if(_pause->Active() == true) _pause->Draw();
 		if (_messageServer->IsActive() == true) _messageServer->Draw();
@@ -216,7 +216,7 @@ namespace inr {
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
 		_bossBattle = false;
 		if (CheckSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3)) == 1) StopSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3));
-		_uiSoul->Init();
+		// _uiSoul->Init();
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
 		_game.GetGimmickServer()->Clear();

@@ -114,7 +114,7 @@ namespace inr {
 			{ enemy::blue::SOLDIER_WAKEUP, {17 * 3, 0}},
 			{ enemy::blue::SOLDIER_IDOL, {11 * 3, 0}},
 			{ enemy::blue::SOLDIER_PATROL, {13 * 3, 13 * 3}},
-			{ enemy::blue::SOLDIER_ESCAPE, {17 * 3, 0}}
+			{ enemy::blue::SOLDIER_ESCAPE, {13 * 3, 0}}
 		};
 
 		PatrolOn();

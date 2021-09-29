@@ -1,7 +1,7 @@
 #pragma once
 #include "ModeBase.h"
 #include "BackGround.h"
-#include "UI.h"
+// #include "UI.h"
 #include "Vector2.h"
 #include "ImageServer.h"
 #include <memory>
@@ -41,7 +41,7 @@ namespace inr {
 		std::string _changeKey;		// ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;	// 背景
 		std::unique_ptr<StageUi> _stageUi;
-		std::unique_ptr<UI> _uiSoul;
+		// std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;
 		std::shared_ptr<EffectServer> _eServer;
 		std::unique_ptr<ImageServer> _messageServer;
