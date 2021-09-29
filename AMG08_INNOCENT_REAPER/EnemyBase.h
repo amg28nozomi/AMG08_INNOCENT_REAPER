@@ -123,6 +123,7 @@ namespace inr {
 		inline bool IsBoss() { return _eType == EnemyType::CROW_DOLL; }
 
 		virtual void SetParameter(ObjectValue objValue) override;	// parameter
+		AABB EmptyBox();
 
 		// virtual void Process() override;
 		// virtual void Draw() override;

@@ -75,6 +75,7 @@ namespace inr {
 		/*DrawDebugBox(_mainCollision);*/
 #ifdef _DEBUG
 		DrawDebugBox(_searchBox);
+		if (_mainCollision.GetCollisionFlg() == true) DrawDebugBox(_mainCollision);
 #endif
 
 		/*auto it = _collisions.find(_divKey.first);
@@ -155,7 +156,7 @@ namespace inr {
 		_changeGraph = true;
 		_aState = nextstate;
 		_divKey.first = key;
-		_aCount = 0;
+		// _aCount = 0;
 	}
 
 	void EnemyBase::ChangeIdol() {
@@ -190,6 +191,7 @@ namespace inr {
 	}
 
 	void EnemyBase::Action() {
+		if (_aState == ActionState::WAKEUP) return;
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
 			// 入っている魂に応じて処理を変更する
@@ -261,5 +263,9 @@ namespace inr {
 		if (sound == -1) return false;
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 		return true;
+	}
+
+	AABB EnemyBase::EmptyBox() {
+		return NowCollision(_divKey.first);
 	}
 }

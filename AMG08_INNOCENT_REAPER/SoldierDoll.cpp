@@ -124,13 +124,11 @@ namespace inr {
 		ObjectBase::Process();
 		_moveVector.GetPX() = 0;
 
-		// アクション待機中かつ、
-		if (_isAction != true && _searchBox.GetCollisionFlgB() == true) {
-
-		}
-
 		// アニメーションが終わっていない場合はカウントを増やす
 		AnimationCount();
+		if (_aState == ActionState::WAKEUP) {
+			_cNumber.emplace_back(_aCount);
+		}
 
 		Patrol();
 		Action();
@@ -198,9 +196,10 @@ namespace inr {
 		// 起き上がりモーション時
 		case ActionState::WAKEUP:
 			// 起き上がりアニメーションの再生が終わったなら、巡回状態に遷移する
-			if (IsAnimationMax()) {
+			if (AnimationCountMax() == true) {
 				ChangeIdol();
 				_stay = GIVE_STAY;
+				_mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
@@ -403,7 +402,8 @@ namespace inr {
 		col->second.Update(_position, _direction);
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
-			_mainCollision.Swap(col->second);
+			col->second.GetCollisionFlgB() = true;
+			// _mainCollision.Swap(col->second);
 #ifdef _DEBUG
 			_searchBox.GetbDrawFlg() = false;
 #endif
@@ -487,8 +487,9 @@ namespace inr {
 					StopSound();
 					PlaySe(enemy::soldier::DOWN);
 					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
-
+					_mainCollision.GetCollisionFlgB() = false;
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
+					_stay = 0;
 
 					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::FORMER);
@@ -511,13 +512,13 @@ namespace inr {
 				// 魂が空の場合にボックスが接触したら
 				if (_soul == nullptr) {
 					// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
-					if (_mainCollision.HitCheck(acollision)) {
+					if (NowCollision(_divKey.first).HitCheck(acollision)) {
 						// プレイヤーを取得
 						auto player = _game.GetObjectServer()->GetPlayer();
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
-						_mainCollision.GetCollisionFlgB() = false;	// 一時的に当たり判定をダメージ判定をオフにする
+						_searchBox.GetCollisionFlgB() = false;
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
@@ -541,6 +542,7 @@ namespace inr {
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
 			_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
+			_mainCollision.GetCollisionFlgB() = false;
 			_changeGraph = false;
 			return;	// 処理を抜ける
 		}

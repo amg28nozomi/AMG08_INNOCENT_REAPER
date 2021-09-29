@@ -27,6 +27,7 @@ namespace inr {
 	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2()), _oValue() {
 		_delete = false;
 		_changeDirection = false;
+		_isJump = false;
 		_lastChip = { 0, 0 };
 		Init();
 	}
@@ -59,7 +60,7 @@ namespace inr {
 		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
 		if (IsStandChip()) {
 			// ‰Á‘¬“x‚ª0‚Ì‚¾‚¯—§‚Á‚Ä‚¢‚é
-			if (0 <= _gravity) {
+			if (0 < _gravity) {
 				_stand = true;
 			}
 			_gravity = 0;
@@ -72,13 +73,15 @@ namespace inr {
 			if (obj->GetType() != ObjectType::ENEMY) continue;
 			if (obj->IsEmpty() != true) continue;
 			// ”²‚¯Šk‚Ì“–‚½‚è”»’è‚ğæ“¾
-			auto emptyBox = obj->GetMainCollision();
+			auto emptyBox = obj->EmptyBox();
+			if (_mainCollision.HitCheck(emptyBox) == true);
 				// xÀ•W‚Í”ÍˆÍ“à‚Éû‚Ü‚Á‚Ä‚¢‚é‚©
 				if ((emptyBox.GetMin().GetX() < nowcol.GetMin().GetX() && nowcol.GetMin().GetX() < emptyBox.GetMax().GetX()) ||
 					(emptyBox.GetMin().GetX() < nowcol.GetMax().GetX() && nowcol.GetMax().GetX() < emptyBox.GetMax().GetX())) {
 
 					if (nowcol.GetMax().GetY() <= emptyBox.GetMin().GetY() + TEST_VALUE && emptyBox.GetMin().GetY() <= nowcol.GetMax().GetY()) {
 						_stand = true;
+						_isJump = false;
 						_gravity = 0;
 
 						auto h = nowcol.GetHeightMax();
@@ -148,8 +151,8 @@ namespace inr {
 	}
 
 	bool ObjectBase::AnimationCountMax() {
-		bool countMax = _aCount == GetSize(_divKey.first) - 1;
-		return countMax;
+		if (_aCount == (GetSize(_divKey.first) - 1)) return true;
+		return false;
 	}
 
 	bool ObjectBase::GraphResearch(int* gh) {

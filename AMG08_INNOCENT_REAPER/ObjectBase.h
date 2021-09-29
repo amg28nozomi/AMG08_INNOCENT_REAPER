@@ -39,6 +39,7 @@ namespace inr {
 		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
 		bool _delete;	// デリートするか否か？（true：ObjectServerから消去　false:生存中）
 		bool _changeDirection;	// 向きの変更が入ったか否か
+		bool _isJump;
 
 		ObjectValue _oValue;	// 生成時の情報
 		Vector2 _position;	// 座標

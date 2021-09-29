@@ -234,6 +234,7 @@ namespace inr {
 			if (IsAnimationMax()) {
 				ChangeIdol();
 				_stay = STAY_MAX;
+				_mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
@@ -261,6 +262,7 @@ namespace inr {
 			ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
 			_changeGraph = true;
+			_mainCollision.GetCollisionFlgB() = false;
 			return;	// 処理を抜ける
 		}
 		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
@@ -398,6 +400,9 @@ namespace inr {
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 					_moveCount = 0;
+					_stay = 0;
+
+					_mainCollision.GetCollisionFlgB() = false;
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {
@@ -417,13 +422,12 @@ namespace inr {
 				// 魂が空の場合にボックスが接触したら
 				if (_soul == nullptr) {
 					// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
-					if (_mainCollision.HitCheck(acollision)) {
+					if (NowCollision(_divKey.first).HitCheck(acollision)) {
 						// プレイヤーを取得
 						auto player = _game.GetObjectServer()->GetPlayer();
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
-						_mainCollision.GetCollisionFlgB() = false;
 						_searchBox.GetCollisionFlgB() = false;
 
 						switch (_soul->SoulColor()) {

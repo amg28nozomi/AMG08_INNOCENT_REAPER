@@ -89,7 +89,6 @@ namespace inr {
 		double _jumpPower;	// ジャンプ溜め
 		std::pair<double, double> _ivx;
 		bool _input;	// 入力処理を受け付けるか
-		bool _isJump;	// ジャンプの入力を行えるか
 		bool _gran;	// 掴み判定
 		// std::string _divKey;	// 読み込み用識別キー
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
