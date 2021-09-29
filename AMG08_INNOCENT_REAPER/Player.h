@@ -45,6 +45,7 @@ namespace inr {
 		inline bool IsSoulMax() { return _souls.size() == SOUL_MAX; };	// 魂は入手上限に到達しているか？
 		inline int SoulsSize() { return static_cast<int>(_souls.size()); }
 		inline void InputChange(bool input) { _input = input; }
+		inline void InputOff() { _input = false; }
 
 		bool Debuf();	// 被デバフ攻撃
 		bool Damage(bool mv);
@@ -90,6 +91,7 @@ namespace inr {
 		std::pair<double, double> _ivx;
 		bool _input;	// 入力処理を受け付けるか
 		bool _gran;	// 掴み判定
+		bool _sChange;	// ステージが変わったかどうか
 		// std::string _divKey;	// 読み込み用識別キー
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
 
@@ -130,6 +132,8 @@ namespace inr {
 		AABB NowCollision(std::string key) override;
 
 		double GetFix(double value);	// 向きに応じて反転処理をかける
+		
+		void InputOn();	// 入力を再開するか
 		
 #ifdef _DEBUG
 		void DebugInfo();

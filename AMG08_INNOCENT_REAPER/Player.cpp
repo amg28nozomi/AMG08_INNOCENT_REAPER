@@ -152,6 +152,7 @@ namespace inr {
 		_changeGraph = true;
 		_input = true;
 		_isJump = false;
+		_sChange = false;
 		_jumpPower = 0;
 		_position = {0, 0};
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
@@ -208,6 +209,7 @@ namespace inr {
 
 	void Player::Process() {
 		if(_aState != ActionState::DEATH) ObjectBase::Process();
+		if (_sChange == true) InputOn();
 
 		if (Dead() == true) return;
 		// 入力情報を取得
@@ -274,6 +276,7 @@ namespace inr {
 		_oValue = objValue;
 		_position = _oValue.Positions()[0];
 		_direction = _oValue.Direction();
+		_sChange = true;
 
 		auto it = _collisions.find(_divKey.first);
 		if (it != _collisions.end()) it->second.Update(_position, _direction);
@@ -295,6 +298,7 @@ namespace inr {
 		_oValue.DirectionUpdate(newdata.second);
 		_position = newdata.first;
 		_direction = newdata.second;
+		_sChange = true;
 
 		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
 		if (_souls.empty() != true) {
@@ -1020,6 +1024,8 @@ namespace inr {
 
 	bool Player::Reset() {
 		// 各種初期化処理実行
+		_input = false;
+		_sChange = true;
 		_position = _oValue.Positions().at(0);
 		_direction = _oValue.Direction();
 		_mainCollision.Update(_position, _direction);
@@ -1062,6 +1068,13 @@ namespace inr {
 		case enemy::MOVE_RIGHT:
 			return value;
 		}
+	}
+
+	void Player::InputOn() {
+		if (_game.GetModeServer()->IsFadeEnd() != true) return;
+		// 入力を再開する
+		_input = true;
+		_sChange = false;
 	}
 
 
