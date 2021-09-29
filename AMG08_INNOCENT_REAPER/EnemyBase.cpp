@@ -191,9 +191,10 @@ namespace inr {
 	}
 
 	void EnemyBase::Action() {
-		if (_aState == ActionState::WAKEUP) return;
+		if (_aState == ActionState::WAKEUP || _isAction == true) return;
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
+			_isAction = true;
 			// 入っている魂に応じて処理を変更する
 			switch (_soul->SoulColor()) {
 				// 赤い魂の時は、突進処理を実行する。

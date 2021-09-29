@@ -126,9 +126,6 @@ namespace inr {
 
 		// アニメーションが終わっていない場合はカウントを増やす
 		AnimationCount();
-		if (_aState == ActionState::WAKEUP) {
-			_cNumber.emplace_back(_aCount);
-		}
 
 		Patrol();
 		Action();
@@ -160,6 +157,10 @@ namespace inr {
 		if (_soul == nullptr) return;	// 魂が空の場合は処理を行わない
 		if (_stay != 0) {
 			--_stay;	// 待機モーション中はカウンタを減らして処理を抜ける
+			if (_stay == 0) { 
+				_mainCollision.GetCollisionFlgB() = true;
+				_isAction = false;
+			}
 			return;
 		}
 
@@ -199,7 +200,6 @@ namespace inr {
 			if (AnimationCountMax() == true) {
 				ChangeIdol();
 				_stay = GIVE_STAY;
-				_mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
@@ -490,6 +490,7 @@ namespace inr {
 					_mainCollision.GetCollisionFlgB() = false;
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 					_stay = 0;
+					_isAction = false;
 
 					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::FORMER);

@@ -146,6 +146,10 @@ namespace inr {
 		if (_soul == nullptr) return;
 		if (0 < _stay) {
 			--_stay;
+			if (_stay == 0) {
+				_isAction = false;
+				_mainCollision.GetCollisionFlgB() = true;
+			}
 			return;
 		}
 
@@ -234,7 +238,7 @@ namespace inr {
 			if (IsAnimationMax()) {
 				ChangeIdol();
 				_stay = STAY_MAX;
-				_mainCollision.GetCollisionFlgB() = true;
+				// _mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
@@ -401,6 +405,7 @@ namespace inr {
 					_soul->SetSpwan(_position);	// ©g‚Ì’†SÀ•W‚ÉÀ‘Ì‰»‚³‚¹‚é
 					_moveCount = 0;
 					_stay = 0;
+					_isAction = false;
 
 					_mainCollision.GetCollisionFlgB() = false;
 
