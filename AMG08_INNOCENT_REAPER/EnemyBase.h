@@ -96,7 +96,7 @@ namespace inr {
 		virtual bool Hit();	// オブジェクトと接触したかどうか
 		virtual bool IsStandChip();
 		virtual void Death();
-		virtual void ChangeIdol();
+		virtual void ChangeIdol(int stay);
 		virtual void PositionUpdate();
 
 		bool PlaySe(const std::string skey);

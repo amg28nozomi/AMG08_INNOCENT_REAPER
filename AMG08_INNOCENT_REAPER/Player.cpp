@@ -510,8 +510,8 @@ namespace inr {
 		if (_input == true) {
 			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
 			auto direction = _direction;
-			if (lever < -10) _direction = PL_LEFT;
-			else if (10 < lever) _direction = PL_RIGHT;
+			if (lever < -50) _direction = PL_LEFT;
+			else if (50 < lever) _direction = PL_RIGHT;
 			// 向きが変わった場合はフラグを切り替える
 			if (_direction != direction) _changeDirection = true;
 

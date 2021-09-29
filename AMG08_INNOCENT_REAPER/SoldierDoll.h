@@ -39,9 +39,11 @@ namespace inr {
 		void AttackOn() override;	// UŒ‚ŠJn
 		void Attack();	// UŒ‚ˆ—
 
-		void ChangeIdol() override;
+		void ChangeIdol(int stay) override;
 		void PositionUpdate() override;
 		void StateUpdate();	// ó‘Ô‚ÌØ‚è‘Ö‚¦
+
+		void Action() override;
 
 		void Death() override;	// €–Sˆ—
 		bool StopSound();

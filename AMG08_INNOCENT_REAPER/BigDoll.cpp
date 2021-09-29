@@ -23,6 +23,7 @@ namespace {
 	constexpr auto BIG_DOLL_VITAL = 40;
 
 	constexpr auto STAY_MAX = 60;
+	constexpr auto BIG_STAY = 15;
 
 	// 攻撃
 	constexpr auto ATTACK_VECTOR_MIN = 1.0;
@@ -63,13 +64,13 @@ namespace inr {
 			{ enemy::BIG_EMPTY, {40, 0}},
 			
 			{ enemy::red::BIG_WAKEUP, {20, 0}},
-			{ enemy::red::BIG_IDOL, {15, 0}},
+			{ enemy::red::BIG_IDOL, {BIG_STAY, 0}},
 			{ enemy::red::BIG_PATROL, {20, 0}},
 			{ enemy::red::BIG_TACKLE, {20, 0}},
 			{ enemy::red::BIG_HIPDROP, {28, 0}},
 
 			{ enemy::blue::BIG_WAKEUP, {20, 0}},
-			{ enemy::blue::BIG_IDOL, {15, 0}},
+			{ enemy::blue::BIG_IDOL, {BIG_STAY, 0}},
 			{ enemy::blue::BIG_PATROL, {20, 0}},
 			{ enemy::blue::BIG_ESCAPE, {20, 50}},
 		};
@@ -86,6 +87,17 @@ namespace inr {
 		Move();
 		Attack();
 		PositionUpdate();
+	}
+
+	void BigDoll::Action() {
+		if (_aState == ActionState::WAKEUP || _isAction == true) return;
+		// プレイヤーを発見できるか
+		if (SearchPlayer() == true) {
+			_isAction = true;
+			ChangeIdol(BIG_STAY * 3);
+		}
+		// 発見できなかった場合は移動処理を行う
+		if (_soul == nullptr) _actionX = 0;
 	}
 
 	void BigDoll::Attack() {
@@ -147,7 +159,6 @@ namespace inr {
 		if (0 < _stay) {
 			--_stay;
 			if (_stay == 0) {
-				_isAction = false;
 				_mainCollision.GetCollisionFlgB() = true;
 			}
 			return;
@@ -161,7 +172,20 @@ namespace inr {
 		switch (_aState) {
 		case ActionState::IDOL:
 			if (_mainCollision.GetCollisionFlg() != true) _mainCollision.GetCollisionFlgB() = true;
+			if (_isAction == true) {
+				switch (_soul->SoulColor()) {
+				case soul::RED:
+					AttackOn();
+					_isAction = false;
+					return;
+				case soul::BLUE:
+					EscapeOn();
+					_isAction = false;
+					return;
+				}
+			}
 			PatrolOn();
+			_searchBox.GetCollisionFlgB() = true;
 			return;
 		case ActionState::PATROL:
 			// 右移動
@@ -211,7 +235,7 @@ namespace inr {
 				_moveVector.GetPX() = _atkVec;
 				if (_actionX < 0) _actionX = 0;
 			}
-			if(_actionX == 0) ChangeIdol();
+			if(_actionX == 0) ChangeIdol(BIG_STAY * 3);
 			return;
 		case ActionState::ESCAPE:
 			if (_stand == true && _moveCount == 0) {
@@ -230,13 +254,13 @@ namespace inr {
 				_moveVector.GetPX() = (enemy::ESCAPE_VECTOR / 30);
 				if (_actionX < 0) _actionX = 0;
 			}
-			if (_actionX == 0) ChangeIdol();
+			if (_actionX == 0) ChangeIdol(BIG_STAY * 3);
 			return;
 			// 起き上がりモーション時
 		case ActionState::WAKEUP:
 			// 起き上がりアニメーションの再生が終わったなら、巡回状態に遷移する
 			if (IsAnimationMax()) {
-				ChangeIdol();
+				ChangeIdol(BIG_STAY * 2);
 				_stay = STAY_MAX;
 				// _mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
@@ -330,7 +354,7 @@ namespace inr {
 	void BigDoll::AttackOn() {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::BIG_TACKLE);
-			_searchBox.GetCollisionFlgB() = true;
+			_searchBox.GetCollisionFlgB() = false;
 
 			PlaySe(enemy::bigdoll::SE_TACKLE_VOICE);
 
@@ -355,7 +379,7 @@ namespace inr {
 	void BigDoll::EscapeOn() {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::BIG_ESCAPE);
-			_searchBox.GetCollisionFlgB() = true;
+			_searchBox.GetCollisionFlgB() = false;
 
 			PlaySe(enemy::bigdoll::SE_ESCAP_VOICE);
 
@@ -370,7 +394,8 @@ namespace inr {
 		}
 	}
 
-	void BigDoll::ChangeIdol() {
+	void BigDoll::ChangeIdol(int stay) {
+		_stay = stay;
 		_atkVec = 0;
 		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
 		std::string nextkey = "";

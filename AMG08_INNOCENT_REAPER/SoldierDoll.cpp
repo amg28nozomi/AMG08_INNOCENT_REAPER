@@ -57,7 +57,7 @@ namespace {
 
 	// アイドルモーション時間
 	constexpr auto STAY_MAX = 60;	//　stay
-	constexpr auto GIVE_STAY = 120;
+	constexpr auto GIVE_STAY = 33 * 2;
 
 	constexpr auto IDOL_FRAME = 33;
 }
@@ -153,13 +153,31 @@ namespace inr {
 		}
 	}
 
+	void SoldierDoll::Action() {
+		if (_aState == ActionState::WAKEUP || _isAction == true) return;
+		// プレイヤーを発見できるか
+		if (SearchPlayer() == true) {
+			_isAction = true;
+			ChangeIdol(IDOL_FRAME);
+			switch (_soul->SoulColor()) {
+			case soul::RED:
+				PlaySe(enemy::soldier::ATTACK_VOICE);
+				break;
+			case soul::BLUE:
+				PlaySe(enemy::soldier::ESCAPE_VOICE);
+				break;
+			}
+		}
+		// 発見できなかった場合は移動処理を行う
+		if (_soul == nullptr) _actionX = 0;
+	}
+
 	void SoldierDoll::Patrol() {
 		if (_soul == nullptr) return;	// 魂が空の場合は処理を行わない
 		if (_stay != 0) {
 			--_stay;	// 待機モーション中はカウンタを減らして処理を抜ける
 			if (_stay == 0) { 
 				_mainCollision.GetCollisionFlgB() = true;
-				_isAction = false;
 			}
 			return;
 		}
@@ -167,6 +185,18 @@ namespace inr {
 		switch (_aState) {
 		case ActionState::IDOL:
 			if (_mainCollision.GetCollisionFlg() != true) _mainCollision.GetCollisionFlgB() = true;	
+			if (_isAction == true) {
+				switch (_soul->SoulColor()) {
+					case soul::RED:
+						AttackOn();
+						_isAction = false;
+						return;
+					case soul::BLUE:
+						EscapeOn();
+						_isAction = false;
+						return;
+				}
+			}
 			PatrolOn();
 			_searchBox.GetCollisionFlgB() = true;
 			return;
@@ -198,8 +228,7 @@ namespace inr {
 		case ActionState::WAKEUP:
 			// 起き上がりアニメーションの再生が終わったなら、巡回状態に遷移する
 			if (AnimationCountMax() == true) {
-				ChangeIdol();
-				_stay = GIVE_STAY;
+				ChangeIdol(GIVE_STAY);
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
@@ -303,8 +332,7 @@ namespace inr {
 					break;
 				}
 				if (_actionX == 0) { 
-					ChangeIdol();
-					_stay = IDOL_FRAME;
+					ChangeIdol(IDOL_FRAME);
 				}
 			}
 			return;
@@ -331,8 +359,7 @@ namespace inr {
 				}
 				_moveVector.GetPX() = mv;
 				if (_actionX == 0) { 
-					ChangeIdol();
-					_stay = IDOL_FRAME;
+					ChangeIdol(IDOL_FRAME);
 				}
 			}
 			return;
@@ -360,7 +387,6 @@ namespace inr {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
-			PlaySe(enemy::soldier::ATTACK_VOICE);
 			_searchBox.GetCollisionFlgB() = false;	// アクションに突入したら一時的に索敵処理を切る
 		}
 	}
@@ -371,7 +397,6 @@ namespace inr {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
-			PlaySe(enemy::soldier::ESCAPE_VOICE);
 			_searchBox.GetCollisionFlgB() = false;	// アクションに突入したら一時的に索敵処理を切る
 		}
 	}
@@ -448,7 +473,8 @@ namespace inr {
 		//}
 	}
 
-	void SoldierDoll::ChangeIdol() {
+	void SoldierDoll::ChangeIdol(int stay) {
+		_stay = stay;
 		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
 		std::string nextkey = "";
 		switch (_soul->SoulColor()) {

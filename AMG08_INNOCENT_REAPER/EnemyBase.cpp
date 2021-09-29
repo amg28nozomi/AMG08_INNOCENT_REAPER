@@ -159,7 +159,7 @@ namespace inr {
 		// _aCount = 0;
 	}
 
-	void EnemyBase::ChangeIdol() {
+	void EnemyBase::ChangeIdol(int stay) {
 
 	}
 
@@ -195,22 +195,23 @@ namespace inr {
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
 			_isAction = true;
+			// ChangeIdol();
 			// 入っている魂に応じて処理を変更する
-			switch (_soul->SoulColor()) {
-				// 赤い魂の時は、突進処理を実行する。
-			case soul::RED:
-				AttackOn();
-				if (_actionX == 0) {
-					PatrolOn();
-				}
-				break;
-			case soul::BLUE:
-				EscapeOn();
-				if (_actionX == 0) {
-					PatrolOn();
-				}
-				break;
-			}
+			//switch (_soul->SoulColor()) {
+			//	// 赤い魂の時は、突進処理を実行する。
+			//case soul::RED:
+			//	AttackOn();
+			//	if (_actionX == 0) {
+			//		PatrolOn();
+			//	}
+			//	break;
+			//case soul::BLUE:
+			//	EscapeOn();
+			//	if (_actionX == 0) {
+			//		PatrolOn();
+			//	}
+			//	break;
+			//}
 		}
 		// 発見できなかった場合は移動処理を行う
 		if (_soul == nullptr) _actionX = 0;

@@ -38,8 +38,9 @@ namespace inr {
 		void PatrolOn() override;
 		void AttackOn() override;
 		void EscapeOn() override;
+		void Action() override;
 		void Death() override;
-		void ChangeIdol() override;
+		void ChangeIdol(int stay) override;
 		void Move();	// ˆÚ“®ˆ—
 		void PositionUpdate() override;
 		void Attack();	// UŒ‚
