@@ -297,6 +297,7 @@ namespace inr {
 		_oValue.PositionsUpdate(newdata.first);
 		_oValue.DirectionUpdate(newdata.second);
 		_position = newdata.first;
+		_ivx = std::make_pair(0, 0);
 		_direction = newdata.second;
 		_sChange = true;
 
@@ -504,7 +505,6 @@ namespace inr {
 	void Player::Gran() {
 		// if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
 		auto hand = _collisions.find(PKEY_CLIMB);
-		std::pair<double, double>;
 		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, &_ivx,_direction)) IsGran();
 		else _gran = false;
 	}
@@ -1028,6 +1028,7 @@ namespace inr {
 		// Šeí‰Šú‰»ˆ—Às
 		_input = false;
 		_sChange = true;
+		_ivx = std::make_pair(0, 0);
 		_position = _oValue.Positions().at(0);
 		_direction = _oValue.Direction();
 		_mainCollision.Update(_position, _direction);
@@ -1046,7 +1047,6 @@ namespace inr {
 #endif
 
 		ChangeState(ActionState::IDOL, PKEY_IDOL);
-		_input = true;
 		_gran = false;
 		_isJump = false;
 		return true;

@@ -19,6 +19,7 @@ namespace inr {
 		constexpr auto GIVE = "give_effect";	// 与えるエフェクト
 
 		constexpr auto S_HIT = "soul_hit_effect";
+		
 
 		// 画像サイズ
 		constexpr auto JUMP_IMAGE_W = 150;
@@ -29,6 +30,12 @@ namespace inr {
 
 		constexpr auto SHIT_IMAGE = 400;
 		constexpr auto GIVE_IMAGE = 140;
+
+		namespace soldier {
+			constexpr auto OMEN = "sd_omen_effect";
+			constexpr auto OMEN_NUMS = 14;
+			constexpr auto OMEN_IMAGE = 160;
+		}
 	}
 
 	class Game;

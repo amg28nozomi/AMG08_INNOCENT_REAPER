@@ -123,7 +123,9 @@ namespace inr {
 		AABB NowCollision(std::string key) override;
 
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
-		bool AddWarpEffect(Vector2 spwan, bool target = false);	// 引数1:生成地点、引数2:追従処理を行うか？
+
+		// 引数1:生成地点、引数2:追従処理を行うか？(true:追従処理有り, false:追従処理無し)
+		bool AddWarpEffect(Vector2 spwan, bool target = false);
 		bool AddRushEffect();
 		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
 

@@ -159,6 +159,9 @@ namespace inr {
 		if (SearchPlayer() == true) {
 			_isAction = true;
 			ChangeIdol(IDOL_FRAME);
+
+			auto eye_light = std::make_unique<EffectBase>(_game.GetGame(), effect::soldier::OMEN, _position, effect::soldier::OMEN_NUMS * 3, _direction);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eye_light), effect::type::FORMER);
 			switch (_soul->SoulColor()) {
 			case soul::RED:
 				PlaySe(enemy::soldier::ATTACK_VOICE);

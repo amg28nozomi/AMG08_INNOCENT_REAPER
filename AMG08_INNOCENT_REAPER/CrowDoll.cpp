@@ -307,7 +307,6 @@ namespace inr {
 
 	bool CrowDoll::IsAttackEnd() {
 		if (_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction) == mapchip::NORMAL) return true;
-		auto moveout = _position + _moveVector;
 		return false;
 	}
 
@@ -318,7 +317,7 @@ namespace inr {
 		case CrowState::IDOL:	// 空中待機の場合
 			// インターバル明けに次のアクションを実行する
 			if (_atkInterval == 0) {
-				auto number = rand() % 3; // %3
+				auto number = rand() % 2; // %3
 				switch (number) {
 				case 0:
 					ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
@@ -374,14 +373,14 @@ namespace inr {
 			break;
 		case CrowState::GROWARM:
 			// 腕を挿した瞬間にエフェクトを発生させる
-			if (AnimationNumber() == 6 && _arm == false) {
+			if (IsAnimationMax() == true && _arm == false) {	// モーションが最大かつ、腕が未生成の場合のみ腕を生成する
 				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 655), 24 * 2);	// エフェクトを作成(950)
 				effarm->SetDamageEffect(50, 50, 0, 300,  10);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm), effect::type::FORMER);
 				_arm = true;
 				break;
 			}
-			else if (IsAnimationMax() == true) {
+			else if (AnimationCountMax() == true) {	// カウントがマックになった場合、状態を切り替える
 				_arm = false;
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
