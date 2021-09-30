@@ -963,7 +963,7 @@ namespace inr {
 			}
 		}
 		// 生存している間のみ、座標を切り替える
-		if(_aState != ActionState::DEATH) _game.GetMapChips()->WorldUpdate(_position);
+		if(_aState != ActionState::DEATH && _game.GetModeServer()->GetModeMain()->BossFlag() != true) _game.GetMapChips()->WorldUpdate(_position);
 		// 移動ベクトル初期化
 		_moveVector = { 0, 0 };
 	}
@@ -975,6 +975,7 @@ namespace inr {
 	}
 
 	void Player::SoulCatch(std::shared_ptr<SoulSkin> soul) {
+		soul->Active();
 		_souls.push(std::move(soul));
 	}
 

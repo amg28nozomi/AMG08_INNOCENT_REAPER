@@ -173,6 +173,7 @@ namespace inr {
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 10, 2,	20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
 
 		{ effect::crow::ARM, {"Resource/effect/CrowDoll/arms.png", 5, 5, 24, effect::crow::ARM_WIDTH, effect::crow::ARM_HEIGHT}},
+		{ effect::crow::RUSH, {"Resource/effect/CrowDoll/rush.png", 7, 7, 47, effect::crow::RUSH_WIDTH, effect::crow::RUSH_HEIGHT}},
 	};
 
 

@@ -20,10 +20,11 @@ namespace inr {
 
 
 			constexpr auto SE_VOICE = "crow_voice";	// 鳴き声
+			constexpr auto SE_ROAR = "crow_roar_voice";	// 咆哮ボイス
 			constexpr auto SE_RUSH = "crow_rush";	// 連撃
 
 			namespace motion {
-				constexpr auto IDOL = 30;
+				constexpr auto IDOL = 13;
 				constexpr auto RUSH = 35;
 				constexpr auto BLINK = 13;
 				constexpr auto GROWARM = 10;
@@ -37,11 +38,19 @@ namespace inr {
 
 	namespace effect {
 		namespace crow {
-			constexpr auto ROAR = "cd_roar_effect";
-			constexpr auto ARM = "cd_arms_effect";
+			constexpr auto ROAR = "cd_roar_effect";	// 咆哮
+			constexpr auto ARM = "cd_arms_effect";	// 腕
+			constexpr auto RUSH = "cd_rush_effect";	// 連続切り
+			constexpr auto GROW = "cd_grow_chage_effect"; // 地中刺し溜め
 
 			constexpr auto ARM_WIDTH = 750;
 			constexpr auto ARM_HEIGHT = 600;
+
+			constexpr auto RUSH_WIDTH = 800;
+			constexpr auto RUSH_HEIGHT = 600;
+
+			constexpr auto GROW_IMAGE = 400;
+
 		}
 	}
 
@@ -70,6 +79,8 @@ namespace inr {
 
 		bool _setup;	// 準備は完了したか？
 		bool _arm;	// 腕は生成したか？
+		bool _changeState;	// 状態を切り替えるか？
+		bool _isAnimation;	// モーション再生を行うか
 		int _muteki;	// 無敵時間
 
 

@@ -53,12 +53,13 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_3;
+			_stageKey = stage::STAGE_0;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
 
 			TimeClear();
+			_bg->ScrollOn();
 			_fg->SetKey(_stageKey);
 			_game.GetMapChips()->ChangeMap(_stageKey);
 			_game.GetScenario()->AddObjects(_stageKey);
