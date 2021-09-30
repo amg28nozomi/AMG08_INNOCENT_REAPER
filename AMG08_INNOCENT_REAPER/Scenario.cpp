@@ -321,4 +321,9 @@ namespace inr {
 			gs.erase(gs.begin());	// æ’[‚Ì—v‘f‚ğíœ‚·‚é
 		}
 	}
+
+	void Scenario::BossBlock() {
+		ObjectValue b_block = { oscenario::OBJ_BLOCK, {3840, 820}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE} };
+		AddBlock(b_block);
+	}
 }

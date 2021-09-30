@@ -51,14 +51,14 @@ namespace inr {
 			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
 		_motionKey = {
-			{enemy::crowdoll::CROW_IDOL, {60, 0}},
-			{enemy::crowdoll::CROW_RUSH , {70, 20}},
-			{enemy::crowdoll::CROW_BLINK , {13 * 3, 20}},
-			{enemy::crowdoll::CROW_GROWARM , {30, 20}},
-			{enemy::crowdoll::CROW_ROAR , {11 * 3, 50}},
-			{enemy::crowdoll::CROW_DEBUF, {22 * 3, 50}},
-			{enemy::crowdoll::CROW_DOWN , {26 * 3, 50}},
-			{enemy::crowdoll::CROW_WINCE, {7 * 3, 50}},
+			{enemy::crowdoll::CROW_IDOL, {enemy::crowdoll::motion::IDOL * 2, 0}},
+			{enemy::crowdoll::CROW_RUSH , {enemy::crowdoll::motion::RUSH  * 2, 20}},
+			{enemy::crowdoll::CROW_BLINK , {enemy::crowdoll::motion::BLINK * 3, 20}},
+			{enemy::crowdoll::CROW_GROWARM , {enemy::crowdoll::motion::GROWARM * 2, 20}},
+			{enemy::crowdoll::CROW_ROAR , {enemy::crowdoll::motion::ROAR * 3, 50}},
+			{enemy::crowdoll::CROW_DEBUF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
+			{enemy::crowdoll::CROW_DOWN , {enemy::crowdoll::motion::DOWN * 3, 50}},
+			{enemy::crowdoll::CROW_WINCE, {enemy::crowdoll::motion::WINCE * 3, 50}},
 		};
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;

@@ -53,7 +53,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_0;
+			_stageKey = stage::STAGE_3;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -174,6 +174,7 @@ namespace inr {
 		if (_stageKey != stage::STAGE_3) return false;
 		_bossBattle = true;
 		_bg->ScrollOff();
+		_game.GetScenario()->BossBlock();
 
 		auto sound = se::SoundServer::GetSound(_bgmKey);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));

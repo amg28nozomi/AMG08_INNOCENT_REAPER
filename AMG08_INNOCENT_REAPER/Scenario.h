@@ -35,6 +35,8 @@ namespace inr {
 		void ScenarioUpdate(std::string key);	// シナリオを更新する
 
 		bool AddObjects(const std::string key);	// オブジェクトの生成
+
+		void BossBlock();	// ボス戦開始時にブロックを生成する
 	private:
 
 		Game& _game;

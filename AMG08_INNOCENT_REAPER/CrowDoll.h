@@ -21,6 +21,17 @@ namespace inr {
 
 			constexpr auto SE_VOICE = "crow_voice";	// ñ¬Ç´ê∫
 			constexpr auto SE_RUSH = "crow_rush";	// òAåÇ
+
+			namespace motion {
+				constexpr auto IDOL = 30;
+				constexpr auto RUSH = 35;
+				constexpr auto BLINK = 13;
+				constexpr auto GROWARM = 10;
+				constexpr auto ROAR = 11;
+				constexpr auto DEBUF = 22;
+				constexpr auto WINCE = 7;
+				constexpr auto DOWN = 26;
+			}
 		}
 	}
 

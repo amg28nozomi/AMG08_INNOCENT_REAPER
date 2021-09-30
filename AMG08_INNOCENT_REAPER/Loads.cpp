@@ -80,14 +80,14 @@ namespace inr {
 		{ enemy::blue::BIG_ESCAPE, {"Resource/BigDoll/bd_b_escape.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 
 		// クロウドール
-		{ enemy::crowdoll::CROW_IDOL, {"Resource/CrowDoll/cd_float.png", 2, 7, 30, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_RUSH, {"Resource/CrowDoll/cd_rush.png", 2, 18, 35, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_BLINK, {"Resource/CrowDoll/cd_blink.png", 2, 7, 13, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
-		{ enemy::crowdoll::CROW_DEBUF, {"Resource/CrowDoll/cd_debuf.png", 2, 11, 22, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_GROWARM, {"Resource/CrowDoll/cd_growarm.png", 2, 5, 10, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_WINCE, {"Resource/CrowDoll/cd_wince.png", 2, 4, 7, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_ROAR, {"Resource/CrowDoll/cd_roar.png", 2, 6, 11, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
-		{ enemy::crowdoll::CROW_DOWN, {"Resource/CrowDoll/cd_dead.png", 2, 13, 26, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
+		{ enemy::crowdoll::CROW_IDOL, {"Resource/CrowDoll/cd_float.png", 2, 7, enemy::crowdoll::motion::IDOL, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_RUSH, {"Resource/CrowDoll/cd_rush.png", 2, 18, enemy::crowdoll::motion::RUSH, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_BLINK, {"Resource/CrowDoll/cd_blink.png", 2, 7, enemy::crowdoll::motion::BLINK, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
+		{ enemy::crowdoll::CROW_DEBUF, {"Resource/CrowDoll/cd_debuf.png", 2, 11, enemy::crowdoll::motion::DEBUF, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_GROWARM, {"Resource/CrowDoll/cd_growarm.png", 2, 5, enemy::crowdoll::motion::GROWARM, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_WINCE, {"Resource/CrowDoll/cd_wince.png", 2, 4, enemy::crowdoll::motion::WINCE, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_ROAR, {"Resource/CrowDoll/cd_roar.png", 2, 6, enemy::crowdoll::motion::ROAR, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_DOWN, {"Resource/CrowDoll/cd_dead.png", 2, 13, enemy::crowdoll::motion::DOWN, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
 		{ enemy::crowdoll::CROW_ARM, {"Resource/CrowDoll/cd_arm.png", 2, 4, 7,  enemy::crowdoll::CROW_SIZE,  enemy::crowdoll::CROW_SIZE}},
 	};
 
