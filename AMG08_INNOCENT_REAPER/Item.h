@@ -9,7 +9,7 @@ namespace inr {
 
 	namespace item {
 		constexpr auto ITEM = "item_light";
-		constexpr auto ITEM_IMAGE = 120;
+		constexpr auto ITEM_IMAGE = 150;
 	}
 
 	class Game;

@@ -44,6 +44,9 @@ namespace inr {
 			constexpr auto GROW = "cd_grow_chage_effect"; // 地中刺し溜め
 			constexpr auto BLINK = "cd_blink_effect";	// 転移
 
+			constexpr auto ROAR_WIDTH = 3840;
+			constexpr auto ROAR_HEIGHT = 2160;
+
 			constexpr auto ARM_WIDTH = 750;
 			constexpr auto ARM_HEIGHT = 600;
 
@@ -121,7 +124,10 @@ namespace inr {
 
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 		bool AddWarpEffect(Vector2 spwan, bool target = false);	// 引数1:生成地点、引数2:追従処理を行うか？
+		bool AddRushEffect();
 		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
+
+		bool AttackBox(bool flag);
 	};
 }
 

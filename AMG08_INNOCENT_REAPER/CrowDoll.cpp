@@ -29,7 +29,7 @@ namespace {
 	constexpr auto IS_ANGER = 1;
 	constexpr auto IS_NORMAL = 0;
 
-	constexpr auto RASH_MAX = 300;
+	constexpr auto RASH_MAX = 250;
 
 	constexpr auto FLOAT_MAX = 540;
 }
@@ -50,7 +50,7 @@ namespace inr {
 		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
-			{enemy::crowdoll::CROW_RUSH, {_position, 160, -30, CROW_HEIGHT / 2 , 10, true}},	// 連撃攻撃の当たり判定
+			{enemy::crowdoll::CROW_RUSH, {_position, 210, -30, CROW_HEIGHT / 2 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
 			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
 
@@ -187,9 +187,14 @@ namespace inr {
 	bool CrowDoll::IsGravity() {
 		switch (_cState) {
 		case CrowState::DEATH:
-		case CrowState::RUSH:
 		case CrowState::SLEEP:
 		case CrowState::BLINK:
+		case CrowState::RUSH:
+			if (_divKey.first == enemy::crowdoll::CROW_IDOL) {
+				_gravity = 0;
+				_stand = false;
+				return true;
+			}
 			_gravity += FRAME_G;	// 加速度を加算
 			if (MAX_G < _gravity) _gravity = MAX_G;
 			if (IsStandChip()) {
@@ -229,10 +234,12 @@ namespace inr {
 		_isAnimation = true;	// アニメーション再開
 		AddWarpEffect(_warpPos, true);	// 追従処理有り
 		_position = _warpPos;
+
 		switch (_cState) {
 		case CrowState::RUSH:
 			PlaySe(enemy::crowdoll::SE_RUSH);
 			ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_RUSH);
+			AddRushEffect();
 			return;
 		case CrowDoll::CrowState::DEBUF:
 			return;
@@ -249,6 +256,7 @@ namespace inr {
 	}
 
 	void CrowDoll::Rash() {
+		_isAnimation = true;
 		// 連続攻撃
 		double mx = 0;
 		double nextpos = 0;
@@ -278,9 +286,12 @@ namespace inr {
 			_actionEnd.GetPX() = nextpos + RASH_MAX;
 			break;
 		}
+		
 		--_actionCount;
-		_atkInterval = 20;
+		if (_actionCount == 1) _atkInterval = 30;
+		else _atkInterval = 20;
 		_isAnimation = false;
+		AttackBox(false);
 	}
 
 	void CrowDoll::Blink() {
@@ -307,49 +318,48 @@ namespace inr {
 		case CrowState::IDOL:	// 空中待機の場合
 			// インターバル明けに次のアクションを実行する
 			if (_atkInterval == 0) {
-				auto number = rand() % 3;
+				auto number = rand() % 3; // %3
 				switch (number) {
 				case 0:
-					ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_RUSH);	// 状態切り替え
+					ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					GetTarget();	// 自機の現在座標を取得する
 					WarpOn();	// 自機の前に跳ぶ
 					_actionCount = 4;
+					_atkInterval = 30;
 					break;
 				case 1:
 					ModeChange(CrowState::GROWARM, enemy::crowdoll::CROW_GROWARM);	// 状態切り替え
 					GetTarget();
 					break;
-				case 2:
-					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
-					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
-					WarpOn();	// 自機の前に跳ぶ
-					// _atkInterval = 60;
-					break;
+				//case 2:
+				//	ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+				//	_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
+				//	WarpOn();	// 自機の前に跳ぶ
+				//	// _atkInterval = 60;
+				//	break;
 				}
 			}
 			break;
 		case CrowState::RUSH:
 			if (_atkInterval == 0) {	// 待ち時間がない場合
 				if (0 < _actionCount) {
-					if (_isAnimation == false)  _isAnimation = true;
+					AttackBox(true);
 					Rash();	// ラッシュアクション実行
 					break;
 				}
 				else if (_actionCount == 0) {
 					_actionEnd.GetPX() = 0;
-					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_BLINK);	// 状態切り替え
-					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
+					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					_atkInterval = 60;
+					_isAnimation = true;
 				}
 				// 次の状態に遷移する
 				break;
 			}
+			break;
 		case CrowState::BLINK:
+			// 立ち判定がある場合、処理を修正
 			if (_stand == true) {
-				//if (_actionCount != 0) {
-				//	Blink();	// ラッシュアクション実行
-				//	break;
-				//}
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
 				break;
@@ -364,9 +374,9 @@ namespace inr {
 			break;
 		case CrowState::GROWARM:
 			// 腕を挿した瞬間にエフェクトを発生させる
-			if (AnimationNumber() == 4 && _arm == false) {
-				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 650), 24 * 2);	// エフェクトを作成(950)
-				effarm->SetDamageEffect(300, 300, 9);
+			if (AnimationNumber() == 6 && _arm == false) {
+				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 655), 24 * 2);	// エフェクトを作成(950)
+				effarm->SetDamageEffect(50, 50, 0, 300,  10);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm), effect::type::FORMER);
 				_arm = true;
 				break;
@@ -387,8 +397,7 @@ namespace inr {
 					auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_ROAR);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 					ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_ROAR);	// 状態切り替え
-					Vector2 roar_pos = { _position.GetX(), static_cast<double>(HALF_WINDOW_H) };
-					auto roar_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ROAR, roar_pos, 40);// _game.GetMapChips()->GetWorldPosition(), 30);
+					auto roar_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ROAR, _position, 40);// _game.GetMapChips()->GetWorldPosition(), 30);
 					roar_eff->SetLoop(3);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(roar_eff), effect::type::FORMER);
 					break;
@@ -502,13 +511,22 @@ namespace inr {
 		if (target == true) {
 			auto warp_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK, spwan, 30);
 			warp_eff->Set(this);
-			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp_eff), effect::type::BACK);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp_eff), effect::type::FORMER);
 			return true;
 		} else {
 			auto warp_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::BLINK, spwan, 30);
-			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp_eff), effect::type::BACK);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp_eff), effect::type::FORMER);
 			return true;
 		}
+	}
+
+	bool CrowDoll::AddRushEffect() {
+		bool eff_dir = _direction == enemy::MOVE_LEFT;
+
+		auto rush_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::RUSH, _position, 47 * 3, _direction);
+		rush_eff->Set(this, -30, -30);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rush_eff), effect::type::FORMER);
+		return true;
 	}
 
 	bool CrowDoll::IsPlayerPosition() {
@@ -550,7 +568,7 @@ namespace inr {
 			case CrowState::RUSH:
 				_direction = enemy::MOVE_LEFT;
 				px = (_game.GetMapChips()->GetWorldPosition().GetX() + 700 + _mainCollision.GetWidthMax());
-				_warpPos = { px, 870 };	// 転移座標に代入する
+				_warpPos = { px, 820 };	// 転移座標に代入する
 				_actionEnd.GetPX() = px - RASH_MAX;
 				break;
 			default:
@@ -562,7 +580,7 @@ namespace inr {
 			case CrowState::RUSH:
 				_direction = enemy::MOVE_RIGHT;
 				px = (_game.GetMapChips()->GetWorldPosition().GetX() - 700 - _mainCollision.GetWidthMin());
-				_warpPos = { px, 870 };
+				_warpPos = { px, 820 };
 				_actionEnd.GetPX() = px + RASH_MAX;
 				break;
 			default:
@@ -597,5 +615,15 @@ namespace inr {
 		}
 
 		_atkInterval = 15;	// 10フレーム後にアクションを実行する
+	}
+
+	bool CrowDoll::AttackBox(bool flag) {
+		auto rush = _collisions.find(enemy::crowdoll::CROW_RUSH);
+		if (rush->second.GetCollisionFlg() == flag) return false;
+		rush->second.GetCollisionFlgB() = flag;
+#ifdef _DEBUG
+		rush->second.GetbDrawFlg() = flag;
+#endif
+		return true;
 	}
 }

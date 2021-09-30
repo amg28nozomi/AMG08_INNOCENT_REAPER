@@ -121,7 +121,7 @@ namespace inr {
 	}
 
 	bool EffectBase::IsDamage() {
-		bool isdamage = GraphNumber() <= _dInter;
+		bool isdamage = _dInter <= GraphNumber();
 		return isdamage;
 	}
 }
