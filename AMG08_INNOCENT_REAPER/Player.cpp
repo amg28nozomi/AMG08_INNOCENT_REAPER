@@ -60,7 +60,7 @@ namespace {
 	constexpr auto ROB_JUDGEMENT = 8 * 4;// judgement
 
 	// 与えるアクションの当たり判定
-	constexpr auto GIVE_WIDTH1 = 60;
+	constexpr auto GIVE_WIDTH1 = 90;
 	constexpr auto GIVE_WIDTH2 = -10;
 	constexpr auto GIVE_HEIGHT1 = -15;
 	constexpr auto GIVE_HEIGHT2 = 55;
@@ -514,8 +514,8 @@ namespace inr {
 		if (_input == true) {
 			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
 			auto direction = _direction;
-			if (lever < -50) _direction = PL_LEFT;
-			else if (50 < lever) _direction = PL_RIGHT;
+			if (lever < -20) _direction = PL_LEFT;
+			else if (20 < lever) _direction = PL_RIGHT;
 			// 向きが変わった場合はフラグを切り替える
 			if (_direction != direction) _changeDirection = true;
 
@@ -799,7 +799,7 @@ namespace inr {
 			// Vector2 pos = { _position.GetX() + GetFix(60), _position.GetY() };
 
 			auto give_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::GIVE, _position, 60, _direction);
-			give_eff->Set(this, GetFix(60));
+			give_eff->Set(this, 60);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff), effect::type::FORMER);
 
 			auto it = _collisions.find(PKEY_GIVE);

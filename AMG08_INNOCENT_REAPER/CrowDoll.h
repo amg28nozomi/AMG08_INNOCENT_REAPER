@@ -42,6 +42,7 @@ namespace inr {
 			constexpr auto ARM = "cd_arms_effect";	// 腕
 			constexpr auto RUSH = "cd_rush_effect";	// 連続切り
 			constexpr auto GROW = "cd_grow_chage_effect"; // 地中刺し溜め
+			constexpr auto BLINK = "cd_blink_effect";	// 転移
 
 			constexpr auto ARM_WIDTH = 750;
 			constexpr auto ARM_HEIGHT = 600;
@@ -50,6 +51,7 @@ namespace inr {
 			constexpr auto RUSH_HEIGHT = 600;
 
 			constexpr auto GROW_IMAGE = 400;
+			constexpr auto BLINK_IMAGE = 800;
 
 		}
 	}
@@ -71,6 +73,7 @@ namespace inr {
 		CrowState _cState;	// クロウドールの状態
 		Vector2 _target;	// 攻撃目標座標
 		Vector2 _actionEnd;	// アクション終了
+		Vector2 _warpPos;	// 転移後の座標
 		int _life;	// 体力
 		int _atkInterval;	// 攻撃の猶予時間
 		int _pattern;	// 行動パターン
@@ -81,6 +84,7 @@ namespace inr {
 		bool _arm;	// 腕は生成したか？
 		bool _changeState;	// 状態を切り替えるか？
 		bool _isAnimation;	// モーション再生を行うか
+		bool _isWarp;	// ワープを行うか？
 		int _muteki;	// 無敵時間
 
 
@@ -90,6 +94,9 @@ namespace inr {
 		int IsAnger();	// 起こり状態になっているか？
 		bool IsVital();	// 現在のアニメーション中、魂は奪えるか？
 		// bool Damage();	// 自身のダメージ処理を行う
+
+		void WarpOn();	// 転移セット
+
 		void Warp();	// 特定座標までワープする
 		void WakeUp();	// 活動開
 
@@ -113,6 +120,8 @@ namespace inr {
 		AABB NowCollision(std::string key) override;
 
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
+		bool AddWarpEffect(Vector2 spwan, bool target = false);	// 引数1:生成地点、引数2:追従処理を行うか？
+		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
 	};
 }
 
