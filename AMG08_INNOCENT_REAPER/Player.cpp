@@ -150,9 +150,9 @@ namespace inr {
 		_direction = false;
 		_ivx = std::make_pair(0, 0);
 		_changeGraph = true;
-		_input = true;
+		_input = false;
 		_isJump = false;
-		_sChange = false;
+		_sChange = true;
 		_jumpPower = 0;
 		_position = {0, 0};
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
@@ -300,6 +300,8 @@ namespace inr {
 		_ivx = std::make_pair(0, 0);
 		_direction = newdata.second;
 		_sChange = true;
+		_input = false;
+		ChangeState(ActionState::IDOL, PKEY_IDOL);
 
 		// 魂が空ではない場合、対応する魂をオブジェクトサーバーに再登録する
 		if (_souls.empty() != true) {
@@ -699,8 +701,10 @@ namespace inr {
 
 			// ダッシュ処理は完了したかどうか？
 			if (moved) {
-				_input = true;
-				_dashInterval = DASH_INTERVAL;
+				if (_sChange != true) {
+					_input = true;
+					_dashInterval = DASH_INTERVAL;
+				}
 				// 立っているかどうかで次のモーションを判定
 				if (_stand) {
 					ChangeState(ActionState::IDOL, PKEY_IDOL);

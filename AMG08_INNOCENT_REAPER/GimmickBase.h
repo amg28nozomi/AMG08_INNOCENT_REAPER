@@ -20,6 +20,7 @@ namespace inr {
 			constexpr auto KEY_LEVER = "lever";
 			constexpr auto KEY_LEVER_BOSS = "boss_lever";
 			constexpr auto LEVER_SIZE = 140;
+			constexpr auto BOSS_LEVER_SIZE = 200;
 			// ƒTƒEƒ“ƒh
 			constexpr auto SE_LEVER = 50;
 		}

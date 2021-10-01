@@ -147,11 +147,11 @@ namespace inr {
 
 	const graph::ResourceServer::DivGraphMap gimmicks{
 		{ gimmick::lever::KEY_LEVER, {"Resource/Gimmick/Lever/lever.png", 3, 2, 5, gimmick::lever::LEVER_SIZE, gimmick::lever::LEVER_SIZE}},
-		{ gimmick::lever::KEY_LEVER_BOSS, {"Resource/Gimmick/Lever/lever_boss.png", 3, 2, 5, gimmick::lever::LEVER_SIZE,  gimmick::lever::LEVER_SIZE}},
-		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
+		{ gimmick::lever::KEY_LEVER_BOSS, {"Resource/Gimmick/Lever/bosslever.png", 5, 2, 10, gimmick::lever::BOSS_LEVER_SIZE,  gimmick::lever::BOSS_LEVER_SIZE}},
+		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 3, 5, 14, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
 		{ gimmick::door::KEY_DOOR_BOSS, {"Resource/Gimmick/Lever/door_boss.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
-		{ gimmick::door::KEY_DOOR_RED, {"Resource/Gimmick/Crystal/r_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
-		{ gimmick::door::KEY_DOOR_BLUE, {"Resource/Gimmick/Crystal/b_door.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
+		{ gimmick::door::KEY_DOOR_RED, {"Resource/Gimmick/Crystal/r_door.png", 7, 3, 20, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
+		{ gimmick::door::KEY_DOOR_BLUE, {"Resource/Gimmick/Crystal/b_door.png", 7, 3, 20, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
 		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock3.png", 1, 1, 1, gimmick::block::BLOCK_SIZE_W, gimmick::block::BLOCK_SIZE_H}},
 		{ gimmick::block::KEY_BREAK, {"Resource/Gimmick/Break/breakeffect.png", 4, 7, 26, gimmick::block::BRAKE_SIZE, gimmick::block::BRAKE_SIZE}},
 

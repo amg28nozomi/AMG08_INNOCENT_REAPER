@@ -23,13 +23,23 @@ namespace inr {
 
 	void Door::Init() {
 		_switch = gimmick::OFF;
+		_changeGraph = false;
 		_ismove = false;
 		_moves = {};
+		_normalY = 0;
+
+		_motionKey = {
+			{ gimmick::door::KEY_DOOR_LEVER, {14 * 3, 0}},
+			{ gimmick::door::KEY_DOOR_BLUE, {20 * 3, 0}},
+			{ gimmick::door::KEY_DOOR_RED, {20 * 3, 0}},
+			{ gimmick::door::KEY_DOOR_BOSS, {1, 0}},
+		};
 	}
 
 	void Door::Process() {
 		// if (_switch == gimmick::OFF && _ismove == false) return;	// フラグがオンの場合は処理を終了する
 		if (DoorMove() == true) return;
+		MotionCount();
 	}
 
 	void Door::Draw() {
@@ -37,7 +47,8 @@ namespace inr {
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
 		auto y = xy.IntY();
-		int graph = graph::ResourceServer::GetHandles(_divKey.first, 0);
+		int graph;
+		GraphResearch(&graph);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true);
 
 #ifdef _DEBUG
@@ -48,29 +59,34 @@ namespace inr {
 
 	void Door::SetParameter(Vector2 spwan, std::string key, int flag) {
 		_divKey.first = key;
-		_normalY = spwan.GetY();
 		SetColor(key);
-		_motionKey = { { _divKey.first, {25, 50}} };
+		// _motionKey = { { _divKey.first, {25, 50}} };
+		_position = spwan;
 		_ismove = false;
+
+		auto ite = _motionKey.find(_divKey.first);
 
 		bool colf;
 		switch (flag) {
 		case oscenario::gimmick::FLAG_FALSE:
 			colf = true;	// 当たり判定を元に戻す
-			_position = spwan;
+			/*_position = spwan;*/
 			_switch = gimmick::OFF;
+			_aCount = 0;
 			break;
 		case oscenario::gimmick::FLAG_TRUE:
-			_position = { spwan.GetX(), _normalY - OPEN_MAX };
+			/*_position = { spwan.GetX(), _normalY - OPEN_MAX };*/
 			_switch = gimmick::ON;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = false;
 #endif
+			_aCount = ite->second.first - 1;
 			colf = false;	// 当たり判定を元に戻す
 			break;
 		default:
-			_position = spwan;
+			/*_position = spwan;*/
 			_switch = gimmick::OFF;
+			_aCount = 0;
 			colf = true;
 			break;
 		}
@@ -176,6 +192,34 @@ namespace inr {
 
 	}
 
+	bool Door::MotionCount() {
+		if (_ismove == false) return false;
+		switch (_switch) {
+		case gimmick::ON:
+			if (AnimationCountMax() == true) {
+				if (_mainCollision.GetCollisionFlg() == true) {
+					_mainCollision.GetCollisionFlgB() = false;
+					_mainCollision.GetbDrawFlg() = false;
+					_ismove = false;
+				}
+				return false;
+			}
+			++_aCount;
+			return true;
+		case gimmick::OFF:
+			if (_aCount == 0) {
+				if (_mainCollision.GetCollisionFlg() == false) {
+					_mainCollision.GetCollisionFlgB() = true;
+					_mainCollision.GetbDrawFlg() = true;
+					_ismove = false;
+				}
+				return false;
+			}
+			--_aCount;
+			return true;
+		}
+	}
+
 	void Door::SetColor(std::string key) {
 		// 色指定
 		//if (key == gimmick::door::KEY_DOOR_RED) _color = static_cast<int>(soul::RED);
@@ -187,24 +231,28 @@ namespace inr {
 	void Door::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;	// オブジェクト情報の更新
 		_divKey.first = gimmick::door::KEY_DOOR_BOSS;
-		_position = objValue.Positions().at(0);
-		_normalY = _position.GetY();
-		_mainCollision = { _position, 40, 40, 70, 80, true };
+		_normalY = _oValue.Positions().at(0).GetY();	// 閉まっている際の描画座標
+
+		bool colf;
 		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	// 扉は開かれているか？
 		case true:	// 空いている場合
+			colf = false;
+			_position = { _oValue.Positions().at(0).GetX(), _normalY - OPEN_MAX };
 			_switch = gimmick::ON;
-			_mainCollision.GetCollisionFlgB() = false;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = false;
 #endif
-			return;
+			break;
 		case false:	// 閉じている場合
+			colf = true;	// 当たり判定を元に戻す
+			_position = _oValue.Positions().at(0);
 			_switch = gimmick::OFF;
-			_mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = true;
 #endif
-			return;
+			break;
 		}
+
+		_mainCollision = { _position, 40, 60, 100, 130, colf };
 	}
 }
