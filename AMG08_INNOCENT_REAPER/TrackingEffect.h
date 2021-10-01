@@ -17,6 +17,7 @@ namespace inr {
 	private:
 		ObjectBase* _target;	// ’ÇÕ–Ú•W
 		Vector2 _fix;
+		// double _moveMax;	// ˆÚ“®—Ê
 	};
 }
 

@@ -168,7 +168,9 @@ namespace inr {
 			if (AnimationCountMax() == true) {
 				if (_mainCollision.GetCollisionFlg() == true) {
 					_mainCollision.GetCollisionFlgB() = false;
+#ifdef _DEBUG
 					_mainCollision.GetbDrawFlg() = false;
+#endif
 					_ismove = false;
 				}
 				return false;
@@ -179,7 +181,9 @@ namespace inr {
 			if (_aCount == 0) {
 				if (_mainCollision.GetCollisionFlg() == false) {
 					_mainCollision.GetCollisionFlgB() = true;
+#ifdef _DEBUG
 					_mainCollision.GetbDrawFlg() = true;
+#endif
 					_ismove = false;
 				}
 				return false;
