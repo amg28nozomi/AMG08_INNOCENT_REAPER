@@ -143,6 +143,8 @@ namespace inr {
 		{ fgd::FORE_STAGE2_2,  {"Resource/ForeGround/fg_stage2-2.png", 1, 1, 1, fgd::FORE2_2_W, fgd::FORE2_2_H}},
 		{ fgd::FORE_STAGE3,  {"Resource/ForeGround/fg_stageboss.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}}, 
 
+		// スタッフロール
+		{ end::STUFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STUFF_ROLL_WIDTH, end::STUFF_ROLL_HEIGHT}},
 	};
 
 	const graph::ResourceServer::DivGraphMap gimmicks{

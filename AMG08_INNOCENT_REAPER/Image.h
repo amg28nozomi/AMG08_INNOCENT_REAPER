@@ -26,6 +26,13 @@ namespace inr {
 		constexpr auto STAGEB_PATH = "Resource/BackGround/StageBoss/";
 	}
 
+	namespace end {
+		constexpr auto STUFF_ROLL = "stuff_roll";
+
+		constexpr auto STUFF_ROLL_WIDTH = 1920;
+		constexpr auto STUFF_ROLL_HEIGHT = 11880;
+	}
+
 
 	constexpr auto BACK_GROUND = "backP";
 	constexpr auto BACK_GROUND_W = 1920;
