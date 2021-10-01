@@ -34,6 +34,8 @@ namespace inr {
 		Vector2 _moves;
 
 		void SetColor(std::string key);
+
+		bool DoorMove();	// ƒhƒA‚ÌˆÚ“®ˆ—
 	};
 }
 

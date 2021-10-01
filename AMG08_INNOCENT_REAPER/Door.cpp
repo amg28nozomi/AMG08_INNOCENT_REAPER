@@ -29,29 +29,7 @@ namespace inr {
 
 	void Door::Process() {
 		// if (_switch == gimmick::OFF && _ismove == false) return;	// フラグがオンの場合は処理を終了する
-
-		if (_ismove == false) return;
-		switch (_switch) {
-		case false:
-			_moves.GetPY() = DOOR_VECTOR;
-			_position = _position + _moves;
-			if (_normalY <= _position.GetY()) { 
-				_position.GetPY() = _normalY;
-				_ismove = false; 
-			}
-			break;
-		case true:
-			_moves.GetPY() = -DOOR_VECTOR;
-			_position = _position + _moves;
-			if (_position.GetY() <= _normalY - OPEN_MAX) { 
-				_position.GetPY() = _normalY - OPEN_MAX;
-				_ismove = false; 
-			}
-			break;
-		}
-		_mainCollision.Update(_position, false);
-
-		_moves = {};
+		if (DoorMove() == true) return;
 	}
 
 	void Door::Draw() {
@@ -169,6 +147,35 @@ namespace inr {
 		//return true;
 	}
 
+	bool Door::DoorMove() {
+		// ボス扉ではない場合は処理を中断する
+		if (_divKey.first != gimmick::door::KEY_DOOR_BOSS) return false;
+		if (_ismove == false) return true;
+		// フラグに応じて処理を切り替える
+		switch (_switch) {
+		case false:
+			_moves.GetPY() = DOOR_VECTOR;
+			_position = _position + _moves;
+			if (_normalY <= _position.GetY()) {
+				_position.GetPY() = _normalY;
+				_ismove = false;
+			}
+			break;
+		case true:
+			_moves.GetPY() = -DOOR_VECTOR;
+			_position = _position + _moves;
+			if (_position.GetY() <= _normalY - OPEN_MAX) {
+				_position.GetPY() = _normalY - OPEN_MAX;
+				_ismove = false;
+			}
+			break;
+		}
+		_mainCollision.Update(_position, false);
+
+		_moves = {};
+
+	}
+
 	void Door::SetColor(std::string key) {
 		// 色指定
 		//if (key == gimmick::door::KEY_DOOR_RED) _color = static_cast<int>(soul::RED);
@@ -182,7 +189,7 @@ namespace inr {
 		_divKey.first = gimmick::door::KEY_DOOR_BOSS;
 		_position = objValue.Positions().at(0);
 		_normalY = _position.GetY();
-		_mainCollision = { _position, 20, 20, 10, 70, true };
+		_mainCollision = { _position, 40, 40, 70, 80, true };
 		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	// 扉は開かれているか？
 		case true:	// 空いている場合
 			_switch = gimmick::ON;
