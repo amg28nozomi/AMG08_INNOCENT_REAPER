@@ -21,7 +21,6 @@ namespace inr {
 	}
 
 	void Floor::Process() {
-		// “–‚½‚è”»’è‚Ì‚ğŒÄ‚Ño‚·
 
 	}
 

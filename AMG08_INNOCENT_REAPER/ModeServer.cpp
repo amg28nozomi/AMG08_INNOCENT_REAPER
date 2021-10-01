@@ -114,11 +114,6 @@ namespace inr {
 		_game.ProgramEnd();
 	}
 
-	/*std::unique_ptr<ModeBase>& ModeServer::GetMode() {
-		auto mode = _modes.find(_modeKey);
-		return mode->second;
-	}*/
-
 	std::shared_ptr<ModeMain> ModeServer::GetModeMain() {
 		auto mode = _modes.find(mode::MAIN);
 		return std::dynamic_pointer_cast<ModeMain>(mode->second);

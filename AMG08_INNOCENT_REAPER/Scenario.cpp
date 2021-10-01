@@ -203,8 +203,8 @@ namespace inr {
 
 	void Scenario::AddPlayer() {
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
-		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 905 });	// ボスステージ用
-		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });	// ステージSに合わせた地点に生成する
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 905 });	// ボスステージ用
+		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });	// ステージSに合わせた地点に生成する
 		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 400 });
 		// 2620, 1890
 		auto player = std::make_shared<Player>(_game.GetGame());

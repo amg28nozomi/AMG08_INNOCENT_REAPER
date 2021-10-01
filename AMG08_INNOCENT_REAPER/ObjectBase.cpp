@@ -89,12 +89,6 @@ namespace inr {
 					}
 
 				}
-			// 
-			/*if (_mainCollision.HitCheck(obj->GetMainCollision()) == true) {
-				_stand = true;
-				_gravity = 0;
-				break;
-			}*/
 		}
 
 		if (nowcol.GetMin().GetY() < 0) {

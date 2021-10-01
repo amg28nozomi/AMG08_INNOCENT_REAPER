@@ -143,7 +143,6 @@ namespace inr {
 		// ƒ[ƒ‹ƒhÀ•W‚ÌˆÚ“®—Ê‚ðŽæ“¾
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
 		auto moveY = _game.GetMapChips()->BeforeWorldPos().GetY() * -1;
-		// auto moveY = _game.GetMapChips()->GetWorldVector().IntY() * -1;
 
 
 		for (auto i = 0; i < _positions.first.size(); ++i) {

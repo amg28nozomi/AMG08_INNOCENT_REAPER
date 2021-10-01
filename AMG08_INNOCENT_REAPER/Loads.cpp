@@ -258,11 +258,6 @@ namespace inr {
 			{ oscenario::OBJ_ITEM, {640, 1915}, false, 0, {pvalue::ITEM_1, FALSE}},
 		};
 		return _stageS;
-		/*std::vector<ObjectValue>_stageS {
-			{ oscenario::OBJ_SOLDIER_DOLL, {}}
-		}
-
-		return _stageS;*/
 	}
 
 	std::vector<ObjectValue> Loads::LoadScenarioS_1() {
@@ -283,9 +278,6 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenario1() {
 
 		std::vector<ObjectValue> _stage1 {
-			// プレイヤーの登録情報
-			// { oscenario::OBJ_PLAYER, { 200,800}, 0 },
-			// { oscenario::OBJ_PLAYER, {static_cast<double>(stage_1::START_POS_X), static_cast<double>(stage_1::START_POS_Y)}, 0 },
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1950}, true, 1},
 			{ oscenario::OBJ_SOLDIER_DOLL, {2200, 1750}, false, 2},

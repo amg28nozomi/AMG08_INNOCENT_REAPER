@@ -53,7 +53,7 @@ namespace inr {
 				key.emplace_back(gimmick::door::KEY_DOOR_BLUE);
 				break;
 			default:
-				break;	// ‚»‚ñ‚È‚à‚Ì‚Í‚È‚¢
+				break;
 			}
 		}
 		SetDoors(key);
@@ -202,11 +202,6 @@ namespace inr {
 	bool Crystal::IsOpen(int type) {
 		if (static_cast<int>(_soul->SoulColor()) != type) return false;
 		return true;
-		// ‚±‚ÌF‚Æ°‚ÌF‚ªˆê’v‚µ‚Ä‚¢‚é‚©H
-		/*auto color = 0;
-		if (_soul->SoulColor() == soul::BLUE) color = 1;
-		if (color != type) return false;
-		return true;*/
 
 	}
 

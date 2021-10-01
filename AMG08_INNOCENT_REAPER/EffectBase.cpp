@@ -72,20 +72,6 @@ namespace inr {
 
 	void EffectBase::GraphResearch(int* gh) {
 		*gh = graph::ResourceServer::GetHandles(_graphKey, GraphNumber());
-
-		// フラグがオンの時、描画するグラフィックを切り替える
-	//	if (_changeGraph) {
-	//		_changeGraph = false;
-	//		_aCount = 0;
-	//		*gh = graph::ResourceServer::GetHandles(_divKey.first, 0);	// 最初の要素を取得
-	//		return true;
-	//	}
-	//	auto interval = AnimationInterval();
-	//	// 何番目のアニメーションが呼び出されているか
-	//	auto no = AnimationNumber();
-	//	// グラフィックハンドルを読み込む
-	//	*gh = graph::ResourceServer::GetHandles(_divKey.first, no);
-	//}
 	}
 
 	void EffectBase::SetDamageEffect(int width, int height, int dinter) {

@@ -39,26 +39,16 @@ namespace inr {
 	int Game::_frameCount = 0;
 
 	constexpr auto PATH = "Resource/";
-	// constexpr auto CHIP_FILE = "platformer_simpleA";
 	constexpr auto CHIP_FILE_S = "stage0";
 	constexpr auto CHIP_FILE_1 = "stage1";
 	constexpr auto CHIP_FILE_2_1 = "stage2";
 	constexpr auto CHIP_FILE_2_2 = "stage2-1";
 	constexpr auto CHIP_FILE_2_3 = "stage2-2";
 
-	
-	// constexpr auto CHIP_FILE = "stage01";
-
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
 		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
 
-
-		// AMGロゴアニメーション
-
-		// チームロゴアニメーション
-
-		// タイトルアニメーション
 	};
 
 	const se::SoundServer::SoundMap player_se{
@@ -69,7 +59,6 @@ namespace inr {
 		{ {key::SOUND_PLAYER_GIVE_FALSE}, {"Resource/SE/Player/give_false.wav", DX_PLAYTYPE_BACK}},
 		{ {key::SOUND_PLAYER_SWITCH}, {"Resource/SE/Player/switchsoul.wav", DX_PLAYTYPE_BACK}},
 		{ {key::SOUND_PLAYER_JUMP}, {"Resource/SE/Player/jump.wav", DX_PLAYTYPE_BACK}},
-		// { {key::SOUND_PLAYER_RUN1}}
 	};
 
 	const se::SoundServer::SoundMap enemy_se{
@@ -159,12 +148,7 @@ namespace inr {
 		_modeServer = std::make_unique<ModeServer>(*this);
 		_gServer = std::make_unique<GimmickServer>(*this);
 
-		/*std::string filepath = PATH;
-		std::string filename = CHIP_FILE_S;*/
-		//std::string filename = CHIP_FILE_2_1;
-
 		_mapChips = std::make_unique<MapChips>(*this);
-		// graph::ResourceServer::GetHandles("player_test", _graphs);
 	}
 
 	void Game::Input() {
@@ -193,8 +177,6 @@ namespace inr {
 	void Game::Process() {
 		CountUp();
 		_modeServer->Process();
-		/*_mapChips->Process();
-		_objServer->Process();*/
 	}
 
 	void Game::Draw() {

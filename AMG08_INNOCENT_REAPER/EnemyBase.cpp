@@ -62,17 +62,6 @@ namespace inr {
 		GraphResearch(&graph);	// ハンドル取得
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
-		/*std::string& key = _divKey.first;
-		auto box = _collisions.find(key);
-		if (box != _collisions.end()) {
-			if (box->second.GetDrawFlg() == true) {
-				DrawDebugBox(box->second, GetColor(255, 0, 0));
-			}
-		}*/
-		//// アニメーションが終わっていない場合はカウントを増やす
-		//if (_aCount < GetSize(_divKey.first)) { ++_aCount; }
-		//else AnimationInit();	// カウンター初期化
-		/*DrawDebugBox(_mainCollision);*/
 #ifdef _DEBUG
 		DrawDebugBox(_searchBox);
 		if (_mainCollision.GetCollisionFlg() == true) DrawDebugBox(_mainCollision);
@@ -87,18 +76,6 @@ namespace inr {
 		if (_soul == nullptr && IsAnimationMax() == true) return;
 		ObjectBase::AnimationCount();
 	}
-
-	/*void EnemyBase::AnimationInit() {
-
-	}
-
-	void EnemyBase::Move() {
-
-	}
-
-	void EnemyBase::Action() {
-
-	}*/
 
 	bool EnemyBase::SearchPlayer() {
 		// 魂が空ではない時
@@ -195,23 +172,6 @@ namespace inr {
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
 			_isAction = true;
-			// ChangeIdol();
-			// 入っている魂に応じて処理を変更する
-			//switch (_soul->SoulColor()) {
-			//	// 赤い魂の時は、突進処理を実行する。
-			//case soul::RED:
-			//	AttackOn();
-			//	if (_actionX == 0) {
-			//		PatrolOn();
-			//	}
-			//	break;
-			//case soul::BLUE:
-			//	EscapeOn();
-			//	if (_actionX == 0) {
-			//		PatrolOn();
-			//	}
-			//	break;
-			//}
 		}
 		// 発見できなかった場合は移動処理を行う
 		if (_soul == nullptr) _actionX = 0;

@@ -17,13 +17,6 @@ namespace {
 
 namespace inr {
 
-	/*ImageValue::ImageValue(std::string key, Vector2 pos, int width, int height) {
-		_key = key;
-		_position = pos;
-		_width = width;
-		_height = height;
-	}*/
-
 	Item::Item(Game& game) : _game(game), _oValue() {
 		_gkey = "";
 		_position = { 0, 0 };
@@ -53,12 +46,6 @@ namespace inr {
 				// ‚±‚±‚ÅSE‚ğ–Â‚ç‚·
 			}
 		}
-		//if (_col.HitCheck(pbox) == true) {
-		//	_pi.DrawStart();
-		//} else { 
-		//	_pi.DrawEnd();	// •`‰æˆ—I—¹
-		//}
-		//_pi.Process();
 	}
 
 	void Item::Draw() {

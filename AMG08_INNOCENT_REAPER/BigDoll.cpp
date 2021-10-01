@@ -139,15 +139,6 @@ namespace inr {
 			player->Damage(SearchPosition());
 			return;
 		}
-		// 攻撃状態の場合は追加で処理を行う
-		//if (_aState == ActionState::ATTACK) {
-		//	auto box = _collisions.find(_divKey.first);
-		//	// 接触している場合は自機の衝突処理を呼び出す
-		//	if (box->second.HitCheck(playerBox)) {
-		//		// 進行方向とは同方向に対象を飛ばす
-		//		player->Damage(SearchPosition());
-		//	}
-		//}
 	}
 
 	void BigDoll::HipDrop() {
@@ -262,7 +253,6 @@ namespace inr {
 			if (IsAnimationMax()) {
 				ChangeIdol(BIG_STAY * 2);
 				_stay = STAY_MAX;
-				// _mainCollision.GetCollisionFlgB() = true;
 #ifdef _DEBUG
 				_searchBox.GetbDrawFlg() = true;
 #endif
@@ -294,7 +284,6 @@ namespace inr {
 			return;	// 処理を抜ける
 		}
 		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
-		// auto sn = std::static_pointer_cast<SoulSkin>(soul_n);
 		switch (_oValue.SoulType()) {
 		case 1:
 			soul_n->SetParameter(_oValue.SoulType(), 7);

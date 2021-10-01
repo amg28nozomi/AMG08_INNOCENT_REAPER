@@ -53,7 +53,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_T;
+			_stageKey = stage::STAGE_3;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -152,9 +152,6 @@ namespace inr {
 			_changeKey = stage::CHANGE_NULL;
 			return true;
 		}
-		// 現在の登録されているオブジェクトの削除を行う
-		
-		// 自機(+保持している魂)、
 	}
 
 	bool ModeMain::IsKeyNull() {

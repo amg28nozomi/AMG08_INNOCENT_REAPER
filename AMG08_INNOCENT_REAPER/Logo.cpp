@@ -66,8 +66,6 @@ namespace inr {
 				}
 				return;
 			}
-			// ModeMainで入力処理があった場合、処理をスキップするように変更する
-			// ここで変数の値を変更
 			++_fCount;
 
 			switch(_calculation) {

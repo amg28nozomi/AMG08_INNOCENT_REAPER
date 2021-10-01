@@ -97,7 +97,7 @@ namespace inr {
 #endif
 		}
 
-		gdoor->SetParameter(_oValue.Positions()[1], gh, _oValue.GimmickFlag());	// ‚·‚Û[‚ñ
+		gdoor->SetParameter(_oValue.Positions()[1], gh, _oValue.GimmickFlag());	// ”à‚Ì¶¬
 		_door = gdoor;
 		_game.GetGimmickServer()->Add(gdoor);
 	}

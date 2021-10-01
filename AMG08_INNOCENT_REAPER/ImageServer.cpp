@@ -27,7 +27,6 @@ namespace inr {
 	}
 
 	bool ImageServer::Process() {
-		// ChangeKey();
 
 		auto ite = _images.find(_imageKey);
 		if (ite == _images.end()) return false;

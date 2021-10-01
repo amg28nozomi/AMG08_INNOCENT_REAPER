@@ -164,20 +164,6 @@ AABB::AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool
 
 }
 
-//void AABB::Update(Vector2& pos) {
-//	auto minh = _height - _fix;
-//	auto maxh = _height + _fix;
-//
-//	// 単位ベクトルを加算
-//	minV = { pos.GetX() - _width, pos.GetY() - minh };
-//	maxV = { pos.GetX() + _width, pos.GetY() + maxh };
-//
-//	/*minV.GetPX() += pos.GetX();
-//	maxV.GetPX() += pos.GetX();
-//	minV.GetPY() += pos.GetY();
-//	maxV.GetPY() += pos.GetY();*/
-//}
-
 void AABB::Update(Vector2& pos, bool inv) {
 	// 向きに応じて当たり判定のx座標を変更する
 	// 反転している場合
