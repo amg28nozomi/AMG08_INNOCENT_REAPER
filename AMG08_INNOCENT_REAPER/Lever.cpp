@@ -14,7 +14,7 @@ namespace inr {
 		_divKey = { gimmick::lever::KEY_LEVER, "" };
 		_motionKey = { 
 			{ _divKey.first, {20, 50}},
-			{ gimmick::lever::KEY_LEVER_BOSS, {20, 50}}
+			{ gimmick::lever::KEY_LEVER_BOSS, {30, 50}}
 		};
 	}
 
