@@ -1,7 +1,10 @@
 #pragma once
 #include "ModeBase.h"
+#include <memory>
 
 namespace inr {
+
+	class MoveImage;
 
 	class ModeEnd : public ModeBase {
 	public:
@@ -13,7 +16,7 @@ namespace inr {
 		void Draw() override;
 	private:
 		bool _end;	// ˆ—‚ğI—¹‚·‚é‚©H
-		std::unique_ptr<>
+		std::unique_ptr<MoveImage> _stuffRoll;
 
 		bool IsEnd();	// 
 	};

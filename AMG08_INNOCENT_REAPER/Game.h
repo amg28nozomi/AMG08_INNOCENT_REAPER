@@ -69,6 +69,8 @@ namespace inr {
 		constexpr auto SOUND_STAGE_1 = "sound_stage1";
 		constexpr auto SOUND_STAGE_2 = "sound_stage2";
 		constexpr auto SOUND_STAGE_3 = "sound_stageb";
+
+		constexpr auto SOUND_ENDING = "sound_ending";
 	}
 
 

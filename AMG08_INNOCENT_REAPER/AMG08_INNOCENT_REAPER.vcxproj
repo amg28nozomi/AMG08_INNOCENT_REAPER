@@ -185,6 +185,7 @@
     <ClCompile Include="ModeMain.cpp" />
     <ClCompile Include="ModeServer.cpp" />
     <ClCompile Include="ModeTitle.cpp" />
+    <ClCompile Include="MoveImage.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectServer.cpp" />
     <ClCompile Include="ObjectValue.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="ModeMain.h" />
     <ClInclude Include="ModeServer.h" />
     <ClInclude Include="ModeTitle.h" />
+    <ClInclude Include="MoveImage.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectServer.h" />
     <ClInclude Include="ObjectValue.h" />
