@@ -129,6 +129,7 @@ namespace inr {
 		bool IsPlayerPos(double px);	// é©ã@ÇÕç∂âEÇ«ÇøÇÁÇ…Ç¢ÇÈÇÃÇ©ÅH
 
 		AABB NowCollision(std::string key) override;
+		std::pair<AABB, AABB> BlinkVitalPart(Collision& col, int vital);
 
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 

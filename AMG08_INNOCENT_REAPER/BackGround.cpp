@@ -60,7 +60,7 @@ namespace inr {
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
 			// DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
 		}
-		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
+		// if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}
 
 	void BackGround::ChangeGraph() {
@@ -74,8 +74,8 @@ namespace inr {
 		switch (_stageNo) {
 		case stage::number::SN_S:	// ステージS
 			_graphKey = background::BACK_GROUND_S;
-			_scrSpeed.first = { 0.5 };
-			_scrSpeed.second = { 0.75 };
+			_scrSpeed.first = { 0.5, 0.35 };
+			_scrSpeed.second = { 0.75, 0.75 };
 			_fix = { 1080 , 1080 };
 			break;
 		case stage::number::SN_T:	// チュートリアル

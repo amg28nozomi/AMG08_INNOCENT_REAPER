@@ -49,6 +49,7 @@ namespace inr {
 
 		bool Debuf();	// 被デバフ攻撃
 		bool Damage(bool mv);
+		bool KnockBack(bool mv);	// ノックバック処理
 		bool Reset();	// 開始地点に戻す
 
 		void SetParameter(ObjectValue objValue) override;	// 引数1:初期座標　引数2:魂を保有しているか　引数3:

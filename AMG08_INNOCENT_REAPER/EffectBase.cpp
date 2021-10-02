@@ -29,9 +29,8 @@ namespace inr {
 
 	void EffectBase::Process() {
 		++_count;
-		if (_isDamage == true) {
-			if(IsDamage() == true) Damage();
-		}
+		_isDamage = IsDamage();
+		if(_isDamage == true) Damage();
 		if (_count == (_alive - 1)) {
 			if (_loop == 0) {
 				_delete = true;	// 消去フラグをオンにする（消去予約）
@@ -54,6 +53,8 @@ namespace inr {
 		DrawRotaGraph(x, y, 1.0, 0, graph, TRUE, _direction);
 		// デバッグ時のみ、当たり判定を描画する
 #ifdef _DEBUG
+		if (_game.IsDebugMode() != true) return;
+		if (_isDamage != true) return;
 		auto db = _collision;
 		auto min = db.GetMin();
 		auto max = db.GetMax();
@@ -81,10 +82,12 @@ namespace inr {
 		_dInter = dinter;
 	}
 
-	void EffectBase::SetDamageEffect(int width1, int width2, int height1, int height2, int dinter) {
+	void EffectBase::SetDamageEffect(int width1, int width2, int height1, int height2, int dinter, int max) {
 		_isDamage = true;	// ダメージオン
 		_collision = { _position, width1, width2, height1, height2, true };
 		_dInter = dinter;
+		if (max <= 0) _dMax = graph::ResourceServer::GetAllNum(_graphKey) - 1;
+		else _dMax = max;
 	}
 
 	void EffectBase::SetLoop(int max) {
@@ -107,7 +110,8 @@ namespace inr {
 	}
 
 	bool EffectBase::IsDamage() {
-		bool isdamage = _dInter <= GraphNumber();
-		return isdamage;
+		auto no = GraphNumber();
+		if (_dInter < no && no <= _dMax) return true;
+		return false;
 	}
 }

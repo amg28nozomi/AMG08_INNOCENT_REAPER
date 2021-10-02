@@ -58,7 +58,7 @@ namespace inr {
 		virtual void Draw();	// 
 
 		virtual void SetDamageEffect(int width, int height, int dinter = 0);	// エフェクトにダメージ判定を持たせる
-		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0);
+		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0, int max = 0);
 		void SetLoop(int max);	// 引数1 何回繰り返すか
 		inline bool IsDel() { return _delete; }	// このエフェクトを削除するか？
 
@@ -73,6 +73,7 @@ namespace inr {
 		int _allNum;	// 総描画枚数
 		int _interval;	// モーションが完了するまでの猶予時間]
 		int _dInter;	//	ダメージ判定が発生するまでの猶予時間
+		int _dMax;
 		int _loop;	// ループ回数（デフォルトだとなし）
 		bool _direction;	// 生成時の向き
 		bool _isDamage;	// ダメージ判定はあるか？

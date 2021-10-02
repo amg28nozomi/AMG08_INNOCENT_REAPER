@@ -247,7 +247,6 @@ namespace inr {
 		case CrowDoll::CrowState::ROAR:
 			return;
 		case CrowDoll::CrowState::BLINK:
-			PlaySe(enemy::crowdoll::SE_BLINK_ATTACK);
 			ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_BLINK);	// 状態切り替え
 			AddBlinkEffect();
 			return;
@@ -416,6 +415,7 @@ namespace inr {
 					auto roar_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ROAR, _position, 40);// _game.GetMapChips()->GetWorldPosition(), 30);
 					roar_eff->SetLoop(3);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(roar_eff), effect::type::FORMER);
+					_game.GetObjectServer()->GetPlayer()->KnockBack(IsPlayerPos(_moveVector.GetX()));
 					break;
 				}
 			} else if (AnimationCountMax() == true) {
@@ -437,11 +437,17 @@ namespace inr {
 		if (IsVital() != true) return;	// 隙がない場合も魂を奪えない
 		if (ckey == PKEY_ROB) {	// 魂を奪いにきているか？
 			// 落下中は通常の当たり判定と判定を行う
-			if (_cState == CrowState::BLINK) {
-				if (_mainCollision.HitCheck(acollision) != true) return;
-			} else {
+			if (_cState == CrowState::BLINK && _divKey.first == enemy::crowdoll::CROW_BLINK) {
+				auto vital = BlinkVitalPart(_mainCollision, CROW_VITAL);
+				if (vital.first.HitCheck(acollision) == true || vital.second.HitCheck(acollision) == true) {
+					_direction = !direction;
+					/* 処理 */
+				} else return;
+			} else if (_cState != CrowState::BLINK) {
 				auto vitalPart = VitalPart(_mainCollision, CROW_VITAL);
-				if (_direction == direction && vitalPart.HitCheck(acollision) != true) return;
+				if (_direction == direction && vitalPart.HitCheck(acollision) == true) {
+					/* 処理 */
+				} else return;
 			}
 			// 各種値を消去
 			_atkInterval = 0;
@@ -534,8 +540,7 @@ namespace inr {
 
 	bool CrowDoll::AddWarpEffect(Vector2 spwan, bool target) {
 		if (target == true) {
-			auto warp_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK, spwan, 24 * 2);
-			warp_eff->Set(this);
+			auto warp_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::BLINK, spwan, 30);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp_eff), effect::type::FORMER);
 			return true;
 		} else {
@@ -555,7 +560,7 @@ namespace inr {
 	}
 
 	bool CrowDoll::AddBlinkEffect() {
-		auto blink_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 3);
+		auto blink_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 4);
 		blink_eff->Set(this, 0, -150);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(blink_eff), effect::type::FORMER);
 		return true;
@@ -564,7 +569,7 @@ namespace inr {
 	bool CrowDoll::AddSmokeEffect() {
 		Vector2 smoke_pos = { _position.GetX(), (_position.GetY() + ((_mainCollision.GetHeightMax() / 2) - 75)) };
 		auto smoke_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::HITDROP, smoke_pos, effect::enemy::HIPDROP_MAX * 2);
-		smoke_eff->SetDamageEffect(240, 240, -20, 140, 6);
+		smoke_eff->SetDamageEffect(240, 240, -20, 140, 6, 15);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(smoke_eff), effect::type::FORMER);
 		return true;
 	}
@@ -641,6 +646,7 @@ namespace inr {
 			}*/
 			break;
 		case inr::CrowDoll::CrowState::BLINK:
+			PlaySe(enemy::crowdoll::SE_BLINK_ATTACK);
 			// 自機の頭上にワープする
 			GetTarget();
 			_warpPos = { _target.GetX(), DEFAULT_Y };	// 座標変更
@@ -655,6 +661,12 @@ namespace inr {
 		}
 
 		_atkInterval = 15;	// 10フレーム後にアクションを実行する
+	}
+
+	std::pair<AABB, AABB> CrowDoll::BlinkVitalPart(Collision& col, int vital) {
+		AABB leftBox = { {col.GetMax().GetX() - vital, col.GetMin().GetY()}, {col.GetMax().GetX(), col.GetMax().GetY()}, true};
+		AABB RightBox = { {col.GetMax().GetX() + vital, col.GetMin().GetY()}, {col.GetMax().GetX(), col.GetMax().GetY()}, true};
+		return std::make_pair(leftBox, RightBox);
 	}
 
 	bool CrowDoll::AttackBox(bool flag) {

@@ -838,35 +838,41 @@ namespace inr {
 				_souls.front()->Del();
 				_souls.pop();
 
-				ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
-				auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
-				auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-				PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
-
-				auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::HIT, _position, 45);
-				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::BACK);
+				KnockBack(mv);
 			}
 			else {
 				// 空の場合は死亡処理を行う
 				Death();
 				return true;
 			}
-
-			// ノックバック量（方向の設定）
-			switch (mv) {
-			// 左に居る場合
-			case false:
-				_knockBack = HIT_MAX;
-				break;
-			// 右に居る場合
-			case true:
-				_knockBack = -HIT_MAX;
-				break;
-			}
-			_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
-			return true;
 		}
 		return false;
+	}
+
+	bool Player::KnockBack(bool mv) {
+		if (_invincible != 0) return false;
+		_input = false;
+		ChangeState(ActionState::HIT, PKEY_HIT);	// 状態遷移
+		auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
+		auto soundType = se::SoundServer::GetPlayType(_divKey.second);
+		PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
+
+		auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::HIT, _position, 45);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::BACK);
+
+		// ノックバック量（方向の設定）
+		switch (mv) {
+			// 左に居る場合
+		case false:
+			_knockBack = HIT_MAX;
+			break;
+			// 右に居る場合
+		case true:
+			_knockBack = -HIT_MAX;
+			break;
+		}
+		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
+		return true;
 	}
 
 	bool Player::Debuf() {
