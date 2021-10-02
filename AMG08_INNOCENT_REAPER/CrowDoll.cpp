@@ -73,6 +73,7 @@ namespace inr {
 		_arm = false;
 		_setup = false;
 		_changeGraph = false;
+		_wait = false;
 		_direction = true;
 		_changeState = false;
 		_isAnimation = false;
@@ -361,12 +362,19 @@ namespace inr {
 		case CrowState::BLINK:
 			// —§‚Á‚Ä‚¢‚éê‡
 			if (_stand == true) {
-				if () {
+				if (_wait != true) {
+					_wait = true;
+					_atkInterval = 60;
 					break;
 				}
-				if (AnimationCountMax() == true && _atkInterval == 0) {
-					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// ó‘ÔØ‚è‘Ö‚¦
-					_atkInterval = 60;
+				else if (AnimationCountMax() == true) {
+					// ‘Ò‚¿ŠÔ‚ÍI—¹‚µ‚Ä‚¢‚é‚©H
+					if (_atkInterval == 0) {
+						ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// ó‘ÔØ‚è‘Ö‚¦
+						_atkInterval = 60;
+						_wait = false;
+						_isAnimation = true;
+					} else if (_isAnimation == true) _isAnimation = false;
 				}
 				break;
 			}
@@ -432,6 +440,7 @@ namespace inr {
 					_atkInterval = 0;
 					_actionCount = 0;
 					_isAnimation = true;
+					_wait = false;
 					_moveVector = {};
 
 					// °‚ğ’D‚í‚ê‚é
@@ -541,7 +550,7 @@ namespace inr {
 
 	bool CrowDoll::AddBlinkEffect() {
 		auto blink_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 3);
-		blink_eff->Set(this);
+		blink_eff->Set(this, 0, -150);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(blink_eff), effect::type::FORMER);
 		return true;
 	}

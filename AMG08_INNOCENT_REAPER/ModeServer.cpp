@@ -39,7 +39,7 @@ namespace inr {
 		// ŒŸõƒL[‚ğTitleMode‚Éİ’è
 #ifdef _DEBUG
 		// _modeKey = mode::MAIN;
-		_modeKey = mode::TITLE;
+		_modeKey = mode::FIN;
 #endif
 #ifndef _DEBUG
 		_modeKey = mode::TITLE;

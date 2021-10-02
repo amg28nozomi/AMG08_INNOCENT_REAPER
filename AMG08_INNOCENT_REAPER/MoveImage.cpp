@@ -2,7 +2,7 @@
 #include "Game.h"
 
 namespace {
-	constexpr auto MOVE_COUNT = 60 * 40;
+	constexpr auto MOVE_COUNT = 60 * 50;
 }
 
 namespace inr {

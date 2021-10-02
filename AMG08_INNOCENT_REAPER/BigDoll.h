@@ -4,7 +4,7 @@
 namespace inr {
 
 	namespace enemy {
-		constexpr auto BIG_IMAGE = 280;
+		constexpr auto BIG_IMAGE = 340;
 
 		constexpr auto BIG_WIDTH = 160;
 		constexpr auto BIG_HEIGHT = 200;

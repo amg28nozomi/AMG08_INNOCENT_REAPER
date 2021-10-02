@@ -118,7 +118,7 @@ namespace inr {
 		{ {bgm::SOUND_STAGE_2}, {"Resource/SE/BGM/stage2.wav", DX_PLAYTYPE_LOOP}},	// ステージ2
 		{ {bgm::SOUND_STAGE_3}, {"Resource/SE/BGM/stageboss_batle.wav", DX_PLAYTYPE_LOOP}},
 
-		{ {bgm::SOUND_ENDING}, {"Resource/SE/BGM/ending_staffroll.wav", DX_PLAYTYPE_BACK}},
+		{ {bgm::SOUND_ENDING}, {"Resource/SE/BGM/ending_staffroll.wav", DX_PLAYTYPE_LOOP}},
 	};
 
 	Game::Game() {
