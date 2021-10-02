@@ -436,25 +436,29 @@ namespace inr {
 		if (_muteki != 0) return;	// –³“GŠÔ‚ª‚ ‚éê‡‚à’D‚¦‚È‚¢
 		if (IsVital() != true) return;	// Œ„‚ª‚È‚¢ê‡‚à°‚ğ’D‚¦‚È‚¢
 		if (ckey == PKEY_ROB) {	// °‚ğ’D‚¢‚É‚«‚Ä‚¢‚é‚©H
-			auto vitalPart = VitalPart(_mainCollision, CROW_VITAL);
-				if (_direction == direction && vitalPart.HitCheck(acollision)) {
-					// Šeí’l‚ğÁ‹
-					_atkInterval = 0;
-					_actionCount = 0;
-					_isAnimation = true;
-					_wait = false;
-					_moveVector = {};
-
-					// °‚ğ’D‚í‚ê‚é
-					ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// ‹¯‚İó‘Ô‚É‚·‚é
-					auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
-					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// –Â‚«º‚ğ–Â‚ç‚·
-					AddSoul();	// °‚ğ¶‚İo‚·
-					--_life;
-					if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// €–S”»’è
-					_muteki = 60;	// ˆê’èŠÔ‚ÌŠÔA–³“Gó‘Ô‚É‚·‚é
-					return;
+			// —‰º’†‚Í’Êí‚Ì“–‚½‚è”»’è‚Æ”»’è‚ğs‚¤
+			if (_cState == CrowState::BLINK) {
+				if (_mainCollision.HitCheck(acollision) != true) return;
+			} else {
+				auto vitalPart = VitalPart(_mainCollision, CROW_VITAL);
+				if (_direction == direction && vitalPart.HitCheck(acollision) != true) return;
 			}
+			// Šeí’l‚ğÁ‹
+			_atkInterval = 0;
+			_actionCount = 0;
+			_isAnimation = true;
+			_wait = false;
+			_moveVector = {};
+
+			// °‚ğ’D‚í‚ê‚é
+			ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// ‹¯‚İó‘Ô‚É‚·‚é
+			auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
+			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// –Â‚«º‚ğ–Â‚ç‚·
+			AddSoul();	// °‚ğ¶‚İo‚·
+			--_life;
+			if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// €–S”»’è
+			_muteki = 60;	// ˆê’èŠÔ‚ÌŠÔA–³“Gó‘Ô‚É‚·‚é
+			return;
 		}
 	}
 
