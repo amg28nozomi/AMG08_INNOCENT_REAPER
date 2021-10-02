@@ -205,6 +205,7 @@
     <ClCompile Include="StageUi.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="TrackingEffect.cpp" />
+    <ClCompile Include="TutorialImage.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="StageUi.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TrackingEffect.h" />
+    <ClInclude Include="TutorialImage.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>

@@ -29,8 +29,7 @@ namespace inr {
 
 	void EffectBase::Process() {
 		++_count;
-		_isDamage = IsDamage();
-		if(_isDamage == true) Damage();
+		if(_isDamage == true && IsDamage() == true) Damage();
 		if (_count == (_alive - 1)) {
 			if (_loop == 0) {
 				_delete = true;	// 消去フラグをオンにする（消去予約）
