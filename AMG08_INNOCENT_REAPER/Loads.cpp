@@ -20,6 +20,7 @@
 #include "GimmickBase.h"
 #include "ForeGround.h"
 #include "Item.h"
+#include "TutorialImage.h"
 
 #include <vector>
 
@@ -235,6 +236,14 @@ namespace inr {
 			{ pvalue::ITEM_3, {item::MESSAGE_3, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
 		};
 		return imap;
+	}
+
+	TutorialMap Loads::LoadTutorialF() {
+		{}
+	}
+
+	TutorialMap Loads::LoadTutorialS() {
+
 	}
 
 	std::vector<ImageValue> Loads::LoadForeGround1() {

@@ -3,6 +3,11 @@
 #include "Collision.h"
 
 namespace inr {
+
+	namespace tutorial {
+		constexpr auto ROB = "titorial_rob";
+	}
+
 	class TutorialImage : public Particle_Image {
 	public:
 		TutorialImage(Game& game);

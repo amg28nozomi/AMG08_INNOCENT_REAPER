@@ -2,6 +2,7 @@
 #include <vector>
 #include "Scenario.h"
 #include "ImageValue.h"
+#include "TutorialServer.h"
 
 namespace inr {
 
@@ -12,6 +13,8 @@ namespace inr {
 		static void ResourceLoad();	// 各種素材の読み込み
 		static ImageMap LoadImages();	// 画像の読み込み
 		static std::vector<ImageValue> LoadForeGround1();	// 前景
+		static TutorialMap LoadTutorialF();	// チュートリアル画像(ステージS)
+		static TutorialMap LoadTutorialS();
 
 		static std::vector<ObjectValue> LoadScenarioS_1();	// チュートリアル
 		static std::vector<ObjectValue> LoadScenarioS();	// ステージS
@@ -20,6 +23,7 @@ namespace inr {
 		static std::vector<ObjectValue> LoadScenario2_1();	// ステージ2(上部)
 		static std::vector<ObjectValue> LoadScenario2_2();	// ステージ2(下部)
 		static std::vector<ObjectValue> LoadScenarioB();	// ステージボス
+
 	private:
 	};
 }
