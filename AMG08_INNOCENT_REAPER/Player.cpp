@@ -981,7 +981,6 @@ namespace inr {
 	}
 
 	void Player::SoulCatch(std::shared_ptr<SoulSkin> soul) {
-		soul->Active();
 		_souls.push(std::move(soul));
 	}
 

@@ -317,7 +317,7 @@ namespace inr {
 		case CrowState::IDOL:	// 空中待機の場合
 			// インターバル明けに次のアクションを実行する
 			if (_atkInterval == 0) {
-				auto number = rand() % 2; // %3
+				auto number = rand() % 3; // %3
 				switch (number) {
 				case 0:
 					ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
@@ -330,12 +330,12 @@ namespace inr {
 					ModeChange(CrowState::GROWARM, enemy::crowdoll::CROW_GROWARM);	// 状態切り替え
 					GetTarget();
 					break;
-				//case 2:
-				//	ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
-				//	_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
-				//	WarpOn();	// 自機の前に跳ぶ
-				//	// _atkInterval = 60;
-				//	break;
+				case 2:
+					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
+					WarpOn();	// 自機の前に跳ぶ
+					// _atkInterval = 60;
+					break;
 				}
 			}
 			break;
@@ -358,7 +358,7 @@ namespace inr {
 			break;
 		case CrowState::BLINK:
 			// 立ち判定がある場合、処理を修正
-			if (_stand == true) {
+			if (_stand == true && AnimationCountMax() == true) {
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
 				break;
@@ -486,11 +486,10 @@ namespace inr {
 			break;
 		}
 		// 自機は魂の所持上限に到達しているか？
+		_game.GetObjectServer()->Add(soul);	// オブジェクトサーバーに登録する
+		soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 		if (player->IsSoulMax() == true) {
 			soul->OwnerNull();	// 所有者はいない
-			soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
-			_game.GetObjectServer()->Add(std::move(soul));	// オブジェクトサーバーに登録する
-			return;
 		} else player->SoulCatch(std::move(soul));	// そうではない場合は魂の所有権をプレイヤーに譲渡
 	}
 
