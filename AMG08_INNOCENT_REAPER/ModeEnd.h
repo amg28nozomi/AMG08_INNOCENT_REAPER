@@ -1,10 +1,9 @@
 #pragma once
 #include "ModeBase.h"
+#include "MoveImage.h"
 #include <memory>
 
 namespace inr {
-
-	class MoveImage;
 
 	class ModeEnd : public ModeBase {
 	public:
@@ -15,8 +14,9 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 	private:
+		int _count;	// ‘Ò‚¿ŠÔ
 		bool _end;	// ˆ—‚ğI—¹‚·‚é‚©H
-		std::unique_ptr<MoveImage> _stuffRoll;
+		std::unique_ptr<MoveImage> _staffRoll;
 
 		bool IsEnd();	// 
 	};

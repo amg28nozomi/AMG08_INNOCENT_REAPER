@@ -27,10 +27,10 @@ namespace inr {
 	}
 
 	namespace end {
-		constexpr auto STUFF_ROLL = "stuff_roll";
+		constexpr auto STAFF_ROLL = "staff_roll";
 
-		constexpr auto STUFF_ROLL_WIDTH = 1920;
-		constexpr auto STUFF_ROLL_HEIGHT = 11880;
+		constexpr auto STAFF_ROLL_WIDTH = 1920;
+		constexpr auto STAFF_ROLL_HEIGHT = 11880;
 	}
 
 

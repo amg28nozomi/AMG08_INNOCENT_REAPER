@@ -144,7 +144,7 @@ namespace inr {
 		{ fgd::FORE_STAGE3,  {"Resource/ForeGround/fg_stageboss.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}}, 
 
 		// スタッフロール
-		{ end::STUFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STUFF_ROLL_WIDTH, end::STUFF_ROLL_HEIGHT}},
+		{ end::STAFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STAFF_ROLL_WIDTH, end::STAFF_ROLL_HEIGHT}},
 		// 
 		{ titles::TITLE_T, {"Resource/t.png", 6, 5, 30, WINDOW_W, WINDOW_H }},
 	};

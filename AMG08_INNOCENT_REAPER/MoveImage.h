@@ -15,6 +15,7 @@ namespace inr {
 		void SetParameter(const std::string gkey, Vector2 pos);	// 引数1:画像用キー、初期生成地点
 
 		inline void MoveOn() { if (_isMove == false) _isMove; }
+		inline bool IsActive() { return _isMove; }
 	private:
 
 		bool _isMove;	// 移動処理を行うか？

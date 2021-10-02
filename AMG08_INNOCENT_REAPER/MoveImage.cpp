@@ -2,7 +2,7 @@
 #include "Game.h"
 
 namespace {
-	constexpr auto MOVE_COUNT = 1500;
+	constexpr auto MOVE_COUNT = 60 * 40;
 }
 
 namespace inr {
@@ -14,6 +14,7 @@ namespace inr {
 
 	void MoveImage::Init() {
 		_pos = _start;
+		_isMove = true;
 	}
 
 	void MoveImage::Process() {
@@ -36,13 +37,15 @@ namespace inr {
 	}
 
 	bool MoveImage::Move() {
-		auto sizep = (_start.GetY() + HALF_WINDOW_H) * -1;
+		auto sizep = (end::STAFF_ROLL_HEIGHT - HALF_WINDOW_H);
 		auto move_power = sizep / MOVE_COUNT;	// à⁄ìÆó ÇÃéZèo
 
-		_pos.GetPY() += move_power;
-		if (HALF_WINDOW_H <= _pos.IntY()) {
+		_pos.GetPY() -= move_power;
+
+		auto max = -(end::STAFF_ROLL_HEIGHT / 2) + WINDOW_H;
+		if (_pos.IntY() <= max) {
 			// èCê≥ÇÇ©ÇØÇƒèàóùÇèIóπÇ∑ÇÈ
-			_pos.GetPY() = HALF_WINDOW_H;
+			_pos.GetPY() = -(end::STAFF_ROLL_HEIGHT / 2) + WINDOW_H;
 			return true;
 		}
 		return false;

@@ -34,13 +34,12 @@ namespace inr {
 		// セレクト（未実装）
 		_modes.emplace(mode::MAIN, std::make_shared<ModeMain>(_game.GetGame()));	// ゲーム本編
 		_modes.emplace(mode::FIN, std::make_shared<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
-
 		_fadeBlack = std::make_unique<FadeBlack>(_game.GetGame());
 		
 		// 検索キーをTitleModeに設定
 #ifdef _DEBUG
 		// _modeKey = mode::MAIN;
-		_modeKey = mode::TITLE;
+		_modeKey = mode::FIN;
 #endif
 #ifndef _DEBUG
 		_modeKey = mode::TITLE;
