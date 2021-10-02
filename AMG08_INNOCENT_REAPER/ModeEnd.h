@@ -16,9 +16,11 @@ namespace inr {
 	private:
 		int _count;	// 待ち時間
 		bool _end;	// 処理を終了するか？
+		bool _input; // 入力を受け付けるか？
 		std::unique_ptr<MoveImage> _staffRoll;
 
 		bool IsEnd();	// 
+		bool IsInput();
 	};
 }
 

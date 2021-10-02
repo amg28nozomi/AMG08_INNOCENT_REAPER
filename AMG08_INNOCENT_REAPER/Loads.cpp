@@ -62,7 +62,7 @@ namespace inr {
 		{ enemy::red::SOLDIER_ATTACK, {"Resource/SoldierDoll/sd_r_attack.png", 6, 2, 11, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		// ビッグドール
 		{ enemy::red::BIG_WAKEUP, {"Resource/BigDoll/bd_r_wakeup.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::red::BIG_IDOL, {"Resource/BigDoll/bd_r_stand.png", 3, 1, 3, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_IDOL, {"Resource/BigDoll/bd_r_stand1.png", 3, 4, 11, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_PATROL, {"Resource/BigDoll/bd_r_move.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 5, 1, 5, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_HIPDROP, {"Resource/BigDoll/bd_r_hipdrop.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},

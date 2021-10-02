@@ -23,7 +23,7 @@ namespace {
 	constexpr auto BIG_DOLL_VITAL = 40;
 
 	constexpr auto STAY_MAX = 60;
-	constexpr auto BIG_STAY = 15;
+	constexpr auto BIG_STAY = 11 * 3;
 
 	// çUåÇ
 	constexpr auto ATTACK_VECTOR_MIN = 1.0;

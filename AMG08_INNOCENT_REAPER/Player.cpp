@@ -351,7 +351,7 @@ namespace inr {
 			else if (_stand) {	// 重力加速がない場合はアイドル状態に遷移
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
-			if (_gran) _aState = ActionState::GRAN;
+			// if (_gran) _aState = ActionState::GRAN;
 			return;
 		// 落下時
 		case ActionState::FALL:
@@ -373,7 +373,7 @@ namespace inr {
 				PlaySoundMem(land, soundType);*/
 				ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
-			if (_gran) _aState = ActionState::GRAN;	// 掴み状態に遷移する
+			// if (_gran) _aState = ActionState::GRAN;	// 掴み状態に遷移する
 			return;
 		// 奪うアクション時
 		case ActionState::ROB:
@@ -563,7 +563,7 @@ namespace inr {
 				_moveVector.GetPX() = 1.0 * _speed;
 				_speed = 0;
 			}
-			else {
+			else if (_gran == true){
 				switch (_direction) {
 				case enemy::MOVE_LEFT:
 					_position.GetPX() = _ivx.second + (_mainCollision.GetWidthMax() / 2);
