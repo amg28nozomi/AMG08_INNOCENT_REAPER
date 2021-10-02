@@ -6,7 +6,13 @@ namespace inr {
 
 	namespace tutorial {
 		constexpr auto ROB = "titorial_rob";
+		constexpr auto GIVE = "titorial_give";
+		constexpr auto DASH = "titorial_dash";
+		constexpr auto JUMP = "titorial_jump";
+		constexpr auto  = "titorial_";
 	}
+
+	class TutorialValue;
 
 	class TutorialImage : public Particle_Image {
 	public:
@@ -17,13 +23,13 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
+		void SetTutorialImage(TutorialValue tvalue);	// イメージ情報
+
 	private:
 		bool _isCol;	// 当たり判定によって描画を行うか？
 		AABB _collision;	// 当たり判定
 
 		void IsCollision();
-		void SetImage(ImageValue ivalue, int width = 0, int height = 0);	// イメージ情報
-		void SetImage(ImageValue ivalue, int width1, int width2, int height1, int height2);	// イメージ情報
 	};
 }
 

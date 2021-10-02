@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include <string>
+#include <vector>
 
 namespace inr {
 
@@ -46,6 +47,22 @@ namespace inr {
 		std::string _graph;	// âÊëúÉLÅ[
 		Vector2 _position;	// ç¿ïW
 		ParticleValue _particleValue;
+	};
+
+	class TutorialValue {
+	public:
+		TutorialValue();
+		TutorialValue(ImageValue ivalue, int width = 0, int height = 0);
+		TutorialValue(ImageValue ivalue, int width1, int width2, int height1, int height2);
+
+		inline ImageValue GetImageValue() { return _ivalue; }
+		std::vector<int> Width() { return _width; }
+		std::vector<int> Height() { return _height; }
+
+	private:
+		ImageValue _ivalue;
+		std::vector<int> _width;
+		std::vector<int> _height;
 	};
 }
 

@@ -21,7 +21,9 @@ namespace inr {
 	class EnemyBase;
 	class ObjectValue;
 	class ImageValue;
+	class TutorialValue;
 	class Particle_Image;
+	class TutorialImage;
 
 	using ImageMap = std::unordered_map<int, ImageValue>;
 
@@ -57,6 +59,7 @@ namespace inr {
 		void AddItem(ObjectValue ovalue);
 
 		std::unique_ptr<Particle_Image> AddImage(ImageValue pvalue);
+		bool AddTutorials(const std::string key);
 
 		void LoadObjectData(std::string key, std::vector<ObjectValue> ovalues);	// èÓïÒì«Ç›çûÇ›
 		void LoadImageData(ImageMap imap);

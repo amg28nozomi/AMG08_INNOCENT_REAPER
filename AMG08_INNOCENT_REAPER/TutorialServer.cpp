@@ -1,15 +1,14 @@
 #include "TutorialServer.h"
 #include "TutorialImage.h"
-#include "Loads.h"
 
 namespace inr {
 
 	TutorialServer::TutorialServer() {
-		Init();
+		Clear();
 	}
 
 	TutorialServer::~TutorialServer() {
-		Init();
+		Clear();
 	}
 
 	bool TutorialServer::Clear() {
@@ -18,24 +17,23 @@ namespace inr {
 	}
 
 	bool TutorialServer::Init() {
-		if (_images.empty() != true) return false;	// —v‘f‚ª‚ ‚éê‡‚Íˆ—‚ğs‚í‚È‚¢
-		// ‰æ‘œ“Ç‚İ‚İ
+	}
 
-
+	void TutorialServer::Add(std::unique_ptr<TutorialImage> timage) {
+		_isActive = true;
+		_images.emplace_back(std::move(timage));
 	}
 
 	void TutorialServer::Process() {
 		if (_isActive == false) return;
-		auto images = _images.find(_skey);
-		for (auto&& image : images->second) {
+		for (auto&& image : _images) {
 			image->Draw();
 		}
 	}
 
 	void TutorialServer::Draw() {
 		if (_isActive == false) return;
-		auto images = _images.find(_skey);
-		for (auto&& image : images->second) {
+		for (auto&& image : _images) {
 			image->Draw();
 		}
 	}

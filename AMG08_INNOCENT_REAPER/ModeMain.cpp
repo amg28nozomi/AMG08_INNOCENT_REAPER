@@ -19,6 +19,7 @@
 #include "CrowDoll.h"
 #include "ForeGround.h"
 #include "ItemServer.h"
+#include "TutorialServer.h"
 
 #include <memory>
 #include <unordered_map>
@@ -43,6 +44,7 @@ namespace inr {
 		_messageServer = std::make_unique<ImageServer>(_game.GetGame());
 		_fg = std::make_unique<ForeGround>(_game.GetGame());
 		_itemServer = std::make_unique<ItemServer>();
+		_tutorialServer = std::make_unique<TutorialServer>();
 	}
 
 	ModeMain::~ModeMain() {
@@ -78,6 +80,7 @@ namespace inr {
 			_pause->Init();
 			_messageServer->Init();
 			_bg->ChangeGraph();
+			_tutorialServer->Clear();
 			// _uiSoul->Reset();
 			_resetFlg = true;
 
@@ -144,6 +147,7 @@ namespace inr {
 			_stageUi->ChangeNumber(_changeKey);
 			_fg->SetKey(_changeKey);
 			_eServer->Init();	// 各種エフェクトを消去する
+			_tutorialServer->Clear();
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
 			_game.GetGimmickServer()->Clear();
@@ -222,6 +226,7 @@ namespace inr {
 		// _uiSoul->Init();
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
+		_tutorialServer->Clear();
 		_game.GetGimmickServer()->Clear();
 		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
 		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す

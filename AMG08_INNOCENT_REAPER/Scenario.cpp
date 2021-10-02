@@ -25,6 +25,8 @@
 #include "ItemServer.h"
 #include "Item.h"
 #include "Particle_Image.h"
+#include "TutorialImage.h"
+#include "TutorialServer.h"
 
 namespace {
 	constexpr auto COUNT_MIN = 0;
@@ -326,5 +328,16 @@ namespace inr {
 	void Scenario::BossBlock() {
 		ObjectValue b_block = { oscenario::OBJ_BLOCK, {3840, 820}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE} };
 		AddBlock(b_block);
+	}
+
+	bool Scenario::AddTutorials(const std::string key) {
+		if (key == stage::STAGE_0) {
+			auto ite =  Loads::LoadTutorialF();
+			_game.GetModeServer()->GetModeMain()->GetTutorialServer();
+		}
+		else if (key == stage::STAGE_T) {
+
+		}
+		else return false;
 	}
 }

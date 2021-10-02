@@ -238,12 +238,18 @@ namespace inr {
 		return imap;
 	}
 
-	TutorialMap Loads::LoadTutorialF() {
-		{}
+	std::vector<TutorialValue> Loads::LoadTutorialF() {
+		std::vector<TutorialValue> stageF = {
+
+		};
+		return stageF;
 	}
 
-	TutorialMap Loads::LoadTutorialS() {
+	std::vector<TutorialValue> Loads::LoadTutorialS() {
+		std::vector<TutorialValue> stageS = {
 
+		};
+		return stageS;
 	}
 
 	std::vector<ImageValue> Loads::LoadForeGround1() {

@@ -62,7 +62,7 @@ namespace inr {
 		// アクションの状態
 		enum class ActionState {
 			// 死亡、待機、移動、ダッシュ、奪う、与える、ノックバック、ツタ登り
-			DEATH, IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT, GRAN
+			DEATH, IDOL, MOVE, DASH, JUMP, FALL, ROB, GIVE, HIT, GRAB
 		};
 		enum class State {
 			// 生存、ダメージ、死亡

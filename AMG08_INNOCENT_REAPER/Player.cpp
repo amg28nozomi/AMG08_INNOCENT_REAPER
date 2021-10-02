@@ -425,7 +425,7 @@ namespace inr {
 			_moveVector.GetPX() = _knockBack / HIT_FRAME;	// 移動量
 			break;
 
-		case ActionState::GRAN:
+		case ActionState::GRAB:
 			if (_gran == false || _input == false) {
 				_gran = false;
 				// if (_gravity < 0) ChangeState(ActionState::JUMP, PKEY_JUMP);
@@ -500,7 +500,7 @@ namespace inr {
 		if (_gran == true) return;
 		// Bボタン入力があった場合、蔦登り状態に遷移する
 		if (_game.GetTrgKey() == PAD_INPUT_4) {
-			ChangeState(ActionState::GRAN, PKEY_CLIMB);
+			ChangeState(ActionState::GRAB, PKEY_CLIMB);
 			_gran = true;
 		}
 	}
@@ -523,7 +523,7 @@ namespace inr {
 			if (_direction != direction) _changeDirection = true;
 
 
-			if (_aState != ActionState::GRAN) {
+			if (_aState != ActionState::GRAB) {
 
 				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
 					// 入力情報がある場合
@@ -586,7 +586,7 @@ namespace inr {
 
 			// 向きが変わった場合はフラグを切り替える
 			if (_direction != direction) _changeDirection = true;
-			if (_aState != ActionState::GRAN) {
+			if (_aState != ActionState::GRAB) {
 
 				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
 					// 入力情報がある場合
@@ -720,7 +720,7 @@ namespace inr {
 	}
 
 	void Player::Climb(int leverUD) {
-		if (_aState != ActionState::GRAN) return;	// 掴みフラグがオンではない場合は処理を行わない
+		if (_aState != ActionState::GRAB) return;	// 掴みフラグがオンではない場合は処理を行わない
 		if (-50 < leverUD && leverUD < 50) return;		
 		// 座標変更
 		double spd = (leverUD * MAX_SPPED) / 1000.0;
@@ -932,7 +932,7 @@ namespace inr {
 	// 位置座標更新
 	void Player::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
-		if (_aState != ActionState::GRAN) _moveVector.GetPY() = _gravity;
+		if (_aState != ActionState::GRAB) _moveVector.GetPY() = _gravity;
 		auto isGran = false;
 		// マップチップにめり込んでいる場合は座標を修正
 		auto hitchip = _game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction, &isGran);

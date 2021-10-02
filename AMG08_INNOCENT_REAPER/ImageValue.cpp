@@ -25,4 +25,19 @@ namespace inr {
 		_particle = particle;
 		_exrate = exrate;
 	}
+
+	TutorialValue::TutorialValue() : _ivalue() {
+		_width.emplace_back(0);
+		_height.emplace_back(0);
+	}
+
+	TutorialValue::TutorialValue(ImageValue ivalue, int width, int height) : _ivalue(ivalue) {
+		_width.emplace_back(width);
+		_height.emplace_back(height);
+	}
+
+	TutorialValue::TutorialValue(ImageValue ivalue, int width1, int width2, int height1, int height2) : _ivalue(ivalue) {
+		_width = { width1, width2 };
+		_height = { height1, height2 };
+	}
 }

@@ -54,19 +54,23 @@ namespace inr {
 		} else if (_pal != 0) _animation = animation::A_SUB;
 	}
 
-	void TutorialImage::SetImage(ImageValue ivalue, int width, int height) {
-		Particle_Image::SetImage(ivalue);
-		if (width == 0 && height == 0) {
+	void TutorialImage::SetTutorialImage(TutorialValue tvalue) {
+		auto ivalue = tvalue.GetImageValue();
+		SetImage(ivalue);
+
+		auto width = tvalue.Width();
+		auto height = tvalue.Height();
+
+		if (width.empty() == true) {
 			_isCol = false;
 			return;
 		}
-		_collision = AABB(_pos, width, height, true);
-	}
-
-	void TutorialImage::SetImage(ImageValue ivalue, int width1, int width2, int height1, int height2) {
-		Particle_Image::SetImage(ivalue);
 		_isCol = true;
-		_collision = AABB(_pos, width1, width2, height1, height2, true);
+		if (width.size() == 1) {
+			_collision = AABB(_pos, width.at(0), height.at(0), true);
+			return;
+		}
+		_collision = AABB(_pos, width.at(0), width.at(1), height.at(0), height.at(1), true);
 	}
 
 }

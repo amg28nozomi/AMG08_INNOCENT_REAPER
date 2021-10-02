@@ -1,29 +1,26 @@
 #pragma once
-#include <unordered_map>
 #include <memory>
 #include <vector>
-#include <string>
 
 namespace inr {
 
 	class TutorialImage;
-
-	using TutorialMap = std::unordered_map<std::string, std::vector<ImageValue>>;
 
 	class TutorialServer {
 	public:
 		TutorialServer();
 		~TutorialServer();
 
-		bool Init();
+		bool Init(const std::string key);
 		void Process();
 		void Draw();
 
 		bool Clear();
+
+		void Add(std::unique_ptr<TutorialImage> timage);
 	private:
 		bool _isActive;
-		std::string _skey;	// 現在のステージ
-		std::unordered_map<std::string, std::vector<std::unique_ptr<TutorialImage>>> _images;
+		std::vector<std::unique_ptr<TutorialImage>> _images;
 	};
 }
 

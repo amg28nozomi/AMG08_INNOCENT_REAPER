@@ -13,6 +13,7 @@ namespace inr {
 	class StageUi;
 	class ForeGround;
 	class ItemServer;
+	class TutorialServer;
 
 	class ModeMain : public ModeBase {
 	public:
@@ -36,6 +37,7 @@ namespace inr {
 		std::shared_ptr<EffectServer> GetEffectServer() { return _eServer; }
 		std::unique_ptr<ImageServer>& GetItemImages() { return _messageServer; }
 		std::unique_ptr<ItemServer>& GetItemServer() { return _itemServer; }
+		std::unique_ptr<TutorialServer>& GetTutorialServer() { return _tutorialServer; }
 	private:
 		std::string _stageKey;	// ステージ検索用
 		std::string _changeKey;		// ステージ切り替えよう
@@ -47,6 +49,7 @@ namespace inr {
 		std::unique_ptr<ImageServer> _messageServer;
 		std::unique_ptr<ForeGround> _fg;	// 前景
 		std::unique_ptr<ItemServer> _itemServer;
+		std::unique_ptr<TutorialServer> _tutorialServer;
 
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？
