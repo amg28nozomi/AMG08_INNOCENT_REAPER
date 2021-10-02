@@ -86,6 +86,7 @@ namespace inr {
 		{{enemy::crowdoll::SE_RUSH}, {"Resource/SE/CrowDoll/cd_rush.wav", DX_PLAYTYPE_BACK}},
 		{{enemy::crowdoll::SE_ROAR}, {"Resource/SE/CrowDoll/cd_roar.wav", DX_PLAYTYPE_BACK}},
 		{{enemy::crowdoll::SE_GROWARM}, {"Resource/SE/CrowDoll/cd_growarm.wav", DX_PLAYTYPE_BACK}},
+		{{enemy::crowdoll::SE_BLINK_ATTACK}, {"Resource/SE/CrowDoll/blinkattack.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	// ÉMÉ~ÉbÉNSE

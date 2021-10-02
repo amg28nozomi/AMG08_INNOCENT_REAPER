@@ -247,6 +247,7 @@ namespace inr {
 		case CrowDoll::CrowState::ROAR:
 			return;
 		case CrowDoll::CrowState::BLINK:
+			PlaySe(enemy::crowdoll::SE_BLINK_ATTACK);
 			ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_BLINK);	// èÛë‘êÿÇËë÷Ç¶
 			AddBlinkEffect();
 			return;
@@ -557,10 +558,11 @@ namespace inr {
 	}
 
 	bool CrowDoll::AddSmokeEffect() {
-		Vector2 smoke_pos = { _position.GetX(), (_position.GetY() + (_mainCollision.GetHeightMax() / 2)) };
-		auto smoke_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::HITDROP, smoke_pos, effect::enemy::HIPDROP_MAX);
-		smoke_eff->SetDamageEffect(290, 290, 140, 140, 3);
+		Vector2 smoke_pos = { _position.GetX(), (_position.GetY() + ((_mainCollision.GetHeightMax() / 2) - 75)) };
+		auto smoke_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::HITDROP, smoke_pos, effect::enemy::HIPDROP_MAX * 2);
+		smoke_eff->SetDamageEffect(240, 240, -20, 140, 6);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(smoke_eff), effect::type::FORMER);
+		return true;
 	}
 
 	bool CrowDoll::IsPlayerPosition() {

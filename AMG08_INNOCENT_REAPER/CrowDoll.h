@@ -23,6 +23,7 @@ namespace inr {
 			constexpr auto SE_ROAR = "crow_roar_voice";	// 咆哮ボイス
 			constexpr auto SE_RUSH = "crow_rush";	// 連撃
 			constexpr auto SE_GROWARM = "crow_growarm";	// 地中攻撃
+			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";
 
 			namespace motion {
 				constexpr auto IDOL = 13;
