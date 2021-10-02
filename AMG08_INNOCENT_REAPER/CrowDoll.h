@@ -60,7 +60,7 @@ namespace inr {
 
 			constexpr auto BLINK_ATTACK_W = 560;
 			constexpr auto BLINK_ATTACK_H = 800;
-			constexpr auto BLINL_ATTACK_MAX = 35;
+			constexpr auto BLINL_ATTACK_MAX = 10;
 
 		}
 	}
@@ -135,6 +135,7 @@ namespace inr {
 		bool AddWarpEffect(Vector2 spwan, bool target = false);
 		bool AddRushEffect();
 		bool AddBlinkEffect();	// 攻撃エフェクト
+		bool AddSmokeEffect();
 		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
 
 		bool AttackBox(bool flag);

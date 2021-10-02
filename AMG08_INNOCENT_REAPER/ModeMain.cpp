@@ -53,7 +53,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
-			_stageKey = stage::STAGE_2_1;
+			_stageKey = stage::STAGE_3;
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -80,6 +80,9 @@ namespace inr {
 			_bg->ChangeGraph();
 			// _uiSoul->Reset();
 			_resetFlg = true;
+
+			auto nowbgm = se::SoundServer::GetSound(_bgmKey);
+			StopSoundMem(nowbgm);
 		}
 	}
 

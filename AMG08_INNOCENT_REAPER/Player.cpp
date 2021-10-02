@@ -784,7 +784,7 @@ namespace inr {
 #endif
 			// エフェクトを作成
 			auto rob_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::ROB, _position, 27, _direction);
-			rob_eff->Set(this, _mainCollision.GetWidthMax());
+			rob_eff->Set(this, _mainCollision.GetWidthMax() * 2);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rob_eff), effect::type::FORMER);
 			}
 			_input = false; // 入力を受け付けなくする

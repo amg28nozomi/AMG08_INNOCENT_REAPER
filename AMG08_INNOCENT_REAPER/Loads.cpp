@@ -177,11 +177,12 @@ namespace inr {
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 10, 2,	20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
 
 		{ effect::soldier::OMEN, {"Resource/effect/Enemy/sd_omen.png", 6, 3, effect::soldier::OMEN_NUMS, effect::soldier::OMEN_IMAGE, effect::soldier::OMEN_IMAGE}},
+		{ effect::enemy::HITDROP, {"Resource/effect/Enemy/shockwave.png", 3, 8, effect::enemy::HIPDROP_MAX, effect::enemy::HIPDROP_WIDTH, effect::enemy::HIPDROP_HEIGHT}},
 
 		{ effect::crow::ARM, {"Resource/effect/CrowDoll/arms.png", 5, 5, 24, effect::crow::ARM_WIDTH, effect::crow::ARM_HEIGHT}},
 		{ effect::crow::RUSH, {"Resource/effect/CrowDoll/rush.png", 7, 7, 47, effect::crow::RUSH_WIDTH, effect::crow::RUSH_HEIGHT}},
 		{ effect::crow::BLINK, {"Resource/effect/CrowDoll/blink.png", 5, 2, 10, effect::crow::BLINK_IMAGE, effect::crow::BLINK_IMAGE}},
-		{ effect::crow::BLINK_ATTACK, {"Resource/effect/CrowDoll/blinkattack.png", 7, 5, effect::crow::BLINL_ATTACK_MAX, effect::crow::BLINK_ATTACK_W, effect::crow::BLINK_ATTACK_H}},
+		{ effect::crow::BLINK_ATTACK, {"Resource/effect/CrowDoll/blinkattack.png", 4, 4, effect::crow::BLINL_ATTACK_MAX, effect::crow::BLINK_ATTACK_W, effect::crow::BLINK_ATTACK_H}},
 	};
 
 

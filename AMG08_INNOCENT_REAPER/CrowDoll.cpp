@@ -63,7 +63,7 @@ namespace inr {
 			{enemy::crowdoll::CROW_ROAR , {enemy::crowdoll::motion::ROAR * 4, 50}},
 			{enemy::crowdoll::CROW_DEBUF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
 			{enemy::crowdoll::CROW_DOWN , {enemy::crowdoll::motion::DOWN * 3, 50}},
-			{enemy::crowdoll::CROW_WINCE, {enemy::crowdoll::motion::WINCE * 3, 50}},
+			{enemy::crowdoll::CROW_WINCE, {enemy::crowdoll::motion::WINCE * 5, 50}},
 		};
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;
@@ -363,6 +363,7 @@ namespace inr {
 			// —§‚Á‚Ä‚¢‚éê‡
 			if (_stand == true) {
 				if (_wait != true) {
+					AddSmokeEffect();
 					_wait = true;
 					_atkInterval = 60;
 					break;
@@ -553,6 +554,13 @@ namespace inr {
 		blink_eff->Set(this, 0, -150);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(blink_eff), effect::type::FORMER);
 		return true;
+	}
+
+	bool CrowDoll::AddSmokeEffect() {
+		Vector2 smoke_pos = { _position.GetX(), (_position.GetY() + (_mainCollision.GetHeightMax() / 2)) };
+		auto smoke_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::HITDROP, smoke_pos, effect::enemy::HIPDROP_MAX);
+		smoke_eff->SetDamageEffect(290, 290, 140, 140, 3);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(smoke_eff), effect::type::FORMER);
 	}
 
 	bool CrowDoll::IsPlayerPosition() {

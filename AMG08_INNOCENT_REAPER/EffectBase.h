@@ -19,6 +19,13 @@ namespace inr {
 		constexpr auto GIVE = "give_effect";	// 与えるエフェクト
 
 		constexpr auto S_HIT = "soul_hit_effect";
+
+		namespace enemy {
+			constexpr auto HITDROP = "hipdrop_effect";
+			constexpr auto HIPDROP_WIDTH = 560;
+			constexpr auto HIPDROP_HEIGHT = 280;
+			constexpr auto HIPDROP_MAX = 24;
+		}
 		
 
 		// 画像サイズ
