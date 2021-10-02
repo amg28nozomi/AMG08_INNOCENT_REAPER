@@ -59,7 +59,7 @@ namespace inr {
 			{enemy::crowdoll::CROW_IDOL, {enemy::crowdoll::motion::IDOL * 2, 0}},
 			{enemy::crowdoll::CROW_RUSH , {enemy::crowdoll::motion::RUSH  * 2, 20}},
 			{enemy::crowdoll::CROW_BLINK , {enemy::crowdoll::motion::BLINK * 2, 20}},
-			{enemy::crowdoll::CROW_GROWARM , {enemy::crowdoll::motion::GROWARM * 2, 20}},
+			{enemy::crowdoll::CROW_GROWARM , {enemy::crowdoll::motion::GROWARM * 3, 20}},
 			{enemy::crowdoll::CROW_ROAR , {enemy::crowdoll::motion::ROAR * 4, 50}},
 			{enemy::crowdoll::CROW_DEBUF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
 			{enemy::crowdoll::CROW_DOWN , {enemy::crowdoll::motion::DOWN * 3, 50}},
@@ -359,10 +359,15 @@ namespace inr {
 			}
 			break;
 		case CrowState::BLINK:
-			// 立ち判定がある場合、処理を修正
-			if (_stand == true && AnimationCountMax() == true) {
-				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
-				_atkInterval = 60;
+			// 立っている場合
+			if (_stand == true) {
+				if () {
+					break;
+				}
+				if (AnimationCountMax() == true && _atkInterval == 0) {
+					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+					_atkInterval = 60;
+				}
 				break;
 			}
 			break;
@@ -423,14 +428,19 @@ namespace inr {
 		if (ckey == PKEY_ROB) {	// 魂を奪いにきているか？
 			auto vitalPart = VitalPart(_mainCollision, CROW_VITAL);
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
+					// 各種値を消去
+					_atkInterval = 0;
+					_actionCount = 0;
+					_isAnimation = true;
+					_moveVector = {};
+
 					// 魂を奪われる
 					ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// 怯み状態にする
 					auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 					AddSoul();	// 魂を生み出す
 					--_life;
-					if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 怯み状態にする
-					// ここで死亡処理を行うか判定を行う
+					if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡判定
 					_muteki = 60;	// 一定時間の間、無敵状態にする
 					return;
 			}
@@ -509,7 +519,7 @@ namespace inr {
 
 	bool CrowDoll::AddWarpEffect(Vector2 spwan, bool target) {
 		if (target == true) {
-			auto warp_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK, spwan, 30);
+			auto warp_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK, spwan, 24 * 2);
 			warp_eff->Set(this);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp_eff), effect::type::FORMER);
 			return true;
@@ -530,7 +540,7 @@ namespace inr {
 	}
 
 	bool CrowDoll::AddBlinkEffect() {
-		auto blink_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 2);
+		auto blink_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 3);
 		blink_eff->Set(this);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(blink_eff), effect::type::FORMER);
 		return true;
