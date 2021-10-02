@@ -9,7 +9,11 @@ namespace inr {
 		constexpr auto GIVE = "titorial_give";
 		constexpr auto DASH = "titorial_dash";
 		constexpr auto JUMP = "titorial_jump";
-		constexpr auto  = "titorial_";
+		constexpr auto GRAB = "titorial_grab";
+		constexpr auto INTERACTION = "titorial_interaction";
+		constexpr auto CRYSTAL = "titorial_crystal";
+		constexpr auto LEVER = "titorial_lever";
+		constexpr auto EMPTY = "titorial_empty";
 	}
 
 	class TutorialValue;

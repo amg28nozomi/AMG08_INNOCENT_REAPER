@@ -136,6 +136,7 @@ namespace inr {
 	bool Scenario::AddObjects(const std::string key) {
 		IsLoad(key);
 		AddPlayer();
+		AddTutorials(key);
 		if (_game.GetModeServer()->GetModeMain()->GetItemImages()->IsLoad() == true) LoadImageData(Loads::LoadImages());
 
 		auto it = _scenarios.find(key);
@@ -333,10 +334,21 @@ namespace inr {
 	bool Scenario::AddTutorials(const std::string key) {
 		if (key == stage::STAGE_0) {
 			auto ite =  Loads::LoadTutorialF();
-			_game.GetModeServer()->GetModeMain()->GetTutorialServer();
+			for (auto&& it : ite) {
+				auto timage = std::make_unique<TutorialImage>(_game.GetGame());
+				timage->SetTutorialImage(it);
+				_game.GetModeServer()->GetModeMain()->GetTutorialServer()->Add(std::move(timage));
+			}
+			return true;
 		}
 		else if (key == stage::STAGE_T) {
-
+			auto ite = Loads::LoadTutorialS();
+			for (auto&& it : ite) {
+				auto timage = std::make_unique<TutorialImage>(_game.GetGame());
+				timage->SetTutorialImage(it);
+				_game.GetModeServer()->GetModeMain()->GetTutorialServer()->Add(std::move(timage));
+			}
+			return true;
 		}
 		else return false;
 	}

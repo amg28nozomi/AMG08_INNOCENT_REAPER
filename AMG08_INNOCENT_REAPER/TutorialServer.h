@@ -11,7 +11,7 @@ namespace inr {
 		TutorialServer();
 		~TutorialServer();
 
-		bool Init(const std::string key);
+		/*bool Init(const std::string key);*/
 		void Process();
 		void Draw();
 

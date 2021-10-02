@@ -55,7 +55,12 @@ namespace inr {
 		if (_resetFlg) {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
+#ifdef _DEBUG
+			_stageKey = stage::STAGE_T;
+#endif
+#ifndef _DEBUG
 			_stageKey = stage::STAGE_0;
+#endif
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
 			_worldPosition = { 1920 / 2, 1080 / 2 };
@@ -105,6 +110,7 @@ namespace inr {
 		// どのフラグもオンになっていない場合のみ処理を実行する
 		_bg->Process();
 		_game.GetGimmickServer()->Process();
+		_tutorialServer->Process();
 		_game.GetMapChips()->Process();
 		_eServer->Process();
 		_game.GetObjectServer()->Process();
@@ -118,6 +124,7 @@ namespace inr {
 		_bg->Draw();	// 背景
 		_game.GetGimmickServer()->Draw();	// ギミック
 		_game.GetMapChips()->Draw();	// マップチップ
+		_tutorialServer->Draw();
 		_eServer->DrawBack();	// エフェクト(後)
 		_game.GetObjectServer()->Draw();	// オブジェクト
 		_itemServer->Draw();

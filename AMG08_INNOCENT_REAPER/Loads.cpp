@@ -150,6 +150,16 @@ namespace inr {
 		{ end::STAFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STAFF_ROLL_WIDTH, end::STAFF_ROLL_HEIGHT}},
 		// 
 		{ titles::TITLE_T, {"Resource/t.png", 6, 5, 30, WINDOW_W, WINDOW_H }},
+		// チュートリアルUI
+		{ tutorial::ROB, {"Resource/UI/Tutorial/ui_rob.png", 1, 1, 1, 374, 213 }},
+		{ tutorial::GIVE, {"Resource/UI/Tutorial/ui_give.png", 1, 1, 1, 240, 163 }},
+		{ tutorial::JUMP, {"Resource/UI/Tutorial/ui_jump.png", 1, 1, 1, 268, 143 }},
+		{ tutorial::DASH, {"Resource/UI/Tutorial/ui_dash.png", 1, 1, 1, 271, 141 }},
+		{ tutorial::GRAB, {"Resource/UI/Tutorial/ui_grab.png", 1, 1, 1, 219, 160 }},
+		{ tutorial::INTERACTION, {"Resource/UI/Tutorial/ui_interaction", 1, 1, 1, 243, 143 }},
+		{ tutorial::CRYSTAL, {"Resource/UI/Tutorial/rob_give.png", 1, 1, 1, 390, 161 }},
+		{ tutorial::LEVER, {"Resource/UI/Tutorial/guide_font0.png", 1, 1, 1, 367, 140 }},
+		{ tutorial::EMPTY, {"Resource/UI/Tutorial/guide_font1.png", 1, 1, 1, 342, 139 }},
 	};
 
 	const graph::ResourceServer::DivGraphMap gimmicks{
@@ -239,15 +249,20 @@ namespace inr {
 	}
 
 	std::vector<TutorialValue> Loads::LoadTutorialF() {
+		// ダッシュ
+		// ジャンプ
 		std::vector<TutorialValue> stageF = {
-
+			{ {tutorial::DASH, {1450, 500}, {}}},
+			{ {tutorial::JUMP, {1450, 400}, {}}},
 		};
 		return stageF;
 	}
 
 	std::vector<TutorialValue> Loads::LoadTutorialS() {
+		// 
 		std::vector<TutorialValue> stageS = {
-
+			{{tutorial::GRAB, {350, 800}, {}}, 100, 200},
+			{{tutorial::ROB, {1300, 500}, {}}, 300, 300},
 		};
 		return stageS;
 	}

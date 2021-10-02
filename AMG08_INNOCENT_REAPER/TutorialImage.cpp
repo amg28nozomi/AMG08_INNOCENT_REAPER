@@ -8,7 +8,7 @@
 namespace inr {
 
 	TutorialImage::TutorialImage(Game& game) : Particle_Image(game), _collision(Vector2(), Vector2()) {
-
+		_isCol = false;
 	}
 
 	/*void TutorialImage::Init() {
@@ -35,13 +35,26 @@ namespace inr {
 	}
 
 	void TutorialImage::Draw() {
+#ifdef _DEBUG
+		if (_game.IsDebugMode() == true) { 
+			auto db = _collision;
+			auto min = db.GetMin();
+			auto max = db.GetMax();
+			_game.GetMapChips()->Clamp(min);	// ‰æ‘œˆÊ’u‚ðC³‚·‚é
+			_game.GetMapChips()->Clamp(max);	// ‰æ‘œˆÊ’u‚ðC³‚·‚é
+			DxLib::DrawBox(min.IntX(), min.IntY(), max.IntX(), max.IntY(), GetColor(255, 255, 255), FALSE);
+		}
+#endif
 		if (_isDraw != true) return;
 		Vector2 xy = _pos;
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
 		auto y = xy.IntY();
 		int graph = graph::ResourceServer::GetHandles(_graphKey);
-		DrawRotaGraph(x, y, 1.0, 0, graph, true);
+
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_WIPE, _pal);
+		DrawRotaGraph(x, y, 1.0, 0, graph, TRUE);
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 	}
 
 	void TutorialImage::IsCollision() {
@@ -61,7 +74,14 @@ namespace inr {
 		auto width = tvalue.Width();
 		auto height = tvalue.Height();
 
-		if (width.empty() == true) {
+		if (width.empty() == true ) {
+			_isDraw = true;
+			_isCol = false;
+			return;
+		}
+
+		if (width.size() == 1 && (width[0] == 0 && height[0] == 0)) {
+			_isDraw = true;
 			_isCol = false;
 			return;
 		}

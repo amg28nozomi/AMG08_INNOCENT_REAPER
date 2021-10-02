@@ -14,10 +14,11 @@ namespace inr {
 	bool TutorialServer::Clear() {
 		_isActive = false;
 		_images.clear();
+		return true;
 	}
 
-	bool TutorialServer::Init() {
-	}
+	/*bool TutorialServer::Init() {
+	}*/
 
 	void TutorialServer::Add(std::unique_ptr<TutorialImage> timage) {
 		_isActive = true;
@@ -27,7 +28,7 @@ namespace inr {
 	void TutorialServer::Process() {
 		if (_isActive == false) return;
 		for (auto&& image : _images) {
-			image->Draw();
+			image->Process();
 		}
 	}
 

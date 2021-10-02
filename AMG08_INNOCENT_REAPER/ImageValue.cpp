@@ -27,8 +27,8 @@ namespace inr {
 	}
 
 	TutorialValue::TutorialValue() : _ivalue() {
-		_width.emplace_back(0);
-		_height.emplace_back(0);
+		_width.clear();
+		_height.clear();
 	}
 
 	TutorialValue::TutorialValue(ImageValue ivalue, int width, int height) : _ivalue(ivalue) {
