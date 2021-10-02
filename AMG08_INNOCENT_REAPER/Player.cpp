@@ -428,6 +428,7 @@ namespace inr {
 		case ActionState::GRAN:
 			if (_gran == false || _input == false) {
 				_gran = false;
+				// if (_gravity < 0) ChangeState(ActionState::JUMP, PKEY_JUMP);
 				if (0 <= _gravity) ChangeState(ActionState::FALL, PKEY_FALL);
 				else if(_stand == true) ChangeState(ActionState::IDOL, PKEY_IDOL);
 			}
@@ -661,6 +662,7 @@ namespace inr {
 		// 入力可能状態かつ、立っている場合のみ実行可能
 		if (_input == true && (_stand == true || _gran == true)) {
 			_jumpPower += 1;	// 溜めカウンタを増やす
+			_gravity = -_jumpPower;
 			//// Aキーの入力がない場合、ジャンプを実行
 			ChangeState(ActionState::JUMP, PKEY_JUMP);
 			auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
