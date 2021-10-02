@@ -22,6 +22,7 @@ namespace inr {
 			constexpr auto SE_VOICE = "crow_voice";	// 鳴き声
 			constexpr auto SE_ROAR = "crow_roar_voice";	// 咆哮ボイス
 			constexpr auto SE_RUSH = "crow_rush";	// 連撃
+			constexpr auto SE_GROWARM = "crow_growarm";	// 地中攻撃
 
 			namespace motion {
 				constexpr auto IDOL = 13;
@@ -43,6 +44,7 @@ namespace inr {
 			constexpr auto RUSH = "cd_rush_effect";	// 連続切り
 			constexpr auto GROW = "cd_grow_chage_effect"; // 地中刺し溜め
 			constexpr auto BLINK = "cd_blink_effect";	// 転移
+			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
 
 			constexpr auto ROAR_WIDTH = 3840;
 			constexpr auto ROAR_HEIGHT = 2160;
@@ -55,6 +57,10 @@ namespace inr {
 
 			constexpr auto GROW_IMAGE = 400;
 			constexpr auto BLINK_IMAGE = 800;
+
+			constexpr auto BLINK_ATTACK_W = 560;
+			constexpr auto BLINK_ATTACK_H = 800;
+			constexpr auto BLINL_ATTACK_MAX = 35;
 
 		}
 	}
@@ -127,6 +133,7 @@ namespace inr {
 		// 引数1:生成地点、引数2:追従処理を行うか？(true:追従処理有り, false:追従処理無し)
 		bool AddWarpEffect(Vector2 spwan, bool target = false);
 		bool AddRushEffect();
+		bool AddBlinkEffect();	// 攻撃エフェクト
 		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
 
 		bool AttackBox(bool flag);

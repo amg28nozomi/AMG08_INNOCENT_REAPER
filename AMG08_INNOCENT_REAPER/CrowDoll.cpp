@@ -58,7 +58,7 @@ namespace inr {
 		_motionKey = {
 			{enemy::crowdoll::CROW_IDOL, {enemy::crowdoll::motion::IDOL * 2, 0}},
 			{enemy::crowdoll::CROW_RUSH , {enemy::crowdoll::motion::RUSH  * 2, 20}},
-			{enemy::crowdoll::CROW_BLINK , {enemy::crowdoll::motion::BLINK * 3, 20}},
+			{enemy::crowdoll::CROW_BLINK , {enemy::crowdoll::motion::BLINK * 2, 20}},
 			{enemy::crowdoll::CROW_GROWARM , {enemy::crowdoll::motion::GROWARM * 2, 20}},
 			{enemy::crowdoll::CROW_ROAR , {enemy::crowdoll::motion::ROAR * 4, 50}},
 			{enemy::crowdoll::CROW_DEBUF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
@@ -247,6 +247,7 @@ namespace inr {
 			return;
 		case CrowDoll::CrowState::BLINK:
 			ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_BLINK);	// èÛë‘êÿÇËë÷Ç¶
+			AddBlinkEffect();
 			return;
 		case inr::CrowDoll::CrowState::IDOL:
 			return;
@@ -329,6 +330,7 @@ namespace inr {
 				case 1:
 					ModeChange(CrowState::GROWARM, enemy::crowdoll::CROW_GROWARM);	// èÛë‘êÿÇËë÷Ç¶
 					GetTarget();
+					PlaySe(enemy::crowdoll::SE_GROWARM);
 					break;
 				case 2:
 					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// èÛë‘êÿÇËë÷Ç¶
@@ -524,6 +526,13 @@ namespace inr {
 		auto rush_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::RUSH, _position, 47 * 3, _direction);
 		rush_eff->Set(this, -30, -30);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rush_eff), effect::type::FORMER);
+		return true;
+	}
+
+	bool CrowDoll::AddBlinkEffect() {
+		auto blink_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 2);
+		blink_eff->Set(this);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(blink_eff), effect::type::FORMER);
 		return true;
 	}
 

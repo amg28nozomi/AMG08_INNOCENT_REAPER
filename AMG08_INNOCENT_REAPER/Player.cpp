@@ -123,7 +123,7 @@ namespace {
 	constexpr auto PMF_ROB = PF_ROB * MF_INTERVAL;
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
 	// constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
-	constexpr auto PMF_HIT = 60;
+	constexpr auto PMF_HIT = PF_HIT * 9;
 	constexpr auto PMF_DEATH = 40 * 2;
 	constexpr auto PMF_CLIMB = PF_CLIMB * MF_INTERVAL;
 
