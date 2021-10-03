@@ -25,6 +25,7 @@ namespace inr {
 			constexpr auto SE_GROWARM = "crow_growarm";	// 地中攻撃
 			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";
 			constexpr auto SE_DEBUF = "crow_debuf";	// デバフボイス
+			constexpr auto SE_DEATH = "crow_death";	// 死亡SE
 
 			namespace motion {
 				constexpr auto IDOL = 13;
@@ -49,6 +50,7 @@ namespace inr {
 			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
 			constexpr auto DEBUF = "cd_debuf_effect";	// デバフエフェクト
 			constexpr auto AURA = "cd_aura_effect";
+			constexpr auto DEATH = "cd_death_effect";	// 死亡エフェクト
 
 			constexpr auto ROAR_WIDTH = 3840;
 			constexpr auto ROAR_HEIGHT = 2160;
@@ -95,6 +97,7 @@ namespace inr {
 		int _life;	// 体力
 		int _atkInterval;	// 攻撃の猶予時間
 		int _pattern;	// 行動パターン
+		int _debuffCount;	// デバフを発動するか？
 
 		int _actionCount;	// ラッシュカウント
 
@@ -139,6 +142,7 @@ namespace inr {
 
 		bool IsPlayerPos(double px);	// 自機は左右どちらにいるのか？
 		bool IsDead() override;
+		bool DeathOn();	// 死亡処理の起動
 		bool DollsEnd();
 
 		AABB NowCollision(std::string key) override;

@@ -33,6 +33,8 @@ namespace inr {
 	ModeMain::ModeMain(Game& game) : ModeBase(game) {
 		_resetFlg = true;
 		_bossBattle = false;
+		_bossOpen = false;
+		_isEnding = false;
 		_stageKey = stage::CHANGE_NULL;
 		_changeKey = stage::CHANGE_NULL;
 
@@ -77,6 +79,7 @@ namespace inr {
 			_bossOpen = false;	// ボスの扉
 			_bossBattle = false;
 			_resetFlg = false;
+			_isEnding = false;
 		} else {
 			_game.GetScenario()->Init();
 			_eServer->Init();	// 各種エフェクトを消去する
@@ -190,6 +193,15 @@ namespace inr {
 
 		auto sound = se::SoundServer::GetSound(_bgmKey);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
+	}
+
+	bool ModeMain::BossEnd() {
+		// 現在居るのはボスステージか？
+		if (_stageKey != stage::STAGE_3) return false;
+		if (_bossBattle != true) return false;	// ボス戦中か?
+		_bossBattle = false;	// ボス戦を終了する
+		StopSoundMem(se::SoundServer::GetSound(_bgmKey));	// ボス専BGMを終了する
+		return true;
 	}
 
 	bool ModeMain::BgmManage(std::string nextStage) {

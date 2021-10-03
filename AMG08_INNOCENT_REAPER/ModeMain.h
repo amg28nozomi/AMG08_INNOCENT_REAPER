@@ -34,6 +34,7 @@ namespace inr {
 		inline bool BossFlag() { return _bossBattle; }
 		bool StageReset(); // ステージ情報を戻す（元ゲームオーバー）
 		bool BossBattle();	// ボス戦開始フラグ
+		bool BossEnd();	// ボス戦終了フラグ
 		std::shared_ptr<EffectServer> GetEffectServer() { return _eServer; }
 		std::unique_ptr<ImageServer>& GetItemImages() { return _messageServer; }
 		std::unique_ptr<ItemServer>& GetItemServer() { return _itemServer; }
@@ -54,6 +55,7 @@ namespace inr {
 		bool _isReset;	// 現在のステージの初期化を行うか？（）
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？
 		bool _bossBattle;	// ボス戦は行われているか？
+		bool _isEnding;	// エンディングに移行するか
 
 		Vector2 _worldPosition;	// ワールド座標
 

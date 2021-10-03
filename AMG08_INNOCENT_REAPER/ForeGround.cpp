@@ -31,7 +31,6 @@ namespace inr {
 		auto y = xy.IntY();
 		auto gh = graph::ResourceServer::GetHandles(_graphKey, 0);
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);
-		BackDraw();
 	}
 
 	bool ForeGround::SetKey(const std::string key) {
@@ -56,14 +55,6 @@ namespace inr {
 		default:
 			return false;
 		}
-	}
-
-	void ForeGround::BackDraw() {
-		if (_draw != true) return;
-		Vector2 xy = { fgd::FORE_OBJ_W / 2, fgd::FORE_OBJ_H / 2 };
-		_game.GetMapChips()->Clamp(xy);
-		auto gh = graph::ResourceServer::GetHandles(fgd::FORE_OBJ, 0);
-		DrawRotaGraph(xy.IntX(), xy.IntY(), 1.0, 0, gh, true, false);
 	}
 
 	int ForeGround::CheckKey(const std::string key) {

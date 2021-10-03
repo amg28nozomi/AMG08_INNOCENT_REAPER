@@ -35,6 +35,9 @@ namespace {
 	constexpr auto FLOAT_MAX = 540;
 
 	constexpr auto LIFE_MAX = 5; // 10
+
+	constexpr auto DEBUFF_COUNT_MIN = 0;
+	constexpr auto DEBUFF_COUNT_MAX = 5;
 }
 
 namespace inr {
@@ -762,6 +765,15 @@ namespace inr {
 		rush->second.GetbDrawFlg() = flag;
 #endif
 		return true;
+	}
+
+	bool CrowDoll::DeathOn() {
+		// 耐久値がある場合は生存している
+		if (_life != 0) return false;
+		_game.GetModeServer()->GetModeMain()->BossEnd();	// ボス戦を終了する
+		ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡状態に移行する
+		// 現在の地点に死亡エフェクトを発生させる
+		auto death_eff = std::make_unique<EffectBase>(_game.GetGame(), )
 	}
 
 	bool CrowDoll::DollsEnd() {

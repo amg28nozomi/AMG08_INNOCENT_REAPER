@@ -14,10 +14,6 @@ namespace inr {
 		constexpr auto FORE_STAGE2_2 = "fore_stage2_2";
 		constexpr auto FORE_STAGE3 = "fore_stageb";
 
-		constexpr auto FORE_OBJ = "fore_stage0_obj";
-		constexpr auto FORE_OBJ_W = 1920;
-		constexpr auto FORE_OBJ_H = 2160;
-
 		constexpr auto FORE0_W = 3840;
 		constexpr auto FORE0_H = 2160;
 
@@ -52,7 +48,6 @@ namespace inr {
 		bool _draw;	// ’Ç‰Á•`‰æ
 
 		int CheckKey(const std::string key);
-		void BackDraw();
 	};
 }
 

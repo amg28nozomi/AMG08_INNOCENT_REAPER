@@ -144,8 +144,6 @@ namespace inr {
 		{ fgd::FORE_STAGE2_2,  {"Resource/ForeGround/fg_stage2-2.png", 1, 1, 1, fgd::FORE2_2_W, fgd::FORE2_2_H}},
 		{ fgd::FORE_STAGE3,  {"Resource/ForeGround/fg_stageboss.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}}, 
 
-		{ fgd::FORE_OBJ, {"Resource/ForeGround/fg_stage0_f.png", 1, 1, 1, fgd::FORE_OBJ_W, fgd::FORE_OBJ_H}},
-
 		// スタッフロール
 		{ end::STAFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STAFF_ROLL_WIDTH, end::STAFF_ROLL_HEIGHT}},
 		// チュートリアルUI
