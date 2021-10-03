@@ -57,7 +57,7 @@ namespace inr {
 				constexpr auto ESCAPE_SIZE = 13;*/
 
 				constexpr auto WAKEUP_SIZE = 5;
-				constexpr auto IDOL_SIZE = 3;
+				constexpr auto IDOL_SIZE = 11;
 				constexpr auto PATROL_SIZE = 4;
 				constexpr auto ESCAPE_SIZE = 5;
 			}

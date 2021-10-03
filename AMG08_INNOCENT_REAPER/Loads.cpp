@@ -236,6 +236,8 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(image::particle::STAGE_UI, sui_path, image::particle::STAGE_UI, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H);
 		std::string crow_path = "Resource/effect/CrowDoll/";
 		graph::ResourceServer::SetLoadGraph(effect::crow::ROAR, crow_path + "roar/", "roar", 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT);
+		std::string debuf_path = "Resource/effect/CrowDoll/debuf/";
+		graph::ResourceServer::SetLoadGraph(effect::crow::DEBUF, debuf_path, "debuf_", effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H);
 	}
 
 	ImageMap Loads::LoadImages() {

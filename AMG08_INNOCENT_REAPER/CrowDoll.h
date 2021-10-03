@@ -24,6 +24,7 @@ namespace inr {
 			constexpr auto SE_RUSH = "crow_rush";	// 連撃
 			constexpr auto SE_GROWARM = "crow_growarm";	// 地中攻撃
 			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";
+			constexpr auto SE_DEBUF = "crow_debuf";	// デバフボイス
 
 			namespace motion {
 				constexpr auto IDOL = 13;
@@ -46,6 +47,7 @@ namespace inr {
 			constexpr auto GROW = "cd_grow_chage_effect"; // 地中刺し溜め
 			constexpr auto BLINK = "cd_blink_effect";	// 転移
 			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
+			constexpr auto DEBUF = "cd_debuf_effect";	// デバフエフェクト
 
 			constexpr auto ROAR_WIDTH = 3840;
 			constexpr auto ROAR_HEIGHT = 2160;
@@ -62,6 +64,8 @@ namespace inr {
 			constexpr auto BLINK_ATTACK_W = 560;
 			constexpr auto BLINK_ATTACK_H = 800;
 			constexpr auto BLINL_ATTACK_MAX = 10;
+
+			constexpr auto DEBUF_MAX = 10;
 
 		}
 	}
@@ -125,6 +129,7 @@ namespace inr {
 
 		bool IsGravity();	// 重力処理を行うか？
 		bool IsAttackEnd();	// 強制終了
+		bool AngerOn();	// 怒り状態に遷移する
 
 		bool IsPlayerPos(double px);	// 自機は左右どちらにいるのか？
 
@@ -138,6 +143,8 @@ namespace inr {
 		bool AddRushEffect();
 		bool AddBlinkEffect();	// 攻撃エフェクト
 		bool AddSmokeEffect();
+		bool AddAngerEffect();	// 怒りエフェクト
+		bool AddDebufEffect();
 		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
 
 		bool AttackBox(bool flag);

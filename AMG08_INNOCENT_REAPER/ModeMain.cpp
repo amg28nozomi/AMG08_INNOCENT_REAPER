@@ -56,7 +56,7 @@ namespace inr {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
 #ifdef _DEBUG
-			_stageKey = stage::STAGE_T;
+			_stageKey = stage::STAGE_2_1;
 #endif
 #ifndef _DEBUG
 			_stageKey = stage::STAGE_0;

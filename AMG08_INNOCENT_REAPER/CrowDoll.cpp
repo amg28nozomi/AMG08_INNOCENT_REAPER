@@ -218,6 +218,14 @@ namespace inr {
 	}
 
 	bool CrowDoll::Floating() {
+		if (_cState == CrowState::WINCE) {
+			if (_position.GetY() + _gravity <= DEFAULT_Y) {
+				_position.GetPY() = DEFAULT_Y;
+				_gravity = 0;
+				return true;
+			}
+		}
+
 		if (_cState == CrowState::IDOL || _cState == CrowState::ROAR) {
 			if (_position.GetY() <= DEFAULT_Y) return false;
 			_gravity -= 0.25;
@@ -571,6 +579,14 @@ namespace inr {
 		auto smoke_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::HITDROP, smoke_pos, effect::enemy::HIPDROP_MAX * 2);
 		smoke_eff->SetDamageEffect(240, 240, -20, 140, 6, 15);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(smoke_eff), effect::type::FORMER);
+		return true;
+	}
+
+	bool CrowDoll::AddDebufEffect() {
+		Vector2 debuf_pos = { static_cast<double>(HALF_WINDOW_W), static_cast<double>(HALF_WINDOW_H) };
+		auto debuf = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::DEBUF, debuf_pos, effect::crow::DEBUF_MAX * 3);
+		debuf->SetLoop(3);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(debuf), effect::type::FORMER);
 		return true;
 	}
 
