@@ -61,18 +61,18 @@ namespace inr {
 			{enemy::BIG_EMPTY, {_position, BIG_EMPTY_WIDTH / 2, BIG_EMPTY_WIDTH / 2, 0, BIG_EMPTY_HEIGHT, true}},
 		};
 		_motionKey = {
-			{ enemy::BIG_EMPTY, {19 * 3, 0}},
+			{ enemy::BIG_EMPTY, {7 * 3, 0}},
 			
-			{ enemy::red::BIG_WAKEUP, {18 * 3, 0}},
+			{ enemy::red::BIG_WAKEUP, {enemy::red::big::WAKEUP_SIZE * 3, 0}},
 			{ enemy::red::BIG_IDOL, {BIG_STAY, 0}},
-			{ enemy::red::BIG_PATROL, {11 * 3, 0}},
-			{ enemy::red::BIG_TACKLE, {11 * 3, 0}},
-			{ enemy::red::BIG_HIPDROP, {11 * 3, 0}},
+			{ enemy::red::BIG_PATROL, {enemy::red::big::MOVE_SIZE * 3, 0}},
+			{ enemy::red::BIG_TACKLE, {enemy::red::big::ATTACK_SIZE * 3, 0}},
+			{ enemy::red::BIG_HIPDROP, {enemy::red::big::HIPDROP_SIZE * 3, 0}},
 
-			{ enemy::blue::BIG_WAKEUP, {18 * 3, 0}},
+			{ enemy::blue::BIG_WAKEUP, {enemy::blue::big::WAKEUP_SIZE * 4, 0}},
 			{ enemy::blue::BIG_IDOL, {BIG_STAY, 0}},
-			{ enemy::blue::BIG_PATROL, {11 * 3, 0} },
-			{ enemy::blue::BIG_ESCAPE, {10 * 3, 50}},
+			{ enemy::blue::BIG_PATROL, {enemy::blue::big::PATROL_SIZE * 5, 0} },
+			{ enemy::blue::BIG_ESCAPE, {enemy::blue::big::ESCAPE_SIZE, 50}},
 		};
 		_moveCount = 0;
 	}

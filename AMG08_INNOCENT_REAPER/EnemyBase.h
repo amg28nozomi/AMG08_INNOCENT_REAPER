@@ -23,6 +23,20 @@ namespace inr {
 			constexpr auto BIG_PATROL = "big_r_patrol";		// 巡回
 			constexpr auto BIG_TACKLE = "big_r_tackle";		// 攻撃（タックル）
 			constexpr auto BIG_HIPDROP = "big_r_hipdrop";	// 攻撃（ヒップドロップ）
+
+			namespace big {
+				/*constexpr auto WAKEUP_SIZE = 17;
+				constexpr auto IDOL_SIZE = 11;
+				constexpr auto MOVE_SIZE = 13;
+				constexpr auto ATTACK_SIZE = 11;
+				constexpr auto HIPDROP_SIZE = 11;*/
+
+				constexpr auto WAKEUP_SIZE = 5;
+				constexpr auto IDOL_SIZE = 3;
+				constexpr auto MOVE_SIZE = 5;
+				constexpr auto ATTACK_SIZE = 5;
+				constexpr auto HIPDROP_SIZE = 7;
+			}
 		}
 
 		namespace blue { // 青の魂
@@ -35,6 +49,18 @@ namespace inr {
 			constexpr auto BIG_IDOL = "big_b_stand";
 			constexpr auto BIG_PATROL = "big_b_patrol";
 			constexpr auto BIG_ESCAPE = "big_b_escape";
+
+			namespace big {
+				/*constexpr auto WAKEUP_SIZE = 18;
+				constexpr auto IDOL_SIZE = 11;
+				constexpr auto PATROL_SIZE = 11;
+				constexpr auto ESCAPE_SIZE = 13;*/
+
+				constexpr auto WAKEUP_SIZE = 5;
+				constexpr auto IDOL_SIZE = 3;
+				constexpr auto PATROL_SIZE = 4;
+				constexpr auto ESCAPE_SIZE = 5;
+			}
 		}
 
 		constexpr auto ESCAPE_MAX = 1000;
