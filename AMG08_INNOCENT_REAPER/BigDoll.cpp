@@ -27,8 +27,8 @@ namespace {
 
 	// çUåÇ
 	constexpr auto ATTACK_VECTOR_MIN = 1.0;
-	constexpr auto ATTACK_VECTOR_MAX = 2.5;
-	constexpr auto ADD_VECTOR = 0.1;
+	constexpr auto ATTACK_VECTOR_MAX = 4.0;
+	constexpr auto ADD_VECTOR = 0.15;
 
 	constexpr auto TACKLE_MAX = 1200;
 
@@ -221,12 +221,13 @@ namespace inr {
 				if (0 <= _actionX) _actionX = 0;
 
 			} else if (0 < _actionX) {
-				if (-ATTACK_VECTOR_MAX < _atkVec) _atkVec += ADD_VECTOR;
+				if (_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
 				_actionX -= _atkVec;
 				_moveVector.GetPX() = _atkVec;
 				if (_actionX <= 0) _actionX = 0;
 			}
-			if(_actionX == 0) ChangeIdol(BIG_STAY * 3);
+			if(_actionX == 0)
+				ChangeIdol(BIG_STAY * 3);
 			return;
 		case ActionState::ESCAPE:
 			if (_stand == true && _moveCount == 0) {
