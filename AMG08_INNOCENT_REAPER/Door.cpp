@@ -105,6 +105,9 @@ namespace inr {
 	}
 
 	void Door::SwitchOff() {
+		auto sound = se::SoundServer::GetSound(gimmick::door::SE_CLOSE_DOOR);
+		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+
 		_switch = gimmick::OFF;
 		_ismove = true;
 #ifdef _DEBUG

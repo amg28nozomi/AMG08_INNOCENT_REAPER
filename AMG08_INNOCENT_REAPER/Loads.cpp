@@ -187,7 +187,7 @@ namespace inr {
 		{ effect::ROB, {"Resource/effect/Player/rob.png", 3, 3, 9, effect::ROB_IMAGE, effect::ROB_IMAGE}},	// 奪うアクション
 		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},	// ダメージ
 		{ effect::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::SHIT_IMAGE, effect::SHIT_IMAGE}},
-		{ effect::GIVE, {"Resource/effect/Player/give.png", 10, 2,	20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
+		{ effect::GIVE, {"Resource/effect/Player/give.png", 5, 4, 20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
 
 		{ effect::soldier::OMEN, {"Resource/effect/Enemy/sd_omen.png", 6, 3, effect::soldier::OMEN_NUMS, effect::soldier::OMEN_IMAGE, effect::soldier::OMEN_IMAGE}},
 		{ effect::enemy::HITDROP, {"Resource/effect/Enemy/shockwave.png", 3, 8, effect::enemy::HIPDROP_MAX, effect::enemy::HIPDROP_WIDTH, effect::enemy::HIPDROP_HEIGHT}},

@@ -155,11 +155,10 @@ namespace inr {
 		if (ckey == PKEY_ROB) {
 			if (_soul != nullptr) {
 				if (_mainCollision.HitCheck(acollision)) {
-					auto sound = se::SoundServer::GetSound(gimmick::door::SE_CLOSE_DOOR);
-					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 					// 扉を両方閉じる
 					for (auto door_c : _doors) door_c->SwitchOff();
-					
+					auto sound = se::SoundServer::GetSound(gimmick::crystal::KEY_ROB);
+					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 
@@ -184,6 +183,9 @@ namespace inr {
 				if (_soul == nullptr) {
 					// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
 					if (_mainCollision.HitCheck(acollision)) {
+						auto sound = se::SoundServer::GetSound(gimmick::crystal::KEY_GIVE);
+						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
+
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						GraphKey();	// 画像切り替え

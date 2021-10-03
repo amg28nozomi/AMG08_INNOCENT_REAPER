@@ -36,7 +36,7 @@ namespace inr {
 		constexpr auto HIT_IMAGE_H = 430;
 
 		constexpr auto SHIT_IMAGE = 400;
-		constexpr auto GIVE_IMAGE = 140;
+		constexpr auto GIVE_IMAGE = 200;
 
 		namespace soldier {
 			constexpr auto OMEN = "sd_omen_effect";

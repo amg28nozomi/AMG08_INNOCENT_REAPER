@@ -53,6 +53,10 @@ namespace inr {
 			// ƒTƒEƒ“ƒh
 			constexpr auto KEY_CRYSTAL = "crystal_se";
 			constexpr auto SE_CRYSTAL = 40;
+			// °‚ğæ‚ç‚ê‚½
+			constexpr auto KEY_ROB = "crystal_rob_se";
+			// °‚ğ—^‚¦‚ç‚ê‚½
+			constexpr auto KEY_GIVE = "crystal_give_se";
 		}
 
 		// ”à

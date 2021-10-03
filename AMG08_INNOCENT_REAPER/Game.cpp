@@ -93,7 +93,12 @@ namespace inr {
 	const se::SoundServer::SoundMap gimmick_se{
 		{ {gimmick::lever::KEY_LEVER}, {"Resource/SE/Gimmick/lever.wav", DX_PLAYTYPE_BACK}},
 		{ {gimmick::block::KEY_BLOCK}, {"Resource/SE/Gimmick/breakblok.wav", DX_PLAYTYPE_BACK}},
+
 		{ {gimmick::crystal::KEY_CRYSTAL}, {"Resource/SE/Gimmick/crystal.wav", DX_PLAYTYPE_BACK}},
+
+		{ {gimmick::crystal::KEY_ROB}, {"Resource/SE/Gimmick/crystal_out.wav", DX_PLAYTYPE_BACK}},
+		{ {gimmick::crystal::KEY_GIVE}, {"Resource/SE/Gimmick/crystal_in.wav", DX_PLAYTYPE_BACK}},
+
 		{ {gimmick::door::KEY_DOOR}, {"Resource/SE/Gimmick/door.wav", DX_PLAYTYPE_BACK}},
 
 		{ {gimmick::door::SE_CLOSE_DOOR}, {"Resource/SE/Gimmick/door_close.wav", DX_PLAYTYPE_BACK}},
