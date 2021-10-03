@@ -91,7 +91,7 @@ namespace inr {
 		double _jumpPower;	// ジャンプ溜め
 		std::pair<double, double> _ivx;
 		bool _input;	// 入力処理を受け付けるか
-		bool _gran;	// 掴み判定
+		bool _grab;	// 掴み判定
 		bool _sChange;	// ステージが変わったかどうか
 		// std::string _divKey;	// 読み込み用識別キー
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
@@ -124,8 +124,8 @@ namespace inr {
 		bool IsStandChip() override;
 		void DamageThorm();	// 棘のダメージ処理
 
-		void IsGran();	// 当たり判定等の処理
-		void Gran();
+		void IsGrab();	// 当たり判定等の処理
+		void Grab();
 
 		void StateUpdate();	// 状態遷移およびその他処理
 

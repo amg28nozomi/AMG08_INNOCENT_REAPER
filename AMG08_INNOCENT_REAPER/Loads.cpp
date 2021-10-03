@@ -133,7 +133,7 @@ namespace inr {
 		{ item::MESSAGE_2, {"Resource/Item/message3.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_3, {"Resource/Item/message4.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 
-		{ item::ITEM, {"Resource/Item/item.png", 4, 2, 8, item::ITEM_IMAGE, item::ITEM_IMAGE}},
+		{ item::ITEM, {"Resource/Item/item.png", 13, 3, 28, item::ITEM_IMAGE, item::ITEM_IMAGE}},
 
 		// ‘OŒi
 		{ fgd::FORE_STAGE0, {"Resource/ForeGround/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
@@ -263,6 +263,11 @@ namespace inr {
 		std::vector<TutorialValue> stageS = {
 			{{tutorial::GRAB, {350, 800}, {}}, 100, 200},
 			{{tutorial::ROB, {1300, 500}, {}}, 300, 300},
+			{{tutorial::GIVE, {2400, 500}, {}}, 300, 300},
+			{{tutorial::EMPTY, {3050, 600}, {}}, 100, 200},
+			{{tutorial::LEVER, {3300, 400}, {}}, 125, 150},
+			{{tutorial::CRYSTAL, {4800, 550}, {}}, 300, 300},
+
 		};
 		return stageS;
 	}

@@ -222,7 +222,7 @@ namespace inr {
 		Move(leverLR); // 移動処理（レバー入力受付のため停止中）
 		Climb(leverUD);	// 上下移動（レバー入力受付のため停止中）
 		Action(key); // アクション
-		Gran();
+		Grab();
 		Dash();	// ダッシュ
 		Jump(); // ジャンプ処理
 
@@ -426,8 +426,8 @@ namespace inr {
 			break;
 
 		case ActionState::GRAB:
-			if (_gran == false || _input == false) {
-				_gran = false;
+			if (_grab == false || _input == false) {
+				_grab = false;
 				// if (_gravity < 0) ChangeState(ActionState::JUMP, PKEY_JUMP);
 				if (0 <= _gravity) ChangeState(ActionState::FALL, PKEY_FALL);
 				else if(_stand == true) ChangeState(ActionState::IDOL, PKEY_IDOL);
@@ -494,22 +494,22 @@ namespace inr {
 		return false;
 	}
 
-	void Player::IsGran() {
+	void Player::IsGrab() {
 		// 蔦と接触しているかどうか
 		if (_input != true) return;	//　入力を受け付けていない場合は、掴めない
-		if (_gran == true) return;
+		if (_grab == true) return;
 		// Bボタン入力があった場合、蔦登り状態に遷移する
 		if (_game.GetTrgKey() == PAD_INPUT_4) {
 			ChangeState(ActionState::GRAB, PKEY_CLIMB);
-			_gran = true;
+			_grab = true;
 		}
 	}
 
-	void Player::Gran() {
+	void Player::Grab() {
 		// if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
 		auto hand = _collisions.find(PKEY_CLIMB);
-		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, &_ivx,_direction)) IsGran();
-		else _gran = false;
+		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, &_ivx,_direction)) IsGrab();
+		else _grab = false;
 	}
 
 	void Player::Move(int lever) {
@@ -563,8 +563,7 @@ namespace inr {
 				// 移動ベクトル代入
 				_moveVector.GetPX() = 1.0 * _speed;
 				_speed = 0;
-			}
-			else if (_gran == true){
+			} else if (_aState == ActionState::GRAB && _grab == true){
 				switch (_direction) {
 				case enemy::MOVE_LEFT:
 					_position.GetPX() = _ivx.second + (_mainCollision.GetWidthMax() / 2);
@@ -646,7 +645,7 @@ namespace inr {
 				it->second.GetCollisionFlgB() = true;*/
 				_dashX = DASH_MAX;
 				_input = false;	// 他アクションの入力を停止する
-				_gran = false;
+				_grab = false;
 
 				double fix = 0;
 				(_direction == enemy::MOVE_LEFT) ? fix = DASH_EFFECT : fix = -DASH_EFFECT;
@@ -660,7 +659,7 @@ namespace inr {
 
 	void Player::InputJump() {
 		// 入力可能状態かつ、立っている場合のみ実行可能
-		if (_input == true && (_stand == true || _gran == true)) {
+		if (_input == true && (_stand == true || _grab == true)) {
 			_jumpPower += 1;	// 溜めカウンタを増やす
 			_gravity = -_jumpPower;
 			//// Aキーの入力がない場合、ジャンプを実行
@@ -677,7 +676,7 @@ namespace inr {
 			// auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
 			// 飛距離が最大値を超えた場合は修正
 			// _gravity = -jumpPower;
-			_gran = false;
+			_grab = false;
 			_isJump = true;
 			_stand = false;
 		}
@@ -1058,7 +1057,7 @@ namespace inr {
 #endif
 
 		ChangeState(ActionState::IDOL, PKEY_IDOL);
-		_gran = false;
+		_grab = false;
 		_isJump = false;
 		return true;
 	}

@@ -728,9 +728,9 @@ namespace inr {
 				Vector2 cmin = { static_cast<double>(x * _nowMap.ChipSizeWidth() + c.GetMin().IntX()), static_cast<double>(y * _nowMap.ChipSizeHeight() + c.GetMin().IntY()) };
 				Vector2 cmax = { static_cast<double>(x * _nowMap.ChipSizeWidth() + c.GetMax().IntX()), static_cast<double>(y * _nowMap.ChipSizeHeight() + c.GetMax().IntY()) };
 				AABB cBox = { cmin, cmax, true };
-				if (cBox.HitCheck(box) == true)
-					*ivx = std::make_pair(cmin.GetX(), cmax.GetX());
-					return true;
+				/*if (cBox.HitCheck(box) == true)*/
+				*ivx = std::make_pair(cmin.GetX(), cmax.GetX());
+				return true;
 			}
 		}
 		return false;	// ƒqƒbƒg‚µ‚È‚©‚Á‚½

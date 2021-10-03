@@ -12,7 +12,7 @@
 #include "SoundServer.h"
 
 namespace {
-	constexpr auto ITEM_MAX = 40;
+	constexpr auto ITEM_MAX = 28 * 2;
 }
 
 namespace inr {
