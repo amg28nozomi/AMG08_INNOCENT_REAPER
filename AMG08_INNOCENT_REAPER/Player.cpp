@@ -127,6 +127,11 @@ namespace {
 	constexpr auto PMF_DEATH = 40 * 2;
 	constexpr auto PMF_CLIMB = PF_CLIMB * MF_INTERVAL;
 
+	constexpr auto MOVE_DEFAULT = 1.0;
+	constexpr auto MOVE_DEBUFF = 0.5; // 
+
+	constexpr auto DEBUFF_MAX = 60 * 5;
+
 }
 
 namespace inr {
@@ -141,8 +146,10 @@ namespace inr {
 		_knockBack = 0;
 		_dashInterval = 0;
 		_judegFrame = 0;
+		_debuffCount = 0;
 		_moveType = "";
 		_landingType = "";
+		_moveD = MOVE_DEFAULT;
 
 		_souls;
 		// _souls.push(nullptr);
@@ -216,6 +223,12 @@ namespace inr {
 		auto leverLR = _game.GetLeverLR();
 		auto leverUD = _game.GetLeverUD();
 		auto key = _game.GetTrgKey();
+		// デバフ処理がある場合
+		if (_moveD == MOVE_DEBUFF) {
+			if (_debuffCount == 0) {
+				_moveD = MOVE_DEFAULT;
+			} else --_debuffCount;
+		}
 
 		/*Move();
 		Climb();*/
@@ -561,7 +574,7 @@ namespace inr {
 				// 座標変更
 				_speed = (lever * MAX_SPPED) / 1000;
 				// 移動ベクトル代入
-				_moveVector.GetPX() = 1.0 * _speed;
+				_moveVector.GetPX() = _moveD * _speed;
 				_speed = 0;
 			} else if (_aState == ActionState::GRAB && _grab == true){
 				switch (_direction) {
@@ -877,6 +890,8 @@ namespace inr {
 	bool Player::Debuf() {
 		// 自機はアイテムを保持しているか？
 		// 保持していない場合、一定時間の間移動速度にマイナス補正がかかる
+		_debuffCount = DEBUFF_MAX;
+		_moveD = DEBUFF_MAX;
 		return true;
 	}
 
@@ -1038,6 +1053,8 @@ namespace inr {
 		// 各種初期化処理実行
 		_input = false;
 		_sChange = true;
+		_debuffCount = 0;
+		_moveD = MOVE_DEFAULT;
 		_ivx = std::make_pair(0, 0);
 		_position = _oValue.Positions().at(0);
 		_direction = _oValue.Direction();

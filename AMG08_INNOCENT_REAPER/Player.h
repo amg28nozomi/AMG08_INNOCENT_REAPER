@@ -74,12 +74,14 @@ namespace inr {
 		std::queue<std::shared_ptr<SoulSkin>> _souls;
 
 		double _dashX;	// ダッシュの最大移動距離(座標)
+		double _moveD;	// 移動倍率
 
 		int _pal;
 		
 		int _judegFrame;	// 判定フレーム数
 		int _aFrame;	// アクション実行のためのフレーム
 		int _sounds;
+		int _debuffCount;	// デバフカウンタ
 
 		int _hitCount;	// 判定フレーム(アクション)
 

@@ -13,10 +13,10 @@ namespace inr {
 		~LoopEffect() = default;
 
 		void Process() override;
-		void SetOwner(std::shared_ptr<ObjectBase> owner);	// 所有者の設定
+		void SetOwner(ObjectBase* owner);	// 所有者の設定
 
 	private:
-		std::shared_ptr<ObjectBase> _owner;	// 所有者
+		ObjectBase* _owner;	// 所有者
 		bool IsEnd();
 		bool Move();
 	};

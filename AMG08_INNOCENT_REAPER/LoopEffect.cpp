@@ -7,14 +7,15 @@
 
 namespace inr {
 
-	LoopEffect::LoopEffect(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false) : EffectBase(game, gh, spawnpos, maxFrame, direction) {
+	LoopEffect::LoopEffect(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction) : EffectBase(game, gh, spawnpos, maxFrame, direction) {
 		_owner = nullptr;
 	}
 
 	void LoopEffect::Process() {
 		IsEnd();
+		Move();
 
-		if (_count == (_alive)) {
+		if (_count == (_alive - 1)) {
 			_count = 0;
 		} else ++_count;
 	}
@@ -28,7 +29,7 @@ namespace inr {
 		return true;
 	}
 
-	void LoopEffect::SetOwner(std::shared_ptr<ObjectBase> owner) {
+	void LoopEffect::SetOwner(ObjectBase* owner) {
 		_owner = std::move(owner);
 	}
 

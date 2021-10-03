@@ -54,8 +54,8 @@ namespace inr {
 	// ソルジャードールの各種モーション
 	const graph::ResourceServer::DivGraphMap enemys {
 		// 魂が空の状態
-		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 7, 1, 7, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
-		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 3, 7, 19, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 6, 4, 19, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
+		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 赤い魂の状態
 		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 6, 3, 17, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 6, 2, 11, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
@@ -84,7 +84,7 @@ namespace inr {
 		{ enemy::crowdoll::CROW_IDOL, {"Resource/CrowDoll/cd_float.png", 2, 7, enemy::crowdoll::motion::IDOL, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_RUSH, {"Resource/CrowDoll/cd_rush.png", 2, 18, enemy::crowdoll::motion::RUSH, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_BLINK, {"Resource/CrowDoll/cd_blink.png", 2, 7, enemy::crowdoll::motion::BLINK, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
-		{ enemy::crowdoll::CROW_DEBUF, {"Resource/CrowDoll/cd_debuf.png", 2, 11, enemy::crowdoll::motion::DEBUF, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
+		{ enemy::crowdoll::CROW_DEBUFF, {"Resource/CrowDoll/cd_debuff.png", 2, 11, enemy::crowdoll::motion::DEBUF, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_GROWARM, {"Resource/CrowDoll/cd_growarm.png", 2, 5, enemy::crowdoll::motion::GROWARM, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_WINCE, {"Resource/CrowDoll/cd_wince.png", 2, 4, enemy::crowdoll::motion::WINCE, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_ROAR, {"Resource/CrowDoll/cd_roar.png", 2, 6, enemy::crowdoll::motion::ROAR, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
@@ -196,6 +196,7 @@ namespace inr {
 		{ effect::crow::RUSH, {"Resource/effect/CrowDoll/rush.png", 7, 7, 47, effect::crow::RUSH_WIDTH, effect::crow::RUSH_HEIGHT}},
 		{ effect::crow::BLINK, {"Resource/effect/CrowDoll/blink.png", 5, 2, 10, effect::crow::BLINK_IMAGE, effect::crow::BLINK_IMAGE}},
 		{ effect::crow::BLINK_ATTACK, {"Resource/effect/CrowDoll/blinkattack.png", 4, 4, effect::crow::BLINL_ATTACK_MAX, effect::crow::BLINK_ATTACK_W, effect::crow::BLINK_ATTACK_H}},
+		{ effect::crow::AURA, {"Resource/effect/CrowDoll/bossaura.png", 8, 4, effect::crow::AURA_MAX, effect::crow::AURA_IMAGE, effect::crow::AURA_IMAGE}},
 	};
 
 

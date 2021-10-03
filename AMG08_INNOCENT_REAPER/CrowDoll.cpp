@@ -6,6 +6,7 @@
 #include "EffectServer.h"
 #include "EffectBase.h"
 #include "TrackingEffect.h"
+#include "LoopEffect.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
 #include "MapChips.h"
@@ -32,6 +33,8 @@ namespace {
 	constexpr auto RASH_MAX = 250;
 
 	constexpr auto FLOAT_MAX = 540;
+
+	constexpr auto LIFE_MAX = 5; // 10
 }
 
 namespace inr {
@@ -61,7 +64,7 @@ namespace inr {
 			{enemy::crowdoll::CROW_BLINK , {enemy::crowdoll::motion::BLINK * 2, 20}},
 			{enemy::crowdoll::CROW_GROWARM , {enemy::crowdoll::motion::GROWARM * 3, 20}},
 			{enemy::crowdoll::CROW_ROAR , {enemy::crowdoll::motion::ROAR * 4, 50}},
-			{enemy::crowdoll::CROW_DEBUF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
+			{enemy::crowdoll::CROW_DEBUFF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
 			{enemy::crowdoll::CROW_DOWN , {enemy::crowdoll::motion::DOWN * 3, 50}},
 			{enemy::crowdoll::CROW_WINCE, {enemy::crowdoll::motion::WINCE * 5, 50}},
 		};
@@ -69,7 +72,7 @@ namespace inr {
 		_atkInterval = 0;
 		_actionCount = 0;
 		_muteki = 0;
-		_life = 10;
+		_life = LIFE_MAX;
 		_arm = false;
 		_setup = false;
 		_changeGraph = false;
@@ -78,6 +81,7 @@ namespace inr {
 		_changeState = false;
 		_isAnimation = false;
 		_isWarp = false;
+		_debuf = false;
 	}
 
 	void CrowDoll::SetParameter(ObjectValue objValue) {
@@ -251,6 +255,7 @@ namespace inr {
 			AddRushEffect();
 			return;
 		case CrowDoll::CrowState::DEBUF:
+			ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_DEBUFF);
 			return;
 		case CrowDoll::CrowState::ROAR:
 			return;
@@ -383,7 +388,8 @@ namespace inr {
 						_atkInterval = 60;
 						_wait = false;
 						_isAnimation = true;
-					} else if (_isAnimation == true) _isAnimation = false;
+					}
+					else if (_isAnimation == true) _isAnimation = false;
 				}
 				break;
 			}
@@ -399,7 +405,7 @@ namespace inr {
 			// 腕を挿した瞬間にエフェクトを発生させる
 			if (IsAnimationMax() == true && _arm == false) {	// モーションが最大かつ、腕が未生成の場合のみ腕を生成する
 				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 655), 24 * 2);	// エフェクトを作成(950)
-				effarm->SetDamageEffect(50, 50, 0, 300,  10);
+				effarm->SetDamageEffect(50, 50, 0, 300, 10);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm), effect::type::FORMER);
 				_arm = true;
 				break;
@@ -426,7 +432,8 @@ namespace inr {
 					_game.GetObjectServer()->GetPlayer()->KnockBack(IsPlayerPos(_moveVector.GetX()));
 					break;
 				}
-			} else if (AnimationCountMax() == true) {
+			}
+			else if (AnimationCountMax() == true) {
 				if (_actionCount == 0) {
 					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
 					break;
@@ -437,17 +444,38 @@ namespace inr {
 
 		case CrowState::DEBUF:
 			// 待機状態の場合
-			if (_divKey.first == enemy::crowdoll::CROW_IDOL && _atkInterval == 0 && AnimationCountMax() == true) {
-				WarpOn();	// ワープで飛ばす
+			if (_divKey.first == enemy::crowdoll::CROW_IDOL) {
+				if (_atkInterval == 0 && AnimationCountMax() == true && _isWarp != true) {
+					WarpOn();	// ワープで飛ばす}
+					PlaySe(enemy::crowdoll::SE_DEBUF);	// SEを鳴らす
+					_atkInterval = 20;
+				}
 				break;
 			}
-			if (_divKey.first == enemy::crowdoll::CROW_DEBUF) {
 
+			if (_divKey.first == enemy::crowdoll::CROW_DEBUFF) {
+				if (AnimationNumber() == 6 && _debuf == false) {
+					_debuf = true;
+					_isAnimation = false;	// 再生を一時的に終了する
+					_atkInterval = 60;	// 60フレーム間溜める
+					return true;
+					// 猶予時間が終わったら処理を実行する
+				} if (_debuf == true) {
+					if (_atkInterval == 0 && _isAnimation != true) {
+						_isAnimation = true;
+						AddDebufEffect();	// デバフ発動
+						return true;
+					} else if (AnimationCountMax() == true) {
+						ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
+						_debuf = false;
+						_atkInterval = 60;
+					}
+				}
+				break;
 			}
-			break;
-		}
 
-		return true;
+			return true;
+		}
 	}
 
 	bool CrowDoll::IsDead() {
@@ -486,6 +514,7 @@ namespace inr {
 			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 			AddSoul();	// 魂を生み出す
 			--_life;
+			if(AngerOn() == true) return;
 			if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡判定
 			_muteki = 60;	// 一定時間の間、無敵状態にする
 			return;
@@ -599,11 +628,21 @@ namespace inr {
 	}
 
 	bool CrowDoll::AddDebufEffect() {
-		Vector2 debuf_pos = { static_cast<double>(HALF_WINDOW_W), static_cast<double>(HALF_WINDOW_H) };
+		_game.GetObjectServer()->GetPlayer()->Debuf();	// 自機のデバフ処理呼び出し
+		auto world = _game.GetMapChips()->GetWorldPosition();
+		Vector2 debuf_pos = { world.GetX(), world.GetY() };
 		auto debuf = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::DEBUF, debuf_pos, effect::crow::DEBUF_MAX * 3);
 		debuf->SetLoop(3);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(debuf), effect::type::FORMER);
 		return true;
+	}
+
+	bool CrowDoll::AddAngerEffect() {
+		auto anger = std::make_unique<LoopEffect>(_game.GetGame(), effect::crow::AURA, _position, effect::crow::AURA_MAX * 2);
+		anger->SetOwner(this);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(anger), effect::type::FORMER);
+		return true;
+
 	}
 
 	bool CrowDoll::IsPlayerPosition() {
@@ -626,9 +665,11 @@ namespace inr {
 	bool CrowDoll::AngerOn() {
 		if (_isAnger == true) return false;
 		// 耐久力は半分まで減っているか？
-		if (IsAnger() == true) {
+		if (IsAnger() == IS_ANGER) {
 			_isAnger = true;	// 怒り状態に突入する
 			ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_IDOL);	// デバフ状態に遷移する
+			AddAngerEffect();
+			_muteki = 120;
 			return true;
 		}
 		return false;

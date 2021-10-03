@@ -8,7 +8,7 @@ namespace inr {
 			// 各種モーションおよびキー
 			constexpr auto CROW_ARM = "crow_arm";	// 腕
 			constexpr auto CROW_IDOL = "crow_stand";	// 待機
-			constexpr auto CROW_DEBUF = "crow_debuf";	// デバフモーション
+			constexpr auto CROW_DEBUFF = "crow_debuf";	// デバフモーション
 			constexpr auto CROW_GROWARM = "crow_growarm";	// 伸びる爪
 			constexpr auto CROW_RUSH = "crow_rash";	// 連撃
 			constexpr auto CROW_BLINK = "crow_brink";	// 頭上からの強襲
@@ -48,6 +48,7 @@ namespace inr {
 			constexpr auto BLINK = "cd_blink_effect";	// 転移
 			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
 			constexpr auto DEBUF = "cd_debuf_effect";	// デバフエフェクト
+			constexpr auto AURA = "cd_aura_effect";
 
 			constexpr auto ROAR_WIDTH = 3840;
 			constexpr auto ROAR_HEIGHT = 2160;
@@ -64,6 +65,9 @@ namespace inr {
 			constexpr auto BLINK_ATTACK_W = 560;
 			constexpr auto BLINK_ATTACK_H = 800;
 			constexpr auto BLINL_ATTACK_MAX = 10;
+
+			constexpr auto AURA_IMAGE = 500;
+			constexpr auto AURA_MAX = 30;
 
 			constexpr auto DEBUF_MAX = 10;
 
@@ -96,6 +100,7 @@ namespace inr {
 
 		bool _setup;	// 準備は完了したか？
 		bool _arm;	// 腕は生成したか？
+		bool _debuf;	// デバフフラグ
 		bool _changeState;	// 状態を切り替えるか？
 		bool _isAnimation;	// モーション再生を行うか
 		bool _isWarp;	// ワープを行うか？
