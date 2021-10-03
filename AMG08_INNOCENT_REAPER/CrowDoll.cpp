@@ -336,9 +336,9 @@ namespace inr {
 		case CrowState::IDOL:	// 空中待機の場合
 			// インターバル明けに次のアクションを実行する
 			if (_atkInterval == 0) {
-				if (IsAnger() == IS_ANGER && DEBUFF_COUNT_MAX <= _debuffCount) {
+				if (IsAnger() == IS_ANGER && _debuffChage == DEBUFF_COUNT_MAX) {
 					auto number = rand() % 11 + 1;
-					if (number <= _debuffChage) {
+					if (_debuffChage < number) {
 						_debuffChage = 0;
 						ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_IDOL);
 						_muteki = 120;
@@ -380,7 +380,7 @@ namespace inr {
 					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					_atkInterval = 60;
 					_isAnimation = true;
-					if(_debuffChage <= DEBUFF_COUNT_MAX) ++_debuffChage;
+					if(_debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
 				}
 				// 次の状態に遷移する
 				break;
@@ -402,7 +402,7 @@ namespace inr {
 						_atkInterval = 60;
 						_wait = false;
 						_isAnimation = true;
-						if (_debuffChage <= DEBUFF_COUNT_MAX) ++_debuffChage;
+						if (_debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
 					}
 					else if (_isAnimation == true) _isAnimation = false;
 				}
@@ -429,7 +429,7 @@ namespace inr {
 				_arm = false;
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
-				if (_debuffChage <= DEBUFF_COUNT_MAX) ++_debuffChage;
+				if (_debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
 				break;
 			}
 			break;
