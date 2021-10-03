@@ -24,6 +24,8 @@ namespace inr {
 		constexpr auto BACK_GROUND_B = "back_groundB";
 		constexpr auto STAGEB_FILE = "bg_stageb_";
 		constexpr auto STAGEB_PATH = "Resource/BackGround/StageBoss/";
+
+		constexpr auto ALTAR = "back_altar";
 	}
 
 	namespace end {

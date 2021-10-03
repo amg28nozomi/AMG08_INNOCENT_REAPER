@@ -223,11 +223,11 @@ namespace inr {
 		graph::ResourceServer::LoadGraphList(effects);
 
 		std::string gpath = "Resource/effect/Logo/";
-		//graph::ResourceServer::SetLoadGraph(titles::TITLE_ALI, gpath + titles::PATH_ALI, titles::FILE_ALI, 34, WINDOW_W, WINDOW_H);
-		//graph::ResourceServer::SetLoadGraph(titles::TITLE_ALO, gpath + titles::PATH_ALO, titles::FILE_ALO, 34, WINDOW_W, WINDOW_H);
-		//// graph::ResourceServer::SetLoadGraph(titles::TITLE_T, gpath + titles::PATH_T, titles::FILE_T, 30, WINDOW_W, WINDOW_H);
-		//graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
-		//graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(titles::TITLE_ALI, gpath + titles::PATH_ALI, titles::FILE_ALI, 34, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(titles::TITLE_ALO, gpath + titles::PATH_ALO, titles::FILE_ALO, 34, WINDOW_W, WINDOW_H);
+		 graph::ResourceServer::SetLoadGraph(titles::TITLE_T, gpath + titles::PATH_T, titles::FILE_T, 30, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_S, background::STAGES_PATH, background::STAGES_FILE, 2, WINDOW_W, background::STAGES_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_2, background::STAGE2_PATH, background::STAGE2_FILE, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT);
@@ -420,14 +420,14 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {1320, 2990}},
 			{ oscenario::OBJ_BIG_DOLL, {3320, 2950}, false, 1},
 			// レバー（y -90）
-			{ oscenario::OBJ_LEVER, {{3650 ,2970}, {630, 870}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_LEVER, {{150 ,3010}, {3190, 870}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{3650, 3020}, {630, 870}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{150,3010}, {3190, 900}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// ボスレバーのみ
-			{ oscenario::OBJ_LEVER, {3440, 930}, false, 0, {gimmick::door::D_BOSS}},
+			{ oscenario::OBJ_LEVER, {3460, 900}, false, 0, {gimmick::door::D_BOSS}},
 			// 壊れる岩
-			{ oscenario::OBJ_BLOCK, {2650, 2050}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_BLOCK, {920, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
-			{ oscenario::OBJ_BLOCK, {1720, 3010}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {2670, 2000}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {980, 2940}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_BLOCK, {1700, 2940}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			// 水晶
 			{ oscenario::OBJ_CRYSTAL, {{910, 1610}, {350, 1550}, {1430, 1550}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{910, 2410}, {1430, 2350}, {270, 2350}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},

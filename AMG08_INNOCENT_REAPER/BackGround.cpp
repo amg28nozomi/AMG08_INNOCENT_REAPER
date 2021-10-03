@@ -60,7 +60,7 @@ namespace inr {
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
 			// DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
 		}
-		// if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
+		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}
 
 	void BackGround::ChangeGraph() {
@@ -135,7 +135,7 @@ namespace inr {
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
 		auto y = xy.IntY();
-		auto gh = graph::ResourceServer::GetHandles(_graphKey, 1);
+		auto gh = graph::ResourceServer::GetHandles(background::ALTAR);
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);
 	}
 

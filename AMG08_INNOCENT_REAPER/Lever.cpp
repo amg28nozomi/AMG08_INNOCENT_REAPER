@@ -50,7 +50,10 @@ namespace inr {
 		else if (_door->IsSwitch() == gimmick::ON ) return;	// ドアがオープンの場合は処理を抜ける
 		auto sh = SoundResearch(gimmick::lever::KEY_LEVER);
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
-		if (_oValue.GimmickType() == gimmick::door::D_BOSS) _game.GetModeServer()->GetModeMain()->OpenBossStage();	// ボスステージへと続く扉を解放する
+		if (_oValue.GimmickType() == gimmick::door::D_BOSS) { 
+			// UIの描画を行う
+			_game.GetModeServer()->GetModeMain()->OpenBossStage();
+		}	// ボスステージへと続く扉を解放する
 		else _door->SwitchOn();	// スイッチオン
 #ifdef _DEBUG
 		_mainCollision.GetbDrawFlg() = false;

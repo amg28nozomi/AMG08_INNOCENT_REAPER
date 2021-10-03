@@ -59,10 +59,10 @@ namespace inr {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
 #ifdef _DEBUG
-			_stageKey = stage::STAGE_2_2;
+			_stageKey = stage::STAGE_3;
 #endif
 #ifndef _DEBUG
-			_stageKey = stage::STAGE_3;
+			_stageKey = stage::STAGE_0;
 #endif
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
