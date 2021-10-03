@@ -26,6 +26,7 @@
 
 namespace {
 	constexpr auto WINDOW_MIN = 0;
+	constexpr auto END_STAY = 300;
 }
 
 namespace inr {
@@ -58,10 +59,10 @@ namespace inr {
 			// 各種オブジェクトをサーバに登録する
 			// オブジェクトサーバにプレイヤーを登録
 #ifdef _DEBUG
-			_stageKey = stage::STAGE_2_1;
+			_stageKey = stage::STAGE_3;
 #endif
 #ifndef _DEBUG
-			_stageKey = stage::STAGE_0;
+			_stageKey = stage::STAGE_3;
 #endif
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);
@@ -80,6 +81,7 @@ namespace inr {
 			_bossBattle = false;
 			_resetFlg = false;
 			_isEnding = false;
+			_endCount = 0;
 		} else {
 			_game.GetScenario()->Init();
 			_eServer->Init();	// 各種エフェクトを消去する
@@ -100,6 +102,7 @@ namespace inr {
 	void ModeMain::Process() {
 		IsStageChange();	// ステージを切り替えるか？
 		StageReset();	// ステージを初期化するか？
+		if (_isEnding == true) IsEnding();
 		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
 
@@ -187,6 +190,7 @@ namespace inr {
 
 	bool ModeMain::BossBattle() {
 		if (_stageKey != stage::STAGE_3) return false;
+		if (_isEnding == true) return false;	// エンディングがある場合も処理を中断
 		_bossBattle = true;
 		_bg->ScrollOff();
 		_game.GetScenario()->BossBlock();
@@ -200,6 +204,8 @@ namespace inr {
 		if (_stageKey != stage::STAGE_3) return false;
 		if (_bossBattle != true) return false;	// ボス戦中か?
 		_bossBattle = false;	// ボス戦を終了する
+		_isEnding = true;	// エンドフラグを立てる
+		_endCount = END_STAY;
 		StopSoundMem(se::SoundServer::GetSound(_bgmKey));	// ボス専BGMを終了する
 		return true;
 	}
@@ -234,6 +240,16 @@ namespace inr {
 	bool ModeMain::OpenBossStage() {
 		if (_bossOpen == true) return false;
 		_bossOpen = true;
+	}
+
+	bool ModeMain::IsEnding() {
+		if (_endCount == 0) return true;
+		--_endCount;
+		if (_endCount == 0) {
+			_game.GetModeServer()->ModeChange(mode::FIN, 120);
+			return true;
+		}
+		return false;
 	}
 
 

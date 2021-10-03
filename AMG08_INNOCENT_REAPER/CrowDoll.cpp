@@ -34,7 +34,7 @@ namespace {
 
 	constexpr auto FLOAT_MAX = 540;
 
-	constexpr auto LIFE_MAX = 5; // 10
+	constexpr auto LIFE_MAX = 1; // 10
 
 	constexpr auto DEBUFF_COUNT_MIN = 0;
 	constexpr auto DEBUFF_COUNT_MAX = 5;
@@ -85,6 +85,7 @@ namespace inr {
 		_isAnimation = false;
 		_isWarp = false;
 		_debuf = false;
+		_debuffChage = DEBUFF_COUNT_MIN;
 	}
 
 	void CrowDoll::SetParameter(ObjectValue objValue) {
@@ -335,6 +336,15 @@ namespace inr {
 		case CrowState::IDOL:	// 空中待機の場合
 			// インターバル明けに次のアクションを実行する
 			if (_atkInterval == 0) {
+				if (IsAnger() == IS_ANGER && DEBUFF_COUNT_MAX <= _debuffCount) {
+					auto number = rand() % 11 + 1;
+					if (number <= _debuffChage) {
+						_debuffChage = 0;
+						ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_IDOL);
+						_muteki = 120;
+						return true;
+					}
+				}
 				auto number = rand() % 3; // %3
 				switch (number) {
 				case 0:
@@ -370,6 +380,7 @@ namespace inr {
 					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					_atkInterval = 60;
 					_isAnimation = true;
+					if(_debuffChage <= DEBUFF_COUNT_MAX) ++_debuffChage;
 				}
 				// 次の状態に遷移する
 				break;
@@ -391,6 +402,7 @@ namespace inr {
 						_atkInterval = 60;
 						_wait = false;
 						_isAnimation = true;
+						if (_debuffChage <= DEBUFF_COUNT_MAX) ++_debuffChage;
 					}
 					else if (_isAnimation == true) _isAnimation = false;
 				}
@@ -417,6 +429,7 @@ namespace inr {
 				_arm = false;
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
+				if (_debuffChage <= DEBUFF_COUNT_MAX) ++_debuffChage;
 				break;
 			}
 			break;
@@ -512,6 +525,8 @@ namespace inr {
 			_wait = false;
 			_moveVector = {};
 
+			if (DeathOn() == true) return;
+
 			// 魂を奪われる
 			ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// 怯み状態にする
 			auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
@@ -519,7 +534,8 @@ namespace inr {
 			AddSoul();	// 魂を生み出す
 			--_life;
 			if(AngerOn() == true) return;
-			if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡判定
+			
+			//if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡判定
 			_muteki = 60;	// 一定時間の間、無敵状態にする
 			return;
 		}
@@ -545,7 +561,7 @@ namespace inr {
 		if (_setup != true) return false;
 		if (_muteki != 0) --_muteki;	// 無敵時間がある場合は減らすある
 		if (_cState == CrowState::DEATH || _cState == CrowState::SLEEP) {
-			if (IsAnimationMax() != true) ObjectBase::AnimationCount();
+			if (AnimationCountMax() != true) ObjectBase::AnimationCount();
 			return false;
 		}
 		// 待ち時間の場合は
@@ -555,6 +571,7 @@ namespace inr {
 	}
 
 	bool CrowDoll::IsBattle() {
+		if (_cState == CrowState::DEATH) return false;
 		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return false;
 		if (_game.GetObjectServer()->GetPlayer()->GetPosition().GetX() < _game.GetMapChips()->GetMapSizeWidth() - HALF_WINDOW_W) return false;
 		_game.GetModeServer()->GetModeMain()->BossBattle();	// ボスバトルを開始する
@@ -680,8 +697,10 @@ namespace inr {
 	}
 
 	AABB CrowDoll::NowCollision(std::string key) {
-
-		return _mainCollision;
+		if (_cState != CrowState::DEATH) return _mainCollision;
+		// 死んでいる場合は当たり判定を返す
+		auto ite = _collisions.find(enemy::crowdoll::CROW_DOWN);
+		return ite->second;
 	}
 
 	void CrowDoll::WarpOn() {
@@ -771,9 +790,12 @@ namespace inr {
 		// 耐久値がある場合は生存している
 		if (_life != 0) return false;
 		_game.GetModeServer()->GetModeMain()->BossEnd();	// ボス戦を終了する
-		ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡状態に移行する
+		ModeChange(CrowState::DEATH, enemy::crowdoll::CROW_DOWN);	// 死亡状態に移行する
 		// 現在の地点に死亡エフェクトを発生させる
-		auto death_eff = std::make_unique<EffectBase>(_game.GetGame(), )
+		auto death_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::DEATH, _position, effect::crow::DEATH_MAX * 3);
+		PlaySe(enemy::crowdoll::SE_DEATH);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(death_eff), effect::type::FORMER);
+		return true;
 	}
 
 	bool CrowDoll::DollsEnd() {

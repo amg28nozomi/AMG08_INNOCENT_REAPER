@@ -73,6 +73,9 @@ namespace inr {
 
 			constexpr auto DEBUF_MAX = 10;
 
+			constexpr auto DEATH_IMAGE = 600;
+			constexpr auto DEATH_MAX = 14;
+
 		}
 	}
 
@@ -100,6 +103,7 @@ namespace inr {
 		int _debuffCount;	// デバフを発動するか？
 
 		int _actionCount;	// ラッシュカウント
+		int _debuffChage;	// デバフ溜め
 
 		bool _setup;	// 準備は完了したか？
 		bool _arm;	// 腕は生成したか？
@@ -110,6 +114,7 @@ namespace inr {
 		bool _isAnger;	// 怒りフラグ
 		bool _wait;	// 待機フラグ
 		int _muteki;	// 無敵時間
+
 
 
 		void ModeChange(CrowState nextState, std::string key);

@@ -56,6 +56,7 @@ namespace inr {
 		bool _bossOpen;	// ボスステージへの扉は開かれているか？
 		bool _bossBattle;	// ボス戦は行われているか？
 		bool _isEnding;	// エンディングに移行するか
+		int _endCount;	// 終了するまでの待ち時間
 
 		Vector2 _worldPosition;	// ワールド座標
 
@@ -65,6 +66,7 @@ namespace inr {
 
 		bool BgmManage(std::string nextStage);
 		std::string BgmKey(std::string key);	// キーの切り替え
+		bool IsEnding();
 	};
 
 }

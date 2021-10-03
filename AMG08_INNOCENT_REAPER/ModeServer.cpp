@@ -71,9 +71,11 @@ namespace inr {
 		_modes.clear();
 	}
 
-	void ModeServer::ModeChange(std::string nextMode) {
+	void ModeServer::ModeChange(std::string nextMode, int interval) {
 		_ChangeKey = nextMode;	// モード切り替えフラグオン
-		_fadeBlack->FlagChange(image::FADE_OUT, CHANGE_INTERVAL);
+
+		if (interval == 0) interval = CHANGE_INTERVAL;
+		_fadeBlack->FlagChange(image::FADE_OUT, interval);
 	}
 
 	bool ModeServer::ModeInit() {

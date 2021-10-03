@@ -194,6 +194,7 @@ namespace inr {
 		{ effect::crow::BLINK, {"Resource/effect/CrowDoll/blink.png", 5, 2, 10, effect::crow::BLINK_IMAGE, effect::crow::BLINK_IMAGE}},
 		{ effect::crow::BLINK_ATTACK, {"Resource/effect/CrowDoll/blinkattack.png", 4, 4, effect::crow::BLINL_ATTACK_MAX, effect::crow::BLINK_ATTACK_W, effect::crow::BLINK_ATTACK_H}},
 		{ effect::crow::AURA, {"Resource/effect/CrowDoll/bossaura.png", 8, 4, effect::crow::AURA_MAX, effect::crow::AURA_IMAGE, effect::crow::AURA_IMAGE}},
+		{ effect::crow::DEATH, {"Resource/effect/CrowDoll/bosslasthit.png", 3, 5, effect::crow::DEATH_MAX, effect::crow::DEATH_IMAGE, effect::crow::DEATH_IMAGE}},
 	};
 
 
