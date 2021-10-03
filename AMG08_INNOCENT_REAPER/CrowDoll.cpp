@@ -34,7 +34,7 @@ namespace {
 
 	constexpr auto FLOAT_MAX = 540;
 
-	constexpr auto LIFE_MAX = 1; // 10
+	constexpr auto LIFE_MAX = 10; // 10
 
 	constexpr auto DEBUFF_COUNT_MIN = 0;
 	constexpr auto DEBUFF_COUNT_MAX = 5;

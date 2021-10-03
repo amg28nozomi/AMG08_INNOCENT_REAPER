@@ -47,6 +47,12 @@ namespace inr {
 			constexpr auto OMEN_NUMS = 14;
 			constexpr auto OMEN_IMAGE = 160;
 		}
+
+		namespace bigdoll {
+			constexpr auto OMEN = "bd_omen_effect";
+			constexpr auto OMEN_NUMS = 14;
+			constexpr auto OMEN_IMAGE = 280;
+		}
 	}
 
 	class Game;

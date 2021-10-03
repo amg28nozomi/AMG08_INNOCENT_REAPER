@@ -93,6 +93,16 @@ namespace inr {
 		if (_aState == ActionState::WAKEUP || _isAction == true) return;
 		// ÉvÉåÉCÉÑÅ[Çî≠å©Ç≈Ç´ÇÈÇ©
 		if (SearchPlayer() == true) {
+			auto eye_light = std::make_unique<EffectBase>(_game.GetGame(), effect::bigdoll::OMEN, _position, effect::bigdoll::OMEN_NUMS * 3, _direction);
+			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eye_light), effect::type::FORMER);
+			switch (_soul->SoulColor()) {
+			case soul::RED:
+				PlaySe(enemy::bigdoll::SE_TACKLE_VOICE);
+				break;
+			case soul::BLUE:
+				PlaySe(enemy::bigdoll::SE_ESCAPE_VOICE);
+				break;
+			}
 			_isAction = true;
 			ChangeIdol(BIG_STAY * 3);
 		}
@@ -371,7 +381,7 @@ namespace inr {
 			ChangeState(ActionState::ESCAPE, enemy::blue::BIG_ESCAPE);
 			_searchBox.GetCollisionFlgB() = false;
 
-			PlaySe(enemy::bigdoll::SE_ESCAP_VOICE);
+			PlaySe(enemy::bigdoll::SE_ESCAPE_VOICE);
 
 			switch (_direction) {
 			case enemy::MOVE_LEFT:

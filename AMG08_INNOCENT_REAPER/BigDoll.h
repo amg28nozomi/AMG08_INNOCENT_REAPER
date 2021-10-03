@@ -12,7 +12,7 @@ namespace inr {
 
 		namespace bigdoll {
 			constexpr auto SE_DOWN = "big_down";	// ì|ÇÍÇΩèÍçá
-			constexpr auto SE_ESCAP_VOICE = "big_escape";
+			constexpr auto SE_ESCAPE_VOICE = "big_escape";
 			constexpr auto SE_TACKLE = "big_tackle";
 			constexpr auto SE_TACKLE_VOICE = "big_tackle_voice";
 

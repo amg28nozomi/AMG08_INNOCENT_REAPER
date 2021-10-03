@@ -187,6 +187,7 @@ namespace inr {
 		{ effect::DEBUFF, {"Resource/effect/Player/debuff.png", 5, 3, effect::DEBUF_MAX, effect::DEBUF_IMAGE, effect::DEBUF_IMAGE}},
 
 		{ effect::soldier::OMEN, {"Resource/effect/Enemy/sd_omen.png", 6, 3, effect::soldier::OMEN_NUMS, effect::soldier::OMEN_IMAGE, effect::soldier::OMEN_IMAGE}},
+		{ effect::bigdoll::OMEN, {"Resource/effect/Enemy/bd_omen.png", 7, 2, effect::bigdoll::OMEN_NUMS, effect::bigdoll::OMEN_IMAGE, effect::bigdoll::OMEN_IMAGE}},
 		{ effect::enemy::HITDROP, {"Resource/effect/Enemy/shockwave.png", 3, 8, effect::enemy::HIPDROP_MAX, effect::enemy::HIPDROP_WIDTH, effect::enemy::HIPDROP_HEIGHT}},
 
 		{ effect::crow::ARM, {"Resource/effect/CrowDoll/arms.png", 5, 5, 24, effect::crow::ARM_WIDTH, effect::crow::ARM_HEIGHT}},

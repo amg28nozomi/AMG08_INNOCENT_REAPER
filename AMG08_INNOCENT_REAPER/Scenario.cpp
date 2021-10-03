@@ -207,7 +207,8 @@ namespace inr {
 	void Scenario::AddPlayer() {
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
 #ifdef _DEBUG
-		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 400 });	// ボスステージデバッグ用
+		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 400 });	// ボスステージデバッグ用
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });
 #endif
 #ifndef _DEBUG
 		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });	// ステージSに合わせた地点に生成する

@@ -72,7 +72,7 @@ namespace inr {
 		{ {enemy::bigdoll::SE_TACKLE}, {"Resource/SE/BigDoll/bd_tackle.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::bigdoll::SE_DOWN}, {"Resource/SE/BigDoll/bd_down.wav", DX_PLAYTYPE_BACK}},
 		{ {enemy::bigdoll::SE_TACKLE_VOICE}, {"Resource/SE/BigDoll/bd_tacklevoice.wav", DX_PLAYTYPE_BACK}},
-		{ {enemy::bigdoll::SE_ESCAP_VOICE}, {"Resource/SE/BigDoll/bd_escapevoice.wav", DX_PLAYTYPE_BACK}},
+		{ {enemy::bigdoll::SE_ESCAPE_VOICE}, {"Resource/SE/BigDoll/bd_escapevoice.wav", DX_PLAYTYPE_BACK}},
 	};
 
 	const se::SoundServer::SoundMap ses {
