@@ -209,7 +209,7 @@ namespace inr {
 		_divKey.first = gimmick::door::KEY_DOOR_BOSS;
 		_normalY = _oValue.Positions().at(0).GetY();	// •Â‚Ü‚Á‚Ä‚¢‚éÛ‚Ì•`‰æÀ•W
 
-		bool colf;
+		bool colf = false;
 		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	// ”à‚ÍŠJ‚©‚ê‚Ä‚¢‚é‚©H
 		case true:	// ‹ó‚¢‚Ä‚¢‚éê‡
 			colf = false;

@@ -63,16 +63,16 @@ namespace inr {
 		_motionKey = {
 			{ enemy::BIG_EMPTY, {7 * 3, 0}},
 			
-			{ enemy::red::BIG_WAKEUP, {enemy::red::big::WAKEUP_SIZE * 3, 0}},
+			{ enemy::red::BIG_WAKEUP, {enemy::red::big::WAKEUP_SIZE * 4, 0}},
 			{ enemy::red::BIG_IDOL, {BIG_STAY, 0}},
-			{ enemy::red::BIG_PATROL, {enemy::red::big::MOVE_SIZE * 3, 0}},
-			{ enemy::red::BIG_TACKLE, {enemy::red::big::ATTACK_SIZE * 3, 0}},
+			{ enemy::red::BIG_PATROL, {enemy::red::big::MOVE_SIZE * 4, 0}},
+			{ enemy::red::BIG_TACKLE, {enemy::red::big::ATTACK_SIZE * 4, 0}},
 			{ enemy::red::BIG_HIPDROP, {enemy::red::big::HIPDROP_SIZE * 3, 0}},
 
 			{ enemy::blue::BIG_WAKEUP, {enemy::blue::big::WAKEUP_SIZE * 4, 0}},
 			{ enemy::blue::BIG_IDOL, {BIG_STAY, 0}},
 			{ enemy::blue::BIG_PATROL, {enemy::blue::big::PATROL_SIZE * 5, 0} },
-			{ enemy::blue::BIG_ESCAPE, {enemy::blue::big::ESCAPE_SIZE, 50}},
+			{ enemy::blue::BIG_ESCAPE, {enemy::blue::big::ESCAPE_SIZE * 4, 50}},
 		};
 		_moveCount = 0;
 	}
@@ -213,18 +213,18 @@ namespace inr {
 				_moveCount = 30;
 			}
 
-			// âEà⁄ìÆ
+			// ç∂à⁄ìÆà⁄ìÆ
 			if (_actionX < 0) {
 				if(_atkVec < ATTACK_VECTOR_MAX) _atkVec += ADD_VECTOR;
 				_actionX += _atkVec;
 				_moveVector.GetPX() = -_atkVec;
-				if (0 < _actionX) _actionX = 0;
+				if (0 <= _actionX) _actionX = 0;
 
 			} else if (0 < _actionX) {
 				if (-ATTACK_VECTOR_MAX < _atkVec) _atkVec += ADD_VECTOR;
 				_actionX -= _atkVec;
 				_moveVector.GetPX() = _atkVec;
-				if (_actionX < 0) _actionX = 0;
+				if (_actionX <= 0) _actionX = 0;
 			}
 			if(_actionX == 0) ChangeIdol(BIG_STAY * 3);
 			return;

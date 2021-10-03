@@ -148,8 +148,6 @@ namespace inr {
 
 		// スタッフロール
 		{ end::STAFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STAFF_ROLL_WIDTH, end::STAFF_ROLL_HEIGHT}},
-		// 
-		{ titles::TITLE_T, {"Resource/t.png", 6, 5, 30, WINDOW_W, WINDOW_H }},
 		// チュートリアルUI
 		{ tutorial::ROB, {"Resource/UI/Tutorial/ui_rob.png", 1, 1, 1, 374, 213 }},
 		{ tutorial::GIVE, {"Resource/UI/Tutorial/ui_give.png", 1, 1, 1, 240, 163 }},
@@ -314,7 +312,7 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {2500, 500}, true },
 			{ oscenario::OBJ_SOLDIER_DOLL, {3500, 300}, true, 1},
 
-			{ oscenario::OBJ_LEVER, {{3450, 500}, {3900 , 420}}, false, 0, {gimmick::door::D_LEVER} },
+			{ oscenario::OBJ_LEVER, {{3450, 500}, {3875 , 420}}, false, 0, {gimmick::door::D_LEVER} },
 			{ oscenario::OBJ_CRYSTAL, { {4550, 730}, {4320, 670}}, false, 1, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 			{ oscenario::OBJ_CRYSTAL, { {5000, 730}, {5220, 670}}, false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 		};
@@ -363,7 +361,7 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, false, 1},
 			{ oscenario::OBJ_BIG_DOLL, {6840, 1970}, false, 1},
 			// ギミック
-			{ oscenario::OBJ_LEVER, {{2200, 1970}, {2500, 1900}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
+			{ oscenario::OBJ_LEVER, {{2200, 1970}, {2470, 1900}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{3680, 770}, {3200, 700}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			// ボス扉
 			{ oscenario::OBJ_DOOR, {8470, 1190}, false, 0, {gimmick::door::D_BOSS}},
