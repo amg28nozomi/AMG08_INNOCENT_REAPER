@@ -17,6 +17,7 @@ namespace inr {
 		constexpr auto HIT = "hit_effect";	// 自機ダメージ時
 		constexpr auto DEAD = "dead_effect";	// ダメージ時エフェクト
 		constexpr auto GIVE = "give_effect";	// 与えるエフェクト
+		constexpr auto DEBUFF = "playe_debuff_effect";	// 自機デバフエフェクト
 
 		constexpr auto S_HIT = "soul_hit_effect";
 
@@ -37,6 +38,9 @@ namespace inr {
 
 		constexpr auto SHIT_IMAGE = 400;
 		constexpr auto GIVE_IMAGE = 200;
+
+		constexpr auto DEBUF_IMAGE = 140;
+		constexpr auto DEBUF_MAX = 15;
 
 		namespace soldier {
 			constexpr auto OMEN = "sd_omen_effect";

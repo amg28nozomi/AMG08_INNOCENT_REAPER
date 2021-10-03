@@ -188,6 +188,7 @@ namespace inr {
 		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},	// ダメージ
 		{ effect::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::SHIT_IMAGE, effect::SHIT_IMAGE}},
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 5, 4, 20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
+		{ effect::DEBUFF, {"Resource/effect/Player/debuff.png", 5, 3, effect::DEBUF_MAX, effect::DEBUF_IMAGE, effect::DEBUF_IMAGE}},
 
 		{ effect::soldier::OMEN, {"Resource/effect/Enemy/sd_omen.png", 6, 3, effect::soldier::OMEN_NUMS, effect::soldier::OMEN_IMAGE, effect::soldier::OMEN_IMAGE}},
 		{ effect::enemy::HITDROP, {"Resource/effect/Enemy/shockwave.png", 3, 8, effect::enemy::HIPDROP_MAX, effect::enemy::HIPDROP_WIDTH, effect::enemy::HIPDROP_HEIGHT}},
@@ -439,8 +440,8 @@ namespace inr {
 	// ボスステージ
 	std::vector<ObjectValue> Loads::LoadScenarioB() {
 		std::vector<ObjectValue> _stage{
-			{ oscenario::OBJ_SOLDIER_DOLL, {1210, 870}},
-			{ oscenario::OBJ_SOLDIER_DOLL, {2880, 870}},
+			{ oscenario::OBJ_SOLDIER_DOLL, {1210, 870}, false, 2},
+			{ oscenario::OBJ_SOLDIER_DOLL, {2880, 870}, false, 1},
 
 			{ oscenario::OBJ_BIG_DOLL, {1770, 870}},
 			{ oscenario::OBJ_BIG_DOLL, {3090, 870}},

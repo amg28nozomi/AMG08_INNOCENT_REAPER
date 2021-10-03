@@ -147,6 +147,7 @@ namespace inr {
 
 		bool IsEmpty();
 		inline bool IsBoss() { return _eType == EnemyType::CROW_DOLL; }
+		bool SoulPop();	// °‚ğ“f‚«o‚·
 
 		virtual void SetParameter(ObjectValue objValue) override;	// parameter
 		AABB EmptyBox();

@@ -891,7 +891,12 @@ namespace inr {
 		// 自機はアイテムを保持しているか？
 		// 保持していない場合、一定時間の間移動速度にマイナス補正がかかる
 		_debuffCount = DEBUFF_MAX;
-		_moveD = DEBUFF_MAX;
+		_moveD = MOVE_DEBUFF;
+		// デバフエフェクトの生成
+		auto debuff_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::DEBUFF, _position, effect::DEBUF_MAX * 2);
+		debuff_eff->Set(this);
+		debuff_eff->SetLoop(9);
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(debuff_eff), effect::type::FORMER);
 		return true;
 	}
 

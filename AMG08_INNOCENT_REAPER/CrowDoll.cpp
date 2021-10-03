@@ -430,6 +430,7 @@ namespace inr {
 					roar_eff->SetLoop(3);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(roar_eff), effect::type::FORMER);
 					_game.GetObjectServer()->GetPlayer()->KnockBack(IsPlayerPos(_moveVector.GetX()));
+					DollsEnd();	// °‚ð’D‚¢Žæ‚é
 					break;
 				}
 			}
@@ -760,6 +761,17 @@ namespace inr {
 #ifdef _DEBUG
 		rush->second.GetbDrawFlg() = flag;
 #endif
+		return true;
+	}
+
+	bool CrowDoll::DollsEnd() {
+		// °‚ð’D‚¢‹Ž‚é
+		auto enemys = _game.GetObjectServer()->GetEnemys();
+		for (auto ite : enemys) {
+			if (ite->GetEnemyType() == EnemyType::CROW_DOLL) continue;
+			if (ite->IsEmpty() == true) continue;
+			ite->SoulPop();
+		}
 		return true;
 	}
 }

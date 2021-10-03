@@ -230,4 +230,10 @@ namespace inr {
 	AABB EnemyBase::EmptyBox() {
 		return NowCollision(_divKey.first);
 	}
+
+	bool EnemyBase::SoulPop() {
+		if (_soul == nullptr)return false;
+		Death();
+		return true;
+	}
 }
