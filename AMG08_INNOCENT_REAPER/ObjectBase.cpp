@@ -265,4 +265,8 @@ namespace inr {
 	void ObjectBase::SetParameter(Vector2 newpos) {
 
 	}
+
+	bool ObjectBase::IsDead() {
+		return false;
+	}
 }

@@ -85,6 +85,7 @@ namespace inr {
 		inline virtual Vector2 GetMoveVector() { return Vector2(); }	// 移動ベクトルのゲッター
 		inline AABB& GetMainCollision() { return _mainCollision; }
 		inline ObjectValue GetObjectValue() { return _oValue; }
+		virtual bool IsDead();	// 死んでいるか？
 
 		virtual void SetParameter(ObjectValue objValue);
 		virtual void SetParameter(Vector2 newpos);

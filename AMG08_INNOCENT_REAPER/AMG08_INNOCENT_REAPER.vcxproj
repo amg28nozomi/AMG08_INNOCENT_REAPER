@@ -178,6 +178,7 @@
     <ClCompile Include="Lever.cpp" />
     <ClCompile Include="Loads.cpp" />
     <ClCompile Include="Logo.cpp" />
+    <ClCompile Include="LoopEffect.cpp" />
     <ClCompile Include="MapChips.cpp" />
     <ClCompile Include="MapData.cpp" />
     <ClCompile Include="ModeBase.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="Lever.h" />
     <ClInclude Include="Loads.h" />
     <ClInclude Include="Logo.h" />
+    <ClInclude Include="LoopEffect.h" />
     <ClInclude Include="MapChips.h" />
     <ClInclude Include="MapData.h" />
     <ClInclude Include="ModeBase.h" />

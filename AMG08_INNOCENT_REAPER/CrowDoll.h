@@ -99,6 +99,7 @@ namespace inr {
 		bool _changeState;	// 状態を切り替えるか？
 		bool _isAnimation;	// モーション再生を行うか
 		bool _isWarp;	// ワープを行うか？
+		bool _isAnger;	// 怒りフラグ
 		bool _wait;	// 待機フラグ
 		int _muteki;	// 無敵時間
 
@@ -132,6 +133,7 @@ namespace inr {
 		bool AngerOn();	// 怒り状態に遷移する
 
 		bool IsPlayerPos(double px);	// 自機は左右どちらにいるのか？
+		bool IsDead() override;
 
 		AABB NowCollision(std::string key) override;
 		std::pair<AABB, AABB> BlinkVitalPart(Collision& col, int vital);

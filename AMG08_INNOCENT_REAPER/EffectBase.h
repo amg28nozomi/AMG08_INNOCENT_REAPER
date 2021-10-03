@@ -55,7 +55,7 @@ namespace inr {
 
 		virtual void Init();
 		virtual void Process();
-		virtual void Draw();	// 
+		virtual void Draw();	// 描画
 
 		virtual void SetDamageEffect(int width, int height, int dinter = 0);	// エフェクトにダメージ判定を持たせる
 		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0, int max = 0);

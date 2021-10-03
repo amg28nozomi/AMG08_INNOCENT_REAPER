@@ -434,8 +434,24 @@ namespace inr {
 				--_actionCount;
 			}
 			break;
+
+		case CrowState::DEBUF:
+			// 待機状態の場合
+			if (_divKey.first == enemy::crowdoll::CROW_IDOL && _atkInterval == 0 && AnimationCountMax() == true) {
+				WarpOn();	// ワープで飛ばす
+				break;
+			}
+			if (_divKey.first == enemy::crowdoll::CROW_DEBUF) {
+
+			}
+			break;
 		}
 
+		return true;
+	}
+
+	bool CrowDoll::IsDead() {
+		if (_cState != CrowState::DEATH) return false;
 		return true;
 	}
 
@@ -605,6 +621,17 @@ namespace inr {
 		default:
 			return false;
 		}
+	}
+
+	bool CrowDoll::AngerOn() {
+		if (_isAnger == true) return false;
+		// 耐久力は半分まで減っているか？
+		if (IsAnger() == true) {
+			_isAnger = true;	// 怒り状態に突入する
+			ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_IDOL);	// デバフ状態に遷移する
+			return true;
+		}
+		return false;
 	}
 
 	AABB CrowDoll::NowCollision(std::string key) {
