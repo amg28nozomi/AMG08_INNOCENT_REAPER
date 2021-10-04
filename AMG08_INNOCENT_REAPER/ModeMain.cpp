@@ -56,28 +56,29 @@ namespace inr {
 
 	void ModeMain::Init() {
 		if (_resetFlg) {
-			// 各種オブジェクトをサーバに登録する
-			// オブジェクトサーバにプレイヤーを登録
+			// 初期化後のステージを設定
 #ifdef _DEBUG
 			_stageKey = stage::STAGE_0;
 #endif
 #ifndef _DEBUG
 			_stageKey = stage::STAGE_0;
 #endif
+			// ステージ切り替え用のキーを初期化
 			_changeKey = stage::CHANGE_NULL;
-			BgmManage(_stageKey);
+			BgmManage(_stageKey);	// ステージに対応するBGMを鳴らす
 			_worldPosition = { 1920 / 2, 1080 / 2 };
 
 			TimeClear();
-			_bg->ScrollOn();
-			_fg->SetKey(_stageKey);
-			_game.GetMapChips()->ChangeMap(_stageKey);
-			_game.GetScenario()->AddObjects(_stageKey);
-			_eServer->Init();
+			_bg->ScrollOn();	// 背景のスクロール再開
+			_fg->SetKey(_stageKey);	// 前景の切り替え
+			_game.GetMapChips()->ChangeMap(_stageKey);	// マップチップの切り替え
+			_game.GetScenario()->AddObjects(_stageKey);	// 各種オブジェクトの生成
+			_eServer->Init();	// エフェクト初期化
 			// _uiSoul->PlayerUpdate();
-			_stageUi->ChangeNumber(_stageKey);
+			_stageUi->ChangeNumber(_stageKey);	// ステージUIの画像切り替え
 			//_itemImages->AddImage()
-			_bossOpen = false;	// ボスの扉
+			// 各種フラグの設定
+			_bossOpen = false;	
 			_bossBattle = false;
 			_resetFlg = false;
 			_isEnding = false;
@@ -262,6 +263,7 @@ namespace inr {
 		_bg->ScrollOn();	// スクロール再開
 		_eServer->Init();	// エフェクトの消去
 		_tutorialServer->Clear();
+		_itemServer->ItemClear();	// アイテム初期化
 		_game.GetGimmickServer()->Clear();
 		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
 		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す
