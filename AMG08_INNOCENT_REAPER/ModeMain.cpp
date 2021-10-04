@@ -58,7 +58,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 初期化後のステージを設定
 #ifdef _DEBUG
-			_stageKey = stage::STAGE_0;
+			_stageKey = stage::STAGE_2_2;
 #endif
 #ifndef _DEBUG
 			_stageKey = stage::STAGE_0;
@@ -90,6 +90,7 @@ namespace inr {
 			_game.GetGimmickServer()->Clear();
 			_pause->Init();
 			_messageServer->Init();
+			_itemServer->ItemClear();	// 全消去
 			_bg->ChangeGraph();
 			_tutorialServer->Clear();
 			// _uiSoul->Reset();
@@ -103,7 +104,7 @@ namespace inr {
 	void ModeMain::Process() {
 		IsStageChange();	// ステージを切り替えるか？
 		StageReset();	// ステージを初期化するか？
-		if (_isEnding == true) IsEnding();
+		if (_isEnding == true) IsEnding();	// エンディングに突入するか？
 		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
 
@@ -131,16 +132,16 @@ namespace inr {
 		_bg->Draw();	// 背景
 		_game.GetGimmickServer()->Draw();	// ギミック
 		_game.GetMapChips()->Draw();	// マップチップ
-		_tutorialServer->Draw();
+		_tutorialServer->Draw();	// チュートリアルUI
 		_eServer->DrawBack();	// エフェクト(後)
 		_game.GetObjectServer()->Draw();	// オブジェクト
-		_itemServer->Draw();
+		_itemServer->Draw();	// アイテム
 		_eServer->DrawFormer();	// エフェクト(前)
-		_fg->Draw();
+		_fg->Draw();	// 前景
 		// _uiSoul->Draw();	// HP(UI)
 		_stageUi->Draw();	// ステージUI
-		if(_pause->Active() == true) _pause->Draw();
-		if (_messageServer->IsActive() == true) _messageServer->Draw();
+		if(_pause->Active() == true) _pause->Draw();	// ポーズ画面
+		if (_messageServer->IsActive() == true) _messageServer->Draw();	// アイテムテキスト
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 
@@ -154,7 +155,9 @@ namespace inr {
 	bool ModeMain::IsStageChange() {
 		// キーは切り替わっているか？
 		if (_changeKey == stage::CHANGE_NULL) return false;
+		// ステージ遷移SEを鳴らす
 		if (CheckSoundMem(se::SoundServer::GetSound(system::MOVE_STAGE1)) == 0) PlaySoundMem(se::SoundServer::GetSound(system::MOVE_STAGE1), DX_PLAYTYPE_BACK);
+		// 画面が完全に暗転したら各種初期化を行う
 		if (_game.GetModeServer()->PalChange() == true) {
 			// ギミックの状態を更新する
 			BgmManage(_changeKey);	// bgm切り替え
