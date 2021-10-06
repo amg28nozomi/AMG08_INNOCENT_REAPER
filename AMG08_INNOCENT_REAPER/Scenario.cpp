@@ -134,13 +134,13 @@ namespace inr {
 	//}
 
 	bool Scenario::AddObjects(const std::string key) {
-		IsLoad(key);
-		AddPlayer();
-		AddTutorials(key);
+		IsLoad(key);	// オブジェクトの読み込みを行うか？
+		AddPlayer();	// プレイヤーを生成するか？
+		AddTutorials(key);	// チュートリアルUIを生成する
 		if (_game.GetModeServer()->GetModeMain()->GetItemImages()->IsLoad() == true) LoadImageData(Loads::LoadImages());
 
 		auto it = _scenarios.find(key);
-		// 登録されているオブジェクト(ObjectBase限定)の生成
+		// 登録されているオブジェクトの生成
 		for (auto ovalue : it->second) {
 			auto classType = ovalue.ClassName();	// 生成するオブジェクトは何なのか？
 			switch (classType) {
@@ -205,6 +205,7 @@ namespace inr {
 	}
 
 	void Scenario::AddPlayer() {
+		// 既に自機が登録されている場合は処理を終了する
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
 #ifdef _DEBUG
 		 // ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 400 });	// ボスステージデバッグ用
@@ -317,8 +318,8 @@ namespace inr {
 
 		for (auto&& ovalue : scenario->second) {
 			if (gs.empty() && Items.empty()) break;	// 要素が空になった場合は処理を終了する
-			if (ovalue.ObjectType() == oscenario::OBJ_ITEM) {	// アイテムの場合は更新をかける
-				ovalue = Items.front()->GetObjectValue();
+			if (ovalue.ObjectType() == oscenario::type::ITEM) {	// アイテムの場合は更新をかける
+				ovalue = Items.front()->GetObjectValue();	// 情報を取得
 				Items.erase(Items.begin());
 				continue;
 			}

@@ -43,7 +43,7 @@ namespace {
 namespace inr {
 
 	CrowDoll::CrowDoll(Game& game) : EnemyBase(game), _cState(CrowState::SLEEP) {
-		_type = ObjectBase::ObjectType::ENEMY;
+		_type = ObjectBase::ObjectType::ENEMY;	
 		_aState = ActionState::IDOL;
 		_eType = EnemyType::CROW_DOLL;
 		_cState = CrowState::SLEEP;
@@ -94,23 +94,19 @@ namespace inr {
 		Init();
 	}
 
-	// 攻撃パターンは「ラッシュ→落下→空中待機→腕刺し→待機→空中待機」
-
 	void CrowDoll::Process() {
-		IsGravity();
-		// バトル開始前の処理
-		IsBattle();
+		IsGravity();	// 重力処理
+		IsBattle();	// ボス戦闘フラグ
 		WakeUp();	// 起き上がり
 		if (IsActive() != true) return;	// 活動状態でない場合は処理を行わない
-		if (_isWarp == true && _atkInterval == 0) Warp();
-		SetState();
-		Floating();
+		if (_isWarp == true && _atkInterval == 0) Warp();	// ワープ処理
+		SetState();	// 状態の設定
+		Floating();	// 浮遊処理
 		Attack();	// ダメージ処理
-		Move();
+		Move();	// 移動処理
 	}
 
 	void  CrowDoll::Draw() {
-
 		Vector2 xy = _position;
 		_game.GetMapChips()->Clamp(xy);
 		auto x = xy.IntX();
@@ -134,14 +130,15 @@ namespace inr {
 	}
 
 	void CrowDoll::WakeUp() {
+		// ボス戦が始まっていない場合は処理を抜ける
 		if (_game.GetModeServer()->GetModeMain()->BossFlag() != true) return;
-		if (_setup == true) return;
+		if (_setup == true) return;	// 準備が完了している場合はスキップ
 		--_aCount;	// 立ち上がらせる
 		if (_aCount == 0) {
 			_setup = true;	// セットアップ完了
 			_mainCollision.GetCollisionFlgB() = true;	// 当たり判定をオンにする
 			ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
-			_isAnimation = true;
+			_isAnimation = true;	// アニメーション再生を開始
 			return;
 		}
 	}
@@ -157,21 +154,21 @@ namespace inr {
 	}
 
 	void CrowDoll::ModeChange(CrowState nextState, std::string key) {
-		_divKey.first = key;
-		_cState = nextState;
-		_changeGraph = true;
+		_divKey.first = key;	// 画像キー切り替え
+		_cState = nextState;	// 状態遷移
+		_changeGraph = true;	// 画像切り替えフラグオン
 	}
 
 	void CrowDoll::Move() {
 		ChangeDirection();	// 向きの調整
-		_moveVector.GetPY() = _gravity;
+		_moveVector.GetPY() = _gravity;	// y座標に重力値加算」
 		_game.GetMapChips()->IsHit(NowCollision(_divKey.first), _position, _moveVector, _direction);	// 押し出し処理
 
-		_position = _position + _moveVector;
-		_mainCollision.Update(_position, _direction);
+		_position = _position + _moveVector;	// 座標更新
+		_mainCollision.Update(_position, _direction);	// 当たり判定の更新
 
-		for (auto&& it : _collisions) it.second.Update(_position, _direction);
-		_moveVector = { 0, 0 };
+		for (auto&& it : _collisions) it.second.Update(_position, _direction);	// 当たり判定の更新
+		_moveVector = { 0, 0 };	// 移動量を初期化する
 	}
 
 	void CrowDoll::Attack() {
@@ -194,25 +191,27 @@ namespace inr {
 	}
 
 	bool CrowDoll::IsGravity() {
+		// 現在の状態に応じて重力処理を行うかの判定を行う
 		switch (_cState) {
 		case CrowState::DEATH:
 		case CrowState::SLEEP:
 		case CrowState::BLINK:
 		case CrowState::RUSH:
+			// 描画画像が待機状態の場合
 			if (_divKey.first == enemy::crowdoll::CROW_IDOL) {
-				_gravity = 0;
-				_stand = false;
+				_gravity = 0;	// 重力値初期化
+				_stand = false;	// 立っていない
 				return true;
 			}
 			_gravity += FRAME_G;	// 加速度を加算
-			if (MAX_G < _gravity) _gravity = MAX_G;
-			if (IsStandChip()) {
+			if (MAX_G < _gravity) _gravity = MAX_G;	// 上限値を超過している場合は修正
+			if (IsStandChip()) {	// 地面に立っているか？
 				if (0 < _gravity) _stand = true;
 				if (_cState == CrowState::BLINK) {
 					_gravity = 0;
 					// WarpOn();	// ワープ移動
 					return true;
-				}	// ワープ処理を呼び出す
+				}
 				_gravity = 0;
 			} else {
 				_stand = false;
@@ -226,17 +225,19 @@ namespace inr {
 	}
 
 	bool CrowDoll::Floating() {
+		// 怯み状態の場合
 		if (_cState == CrowState::WINCE) {
+			// 現在のY座標が浮遊上限以下の場合
 			if (_position.GetY() + _gravity <= DEFAULT_Y) {
-				_position.GetPY() = DEFAULT_Y;
-				_gravity = 0;
+				_position.GetPY() = DEFAULT_Y;	// 座標を修正
+				_gravity = 0;	// 重力値初期化
 				return true;
 			}
 		}
-
+		// 待機状態または咆哮状態の場合
 		if (_cState == CrowState::IDOL || _cState == CrowState::ROAR) {
 			if (_position.GetY() <= DEFAULT_Y) return false;
-			_gravity -= 0.25;
+			_gravity -= 0.25;	// 重力値減算
 			if (_position.GetY() + _gravity < DEFAULT_Y) {
 				_position.GetPY() = DEFAULT_Y;
 				_gravity = 0;
@@ -247,25 +248,26 @@ namespace inr {
 	}
 
 	void CrowDoll::Warp() {
-		_isWarp = false;
+		_isWarp = false;	// ワープフラグをオフにする
 		_isAnimation = true;	// アニメーション再開
 		AddWarpEffect(_warpPos, true);	// 追従処理有り
-		_position = _warpPos;
-
+		_position = _warpPos;	// 座標を切り替える
+		
+		// 状態に応じた処理を実行
 		switch (_cState) {
 		case CrowState::RUSH:
 			PlaySe(enemy::crowdoll::SE_RUSH);
-			ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_RUSH);
-			AddRushEffect();
+			ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_RUSH);	// 状態切り替え
+			AddRushEffect();	// 連撃エフェクト発生
 			return;
 		case CrowDoll::CrowState::DEBUF:
-			ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_DEBUFF);
+			ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_DEBUFF);	// 状態切り替え
 			return;
 		case CrowDoll::CrowState::ROAR:
 			return;
 		case CrowDoll::CrowState::BLINK:
 			ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_BLINK);	// 状態切り替え
-			AddBlinkEffect();
+			AddBlinkEffect();	// 落下エフェクト発生
 			return;
 		case inr::CrowDoll::CrowState::IDOL:
 			return;
@@ -275,16 +277,16 @@ namespace inr {
 	}
 
 	void CrowDoll::Rash() {
-		_isAnimation = true;
-		// 連続攻撃
+		_isAnimation = true;	// アニメーション再生開始
+
 		double mx = 0;
 		double nextpos = 0;
 		switch (_direction) {
-		case enemy::MOVE_LEFT:
-			mx = -RASH_MAX / 15;
-			_moveVector.GetPX() = mx;
-			nextpos = _position.GetX() + mx;
-			if (IsAttackEnd() == true) {
+		case enemy::MOVE_LEFT:	// 左向きの場合
+			mx = -RASH_MAX / 15;	// 移動量算出
+			_moveVector.GetPX() = mx;	// 移動ベクトルに代入
+			nextpos = _position.GetX() + mx;	// 移動後の座標を算出
+			if (IsAttackEnd() == true) {	// 
 				--_actionCount;
 				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH));
 				return;
@@ -325,6 +327,7 @@ namespace inr {
 	}
 
 	bool CrowDoll::IsAttackEnd() {
+		// マップチップに衝突しているか？
 		if (_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction) == mapchip::NORMAL) return true;
 		return false;
 	}
@@ -571,10 +574,11 @@ namespace inr {
 	}
 
 	bool CrowDoll::IsBattle() {
-		if (_cState == CrowState::DEATH) return false;
-		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return false;
+		if (_cState == CrowState::DEATH) return false;	// 死んでいるか？
+		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return false;	// ボス戦闘フラグがオンになっているか？
+		// 自機のX座標は目標地点まで到達しているか？
 		if (_game.GetObjectServer()->GetPlayer()->GetPosition().GetX() < _game.GetMapChips()->GetMapSizeWidth() - HALF_WINDOW_W) return false;
-		_game.GetModeServer()->GetModeMain()->BossBattle();	// ボスバトルを開始する
+		_game.GetModeServer()->GetModeMain()->BossBattle();	// 到達している場合はボス戦闘処理呼び出し
 	}
 
 	void CrowDoll::AddSoul() {

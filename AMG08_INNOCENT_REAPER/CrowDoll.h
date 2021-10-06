@@ -27,6 +27,7 @@ namespace inr {
 			constexpr auto SE_DEBUF = "crow_debuf";	// デバフボイス
 			constexpr auto SE_DEATH = "crow_death";	// 死亡SE
 
+			// モーション数
 			namespace motion {
 				constexpr auto IDOL = 13;
 				constexpr auto RUSH = 35;
@@ -49,36 +50,41 @@ namespace inr {
 			constexpr auto BLINK = "cd_blink_effect";	// 転移
 			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
 			constexpr auto DEBUF = "cd_debuf_effect";	// デバフエフェクト
-			constexpr auto AURA = "cd_aura_effect";
+			constexpr auto AURA = "cd_aura_effect"; // 怒りエフェクト(オーラ)
 			constexpr auto DEATH = "cd_death_effect";	// 死亡エフェクト
 
+			// 咆哮エフェクトの画像サイズ
 			constexpr auto ROAR_WIDTH = 3840;
 			constexpr auto ROAR_HEIGHT = 2160;
-
+			// 腕エフェクトの画像サイズ
 			constexpr auto ARM_WIDTH = 750;
 			constexpr auto ARM_HEIGHT = 600;
-
+			constexpr auto GROW_IMAGE = 400;
+			// 連続切りエフェクトの画像サイズ
 			constexpr auto RUSH_WIDTH = 800;
 			constexpr auto RUSH_HEIGHT = 600;
-
-			constexpr auto GROW_IMAGE = 400;
+			// ワープエフェクトの画像サイズ
 			constexpr auto BLINK_IMAGE = 800;
-
+			// 落下攻撃エフェクトの画像サイズ
 			constexpr auto BLINK_ATTACK_W = 560;
 			constexpr auto BLINK_ATTACK_H = 800;
+			// 落下攻撃エフェクトの分割数
 			constexpr auto BLINL_ATTACK_MAX = 10;
-
+			// オーラエフェクトの画像サイズ
 			constexpr auto AURA_IMAGE = 500;
+			// オーラエフェクトの分割数
 			constexpr auto AURA_MAX = 30;
-
+			// デバフエフェクトの総画像枚数
 			constexpr auto DEBUF_MAX = 10;
-
+			// 死亡エフェクトの画像サイズ
 			constexpr auto DEATH_IMAGE = 600;
+			// 死亡エフェクトの分割数
 			constexpr auto DEATH_MAX = 14;
 
 		}
 	}
 
+	// ボス
 	class CrowDoll : public EnemyBase {
 	public:
 		CrowDoll(Game& game);
@@ -87,6 +93,7 @@ namespace inr {
 		void Process() override;
 		void Draw() override;
 
+		// オブジェクト情報の登録
 		void SetParameter(ObjectValue objValue) override;
 	private:
 		enum class CrowState {
@@ -115,55 +122,82 @@ namespace inr {
 		bool _wait;	// 待機フラグ
 		int _muteki;	// 無敵時間
 
-
-
+		// 状態遷移
 		void ModeChange(CrowState nextState, std::string key);
-		void GetTarget();	// 自機の座標を取得する
-		bool SetState();	// 各種状態の管理
-		int IsAnger();	// 起こり状態になっているか？
-		bool IsVital();	// 現在のアニメーション中、魂は奪えるか？
-		// bool Damage();	// 自身のダメージ処理を行う
-
-		void WarpOn();	// 転移セット
-
-		void Warp();	// 特定座標までワープする
-		void WakeUp();	// 活動開
-
-		void ChangeDirection();	// 向きの変更
-		bool IsActive();	// 活動状態にあるか？
+		// 自機の座標を取得する
+		void GetTarget();
+		// 各種状態の管理
+		bool SetState();
+		// 怒り状態に突入しているかの判定
+		int IsAnger();
+		// 現在のアニメーション中、魂は奪えるか？
+		bool IsVital();
+		// ワープ処理の起動
+		void WarpOn();
+		// ワープ処理
+		void Warp();
+		// 活動開始
+		void WakeUp();
+		// 向きの変更
+		void ChangeDirection();	
+		// 活動状態にあるか？
+		bool IsActive();
+		// ボス戦闘フラグをオンにするか
 		bool IsBattle();
 
-		void Move() override;	// 移動
-		bool Floating();	// 浮遊処理
-		void Debuf();	// デバフ処理
-		void Rash();	// 連続攻撃
-		void Blink();	// 落下攻撃
-		void AddSoul();		// 魂を生み出す
-		void Attack();	// 攻撃処理
+		// 移動
+		void Move() override;
+		// 浮遊処理
+		bool Floating();
+		// デバフ処理
+		void Debuf();
+		// 連続攻撃
+		void Rash();
+		// 落下攻撃
+		void Blink();
+		// 魂を生み出す
+		void AddSoul();
+		// 攻撃処理
+		void Attack();
 
-		bool IsGravity();	// 重力処理を行うか？
-		bool IsAttackEnd();	// 強制終了
-		bool AngerOn();	// 怒り状態に遷移する
+		// 重力処理を行うか？
+		bool IsGravity();
+		// 攻撃を終了するか？（マップチップと衝突しているか？）
+		bool IsAttackEnd();
+		// 怒り状態への遷移
+		bool AngerOn();
 
-		bool IsPlayerPos(double px);	// 自機は左右どちらにいるのか？
+		// 自機は左右どちらにいるのか？
+		bool IsPlayerPos(double px);
+		// 死んでいるか？
 		bool IsDead() override;
-		bool DeathOn();	// 死亡処理の起動
+		// 死亡処理の起動
+		bool DeathOn();
+		// 他ドール(敵)を死亡させる
 		bool DollsEnd();
 
+		// 現在の当たり判定の算出
 		AABB NowCollision(std::string key) override;
+		// 落下攻撃時の急所生成
 		std::pair<AABB, AABB> BlinkVitalPart(Collision& col, int vital);
-
+		// 自機アクションとの衝突判定
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 
-		// 引数1:生成地点、引数2:追従処理を行うか？(true:追従処理有り, false:追従処理無し)
+		// ワープエフェクトの生成(引数1:生成地点、引数2:追従処理を行うか？(true:追従処理有り, false:追従処理無し)
 		bool AddWarpEffect(Vector2 spwan, bool target = false);
+		// 連撃エフェクトの生成
 		bool AddRushEffect();
-		bool AddBlinkEffect();	// 攻撃エフェクト
+		// 攻撃エフェクトの生成
+		bool AddBlinkEffect();
+		// 煙(衝撃波)エフェクトの生成
 		bool AddSmokeEffect();
-		bool AddAngerEffect();	// 怒りエフェクト
+		// 怒りエフェクトの生成
+		bool AddAngerEffect();
+		// デバフエフェクトの生成
 		bool AddDebufEffect();
-		bool IsPlayerPosition();	// 自機は左右どちらにいるのか
-
+		// 自機は左右どちらにいるのか
+		bool IsPlayerPosition();
+		// 攻撃判定の算出
 		bool AttackBox(bool flag);
 	};
 }

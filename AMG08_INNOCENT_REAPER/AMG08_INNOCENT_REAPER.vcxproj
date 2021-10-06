@@ -154,7 +154,6 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BigDoll.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChipHitCheck.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CrowDoll.cpp" />
@@ -216,10 +215,8 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BigDoll.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="ChipHitCheck.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="Constexpr.h" />
     <ClInclude Include="CrowDoll.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="Door.h" />

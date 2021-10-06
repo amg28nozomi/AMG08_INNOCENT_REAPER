@@ -90,11 +90,14 @@ namespace inr {
 	}
 
 	void BigDoll::Action() {
+		// 起き上がり状態または、アクション実行中の場合は処理を抜ける
 		if (_aState == ActionState::WAKEUP || _isAction == true) return;
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
+			// 発見した場合は発見エフェクトの生成および登録
 			auto eye_light = std::make_unique<EffectBase>(_game.GetGame(), effect::bigdoll::OMEN, _position, effect::bigdoll::OMEN_NUMS * 3, _direction);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eye_light), effect::type::FORMER);
+			// 魂の色に応じたSEを鳴らす
 			switch (_soul->SoulColor()) {
 			case soul::RED:
 				PlaySe(enemy::bigdoll::SE_TACKLE_VOICE);
@@ -104,7 +107,7 @@ namespace inr {
 				break;
 			}
 			_isAction = true;
-			ChangeIdol(BIG_STAY * 3);
+			ChangeIdol(BIG_STAY * 2);	// 一定時間の間、待機状態に遷移
 		}
 		// 発見できなかった場合は移動処理を行う
 		if (_soul == nullptr) _actionX = 0;
@@ -411,19 +414,21 @@ namespace inr {
 	}
 
 	void BigDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
-		// 現在の急所がある座標を算出
+		// 急所(魂が奪える判定範囲)を算出する
 		auto vitalPart = VitalPart(_mainCollision, BIG_DOLL_VITAL);
 		auto player = _game.GetObjectServer()->GetPlayer();
 		// 魂は奪われるか？
 		if (ckey == PKEY_ROB) {
 			if (_soul != nullptr) {
+				// 自機と向きが同じかつ、衝突判定がある場合
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
 					// 魂を奪われる
-					ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
-					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
+					ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);	// 抜け殻に遷移
+					_searchBox.GetCollisionFlgB() = false;	// 索敵判定を切る
 
 					PlaySe(enemy::bigdoll::SE_DOWN);
 
+					// 死亡エフェクトの生成および登録
 					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::FORMER);
 
@@ -432,11 +437,11 @@ namespace inr {
 					_stay = 0;
 					_isAction = false;
 
-					_mainCollision.GetCollisionFlgB() = false;
+					_mainCollision.GetCollisionFlgB() = false;	// 当たり判定を切る
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {
-						_soul->OwnerNull();
+						_soul->OwnerNull();	// 所有者をリセット
 						_soul.reset();	// 所有権を手放す
 						return;
 					}
@@ -451,15 +456,15 @@ namespace inr {
 			if (player->HaveSoul()) {
 				// 魂が空の場合にボックスが接触したら
 				if (_soul == nullptr) {
-					// 接触時の判定はAABBで行う（奪うアクションとは違い、向きによる制限なし）
+					// 衝突判定（奪うアクションとは違い、向きによる制限なし）
 					if (NowCollision(_divKey.first).HitCheck(acollision)) {
-						// プレイヤーを取得
 						auto player = _game.GetObjectServer()->GetPlayer();
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
 						_searchBox.GetCollisionFlgB() = false;
 
+						// 与えられた魂に応じた、起き上がり状態に遷移する
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::BIG_WAKEUP);

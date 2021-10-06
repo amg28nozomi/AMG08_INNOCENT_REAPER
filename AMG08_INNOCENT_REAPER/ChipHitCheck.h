@@ -21,7 +21,7 @@ namespace inr {
 	// マップの当たり判定を管理
 	class ChipNumber {
 	public:
-		// 当たり判定に修正がない場合は引数指定なしでOK
+		// 当たり判定に修正がない場合は引数指定なし
 		ChipNumber(int width1, int width2, int height1, int height2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		ChipNumber(int type, bool ishit = mapchip::HIT_ON);

@@ -12,6 +12,7 @@ Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max
 #ifdef _DEBUG
 	_drawFlg = true;
 #endif
+	// ボックスの横幅と立幅を算出
 	int width = static_cast<int>(maxV.GetX() - minV.GetX());
 	int height = static_cast<int>(maxV.GetX() - minV.GetX());
 
@@ -21,6 +22,7 @@ Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max
 	_heightMin = height;
 	_heightMax = height;
 
+	// 中心座標に登録
 	auto posx = max.GetX() - min.GetX() / 2;
 	auto posy = max.GetY() - min.GetY() / 2;
 	center = { posx, posy };
@@ -77,6 +79,7 @@ void Collision::Update(Vector2& pos, bool inv) {
 }
 
 void Collision::Swap(Collision col){
+	// 当たり判定の交換
 	minV = col.GetMin();
 	maxV = col.GetMax();
 	center = { maxV.GetX() - minV.GetX(), maxV.GetY() - minV.GetY() };
@@ -92,7 +95,9 @@ void Collision::DrawDBox(int color) {
 }
 
 bool Collision::HitCheck(Collision collision) {
+	// 判定フラグはオンになっているか？
 	if (_collisionFlg == true && collision._collisionFlg == true) {
+		// 接触しているか？
 		bool flg = maxV.GetX() < collision.minV.GetX() ||
 			collision.maxV.GetX() < minV.GetX() ||
 			maxV.GetY() < collision.minV.GetY() ||
@@ -117,7 +122,6 @@ bool Collision::HitUpDown(Collision col) {
 
 double Collision::HitDirection(Collision col) {
 	if (!_collisionFlg || !col._collisionFlg) return 0;
-	// if (_collisionFlg == true != col._collisionFlg == true) return 0;
 	// y座標は範囲内に収まっているか？
 	if (minV.GetY() < col.maxV.GetY() && col.minV.GetY() < maxV.GetY()) {
 		if (minV.GetX() < col.maxV.GetX() && col.maxV.GetX() < maxV.GetX()
@@ -141,8 +145,6 @@ bool Collision::SideCheck(Collision collision) {
 		if (collision.minV.GetX() < maxV.GetX() && minV.GetX() < collision.maxV.GetX()) {
 			return true;
 		}
-		// if (minV.GetX() <= x <= maxV.GetX()) {
-		// }
 	}
 	return false;
 }

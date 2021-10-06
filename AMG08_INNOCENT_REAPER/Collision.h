@@ -24,10 +24,6 @@ public:
 	Collision();
 	~Collision() = default;
 
-	// 参照ゲッター（Reference）
-	/*inline Vector2& RefMin() { return minV; }
-	inline Vector2& RefMax() {return maxV;}*/
-
 	inline Vector2 GetMin() { return minV; }
 	inline Vector2 GetMax() { return maxV; }
 	inline Vector2 GetCenter() { return center; }
@@ -38,8 +34,6 @@ public:
 	inline int GetHeightMax() { return _heightMax; }
 	inline int WidhtSize() { return _widthMin + _widthMax; }
 	inline int HeightSize() { return _heightMin + _heightMax; }
-	/*inline const int GetWidth() { return _width / 2; }
-	inline const int GetHeight() { return _height / 2; }*/
 
 	virtual void Update(Vector2& pos, bool inv); // 更新・反転処理有
 	virtual void Swap(Collision col);	// 一時的に当たり判定を切り替える

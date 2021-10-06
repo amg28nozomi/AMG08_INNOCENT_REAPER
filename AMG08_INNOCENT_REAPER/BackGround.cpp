@@ -8,15 +8,19 @@
 #include <DxLib.h>
 
 namespace {
+	// スクロール速度
 	constexpr auto BACKGROUND_SPEED = 0.5;
+	// スクロール上限
 	constexpr auto MAX_SCROLL = 1920 + 960;
+	// スクロール下限
 	constexpr auto MIN_SCROLL = -960;
 
-
+	// ステージ1の各種スクロール速度
 	constexpr auto STAGE1_BACK_00 = 0.30;
 	constexpr auto STAGE1_BACK_01 = 0.4;
 	constexpr auto STAGE1_BACK_02 = 0.6;
 
+	// ステージ2の各種スクロール速度
 	constexpr auto STAGE2_BACK_00 = 0.25;
 	constexpr auto STAGE2_BACK_01 = 0.40;
 	constexpr auto STAGE2_BACK_02 = 0.50;
@@ -29,12 +33,11 @@ namespace inr {
 		_stageNo = -1;
 		_pos = { 960 , 1080 };
 		_fix = { 0, 0 };
-		_scroll = true;
-		// ChangeGraph();	// 最初のキーを読み込み
+		_scroll = true;	// スクロールオン
 	}
 
 	void BackGround::Init() {
-		// スクリーン座標のサイズ分だけ初期化を行う
+		// 背景画像枚数分、初期化を行う
 		for (int n = 0; n < static_cast<int>(_scrSpeed.first.size()); ++n) {
 			_positions.first.emplace_back(HALF_WINDOW_W, _fix.first);
 			_positions.second.emplace_back(MAX_SCROLL, _fix.second);
@@ -43,12 +46,14 @@ namespace inr {
 	}
 
 	void BackGround::Process() {
-		ChangeGraph();
+		ChangeGraph();	// 背景画像を切り替えるか
+		// 画像キーに応じて呼び出すスクロール処理を変更
 		if (_graphKey == background::BACK_GROUND_B) NormalManage();
 		else BigManage();
 	}
 
 	void BackGround::Draw() {
+		// 背景画像枚数分の描画処理を実行する
 		for (auto number = 0; number < static_cast<int>(_positions.first.size()); ++number) {
 			auto x1 = _positions.first[number].IntX();
 			auto y1 = _positions.first[number].IntY();
@@ -58,19 +63,22 @@ namespace inr {
 			auto gh = graph::ResourceServer::GetHandles(_graphKey, number);
 			DrawRotaGraph(x1, y1, 1.0, 0, gh, true, false);
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
-			// DrawFormatString(500, number * 100, GetColor(255, 0, 255), "backGround_y : %d\n", _positions.second[number].IntY());
 		}
+		// 現座のステージが
 		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}
 
 	void BackGround::ChangeGraph() {
+		// ステージは切り替わったか？
 		if (IsChanege() != true) return;
+
+		// 切り替わった場合は各種変数の要素を解放する
 		_graphKey.clear();
-		_scrSpeed.first.clear();	// 中身を空にする
+		_scrSpeed.first.clear();
 		_scrSpeed.second.clear();
 		_positions.first.clear();
 		_positions.second.clear();
-		// 現在のステージに応じて各種値を更新
+		// 現在のステージに応じて各種値を登録
 		switch (_stageNo) {
 		case stage::number::SN_S:	// ステージS
 			_graphKey = background::BACK_GROUND_S;
@@ -112,13 +120,15 @@ namespace inr {
 	}
 
 	bool BackGround::IsChanege() {
-		auto no = KeyNumber();
+		auto no = KeyNumber();	// 画像番号を取得
+		// すて
 		if (_stageNo == no) return false;
 		_stageNo = no;
 		return true;
 	}
 
 	int BackGround::KeyNumber() {
+		// ステージキーを取得
 		auto skey = _game.GetModeServer()->GetModeMain()->StageKey();
 		if (skey == stage::STAGE_0) return stage::number::SN_S;
 		if (skey == stage::STAGE_T) return stage::number::SN_T;

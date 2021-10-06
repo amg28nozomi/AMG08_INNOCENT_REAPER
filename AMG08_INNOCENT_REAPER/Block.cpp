@@ -6,8 +6,8 @@
 namespace inr {
 
 	Block::Block(Game& game) : GimmickBase(game) {
-		_gType = GimmickType::BLOCK;
-		_divKey = { gimmick::block::KEY_BLOCK, gimmick::block::KEY_BLOCK };
+		_gType = GimmickType::BLOCK;	// ギミックタイプの設定
+		_divKey = { gimmick::block::KEY_BLOCK, gimmick::block::KEY_BLOCK };	
 		_motionKey = { 
 			{gimmick::block::KEY_BLOCK, {1, 0}},
 			{gimmick::block::KEY_BREAK, { 26 * 2, 0}} };
@@ -21,8 +21,8 @@ namespace inr {
 	}
 
 	void Block::Process() {
+		// フラグがオンかつ、アニメーションが終了している場合は該当オブジェクトを消去する
 		if (_break == gimmick::block::BRAKE_ON && AnimationCountMax() == true) {
-			// フラグがオンかつ、アニメーションが終了している場合は該当オブジェクトを消去する
 			_delete = true;
 			_game.GetGimmickServer()->DelOn();
 			return;
@@ -48,12 +48,13 @@ namespace inr {
 	}
 
 	void Block::SetParameter(ObjectValue objValue) {
-		_oValue = objValue;
-		_position = _oValue.Positions()[0];
-		_mainCollision = { _position, 45, 45, 100, 140, true };
+		_oValue = objValue;	// オブジェクト情報登録
+		_position = _oValue.Positions()[0];	// 座標の設定
+		_mainCollision = { _position, 45, 45, 100, 140, true };	// 当たり判定の登録
 
+		// フラグがオンの場合
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
-			_break = gimmick::block::BRAKE_ON;
+			_break = gimmick::block::BRAKE_ON;	// 破壊済み
 			_pal = 0;
 #ifdef _DEBUG
 			_mainCollision.GetbDrawFlg() = false;
@@ -67,19 +68,20 @@ namespace inr {
 	void Block::ObjValueUpdate() {
 		auto flag = oscenario::gimmick::FLAG_FALSE;
 		if (_break == gimmick::block::BRAKE_ON) flag = oscenario::gimmick::FLAG_TRUE;
-		_oValue.FlagUpdate(flag);
+		_oValue.FlagUpdate(flag);	// フラグ更新
 	}
 
 
 	bool Block::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
+		// 対象の判定座標更新
 		auto newpos = pos + move;
 		box.Update(newpos, direction);
 		// 対象は接触しているか？
 		if (_mainCollision.HitCheck(box) == false) return false;	// 衝突していない
 
-		// 衝突している場合はどちら側からめり込んでいるかを算出する
+		// 衝突している場合はどちら側からめり込んでいるかを算出
+		// 対応した方向へ押し出し処理を行う
 		if (move.GetX() < 0) {
-			// 左から接触している
 			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMax();
 			move.GetPX() = 0;
 		}

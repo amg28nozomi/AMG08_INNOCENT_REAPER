@@ -7,20 +7,17 @@
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 
 	SetOutApplicationLogValidFlag(FALSE);
-	ChangeWindowMode(FALSE);
-
 #ifndef _DEBUG
+	ChangeWindowMode(FALSE);
 	SetGraphMode(inr::WINDOW_W, inr::WINDOW_H, inr::WINDOW_B);
 #endif
 #ifdef _DEBUG
-	// デバッグ専用表示
-	// SetGraphMode(inr::DEBUG_WINDOW_W, inr::DEBUG_WINDOW_H, inr::WINDOW_B);
+	ChangeWindowMode(TRUE);
 	SetGraphMode(inr::WINDOW_W, inr::WINDOW_H, inr::WINDOW_B);
 #endif
 
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
-	SetMouseDispFlag(FALSE);
 	
 	auto game = std::make_unique<inr::Game>();
 
@@ -37,8 +34,8 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lp
 		game->Draw();
 	}
 
-	graph::ResourceServer::Release();
-	se::SoundServer::Release();
+	graph::ResourceServer::Release();	// 画像素材の解放
+	se::SoundServer::Release();	// 音源素材の解放
 
 	DxLib_End();
 
