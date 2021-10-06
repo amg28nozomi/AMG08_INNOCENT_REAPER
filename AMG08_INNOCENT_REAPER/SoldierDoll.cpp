@@ -180,14 +180,14 @@ namespace inr {
 		if (_stay != 0) {
 			--_stay;	// 待機モーション中はカウンタを減らして処理を抜ける
 			if (_stay == 0) { 
-				_mainCollision.GetCollisionFlgB() = true;
+				_mainCollision.SetCollisionFlag() = true;
 			}
 			return;
 		}
 
 		switch (_aState) {
 		case ActionState::IDOL:
-			if (_mainCollision.GetCollisionFlg() != true) _mainCollision.GetCollisionFlgB() = true;	
+			if (_mainCollision.GetCollisionFlag() != true) _mainCollision.SetCollisionFlag() = true;	
 			if (_isAction == true) {
 				switch (_soul->SoulColor()) {
 					case soul::RED:
@@ -201,7 +201,7 @@ namespace inr {
 				}
 			}
 			PatrolOn();
-			_searchBox.GetCollisionFlgB() = true;
+			_searchBox.SetCollisionFlag() = true;
 			return;
 		case ActionState::PATROL:
 			// 左移動
@@ -233,7 +233,7 @@ namespace inr {
 			if (AnimationCountMax() == true) {
 				ChangeIdol(GIVE_STAY);
 #ifdef _DEBUG
-				_searchBox.GetbDrawFlg() = true;
+				_searchBox.SetDrawFlag() = true;
 #endif
 			}
 			return;
@@ -390,7 +390,7 @@ namespace inr {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::SOLDIER_ATTACK);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
-			_searchBox.GetCollisionFlgB() = false;	// アクションに突入したら一時的に索敵処理を切る
+			_searchBox.SetCollisionFlag() = false;	// アクションに突入したら一時的に索敵処理を切る
 		}
 	}
 
@@ -400,7 +400,7 @@ namespace inr {
 		if (_aState != ActionState::ESCAPE) {
 			ChangeState(ActionState::ESCAPE, enemy::blue::SOLDIER_ESCAPE);
 			(_direction == enemy::MOVE_LEFT) ? _actionX = enemy::ESCAPE_MAX : _actionX = -enemy::ESCAPE_MAX;
-			_searchBox.GetCollisionFlgB() = false;	// アクションに突入したら一時的に索敵処理を切る
+			_searchBox.SetCollisionFlag() = false;	// アクションに突入したら一時的に索敵処理を切る
 		}
 	}
 
@@ -422,7 +422,7 @@ namespace inr {
 			auto it = _collisions.find(_divKey.first);
 			it->second.Update(_position, _direction);
 #ifdef _DEBUG
-			if(it->second.GetbDrawFlg() == false) it->second.GetbDrawFlg() = true;
+			if(it->second.SetDrawFlag() == false) it->second.SetDrawFlag() = true;
 #endif
 		}
 
@@ -430,10 +430,10 @@ namespace inr {
 		col->second.Update(_position, _direction);
 
 		if (_soul == nullptr && IsAnimationMax() == true) {
-			col->second.GetCollisionFlgB() = true;
+			col->second.SetCollisionFlag() = true;
 			// _mainCollision.Swap(col->second);
 #ifdef _DEBUG
-			_searchBox.GetbDrawFlg() = false;
+			_searchBox.SetDrawFlag() = false;
 #endif
 			
 		}
@@ -478,7 +478,7 @@ namespace inr {
 
 	void SoldierDoll::ChangeIdol(int stay) {
 		_stay = stay;
-		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
+		_searchBox.SetCollisionFlag() = false;	// 当たり判定を切る
 		std::string nextkey = "";
 		switch (_soul->SoulColor()) {
 		case soul::RED:
@@ -515,8 +515,8 @@ namespace inr {
 					ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 					StopSound();
 					PlaySe(enemy::soldier::DOWN);
-					_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
-					_mainCollision.GetCollisionFlgB() = false;
+					_searchBox.SetCollisionFlag() = false;	// 一時的に索敵判定を切る
+					_mainCollision.SetCollisionFlag() = false;
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる
 					_stay = 0;
 					_isAction = false;
@@ -548,7 +548,7 @@ namespace inr {
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
-						_searchBox.GetCollisionFlgB() = false;
+						_searchBox.SetCollisionFlag() = false;
 						switch (_soul->SoulColor()) {
 						case soul::RED:
 							ChangeState(ActionState::WAKEUP, enemy::red::SOLDIER_WAKEUP);
@@ -571,8 +571,8 @@ namespace inr {
 			embox->second.Update(_position, _direction);
 			ChangeState(ActionState::EMPTY, enemy::SOLDIER_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
-			_searchBox.GetCollisionFlgB() = false;	// 一時的に索敵判定を切る
-			_mainCollision.GetCollisionFlgB() = false;
+			_searchBox.SetCollisionFlag() = false;	// 一時的に索敵判定を切る
+			_mainCollision.SetCollisionFlag() = false;
 			_changeGraph = false;
 			return;	// 処理を抜ける
 		}

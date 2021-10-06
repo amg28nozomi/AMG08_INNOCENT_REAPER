@@ -256,8 +256,8 @@ namespace inr {
 	}
 
 	bool MapChips::IsScrollY() {
-		auto mapH = _nowMap.MapSizeHeight();//_mapSize.second;
-		auto chipH = _nowMap.ChipSizeHeight();// _chipSize.second;
+		auto mapH = _nowMap.MapSizeHeight();
+		auto chipH = _nowMap.ChipSizeHeight();
 		auto scrY = mapH * chipH;
 
 		// ワールドY座標はスクロール開始地点を超えているか？
@@ -439,7 +439,7 @@ namespace inr {
 			Vector2 m = { box.GetMin().GetX(), box.GetMin().GetY() + grvity };
 			Vector2 n = { box.GetMax().GetX(), box.GetMax().GetY() + grvity };
 			// 対象の当たり判定
-			AABB mn = { m, n, box.GetCollisionFlg() };
+			AABB mn = { m, n, box.GetCollisionFlag() };
 
 
 			auto csh = _nowMap.ChipSizeHeight();

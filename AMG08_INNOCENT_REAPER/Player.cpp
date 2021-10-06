@@ -278,7 +278,7 @@ namespace inr {
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
-			if (box->second.GetDrawFlg() == true) {
+			if (box->second.GetDrawFlag() == true) {
 				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
 		}
@@ -397,9 +397,9 @@ namespace inr {
 			if (_judegFrame == 0) {
 				auto it = _collisions.find(_divKey.first);
 				// 当たり判定を止める
-				it->second.GetCollisionFlgB() = false;
+				it->second.SetCollisionFlag() = false;
 #ifdef _DEBUG
-				it->second.GetbDrawFlg() = false;
+				it->second.SetDrawFlag() = false;
 #endif
 			} 
 			// アニメーションカウンタはマックスになったか？
@@ -415,11 +415,11 @@ namespace inr {
 			if (_judegFrame == 0) {
 				auto it = _collisions.find(_divKey.first);
 				// 当たり判定を止める
-				it->second.GetCollisionFlgB() = false;
+				it->second.SetCollisionFlag() = false;
 				auto sound = se::SoundServer::GetSound(key::SOUND_PLAYER_GIVE_FALSE);
 				PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 #ifdef _DEBUG
-				it->second.GetbDrawFlg() = false;
+				it->second.SetDrawFlag() = false;
 #endif
 			}
 			// アニメーションカウンタはマックスになったか？
@@ -790,9 +790,9 @@ namespace inr {
 
 			auto it = _collisions.find(PKEY_ROB);
 			// it->second.SetVector(amin, amax);
-			it->second.GetCollisionFlgB() = true;	// 判定オン
+			it->second.SetCollisionFlag() = true;	// 判定オン
 #ifdef _DEBUG
-			it->second.GetbDrawFlg() = true;
+			it->second.SetDrawFlag() = true;
 #endif
 			// エフェクトを作成
 			auto rob_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::ROB, _position, 27, _direction);
@@ -821,9 +821,9 @@ namespace inr {
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff), effect::type::FORMER);
 
 			auto it = _collisions.find(PKEY_GIVE);
-			it->second.GetCollisionFlgB() = true;	// 判定オン
+			it->second.SetCollisionFlag() = true;	// 判定オン
 #ifdef _DEBUG
-			it->second.GetbDrawFlg() = true;
+			it->second.SetDrawFlag() = true;
 #endif
 			_input = false; // 入力を受け付けなくする
 			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
@@ -917,12 +917,12 @@ namespace inr {
 		// 死亡処理（アニメーションを挟む）
 		ChangeState(ActionState::DEATH, PKEY_DEATH);	// 死亡状態に切り替える
 		_input = false;	// 入力を無効化する
-		_mainCollision.GetCollisionFlgB() = false;	// 当たり判定が機能しないようにオフにする
+		_mainCollision.SetCollisionFlag() = false;	// 当たり判定が機能しないようにオフにする
 		auto box = _collisions.find(PKEY_DASH);
-		box->second.GetCollisionFlgB() = false;
+		box->second.SetCollisionFlag() = false;
 #ifdef _DEBUG
-		_mainCollision.GetbDrawFlg() = false;
-		box->second.GetbDrawFlg() = false;
+		_mainCollision.SetDrawFlag() = false;
+		box->second.SetDrawFlag() = false;
 #endif
 	}
 
@@ -932,7 +932,7 @@ namespace inr {
 			// 以下のコードは修正予定
 			// フラグをオフにする
 			auto it = _collisions.find(_divKey.first);
-			it->second.GetbDrawFlg() = false;
+			it->second.SetDrawFlag() = false;
 		}
 		_aCount = 0;
 #endif
@@ -1064,18 +1064,18 @@ namespace inr {
 		_position = _oValue.Positions().at(0);
 		_direction = _oValue.Direction();
 		_mainCollision.Update(_position, _direction);
-		_mainCollision.GetCollisionFlgB() = true;
+		_mainCollision.SetCollisionFlag() = true;
 
 		std::queue<std::shared_ptr<SoulSkin>> sss;
 		_souls = sss;
 
 		auto dashcol = _collisions.find(PKEY_DASH);
 		dashcol->second.Update(_position, _direction);
-		dashcol->second.GetCollisionFlgB() = true;
+		dashcol->second.SetCollisionFlag() = true;
 
 #ifdef _DEBUG
-		_mainCollision.GetbDrawFlg() = true;
-		dashcol->second.GetbDrawFlg() = true;
+		_mainCollision.SetDrawFlag() = true;
+		dashcol->second.SetDrawFlag() = true;
 #endif
 
 		ChangeState(ActionState::IDOL, PKEY_IDOL);

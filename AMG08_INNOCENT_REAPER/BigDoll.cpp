@@ -14,25 +14,38 @@
 #include <memory>
 
 namespace {
+	// 抜け殻時の判定範囲
 	constexpr auto BIG_EMPTY_WIDTH = 200;
 	constexpr auto BIG_EMPTY_HEIGHT = 100;
 
+	// 巡回時の総移動量
 	constexpr auto PATROL_MAX = 280;
+	// 巡回時の移動量
 	constexpr auto PATROL_VECTOR = 40.0 / 60.0;
 
+	// 急所の判定範囲
 	constexpr auto BIG_DOLL_VITAL = 40;
 
+	// 待機フレーム
 	constexpr auto STAY_MAX = 60;
+	// 待機モーション総再生時間
 	constexpr auto BIG_STAY = 11 * 3;
 
-	// 攻撃
+
+	// 攻撃時の総移動量
+	constexpr auto TACKLE_MAX = 1200;
+	// 攻撃時の最低移動量
 	constexpr auto ATTACK_VECTOR_MIN = 1.0;
+	// 攻撃時の最大移動量
 	constexpr auto ATTACK_VECTOR_MAX = 4.0;
+	// 移動量加算値
 	constexpr auto ADD_VECTOR = 0.15;
 
-	constexpr auto TACKLE_MAX = 1200;
-
+	// 魂を与えられてからの待機時間
 	constexpr auto GIVE_STAY = 120;
+
+	// 岩破壊後の待機時間
+	constexpr auto BREAK_STAY = 30;
 }
 
 namespace inr {
@@ -53,13 +66,16 @@ namespace inr {
 	}
 
 	void BigDoll::Init() {
-		// 当たり判定
+		// 当たり判定設定
 		_mainCollision = { _position, enemy::BIG_WIDTH / 2, enemy::BIG_HEIGHT / 2, true };
+		// 索敵範囲の設定
 		_searchBox = { _position, 260, 260, enemy::BIG_HEIGHT / 2 + 30, enemy::BIG_HEIGHT / 2, true};
+
 		_collisions = {
-			// 抜け殻
+			// 抜け殻状態児の判定
 			{enemy::BIG_EMPTY, {_position, BIG_EMPTY_WIDTH / 2, BIG_EMPTY_WIDTH / 2, 0, BIG_EMPTY_HEIGHT, true}},
 		};
+		// 各種モーションの画像キー、総モーションフレーム数、SEの再生時間の設定
 		_motionKey = {
 			{ enemy::BIG_EMPTY, {7 * 3, 0}},
 			
@@ -79,7 +95,7 @@ namespace inr {
 
 	void BigDoll::Process() {
 		ObjectBase::Process();	// 重力処理
-		_moveVector = { 0, 0 };	// 初期化
+		_moveVector = { 0, 0 };	// 移動量初期化
 
 		AnimationCount();
 		Action();
@@ -106,7 +122,7 @@ namespace inr {
 				PlaySe(enemy::bigdoll::SE_ESCAPE_VOICE);
 				break;
 			}
-			_isAction = true;
+			_isAction = true;	// アクション開始
 			ChangeIdol(BIG_STAY * 2);	// 一定時間の間、待機状態に遷移
 		}
 		// 発見できなかった場合は移動処理を行う
@@ -114,20 +130,24 @@ namespace inr {
 	}
 
 	void BigDoll::Attack() {
-		if (_soul == nullptr || _aState == ActionState::WAKEUP) return;	// 魂がない場合は処理をスキップ
-		auto&& player = _game.GetObjectServer()->GetPlayer();
-		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定を取得
+		if (_soul == nullptr || _aState == ActionState::WAKEUP) return;	// 魂がない場合は処理を行わない
+		auto&& player = _game.GetObjectServer()->GetPlayer();	// 自機の取得
+		auto playerBox = player->GetMainCollision();	// プレイヤーの当たり判定
 
-		// ギミック（レバー）と衝突したか？
+		// 攻撃または逃避状態の場合
 		if (_aState == ActionState::ATTACK || _aState == ActionState::ESCAPE) {
 			auto gs = _game.GetGimmickServer()->GetGimmicks();
 			for (auto gg : gs) {
-				if (gg->GimmickType() == gimmick::DOOR) continue;	// レバーではない場合はスキップ
+				// ドアまたは水晶の場合は処理をスキップ
+				if (gg->GimmickType() == gimmick::DOOR || gg->GimmickType() == gimmick::CRYSTAL) continue;	
+				// 衝突判定が真の場合
 				if (_mainCollision.HitCheck(gg->GetMainCollision())) {
 					switch (gg->GimmickType()) {
+					// ブロックの場合
 					case gimmick::BLOCK:
+						// 対象が破壊されていない場合
 						if (std::dynamic_pointer_cast<Block>(gg)->IsBreak() != gimmick::block::BRAKE_ON) {
-							_stay = 30;
+							_stay = 30;	// 待機カウンタの設定
 							std::string key = "";
 							if (_soul->SoulColor() == soul::BLUE) key = enemy::blue::BIG_IDOL;
 							else key = enemy::red::BIG_IDOL;
@@ -163,7 +183,7 @@ namespace inr {
 		if (0 < _stay) {
 			--_stay;
 			if (_stay == 0) {
-				_mainCollision.GetCollisionFlgB() = true;
+				_mainCollision.SetCollisionFlag() = true;
 			}
 			return;
 		}
@@ -175,7 +195,7 @@ namespace inr {
 
 		switch (_aState) {
 		case ActionState::IDOL:
-			if (_mainCollision.GetCollisionFlg() != true) _mainCollision.GetCollisionFlgB() = true;
+			if (_mainCollision.GetCollisionFlag() != true) _mainCollision.SetCollisionFlag() = true;
 			if (_isAction == true) {
 				switch (_soul->SoulColor()) {
 				case soul::RED:
@@ -189,7 +209,7 @@ namespace inr {
 				}
 			}
 			PatrolOn();
-			_searchBox.GetCollisionFlgB() = true;
+			_searchBox.SetCollisionFlag() = true;
 			return;
 		case ActionState::PATROL:
 			// 右移動
@@ -217,7 +237,7 @@ namespace inr {
 				break;
 			}
 			_stay = STAY_MAX;
-			_searchBox.GetCollisionFlgB() = false;	// 索敵を切る
+			_searchBox.SetCollisionFlag() = false;	// 索敵を切る
 			return;
 		case ActionState::ATTACK:
 			// 立っていてかつ、攻撃SEを鳴らしていない時限定で実装する
@@ -268,7 +288,7 @@ namespace inr {
 				ChangeIdol(BIG_STAY * 2);
 				_stay = STAY_MAX;
 #ifdef _DEBUG
-				_searchBox.GetbDrawFlg() = true;
+				_searchBox.SetDrawFlag() = true;
 #endif
 
 			}
@@ -294,7 +314,7 @@ namespace inr {
 			ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);
 			_aCount = AnimationCountMax();	// カウンタをマックスにする
 			_changeGraph = true;
-			_mainCollision.GetCollisionFlgB() = false;
+			_mainCollision.SetCollisionFlag() = false;
 			return;	// 処理を抜ける
 		}
 		auto soul_n = std::make_shared<SoulSkin>(_game.GetGame());
@@ -334,7 +354,7 @@ namespace inr {
 		if (_soul == nullptr && IsAnimationMax() == true) {
 			_mainCollision.Swap(col->second);
 #ifdef _DEBUG
-			_searchBox.GetbDrawFlg() = false;
+			_searchBox.SetDrawFlag() = false;
 #endif
 
 		}
@@ -357,7 +377,7 @@ namespace inr {
 	void BigDoll::AttackOn() {
 		if (_aState != ActionState::ATTACK) {
 			ChangeState(ActionState::ATTACK, enemy::red::BIG_TACKLE);
-			_searchBox.GetCollisionFlgB() = false;
+			_searchBox.SetCollisionFlag() = false;
 
 			PlaySe(enemy::bigdoll::SE_TACKLE_VOICE);
 
@@ -380,9 +400,11 @@ namespace inr {
 	}
 
 	void BigDoll::EscapeOn() {
+		// 逃避状態か？
 		if (_aState != ActionState::ESCAPE) {
+			// 逃避状態に移行
 			ChangeState(ActionState::ESCAPE, enemy::blue::BIG_ESCAPE);
-			_searchBox.GetCollisionFlgB() = false;
+			_searchBox.SetCollisionFlag() = false;	// 索敵判定をオフにする
 
 			PlaySe(enemy::bigdoll::SE_ESCAPE_VOICE);
 
@@ -398,10 +420,11 @@ namespace inr {
 	}
 
 	void BigDoll::ChangeIdol(int stay) {
-		_stay = stay;
-		_atkVec = 0;
-		_searchBox.GetCollisionFlgB() = false;	// 当たり判定を切る
+		_stay = stay;	// 待機時間代入
+		_atkVec = 0;	// 攻撃移動量を空にする
+		_searchBox.SetCollisionFlag() = false;	// 当たり判定を切る
 		std::string nextkey = "";
+		// 魂に応じたキーの設定
 		switch (_soul->SoulColor()) {
 		case soul::RED:
 			nextkey = enemy::red::BIG_IDOL;
@@ -410,11 +433,12 @@ namespace inr {
 			nextkey = enemy::blue::BIG_IDOL;
 			break;
 		}
+		// 待機状態に遷移
 		ChangeState(ActionState::IDOL, nextkey);
 	}
 
 	void BigDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
-		// 急所(魂が奪える判定範囲)を算出する
+		// 急所(魂が奪える判定範囲)を算出
 		auto vitalPart = VitalPart(_mainCollision, BIG_DOLL_VITAL);
 		auto player = _game.GetObjectServer()->GetPlayer();
 		// 魂は奪われるか？
@@ -422,9 +446,8 @@ namespace inr {
 			if (_soul != nullptr) {
 				// 自機と向きが同じかつ、衝突判定がある場合
 				if (_direction == direction && vitalPart.HitCheck(acollision)) {
-					// 魂を奪われる
 					ChangeState(ActionState::EMPTY, enemy::BIG_EMPTY);	// 抜け殻に遷移
-					_searchBox.GetCollisionFlgB() = false;	// 索敵判定を切る
+					_searchBox.SetCollisionFlag() = false;	// 索敵判定を切る
 
 					PlaySe(enemy::bigdoll::SE_DOWN);
 
@@ -437,7 +460,7 @@ namespace inr {
 					_stay = 0;
 					_isAction = false;
 
-					_mainCollision.GetCollisionFlgB() = false;	// 当たり判定を切る
+					_mainCollision.SetCollisionFlag() = false;	// 当たり判定を切る
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {
@@ -462,7 +485,7 @@ namespace inr {
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
 						_soul->Inactive();	// 魂を非活性状態にする
 						PlaySe(key::SOUND_PLAYER_GIVE_TRUE);
-						_searchBox.GetCollisionFlgB() = false;
+						_searchBox.SetCollisionFlag() = false;
 
 						// 与えられた魂に応じた、起き上がり状態に遷移する
 						switch (_soul->SoulColor()) {

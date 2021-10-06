@@ -2,15 +2,9 @@
 #include "Vector2.h"
 #include <DxLib.h>
 
-namespace hit {
-	constexpr auto LEFT_HIT = 0;
-	constexpr auto RIGHT_HIT = 1;
-	constexpr auto NO_HIT = 1;
-}
-
-Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max),_collisionFlg(flg){
+Collision::Collision(Vector2& min, Vector2& max, bool flg) : minV(min), maxV(max),_collisionFalg(flg){
 #ifdef _DEBUG
-	_drawFlg = true;
+	_drawFlag = true;
 #endif
 	// ボックスの横幅と立幅を算出
 	int width = static_cast<int>(maxV.GetX() - minV.GetX());
@@ -33,10 +27,10 @@ Collision::Collision(Vector2& pos, int width1, int width2, int height1, int heig
 	_widthMax = width2;
 	_heightMin = height1;
 	_heightMax = height2;
-	_collisionFlg = flg;
+	_collisionFalg = flg;
 
 #ifdef _DEBUG
-	_drawFlg = true;
+	_drawFlag = true;
 #endif
 
 	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
@@ -48,9 +42,9 @@ Collision::Collision(Vector2& pos, int width, int height, bool flg) {
 	_widthMax = width;
 	_heightMin = height;
 	_heightMax = height;
-	_collisionFlg = flg;
+	_collisionFalg = flg;
 #ifdef _DEBUG
-	_drawFlg = true;
+	_drawFlag = true;
 #endif
 	minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
 	maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
@@ -61,9 +55,9 @@ Collision::Collision() {
 	_widthMax = 0;
 	_heightMin = 0;
 	_heightMax = 0;
-	_collisionFlg = false;
+	_collisionFalg = false;
 #ifdef _DEBUG
-	_drawFlg = true;
+	_drawFlag = true;
 #endif
 	minV = {};
 	maxV = {};
@@ -96,7 +90,7 @@ void Collision::DrawDBox(int color) {
 
 bool Collision::HitCheck(Collision collision) {
 	// 判定フラグはオンになっているか？
-	if (_collisionFlg == true && collision._collisionFlg == true) {
+	if (_collisionFalg == true && collision._collisionFalg == true) {
 		// 接触しているか？
 		bool flg = maxV.GetX() < collision.minV.GetX() ||
 			collision.maxV.GetX() < minV.GetX() ||
@@ -109,7 +103,7 @@ bool Collision::HitCheck(Collision collision) {
 
 bool Collision::HitUpDown(Collision col) {
 	// 等しくない時は脱出
-	if (_collisionFlg == true != col._collisionFlg == true) return false;
+	if (_collisionFalg == true != col._collisionFalg == true) return false;
 	// x軸は範囲内に収まっているか？
 	if (minV.GetX() < col.maxV.GetX() && col.minV.GetX() < maxV.GetX()) {
 		// 上から衝突したか？
@@ -121,7 +115,7 @@ bool Collision::HitUpDown(Collision col) {
 }
 
 double Collision::HitDirection(Collision col) {
-	if (!_collisionFlg || !col._collisionFlg) return 0;
+	if (!_collisionFalg || !col._collisionFalg) return 0;
 	// y座標は範囲内に収まっているか？
 	if (minV.GetY() < col.maxV.GetY() && col.minV.GetY() < maxV.GetY()) {
 		if (minV.GetX() < col.maxV.GetX() && col.maxV.GetX() < maxV.GetX()

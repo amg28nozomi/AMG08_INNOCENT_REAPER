@@ -95,7 +95,7 @@ namespace inr {
 	void SoulSkin::Move() {
 		_position =  _position + _moveVector;	// À•WXV
 		_mainCollision.Update(_position, _direction);
-		if (_isOwner == false && _mainCollision.GetCollisionFlg() == false) _mainCollision.GetCollisionFlgB() = true;
+		if (_isOwner == false && _mainCollision.GetCollisionFlag() == false) _mainCollision.SetCollisionFlag() = true;
 	}
 
 	void SoulSkin::Give() {
@@ -109,7 +109,7 @@ namespace inr {
 			player->SoulCatch(_game.GetObjectServer()->GetSoul());
 			_give = false;
 			_isOwner = true;
-			_mainCollision.GetCollisionFlgB() = false;
+			_mainCollision.SetCollisionFlag() = false;
 		}
 	}
 

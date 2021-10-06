@@ -30,7 +30,8 @@ namespace {
 namespace inr {
 
 	BackGround::BackGround(Game& game) : Image(game){
-		_stageNo = -1;
+		// 各種変数初期化
+		_stageNo = stage::number::SN_NULL;
 		_pos = { 960 , 1080 };
 		_fix = { 0, 0 };
 		_scroll = true;	// スクロールオン
@@ -121,8 +122,9 @@ namespace inr {
 
 	bool BackGround::IsChanege() {
 		auto no = KeyNumber();	// 画像番号を取得
-		// すて
+		// 番号が等しい場合は処理を中断
 		if (_stageNo == no) return false;
+		// 違う場合は更新
 		_stageNo = no;
 		return true;
 	}
@@ -141,12 +143,14 @@ namespace inr {
 	}
 
 	void BackGround::BackDraw() {
-		Vector2 xy = _pos;
-		_game.GetMapChips()->Clamp(xy);
+		Vector2 xy = _pos;	// 現在の座標
+		_game.GetMapChips()->Clamp(xy);	// スクリーン座標にクランプする
+		// 描画座標の算出
 		auto x = xy.IntX();
 		auto y = xy.IntY();
+		// グラフィックハンドルの取得
 		auto gh = graph::ResourceServer::GetHandles(background::ALTAR);
-		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);
+		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);	// 描画
 	}
 
 	void BackGround::BigManage() {
@@ -181,15 +185,17 @@ namespace inr {
 					_positions.second[i].GetPX() = -HALF_WINDOW_W + vec;
 				}
 			}
-
+			// Y座標の修正
 			if (_game.GetMapChips()->IsScrollY() == true) {
+				// 移動量分だけ座標を移動させる
 				_positions.first[i].GetPY() += moveY * _scrSpeed.second[i];
 				_positions.second[i].GetPY() += moveY * _scrSpeed.second[i];
-
+				// 下限を下回った場合は値を修正
 				if (_positions.first[i].GetY() < 0) {
 					_positions.first[i].GetPY() = 0;
 					_positions.second[i].GetPY() = _positions.first[i].GetY();
 				}
+				// 上限を上回った場合は値を修正
 				else if (WINDOW_H < _positions.first[i].GetY()) {
 					_positions.first[i].GetPY() = WINDOW_H;
 					_positions.second[i].GetPY() = _positions.first[i].GetY();
@@ -199,7 +205,9 @@ namespace inr {
 	}
 
 	void BackGround::NormalManage() {
+		// スクロール処理がオフの場合、処理を行わない
 		if (_scroll != true) return;
+		// 移動量Xの取得
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
 
 		for (auto i = 0; i < _positions.first.size(); ++i) {
@@ -232,15 +240,19 @@ namespace inr {
 	}
 
 	void BackGround::ScrollY() {
+		// Y座標の修正
 		for (auto i = 0; i < _positions.first.size(); ++i) {
+			// スクロール座標を超えているか？
 			if (_game.GetMapChips()->IsScrollY() == true) {
+				// 座標を代入
 				_positions.first[i].GetPY() = _game.GetMapChips()->GetWorldPosition().GetY();
 				_positions.second[i].GetPY() = _game.GetMapChips()->GetWorldPosition().GetY();
-
+				// 下限を下回った場合は修正
 				if (_positions.first[i].GetY() < 0) {
 					_positions.first[i].GetPY() = 0;
 					_positions.second[i].GetPY() = _positions.first[i].GetY();
 				}
+				// 上限を上回った場合も修正
 				else if (WINDOW_H < _positions.first[i].GetY()) {
 					_positions.first[i].GetPY() = WINDOW_H;
 					_positions.second[i].GetPY() = _positions.first[i].GetY();

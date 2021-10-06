@@ -78,7 +78,7 @@ namespace inr {
 			/*_position = { spwan.GetX(), _normalY - OPEN_MAX };*/
 			_switch = gimmick::ON;
 #ifdef _DEBUG
-			_mainCollision.GetbDrawFlg() = false;
+			_mainCollision.SetDrawFlag() = false;
 #endif
 			_aCount = ite->second.first - 1;
 			colf = false;	// ìñÇΩÇËîªíËÇå≥Ç…ñﬂÇ∑
@@ -97,9 +97,9 @@ namespace inr {
 		_switch = gimmick::ON;
 		_ismove = true;
 #ifdef _DEBUG
-		_mainCollision.GetbDrawFlg() = false;
+		_mainCollision.SetDrawFlag() = false;
 #endif
-		_mainCollision.GetCollisionFlgB() = false;	// ìñÇΩÇËîªíËÇå≥Ç…ñﬂÇ∑
+		_mainCollision.SetCollisionFlag() = false;	// ìñÇΩÇËîªíËÇå≥Ç…ñﬂÇ∑
 		auto sh = SoundResearch(gimmick::door::KEY_DOOR);
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 	}
@@ -111,9 +111,9 @@ namespace inr {
 		_switch = gimmick::OFF;
 		_ismove = true;
 #ifdef _DEBUG
-		_mainCollision.GetbDrawFlg() = true;
+		_mainCollision.SetDrawFlag() = true;
 #endif
-		_mainCollision.GetCollisionFlgB() = true;	// ìñÇΩÇËîªíËÇå≥Ç…ñﬂÇ∑
+		_mainCollision.SetCollisionFlag() = true;	// ìñÇΩÇËîªíËÇå≥Ç…ñﬂÇ∑
 	}
 
 	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
@@ -169,10 +169,10 @@ namespace inr {
 		switch (_switch) {
 		case gimmick::ON:
 			if (AnimationCountMax() == true) {
-				if (_mainCollision.GetCollisionFlg() == true) {
-					_mainCollision.GetCollisionFlgB() = false;
+				if (_mainCollision.GetCollisionFlag() == true) {
+					_mainCollision.SetCollisionFlag() = false;
 #ifdef _DEBUG
-					_mainCollision.GetbDrawFlg() = false;
+					_mainCollision.SetDrawFlag() = false;
 #endif
 					_ismove = false;
 				}
@@ -182,10 +182,10 @@ namespace inr {
 			return true;
 		case gimmick::OFF:
 			if (_aCount == 0) {
-				if (_mainCollision.GetCollisionFlg() == false) {
-					_mainCollision.GetCollisionFlgB() = true;
+				if (_mainCollision.GetCollisionFlag() == false) {
+					_mainCollision.SetCollisionFlag() = true;
 #ifdef _DEBUG
-					_mainCollision.GetbDrawFlg() = true;
+					_mainCollision.SetDrawFlag() = true;
 #endif
 					_ismove = false;
 				}
@@ -216,7 +216,7 @@ namespace inr {
 			_position = { _oValue.Positions().at(0).GetX(), _normalY - OPEN_MAX };
 			_switch = gimmick::ON;
 #ifdef _DEBUG
-			_mainCollision.GetbDrawFlg() = false;
+			_mainCollision.SetDrawFlag() = false;
 #endif
 			break;
 		case false:	// ï¬Ç∂ÇƒÇ¢ÇÈèÍçá
@@ -224,7 +224,7 @@ namespace inr {
 			_position = _oValue.Positions().at(0);
 			_switch = gimmick::OFF;
 #ifdef _DEBUG
-			_mainCollision.GetbDrawFlg() = true;
+			_mainCollision.SetDrawFlag() = true;
 #endif
 			break;
 		}

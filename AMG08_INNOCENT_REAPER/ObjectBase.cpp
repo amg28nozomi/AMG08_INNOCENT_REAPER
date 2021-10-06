@@ -187,7 +187,7 @@ namespace inr {
 #ifdef _DEBUG
 	void ObjectBase::DrawDebugBox(Collision cb, int color) {
 		if (_game.IsDebugMode() != true) return;	// フラグがオンの時のみ描画処理を実行する
-		auto drawFlg = cb.GetbDrawFlg();
+		auto drawFlg = cb.SetDrawFlag();
 		// 描画判定はオンになっているかどうか？
 		if (drawFlg) {
 			auto min = cb.GetMin();

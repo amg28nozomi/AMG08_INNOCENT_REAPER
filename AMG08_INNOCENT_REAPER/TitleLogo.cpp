@@ -96,7 +96,7 @@ namespace inr {
 
 #ifdef _DEBUG
 	void TitleLogo::DebugBox(Collision col) {
-		auto drawFlg = col.GetbDrawFlg();
+		auto drawFlg = col.SetDrawFlag();
 		// ï`âÊîªíËÇÕÉIÉìÇ…Ç»Ç¡ÇƒÇ¢ÇÈÇ©Ç«Ç§Ç©ÅH
 		if (drawFlg) {
 			auto min = col.GetMin();
@@ -112,8 +112,8 @@ namespace inr {
 #endif
 
 	void TitleLogo::CollisionOut() {
-		_hitCol1.GetCollisionFlgB() = false;
-		_hitCol2.GetCollisionFlgB() = false;
+		_hitCol1.SetCollisionFlag() = false;
+		_hitCol2.SetCollisionFlag() = false;
 	}
 
 	bool TitleLogo::RateUpdate() {

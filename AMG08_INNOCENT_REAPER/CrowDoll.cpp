@@ -122,7 +122,7 @@ namespace inr {
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
 		if (box != _collisions.end()) {
-			if (box->second.GetDrawFlg() == true) {
+			if (box->second.GetDrawFlag() == true) {
 				DrawDebugBox(box->second, GetColor(255, 0, 0));
 			}
 		}
@@ -136,7 +136,7 @@ namespace inr {
 		--_aCount;	// 立ち上がらせる
 		if (_aCount == 0) {
 			_setup = true;	// セットアップ完了
-			_mainCollision.GetCollisionFlgB() = true;	// 当たり判定をオンにする
+			_mainCollision.SetCollisionFlag() = true;	// 当たり判定をオンにする
 			ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 			_isAnimation = true;	// アニメーション再生を開始
 			return;
@@ -782,10 +782,10 @@ namespace inr {
 
 	bool CrowDoll::AttackBox(bool flag) {
 		auto rush = _collisions.find(enemy::crowdoll::CROW_RUSH);
-		if (rush->second.GetCollisionFlg() == flag) return false;
-		rush->second.GetCollisionFlgB() = flag;
+		if (rush->second.GetCollisionFlag() == flag) return false;
+		rush->second.SetCollisionFlag() = flag;
 #ifdef _DEBUG
-		rush->second.GetbDrawFlg() = flag;
+		rush->second.SetDrawFlag() = flag;
 #endif
 		return true;
 	}

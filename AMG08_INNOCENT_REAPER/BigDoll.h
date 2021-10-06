@@ -4,19 +4,20 @@
 namespace inr {
 
 	namespace enemy {
+		// ビッグドールの画像サイズ
 		constexpr auto BIG_IMAGE = 280;
 		// constexpr auto BIG_IMAGE = 340;
-
+		
+		// 当たり判定
 		constexpr auto BIG_WIDTH = 160;
 		constexpr auto BIG_HEIGHT = 200;
 
-		// SE用キー
+		// SE検索用キー（SoundServer）
 		namespace bigdoll {
-			constexpr auto SE_DOWN = "big_down";	// 倒れた場合
-			constexpr auto SE_ESCAPE_VOICE = "big_escape";
-			constexpr auto SE_TACKLE = "big_tackle";
-			constexpr auto SE_TACKLE_VOICE = "big_tackle_voice";
-
+			constexpr auto SE_DOWN = "big_down";	// ダウンSE
+			constexpr auto SE_ESCAPE_VOICE = "big_escape";	// 逃走時ボイス
+			constexpr auto SE_TACKLE = "big_tackle";	// タックルSE
+			constexpr auto SE_TACKLE_VOICE = "big_tackle_voice";	// タックル時ボイス
 		}
 	}
 
@@ -26,29 +27,45 @@ namespace inr {
 		BigDoll(Game& game);
 		~BigDoll();
 
+		// 初期化
 		void Init() override;
+		// 更新
 		void Process() override;
 
-		void SetParameter(ObjectValue objValue);	// オブジェクト情報の登録
-		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;	// 自機アクションとの衝突判定
+		// オブジェクト情報の登録
+		void SetParameter(ObjectValue objValue);
+		// 自機アクションとの衝突判定
+		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	private:
 		double _atkVec;	// 移動量
 		int _moveCount;	// 移動カウント
 
-		void HipDrop();	// ヒップドロップ
-		void StateUpdate();	// 状態に応じた処理を行う
+		// ヒップドロップ
+		void HipDrop();
+		// 状態に応じた処理を行う
+		void StateUpdate();
 
-		void PatrolOn() override;	// 索敵処理判定オン
-		void AttackOn() override;	// 攻撃処理判定オン
-		void EscapeOn() override;	// 逃走処理判定オン
-		void Action() override;	// アクション状態に移行するか
-		void Death() override;	// 死亡処理
-		void ChangeIdol(int stay) override;	// 待機状態への遷移
-		void Move();	// 移動処理
-		void PositionUpdate() override;	// 座標更新
-		void Attack();	// 攻撃
+		// 索敵処理判定オン
+		void PatrolOn() override;
+		// 攻撃処理判定オン
+		void AttackOn() override;
+		// 逃走処理判定オン
+		void EscapeOn() override;
+		// アクション状態に移行するか
+		void Action() override;
+		// 死亡処理
+		void Death() override;
+		// 待機状態の設定
+		void ChangeIdol(int stay) override;
+		// 移動処理
+		void Move();
+		// 座標更新
+		void PositionUpdate() override;
+		// 攻撃
+		void Attack();
 
-		AABB NowCollision(std::string key) override;	// 現在の当たり判定の取得
+		// 現在の当たり判定の取得
+		AABB NowCollision(std::string key) override;
 	};
 }
 

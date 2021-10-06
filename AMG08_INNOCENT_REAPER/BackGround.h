@@ -46,9 +46,9 @@ namespace inr {
 		std::string zKey;	// 前景
 		// 前景の描画
 		void BackDraw();
-
+		// スクロール処理(大)
 		void BigManage();
-
+		// スクロール処理(小)
 		void NormalManage();
 		// Y座標の修正
 		void ScrollY();

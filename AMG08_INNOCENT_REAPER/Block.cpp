@@ -57,7 +57,7 @@ namespace inr {
 			_break = gimmick::block::BRAKE_ON;	// 破壊済み
 			_pal = 0;
 #ifdef _DEBUG
-			_mainCollision.GetbDrawFlg() = false;
+			_mainCollision.SetDrawFlag() = false;
 #endif
 			return;
 		}
@@ -98,7 +98,7 @@ namespace inr {
 		_break = gimmick::block::BRAKE_ON;	// 破壊フラグをオンにする
 		_divKey.first = gimmick::block::KEY_BREAK;	// キーを破壊エフェクトに切り替え
 #ifdef _DEBUG
-		_mainCollision.GetbDrawFlg() = false;
+		_mainCollision.SetDrawFlag() = false;
 #endif
 		return true;
 	}

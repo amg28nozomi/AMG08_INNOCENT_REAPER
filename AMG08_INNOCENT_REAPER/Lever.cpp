@@ -56,7 +56,7 @@ namespace inr {
 		}	// ボスステージへと続く扉を解放する
 		else _door->SwitchOn();	// スイッチオン
 #ifdef _DEBUG
-		_mainCollision.GetbDrawFlg() = false;
+		_mainCollision.SetDrawFlag() = false;
 #endif
 	}
 
@@ -71,7 +71,7 @@ namespace inr {
 			if (_game.GetModeServer()->GetModeMain()->BossOpen() == true) {
 				_aCount = AnimationCountMax();
 #ifdef _DEBUG
-				_mainCollision.GetbDrawFlg() = false;
+				_mainCollision.SetDrawFlag() = false;
 #endif
 			}
 			return;
@@ -96,7 +96,7 @@ namespace inr {
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
 			_aCount = AnimationCountMax();
 #ifdef _DEBUG
-			_mainCollision.GetbDrawFlg() = false;
+			_mainCollision.SetDrawFlag() = false;
 #endif
 		}
 

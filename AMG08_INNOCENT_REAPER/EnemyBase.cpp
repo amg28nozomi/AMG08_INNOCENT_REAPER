@@ -64,7 +64,7 @@ namespace inr {
 
 #ifdef _DEBUG
 		DrawDebugBox(_searchBox);
-		if (_mainCollision.GetCollisionFlg() == true) DrawDebugBox(_mainCollision);
+		if (_mainCollision.GetCollisionFlag() == true) DrawDebugBox(_mainCollision);
 #endif
 
 		/*auto it = _collisions.find(_divKey.first);
@@ -120,7 +120,7 @@ namespace inr {
 	}
 
 	void EnemyBase::PatrolOn() {
-		_searchBox.GetCollisionFlgB() = true;
+		_searchBox.SetCollisionFlag() = true;
 		_changeGraph = true;
 		_aState = ActionState::PATROL;
 	}
@@ -203,7 +203,7 @@ namespace inr {
 		else {
 			damageMin.GetPX() += fix;
 		}
-		return AABB(damageMin, damageMax, _mainCollision.GetCollisionFlg());
+		return AABB(damageMin, damageMax, _mainCollision.GetCollisionFlag());
 	}
 
 	bool EnemyBase::IsStandChip() {

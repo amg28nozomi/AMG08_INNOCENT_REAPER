@@ -5,8 +5,8 @@
 // 当たり判定の基底クラス
 class Collision {
 protected:
-	Vector2 minV;
-	Vector2 maxV;
+	Vector2 minV;	// 2Dベクトル(Min)
+	Vector2 maxV;	// 2Dベクトル(MAx)
 	Vector2 center;	// 中心座標
 
 	int _widthMin;	// 幅min
@@ -14,9 +14,9 @@ protected:
 	int _heightMin; // 高さmin
 	int _heightMax;	// 高さmax
 #ifdef _DEBUG
-	bool _drawFlg; // 描画するかどうか
+	bool _drawFlag; // 描画するかどうか
 #endif
-	bool _collisionFlg; // 判定するかどうかのフラグ
+	bool _collisionFalg; // 判定するかどうかのフラグ
 public:
 	Collision(Vector2& pos, int width1, int width2, int height1, int height2, bool flg = false);
 	Collision(Vector2& pos, int width, int height, bool flg = false);
@@ -24,9 +24,13 @@ public:
 	Collision();
 	~Collision() = default;
 
+	// 2Dベクトル(Min)の取得
 	inline Vector2 GetMin() { return minV; }
+	// 2Dベクトル(Max)の取得
 	inline Vector2 GetMax() { return maxV; }
+	// 中心座標の取得
 	inline Vector2 GetCenter() { return center; }
+
 	// 各種補正値の取得
 	inline int GetWidthMin() { return _widthMin; }
 	inline int GetWidthMax() { return _widthMax; }
@@ -35,23 +39,34 @@ public:
 	inline int WidhtSize() { return _widthMin + _widthMax; }
 	inline int HeightSize() { return _heightMin + _heightMax; }
 
-	virtual void Update(Vector2& pos, bool inv); // 更新・反転処理有
-	virtual void Swap(Collision col);	// 一時的に当たり判定を切り替える
-	void DrawDBox(int color = GetColor(255, 255, 255)); // 描画(色指定なしの場合は白)
-	bool HitCheck(Collision collision); // 全方向の当たり判定
-	bool HitUpDown(Collision col);	// 上下の当たり判定
-	double HitDirection(Collision col);	// 左右の当たり判定
-	bool SideCheck(Collision collision);	// どちら側で接触しているのか。
+	// 更新・反転処理有
+	virtual void Update(Vector2& pos, bool inv);
+	// 一時的に当たり判定を切り替える
+	virtual void Swap(Collision col);
+	// ボックスの描画(色指定なしの場合は白描画)
+	void DrawDBox(int color = GetColor(255, 255, 255));
+	// 全方向の当たり判定
+	bool HitCheck(Collision collision);
+	// 上下の当たり判定
+	bool HitUpDown(Collision col);
+	// 左右の当たり判定
+	double HitDirection(Collision col);
+	// どちら側で接触しているのか。
+	bool SideCheck(Collision collision);
 #ifdef _DEBUG
-	inline bool GetDrawFlg() { return _drawFlg; }
-	inline bool& GetbDrawFlg() { return _drawFlg; }
+	// 描画フラグの取得
+	inline bool GetDrawFlag() { return _drawFlag; }
+	// 描画フラグの参照
+	inline bool& SetDrawFlag() { return _drawFlag; }
 #endif
-	inline bool GetCollisionFlg() { return _collisionFlg; }
-	inline bool& GetCollisionFlgB() { return _collisionFlg; }
+	// 判定フラグの取得
+	inline bool GetCollisionFlag() { return _collisionFalg; }
+	// 判定フラグの参照
+	inline bool& SetCollisionFlag() { return _collisionFalg; }
 
 };
 
-// 反転があるver
+// 当たり判定(反転処理有り)
 class AABB : public Collision {
 public:
 	AABB(Vector2 vmin, Vector2 vmax, bool cflg = false);
