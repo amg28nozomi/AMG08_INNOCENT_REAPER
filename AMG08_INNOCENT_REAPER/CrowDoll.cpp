@@ -38,6 +38,8 @@ namespace {
 
 	constexpr auto DEBUFF_COUNT_MIN = 0;
 	constexpr auto DEBUFF_COUNT_MAX = 5;
+
+	constexpr auto DEBUFF_START = 6;
 }
 
 namespace inr {
@@ -50,27 +52,40 @@ namespace inr {
 		Init();
 	}
 
+	// 初期化
 	void CrowDoll::Init() {
+		// 各種初期化
 		_actionEnd = { 0, 0 };
 		_target = { 0, 0 };
 		_divKey = { enemy::crowdoll::CROW_DOWN, "" };
 		_mainCollision = { _position, CROW_WIDTH / 2, CROW_HEIGHT / 2, false };	// 当たり判定
 		_collisions = {
-			{enemy::crowdoll::CROW_RUSH, {_position, 210, -30, CROW_HEIGHT / 2 , CROW_HEIGHT / 2, true}},	// 連撃攻撃の当たり判定
+			// 連撃切りの当たり判定
+			{enemy::crowdoll::CROW_RUSH, {_position, 210, -30, CROW_HEIGHT / 2 , CROW_HEIGHT / 2, true}},
+			// 抜け殻時の当たり判定
 			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
 
 		// { 画像検索用キー, {総フレーム数, SEの再生時間} }
 		_motionKey = {
+			// 待機状態
 			{enemy::crowdoll::CROW_IDOL, {enemy::crowdoll::motion::IDOL * 2, 0}},
+			// 連続切り
 			{enemy::crowdoll::CROW_RUSH , {enemy::crowdoll::motion::RUSH  * 2, 20}},
+			// 落下攻撃
 			{enemy::crowdoll::CROW_BLINK , {enemy::crowdoll::motion::BLINK * 2, 20}},
+			// 伸びる腕
 			{enemy::crowdoll::CROW_GROWARM , {enemy::crowdoll::motion::GROWARM * 3, 20}},
+			// 咆哮
 			{enemy::crowdoll::CROW_ROAR , {enemy::crowdoll::motion::ROAR * 4, 50}},
+			// デバフ
 			{enemy::crowdoll::CROW_DEBUFF, {enemy::crowdoll::motion::DEBUF * 3, 50}},
+			// ダウン
 			{enemy::crowdoll::CROW_DOWN , {enemy::crowdoll::motion::DOWN * 3, 50}},
+			// 怯み
 			{enemy::crowdoll::CROW_WINCE, {enemy::crowdoll::motion::WINCE * 5, 50}},
 		};
+		// 初期化
 		_aCount = GetSize(_divKey.first) - 1;
 		_atkInterval = 0;
 		_actionCount = 0;
@@ -88,12 +103,14 @@ namespace inr {
 		_debuffChage = DEBUFF_COUNT_MIN;
 	}
 
+	// オブジェクト情報の登録
 	void CrowDoll::SetParameter(ObjectValue objValue) {
-		_oValue = objValue;
+		_oValue = objValue;	// 登録
 		_position = _oValue.Positions().at(0);	// 座標を更新
-		Init();
+		Init();	// 初期化
 	}
 
+	// 更新
 	void CrowDoll::Process() {
 		IsGravity();	// 重力処理
 		IsBattle();	// ボス戦闘フラグ
@@ -106,9 +123,11 @@ namespace inr {
 		Move();	// 移動処理
 	}
 
+	// 描画
 	void  CrowDoll::Draw() {
 		Vector2 xy = _position;
-		_game.GetMapChips()->Clamp(xy);
+		_game.GetMapChips()->Clamp(xy);	// 座標をクランプする
+		// 描画座標の算出
 		auto x = xy.IntX();
 		auto y = xy.IntY();
 
@@ -118,9 +137,10 @@ namespace inr {
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 
 #ifdef _DEBUG
-		DrawDebugBox(_mainCollision);
+		DrawDebugBox(_mainCollision);	// 当たり判定の描画
 		std::string& key = _divKey.first;
 		auto box = _collisions.find(key);
+		// 各種判定の描画(描画処理がオンの場合のみ)
 		if (box != _collisions.end()) {
 			if (box->second.GetDrawFlag() == true) {
 				DrawDebugBox(box->second, GetColor(255, 0, 0));
@@ -129,12 +149,13 @@ namespace inr {
 #endif
 	}
 
+	// 活動開始
 	void CrowDoll::WakeUp() {
-		// ボス戦が始まっていない場合は処理を抜ける
+		// ボス戦が始まっていない場合は終了
 		if (_game.GetModeServer()->GetModeMain()->BossFlag() != true) return;
-		if (_setup == true) return;	// 準備が完了している場合はスキップ
-		--_aCount;	// 立ち上がらせる
-		if (_aCount == 0) {
+		if (_setup == true) return;	// 準備が完了している場合も終了
+		--_aCount;	// カウンタ減算(逆再生)
+		if (_aCount == 0) {	// カウンタが0になった場合
 			_setup = true;	// セットアップ完了
 			_mainCollision.SetCollisionFlag() = true;	// 当たり判定をオンにする
 			ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
@@ -143,22 +164,26 @@ namespace inr {
 		}
 	}
 
+	// 自機の座標を取得
 	void CrowDoll::GetTarget() {
 		_target = _game.GetObjectServer()->GetPlayer()->GetPosition();	// 目標の現在地点を取得する
 	}
 
+	// 向きの更新
 	void CrowDoll::ChangeDirection() {
 		// 移動方向に応じて向きを変更する
 		if (_moveVector.GetX() < 0) _direction = enemy::MOVE_LEFT;
 		else if (0 < _moveVector.GetX()) _direction = enemy::MOVE_RIGHT;
 	}
 
+	// 状態遷移
 	void CrowDoll::ModeChange(CrowState nextState, std::string key) {
 		_divKey.first = key;	// 画像キー切り替え
 		_cState = nextState;	// 状態遷移
 		_changeGraph = true;	// 画像切り替えフラグオン
 	}
 
+	// 移動処理
 	void CrowDoll::Move() {
 		ChangeDirection();	// 向きの調整
 		_moveVector.GetPY() = _gravity;	// y座標に重力値加算」
@@ -171,6 +196,7 @@ namespace inr {
 		_moveVector = { 0, 0 };	// 移動量を初期化する
 	}
 
+	// 攻撃処理
 	void CrowDoll::Attack() {
 		// 攻撃処理
 		auto player = _game.GetObjectServer()->GetPlayer();	// 自機
@@ -190,6 +216,7 @@ namespace inr {
 		if(damageBox->second.HitCheck(playerBox) == true) player->Damage(IsPlayerPos(player->GetPosition().GetX()));	// 座標方向に飛ばす
 	}
 
+	// 重力処理を行うか？
 	bool CrowDoll::IsGravity() {
 		// 現在の状態に応じて重力処理を行うかの判定を行う
 		switch (_cState) {
@@ -224,6 +251,7 @@ namespace inr {
 		}
 	}
 
+	// 浮遊処理
 	bool CrowDoll::Floating() {
 		// 怯み状態の場合
 		if (_cState == CrowState::WINCE) {
@@ -247,6 +275,7 @@ namespace inr {
 		return false;
 	}
 
+	// ワープ処理
 	void CrowDoll::Warp() {
 		_isWarp = false;	// ワープフラグをオフにする
 		_isAnimation = true;	// アニメーション再開
@@ -276,6 +305,7 @@ namespace inr {
 		}
 	}
 
+	// 連続攻撃
 	void CrowDoll::Rash() {
 		_isAnimation = true;	// アニメーション再生開始
 
@@ -286,118 +316,119 @@ namespace inr {
 			mx = -RASH_MAX / 15;	// 移動量算出
 			_moveVector.GetPX() = mx;	// 移動ベクトルに代入
 			nextpos = _position.GetX() + mx;	// 移動後の座標を算出
-			if (IsAttackEnd() == true) {	// 
+			if (IsAttackEnd() == true) {	// マップチップに衝突したか？
 				--_actionCount;
-				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH));
+				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH));	// SEを止める
 				return;
 			}
+			// 移動後のX座標が目標座標に満たない場合は処理を終了
 			if (_actionEnd.GetX() < nextpos) return;
-			_actionEnd.GetPX() = nextpos - RASH_MAX;
+			_actionEnd.GetPX() = nextpos - RASH_MAX;	// 目標座標の更新
 			break;
-		case enemy::MOVE_RIGHT:
-			mx = RASH_MAX / 15;
-			_moveVector.GetPX() = mx;
-			nextpos = _position.GetX() + mx;
-			if (IsAttackEnd() == true) {
+		case enemy::MOVE_RIGHT:	// 右向きの場合
+			mx = RASH_MAX / 15;	// 移動量算出
+			_moveVector.GetPX() = mx;	// 移動ベクトルに代入
+			nextpos = _position.GetX() + mx;	// 移動後の座標を算出
+			if (IsAttackEnd() == true) {	// マップチップに衝突したか？
 				--_actionCount;
 				StopSoundMem(se::SoundServer::GetSound(enemy::crowdoll::SE_RUSH));
 				return;
 			}
+			// 移動後のX座標が目標座標に満たない場合は処理を終了
 			if (nextpos < _actionEnd.GetX()) return;
-			_actionEnd.GetPX() = nextpos + RASH_MAX;
+			_actionEnd.GetPX() = nextpos + RASH_MAX;	// 目標座標の更新
 			break;
 		}
 		
-		--_actionCount;
+		--_actionCount;	// アクションカウンタを減らす
+		// アクションカウンタに応じて猶予時間を切り替え
 		if (_actionCount == 1) _atkInterval = 30;
 		else _atkInterval = 20;
-		_isAnimation = false;
-		AttackBox(false);
+		_isAnimation = false;	// アニメーション中断
+		AttackBox(false);	// 攻撃判定を切る
 	}
 
-	void CrowDoll::Blink() {
-		_gravity += 0.5;	// 重力加速
-	}
-
-	void CrowDoll::Debuf() {
-		// 自機に対して弱体効果を付与する
-		_game.GetObjectServer()->GetPlayer()->Debuf();
-		// デバフエフェクトの生成
-		// auto debufEff = std::make_unique<EffectBase>(_game.GetGame(), )
-	}
-
+	// 攻撃を終了するか？（マップチップと衝突しているか？）
 	bool CrowDoll::IsAttackEnd() {
 		// マップチップに衝突しているか？
 		if (_game.GetMapChips()->IsHit(_mainCollision, _position, _moveVector, _direction) == mapchip::NORMAL) return true;
 		return false;
 	}
 
+	// 各種状態の管理
 	bool CrowDoll::SetState() {
 		if (_isWarp == true) return false;	// 転移処理がある場合はスキップ
 		// 状態に応じた処理を行う
 		switch (_cState) {
-		case CrowState::IDOL:	// 空中待機の場合
-			// インターバル明けに次のアクションを実行する
+			// 待機状態の場合
+		case CrowState::IDOL:
+			// インターバルはあるか？
 			if (_atkInterval == 0) {
+				// 怒り状態かつ、デバフの溜めカウンタが上限に到達している場合
 				if (IsAnger() == IS_ANGER && _debuffChage == DEBUFF_COUNT_MAX) {
+					// 確率でデバフ状態に遷移（確率50%）
 					auto number = rand() % 11 + 1;
 					if (_debuffChage < number) {
-						_debuffChage = 0;
+						_debuffChage = 0;	// 溜めカウンタを初期化
 						ModeChange(CrowState::DEBUF, enemy::crowdoll::CROW_IDOL);
-						_muteki = 120;
+						_muteki = 120;	// 無敵状態に設定
 						return true;
 					}
 				}
-				auto number = rand() % 3; // %3
+				auto number = rand() % 3; // ランダムで状態遷移
 				switch (number) {
 				case 0:
 					ModeChange(CrowState::RUSH, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					GetTarget();	// 自機の現在座標を取得する
 					WarpOn();	// 自機の前に跳ぶ
-					_actionCount = 4;
-					_atkInterval = 30;
+					_actionCount = 4;	// 四段階攻撃
+					_atkInterval = 30;	// 攻撃猶予時間
 					break;
 				case 1:
 					ModeChange(CrowState::GROWARM, enemy::crowdoll::CROW_GROWARM);	// 状態切り替え
-					GetTarget();
+					GetTarget();	// 自機の座標取得
 					PlaySe(enemy::crowdoll::SE_GROWARM);
 					break;
 				case 2:
 					ModeChange(CrowState::BLINK, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					_actionCount = IsAnger();	// 切れている場合は処理を追加で実行する
 					WarpOn();	// 自機の前に跳ぶ
-					// _atkInterval = 60;
 					break;
 				}
 			}
 			break;
+			// 連続切り状態の場合
 		case CrowState::RUSH:
 			if (_atkInterval == 0) {	// 待ち時間がない場合
+				// アクションカウンタがある場合
 				if (0 < _actionCount) {
-					AttackBox(true);
+					AttackBox(true);	// 攻撃判定をオン
 					Rash();	// ラッシュアクション実行
 					break;
 				}
+				// アクションカウンタが0の場合
 				else if (_actionCount == 0) {
-					_actionEnd.GetPX() = 0;
+					_actionEnd.GetPX() = 0;	// 初期化
 					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 					_atkInterval = 60;
 					_isAnimation = true;
-					if(_debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
+					// 怒り状態の場合、デバフの溜めカウンタを増やす（上限有り）
+					if(IsAnger() == IsAnger() && _debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
 				}
-				// 次の状態に遷移する
 				break;
 			}
 			break;
+			// 落下攻撃
 		case CrowState::BLINK:
 			// 立っている場合
 			if (_stand == true) {
 				if (_wait != true) {
-					AddSmokeEffect();
-					_wait = true;
-					_atkInterval = 60;
+					AddSmokeEffect();	// エフェクト生成
+					_wait = true;	// 処理を止める
+					_atkInterval = 60;	// 猶予時間設定
 					break;
 				}
+				// アニメーションカウンタが上限に到達した場合
 				else if (AnimationCountMax() == true) {
 					// 待ち時間は終了しているか？
 					if (_atkInterval == 0) {
@@ -405,39 +436,45 @@ namespace inr {
 						_atkInterval = 60;
 						_wait = false;
 						_isAnimation = true;
-						if (_debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
+						if (IsAnger() == IsAnger() && _debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
 					}
+					// 終了していない場合、アニメーションの再生を行わない
 					else if (_isAnimation == true) _isAnimation = false;
 				}
 				break;
 			}
 			break;
+				// 怯み状態の場合
 		case CrowState::WINCE:
+			// アニメーションカウンタが上限に到達した場合
 			if (IsAnimationMax() == true) {
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
 				break;
 			}
 			break;
+			// 伸びる腕状態の場合
 		case CrowState::GROWARM:
-			// 腕を挿した瞬間にエフェクトを発生させる
-			if (IsAnimationMax() == true && _arm == false) {	// モーションが最大かつ、腕が未生成の場合のみ腕を生成する
-				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 655), 24 * 2);	// エフェクトを作成(950)
+			// モーションが最大かつ、腕を未生成の場合
+			if (IsAnimationMax() == true && _arm == false) {
+				// エフェクトの生成および登録
+				auto effarm = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ARM, Vector2(_target.GetX(), 655), 24 * 2);
 				effarm->SetDamageEffect(50, 50, 0, 300, 10);
 				_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(effarm), effect::type::FORMER);
-				_arm = true;
+				_arm = true;	// 腕を生成した
 				break;
 			}
 			else if (AnimationCountMax() == true) {	// カウントがマックになった場合、状態を切り替える
 				_arm = false;
 				ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
 				_atkInterval = 60;
-				if (_debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
+				if (IsAnger() == IsAnger() && _debuffChage != DEBUFF_COUNT_MAX) ++_debuffChage;
 				break;
 			}
 			break;
 
-		case CrowState::ROAR:	// 咆哮処理
+		case CrowState::ROAR:	// 咆哮状態の場合
+			// 画像キーが咆哮ではない場合
 			if (_divKey.first != enemy::crowdoll::CROW_ROAR) {
 				// y座標が一定地点まで到達したら咆哮を開始する
 				if (_position.IntY() == DEFAULT_Y) {
@@ -445,7 +482,8 @@ namespace inr {
 					auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_ROAR);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 					ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_ROAR);	// 状態切り替え
-					auto roar_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ROAR, _position, 40);// _game.GetMapChips()->GetWorldPosition(), 30);
+					// 咆哮エフェクトの生成および登録
+					auto roar_eff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::ROAR, _position, 40);
 					roar_eff->SetLoop(3);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(roar_eff), effect::type::FORMER);
 					_game.GetObjectServer()->GetPlayer()->KnockBack(IsPlayerPos(_moveVector.GetX()));
@@ -453,41 +491,46 @@ namespace inr {
 					break;
 				}
 			}
+			// アニメーションカウンタが上限に到達した場合
 			else if (AnimationCountMax() == true) {
+				// インターバルがない場合
 				if (_actionCount == 0) {
+					// 待機状態に遷移する
 					ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
 					break;
 				}
 				--_actionCount;
 			}
 			break;
-
+			// デバフ状態
 		case CrowState::DEBUF:
-			// 待機状態の場合
+			// 画像キーが待機状態の場合
 			if (_divKey.first == enemy::crowdoll::CROW_IDOL) {
 				if (_atkInterval == 0 && AnimationCountMax() == true && _isWarp != true) {
-					WarpOn();	// ワープで飛ばす}
+					WarpOn();	// ワープ
 					PlaySe(enemy::crowdoll::SE_DEBUF);	// SEを鳴らす
 					_atkInterval = 20;
 				}
 				break;
 			}
-
+			// 画像キーがでデバフの場合
 			if (_divKey.first == enemy::crowdoll::CROW_DEBUFF) {
-				if (AnimationNumber() == 6 && _debuf == false) {
+				// アニメーション番号が一致してかつ、デバフフラグが偽の場合
+				if (AnimationNumber() == DEBUFF_START && _debuf == false) {
 					_debuf = true;
-					_isAnimation = false;	// 再生を一時的に終了する
-					_atkInterval = 60;	// 60フレーム間溜める
+					_isAnimation = false;
+					_atkInterval = 60;
 					return true;
-					// 猶予時間が終わったら処理を実行する
+					// デバフフラグが真の場合
 				} if (_debuf == true) {
 					if (_atkInterval == 0 && _isAnimation != true) {
 						_isAnimation = true;
-						AddDebufEffect();	// デバフ発動
+						AddDebufEffect();	// デバフ生成
 						return true;
+					// アニメーションカウンタが上限に到達した場合
 					} else if (AnimationCountMax() == true) {
 						ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
-						_debuf = false;
+						_debuf = false;	// デバフフラグを偽にする
 						_atkInterval = 60;
 					}
 				}
@@ -498,22 +541,24 @@ namespace inr {
 		}
 	}
 
+	// 死んでいるか？
 	bool CrowDoll::IsDead() {
 		if (_cState != CrowState::DEATH) return false;
 		return true;
 	}
 
+	// 自機アクションとの判定
 	void CrowDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
-		if (_cState == CrowState::DEATH) return;	// 死んでいる場合は魂を奪えない
-		if (_muteki != 0) return;	// 無敵時間がある場合も奪えない
-		if (IsVital() != true) return;	// 隙がない場合も魂を奪えない
-		if (ckey == PKEY_ROB) {	// 魂を奪いにきているか？
-			// 落下中は通常の当たり判定と判定を行う
+		if (_cState == CrowState::DEATH) return;	// 死んでいる場合は終了
+		if (_muteki != 0) return;	// 無敵時間がある場合は中断
+		if (IsVital() != true) return;	// 隙がない場合も中断
+		// 自機は奪うアクション中か？
+		if (ckey == PKEY_ROB) {
+			// 落下攻撃中(落下モーション中)は通常の当たり判定と判定を行う
 			if (_cState == CrowState::BLINK && _divKey.first == enemy::crowdoll::CROW_BLINK) {
-				auto vital = BlinkVitalPart(_mainCollision, CROW_VITAL);
+				auto vital = BlinkVitalPart(_mainCollision, CROW_VITAL);	// 急所の算出
 				if (vital.first.HitCheck(acollision) == true || vital.second.HitCheck(acollision) == true) {
-					_direction = !direction;
-					/* 処理 */
+					_direction = !direction;	// 向きを反転させる
 				} else return;
 			} else if (_cState != CrowState::BLINK) {
 				auto vitalPart = VitalPart(_mainCollision, CROW_VITAL);
@@ -521,30 +566,32 @@ namespace inr {
 					/* 処理 */
 				} else return;
 			}
-			// 各種値を消去
+			// 各種変数を初期化
 			_atkInterval = 0;
 			_actionCount = 0;
 			_isAnimation = true;
 			_wait = false;
 			_moveVector = {};
 
+			// 死亡処理が真の場合は処理を終了
 			if (DeathOn() == true) return;
 
-			// 魂を奪われる
-			ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);	// 怯み状態にする
+			// 怯み状態にする
+			ModeChange(CrowState::WINCE, enemy::crowdoll::CROW_WINCE);
 			auto sound = se::SoundServer::GetSound(enemy::crowdoll::SE_VOICE);
 			PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));	// 鳴き声を鳴らす
 			AddSoul();	// 魂を生み出す
-			--_life;
+			--_life;	// 耐久値を減らす
+			// 怒り状態に突入した場合は処理を終了
 			if(AngerOn() == true) return;
-			
-			//if(_life == 0) ModeChange(CrowState::SLEEP, enemy::crowdoll::CROW_DOWN);	// 死亡判定
-			_muteki = 60;	// 一定時間の間、無敵状態にする
+			_muteki = 60;	// 無敵時間の設定
 			return;
 		}
 	}
 
+	// 魂を奪える状態かの判定
 	bool CrowDoll::IsVital() {
+		// 現在の状態は魂を奪えるか？
 		switch (_cState) {
 		case CrowState::DEBUF:
 		case CrowState::ROAR:
@@ -560,16 +607,18 @@ namespace inr {
 		}
 	}
 
+	// 活動状態にあるか？
 	bool CrowDoll::IsActive() {
+		// 準備が完了していない場合は処理を終了
 		if (_setup != true) return false;
 		if (_muteki != 0) --_muteki;	// 無敵時間がある場合は減らすある
+		// 死亡状態または非活動状態の場合
 		if (_cState == CrowState::DEATH || _cState == CrowState::SLEEP) {
 			if (AnimationCountMax() != true) ObjectBase::AnimationCount();
 			return false;
 		}
-		// 待ち時間の場合は
 		if (0 < _atkInterval) --_atkInterval;	// 待ち時間を減らす
-		if (_isAnimation == true )ObjectBase::AnimationCount();	// カウントを増やす
+		if (_isAnimation == true )	ObjectBase::AnimationCount();	// カウントを増やす
 		return true;
 	}
 

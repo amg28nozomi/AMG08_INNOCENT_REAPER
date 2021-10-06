@@ -130,7 +130,7 @@ namespace inr {
 		bool SetState();
 		// 怒り状態に突入しているかの判定
 		int IsAnger();
-		// 現在のアニメーション中、魂は奪えるか？
+		// 魂を奪える状態かの判定
 		bool IsVital();
 		// ワープ処理の起動
 		void WarpOn();
@@ -145,16 +145,12 @@ namespace inr {
 		// ボス戦闘フラグをオンにするか
 		bool IsBattle();
 
-		// 移動
+		// 移動処理
 		void Move() override;
 		// 浮遊処理
 		bool Floating();
-		// デバフ処理
-		void Debuf();
 		// 連続攻撃
 		void Rash();
-		// 落下攻撃
-		void Blink();
 		// 魂を生み出す
 		void AddSoul();
 		// 攻撃処理

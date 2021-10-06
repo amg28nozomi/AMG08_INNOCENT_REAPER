@@ -5,9 +5,9 @@
 // 当たり判定の基底クラス
 class Collision {
 protected:
-	Vector2 minV;	// 2Dベクトル(Min)
-	Vector2 maxV;	// 2Dベクトル(MAx)
-	Vector2 center;	// 中心座標
+	Vector2 _minV;	// 2Dベクトル(Min)
+	Vector2 _maxV;	// 2Dベクトル(MAx)
+	Vector2 _center;	// 中心座標
 
 	int _widthMin;	// 幅min
 	int _widthMax;	// 幅max
@@ -25,11 +25,11 @@ public:
 	~Collision() = default;
 
 	// 2Dベクトル(Min)の取得
-	inline Vector2 GetMin() { return minV; }
+	inline Vector2 GetMin() { return _minV; }
 	// 2Dベクトル(Max)の取得
-	inline Vector2 GetMax() { return maxV; }
+	inline Vector2 GetMax() { return _maxV; }
 	// 中心座標の取得
-	inline Vector2 GetCenter() { return center; }
+	inline Vector2 GetCenter() { return _center; }
 
 	// 各種補正値の取得
 	inline int GetWidthMin() { return _widthMin; }
