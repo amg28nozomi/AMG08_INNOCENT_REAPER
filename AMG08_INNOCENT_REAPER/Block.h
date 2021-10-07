@@ -9,23 +9,19 @@ namespace inr {
 			constexpr auto BRAKE_OFF = false;	// 未破壊
 		}
 	}
-
 	// 壊れる岩(ギミック)
 	class Block : public GimmickBase {
 	public:
 		Block(Game& game);
 		~Block() = default;
-
 		// 更新
 		void Process() override;
 		// 描画
 		void Draw() override;
-
 		// オブジェクト情報の登録
 		void SetParameter(ObjectValue objValue) override;
 		// オブジェクト情報の更新
 		void ObjValueUpdate() override;
-
 		// オブジェクトは壊れているか？
 		inline bool IsBreak() { return _break; }
 		// 押し出し処理

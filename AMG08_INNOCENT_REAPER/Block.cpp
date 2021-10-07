@@ -16,7 +16,6 @@ namespace inr {
 		_pal = 255;
 		_break = gimmick::block::BRAKE_OFF;
 	}
-
 	// 更新
 	void Block::Process() {
 		// フラグがオンかつ、アニメーションが終了している場合は該当オブジェクトを消去する
@@ -29,7 +28,6 @@ namespace inr {
 		if (_break != gimmick::block::BRAKE_ON) return;	// 壊れていない場合も処理を抜ける
 		++_aCount;
 	}
-
 	// 描画
 	void Block::Draw() {
 		// 描画座標の算出
@@ -48,13 +46,11 @@ namespace inr {
 		DrawDebugBox(_mainCollision);
 #endif
 	}
-
 	// オブジェクト情報の登録
 	void Block::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;	// オブジェクト情報登録
 		_position = _oValue.Positions()[0];	// 座標の設定
 		_mainCollision = { _position, 45, 45, 100, 140, true };	// 当たり判定の登録
-
 		// フラグがオンの場合
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
 			_break = gimmick::block::BRAKE_ON;	// 破壊済み
@@ -68,7 +64,6 @@ namespace inr {
 		_break = gimmick::block::BRAKE_OFF;
 		_pal = 255;
 	}
-
 	// オブジェクト情報の更新
 	void Block::ObjValueUpdate() {
 		// 破壊されているかどうかでフラグを切り替える
@@ -76,7 +71,6 @@ namespace inr {
 		if (_break == gimmick::block::BRAKE_ON) flag = oscenario::gimmick::FLAG_TRUE;
 		_oValue.FlagUpdate(flag);	// フラグ更新
 	}
-
 	// 押し出し処理
 	bool Block::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
 		// 対象の判定座標更新
@@ -84,20 +78,17 @@ namespace inr {
 		box.Update(newpos, direction);
 		// 対象は接触しているか？
 		if (_mainCollision.HitCheck(box) == false) return false;	// 衝突していない
-
 		// 衝突している場合はどちら側からめり込んでいるかを算出
 		// 対応した方向へ押し出し処理を行う
 		if (move.GetX() < 0) {
 			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMax();
 			move.GetPX() = 0;
-		}
-		else if (0 < move.GetX()) {
+		} else if (0 < move.GetX()) {
 			pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
 			move.GetPX() = 0;
 		}
 		return true;
 	}
-
 	// 破壊処理
 	bool Block::Break() {
 		auto sound = SoundResearch(_divKey.second);

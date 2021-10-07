@@ -13,12 +13,10 @@ namespace inr {
 		constexpr auto THORM = 1;		// 棘(ダメージ判定あり)
 		constexpr auto IVY = 2;			// 蔦(ぶら下がり可能)
 		constexpr auto TRANSITION = 3;	// ステージ遷移
-
 		// 当たり判定はあるか？
 		constexpr auto HIT_ON = true;	// 当たり判定/押し出し処理有り
 		constexpr auto HIT_OFF = false;	// 当たり判定/押し出し処理無し
 	}
-
 	// マップチップの当たり判定
 	class ChipNumber {
 	public:
@@ -26,15 +24,13 @@ namespace inr {
 		ChipNumber(int width1, int width2, int height1, int height2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		ChipNumber(int type, bool ishit = mapchip::HIT_ON);
-
-		// ゲッター
+		// 各種ゲッター
 		inline int WidthMin() { return widthMin; }
 		inline int WidthMax() { return widthMax; }
 		inline int HeightMin() { return heightMin; }
 		inline int HeightMax() { return heightMax; }
 		inline int ChipType() { return chipType; }
 		inline bool HitType() { return hitType; }
-
 	private:
 		int widthMin;	// 横幅(Min)
 		int widthMax;	// 横幅(Max)
@@ -49,10 +45,8 @@ namespace inr {
 	public:
 		// 連想配列(左辺:チップ番号　右辺:マップチップの当たり判定)
 		using ChipsMap = std::unordered_map<int, ChipNumber>;
-
 		ChipHitCheck();
 		~ChipHitCheck();
-
 		// マップチップの当たり判定登録
 		void LoadChipsMap(std::string key, ChipsMap& chipsMap);
 		// 読み込むキー情報の更新
@@ -66,7 +60,6 @@ namespace inr {
 	private:
 		// 連想配列(左辺:ステージキー　右辺:対応ステージの当たり判定)
 		using StageMaps = std::unordered_map<std::string, ChipsMap>;
-
 		std::string _chipKey;		// 取り出すマップチップ情報(キー)
 		StageMaps _stageChipsMap;	// ステージの情報
 		// 登録情報の初期化

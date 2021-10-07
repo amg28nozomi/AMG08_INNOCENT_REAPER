@@ -14,12 +14,10 @@ namespace {
 	constexpr auto MAX_SCROLL = 1920 + 960;
 	// スクロール下限
 	constexpr auto MIN_SCROLL = -960;
-
 	// ステージ1の各種スクロール速度
 	constexpr auto STAGE1_BACK_00 = 0.30;
 	constexpr auto STAGE1_BACK_01 = 0.4;
 	constexpr auto STAGE1_BACK_02 = 0.6;
-
 	// ステージ2の各種スクロール速度
 	constexpr auto STAGE2_BACK_00 = 0.25;
 	constexpr auto STAGE2_BACK_01 = 0.40;
@@ -36,7 +34,6 @@ namespace inr {
 		_fix = { 0, 0 };
 		_scroll = true;	// スクロールオン
 	}
-
 	// 初期化
 	void BackGround::Init() {
 		// 背景画像枚数分、初期化を行う
@@ -46,7 +43,6 @@ namespace inr {
 		}
 		ScrollY();	// 修正をかける
 	}
-
 	// 更新
 	void BackGround::Process() {
 		ChangeGraph();	// 背景画像を切り替えるか
@@ -54,7 +50,6 @@ namespace inr {
 		if (_graphKey == background::BACK_GROUND_B) NormalManage();
 		else BigManage();
 	}
-
 	// 描画
 	void BackGround::Draw() {
 		// 背景画像枚数分の描画処理を実行する
@@ -71,12 +66,10 @@ namespace inr {
 		// 現座のステージが
 		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}
-
 	// ステージに応じた画像に切り替える（引数:現在のステージ）
 	void BackGround::ChangeGraph() {
 		// ステージは切り替わったか？
 		if (IsChanege() != true) return;
-
 		// 切り替わった場合は各種変数の要素を解放する
 		_graphKey.clear();
 		_scrSpeed.first.clear();
@@ -123,7 +116,6 @@ namespace inr {
 		}
 		Init();	// 初期化をかける
 	}
-
 	// キーは切り替わったか？
 	bool BackGround::IsChanege() {
 		auto no = KeyNumber();	// 画像番号を取得
@@ -133,7 +125,6 @@ namespace inr {
 		_stageNo = no;
 		return true;
 	}
-
 	// ステージ番号の判定
 	int BackGround::KeyNumber() {
 		// ステージキーを取得
@@ -147,7 +138,6 @@ namespace inr {
 		if (skey == stage::STAGE_3) return stage::number::SN_B;
 		return -1;
 	}
-
 	// 前描画
 	void BackGround::BackDraw() {
 		Vector2 xy = _pos;	// 現在の座標
@@ -159,14 +149,12 @@ namespace inr {
 		auto gh = graph::ResourceServer::GetHandles(background::ALTAR);
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);	// 描画
 	}
-
 	// スクロール処理(大)
 	void BackGround::BigManage() {
 		// ワールド座標の移動量を取得
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
 		auto moveY = _game.GetMapChips()->BeforeWorldPos().GetY() * -1;
-
-
+		// 画像枚数分処理を行う
 		for (auto i = 0; i < _positions.first.size(); ++i) {
 			// ワールドX座標はスクロール開始地点を超えているか？
 			if (_game.GetMapChips()->IsScrollX() == true) {
@@ -211,14 +199,13 @@ namespace inr {
 			}
 		}
 	}
-
 	// スクロール処理(小)
 	void BackGround::NormalManage() {
 		// スクロール処理がオフの場合、処理を行わない
 		if (_scroll != true) return;
 		// 移動量Xの取得
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
-
+		// 画像枚数分処理を行う
 		for (auto i = 0; i < _positions.first.size(); ++i) {
 			// ワールドX座標はスクロール開始地点を超えているか？
 			if (_game.GetMapChips()->IsScrollX() == true) {
@@ -230,8 +217,7 @@ namespace inr {
 					// 漏れた値を算出
 					auto vec = -HALF_WINDOW_W - _positions.first[i].GetX();
 					_positions.first[i].GetPX() = MAX_SCROLL - vec;
-				}
-				else if (MAX_SCROLL < _positions.first[i].IntX()) {
+				} else if (MAX_SCROLL < _positions.first[i].IntX()) {
 					auto vec = _positions.first[i].GetX() - MAX_SCROLL;
 					_positions.first[i].GetPX() = -HALF_WINDOW_W + vec;
 				}
@@ -239,15 +225,13 @@ namespace inr {
 				if (_positions.second[i].IntX() < -HALF_WINDOW_W) {
 					auto vec = -HALF_WINDOW_W - _positions.second[i].GetX();
 					_positions.second[i].GetPX() = MAX_SCROLL - vec;
-				}
-				else if (WINDOW_W + HALF_WINDOW_W < _positions.second[i].IntX()) {
+				} else if (WINDOW_W + HALF_WINDOW_W < _positions.second[i].IntX()) {
 					auto vec = _positions.second[i].GetX() - MAX_SCROLL;
 					_positions.second[i].GetPX() = -HALF_WINDOW_W + vec;
 				}
 			}
 		}
 	}
-
 	// Y座標の修正
 	void BackGround::ScrollY() {
 		// Y座標の修正

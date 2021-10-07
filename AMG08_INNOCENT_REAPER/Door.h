@@ -3,39 +3,43 @@
 
 namespace inr {
 
+	// ドア(ギミック)
 	class Door : public GimmickBase {
 	public:
 		Door(Game& game);
 		~Door() = default;
-
+		// 初期化
 		void Init() override;
+		// 更新
 		void Process() override;
+		// 描画
 		void Draw() override;
-
+		// オブジェクト情報の設定
 		void SetParameter(Vector2 spwan, std::string key, int flag);
-		void SwitchOn();
-		void SwitchOff();	// 扉を閉める
-
+		// オブジェクト情報の登録
 		void SetParameter(ObjectValue objValue) override;
-
+		// 開閉フラグの起動
+		void SwitchOn();
+		// 開閉フラグ抑制
+		void SwitchOff();
+		// オブジェクトの押し出し処理(引数1:対象の当たり判定　引数2:対象の座標　引数3:移動ベクトル　引数4:向き　引数5:直前に向きが反転したか)
 		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection);
-
-		inline bool IsSwitch() { return _switch; }	// スイッチは入力可能か否か
+		// 開閉フラグの取得
+		inline bool IsSwitch() { return _switch; }
+		// 扉の色の取得
 		inline int DoorColor() { return _color; }
 	private:
-		enum class DoorType {
-			// レバー、水晶(赤)、水晶(青)
-			LEVER, CRYSTAL_RED, CRYSTAL_BLUE
-		};
-		int _color;	// ドアの色
-		double _normalY;
-		bool _switch;
-		bool _ismove;	// 移動中か？
+		int _color;			// ドアの色
+		double _normalY;	// 通常座標
+		bool _switch;		// 開閉フラグ
+		bool _ismove;		// 移動中か？
 		Vector2 _moves;
-
+		// 何色の扉なのかの判定
 		void SetColor(std::string key);
+		// アニメーション処理
 		bool MotionCount();
-		bool DoorMove();	// ドアの移動処理
+		// ドアの移動処理
+		bool DoorMove();
 	};
 }
 

@@ -42,7 +42,6 @@ namespace inr {
 	ChipHitCheck::~ChipHitCheck() {
 		ClearStageMaps();
 	}
-
 	// 登録情報の初期化
 	void ChipHitCheck::ClearStageMaps() {
 		for (auto&& scm : _stageChipsMap) {
@@ -52,7 +51,6 @@ namespace inr {
 		}
 		_stageChipsMap.clear();
 	}
-
 	// マップチップの当たり判定登録
 	void ChipHitCheck::LoadChipsMap(std::string key, ChipsMap& chipsMap) {
 		// この情報は既に登録されているか？
@@ -61,7 +59,6 @@ namespace inr {
 		if (it != _stageChipsMap.end()) return;
 		_stageChipsMap.emplace(key, chipsMap);	// 連想配列に登録
 	}
-
 	// 対象に効果があるかの判定(引数:判定を行うチップ番号)
 	int ChipHitCheck::IsChipType(const int no) {
 		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
@@ -81,7 +78,6 @@ namespace inr {
 			return mapchip::NONE;	// 登録されていないチップ番号
 		}
 	}
-
 	// 対象に当たり判定があるかの判定(引数:判定を行うチップ番号)
 	bool ChipHitCheck::IsHitType(const int no) {
 		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
@@ -95,12 +91,10 @@ namespace inr {
 			return false;
 		}
 	}
-
 	// 対象の当たり判定を取得(引数:取得を行うチップ番号)
 	AABB ChipHitCheck::ChipCollision(const int no) {
 		Vector2 min;
 		Vector2 max;
-
 		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
 		auto chipdata = stage->second.find(no);	// チップ番号の当たり判定を取得
 		if (chipdata == stage->second.end()) {
@@ -109,8 +103,7 @@ namespace inr {
 			min = { 0, 0 };
 			max = { 40, 40 };
 		} else {
-			auto chip = chipdata->second;	// 登録されているChipNumberを取得
-
+			auto chip = chipdata->second;	// 登録されているChipNumberを取
 			min = { static_cast<double>(chip.WidthMin()), static_cast<double>(chip.HeightMin()) };
 			max = { static_cast<double>(chip.WidthMax()), static_cast<double>(chip.HeightMax()) };
 		}

@@ -16,26 +16,22 @@ namespace inr {
 			constexpr auto SN_B = 4;		// ボスステージ
 		}
 	}
-
 	// 背景
 	class BackGround : public Image{
 	public:
-		BackGround(Game& game);
-		
+		BackGround(Game& game);		
 		// 初期化
 		void Init() override;
 		// 更新
 		void Process() override;
 		//描画
 		void Draw() override;
-
 		// ステージに応じた画像に切り替える（引数:現在のステージ）
 		void ChangeGraph();
 		// キーは切り替わったか？
 		bool IsChanege();
 		// ステージ番号の判定
 		int KeyNumber();
-
 		// スクロール終了
 		inline void ScrollOff() { _scroll = false; }
 		// スクロール再開
@@ -46,7 +42,6 @@ namespace inr {
 		std::pair<std::vector<double>, std::vector<double>> _scrSpeed;	// スクロール移動量(左辺:x, 右辺:y)
 		int _stageNo;		// 現在のステージ
 		bool _scroll;		// スクロールするか
-
 		std::string zKey;	// 前景
 		// 前描画
 		void BackDraw();

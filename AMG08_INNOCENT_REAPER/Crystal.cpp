@@ -16,7 +16,6 @@ namespace inr {
 		_soul.reset();
 		_doors.clear();
 	}
-
 	// 描画
 	void Crystal::Draw() {
 		Vector2 xy = _position;
@@ -32,7 +31,6 @@ namespace inr {
 		DrawDebugBox(_mainCollision);
 #endif
 	}
-
 	// オブジェクト情報の登録
 	void Crystal::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;	// オブジェクト情報の登録
@@ -64,7 +62,6 @@ namespace inr {
 		// 当たり判定
 		_mainCollision = { _position, 50, 50, 30, 70, true };
 	}
-
 	// ドアの設定
 	void Crystal::SetDoors(std::vector<std::string> key) {
 		// 魂の色を見て対応したものを開ける
@@ -93,7 +90,6 @@ namespace inr {
 		}
 		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key.at(i), flag.at(i));
 	}
-
 	// 描画画像の設定
 	void Crystal::GraphKey() {
 		// 水晶の種類に応じて、キーを切り替える
@@ -135,7 +131,6 @@ namespace inr {
 			break;
 		}
 	}
-
 	// 魂の生成
 	void Crystal::AddSoul() {
 		// 魂は空か？
@@ -144,16 +139,16 @@ namespace inr {
 			return;
 		}
 		// 魂を生成
-		auto soul_c = std::make_shared<SoulSkin>(_game.GetGame());
+		auto soul = std::make_shared<SoulSkin>(_game.GetGame());
 		// 魂の生成情報に応じて、値を変更
 		switch (_oValue.SoulType()) {
 		case 1:
 			// 赤
-			soul_c->SetParameter(_oValue.SoulType(), 7);
+			soul->SetParameter(_oValue.SoulType(), 7);
 			break;
 		case 2:
 			// 青
-			soul_c->SetParameter(_oValue.SoulType(), 7);
+			soul->SetParameter(_oValue.SoulType(), 7);
 			break;
 		default:
 #ifdef _DEBUG
@@ -162,10 +157,9 @@ namespace inr {
 			break;
 		}
 		// 各種魂の登録
-		_soul = soul_c;
-		_game.GetObjectServer()->Add(std::move(soul_c));
+		_soul = soul;
+		_game.GetObjectServer()->Add(std::move(soul));
 	}
-
 	// 自機アクションとの衝突判定
 	void Crystal::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		auto player = _game.GetObjectServer()->GetPlayer();
@@ -177,7 +171,6 @@ namespace inr {
 					for (auto door_c : _doors) door_c->SwitchOff();
 					auto sound = se::SoundServer::GetSound(gimmick::crystal::KEY_ROB);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-
 					_soul->SetSpwan(_position);	// 中心座標に実体化させる
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
@@ -218,24 +211,20 @@ namespace inr {
 			}
 		}
 	}
-
 	// ドアの解放
 	bool Crystal::IsOpen(int type) {
 		// ドアの色と保有している魂を比較
 		if (static_cast<int>(_soul->SoulColor()) != type) return false;
 		// 一致している
 		return true;
-
 	}
-
 	// オブジェクト情報の更新
 	void Crystal::ObjValueUpdate() {
 		// 魂が空の場合は初期状態に戻す
 		if (_soul == nullptr) {
 			_oValue.SoulUpdate(0);
 			return;
-		}
-		else {
+		} else {
 			// 魂の情報を登録
 			switch (_soul->SoulColor()) {
 			case soul::RED:
