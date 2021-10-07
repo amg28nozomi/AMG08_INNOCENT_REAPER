@@ -132,6 +132,10 @@ namespace {
 
 	constexpr auto DEBUFF_MAX = 60 * 5;
 
+	// 棘ダメージ判定フラグ
+	constexpr auto DAMAGE_ON = true;
+	constexpr auto DAMAGE_OFF = false;
+
 }
 
 namespace inr {
@@ -150,6 +154,7 @@ namespace inr {
 		_moveType = "";
 		_landingType = "";
 		_moveD = MOVE_DEFAULT;
+		_ivxInterval = DAMAGE_OFF;
 
 		_souls;
 		// _souls.push(nullptr);
@@ -217,6 +222,12 @@ namespace inr {
 	void Player::Process() {
 		if(_aState != ActionState::DEATH) ObjectBase::Process();
 		if (_sChange == true) InputOn();
+		// 座標戻し後、入力を受け付けるかどうかの判定
+		if (_ivxInterval == DAMAGE_ON && _invincible == 60) {
+			// 入力受付の再開
+			_input = true;
+			_ivxInterval = DAMAGE_OFF;
+		}
 
 		if (Dead() == true) return;
 		// 入力情報を取得
@@ -1031,19 +1042,20 @@ namespace inr {
 		}
 	}
 
+	// 棘のダメージ処理
 	void Player::DamageThorm() {
-		// 魂を手放す
-		if (_souls.empty() == false) {
+		// 魂は空かどうか？
+		if (_souls.empty() == true) {
+			Death();	// 空の場合は死亡処理呼び出し
+			return;
+		}
+		else {
 			_souls.front()->Del();
 			_souls.pop();
 
 			auto soundKey = SoundResearch(key::SOUND_PLAYER_HIT);
 			auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 			PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
-		}
-		else {
-			Death();	//　死亡処理
-			return;
 		}
 		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
 		_position = _lastChip;	// 座標切り替え
@@ -1052,6 +1064,9 @@ namespace inr {
 		_dashX = 0;
 		_gravity = 0;
 
+		_ivxInterval = DAMAGE_ON;
+		_invincible = 120;
+		_input = false;
 	}
 
 	bool Player::Reset() {

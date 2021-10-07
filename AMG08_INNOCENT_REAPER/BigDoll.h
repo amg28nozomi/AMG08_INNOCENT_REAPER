@@ -42,10 +42,10 @@ namespace inr {
 
 		// ヒップドロップ
 		void HipDrop();
-		// 状態に応じた処理を行う
+		// 状態に応じた処理の更新
 		void StateUpdate();
 
-		// 索敵処理判定オン
+		// 巡回処理判定オン
 		void PatrolOn() override;
 		// 攻撃処理判定オン
 		void AttackOn() override;
@@ -61,7 +61,7 @@ namespace inr {
 		void Move();
 		// 座標更新
 		void PositionUpdate() override;
-		// 攻撃
+		// 攻撃処理
 		void Attack();
 
 		// 現在の当たり判定の取得

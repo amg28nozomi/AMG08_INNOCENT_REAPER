@@ -21,8 +21,11 @@ namespace inr {
 	public:
 		BackGround(Game& game);
 		
+		// 初期化
 		void Init() override;
+		// 更新
 		void Process() override;
+		//描画
 		void Draw() override;
 
 		// ステージに応じた画像に切り替える（引数:現在のステージ）
@@ -44,7 +47,7 @@ namespace inr {
 		bool _scroll;	// スクロールするか
 
 		std::string zKey;	// 前景
-		// 前景の描画
+		// 前描画
 		void BackDraw();
 		// スクロール処理(大)
 		void BigManage();

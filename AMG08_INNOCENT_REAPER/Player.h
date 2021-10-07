@@ -95,6 +95,7 @@ namespace inr {
 		bool _input;	// 入力処理を受け付けるか
 		bool _grab;	// 掴み判定
 		bool _sChange;	// ステージが変わったかどうか
+		bool _ivxInterval;	// 棘ダメージ後のフラグ
 		// std::string _divKey;	// 読み込み用識別キー
 		boxs _collisions;	// キー、軸平行境界線BOX(AABBクラス)
 
@@ -124,7 +125,9 @@ namespace inr {
 		bool Dead(); // 死亡判定
 		void Death();	// 死亡処理（）
 		bool IsStandChip() override;
-		void DamageThorm();	// 棘のダメージ処理
+
+		// 棘のダメージ処理
+		void DamageThorm();
 
 		void IsGrab();	// 当たり判定等の処理
 		void Grab();

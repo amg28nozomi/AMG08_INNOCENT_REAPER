@@ -58,7 +58,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 初期化後のステージを設定
 #ifdef _DEBUG
-			_stageKey = stage::STAGE_2;
+			_stageKey = stage::STAGE_0;
 #endif
 #ifndef _DEBUG
 			_stageKey = stage::STAGE_0;

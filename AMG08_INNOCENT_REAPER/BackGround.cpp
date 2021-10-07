@@ -37,6 +37,7 @@ namespace inr {
 		_scroll = true;	// スクロールオン
 	}
 
+	// 初期化
 	void BackGround::Init() {
 		// 背景画像枚数分、初期化を行う
 		for (int n = 0; n < static_cast<int>(_scrSpeed.first.size()); ++n) {
@@ -46,6 +47,7 @@ namespace inr {
 		ScrollY();	// 修正をかける
 	}
 
+	// 更新
 	void BackGround::Process() {
 		ChangeGraph();	// 背景画像を切り替えるか
 		// 画像キーに応じて呼び出すスクロール処理を変更
@@ -53,6 +55,7 @@ namespace inr {
 		else BigManage();
 	}
 
+	// 描画
 	void BackGround::Draw() {
 		// 背景画像枚数分の描画処理を実行する
 		for (auto number = 0; number < static_cast<int>(_positions.first.size()); ++number) {
@@ -69,6 +72,7 @@ namespace inr {
 		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
 	}
 
+	// ステージに応じた画像に切り替える（引数:現在のステージ）
 	void BackGround::ChangeGraph() {
 		// ステージは切り替わったか？
 		if (IsChanege() != true) return;
@@ -120,6 +124,7 @@ namespace inr {
 		Init();	// 初期化をかける
 	}
 
+	// キーは切り替わったか？
 	bool BackGround::IsChanege() {
 		auto no = KeyNumber();	// 画像番号を取得
 		// 番号が等しい場合は処理を中断
@@ -129,6 +134,7 @@ namespace inr {
 		return true;
 	}
 
+	// ステージ番号の判定
 	int BackGround::KeyNumber() {
 		// ステージキーを取得
 		auto skey = _game.GetModeServer()->GetModeMain()->StageKey();
@@ -142,6 +148,7 @@ namespace inr {
 		return -1;
 	}
 
+	// 前描画
 	void BackGround::BackDraw() {
 		Vector2 xy = _pos;	// 現在の座標
 		_game.GetMapChips()->Clamp(xy);	// スクリーン座標にクランプする
@@ -153,6 +160,7 @@ namespace inr {
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);	// 描画
 	}
 
+	// スクロール処理(大)
 	void BackGround::BigManage() {
 		// ワールド座標の移動量を取得
 		auto moveX = _game.GetMapChips()->BeforeWorldPos().IntX() * -1;
@@ -204,6 +212,7 @@ namespace inr {
 		}
 	}
 
+	// スクロール処理(小)
 	void BackGround::NormalManage() {
 		// スクロール処理がオフの場合、処理を行わない
 		if (_scroll != true) return;
@@ -239,6 +248,7 @@ namespace inr {
 		}
 	}
 
+	// Y座標の修正
 	void BackGround::ScrollY() {
 		// Y座標の修正
 		for (auto i = 0; i < _positions.first.size(); ++i) {

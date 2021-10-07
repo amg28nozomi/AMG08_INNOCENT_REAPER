@@ -89,8 +89,11 @@ namespace inr {
 	public:
 		CrowDoll(Game& game);
 
+		// 初期化
 		void Init() override;
+		// 更新
 		void Process() override;
+		// 描画
 		void Draw() override;
 
 		// オブジェクト情報の登録
