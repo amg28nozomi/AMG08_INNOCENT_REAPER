@@ -105,25 +105,24 @@ namespace graph {
 	// 一枚画像の複数登録処理
 	void ResourceServer::SetLoadGraph(const DivGraphMap& divGraphMap) {
 		for (auto&& dgm : divGraphMap) {
-			auto& key = dgm.first;	// 参照元のキー情報
+			auto& key = dgm.first;	// キーの取得
 			auto it = _graphlists.find(key);	// 検索
 			if (it != _graphlists.end()) continue;	// 既に登録済みの場合はスキップ
 
-			DivGraph dgraph = { it->second.GetFile(), 1, 1, it->second.GetAllNum(), it->second.GetXsize(), it->second.GetYnum() };
+			DivGraph dgraph = dgm.second;
 			auto&& dghandle = dgraph.GetHandls();
-			dghandle.resize(it->second.GetAllNum());
-			for (auto i = 0; i < it->second.GetAllNum(); ++i) {
+			dghandle.resize(dgraph.GetAllNum());
+			for (auto i = 0; i < dgraph.GetAllNum(); ++i) {
 				std::string number;
 				if (i < 10) {
 					number = "0" + std::to_string(i);
-				}
-				else {
+				} else {
 					number = std::to_string(i);
 				}
 				std::string fn = dgraph.GetFile() + number + ".png";
-				LoadDivGraph(fn.c_str(), 1, 1, 1, it->second.GetXsize(), it->second.GetYnum(), &dghandle.at(i));
+				LoadDivGraph(fn.c_str(), 1, 1, 1, dgraph.GetXsize(), dgraph.GetYsize(), &dghandle.at(i));
 			}
-			_graphlists.emplace(it->first, dgraph);
+			_graphlists.emplace(dgm.first, dgraph);
 		}
 	}
 

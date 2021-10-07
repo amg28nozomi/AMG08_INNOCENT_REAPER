@@ -39,57 +39,58 @@ namespace inr {
 		}
 		// ソルジャードール
 		namespace soldier {
-			constexpr auto OMEN = "sd_omen_effect";
-			constexpr auto OMEN_NUMS = 14;
-			constexpr auto OMEN_IMAGE = 160;
+			constexpr auto OMEN = "sd_omen_effect";		// 自機発見エフェクト
+			constexpr auto OMEN_NUMS = 14;				// 総分割数
+			constexpr auto OMEN_IMAGE = 160;			// 画像サイズ
 		}
-
+		// ビッグドール
 		namespace bigdoll {
-			constexpr auto OMEN = "bd_omen_effect";
-			constexpr auto OMEN_NUMS = 14;
-			constexpr auto OMEN_IMAGE = 280;
+			constexpr auto OMEN = "bd_omen_effect";		// 自機発見エフェクト
+			constexpr auto OMEN_NUMS = 14;				// 総分割数
+			constexpr auto OMEN_IMAGE = 280;			// 画像サイズ
 		}
 	}
-
-	class Game;
-
-	// エフェクト
+	// エフェクトの基底クラス
 	class EffectBase {
 	public:
-		EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);	// 生成座標および、生存フレーム数、分割数、一画像当たりの待ち時間
+		// 引数1:Gameクラスの参照　引数2:画像キー　引数3:生成地点　引数4:生存フレーム数　引数5:反転フラグ
+		EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);
 		~EffectBase() = default;
-
+		// 初期化
 		virtual void Init();
+		// 更新
 		virtual void Process();
-		virtual void Draw();	// 描画
-
-		virtual void SetDamageEffect(int width, int height, int dinter = 0);	// エフェクトにダメージ判定を持たせる
+		// 描画
+		virtual void Draw();
+		// ダメージ判定の設定(引数1:横幅　引数2:縦幅　引数3:ダメージ判定が発生するまでの猶予時間)
+		virtual void SetDamageEffect(int width, int height, int dinter = 0);
+		// ダメージ判定の設定(引数1:横幅(min)　引数2:横幅(max)　引数3:縦幅(min)　引数4:縦幅(max)　引数5:ダメージ判定が発生するまでの猶予時間　引数6:ダメージ判定の終了時間)
 		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0, int max = 0);
-		void SetLoop(int max);	// 引数1 何回繰り返すか
-		inline bool IsDel() { return _delete; }	// このエフェクトを削除するか？
-
+		// ループ設定(引数1:ループ回数)
+		void SetLoop(int max);
+		// このエフェクトを削除するか？
+		inline bool IsDel() { return _delete; }
 	protected:
-
-		Game& _game;	// ゲーム参照
-
-		Vector2 _position;	// 座標
-		AABB _collision;	// 当たり判定
-		int _count;	// カウンタ
-		int _alive;	// 生存時間
-		int _allNum;	// 総描画枚数
-		int _interval;	// モーションが完了するまでの猶予時間]
-		int _dInter;	//	ダメージ判定が発生するまでの猶予時間
-		int _dMax;
-		int _loop;	// ループ回数（デフォルトだとなし）
-		bool _direction;	// 生成時の向き
-		bool _isDamage;	// ダメージ判定はあるか？
-		bool _delete;	// 消去するかの判定
+		Game& _game;			// ゲーム参照
+		Vector2 _position;		// 座標
+		AABB _collision;		// 当たり判定
+		int _count;				// カウンタ
+		int _alive;				// 生存時間
+		int _allNum;			// 総描画枚数
+		int _interval;			// モーションが完了するまでの猶予時間
+		int _dInter;			// ダメージ判定が発生するまでの猶予時間
+		int _dMax;				// ダメージ判定の終了時間
+		int _loop;				// ループ回数（デフォルトだとなし）
+		bool _direction;		// 生成時の向き
+		bool _isDamage;			// ダメージ判定はあるか？
+		bool _delete;			// 消去するかの判定
 		std::string _graphKey;	// グラフィックハンドルのキー
-
-		void GraphResearch(int* gh);	// ResourceServerからグラフィックハンドル取得
+		// グラフィックハンドルの検索
+		void GraphResearch(int* gh);
 		void Damage();	// ダメージ処理（自機へ）
 		bool IsPlayerPosition();
 		bool IsDamage();
+		// アニメーション番号の算出
 		int GraphNumber();
 	};
 }
