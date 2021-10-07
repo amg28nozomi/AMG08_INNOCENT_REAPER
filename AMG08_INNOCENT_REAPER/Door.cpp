@@ -8,8 +8,11 @@
 #include "ModeMain.h"
 
 namespace {
+	// 開閉時の総移動量
 	constexpr auto OPEN_MAX = 200;
+	// 開閉を完了するまでに必要な総フレーム数
 	constexpr auto ANIMATION_FRAME = 50;
+	// 1フレーム毎の移動量
 	constexpr auto DOOR_VECTOR = OPEN_MAX / ANIMATION_FRAME;
 }
 

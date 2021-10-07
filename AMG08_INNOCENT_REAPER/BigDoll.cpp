@@ -486,7 +486,7 @@ namespace inr {
 					_searchBox.SetCollisionFlag() = false;
 					PlaySe(enemy::bigdoll::SE_DOWN);
 					// 死亡エフェクトの生成および登録
-					auto hit = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
+					auto hit = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::S_HIT, _position, 30);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hit), effect::type::FORMER);
 
 					_soul->SetSpwan(_position);	// 自身の中心座標に実体化させる

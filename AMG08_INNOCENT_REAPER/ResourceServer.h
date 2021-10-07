@@ -12,8 +12,6 @@ namespace graph {
 		DivGraph();
 		~DivGraph();
 		// 以下ゲッター
-
-		//inline std::string GetFill() { return _fillname; }
 		std::string& GetFile();
 
 		inline int GetXnum() { return _xNum; }
@@ -42,13 +40,15 @@ namespace graph {
 		// 型名の別名定義
 		// using 別名 = 型名で別名を定義できる
 		using DivGraphMap = std::unordered_map<std::string, DivGraph>;
+		using DivMultipleGraphMap = std::unordered_map<std::string, std::pair<std::string, DivGraph>>;
 
 		static void Init();		// 初期化
 		static void Release();		// 解放
 		static void ClearGraphLists();
 		static void LoadGraphList(const DivGraphMap& divGraphMap);	// 画像の一括読み込み
 		// 引数1:登録用キー　引数2:パス　引数3:ファイル名
-		static void SetLoadGraph(std::string gkey, std::string path, std::string filename, int maxsize, int xsize, int ysize); // 引数1:登録用キー　引数2:パス　引数3:ファイル名
+		static void SetLoadGraph(const DivGraphMap& divGraphMap);
+		// static void SetLoadGraph(std::string gkey, std::string path, std::string filename, int maxsize, int xsize, int ysize); // 引数1:登録用キー　引数2:パス　引数3:ファイル名
 
 		static int GetHandles(const std::string& key, int no = 0);
 		static bool GetHandles(const std::string& key, std::vector<int>& handls);

@@ -5,43 +5,39 @@
 #include <string>
 
 namespace inr {
-
 	namespace effect {
-		constexpr auto NO_COUNT = 0;
-		constexpr auto NO_MAXFRAME = 0;
-
-		// キー名
-		constexpr auto JUMP = "jump_effect";	// ジャンプエフェクトのキー
-		constexpr auto DASH = "dash_effect";
-		constexpr auto ROB = "rob_effect";
-		constexpr auto HIT = "hit_effect";	// 自機ダメージ時
-		constexpr auto DEAD = "dead_effect";	// ダメージ時エフェクト
-		constexpr auto GIVE = "give_effect";	// 与えるエフェクト
-		constexpr auto DEBUFF = "playe_debuff_effect";	// 自機デバフエフェクト
-
-		constexpr auto S_HIT = "soul_hit_effect";
-
-		namespace enemy {
-			constexpr auto HITDROP = "hipdrop_effect";
-			constexpr auto HIPDROP_WIDTH = 560;
-			constexpr auto HIPDROP_HEIGHT = 280;
-			constexpr auto HIPDROP_MAX = 24;
-		}
-		
-
-		// 画像サイズ
+		// エフェクトのキー名
+		// 自機エフェクト
+		constexpr auto JUMP = "jump_effect";			// ジャンプ
+		constexpr auto DASH = "dash_effect";			// ダッシュ
+		constexpr auto ROB = "rob_effect";				// 奪う
+		constexpr auto HIT = "hit_effect";				// ダメージ
+		constexpr auto DEAD = "dead_effect";			// 死亡
+		constexpr auto GIVE = "give_effect";			// 与える
+		constexpr auto DEBUFF = "playe_debuff_effect";	// デバフ
+		// ジャンプエフェクトの画像サイズ
 		constexpr auto JUMP_IMAGE_W = 150;
 		constexpr auto JUMP_IMAGE_H = 50;
-		constexpr auto ROB_IMAGE = 140;	// 奪うエフェクトの画像サイズ
+		// 奪うエフェクトの画像サイズ
+		constexpr auto ROB_IMAGE = 140;
+		// ダメージエフェクトの画像サイズ
 		constexpr auto HIT_IMAGE_W = 840;
 		constexpr auto HIT_IMAGE_H = 430;
-
-		constexpr auto SHIT_IMAGE = 400;
+		// 与えるエフェクトの画像サイズ
 		constexpr auto GIVE_IMAGE = 200;
-
+		// デバフエフェクトの画像サイズおよび総分割数
 		constexpr auto DEBUF_IMAGE = 140;
 		constexpr auto DEBUF_MAX = 15;
-
+		// 敵エフェクト
+		namespace enemy {
+			constexpr auto S_HIT = "soul_hit_effect";	// 死亡
+			constexpr auto SHIT_IMAGE = 400;			// 死亡エフェクトの画像サイズ
+			constexpr auto HITDROP = "hipdrop_effect";	// ヒップドロップ(衝撃波)
+			constexpr auto HIPDROP_WIDTH = 560;			// ヒップドロップの横幅
+			constexpr auto HIPDROP_HEIGHT = 280;		// ヒップドロップの立幅
+			constexpr auto HIPDROP_MAX = 24;			// ヒップドロップの総分割数
+		}
+		// ソルジャードール
 		namespace soldier {
 			constexpr auto OMEN = "sd_omen_effect";
 			constexpr auto OMEN_NUMS = 14;

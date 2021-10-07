@@ -184,7 +184,7 @@ namespace inr {
 		{ effect::DASH, {"Resource/effect/Player/re_dash.png", 5, 1, 5, 360, 360}},
 		{ effect::ROB, {"Resource/effect/Player/rob.png", 3, 3, 9, effect::ROB_IMAGE, effect::ROB_IMAGE}},	// íDÇ§ÉAÉNÉVÉáÉì
 		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},	// É_ÉÅÅ[ÉW
-		{ effect::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::SHIT_IMAGE, effect::SHIT_IMAGE}},
+		{ effect::enemy::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::enemy::SHIT_IMAGE, effect::enemy::SHIT_IMAGE}},
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 5, 4, 20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
 		{ effect::DEBUFF, {"Resource/effect/Player/debuff.png", 5, 3, effect::DEBUF_MAX, effect::DEBUF_IMAGE, effect::DEBUF_IMAGE}},
 
@@ -199,7 +199,27 @@ namespace inr {
 		{ effect::crow::AURA, {"Resource/effect/CrowDoll/bossaura.png", 8, 4, effect::crow::AURA_MAX, effect::crow::AURA_IMAGE, effect::crow::AURA_IMAGE}},
 		{ effect::crow::DEATH, {"Resource/effect/CrowDoll/bosslasthit.png", 3, 5, effect::crow::DEATH_MAX, effect::crow::DEATH_IMAGE, effect::crow::DEATH_IMAGE}},
 	};
-
+	// É^ÉCÉgÉãÉAÉjÉÅÅ[ÉVÉáÉìóﬁÇÃìoò^èÓïÒ
+	const graph::ResourceServer::DivGraphMap title{
+		{ titles::TITLE_ALI, {"Resource/effect/Logo/ali/ali_", 1, 1, 34, WINDOW_W, WINDOW_H}},
+		{ titles::TITLE_ALO, {"Resource/effect/Logo/alo/alo_", 1, 1, 34, WINDOW_W, WINDOW_H}},
+		{ titles::TITLE_T, {"Resource/effect/Logo/t/t_", 1, 1, 30, WINDOW_W, WINDOW_H}},
+		{ titles::TITLE_TLI, {"Resource/effect/Logo/tli/tli", 1, 1, 30, WINDOW_W, WINDOW_H}},
+		{ titles::TITLE_TLO, {"Resource/effect/Logo/tlo/tlo_", 1, 1, 30, WINDOW_W, WINDOW_H}},
+	};
+	// îwåiëfçﬁÇÃìoò^èÓïÒ
+	const graph::ResourceServer::DivGraphMap backgrounds{
+		{ background::BACK_GROUND_S, {"Resource/BackGround/Stage0/bg_stageS_", 1, 1, 2, WINDOW_W, background::STAGES_HEIGHT}},
+		{ background::BACK_GROUND_1, {"Resource/BackGround/Stage1/bg_stage1_", 1, 1, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT}},
+		{ background::BACK_GROUND_2, {"Resource/BackGround/Stage2/bg_stage2_", 1, 1, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT}},
+		{ background::BACK_GROUND_B, {"Resource/BackGround/StageBoss/bg_stageb_", 1, 1, 4, WINDOW_W, WINDOW_H}},
+	};
+	// 
+	const graph::ResourceServer::DivGraphMap multiple{
+		{ image::particle::STAGE_UI, {"Resource/UI/ui_stage", 1, 1, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H}},
+		{ effect::crow::ROAR, {"Resource/effect/CrowDoll/roar/roar", 1, 1, 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT}},
+		{ effect::crow::DEBUF, {"Resource/effect/CrowDoll/debuf/debuf_", 1, 1, effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H}},
+	};
 
 	namespace titles {
 
@@ -224,12 +244,16 @@ namespace inr {
 		graph::ResourceServer::LoadGraphList(gimmicks);
 		graph::ResourceServer::LoadGraphList(effects);
 
-		std::string gpath = "Resource/effect/Logo/";
-		/*graph::ResourceServer::SetLoadGraph(titles::TITLE_ALI, gpath + titles::PATH_ALI, titles::FILE_ALI, 34, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(title);
+		graph::ResourceServer::SetLoadGraph(backgrounds);
+		graph::ResourceServer::SetLoadGraph(multiple);
+
+		/*std::string gpath = "Resource/effect/Logo/";
+		graph::ResourceServer::SetLoadGraph(titles::TITLE_ALI, gpath + titles::PATH_ALI, titles::FILE_ALI, 34, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_ALO, gpath + titles::PATH_ALO, titles::FILE_ALO, 34, WINDOW_W, WINDOW_H);
 		 graph::ResourceServer::SetLoadGraph(titles::TITLE_T, gpath + titles::PATH_T, titles::FILE_T, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
-		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);*/
+		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_S, background::STAGES_PATH, background::STAGES_FILE, 2, WINDOW_W, background::STAGES_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
 		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_2, background::STAGE2_PATH, background::STAGE2_FILE, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT);
@@ -239,7 +263,7 @@ namespace inr {
 		std::string crow_path = "Resource/effect/CrowDoll/";
 		graph::ResourceServer::SetLoadGraph(effect::crow::ROAR, crow_path + "roar/", "roar", 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT);
 		std::string debuf_path = "Resource/effect/CrowDoll/debuf/";
-		graph::ResourceServer::SetLoadGraph(effect::crow::DEBUF, debuf_path, "debuf_", effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H);
+		graph::ResourceServer::SetLoadGraph(effect::crow::DEBUF, debuf_path, "debuf_", effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H);*/
 	}
 
 	ImageMap Loads::LoadImages() {

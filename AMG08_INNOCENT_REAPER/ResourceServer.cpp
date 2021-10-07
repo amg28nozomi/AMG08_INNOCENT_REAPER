@@ -102,24 +102,49 @@ namespace graph {
 		return it->second.GetAllNum();
 	}
 
-	void ResourceServer::SetLoadGraph(std::string gkey, std::string path, std::string filename, int maxsize, int xsize, int ysize) {
-		auto it = _graphlists.find(gkey);
-		if (it != _graphlists.end()) return;
-		// 空のデータを作成
-		DivGraph dgraph = { path + filename, 1, 1, maxsize, xsize, ysize};
-		auto&& dghandle = dgraph.GetHandls();
-		dghandle.resize(maxsize);
-		for (auto i = 0; i < maxsize; ++i) {
-			std::string number;
-			if (i < 10) {
-				number = "0" + std::to_string(i);
+	// 一枚画像の複数登録処理
+	void ResourceServer::SetLoadGraph(const DivGraphMap& divGraphMap) {
+		for (auto&& dgm : divGraphMap) {
+			auto& key = dgm.first;	// 参照元のキー情報
+			auto it = _graphlists.find(key);	// 検索
+			if (it != _graphlists.end()) continue;	// 既に登録済みの場合はスキップ
+
+			DivGraph dgraph = { it->second.GetFile(), 1, 1, it->second.GetAllNum(), it->second.GetXsize(), it->second.GetYnum() };
+			auto&& dghandle = dgraph.GetHandls();
+			dghandle.resize(it->second.GetAllNum());
+			for (auto i = 0; i < it->second.GetAllNum(); ++i) {
+				std::string number;
+				if (i < 10) {
+					number = "0" + std::to_string(i);
+				}
+				else {
+					number = std::to_string(i);
+				}
+				std::string fn = dgraph.GetFile() + number + ".png";
+				LoadDivGraph(fn.c_str(), 1, 1, 1, it->second.GetXsize(), it->second.GetYnum(), &dghandle.at(i));
 			}
-			else {
-				number = std::to_string(i);
-			}
-			std::string fn = dgraph.GetFile() + number  + ".png";
-			LoadDivGraph(fn.c_str(), 1, 1, 1, xsize, ysize, &dghandle.at(i));
+			_graphlists.emplace(it->first, dgraph);
 		}
-		_graphlists.emplace(gkey, dgraph);
 	}
+
+	//void ResourceServer::SetLoadGraph(std::string gkey, std::string path, std::string filename, int maxsize, int xsize, int ysize) {
+	//	auto it = _graphlists.find(gkey);
+	//	if (it != _graphlists.end()) return;
+	//	// 空のデータを作成
+	//	DivGraph dgraph = { path + filename, 1, 1, maxsize, xsize, ysize};
+	//	auto&& dghandle = dgraph.GetHandls();
+	//	dghandle.resize(maxsize);
+	//	for (auto i = 0; i < maxsize; ++i) {
+	//		std::string number;
+	//		if (i < 10) {
+	//			number = "0" + std::to_string(i);
+	//		}
+	//		else {
+	//			number = std::to_string(i);
+	//		}
+	//		std::string fn = dgraph.GetFile() + number  + ".png";
+	//		LoadDivGraph(fn.c_str(), 1, 1, 1, xsize, ysize, &dghandle.at(i));
+	//	}
+	//	_graphlists.emplace(gkey, dgraph);
+	//}
 }

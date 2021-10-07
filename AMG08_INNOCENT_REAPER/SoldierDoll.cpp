@@ -521,7 +521,7 @@ namespace inr {
 					_stay = 0;
 					_isAction = false;
 
-					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::S_HIT, _position, 30);
+					auto hiteff = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy:: S_HIT, _position, 30);
 					_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(hiteff), effect::type::FORMER);
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
