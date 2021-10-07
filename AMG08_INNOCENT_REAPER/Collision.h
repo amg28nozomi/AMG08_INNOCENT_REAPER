@@ -6,7 +6,7 @@
 class Collision {
 protected:
 	Vector2 _minV;	// 2Dベクトル(Min)
-	Vector2 _maxV;	// 2Dベクトル(MAx)
+	Vector2 _maxV;	// 2Dベクトル(Max)
 	Vector2 _center;	// 中心座標
 
 	int _widthMin;	// 幅min

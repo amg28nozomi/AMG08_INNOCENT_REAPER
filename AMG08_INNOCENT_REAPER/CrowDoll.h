@@ -107,23 +107,24 @@ namespace inr {
 		Vector2 _target;	// 攻撃目標座標
 		Vector2 _actionEnd;	// アクション終了
 		Vector2 _warpPos;	// 転移後の座標
-		int _life;	// 体力
+
+		int _life;			// 体力
 		int _atkInterval;	// 攻撃の猶予時間
-		int _pattern;	// 行動パターン
+		int _pattern;		// 行動パターン
 		int _debuffCount;	// デバフを発動するか？
+		int _muteki;		// 無敵時間
 
 		int _actionCount;	// ラッシュカウント
 		int _debuffChage;	// デバフ溜め
 
-		bool _setup;	// 準備は完了したか？
-		bool _arm;	// 腕は生成したか？
-		bool _debuf;	// デバフフラグ
+		bool _setup;		// 準備は完了したか？
+		bool _arm;			// 腕は生成したか？
+		bool _debuf;		// デバフフラグ
 		bool _changeState;	// 状態を切り替えるか？
 		bool _isAnimation;	// モーション再生を行うか
-		bool _isWarp;	// ワープを行うか？
-		bool _isAnger;	// 怒りフラグ
-		bool _wait;	// 待機フラグ
-		int _muteki;	// 無敵時間
+		bool _isWarp;		// ワープを行うか？
+		bool _isAnger;		// 怒りフラグ
+		bool _wait;			// 待機フラグ
 
 		// 状態遷移
 		void ModeChange(CrowState nextState, std::string key);

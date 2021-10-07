@@ -5,7 +5,7 @@ namespace inr {
 	namespace gimmick {
 		namespace block {
 			// ‰ó‚ê‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
-			constexpr auto BRAKE_ON = true;	// ”j‰óÏ‚İ
+			constexpr auto BRAKE_ON = true;		// ”j‰óÏ‚İ
 			constexpr auto BRAKE_OFF = false;	// –¢”j‰ó
 		}
 	}
@@ -15,9 +15,7 @@ namespace inr {
 	public:
 		Block(Game& game);
 		~Block() = default;
-			
-		// ‰Šú‰»
-		void Init() override;
+
 		// XV
 		void Process() override;
 		// •`‰æ
@@ -35,7 +33,7 @@ namespace inr {
 		// ”j‰óˆ—
 		bool Break();
 	private:
-		int _pal;	// “§–¾“x
+		int _pal;		// “§–¾“x
 		bool _break;	// ‰ó‚³‚ê‚½‚©”Û‚©
 	};
 }
