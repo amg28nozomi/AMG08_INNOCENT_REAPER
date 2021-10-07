@@ -9,13 +9,14 @@ namespace inr {
 		// ステージ番号
 		namespace number {
 			constexpr auto SN_NULL = -1;	// 該当なし
-			constexpr auto SN_S = 0;	// ステージ0
-			constexpr auto SN_T = 1;	// チュートリアルステージ
-			constexpr auto SN_1 = 2;	// ステージ1
-			constexpr auto SN_2 = 3;	// ステージ2
-			constexpr auto SN_B = 4;	// ボスステージ
+			constexpr auto SN_S = 0;		// ステージ0
+			constexpr auto SN_T = 1;		// チュートリアルステージ
+			constexpr auto SN_1 = 2;		// ステージ1
+			constexpr auto SN_2 = 3;		// ステージ2
+			constexpr auto SN_B = 4;		// ボスステージ
 		}
 	}
+
 	// 背景
 	class BackGround : public Image{
 	public:
@@ -43,8 +44,8 @@ namespace inr {
 		std::pair<std::vector<Vector2>, std::vector<Vector2>> _positions;	// 描画座標(左辺:1枚目の描画座標, 右辺2枚目の描画座標)
 		std::pair<int, int> _fix;	// 描画修正値
 		std::pair<std::vector<double>, std::vector<double>> _scrSpeed;	// スクロール移動量(左辺:x, 右辺:y)
-		int _stageNo;	// 現在のステージ
-		bool _scroll;	// スクロールするか
+		int _stageNo;		// 現在のステージ
+		bool _scroll;		// スクロールするか
 
 		std::string zKey;	// 前景
 		// 前描画

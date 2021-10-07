@@ -8,17 +8,18 @@ namespace inr {
 
 	namespace mapchip {
 		// マップチップに特殊効果はあるか？
-		constexpr auto NONE = -1;	// チップ無し
-		constexpr auto NORMAL = 0;	// 通常チップ(効果なし)
-		constexpr auto THORM = 1;	// 棘(ダメージ判定あり)
-		constexpr auto IVY = 2;		// 蔦(ぶら下がり可能)
+		constexpr auto NONE = -1;		// チップ無し
+		constexpr auto NORMAL = 0;		// 通常チップ(効果なし)
+		constexpr auto THORM = 1;		// 棘(ダメージ判定あり)
+		constexpr auto IVY = 2;			// 蔦(ぶら下がり可能)
 		constexpr auto TRANSITION = 3;	// ステージ遷移
 
+		// 当たり判定はあるか？
 		constexpr auto HIT_ON = true;	// 当たり判定/押し出し処理有り
 		constexpr auto HIT_OFF = false;	// 当たり判定/押し出し処理無し
 	}
 
-	// マップの当たり判定を管理
+	// マップチップの当たり判定
 	class ChipNumber {
 	public:
 		// 当たり判定に修正がない場合は引数指定なし
@@ -26,6 +27,7 @@ namespace inr {
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		ChipNumber(int type, bool ishit = mapchip::HIT_ON);
 
+		// ゲッター
 		inline int WidthMin() { return widthMin; }
 		inline int WidthMax() { return widthMax; }
 		inline int HeightMin() { return heightMin; }
@@ -42,24 +44,32 @@ namespace inr {
 		bool hitType;	// 当たり判定はあるか
 	};
 
+	// マップチップの当たり判定を管理する
 	class ChipHitCheck {
 	public:
+		// 連想配列(左辺:チップ番号　右辺:マップチップの当たり判定)
 		using ChipsMap = std::unordered_map<int, ChipNumber>;
 
 		ChipHitCheck();
 		~ChipHitCheck();
 
-		void LoadChipsMap(std::string key, ChipsMap& chipsMap);	// マップチップの当たり判定登録
-		inline void ChangeStageKey(std::string nextkey) { _chipKey = nextkey; }	// 読み込むキー情報の更新
+		// マップチップの当たり判定登録
+		void LoadChipsMap(std::string key, ChipsMap& chipsMap);
+		// 読み込むキー情報の更新
+		inline void ChangeStageKey(std::string nextkey) { _chipKey = nextkey; }
+		// 対象に効果があるかの判定(引数:判定を行うチップ番号)
 		int IsChipType(const int no);
-		bool IsHitType(const int no);	// 対象に当たり判定はあるか？
-		AABB ChipCollision(const int no);	// 対象のマップチップ
+		// 対象に当たり判定があるかの判定(引数:判定を行うチップ番号)
+		bool IsHitType(const int no);
+		// 対象の当たり判定を取得(引数:取得を行うチップ番号)
+		AABB ChipCollision(const int no);
 	private:
+		// 連想配列(左辺:ステージキー　右辺:対応ステージの当たり判定)
 		using StageMaps = std::unordered_map<std::string, ChipsMap>;
 
-		std::string _chipKey;	// 取り出すマップチップ情報(キー)
+		std::string _chipKey;		// 取り出すマップチップ情報(キー)
 		StageMaps _stageChipsMap;	// ステージの情報
-
+		// 登録情報の初期化
 		void ClearStageMaps();
 	};
 }
