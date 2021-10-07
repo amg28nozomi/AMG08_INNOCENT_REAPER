@@ -151,7 +151,7 @@ namespace inr {
 		bool Floating();
 		// 連続攻撃
 		void Rash();
-		// 魂を生み出す
+		// 魂の生成
 		void AddSoul();
 		// 攻撃処理
 		void Attack();
@@ -169,7 +169,7 @@ namespace inr {
 		bool IsDead() override;
 		// 死亡処理の起動
 		bool DeathOn();
-		// 他ドール(敵)を死亡させる
+		// 他ドール(敵)を抜け殻にする
 		bool DollsEnd();
 
 		// 現在の当たり判定の算出
@@ -179,21 +179,21 @@ namespace inr {
 		// 自機アクションとの衝突判定
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 
-		// ワープエフェクトの生成(引数1:生成地点、引数2:追従処理を行うか？(true:追従処理有り, false:追従処理無し)
-		bool AddWarpEffect(Vector2 spwan, bool target = false);
+		// ワープエフェクトの生成(引数1:生成地点)
+		bool AddWarpEffect(Vector2 spwan);
 		// 連撃エフェクトの生成
 		bool AddRushEffect();
-		// 攻撃エフェクトの生成
+		// 落下攻撃エフェクトの生成
 		bool AddBlinkEffect();
 		// 煙(衝撃波)エフェクトの生成
 		bool AddSmokeEffect();
 		// 怒りエフェクトの生成
 		bool AddAngerEffect();
 		// デバフエフェクトの生成
-		bool AddDebufEffect();
-		// 自機は左右どちらにいるのか
+		bool AddDebuffEffect();
+		// 自機が左右どちらにいるかの判定
 		bool IsPlayerPosition();
-		// 攻撃判定の算出
+		// 攻撃判定の切り替え
 		bool AttackBox(bool flag);
 	};
 }

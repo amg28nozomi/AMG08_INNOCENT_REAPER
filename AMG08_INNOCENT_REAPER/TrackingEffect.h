@@ -12,8 +12,8 @@ namespace inr {
 		~TrackingEffect() = default;
 
 		void Process() override;
-		// void Draw() override;
-		void Set(ObjectBase* target, double fixx = 0, double fixy = 0);	// 修正値
+		// 追従処理の設定（引数1:追従対象　引数2:修正値X　引数:修正値Y）
+		void Set(ObjectBase* target, double fixx = 0, double fixy = 0);
 	private:
 		ObjectBase* _target;	// 追跡目標
 		Vector2 _fix;
