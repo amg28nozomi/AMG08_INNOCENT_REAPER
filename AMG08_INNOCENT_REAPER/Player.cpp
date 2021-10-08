@@ -146,7 +146,6 @@ namespace inr {
 
 		_aCount = 0;
 		_aFrame = 0;
-		_sounds = 0;
 		_knockBack = 0;
 		_dashInterval = 0;
 		_judegFrame = 0;

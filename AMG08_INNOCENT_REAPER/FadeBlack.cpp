@@ -1,10 +1,16 @@
+/*****************************************************************//**
+ * \file   FadeBlack.cpp
+ * \brief  フェードブラッククラス（画像クラスのサブクラス）
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "FadeBlack.h"
 #include "ResourceServer.h"
 #include <DxLib.h>
 
 namespace {
 	constexpr auto LUMINANCE = 255 / 60;
-
 	constexpr auto FADE_VALUE = 255 / 60;
 }
 

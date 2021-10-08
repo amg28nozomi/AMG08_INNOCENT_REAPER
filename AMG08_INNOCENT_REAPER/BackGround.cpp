@@ -2,7 +2,7 @@
  * \file   BackGround.cpp
  * \brief  背景クラス（画像クラスのサブクラス）
  * 
- * \author nozom
+ * \author 鈴木希海
  * \date   October 2021
  *********************************************************************/
 #include "BackGround.h"

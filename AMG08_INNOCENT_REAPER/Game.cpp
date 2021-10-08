@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   Game.cpp
+ * \brief  ゲームクラス
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "Game.h"
 #include <memory>
 #include <vector>
@@ -8,9 +15,7 @@
 #include "Player.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"
-// #include "ModeServer.h"
 #include "MapChips.h"
-
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
 #include "BigDoll.h"
@@ -19,35 +24,31 @@
 #include "Scenario.h"
 #include "EffectBase.h"
 #include "CrowDoll.h"
-
 #include "GimmickBase.h"
 #include "GimmickServer.h"
 #include "Pause_UI.h"
 #include "Loads.h"
 
 namespace {
-	constexpr auto END_MAX = 90;
-
+	constexpr auto END_MAX = 90;		// ゲーム終了カウンタの上限
+	// デバッグモードのフラグ
 	constexpr auto DEBUG_OFF = false;
-	constexpr auto DEBUG_PN = true;
+	constexpr auto DEBUG_ON = true;
 }
 
 namespace inr {
-
 	// 静的メンバ変数定義
 	int Game::_trgKey = 0;
 	int Game::_frameCount = 0;
-
-	constexpr auto PATH = "Resource/";
+	/*constexpr auto PATH = "Resource/";
 	constexpr auto CHIP_FILE_S = "stage0";
 	constexpr auto CHIP_FILE_1 = "stage1";
 	constexpr auto CHIP_FILE_2_1 = "stage2";
 	constexpr auto CHIP_FILE_2_2 = "stage2-1";
-	constexpr auto CHIP_FILE_2_3 = "stage2-2";
-
+	constexpr auto CHIP_FILE_2_3 = "stage2-2";*/
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
-		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
+		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},
 
 	};
 
@@ -139,67 +140,65 @@ namespace inr {
 
 	// 初期化
 	void Game::Init() {
+		// 初期化
 		_joyKey = std::make_tuple(0, 0, 0);
 		_trgKey = 0;
 		_frameCount = 0;
-
+		// リソースサーバの初期化
 		graph::ResourceServer::Init();
+		// 各種画像素材の読み込み
 		Loads::ResourceLoad();
-		// 読み込み
+		// サウンドサーバの初期化
 		se::SoundServer::Init();
+		// 各種音源素材の読み込み
 		se::SoundServer::LoadSoundMap(player_se);
 		se::SoundServer::LoadSoundMap(enemy_se);
 		se::SoundServer::LoadSoundMap(ses);
 		se::SoundServer::LoadSoundMap(gimmick_se);
 		se::SoundServer::LoadSoundMap(system_se);
 		se::SoundServer::LoadSoundMap(bgms);
-
-		_objServer = std::make_unique<ObjectServer>();
-		_scenario = std::make_unique<Scenario>(*this);
-		_modeServer = std::make_unique<ModeServer>(*this);
-		_gServer = std::make_unique<GimmickServer>(*this);
-
-		_mapChips = std::make_unique<MapChips>(*this);
+		// 各種ポインタの生成
+		_objServer = std::make_unique<ObjectServer>();		// オブジェクトサーバ
+		_scenario = std::make_unique<Scenario>(*this);		// シナリオ
+		_modeServer = std::make_unique<ModeServer>(*this);	// モードサーバ
+		_gServer = std::make_unique<GimmickServer>(*this);	// エフェクトサーバ
+		_mapChips = std::make_unique<MapChips>(*this);		// マップチップ
 	}
-
+	// 入力処理
 	void Game::Input() {
-		// 前の入力情報を取得/参照
+		// 前フレームの入力情報を取得
 		auto beforeLR = std::get<LEVER_LR>(_joyKey);
 		auto beforeUD = std::get<LEVER_UD>(_joyKey);
 		auto beforeKey = std::get<KEY_JOYPAD>(_joyKey);
-
-
 		// アナログスティックの押下情報を取得
 		GetJoypadAnalogInput(&std::get<LEVER_LR>(_joyKey), &std::get<LEVER_UD>(_joyKey), DX_INPUT_PAD1);
-
-		// キー入力を取得
+		// ジョイパッドの入力情報を取得
 		std::get<KEY_JOYPAD>(_joyKey) = GetJoypadInputState(DX_INPUT_PAD1);
-
-		// トリガ入力を取得
+		// トリガ入力
 		_trgKey = (std::get<KEY_JOYPAD>(_joyKey) ^ beforeKey) & std::get<KEY_JOYPAD>(_joyKey);
-
 #ifdef _DEBUG
-		// 入力があった場合、デバッグモードを切り替える
+		// L2入力があった場合、デバッグモードを切り替える
 		if (_trgKey == PAD_INPUT_7) _debug = !_debug;
 #endif
-
 	}
-
+	// 更新
 	void Game::Process() {
-		CountUp();
-		_modeServer->Process();
+		CountUp();				// フレームカウンタ
+		_modeServer->Process();	// モードサーバの更新処理呼び出し
 	}
-
+	// 描画
 	void Game::Draw() {
-		ClearDrawScreen();
-		_modeServer->Draw();
-		ScreenFlip();
+		ClearDrawScreen();		// 画面の初期化
+		_modeServer->Draw();	// モードサーバの描画処理呼び出し
+		ScreenFlip();			// 裏ページを表ページと切り替える
 	}
-
+	// フレームカウンタの加算処理
 	void Game::CountUp() {
-		++_frameCount;
+		++_frameCount;	// フレームカウンタ加算
+		// 終了処理が始まっていない場合は処理を中断
 		if (_endCount == 0) return;
 		++_endCount;
+		// カウンタが上限に到達した場合、終了フラグをオンにする
 		if (_endCount == END_MAX) {
 			_endFlag = true;
 		}

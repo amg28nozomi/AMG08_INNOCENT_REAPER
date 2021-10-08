@@ -2,7 +2,7 @@
  * \file   BackGround.h
  * \brief  背景クラス（画像クラスのサブクラス）
  * 
- * \author nozom
+ * \author 鈴木希海
  * \date   October 2021
  *********************************************************************/
 #pragma once

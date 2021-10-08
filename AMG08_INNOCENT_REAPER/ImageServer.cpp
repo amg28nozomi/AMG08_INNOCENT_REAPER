@@ -97,13 +97,13 @@ namespace inr {
 	}
 
 	bool ImageServer::IsActive() {
-		if (_active == true) return true;
-		if (_changeKey == image::number::NUM) return false;
-		ImageInit();
-		_imageKey = _changeKey;
-		_changeKey = image::number::NUM;
-		_active = true;
-
+		if (_active == true) return true;					// 既に機能している
+		if (_changeKey == image::number::NUM) return false;	// 機能していない
+		ImageInit();										// 次の画像の初期化処理呼び出し
+		_imageKey = _changeKey;								// キーの更新
+		_changeKey = image::number::NUM;					// 切り替え用キーを空にする
+		_active = true;										// 活動開始
+		// 描画を開始する
 		auto ite = _images.find(_imageKey);
 		ite->second->DrawStart();
 		return true;
