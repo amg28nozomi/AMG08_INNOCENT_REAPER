@@ -12,6 +12,7 @@
 namespace inr {
 
 	GimmickServer::GimmickServer(Game& game) : _game(game) {
+		// ‰Šú‰»
 		Clear();
 		_isDel = false;
 	}

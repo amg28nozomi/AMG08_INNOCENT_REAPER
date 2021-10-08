@@ -17,13 +17,13 @@ namespace inr {
 
 	GimmickBase::~GimmickBase() {
 	}
-
+	// 初期化
 	void GimmickBase::Init() {
 	}
-
+	// 更新
 	void GimmickBase::Process() {
 	}
-
+	// 描画
 	void GimmickBase::Draw() {
 		// 描画座標の算出
 		Vector2 xy = _position;
@@ -35,7 +35,7 @@ namespace inr {
 		GraphResearch(&graph);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 	}
-
+	// 
 	int GimmickBase::GimmickType() {
 		// ギミックの種類に応じた値を返す
 		switch (_gType) {
