@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   GimmickBase.h
+ * \brief  ギミックのスーパークラス（オブジェクトベースのサブクラス）
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #pragma once
 #include "ObjectBase.h"
 
@@ -76,12 +83,12 @@ namespace inr {
 
 	class GimmickBase : public ObjectBase {
 	protected:
+		// ギミックの種類(列挙型)
 		enum class GimmickType {
 			// レバー、岩、水晶
 			NOT_GIMMICK, LEVER, BLOCK, CRYSTAL, DOOR
 		};
 		GimmickType _gType;
-		// bool _extrude;	// 押し出し処理を行うか？
 	public:
 		GimmickBase(Game& game);
 		~GimmickBase();
