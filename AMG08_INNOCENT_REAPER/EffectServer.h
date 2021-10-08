@@ -3,29 +3,33 @@
 #include <memory>
 
 namespace inr {
-
 	namespace effect {
 		namespace type {
-			constexpr auto FORMER = 0;
-			constexpr auto BACK = 1;
+			// エフェクトの描画順番
+			constexpr auto FORMER = 0;	// オブジェクトより前面に描画
+			constexpr auto BACK = 1;	// オブジェクトより後面に描画
 		}
 	}
-
-	class Game;
+	// 二重インクルード防止
+	class Game;	
 	class EffectBase;
-
+	// エフェクトの管理を行うサーバクラス
 	class EffectServer {
 	public:
 		EffectServer(Game& game);
 		~EffectServer();	// 配列初期化
-
-		void Init();	// 初期化
-		void Process();	// 更新
-		void DrawFormer();	// 描画
+		// 初期化
+		void Init();
+		// 更新
+		void Process();	
+		// 前描画
+		void DrawFormer();
+		// 後描画
 		void DrawBack();
-
-		void Add(std::unique_ptr<EffectBase> eff, int type);	// 引数1:エフェクト　引数2:どちらに登録するか
-		inline void DelOn() { if (_del != true) _del = true; }	// 消去フラグをオンにする
+		// エフェクトの登録(引数1:登録エフェクト　引数2:どちらに登録するか)
+		void Add(std::unique_ptr<EffectBase> eff, int type);
+		// 消去フラグをオンにする
+		inline void DelOn() { if (_del != true) _del = true; }
 	private:
 		Game& _game;
 		bool _isAdd;	// 新規エフェクトが追加されたか？

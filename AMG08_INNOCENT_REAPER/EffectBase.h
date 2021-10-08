@@ -71,7 +71,7 @@ namespace inr {
 		// このエフェクトを削除するか？
 		inline bool IsDel() { return _delete; }
 	protected:
-		Game& _game;			// ゲーム参照
+		Game& _game;			// ゲームクラス参照
 		Vector2 _position;		// 座標
 		AABB _collision;		// 当たり判定
 		int _count;				// カウンタ
@@ -87,8 +87,11 @@ namespace inr {
 		std::string _graphKey;	// グラフィックハンドルのキー
 		// グラフィックハンドルの検索
 		void GraphResearch(int* gh);
-		void Damage();	// ダメージ処理（自機へ）
+		// 自機との接触判定およびダメージ判定の呼び出し処理
+		void Damage();
+		// 自機が左右どちら側に居るのかの判定(true:右側に居る　false:左側に居る）
 		bool IsPlayerPosition();
+		// ダメージ処理を行うかの判定
 		bool IsDamage();
 		// アニメーション番号の算出
 		int GraphNumber();

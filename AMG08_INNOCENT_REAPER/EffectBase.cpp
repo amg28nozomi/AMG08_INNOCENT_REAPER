@@ -87,34 +87,37 @@ namespace inr {
 	}
 	// ダメージ判定の設定
 	void EffectBase::SetDamageEffect(int width1, int width2, int height1, int height2, int dinter, int max) {
-		_isDamage = true;	// ダメージオン
+		// 各種ダメージの設定
+		_isDamage = true;
 		_collision = { _position, width1, width2, height1, height2, true };
 		_dInter = dinter;
+		// 終了条件が0以下の場合は最後のアニメーション番号を登録
 		if (max <= 0) _dMax = graph::ResourceServer::GetAllNum(_graphKey) - 1;
-		else _dMax = max;
+		else _dMax = max;	// そうでない場合は直登録
 	}
 	// ループ設定
 	void EffectBase::SetLoop(int max) {
 		if (max <= 0) max = 0;	// 引数が0以下の場合は修正
-		_loop = max;
+		_loop = max;	// 登録
 	}
-
+	// ダメージ判定
 	void EffectBase::Damage() {
-		// ダメージ処理を行う
+		// 自機
 		auto player = _game.GetObjectServer()->GetPlayer();
 		if (_collision.HitCheck(player->GetMainCollision()) != true) return;
-		player->Damage(IsPlayerPosition());	// 自機のダメージ処理を呼び出す
+		player->Damage(IsPlayerPosition());	// 接触判定がある場合はダメージ処理呼び出し
 	}
-
+	// 自機は左右どちらにいるか
 	bool EffectBase::IsPlayerPosition() {
 		auto player = _game.GetObjectServer()->GetPlayer();
+		// 現在の座標から自機の座標を引いた場合、その値は正負どちらになっているか？
 		auto pos = _position.GetX() - player->GetPosition().GetX();
-		if (pos < 0) return false;
-		else return true;
+		if (pos < 0) return false;	// 左側にいる
+		else return true;			// 右側に居る
 	}
-
+	// ダメージ処理の判定
 	bool EffectBase::IsDamage() {
-		if (_isDamage != true) return false;	// ダメージ判定はない
+		if (_isDamage != true) return false;	// ダメージ判定無し
 		// 現在のアニメーション番号はダメージ判定があるか？
 		auto no = GraphNumber();
 		if (_dInter < no && no <= _dMax) return true;	// ダメージ判定有り
