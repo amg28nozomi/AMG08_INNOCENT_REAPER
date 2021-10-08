@@ -1,3 +1,13 @@
+/*****************************************************************//**
+ * \file   ImageValue.h
+ * \brief  イメージバリュークラス
+ *         パーティクルバリュークラス
+ *		   チュートリアルバリュークラス
+ *		   画像クラスを継承したサブクラスの各種データ
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #pragma once
 #include "Vector2.h"
 #include <string>
@@ -6,6 +16,7 @@
 namespace inr {
 
 	namespace pvalue {
+		// アイテム番号
 		constexpr auto ITEM_0 = 0;
 		constexpr auto ITEM_1 = 1;
 		constexpr auto ITEM_2 = 2;
@@ -13,27 +24,29 @@ namespace inr {
 	}
 
 	namespace item {
+		// テキスト番号
 		constexpr auto MESSAGE_0 = "message_0";
 		constexpr auto MESSAGE_1 = "message_1";
 		constexpr auto MESSAGE_2 = "message_2";
 		constexpr auto MESSAGE_3 = "message_3";
 	}
-
+	// パーティクルイメージクラスのデータ
 	class ParticleValue {
 	public:
 		ParticleValue();
+		// 引数1:アニメーション処理を行うか　引数2:透過処理を行うか　引数3:拡縮率
 		ParticleValue(bool animation, bool particle, double exrate = 1.0);
 		~ParticleValue() = default;
-
+		// 各種情報の取得
 		inline bool Animation() { return _animation; }
 		inline bool Particle() { return _particle; }
 		inline double ExRate() { return _exrate; }
 	private:
 		bool _animation;	// アニメーションの再生を行うか
-		bool _particle;	// 透過処理を行うか
-		double _exrate;	// 拡大率（デフォルトだと1.0倍）
+		bool _particle;		// 透過処理を行うか
+		double _exrate;		// 拡大率（デフォルトだと1.0倍）
 	};
-
+	// 画像クラスのデータ
 	class ImageValue {
 	public:
 		ImageValue();

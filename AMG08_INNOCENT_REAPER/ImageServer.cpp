@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   ImageServer.cpp
+ * \brief  イメージサーバクラス
+ *		   アイテムテキストを管理する
+ * 
+ * \author nozom
+ * \date   October 2021
+ *********************************************************************/
 #include "ImageServer.h"
 #include "Particle_Image.h"
 #include "Game.h"
@@ -13,6 +21,7 @@ namespace inr {
 	}
 
 	bool ImageServer::Init() {
+		// 各種初期化
 		ImageClear();
 		_imageKey = image::number::NUM;
 		_changeKey = image::number::NUM;

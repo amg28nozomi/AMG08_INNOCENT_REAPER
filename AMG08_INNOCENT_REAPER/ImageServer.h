@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   ImageServer.h
  * \brief  イメージサーバクラス
- *		   画像の管理を行う
+ *		   アイテムテキストを管理する
  * 
  * \author 鈴木希海
  * \date   October 2021
@@ -43,8 +43,9 @@ namespace inr {
 		bool AddImage(const int number, std::shared_ptr<Particle_Image> image);
 		// 画像の読み込み処理を行うか
 		bool IsLoad() { return _images.empty(); }
-		// 
+		// 活動状態にあるかの判定
 		bool IsActive();
+		// 活動状態の取得
 		bool Active() { return _active; }
 	private:
 		Game& _game;
