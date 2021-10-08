@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   EnemyBase.cpp
+ * \brief  敵のスーパークラス
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "EnemyBase.h"
 #include "Game.h"
 #include "Player.h"
@@ -7,7 +14,6 @@
 #include "SoundServer.h"
 #include "ObjectServer.h"
 #include "MapChips.h"
-
 #include "SoulSkin.h"
 
 using std::string;
@@ -31,7 +37,6 @@ namespace inr {
 
 		_aFrame = 0;
 		_aCount = 0;
-		_sounds = 0;
 		_stay = 0;
 		_direction = false;
 		_changeGraph = true;
@@ -45,7 +50,6 @@ namespace inr {
 	}
 
 	EnemyBase::~EnemyBase() {
-
 	}
 
 	void EnemyBase::Init() {
@@ -76,7 +80,7 @@ namespace inr {
 		if (_soul == nullptr && IsAnimationMax() == true) return;
 		ObjectBase::AnimationCount();
 	}
-
+	// 索敵処理
 	bool EnemyBase::SearchPlayer() {
 		// 魂が空ではない時
 		if (_soul != nullptr) {
@@ -166,43 +170,50 @@ namespace inr {
 		_soul->OwnerNull();
 		_soul.reset();	// 魂の所有権を手放す
 	}
-
+	// アクション状態に移行するか
 	void EnemyBase::Action() {
+		// 条件を満たしてないため終了
 		if (_aState == ActionState::WAKEUP || _isAction == true) return;
-		// プレイヤーを発見できるか
+		// 自機を発見した場合はアクション状態に移行
 		if (SearchPlayer() == true) {
 			_isAction = true;
-		}
-		// 発見できなかった場合は移動処理を行う
-		if (_soul == nullptr) _actionX = 0;
+		// 魂が空の場合はアクション移動量を0にする
+		} else if (_soul == nullptr) _actionX = 0;
 	}
-
+	// 急所の生成(干渉可能範囲の算出)
 	AABB EnemyBase::VitalPart(Collision& col, int vital) {
-		// 座標を算出（y座標は変更ない）
+		// 座標を算出
 		Vector2 vitalMin(0.0, col.GetMin().GetY());
 		Vector2 vitalMax(0.0, col.GetMax().GetY());
-		if (_direction) {
+		// 向きに応じてx座標に修正を加える
+		switch (_direction) {
+		case enemy::MOVE_LEFT:
 			vitalMin.GetPX() = col.GetMax().GetX() - vital;
 			vitalMax.GetPX() = col.GetMax().GetX();
-		}
-		else {
-			// 右に向いている場合
+			break;
+		case enemy::MOVE_RIGHT:
 			vitalMin.GetPX() = col.GetMin().GetX();
 			vitalMax.GetPX() = col.GetMin().GetX() + vital;
+			break;
 		}
+		// 当たりの生成
 		return AABB(vitalMin, vitalMax, true);
 	}
-
+	// 攻撃範囲の算出
 	AABB EnemyBase::DamageBox(int fix) {
 		// ベクトル作成
 		auto damageMin(_mainCollision.GetMin());
 		auto damageMax(_mainCollision.GetMax());
-		if (_direction) {
+		// 向きに応じて範囲修正
+		switch (_direction) {
+		case enemy::MOVE_LEFT:
 			damageMax.GetPX() -= fix;
-		}
-		else {
+			break;
+		case enemy::MOVE_RIGHT:
 			damageMin.GetPX() += fix;
+			break;
 		}
+		// 当たり判定の修正
 		return AABB(damageMin, damageMax, _mainCollision.GetCollisionFlag());
 	}
 

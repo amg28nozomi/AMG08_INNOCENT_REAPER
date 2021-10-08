@@ -1,9 +1,15 @@
+/*****************************************************************//**
+ * \file   Door.cpp
+ * \brief  ドアクラス（ギミックベースクラスのサブクラス）
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "Door.h"
 #include "Game.h"
 #include "ObjectServer.h"
 #include "SoundServer.h"
 #include "SoulSkin.h"
-
 #include "ModeServer.h"
 #include "ModeMain.h"
 

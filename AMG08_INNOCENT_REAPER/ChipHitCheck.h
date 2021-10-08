@@ -1,3 +1,14 @@
+/*****************************************************************//**
+ * \file   ChipHitCheck.h
+ * \brief  チップ番号クラス
+ *		   マップチップの登録情報
+ * 
+ *		   チップヒットチェッククラス
+ *		   マップチップの当たり判定を管理する
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #pragma once
 #include <unordered_map>
 #include <string>
@@ -5,7 +16,6 @@
 #include "Collision.h"
 
 namespace inr {
-
 	namespace mapchip {
 		// マップチップに特殊効果はあるか？
 		constexpr auto NONE = -1;		// チップ無し

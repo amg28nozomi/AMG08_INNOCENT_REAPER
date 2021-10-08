@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   EffectBase.cpp
+ * \brief  エフェクトのスーパークラス
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "EffectBase.h"
 #include "EffectBase.h"
 #include "MapChips.h"
@@ -11,7 +18,6 @@
 #include <DxLib.h>
 
 namespace inr {
-
 	EffectBase::EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, bool direction) : _game(game), _position(spawnpos),_collision(Vector2(), Vector2()) {
 		_count = 0;
 		_graphKey = gh;

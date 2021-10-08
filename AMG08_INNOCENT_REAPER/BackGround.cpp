@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   BackGround.cpp
+ * \brief  背景クラス（画像クラスのサブクラス）
+ * 
+ * \author nozom
+ * \date   October 2021
+ *********************************************************************/
 #include "BackGround.h"
 #include "Vector2.h"
 #include "ResourceServer.h"

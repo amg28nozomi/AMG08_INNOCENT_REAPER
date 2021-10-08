@@ -80,7 +80,6 @@ namespace inr {
 		
 		int _judegFrame;	// 判定フレーム数
 		int _aFrame;	// アクション実行のためのフレーム
-		int _sounds;
 		int _debuffCount;	// デバフカウンタ
 
 		int _hitCount;	// 判定フレーム(アクション)
