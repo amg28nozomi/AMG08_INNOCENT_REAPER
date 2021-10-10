@@ -49,11 +49,11 @@ namespace inr {
 		bool Active() { return _active; }
 	private:
 		Game& _game;
-		std::unordered_map<int, std::shared_ptr<Particle_Image>> _images;	// 画像を管理するための連想配列
 		int _imageKey;														// 検索用キー
 		int _changeKey;														// 切り替え用キー
 		bool _active;														// 処理を実行するかどうか
 		bool _input;														// 入力処理を受け付けるか否か
+		std::unordered_map<int, std::shared_ptr<Particle_Image>> _images;	// 画像を管理するための連想配列
 		// 画像の解放
 		bool ImageClear();
 		// 画像の初期化処理呼び出し

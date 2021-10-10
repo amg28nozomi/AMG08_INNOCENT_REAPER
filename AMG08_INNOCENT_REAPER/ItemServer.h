@@ -3,7 +3,7 @@
  * \brief  アイテムサーバクラス
  *		   アイテムの管理を行う
  * 
- * \author nozom
+ * \author 鈴木希海
  * \date   October 2021
  *********************************************************************/
 #pragma once
@@ -35,8 +35,6 @@ namespace inr {
 		std::vector<std::shared_ptr<Item>> _items;	// アイテム管理用のコンテナ
 		// アイテムの消去
 		bool Delete();
-		// 
-		bool IsCopy(std::shared_ptr<Item> item);
 	};
 }
 

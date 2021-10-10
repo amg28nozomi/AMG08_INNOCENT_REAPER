@@ -1,7 +1,14 @@
+/*****************************************************************//**
+ * \file   ItemServer.cpp
+ * \brief  アイテムサーバクラス
+ *		   アイテムの管理を行う
+ *
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "ItemServer.h"
 #include "Item.h"
 #include <algorithm>
-// #include <iterator>
 
 namespace inr {
 
@@ -12,37 +19,33 @@ namespace inr {
 	ItemServer::~ItemServer() {
 		ItemClear();
 	}
-
+	// コンテナの解放
 	void ItemServer::ItemClear() {
 		_isDel = false;
 		_items.clear();
 	}
-
+	// アイテムの登録
 	void ItemServer::Add(std::shared_ptr<Item> item) {
 		_items.emplace_back(item);
 	}
-
+	// 更新
 	void ItemServer::Process() {
-		Delete();
-		for (auto item : _items) item->Process();
+		Delete();									// 消去判定
+		for (auto item : _items) item->Process();	// アイテムの更新処理呼び出し
 	}
-
+	// 描画
 	void ItemServer::Draw() {
-		for (auto item : _items) item->Draw();
+		for (auto item : _items) item->Draw();		// アイテムの描画処理呼び出し
 	}
-
+	// 消去
 	bool ItemServer::Delete() {
-		if (_isDel == false) return false;
-		_isDel = false;
+		if (_isDel == false) return false;	// 消去しない
+		_isDel = false;						// フラグオフ
 	}
-
+	// 消去フラグの起動
 	bool ItemServer::DelOn() {
 		if (_isDel == true) return false;	// 既にフラグがオンの場合は処理を終了
-		_isDel = true;	// 消去フラグをオンにする
+		_isDel = true;						// 消去フラグ起動
 		return true;
-	}
-
-	bool ItemServer::IsCopy(std::shared_ptr<Item> item) {
-		return item->IsDel() != true;
 	}
 }

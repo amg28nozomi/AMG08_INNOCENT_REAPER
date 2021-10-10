@@ -1,8 +1,15 @@
+/*****************************************************************//**
+ * \file   Loads.cpp
+ * \brief  ロードクラス
+ *		   各種素材の読み込み処理を行う
+ *
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #include "Loads.h"
 #include "ResourceServer.h"
 #include "Game.h"
 #include "Scenario.h"
-
 #include "Player.h"
 #include "EnemyBase.h"
 #include "SoldierDoll.h"
@@ -24,20 +31,9 @@
 
 #include <vector>
 
-namespace {
-	constexpr auto NUM_SIMPLE = 1;
-
-	// 生成座標
-	namespace stage_1 {
-		// constexpr auto START_POS_X = 200;
-		constexpr auto START_POS_Y = 1970;
-		constexpr auto START_POS_X = 8000;
-		// constexpr auto START_POS_Y = 1700;
-	}
-}
-
 namespace inr {
-
+	// 画像情報の生成
+	// 自機
 	const graph::ResourceServer::DivGraphMap div{
 		{PKEY_IDOL , {"Resource/Player/r_stand.png", 7, 3, 15, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_RUN, {"Resource/Player/r_move.png", 7, 4, 25, PIMAGE_SIZE, PIMAGE_SIZE}},
@@ -50,13 +46,13 @@ namespace inr {
 		{PKEY_CLIMB, {"Resource/Player/r_climb.png", 7, 2, 13, PIMAGE_SIZE, PIMAGE_SIZE}},
 		{PKEY_DEATH, {"Resource/effect/Player/dead.png", 10, 4, 40, PLAYER_DEATH_IMAGE, PLAYER_DEATH_IMAGE}},
 	};
-
-	// ソルジャードールの各種モーション
+	// 敵
 	const graph::ResourceServer::DivGraphMap enemys {
-		// 魂が空の状態
+		// 抜け殻状態
 		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 6, 4, 19, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 赤い魂の状態
+		// ソルジャードール
 		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 6, 3, 17, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_IDOL, {"Resource/SoldierDoll/sd_r_stand.png", 6, 2, 11, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_r_move.png", 6, 3, 13, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
@@ -67,7 +63,6 @@ namespace inr {
 		{ enemy::red::BIG_PATROL, {"Resource/BigDoll/bd_r_move.png", 5, 1, enemy::red::big::MOVE_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 5, 1, enemy::red::big::ATTACK_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::red::BIG_HIPDROP, {"Resource/BigDoll/bd_r_hipdrop.png", 7, 1, enemy::red::big::HIPDROP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-
 		// 青い魂
 		// ソルジャードール
 		{ enemy::blue::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 6, 3, 17, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
@@ -79,7 +74,6 @@ namespace inr {
 		{ enemy::blue::BIG_IDOL, {"Resource/BigDoll/bd_b_stand.png", 3, 1, enemy::blue::big::IDOL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::blue::BIG_PATROL, {"Resource/BigDoll/bd_b_move.png", 4, 1, enemy::blue::big::PATROL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		{ enemy::blue::BIG_ESCAPE, {"Resource/BigDoll/bd_b_escape.png", 5, 1, enemy::blue::big::ESCAPE_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-
 		// クロウドール
 		{ enemy::crowdoll::CROW_IDOL, {"Resource/CrowDoll/cd_float.png", 2, 7, enemy::crowdoll::motion::IDOL, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_RUSH, {"Resource/CrowDoll/cd_rush.png", 2, 18, enemy::crowdoll::motion::RUSH, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
@@ -91,19 +85,16 @@ namespace inr {
 		{ enemy::crowdoll::CROW_DOWN, {"Resource/CrowDoll/cd_dead.png", 2, 13, enemy::crowdoll::motion::DOWN, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE}},
 		{ enemy::crowdoll::CROW_ARM, {"Resource/CrowDoll/cd_arm.png", 2, 4, 7,  enemy::crowdoll::CROW_SIZE,  enemy::crowdoll::CROW_SIZE}},
 	};
-
-	// 魂くんの各種モーション
+	// 魂
 	const graph::ResourceServer::DivGraphMap souls{
 		{ soul::BLUE_SOUL, {"Resource/Soul/blue_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 		{ soul::B_FLOAT, {"Resource/Soul/b_soul.png", 5, 2, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 		{ soul::RED_SOUL, {"Resource/Soul/red_soul.PNG.png", 1, 1, 1, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 		{ soul::R_FLOAT, {"Resource/Soul/r_soul.png", 5, 2, 5, soul::IMAGE_SIZE, soul::IMAGE_SIZE}},
 	};
-
-	// 背景等の一枚絵
+	// 画像
 	const graph::ResourceServer::DivGraphMap images{
-		{ TITLE_LOGO, {"Resource/Title.png", 1, 1, 1, TITLE_IMAGE_W, TITLE_IMAGE_H}},
-
+		// 黒画像
 		{ image::BLACK, {"Resource/UI/black.png", 1, 1, 1, 1922, 1360}},
 		// ポーズ画面
 		{ image::particle::BG_BLACK, {"Resource/UI/bg_back.png", 1, 1, 1, image::particle::BG_SIZE_W, image::particle::BG_SIZE_H}},
@@ -112,29 +103,24 @@ namespace inr {
 		{ image::particle::CONTROLS, {"Resource/UI/controls.png", 1, 1, 1, image::particle::CONTROLS_W, image::particle::UI_H_1}},
 		{ image::particle::QUIT_TO_TITLE, {"Resource/UI/quittotitle.png",1, 1, 1, image::particle::QUIT_TO_TITLE_W, image::particle::UI_H_2}},
 		{ image::particle::CURSOR, {"Resource/UI/cursor.png", 4, 8, 30, image::particle::CURSOR_W, image::particle::CURSOR_H}},
-
-		// 各種UI
+		// タイトル画面UI
 		{ TITLE_START1, {"Resource/UI/start.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
 		{ TITLE_START2, {"Resource/UI/start1.png", 1, 1, 1, TITLE_START_WIDTH, TITLE_UI_HEIGHT}},
 		{ TITLE_EXIT1, {"Resource/UI/exit.png", 1, 1, 1, TITLE_EXIT_WIDTH, TITLE_UI_HEIGHT}},
 		{ TITLE_EXIT2, {"Resource/UI/exit1.png", 1, 1, 1, TITLE_EXIT_WIDTH, TITLE_UI_HEIGHT}},
-
 		{ ui::CURSOR, {"Resource/UI/titleui.png", 5, 4, 20, ui::HP_SIZE, ui::HP_SIZE}},
-
 		// HP
 		{ ui::KEY_HP, {"Resource/UI/ui_hp.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
 		{ ui::KEY_RED, {"Resource/UI/ui_hp1.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
 		{ ui::KEY_BLUE, {"Resource/UI/ui_hp2.png", ui::HP_NUM, ui::HP_NUM, 25, ui::HP_SIZE, ui::HP_SIZE}},
 		{ ui::KEY_BOX, {"Resource/UI/ui_hp_box.png", 1, 1, 1, 420, 200}},
-
-		// 文章
+		// アイテムテキスト
 		{ item::MESSAGE_0, {"Resource/Item/message1.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_1, {"Resource/Item/message2.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_2, {"Resource/Item/message3.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
 		{ item::MESSAGE_3, {"Resource/Item/message4.png", 1, 1, 1, WINDOW_W, WINDOW_H}},
-
+		// アイテム
 		{ item::ITEM, {"Resource/Item/item.png", 13, 3, 28, item::ITEM_IMAGE, item::ITEM_IMAGE}},
-
 		// 前景
 		{ fgd::FORE_STAGE0, {"Resource/ForeGround/fg_stage0.png", 1, 1, 1, fgd::FORE0_W, fgd::FORE0_H}},
 		{ fgd::FORE_STAGET, {"Resource/ForeGround/fg_stage0-2.png", 1, 1, 1, fgd::FORET_W, fgd::FORET_H} },
@@ -143,8 +129,6 @@ namespace inr {
 		{ fgd::FORE_STAGE2_1, {"Resource/ForeGround/fg_stage2-1.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}},
 		{ fgd::FORE_STAGE2_2,  {"Resource/ForeGround/fg_stage2-2.png", 1, 1, 1, fgd::FORE2_2_W, fgd::FORE2_2_H}},
 		{ fgd::FORE_STAGE3,  {"Resource/ForeGround/fg_stageboss.png", 1, 1, 1, fgd::FORE2_1_W, fgd::FORE2_1_H}},
-
-
 		{ background::ALTAR, {"Resource/BackGround/Stage0/altar.png", 1, 1, 1, WINDOW_W, 2160}},
 		// スタッフロール
 		{ end::STAFF_ROLL, {"Resource/UI/stuffroll.png", 1, 1, 1, end::STAFF_ROLL_WIDTH, end::STAFF_ROLL_HEIGHT}},
@@ -159,17 +143,20 @@ namespace inr {
 		{ tutorial::LEVER, {"Resource/UI/Tutorial/guide_font0.png", 1, 1, 1, 367, 140 }},
 		{ tutorial::EMPTY, {"Resource/UI/Tutorial/guide_font1.png", 1, 1, 1, 342, 139 }},
 	};
-
+	// ギミック
 	const graph::ResourceServer::DivGraphMap gimmicks{
+		// レバー
 		{ gimmick::lever::KEY_LEVER, {"Resource/Gimmick/Lever/lever.png", 3, 2, 5, gimmick::lever::LEVER_SIZE, gimmick::lever::LEVER_SIZE}},
 		{ gimmick::lever::KEY_LEVER_BOSS, {"Resource/Gimmick/Lever/bosslever.png", 5, 2, 10, gimmick::lever::BOSS_LEVER_SIZE,  gimmick::lever::BOSS_LEVER_SIZE}},
+		// ドア
 		{ gimmick::door::KEY_DOOR_LEVER, {"Resource/Gimmick/Lever/door.png", 3, 5, 14, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
 		{ gimmick::door::KEY_DOOR_BOSS, {"Resource/Gimmick/Lever/door_boss.png", 1, 1, 1, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE}},
 		{ gimmick::door::KEY_DOOR_RED, {"Resource/Gimmick/Crystal/r_door.png", 7, 3, 20, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
 		{ gimmick::door::KEY_DOOR_BLUE, {"Resource/Gimmick/Crystal/b_door.png", 7, 3, 20, gimmick::door::DOOR_SIZE, gimmick::door::DOOR_SIZE }},
+		// 壊れる岩
 		{ gimmick::block::KEY_BLOCK, {"Resource/Gimmick/Break/breakblock3.png", 1, 1, 1, gimmick::block::BLOCK_SIZE_W, gimmick::block::BLOCK_SIZE_H}},
 		{ gimmick::block::KEY_BREAK, {"Resource/Gimmick/Break/breakeffect.png", 4, 7, 26, gimmick::block::BRAKE_SIZE, gimmick::block::BRAKE_SIZE}},
-
+		// 水晶
 		{ gimmick::crystal::type1::KEY_CRYSTAL_EMPTY, {"Resource/Gimmick/Crystal/e_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
 		{ gimmick::crystal::type1::KEY_CRYSTAL_RRD, {"Resource/Gimmick/Crystal/r_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
 		{ gimmick::crystal::type1::KEY_CRYSTAL_BLUE, {"Resource/Gimmick/Crystal/b_crystal.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
@@ -177,9 +164,9 @@ namespace inr {
 		{ gimmick::crystal::type2::KEY_CRYSTAL_RED, {"Resource/Gimmick/Crystal/r_crystal_v2.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
 		{ gimmick::crystal::type2::KEY_CRTSTAL_BLUE, {"Resource/Gimmick/Crystal/b_crystal_v2.png", 1, 1, 1, gimmick::crystal::CRYSTAL_SIZE, gimmick::crystal::CRYSTAL_SIZE}},
 	};
-
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
+		// 自機
 		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
 		{ effect::DASH, {"Resource/effect/Player/re_dash.png", 5, 1, 5, 360, 360}},
 		{ effect::ROB, {"Resource/effect/Player/rob.png", 3, 3, 9, effect::ROB_IMAGE, effect::ROB_IMAGE}},	// 奪うアクション
@@ -187,11 +174,11 @@ namespace inr {
 		{ effect::enemy::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::enemy::SHIT_IMAGE, effect::enemy::SHIT_IMAGE}},
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 5, 4, 20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
 		{ effect::DEBUFF, {"Resource/effect/Player/debuff.png", 5, 3, effect::DEBUF_MAX, effect::DEBUF_IMAGE, effect::DEBUF_IMAGE}},
-
+		// 敵
 		{ effect::soldier::OMEN, {"Resource/effect/Enemy/sd_omen.png", 6, 3, effect::soldier::OMEN_NUMS, effect::soldier::OMEN_IMAGE, effect::soldier::OMEN_IMAGE}},
 		{ effect::bigdoll::OMEN, {"Resource/effect/Enemy/bd_omen.png", 7, 2, effect::bigdoll::OMEN_NUMS, effect::bigdoll::OMEN_IMAGE, effect::bigdoll::OMEN_IMAGE}},
 		{ effect::enemy::HITDROP, {"Resource/effect/Enemy/shockwave.png", 3, 8, effect::enemy::HIPDROP_MAX, effect::enemy::HIPDROP_WIDTH, effect::enemy::HIPDROP_HEIGHT}},
-
+		// クロウドール
 		{ effect::crow::ARM, {"Resource/effect/CrowDoll/arms.png", 5, 5, 24, effect::crow::ARM_WIDTH, effect::crow::ARM_HEIGHT}},
 		{ effect::crow::RUSH, {"Resource/effect/CrowDoll/rush.png", 7, 7, 47, effect::crow::RUSH_WIDTH, effect::crow::RUSH_HEIGHT}},
 		{ effect::crow::BLINK, {"Resource/effect/CrowDoll/blink.png", 5, 2, 10, effect::crow::BLINK_IMAGE, effect::crow::BLINK_IMAGE}},
@@ -237,13 +224,15 @@ namespace inr {
 	}
 
 	void Loads::ResourceLoad() {
+		// 各種画像の読み込み
+		// 通常読み込み
 		graph::ResourceServer::LoadGraphList(div);
 		graph::ResourceServer::LoadGraphList(enemys);
 		graph::ResourceServer::LoadGraphList(souls);
 		graph::ResourceServer::LoadGraphList(images);
 		graph::ResourceServer::LoadGraphList(gimmicks);
 		graph::ResourceServer::LoadGraphList(effects);
-
+		// 調整有り読み込み
 		graph::ResourceServer::SetLoadGraph(title);
 		graph::ResourceServer::SetLoadGraph(backgrounds);
 		graph::ResourceServer::SetLoadGraph(multiple);
@@ -277,9 +266,8 @@ namespace inr {
 	}
 
 	std::vector<TutorialValue> Loads::LoadTutorialF() {
-		// ダッシュ
-		// ジャンプ
 		std::vector<TutorialValue> stageF = {
+
 			{ {tutorial::JUMP, {1600, 500}, {}}, 100, 200},
 			{ {tutorial::DASH, {2560, 300}, {}}, 100, 200 },
 		};
@@ -317,15 +305,14 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenarioS() {
 		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
 		std::vector<ObjectValue> _stageS{
+			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 605}},
+			// ビッグドール
 			{ oscenario::OBJ_BIG_DOLL, {2800, 905}},
-
-			// ギミック（壊れる岩1, 水晶1）
-			// 岩はyを-70する
+			// ギミック
 			{ oscenario::OBJ_BLOCK, {3240, 740}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_CRYSTAL, {{2620, 1890}, {2400, 1750}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
-
-			// brooch
+			// アイテム
 			{ oscenario::OBJ_ITEM, {640, 1915}, false, 0, {pvalue::ITEM_1, FALSE}},
 		};
 		return _stageS;
@@ -334,10 +321,11 @@ namespace inr {
 	std::vector<ObjectValue> Loads::LoadScenarioS_1() {
 		// 
 		std::vector<ObjectValue> _stageT{
+			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {1500, 500}, true, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {2500, 500}, true },
 			{ oscenario::OBJ_SOLDIER_DOLL, {3500, 300}, true, 1},
-
+			// ギミック
 			{ oscenario::OBJ_LEVER, {{3450, 500}, {3875 , 420}}, false, 0, {gimmick::door::D_LEVER} },
 			{ oscenario::OBJ_CRYSTAL, { {4550, 730}, {4320, 670}}, false, 1, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
 			{ oscenario::OBJ_CRYSTAL, { {5000, 730}, {5220, 670}}, false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_0, {oscenario::gimmick::crystal::DOOR_RED}}},
@@ -355,10 +343,9 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {5000, 1800}, false, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {6900, 1700}, false, 1},
 			{ oscenario::OBJ_SOLDIER_DOLL, {8000, 1800}, false, 0},
-
 			// ギミック
 			{ oscenario::OBJ_LEVER, {{8260, 1970}, {8525 , 1910}}, false, 0, {gimmick::door::D_LEVER}},
-
+			// アイテム
 			{ oscenario::OBJ_ITEM, {5640, 325}, false, 0, {pvalue::ITEM_3, FALSE}},
 		};
 
@@ -420,7 +407,7 @@ namespace inr {
 			// 水晶（x-90）
 			{ oscenario::OBJ_CRYSTAL, {{2870, 1570}, {3180, 1410}, {3180, 1810}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
 			{ oscenario::OBJ_CRYSTAL, {{8370, 610}, {9000, 230}, {9000, 590}} , false, 0, {gimmick::door::D_RED, oscenario::gimmick::FLAG_FALSE, oscenario::gimmick::crystal::TYPE_STAGE_2, {oscenario::gimmick::crystal::DOOR_RED, oscenario::gimmick::crystal::DOOR_BLUE}}},
-
+			// アイテム
 			{ oscenario::OBJ_ITEM, {3840, 215}, false, 0, {pvalue::ITEM_0, FALSE}},
 			{ oscenario::OBJ_ITEM, {8280, 1965}, false, 0, {pvalue::ITEM_2, FALSE}},
 		};
