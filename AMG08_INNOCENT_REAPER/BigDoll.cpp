@@ -49,7 +49,7 @@ namespace {
 }
 
 namespace inr {
-
+	// コンストラクタ
 	BigDoll::BigDoll(Game& game) : EnemyBase(game) {
 		// 各種初期化
 		_type = ObjectBase::ObjectType::ENEMY;
@@ -60,7 +60,7 @@ namespace inr {
 		_atkVec = 0;
 		Init();
 	}
-
+	// デストラクタ
 	BigDoll::~BigDoll() {
 	}
 	// 初期化

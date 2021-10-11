@@ -26,7 +26,9 @@ namespace inr {
 	// ビッグドール(敵)
 	class BigDoll : public EnemyBase {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		BigDoll(Game& game);
+		// デストラクタ
 		~BigDoll();
 		// 初期化
 		void Init() override;

@@ -33,7 +33,7 @@ namespace {
 }
 
 namespace inr {
-
+	// コンストラクタ
 	BackGround::BackGround(Game& game) : Image(game){
 		// 各種変数初期化
 		_stageNo = stage::number::SN_NULL;

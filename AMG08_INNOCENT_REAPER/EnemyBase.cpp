@@ -18,12 +18,8 @@
 
 using std::string;
 
-namespace {
-	constexpr auto FRAME = 30;
-}
-
 namespace inr {
-	// 引数:ゲームクラスの参照
+	// コンストラクタ
 	EnemyBase::EnemyBase(Game& game) : ObjectBase(game), _searchBox(Vector2(), Vector2()) {
 		// 各種パラメータの初期化
 		_eType = EnemyType::SOLDIER_DOLL;
@@ -44,7 +40,7 @@ namespace inr {
 		_soul = nullptr;
 		Init();
 	}
-
+	// デストラクタ
 	EnemyBase::~EnemyBase() {
 	}
 	// 初期化
@@ -220,14 +216,14 @@ namespace inr {
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 		return true;
 	}
-
+	// 抜け殻時の当たり判定
 	AABB EnemyBase::EmptyBox() {
 		return NowCollision(_divKey.first);
 	}
-
+	// 保持している魂の生成
 	bool EnemyBase::SoulPop() {
-		if (_soul == nullptr)return false;
-		Death();
+		if (_soul == nullptr) return false;	// 既に死んでいる
+		Death();	// 死亡
 		return true;
 	}
 }

@@ -51,7 +51,7 @@ namespace {
 	constexpr auto SIZE_FIX = -1;
 }
 namespace inr {
-
+	// コンストラクタ
 	CrowDoll::CrowDoll(Game& game) : EnemyBase(game), _crowState(CrowState::SLEEP) {
 		// 各種設定
 		_type = ObjectBase::ObjectType::ENEMY;	
@@ -74,7 +74,6 @@ namespace inr {
 			// 抜け殻時の当たり判定
 			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
 		};
-
 		// { 画像検索用キー, {総フレーム数, SEの再生時間} }
 		_motionKey = {
 			// 待機状態

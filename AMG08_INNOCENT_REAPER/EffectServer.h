@@ -23,8 +23,10 @@ namespace inr {
 	// エフェクトの管理を行うサーバクラス
 	class EffectServer {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		EffectServer(Game& game);
-		~EffectServer();	// 配列初期化
+		// デストラクタ
+		~EffectServer();
 		// 初期化
 		void Init();
 		// 更新

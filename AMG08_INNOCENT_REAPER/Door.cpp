@@ -23,7 +23,7 @@ namespace {
 }
 
 namespace inr {
-
+	// コンストラクタ
 	Door::Door(Game& game) : GimmickBase(game) {
 		// 初期化
 		_gType = GimmickType::DOOR;

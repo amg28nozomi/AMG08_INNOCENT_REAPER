@@ -14,6 +14,7 @@
 #include "Vector2.h"
 
 namespace inr {
+	// コンストラクタ
 	ChipNumber::ChipNumber(int width1, int width2, int height1, int height2, int type, bool ishit) {
 		// 各種初期化
 		widthMin = width1;
@@ -23,7 +24,7 @@ namespace inr {
 		chipType = type;
 		hitType = ishit;
 	}
-
+	// コンストラクタ
 	ChipNumber::ChipNumber(int width1, int width2, int type, bool ishit) {
 		// 各種初期化
 		widthMin = width1;
@@ -33,7 +34,7 @@ namespace inr {
 		chipType = type;
 		hitType = ishit;
 	}
-
+	// コンストラクタ
 	ChipNumber::ChipNumber(int type, bool ishit) {
 		// 各種初期化
 		widthMin = 0;
@@ -43,13 +44,13 @@ namespace inr {
 		chipType = type;
 		hitType = ishit;
 	}
-
+	// コンストラクタ
 	ChipHitCheck::ChipHitCheck() {
 		// 各種初期化
 		_chipKey = "";
 		ClearStageMaps();
 	}
-
+	// デストラクタ
 	ChipHitCheck::~ChipHitCheck() {
 		ClearStageMaps();
 	}

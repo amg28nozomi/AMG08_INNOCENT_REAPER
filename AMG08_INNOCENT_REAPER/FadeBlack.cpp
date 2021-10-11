@@ -15,88 +15,93 @@ namespace {
 }
 
 namespace inr {
-
+	// コンストラクタ
 	FadeBlack::FadeBlack(Game& game) : Image(game) {
 		_pal = 0;
 		_type = image::FADE_OUT;
 		Init();
 	}
-
+	// デストラクタ
 	FadeBlack::~FadeBlack() {
-
 	}
-
+	// 初期化
 	void FadeBlack::Init() {
+		// 各種初期化
 		_end = true;
 		_interval = 0;
 		_isInterval = false;
 		_addEnd = true;
 	}
-
+	// 更新
 	void FadeBlack::Process() {
-		if (_end == true) return;	// 処理がない場合はスキップ
-		if (_addEnd == true) _addEnd = false;
-		if (_isInterval) {	// 猶予時間がある場合はカウンタを減らす
+		if (_end == true) return;				// 処理がない場合は更新終了
+		if (_addEnd == true) _addEnd = false;	// フラグがある場合は偽にする
+		// 猶予時間判定がある場合
+		if (_isInterval) {
+			// 猶予時間が0になった場合
 			if (_interval == 0) {
-				_isInterval = false;
-				_type = image::FADE_IN;
+				_isInterval = false;			// フラグを終了する
+				_type = image::FADE_IN;			// フェードインを開始する
 				return;
 			}
-			--_interval;
+			--_interval;	// 猶予時間を減らす
 			return;
 		}
-
-		// 処理がある場合は回す
+		// フラグに応じて処理を行う
 		switch (_type) {
 		case image::FADE_IN:
-			FadeIn();
+			FadeIn();	// フェードイン
 			return;
 		case image::FADE_OUT:
-			FadeOut();
+			FadeOut();	// フェードアウト
 			return;
 		}
 	}
-
+	// 描画
 	void FadeBlack::Draw() {
-		if (_end == true) return;
+		if (_end == true) return;	// 処理は行わない
+		// 画像の取得
 		auto graph = graph::ResourceServer::GetHandles(image::BLACK, 0);
-
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _pal);	
 		DrawRotaGraph(961, 540, 1.0, 0, graph, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
-
+	// フェードアウト・フェードインの切り替え
 	void FadeBlack::FlagChange(bool fadeType, int interval) { 
+		// 各種代入
 		_type = fadeType;
 		_end = false;
 		_interval = interval;
 	}
-
+	// フェードイン
 	void FadeBlack::FadeIn() {
-		_pal -= FADE_VALUE;
-		FadeEnd();
+		_pal -= FADE_VALUE;	// 輝度の更新
+		FadeEnd();			// 処理を終了するのかの判定
 	}
-
+	// フェードアウト
 	void FadeBlack::FadeOut() {
-		_pal += FADE_VALUE;
-		FadeEnd();
+		_pal += FADE_VALUE;	// 輝度の更新
+		FadeEnd();			// 処理を終了するかの判定
 	}
-
+	// 処理を終了するかの判定
 	bool FadeBlack::FadeEnd() {
+		// どちらの処理を行っているか
 		switch (_type) {
+			// フェードイン
 		case image::FADE_IN:
-			if (0 < _pal) return false;
-			if (_pal < 0) _pal = 0;
-			_end = true;
-			_isInterval = false;
+			if (0 < _pal) return false;		// 輝度が下限になっていない
+			if (_pal < 0) _pal = 0;			// 下限未満になった場合は値を修正する
+			_end = true;					// 処理終了
+			_isInterval = false;			// 猶予フラグをオフにする
 			return true;
+			// フェードアウト
 		case image::FADE_OUT:
-			if (_pal < 255) return false;
-			if (255 < _pal) _pal = 255;
-			_addEnd = true;
+			if (_pal < 255) return false;	// 輝度が上限になっていない
+			if (255 < _pal) _pal = 255;		// 上限を超過した場合は値を修正する
+			_addEnd = true;					// 加算処理終了
 			break;
 		}
-		_isInterval = true;
+		_isInterval = true;					// 猶予処理を行う
 		return true;
 	}
 }

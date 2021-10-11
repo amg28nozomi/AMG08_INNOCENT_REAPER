@@ -14,7 +14,7 @@
 #include "SoundServer.h"
 
 namespace inr {
-
+	// コンストラクタ
 	Crystal::Crystal(Game& game) : GimmickBase(game) {
 		_gType = GimmickType::CRYSTAL;	// ギミックタイプの設定
 		_divKey = { "", gimmick::door::SE_CLOSE_DOOR };	// 画像キーの設定

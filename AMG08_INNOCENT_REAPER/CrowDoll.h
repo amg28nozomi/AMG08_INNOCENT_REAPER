@@ -88,9 +88,10 @@ namespace inr {
 			constexpr auto DEATH_MAX = 14;
 		}
 	}
-	// ボス
+	// クロウドール(ボス)
 	class CrowDoll : public EnemyBase {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		CrowDoll(Game& game);
 		// 初期化
 		void Init() override;

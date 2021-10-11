@@ -9,7 +9,7 @@
 #include "Collision.h"
 #include "Vector2.h"
 #include <DxLib.h>
-
+// コンストラクタ
 Collision::Collision(Vector2& min, Vector2& max, bool flag) : _minV(min), _maxV(max),_collisionFalg(flag){
 #ifdef _DEBUG
 	_drawFlag = true;	// 描画フラグをオン
@@ -27,23 +27,23 @@ Collision::Collision(Vector2& min, Vector2& max, bool flag) : _minV(min), _maxV(
 	auto posy = max.GetY() - min.GetY() / 2;
 	_center = { posx, posy };
 }
-
+// コンストラクタ
 Collision::Collision(Vector2& pos, int width1, int width2, int height1, int height2, bool flag) {
+	// 各種初期化
 	_widthMin = width1;
 	_widthMax = width2;
 	_heightMin = height1;
 	_heightMax = height2;
 	_collisionFalg = flag;
-
 #ifdef _DEBUG
 	_drawFlag = true;
 #endif
-
 	_minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
 	_maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 }
-
+// コンストラクタ
 Collision::Collision(Vector2& pos, int width, int height, bool flag) {
+	// 各種初期化
 	_widthMin = width;
 	_widthMax = width;
 	_heightMin = height;
@@ -55,8 +55,9 @@ Collision::Collision(Vector2& pos, int width, int height, bool flag) {
 	_minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
 	_maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 }
-
+// コンストラクタ
 Collision::Collision() {
+	// 各種初期化
 	_widthMin = 0;
 	_widthMax = 0;
 	_heightMin = 0;
@@ -106,20 +107,21 @@ bool Collision::HitCheck(Collision collision) {
 	}
 	return false;	// 判定フラグがどちらか片方でもオフなら当たらない
 }
-
+// コンストラクタ
 AABB::AABB(Vector2 vmin, Vector2 vmax, bool cflag) : Collision(vmin, vmax, cflag) {
 }
-
+// コンストラクタ
 AABB::AABB(Vector2& pos, int width, int height, bool cflag) : Collision(pos, width, height, cflag) {
+	// 各種初期化
 	_widthMin = width;
 	_widthMax = width;
 	_heightMin = height;
 	_heightMax = height;
-
+	// 当たり判定の初期化
 	_minV = { pos.GetX() - _widthMin, pos.GetY() - _heightMin };
 	_maxV = { pos.GetX() + _widthMax, pos.GetY() + _heightMax };
 }
-
+// コンストラクタ
 AABB::AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool cflag) : Collision(vpos, width1, width2, height1, height2, cflag) {
 }
 // 当たり判定の更新

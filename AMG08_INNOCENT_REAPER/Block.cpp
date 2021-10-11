@@ -11,7 +11,7 @@
 #include "GimmickServer.h"
 
 namespace inr {
-
+	// コンストラクタ
 	Block::Block(Game& game) : GimmickBase(game) {
 		// 各種初期化
 		_gType = GimmickType::BLOCK;

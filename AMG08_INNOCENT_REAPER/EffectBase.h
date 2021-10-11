@@ -60,8 +60,9 @@ namespace inr {
 	// エフェクトの基底クラス
 	class EffectBase {
 	public:
-		// 引数1:Gameクラスの参照　引数2:画像キー　引数3:生成地点　引数4:生存フレーム数　引数5:反転フラグ
+		// コンストラクタ(引数1:Gameクラスの参照　引数2:画像キー　引数3:生成地点　引数4:生存フレーム数　引数5:反転フラグ)
 		EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);
+		// デストラクタ
 		~EffectBase() = default;
 		// 初期化
 		virtual void Init();

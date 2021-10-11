@@ -26,6 +26,7 @@ namespace inr {
 	// 背景
 	class BackGround : public Image{
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		BackGround(Game& game);		
 		// 初期化
 		void Init() override;

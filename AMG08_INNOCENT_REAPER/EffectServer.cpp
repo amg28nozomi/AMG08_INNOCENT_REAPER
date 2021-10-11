@@ -9,11 +9,11 @@
 #include "EffectBase.h"
 
 namespace inr {
-
+	// コンストラクタ
 	EffectServer::EffectServer(Game& game) : _game(game) {
 		Clears();
 	}
-
+	// デストラクタ
 	EffectServer::~EffectServer() {
 		Clears();
 	}

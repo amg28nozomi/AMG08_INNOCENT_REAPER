@@ -19,7 +19,9 @@ namespace inr {
 	// 壊れる岩(ギミック)
 	class Block : public GimmickBase {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		Block(Game& game);
+		// デストラクタ
 		~Block() = default;
 		// 更新
 		void Process() override;

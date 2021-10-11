@@ -30,16 +30,23 @@ namespace inr {
 	// マップチップの当たり判定
 	class ChipNumber {
 	public:
-		// 当たり判定に修正がない場合は引数指定なし
+		// コンストラクタ(引数1:横幅(min)　引数2:横幅(max)　引数3:縦幅(min)　引数4:縦幅(max)　引数5:マップチップの効果　引数6:当たり判定はあるか)
 		ChipNumber(int width1, int width2, int height1, int height2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
+		// コンストラクタ(引数1:横幅(min)　引数2:横幅(max)　引数3:マップチップの効果　引数4:当たり判定フラグ)
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
+		// コンストラクタ(引数1:マップチップの効果　引数2:当たり判定フラグ)
 		ChipNumber(int type, bool ishit = mapchip::HIT_ON);
-		// 各種ゲッター
+		// 横幅(min)の取得
 		inline int WidthMin() { return widthMin; }
+		// 横幅(max)の取得
 		inline int WidthMax() { return widthMax; }
+		// 縦幅(min)の取得
 		inline int HeightMin() { return heightMin; }
+		// 縦幅(max)の取得
 		inline int HeightMax() { return heightMax; }
+		// チップの種類の取得
 		inline int ChipType() { return chipType; }
+		// 当たり判定フラグの取得
 		inline bool HitType() { return hitType; }
 	private:
 		int widthMin;	// 横幅(Min)
@@ -49,7 +56,6 @@ namespace inr {
 		int chipType;	// チップの種類
 		bool hitType;	// 当たり判定はあるか
 	};
-
 	// マップチップの当たり判定を管理する
 	class ChipHitCheck {
 	public:
