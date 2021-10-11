@@ -79,7 +79,9 @@ namespace inr {
 	// ゲームクラス
 	class Game {
 	public:
+		// コンストラクタ
 		Game();
+		// デストラクタ
 		~Game();
 		// 初期化
 		void Init();

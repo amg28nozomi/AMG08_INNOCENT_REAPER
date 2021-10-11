@@ -9,12 +9,13 @@
 #include "Game.h"
 
 namespace inr {
-
+	// コンストラクタ
 	GimmickBase::GimmickBase(Game& game) : ObjectBase(game), _gType(GimmickType::LEVER) {
+		// 初期化
 		_type = ObjectType::GIMMICK;
 		_gType = GimmickType::LEVER;
 	}
-
+	// デストラクタ
 	GimmickBase::~GimmickBase() {
 	}
 	// 初期化
@@ -35,21 +36,21 @@ namespace inr {
 		GraphResearch(&graph);
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 	}
-	// 
+	// ギミック番号の取得
 	int GimmickBase::GimmickType() {
 		// ギミックの種類に応じた値を返す
 		switch (_gType) {
 		case GimmickType::LEVER:
-			return gimmick::LEVER;
+			return gimmick::LEVER;		// レバー
 		case GimmickType::BLOCK:
-			return gimmick::BLOCK;
+			return gimmick::BLOCK;		// 壊れる岩
 		case GimmickType::CRYSTAL:
-			return gimmick::CRYSTAL;
+			return gimmick::CRYSTAL;	// 水晶
 		case GimmickType::DOOR:
-			return gimmick::DOOR;
+			return gimmick::DOOR;		// ドア
 		}
 	}
-
+	// オブジェクト情報の更新
 	void GimmickBase::ObjValueUpdate() {
 	}
 }
