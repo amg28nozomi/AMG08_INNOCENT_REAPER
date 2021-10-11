@@ -16,7 +16,9 @@ namespace inr {
 	// アイテムサーバ
 	class ItemServer {
 	public:
+		// コンストラクタ
 		ItemServer();
+		// デストラクタ
 		~ItemServer();
 		// 描画
 		void Process();

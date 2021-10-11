@@ -10,19 +10,19 @@
 #include "Game.h"
 
 namespace inr {
-
+	// コンストラクタ
 	GimmickServer::GimmickServer(Game& game) : _game(game) {
 		// 初期化
 		Clear();
 		_isDel = false;
 	}
-
+	// デストラクタ
 	GimmickServer::~GimmickServer() {
-		Clear();
+		Clear();	// 解放
 	}
 	// 更新
 	void GimmickServer::Process() {
-		if (_isDel == true) Del();	// フラグがオンの場合は消去処理呼び出し
+		if (_isDel == true) Del();							// フラグがオンの場合は消去処理呼び出し
 		for (auto gimmick : _gimmicks) gimmick->Process();	// ギミックの更新処理呼び出し
 	}
 	// 描画
@@ -31,8 +31,7 @@ namespace inr {
 	}
 	// ギミックの登録
 	void GimmickServer::Add(std::shared_ptr<GimmickBase> gimmick) {
-		// コンテナに登録
-		_gimmicks.emplace_back(std::move(gimmick));
+		_gimmicks.emplace_back(std::move(gimmick));		// コンテナに登録
 	}
 	// ギミックの消去
 	void GimmickServer::Del() {
@@ -40,8 +39,8 @@ namespace inr {
 		std::vector<std::shared_ptr<GimmickBase>> gimmicks;
 		// 消去判定が偽のギミックのみコンテナに登録
 		for (auto g : _gimmicks) {
-			if (g->IsDelete() == true) continue;
-			gimmicks.emplace_back(std::move(g));
+			if (g->IsDelete() == true) continue;	// 消去フラグがある場合は登録を行わない
+			gimmicks.emplace_back(std::move(g));	// コンテナに登録する
 		}
 		_gimmicks.swap(gimmicks);	// 交換
 		_isDel = false;				// 消去完了

@@ -11,15 +11,15 @@
 #include "Game.h"
 
 namespace inr {
-
+	// コンストラクタ
 	ImageServer::ImageServer(Game& game) : _game(game) {
-		Init();
+		Init();		// 初期化
 	}
-
+	// デストラクタ
 	ImageServer::~ImageServer() {
-		Init();
+		Init();		// 初期化
 	}
-
+	// 初期化
 	bool ImageServer::Init() {
 		// 各種初期化
 		ImageClear();
@@ -29,22 +29,23 @@ namespace inr {
 		_input = false;
 		return true;
 	}
-
+	// コンテナの解放
 	bool ImageServer::ImageClear() {
 		_images.clear();	// 全要素の解放処理を行う
 		return true;
 	}
-
+	// 更新
 	bool ImageServer::Process() {
-
+		// キーの検索
 		auto ite = _images.find(_imageKey);
-		if (ite == _images.end()) return false;
+		if (ite == _images.end()) return false;		// ヒットしない場合は処理処理を終了
+		// 描画フラグがない場合
 		if (ite->second->IsDraw() != true) {
-			// ite->second->Init();
-			_active = false;
-			_input = false;
+			_active = false;	// 非活性状態に遷移
+			_input = false;		// 入力を受け付けない
 			return false;
 		}
+		// 
 		if (_input != true && ite->second->IsNormal() == true) {
 			_input = true;
 		}

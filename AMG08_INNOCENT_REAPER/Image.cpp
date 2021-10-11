@@ -9,8 +9,9 @@
 #include "Vector2.h"
 
 namespace inr {
-
+	// コンストラクタ
 	Image::Image(Game& game) : _game(game) {
+		// 初期化
 		_graphKey = "";
 		_pos = { 960, 540 };
 	}

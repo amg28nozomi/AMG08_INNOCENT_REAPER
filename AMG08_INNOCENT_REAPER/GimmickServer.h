@@ -17,7 +17,9 @@ namespace inr {
 	// ギミックベースオブジェクトの管理を行う
 	class GimmickServer {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		GimmickServer(Game& game);
+		// デストラクタ
 		~GimmickServer();
 		// 更新
 		void Process();
