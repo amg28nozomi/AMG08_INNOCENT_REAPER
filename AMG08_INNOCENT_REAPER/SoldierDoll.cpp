@@ -455,16 +455,16 @@ namespace inr {
 		ChangeState(ActionState::IDOL, nextkey);
 	}
 
-	bool SoldierDoll::Hit() {
-		// プレイヤーの参照を取得
-		auto player = _game.GetObjectServer()->GetPlayer();
+	//bool SoldierDoll::Hit() {
+	//	// プレイヤーの参照を取得
+	//	auto player = _game.GetObjectServer()->GetPlayer();
 
-		// プレイヤーは自身に接触しているかどうか？
-		if (_mainCollision.HitCheck(player->GetMainCollision())) {
-			player->GetMainCollision();
-		}
-		return false;
-	}
+	//	// プレイヤーは自身に接触しているかどうか？
+	//	if (_mainCollision.HitCheck(player->GetMainCollision())) {
+	//		player->GetMainCollision();
+	//	}
+	//	return false;
+	//}
 
 
 	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {

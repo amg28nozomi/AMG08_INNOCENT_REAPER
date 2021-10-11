@@ -25,7 +25,6 @@ namespace inr {
 		void Init() override;
 		void Process() override;
 
-		bool Hit() override;
 
 		void SetParameter(ObjectValue objValue) override;
 	private:

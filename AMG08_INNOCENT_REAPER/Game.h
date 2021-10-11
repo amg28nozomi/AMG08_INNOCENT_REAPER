@@ -1,6 +1,7 @@
 /*****************************************************************//**
  * \file   Game.h
  * \brief  ゲームクラス
+ *		   本ゲームの処理を回しています
  * 
  * \author 鈴木希海
  * \date   October 2021
@@ -56,7 +57,6 @@ namespace inr {
 		constexpr auto SOUND_PLAYER_HIT = "player_hit";					// ダメージ
 		constexpr auto SOUND_PLAYER_DEAD = "player_dead";				// 死亡
 	}
-
 	namespace system {
 		// システムSE
 		constexpr auto SOUDN_GAME_START = "game_start";					// ゲーム開始
@@ -67,7 +67,6 @@ namespace inr {
 		constexpr auto MOVE_STAGE1 = "move_stage1";						// ステージ遷移1
 		constexpr auto MOVE_STAGE2 = "move_stage2";						// ステージ遷移2
 	}
-
 	namespace bgm {
 		// BGM
 		constexpr auto SOUND_TITLE = "sound_title";						// タイトル
@@ -77,7 +76,7 @@ namespace inr {
 		constexpr auto SOUND_STAGE_3 = "sound_stageb";					// ボス戦
 		constexpr auto SOUND_ENDING = "sound_ending";					// エンディング
 	}
-	// クラス
+	// ゲームクラス
 	class Game {
 	public:
 		Game();

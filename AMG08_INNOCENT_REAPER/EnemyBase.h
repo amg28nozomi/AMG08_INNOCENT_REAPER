@@ -115,41 +115,53 @@ namespace inr {
 		virtual void Action();
 		// プレイヤーの現在座標から、左右どちらに居るかを割り出す
 		virtual bool SearchPosition();
-		virtual void PatrolOn();	// 巡回
-		virtual void EscapeOn();	// 逃避
-		virtual void AttackOn();	// 攻撃開始
-		virtual bool Hit();	// オブジェクトと接触したかどうか
+		// 巡回状態への遷移処理
+		virtual void PatrolOn();
+		// 逃避状態への遷移処理
+		virtual void EscapeOn();
+		// 攻撃状態への遷移処理
+		virtual void AttackOn();
+		// 立っているマップチップとの接触処理
 		virtual bool IsStandChip();
+		// 死亡処理
 		virtual void Death();
+		// 待機状態への調整(引数;遷移後の待ち時間)
 		virtual void ChangeIdol(int stay);
+		// 座標等の更新処理
 		virtual void PositionUpdate();
-
+		// 交換音の再生(引数:再生する効果音のキー)
 		bool PlaySe(const std::string skey);
-
+		// 状態遷移(引数1:遷移する状態　引数2:遷移後の再生画像)
 		void ChangeState(ActionState nextstate, std::string key);
 		// 干渉可能範囲の算出(引数1:基になる当たり判定　引数2:干渉可能な横幅)
 		AABB VitalPart(Collision& col, int vital = 0);
-		// 攻撃範囲の算出(引数1:修正値)
+		// 攻撃範囲の算出(引数:修正値)
 		AABB DamageBox(int fix = 0);
-
 	public:
+		// 引数;ゲームクラスの参照
 		EnemyBase(Game& game);
 		~EnemyBase() override;
-
+		// 初期化
 		virtual void Init() override;
+		// 描画
 		void Draw() override;
-		
+		// 種類の取得
 		inline EnemyType GetEnemyType() { return _eType; }
+		// 状態の取得
 		inline ActionState GetActionState() { return _aState; }
+		// 移動ベクトルの取得
 		inline Vector2 GetMoveVector() override { return _moveVector; }
-
+		// 自機アクションとの衝突判定
 		virtual void CollisionHit(const std::string ckey, Collision acollision, bool direction);
-
+		// 抜け殻かどうかの判定
 		bool IsEmpty();
+		// ボスかどうかの判定
 		inline bool IsBoss() { return _eType == EnemyType::CROW_DOLL; }
-		bool SoulPop();	// 魂を吐き出す
-
-		virtual void SetParameter(ObjectValue objValue) override;	// parameter
+		// 保持している魂を生成する
+		bool SoulPop();
+		// オブジェクト情報の登録
+		virtual void SetParameter(ObjectValue objValue) override;
+		// 抜け殻時の当たり判定の取得
 		AABB EmptyBox();
 	};
 }
