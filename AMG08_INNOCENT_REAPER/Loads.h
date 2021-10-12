@@ -18,7 +18,7 @@ namespace inr {
 	public:
 		// Šeí‘fŞ‚Ì“Ç‚İ‚İ
 		static void ResourceLoad();
-		// ‰æ‘œ‚Ì¶¬î•ñ‚Ìæ“¾
+		// ‰æ‘œ¶¬î•ñ‚Ì¶¬‚¨‚æ‚Ñæ“¾
 		static ImageMap LoadImages();
 		// ‘OŒiî•ñ‚Ì“Ç‚İ‚İ
 		static std::vector<ImageValue> LoadForeGround1();

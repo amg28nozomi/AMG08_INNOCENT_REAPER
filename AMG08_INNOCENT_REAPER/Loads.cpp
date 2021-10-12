@@ -201,13 +201,13 @@ namespace inr {
 		{ background::BACK_GROUND_2, {"Resource/BackGround/Stage2/bg_stage2_", 1, 1, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT}},
 		{ background::BACK_GROUND_B, {"Resource/BackGround/StageBoss/bg_stageb_", 1, 1, 4, WINDOW_W, WINDOW_H}},
 	};
-	// 
+	// その他読み込み情報
 	const graph::ResourceServer::DivGraphMap multiple{
 		{ image::particle::STAGE_UI, {"Resource/UI/ui_stage", 1, 1, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H}},		// ステージUI
 		{ effect::crow::ROAR, {"Resource/effect/CrowDoll/roar/roar", 1, 1, 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT}},	// クロウドールの咆哮エフェクト
 		{ effect::crow::DEBUF, {"Resource/effect/CrowDoll/debuf/debuf_", 1, 1, effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H}},			// クロウドールのデバフエフェクト
 	};
-
+	// 各種素材の読み込み
 	void Loads::ResourceLoad() {
 		// 各種画像の読み込み
 		// 通常読み込み
@@ -222,13 +222,14 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(backgrounds);
 		graph::ResourceServer::SetLoadGraph(multiple);
 	}
-
+	// 画像生成情報の取得
 	ImageMap Loads::LoadImages() {
+		// 画像情報の生成
 		ImageMap imap{
-			{ pvalue::ITEM_0, {item::MESSAGE_0, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
-			{ pvalue::ITEM_1, {item::MESSAGE_1, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
-			{ pvalue::ITEM_2, {item::MESSAGE_2, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
-			{ pvalue::ITEM_3, {item::MESSAGE_3, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },
+			{ pvalue::ITEM_0, {item::MESSAGE_0, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },	// アイテム1
+			{ pvalue::ITEM_1, {item::MESSAGE_1, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },	// アイテム2
+			{ pvalue::ITEM_2, {item::MESSAGE_2, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },	// アイテム3
+			{ pvalue::ITEM_3, {item::MESSAGE_3, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },	// アイテム4
 		};
 		return imap;
 	}
