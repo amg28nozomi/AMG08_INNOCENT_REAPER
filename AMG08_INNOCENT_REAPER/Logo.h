@@ -14,16 +14,18 @@
 namespace inr {
 	namespace titles {
 		// タイトルアニメーションの画像キー
-		constexpr auto TITLE_ALI = "title_logo_in";
-		constexpr auto TITLE_ALO = "title_logo_out";
-		constexpr auto TITLE_T = "title_animation";
-		constexpr auto TITLE_TLI = "team_logo_in";
-		constexpr auto TITLE_TLO = "team_logo_out";
+		constexpr auto TITLE_ALI = "title_logo_in";		// AMGロゴフェードイン
+		constexpr auto TITLE_ALO = "title_logo_out";	// AMGロゴフェードアウト
+		constexpr auto TITLE_T = "title_animation";		// タイトル画面アニメーション
+		constexpr auto TITLE_TLI = "team_logo_in";		// チームロゴフェードイン
+		constexpr auto TITLE_TLO = "team_logo_out";		// チームロゴフェードアウト
 	}
 	// ロゴクラス
 	class Logo : public Image {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		Logo(Game& game);
+		// デストラクタ
 		~Logo() = default;
 		// 初期化
 		void Init() override;
