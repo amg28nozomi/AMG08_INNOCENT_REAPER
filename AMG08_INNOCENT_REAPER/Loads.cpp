@@ -233,31 +233,31 @@ namespace inr {
 		};
 		return imap;
 	}
-
+	// チュートリアル画像の取得(チュートリアル1)
 	std::vector<TutorialValue> Loads::LoadTutorialF() {
+		// 配置情報の生成
 		std::vector<TutorialValue> stageF = {
-
-			{ {tutorial::JUMP, {1600, 500}, {}}, 100, 200},
-			{ {tutorial::DASH, {2560, 300}, {}}, 100, 200 },
+			{ {tutorial::JUMP, {1600, 500}, {}}, 100, 200},		// ジャンプ
+			{ {tutorial::DASH, {2560, 300}, {}}, 100, 200},		// ダッシュ
 		};
 		return stageF;
 	}
-
+	// チュートリアル画像の取得(チュートリアル2)
 	std::vector<TutorialValue> Loads::LoadTutorialS() {
-		// 
+		// 配置情報の生成
 		std::vector<TutorialValue> stageS = {
-			{{tutorial::GRAB, {350, 800}, {}}, 100, 200},
-			{{tutorial::ROB, {1300, 500}, {}}, 300, 300},
-			{{tutorial::GIVE, {2400, 500}, {}}, 300, 300},
-			{{tutorial::EMPTY, {3050, 600}, {}}, 100, 200},
-			{{tutorial::LEVER, {3300, 400}, {}}, 125, 150},
-			{{tutorial::CRYSTAL, {4800, 550}, {}}, 300, 300},
-
+			{ {tutorial::GRAB, {350, 800}, {}}, 100, 200},		// 掴み
+			{ {tutorial::ROB, {1300, 500}, {}}, 300, 300},		// 奪う
+			{ {tutorial::GIVE, {2400, 500}, {}}, 300, 300},		// 与える
+			{ {tutorial::EMPTY, {3050, 600}, {}}, 100, 200},	// 抜け殻
+			{ {tutorial::LEVER, {3300, 400}, {}}, 125, 150},	// レバー
+			{ {tutorial::CRYSTAL, {4800, 550}, {}}, 300, 300},	// 水晶
 		};
 		return stageS;
 	}
-
+	// 前景情報の取得
 	std::vector<ImageValue> Loads::LoadForeGround1() {
+		// 前景情報の生成
 		std::vector<ImageValue> fore_g = {
 			{ fgd::FORE_STAGE0, { fgd::FORE0_W / 2, fgd::FORE0_H / 2 }, {}  },
 			{ fgd::FORE_STAGET, { fgd::FORET_W / 2, fgd::FORET_H / 2}, {} },
@@ -269,10 +269,9 @@ namespace inr {
 		};
 		return fore_g;
 	}
-
-	// 封印の祭壇
+	// オブジェクトの配置情報の取得(チュートリアル1:封印の祭壇)
 	std::vector<ObjectValue> Loads::LoadScenarioS() {
-		// ステージSの登場オブジェクトはソルジャードール1、ビッグドール1
+		// 配置情報の生成
 		std::vector<ObjectValue> _stageS{
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {2000, 605}},
@@ -286,9 +285,9 @@ namespace inr {
 		};
 		return _stageS;
 	}
-
+	// オブジェクトの配置情報の取得(チュートリアル2:封印の祭壇)
 	std::vector<ObjectValue> Loads::LoadScenarioS_1() {
-		// 
+		// 配置情報の生成
 		std::vector<ObjectValue> _stageT{
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {1500, 500}, true, 2},
@@ -301,10 +300,9 @@ namespace inr {
 		};
 		return _stageT;
 	}
-
-	// 荒廃し街
+	// オブジェクトの配置情報の取得(ステージ1:荒れた町)
 	std::vector<ObjectValue> Loads::LoadScenario1() {
-
+		// 配置情報の生成
 		std::vector<ObjectValue> _stage1 {
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {500, 1950}, true, 1},
@@ -317,17 +315,11 @@ namespace inr {
 			// アイテム
 			{ oscenario::OBJ_ITEM, {5640, 325}, false, 0, {pvalue::ITEM_3, FALSE}},
 		};
-
 		return _stage1;
 	}
-
-	// 森林-1
+	// オブジェクトの配置情報の取得(ステージ2:契りの森-中央)
 	std::vector<ObjectValue> Loads::LoadScenario2() {
-		// ソルジャードール9(赤5、青3、空1)
-		// ビッグドール3(赤2、青1)
-		// レバー/扉(2)
-		// 岩(1-3)
-		// 水晶(2/4)
+		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {3520, 780}, false, 0},
@@ -337,7 +329,6 @@ namespace inr {
 			{ oscenario::OBJ_SOLDIER_DOLL, {2120, 860}, false, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {7320, 1970}, false, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {7960, 340}, false, 2},
-
 			// ビッグドール
 			{ oscenario::OBJ_BIG_DOLL, {1640, 840}, false, 1},
 			{ oscenario::OBJ_BIG_DOLL, {4000, 780}, false, 1},
@@ -345,14 +336,14 @@ namespace inr {
 			// ギミック
 			{ oscenario::OBJ_LEVER, {{2200, 1970}, {2470, 1900}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{3680, 770}, {3200, 700}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
-			// ボス扉
 			{ oscenario::OBJ_DOOR, {8470, 1190}, false, 0, {gimmick::door::D_BOSS}},
 		};
 		return _stage;
 	}
 
-	// 森林-2
+	// オブジェクトの配置情報の取得(ステージ2-1:契りの森-上部)
 	std::vector<ObjectValue> Loads::LoadScenario2_1() {
+		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, { 1540, 1870}, enemy::MOVE_LEFT, 0 },
@@ -382,8 +373,9 @@ namespace inr {
 		};
 		return _stage;
 	}
-	// 森林-3
+	// オブジェクトの配置情報の取得(ステージ2-2:契りの森-下部)
 	std::vector<ObjectValue> Loads::LoadScenario2_2() {
+		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
 			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {2130, 310}, false, 2},
@@ -401,10 +393,9 @@ namespace inr {
 			{ oscenario::OBJ_BIG_DOLL, {490, 2390}, false, 1},
 			{ oscenario::OBJ_BIG_DOLL, {1320, 2990}},
 			{ oscenario::OBJ_BIG_DOLL, {3320, 2950}, false, 1},
-			// レバー（y -90）
+			// レバー
 			{ oscenario::OBJ_LEVER, {{3650, 3020}, {630, 870}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
 			{ oscenario::OBJ_LEVER, {{150,3010}, {3190, 900}}, false, 0, {gimmick::door::D_LEVER, oscenario::gimmick::FLAG_FALSE}},
-			// ボスレバーのみ
 			{ oscenario::OBJ_LEVER, {3460, 900}, false, 0, {gimmick::door::D_BOSS}},
 			// 壊れる岩
 			{ oscenario::OBJ_BLOCK, {2670, 2000}, false, 0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE}},
@@ -417,19 +408,20 @@ namespace inr {
 		};
 		return _stage;
 	}
-	// ボスステージ
+	// オブジェクトの配置情報の取得(ステージ3:契りの森-ボス)
 	std::vector<ObjectValue> Loads::LoadScenarioB() {
+		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
+			// ソルジャードール
 			{ oscenario::OBJ_SOLDIER_DOLL, {1210, 870}, false, 2},
 			{ oscenario::OBJ_SOLDIER_DOLL, {2880, 870}, false, 1},
-
+			// ビッグドール
 			{ oscenario::OBJ_BIG_DOLL, {1770, 870}},
 			{ oscenario::OBJ_BIG_DOLL, {3090, 870}},
 			{ oscenario::OBJ_BIG_DOLL, {3290, 870}},
-
+			// クロウドール
 			{ oscenario::OBJ_CROW_DOLL, {5450, 840}},
 		};
 		return _stage;
 	}
-
 }

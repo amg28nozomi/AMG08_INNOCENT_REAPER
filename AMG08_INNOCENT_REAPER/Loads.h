@@ -20,26 +20,31 @@ namespace inr {
 		static void ResourceLoad();
 		// 画像生成情報の生成および取得
 		static ImageMap LoadImages();
-		// 前景情報の読み込み
+		// 前景情報の生成および取得
 		static std::vector<ImageValue> LoadForeGround1();
-		// チュートリアル画像の生成情報の取得
-		// チュートリアル1
+		// チュートリアル画像の配置情報の取得(チュートリアル1)
 		static std::vector<TutorialValue> LoadTutorialF();
-		// チュートリアル2
+		// チュートリアル画像の配置情報の取得(チュートリアル2)
 		static std::vector<TutorialValue> LoadTutorialS();
-		// オブジェクトの配置情報読み込み
-		// // チュートリアル1(封印の祭壇)
+		// オブジェクトの配置情報の生成および取得
+		// チュートリアル1(封印の祭壇)
 		static std::vector<ObjectValue> LoadScenarioS_1();
+		// オブジェクトの配置情報の生成および取得
 		// チュートリアル2(封印の祭壇)
 		static std::vector<ObjectValue> LoadScenarioS();
+		// オブジェクトの配置情報の生成および取得
 		// ステージ1(荒れた町)
 		static std::vector<ObjectValue> LoadScenario1();
+		// オブジェクトの配置情報の生成および取得
 		// ステージ2(契りの森-中央)
 		static std::vector<ObjectValue> LoadScenario2();
+		// オブジェクトの配置情報の生成および取得
 		// ステージ2(契りの森-上部)
 		static std::vector<ObjectValue> LoadScenario2_1();
+		// オブジェクトの配置情報の生成および取得
 		// ステージ2(契りの森-下部)
 		static std::vector<ObjectValue> LoadScenario2_2();
+		// オブジェクトの配置情報の生成および取得
 		// ステージ3(契りの森-ボス)
 		static std::vector<ObjectValue> LoadScenarioB();
 	};

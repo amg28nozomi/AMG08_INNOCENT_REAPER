@@ -13,10 +13,10 @@
 #include "ObjectValue.h"
 
 namespace inr {
-
 	namespace item {
-		constexpr auto ITEM = "item_light";
-		constexpr auto ITEM_IMAGE = 150;
+		// アイテム
+		constexpr auto ITEM = "item_light";		// キー
+		constexpr auto ITEM_IMAGE = 150;		// 画像サイズ
 	}
 	// 二重インクルード防止
 	class Game;
