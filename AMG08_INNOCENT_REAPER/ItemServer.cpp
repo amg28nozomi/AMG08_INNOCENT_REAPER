@@ -11,13 +11,13 @@
 #include <algorithm>
 
 namespace inr {
-
+	// コンストラクタ
 	ItemServer::ItemServer() {
-		ItemClear();
+		ItemClear();	// コンテナの解放
 	}
-
+	// デストラクタ
 	ItemServer::~ItemServer() {
-		ItemClear();
+		ItemClear();	// コンテナの解放
 	}
 	// コンテナの解放
 	void ItemServer::ItemClear() {

@@ -9,33 +9,37 @@
 #include "GimmickBase.h"
 
 namespace inr {
-
 	namespace gimmick {
 		namespace door {
-			constexpr auto NOT_DOOR = -1;
-			constexpr auto D_LEVER = 1;
-			constexpr auto D_RED = 2;
-			constexpr auto D_BLUE = 3;
-			constexpr auto D_BOSS = 4;
+			// ドア番号
+			constexpr auto NOT_DOOR = -1;	// 該当なし
+			constexpr auto D_LEVER = 1;		// レバー
+			constexpr auto D_RED = 2;		// 赤
+			constexpr auto D_BLUE = 3;		// 青
+			constexpr auto D_BOSS = 4;		// ボス
 		}
 	}
-
+	// 二重インクルード防止
 	class Door;
-
+	// レバークラス
 	class Lever : public GimmickBase {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		Lever(Game& game);
+		// デストラクタ
 		~Lever() = default;
-
-		void Init() override;
+		// 更新
 		void Process() override;
+		// 描画
 		void Draw() override;
-
+		// ドアの解放処理
 		void OpenDoor();
-		void SetParameter(ObjectValue objValue) override;	// 引数1:座標(レバー)　引数2;座標(ドア)
+		// オブジェクト情報の登録
+		void SetParameter(ObjectValue objValue) override;
+		// オブジェクト情報の更新
 		void ObjValueUpdate() override;
 	private:
-		std::shared_ptr<Door> _door;
+		std::shared_ptr<Door> _door;	// 扉
 	};
 
 }

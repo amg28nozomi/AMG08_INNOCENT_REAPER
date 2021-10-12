@@ -35,16 +35,16 @@ namespace inr {
 	// 画像情報の生成
 	// 自機
 	const graph::ResourceServer::DivGraphMap div{
-		{PKEY_IDOL , {"Resource/Player/r_stand.png", 7, 3, 15, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_RUN, {"Resource/Player/r_move.png", 7, 4, 25, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_DASH,{"Resource/Player/r_dash.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_ROB , {"Resource/Player/r_rob.png", 7, 2, 13, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_GIVE, {"Resource/Player/r_give.png", 7, 3, 16, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_JUMP, {"Resource/Player/r_jump.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_FALL, {"Resource/Player/r_fall.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_HIT, {"Resource/Player/r_hit.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_CLIMB, {"Resource/Player/r_climb.png", 7, 2, 13, PIMAGE_SIZE, PIMAGE_SIZE}},
-		{PKEY_DEATH, {"Resource/effect/Player/dead.png", 10, 4, 40, PLAYER_DEATH_IMAGE, PLAYER_DEATH_IMAGE}},
+		{ PKEY_IDOL , {"Resource/Player/r_stand.png", 7, 3, 15, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_RUN, {"Resource/Player/r_move.png", 7, 4, 25, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_DASH,{"Resource/Player/r_dash.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_ROB , {"Resource/Player/r_rob.png", 7, 2, 13, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_GIVE, {"Resource/Player/r_give.png", 7, 3, 16, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_JUMP, {"Resource/Player/r_jump.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_FALL, {"Resource/Player/r_fall.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_HIT, {"Resource/Player/r_hit.png", 7, 1, 7, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_CLIMB, {"Resource/Player/r_climb.png", 7, 2, 13, PIMAGE_SIZE, PIMAGE_SIZE}},
+		{ PKEY_DEATH, {"Resource/effect/Player/dead.png", 10, 4, 40, PLAYER_DEATH_IMAGE, PLAYER_DEATH_IMAGE}},
 	};
 	// 敵
 	const graph::ResourceServer::DivGraphMap enemys {
@@ -167,10 +167,10 @@ namespace inr {
 	// 各種エフェクト
 	const graph::ResourceServer::DivGraphMap effects{
 		// 自機
-		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	// ジャンプ
+		{ effect::JUMP, {"Resource/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},	
 		{ effect::DASH, {"Resource/effect/Player/re_dash.png", 5, 1, 5, 360, 360}},
-		{ effect::ROB, {"Resource/effect/Player/rob.png", 3, 3, 9, effect::ROB_IMAGE, effect::ROB_IMAGE}},	// 奪うアクション
-		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},	// ダメージ
+		{ effect::ROB, {"Resource/effect/Player/rob.png", 3, 3, 9, effect::ROB_IMAGE, effect::ROB_IMAGE}},	
+		{ effect::HIT, {"Resource/effect/Player/hit.png", 5, 3, 15, effect::HIT_IMAGE_W, effect::HIT_IMAGE_H}},
 		{ effect::enemy::S_HIT, {"Resource/effect/Enemy/hit.png", 5, 2, 10, effect::enemy::SHIT_IMAGE, effect::enemy::SHIT_IMAGE}},
 		{ effect::GIVE, {"Resource/effect/Player/give.png", 5, 4, 20, effect::GIVE_IMAGE, effect::GIVE_IMAGE }},
 		{ effect::DEBUFF, {"Resource/effect/Player/debuff.png", 5, 3, effect::DEBUF_MAX, effect::DEBUF_IMAGE, effect::DEBUF_IMAGE}},
@@ -203,25 +203,10 @@ namespace inr {
 	};
 	// 
 	const graph::ResourceServer::DivGraphMap multiple{
-		{ image::particle::STAGE_UI, {"Resource/UI/ui_stage", 1, 1, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H}},
-		{ effect::crow::ROAR, {"Resource/effect/CrowDoll/roar/roar", 1, 1, 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT}},
-		{ effect::crow::DEBUF, {"Resource/effect/CrowDoll/debuf/debuf_", 1, 1, effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H}},
+		{ image::particle::STAGE_UI, {"Resource/UI/ui_stage", 1, 1, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H}},		// ステージUI
+		{ effect::crow::ROAR, {"Resource/effect/CrowDoll/roar/roar", 1, 1, 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT}},	// クロウドールの咆哮エフェクト
+		{ effect::crow::DEBUF, {"Resource/effect/CrowDoll/debuf/debuf_", 1, 1, effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H}},			// クロウドールのデバフエフェクト
 	};
-
-	namespace titles {
-
-		constexpr auto PATH_ALI = "ali/";
-		constexpr auto PATH_ALO = "alo/";
-		constexpr auto PATH_T = "t/";
-		constexpr auto PATH_TLI = "tli/";
-		constexpr auto PATH_TLO = "tlo/";
-
-		constexpr auto FILE_ALI = "ali_";
-		constexpr auto FILE_ALO = "alo_";
-		constexpr auto FILE_T = "t_";
-		constexpr auto FILE_TLI = "tli_";
-		constexpr auto FILE_TLO = "tlo_";
-	}
 
 	void Loads::ResourceLoad() {
 		// 各種画像の読み込み
@@ -236,23 +221,6 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(title);
 		graph::ResourceServer::SetLoadGraph(backgrounds);
 		graph::ResourceServer::SetLoadGraph(multiple);
-
-		/*std::string gpath = "Resource/effect/Logo/";
-		graph::ResourceServer::SetLoadGraph(titles::TITLE_ALI, gpath + titles::PATH_ALI, titles::FILE_ALI, 34, WINDOW_W, WINDOW_H);
-		graph::ResourceServer::SetLoadGraph(titles::TITLE_ALO, gpath + titles::PATH_ALO, titles::FILE_ALO, 34, WINDOW_W, WINDOW_H);
-		 graph::ResourceServer::SetLoadGraph(titles::TITLE_T, gpath + titles::PATH_T, titles::FILE_T, 30, WINDOW_W, WINDOW_H);
-		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLI, gpath + titles::PATH_TLI, titles::FILE_TLI, 30, WINDOW_W, WINDOW_H);
-		graph::ResourceServer::SetLoadGraph(titles::TITLE_TLO, gpath + titles::PATH_TLO, titles::FILE_TLO, 30, WINDOW_W, WINDOW_H);
-		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_S, background::STAGES_PATH, background::STAGES_FILE, 2, WINDOW_W, background::STAGES_HEIGHT);
-		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_1, background::STAGE1_PATH, background::STAGE1_FILE, 3, WINDOW_W, background::STAGE1_MAP_HEIGHT);
-		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_2, background::STAGE2_PATH, background::STAGE2_FILE, 4, WINDOW_W, background::STAGE2_MAP_HEIGHT);
-		graph::ResourceServer::SetLoadGraph(background::BACK_GROUND_B, background::STAGEB_PATH, background::STAGEB_FILE, 4, WINDOW_W, WINDOW_H);
-		std::string sui_path = "Resource/UI/";
-		graph::ResourceServer::SetLoadGraph(image::particle::STAGE_UI, sui_path, image::particle::STAGE_UI, 3, image::particle::STAGE_UI_W, image::particle::STAGE_UI_H);
-		std::string crow_path = "Resource/effect/CrowDoll/";
-		graph::ResourceServer::SetLoadGraph(effect::crow::ROAR, crow_path + "roar/", "roar", 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT);
-		std::string debuf_path = "Resource/effect/CrowDoll/debuf/";
-		graph::ResourceServer::SetLoadGraph(effect::crow::DEBUF, debuf_path, "debuf_", effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H);*/
 	}
 
 	ImageMap Loads::LoadImages() {

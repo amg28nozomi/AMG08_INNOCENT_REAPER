@@ -34,6 +34,7 @@ namespace inr {
 		// グラフィックハンドルの取得
 		int graph;	
 		GraphResearch(&graph);
+		// 描画
 		DrawRotaGraph(x, y, 1.0, 0, graph, true, _direction);
 	}
 	// ギミック番号の取得
