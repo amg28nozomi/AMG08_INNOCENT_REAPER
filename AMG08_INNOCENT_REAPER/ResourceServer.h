@@ -14,7 +14,7 @@
 #include <vector>
 
 namespace graph {
-	//// DxLib::LoadDivGraph関数用のクラス
+	// DxLib::LoadDivGraph関数用のクラス
 	class DivGraph {
 	public:
 		// コンストラクタ(引数1:ファイル名　引数2:横向きに対する分割数　引数3:縦向きに対する分割数　引数4:画像の総分割数　引数5:分割された画像の横幅　引数6:分割された画像の縦幅)
