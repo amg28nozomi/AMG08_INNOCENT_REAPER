@@ -222,9 +222,9 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(backgrounds);
 		graph::ResourceServer::SetLoadGraph(multiple);
 	}
-	// 画像生成情報の取得
+	// 画像配置情報の取得
 	ImageMap Loads::LoadImages() {
-		// 画像情報の生成
+		// 画像配置情報の生成
 		ImageMap imap{
 			{ pvalue::ITEM_0, {item::MESSAGE_0, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },	// アイテム1
 			{ pvalue::ITEM_1, {item::MESSAGE_1, {HALF_WINDOW_W, HALF_WINDOW_H}, {false, true}} },	// アイテム2
