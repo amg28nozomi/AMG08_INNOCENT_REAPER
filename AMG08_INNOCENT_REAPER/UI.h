@@ -15,7 +15,7 @@ namespace inr {
 		constexpr auto HP_NUM = 5;
 		constexpr auto HP_SIZE = 200;
 	}
-
+	// 二重インクルード防止
 	class Player;
 	class SoulSkin;
 
