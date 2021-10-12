@@ -12,7 +12,7 @@
 namespace inr {
 	// 二重インクルード防止
 	class ObjectBase;
-	// 無限ループ処理有り
+	// エフェクト(無限ループ処理有り)
 	class LoopEffect : public EffectBase {
 	public:
 		// コンストラクタ(引数1:ゲームクラスの参照　引数2:画像キー　引数3:生成地点　引数4:生存フレーム数　引数5:反転フラグ)
