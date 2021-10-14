@@ -15,6 +15,7 @@
 #include "ObjectServer.h"
 #include "MapChips.h"
 #include "SoulSkin.h"
+#include "ChipNumber.h"
 
 using std::string;
 

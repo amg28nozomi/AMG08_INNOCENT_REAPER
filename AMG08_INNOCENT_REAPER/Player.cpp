@@ -9,6 +9,7 @@
 #include "SoundServer.h"
 #include "SoulSkin.h"
 #include "MapChips.h"
+#include "ChipNumber.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
 #include "GimmickBase.h"

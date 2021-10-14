@@ -6,6 +6,7 @@
 #include "Collision.h"
 #include "Vector2.h"
 #include "ChipHitCheck.h"
+#include "ChipNumber.h"
 #include "Scenario.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
@@ -13,7 +14,6 @@
 #include <vector>
 #include <algorithm>
 #include <DxLib.h>
-
 #include "picojson/picojson.h"
 
 namespace {

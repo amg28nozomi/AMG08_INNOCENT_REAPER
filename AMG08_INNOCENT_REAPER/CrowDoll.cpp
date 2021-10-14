@@ -18,6 +18,7 @@
 #include "ModeServer.h"
 #include "ModeMain.h"
 #include "MapChips.h"
+#include "ChipNumber.h"
 #include "SoulSkin.h"
 #include <random>
 #include <time.h>

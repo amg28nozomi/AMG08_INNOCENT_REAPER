@@ -8,11 +8,10 @@
 #include "SoundServer.h"
 #include "ObjectServer.h"
 #include "GimmickServer.h"
-
+#include "ChipNumber.h"
 #include "GimmickBase.h"
 #include "Door.h"
 #include "Block.h"
-
 #include <DxLib.h>
 #include <memory>
 
