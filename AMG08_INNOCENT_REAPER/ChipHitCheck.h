@@ -16,45 +16,80 @@
 #include "Collision.h"
 
 namespace inr {
+	/** マップチップのコンパイル時定数 */
 	namespace mapchip {
 		// マップチップに特殊効果はあるか？
-		constexpr auto NONE = -1;		// チップ無し
-		constexpr auto NORMAL = 0;		// 通常チップ(効果なし)
-		constexpr auto THORM = 1;		// 棘(ダメージ判定あり)
-		constexpr auto IVY = 2;			// 蔦(ぶら下がり可能)
-		constexpr auto TRANSITION = 3;	// ステージ遷移
+		constexpr auto NONE = -1;				//!< NULL
+		constexpr auto NORMAL = 0;			//!< 効果なしの通常チップ
+		constexpr auto THORM = 1;				//!< ダメージ判定ありの棘チップ
+		constexpr auto IVY = 2;					//!< 掴み判定ありの蔦チップ
+		constexpr auto TRANSITION = 3;	//!< ステージ遷移判定ありの遷移チップ
 		// 当たり判定はあるか？
-		constexpr auto HIT_ON = true;	// 当たり判定/押し出し処理有り
-		constexpr auto HIT_OFF = false;	// 当たり判定/押し出し処理無し
+		constexpr auto HIT_ON = true;		//! 当たり判定・押し出し処理有り
+		constexpr auto HIT_OFF = false;	//! 当たり判定・押し出し処理無し
 	}
-	// マップチップの当たり判定
+	/** マップチップの当たり判定 */
 	class ChipNumber {
 	public:
-		// コンストラクタ(引数1:横幅(min)　引数2:横幅(max)　引数3:縦幅(min)　引数4:縦幅(max)　引数5:マップチップの効果　引数6:当たり判定はあるか)
+		/**
+		 * @brief	コンストラクタ
+		 * @param width1		当たり判定・横幅(min)
+		 * @param width2		当たり判定・横幅(max)
+		 * @param height1		当たり判定・縦幅(min)
+		 * @param height2		当たり判定・縦幅(max)
+		 * @param type			マップチップの効果番号
+		 * @param ishit			マップチップに当たり・押し出し判定を持たせるか
+		 */
 		ChipNumber(int width1, int width2, int height1, int height2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
-		// コンストラクタ(引数1:横幅(min)　引数2:横幅(max)　引数3:マップチップの効果　引数4:当たり判定フラグ)
+		/**
+		 * @brief	コンストラクタ
+		 * @param width1	当たり判定・横幅(min)
+		 * @param width2	当たり判定・横幅(max)
+		 * @param type		マップチップの効果番号
+		 * @param ishit		マップチップに当たり・押し出し判定を持たせるか
+		 */
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
-		// コンストラクタ(引数1:マップチップの効果　引数2:当たり判定フラグ)
+		/**
+		 * @brief	コンストラクタ
+		 * @param type		マップチップの効果番号
+		 * @param ishit		マップチップに当たり・押し出し判定を持たせるか
+		 */
 		ChipNumber(int type, bool ishit = mapchip::HIT_ON);
-		// 横幅(min)の取得
+		/**
+		 * @brief	 横幅(min)の取得
+		 * @return 横幅(min)を返す
+		 */
 		inline int WidthMin() { return widthMin; }
-		// 横幅(max)の取得
+		/**
+		 * @brief	 横幅(max)の取得
+		 * @return 横幅(max)を返す
+		 */
 		inline int WidthMax() { return widthMax; }
-		// 縦幅(min)の取得
+		/**
+		 * @brief	 縦幅(min)の取得
+		 * @return 縦幅(min)を返す
+		 */
 		inline int HeightMin() { return heightMin; }
-		// 縦幅(max)の取得
+		/**
+		 * @brief	 縦幅(max)の取得
+		 * @return 縦幅(max)を返す
+		 */
 		inline int HeightMax() { return heightMax; }
-		// チップの種類の取得
+		/**
+		 * @brief	
+		 * 
+		 * \return 
+		 */
 		inline int ChipType() { return chipType; }
 		// 当たり判定フラグの取得
 		inline bool HitType() { return hitType; }
 	private:
-		int widthMin;	// 横幅(Min)
-		int widthMax;	// 横幅(Max)
-		int heightMin;	// 縦幅(Min)
-		int heightMax;	// 縦幅(Max)
-		int chipType;	// チップの種類
-		bool hitType;	// 当たり判定はあるか
+		int widthMin;		//!< 横幅(Min)
+		int widthMax;		//!< 横幅(Max)
+		int heightMin;	//!< 縦幅(Min)
+		int heightMax;	//!< 縦幅(Max)
+		int chipType;		//!< チップの種類
+		bool hitType;		//!< 当たり判定はあるか
 	};
 	// マップチップの当たり判定を管理する
 	class ChipHitCheck {

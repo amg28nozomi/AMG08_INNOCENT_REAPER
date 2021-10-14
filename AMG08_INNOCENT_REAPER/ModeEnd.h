@@ -11,12 +11,12 @@
 #include <memory>
 
 namespace inr {
-	// エンディング
+	/** エンディング */
 	class ModeEnd : public ModeBase {
 	public:
 		/**
 		 * @brief	コンストラクタ
-		 * @param[in] game	ゲームクラスの参照
+		 * @param	game	ゲームクラスの参照
 		 */
 		ModeEnd(Game& game);
 		/**
@@ -43,14 +43,14 @@ namespace inr {
 		/**
 		 * @brief	ゲームタイトルに遷移するかの判定
 		 * @return	タイトルに遷移する場合はtrueを返す
-		 * 遷移しない場合はfalseを返す
+		 * @return	遷移しない場合はfalseを返す
 		 */
 		bool IsEnd();
 		/**
 		 * @brief	Bボタンが押されたかの判定を行う
-		 * 押された場合はタイトル画面に遷移する
+		 * @brief	押された場合はタイトル画面に遷移する
 		 * @return	タイトル画面に遷移する場合はtrueを返す
-		 * 遷移しない場合はfalseを返す
+		 * @return	遷移しない場合はfalseを返す
 		 */
 		bool IsInput();
 	};

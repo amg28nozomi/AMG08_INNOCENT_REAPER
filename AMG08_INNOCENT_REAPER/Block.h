@@ -9,37 +9,66 @@
 #include "GimmickBase.h"
 
 namespace inr {
+	/** ギミックのコンパイル時定数 */
 	namespace gimmick {
+		/** 壊れる岩のコンパイル時定数 */
 		namespace block {
-			// 壊れたかどうかのフラグ
-			constexpr auto BRAKE_ON = true;		// 破壊済み
-			constexpr auto BRAKE_OFF = false;	// 未破壊
+			constexpr auto BRAKE_ON = true;		//!< 破壊された
+			constexpr auto BRAKE_OFF = false;	//!< 破壊されていない
 		}
 	}
-	// 壊れる岩(ギミック)
+	/** 壊れる岩ギミック */
 	class Block : public GimmickBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief	コンストラクタ
+		 * @param	game	ゲームクラスの参照
+		 */
 		Block(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Block() = default;
-		// 更新
+		/**
+		 * @brief	更新処理
+		 */
 		void Process() override;
-		// 描画
+		/**
+		 * @brief	描画処理
+		 */
 		void Draw() override;
-		// オブジェクト情報の登録(引数:オブジェクト情報)
+		/**
+		 * @brief	オブジェクト情報の登録
+		 * @param	objectValue		オブジェクト情報
+		 */
 		void SetParameter(ObjectValue objValue) override;
-		// オブジェクト情報の更新
+		/**
+		 * @brief	オブジェクト情報の更新
+		 */
 		void ObjValueUpdate() override;
-		// オブジェクトは壊れているか？
+		/**
+		 * @brief		オブジェクトは壊れているか？
+		 * @return	壊れている場合はtrueを返す
+		 * @return	壊れていない場合はfalseを返す
+		 */
 		inline bool IsBreak() { return _break; }
-		// 押し出し処理(引数1:対象の当たり判定ボックス　引数2:対象の座標　引数3:対象の移動量　引数4:対象の向き)
+		/**
+		 * @brief						オブジェクトの押し出し処理
+		 * @param	box				対象の当たり判定ボックス
+		 * @param	pos				対象の座標ベクトル(参照)
+		 * @param	move			対象の移動ベクトル(参照)
+		 * @param	direction	対象の向きフラグ
+		 * @return					衝突している場合はtrueを返す
+		 * @return					衝突していない場合はfalseを返す
+		 */
 		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction);
-		// 破壊処理
-		bool Break();
+		/**
+		 * @brief	破壊処理
+		 */
+		void Break();
 	private:
-		int _pal;		// 透明度
-		bool _break;	// 壊されたか否か
+		int _pal;			//!< 透明度
+		bool _break;	//!< 壊されたか否か
 	};
 }
 

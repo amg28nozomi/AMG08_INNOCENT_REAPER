@@ -94,10 +94,10 @@ namespace inr {
 			pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
 			move.GetPX() = 0;
 		}
-		return true;
+		return true;	// Õ“Ë‚µ‚Ä‚¢‚é
 	}
 	// ”j‰óˆ—
-	bool Block::Break() {
+	void Block::Break() {
 		auto sound = SoundResearch(_divKey.second);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 		_break = gimmick::block::BRAKE_ON;			// ”j‰óƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
@@ -105,6 +105,5 @@ namespace inr {
 #ifdef _DEBUG
 		_mainCollision.SetDrawFlag() = false;
 #endif
-		return true;
 	}
 }

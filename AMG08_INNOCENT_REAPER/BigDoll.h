@@ -9,61 +9,108 @@
 #include "EnemyBase.h"
 
 namespace inr {
+	/** 敵のコンパイル時定数 */
 	namespace enemy {
-		// ビッグドールの画像サイズ
+		/** ビッグドールの画像サイズ */
 		constexpr auto BIG_IMAGE = 280;
-		// 当たり判定
+		/** 当たり判定(横幅) */
 		constexpr auto BIG_WIDTH = 160;
+		/** 当たり判定(高さ) */
 		constexpr auto BIG_HEIGHT = 200;
-		// SE検索用キー（SoundServer）
+		/** ビッグドールのコンパイル時定数 */
 		namespace bigdoll {
-			constexpr auto SE_DOWN = "big_down";	// ダウンSE
-			constexpr auto SE_ESCAPE_VOICE = "big_escape";	// 逃走時ボイス
-			constexpr auto SE_TACKLE = "big_tackle";	// タックルSE
-			constexpr auto SE_TACKLE_VOICE = "big_tackle_voice";	// タックル時ボイス
+			constexpr auto SE_DOWN = "big_down";									//!< ダウン時SE
+			constexpr auto SE_ESCAPE_VOICE = "big_escape";				//!< 逃走時ボイス
+			constexpr auto SE_TACKLE = "big_tackle";							//!< タックルSE
+			constexpr auto SE_TACKLE_VOICE = "big_tackle_voice";	//!< タックル時ボイス
 		}
 	}
-	// ビッグドール(敵)
+	/** ビッグドール(敵) */
 	class BigDoll : public EnemyBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief	コンストラクタ
+		 * @param	game ゲームクラスの参照
+		 */
 		BigDoll(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~BigDoll();
-		// 初期化
+		/**
+		 * @brief	初期化処理
+		 */
 		void Init() override;
-		// 更新
+		/**
+		 * @brief	更新処理
+		 */
 		void Process() override;
-		// オブジェクト情報の登録(引数:オブジェクト情報)
+		/**
+		 * @brief	オブジェクト情報の登録
+		 * @param	objValue	オブジェクト情報
+		 */
 		void SetParameter(ObjectValue objValue);
-		// 自機アクションとの衝突判定(引数1:対象の現在の状態　引数2:対象の当たり判定ボックス　引数3:対象の向きフラグ)
+		/**
+		 * @brief	自機アクションボックスとの衝突判定
+		 * @param	ckey				対象の現在の状態(キー)
+		 * @param	acollision	対象の当たり判定ボックス
+		 * @param	direction		対象の向きフラグ
+		 */
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	private:
-		int _moveCount;	// 移動カウント
-		double _atkVec;	// 移動量
-		// ヒップドロップ
+		int _moveCount;	//!< 移動カウント
+		double _atkVec;	//!< 移動量
+		/**
+		 * @brief	ヒップドロップ
+		 */
 		void HipDrop();
-		// 状態に応じた処理の更新
+		/**
+		 * @brief	状態に応じた処理の更新
+		 */
 		void StateUpdate();
-		// 巡回処理判定オン
+		/**
+		 * @brief	巡回処理判定オン
+		 */
 		void PatrolOn() override;
-		// 攻撃処理判定オン
+		/**
+		 * @brief	攻撃処理判定オン
+		 */
 		void AttackOn() override;
-		// 逃走処理判定オン
+		/**
+		 * @brief	逃走処理判定オン
+		 */
 		void EscapeOn() override;
-		// アクション状態に移行するか
+		/**
+		 * @brief	アクション状態に移行するか
+		 */
 		void Action() override;
-		// 死亡処理
+		/**
+		 * @brief	死亡処理
+		 */
 		void Death() override;
-		// 待機状態の設定(引数:待機時間)
+		/**
+		 * @brief	待機状態の設定
+		 * @param	stay	待機時間
+		 */
 		void ChangeIdol(int stay) override;
-		// 移動処理
+		/**
+		 * @brief	移動処理
+		 */
 		void Move();
-		// 座標更新
+		/**
+		 * @brief	座標更新
+		 */
 		void PositionUpdate() override;
-		// 攻撃処理
+		/**
+		 * @brief	攻撃処理
+		 */
 		void Attack();
-		// 現在の当たり判定の取得(引数:現在の状態)
+		/**
+		 * @brief		現在の当たり判定の取得
+		 * @param		key		現在の状態を表すキー
+		 * @return	抜け殻ではない場合は通常の当たり判定を返す
+		 * @return	抜け殻の場合は抜け殻用の当たり判定を返す
+		 */
 		AABB NowCollision(std::string key) override;
 	};
 }

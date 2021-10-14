@@ -13,7 +13,7 @@
 #include <memory>
 
 namespace inr {
-	// 二重インクルード防止
+	/** 二重インクルード防止 */
 	class Pause;
 	class EffectServer;
 	class StageUi;
