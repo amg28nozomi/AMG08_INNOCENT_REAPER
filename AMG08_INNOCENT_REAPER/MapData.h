@@ -28,7 +28,7 @@ namespace inr {
 		MapData();
 		// コンストラクタ
 		// 引数1:マップの長さ(幅　高さ)　引数2:チップ数(総数　横　縦)　引数3:マップチップのサイズ(幅　高さ)　引数4:レイヤー数
-		// 引数5:ファイル名　引数6:マップチップの配置情報が格納されたコンテナ　引数7:マップちっぴの当たり判定が格納されたコンテナ
+		// 引数5:ファイル名　引数6:マップチップの配置情報が格納されたコンテナ　引数7:マップチップの当たり判定が格納されたコンテナ
 		MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType);
 		// デストラクタ
 		~MapData() = default;
@@ -58,7 +58,7 @@ namespace inr {
 		std::vector<int> ChipType() { return _chipType; }
 		// マップサイズの登録(引数1:幅　引数2:高さ)
 		void SetMapSize(int mapSizeW, int mapSizeH);
-		// 
+		// チップカウントの登録(引数1:総チップ数　引数2:マップサイズの幅(チップ数)　引数3:マップチップの高さ(チップ数))
 		void SetChipCount(int count, int width, int height);
 		// マップチップサイズの登録(引数1:幅　引数2:高さ)
 		void SetChipSize(int width, int height);
@@ -83,7 +83,6 @@ namespace inr {
 		std::vector<int> _mapDatas;		// マップチップの配置情報
 		std::vector<int> _chipType;		// 当たり判定があるマップチップ
 	};
-
 	// マップデータ管理用のクラス
 	class MapDataManager {
 	public:
@@ -93,10 +92,12 @@ namespace inr {
 		~MapDataManager();
 		// マップ情報を管理するコンテナ
 		using JsonMapData = std::unordered_map<std::string, MapData>;
-
-		void LoadStageMap(JsonMapData& jsonMapData);	// 登録
-		bool GetStageMap(const std::string stage, MapData& mdata);	// 指定したマップデータの読み込み(引数1:読み取りたいマップのキー、引数2:値を代入するオブジェクト)
-		bool IsLoad(const std::string key);	// キーは登録されているか？
+		// マップ情報の一括読み込み(引数:マップ情報を格納した連想配列)
+		void LoadStageMap(JsonMapData& jsonMapData);
+		// 指定したマップ情報の取得(引数1:ステージキー　引数2:マップ情報)
+		bool GetStageMap(const std::string stage, MapData& mdata);
+		// 読み込み処理を行うかの判定(引数:ステージキー)
+		bool IsLoad(const std::string key);
 		// コンテナの解放
 		void StageMapClear();
 	private:
