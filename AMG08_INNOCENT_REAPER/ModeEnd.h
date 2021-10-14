@@ -14,29 +14,44 @@ namespace inr {
 	// エンディング
 	class ModeEnd : public ModeBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
 		/**
-		 * コンストラクタ.
-		 * 
-		 * \param game
+		 * @brief	コンストラクタ
+		 * @param[in] game	ゲームクラスの参照
 		 */
 		ModeEnd(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ModeEnd() = default;
-		// 初期化
+		/**
+		 * @brief	初期化処理
+		 */
 		void Init() override;
-		// 更新
+		/**
+		 * @brief	更新処理
+		 */
 		void Process() override;
-		// 描画
+		/**
+		 * @brief	描画処理
+		 */
 		void Draw() override;
 	private:
-		int _count;								// 待ち時間
-		bool _end;								// 処理を終了するか？
-		bool _input;							// 入力を受け付けるか？
-		std::unique_ptr<MoveImage> _staffRoll;	// スタッフロール
-		// ゲームタイトルに遷移するかの判定
+		int _count;								//!< 待ち時間
+		bool _end;								//!< 処理を終了するか？
+		bool _input;							//!< 入力を受け付けるか？
+		std::unique_ptr<MoveImage> _staffRoll;	//!< スタッフロール
+		/**
+		 * @brief	ゲームタイトルに遷移するかの判定
+		 * @return	タイトルに遷移する場合はtrueを返す
+		 * 遷移しない場合はfalseを返す
+		 */
 		bool IsEnd();
-		// 入力は行われたか
+		/**
+		 * @brief	Bボタンが押されたかの判定を行う
+		 * 押された場合はタイトル画面に遷移する
+		 * @return	タイトル画面に遷移する場合はtrueを返す
+		 * 遷移しない場合はfalseを返す
+		 */
 		bool IsInput();
 	};
 }

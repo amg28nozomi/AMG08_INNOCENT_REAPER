@@ -65,6 +65,7 @@ namespace inr {
 	}
 
 	bool ModeEnd::IsInput() {
+		// “ü—Í‚ª‚ ‚Á‚½ê‡‚Íˆ—‚ğI—¹‚·‚é
 		if (_input == true && _end != true) {
 			auto gkey = _game.GetTrgKey();
 			if (gkey != PAD_INPUT_4) return false;
