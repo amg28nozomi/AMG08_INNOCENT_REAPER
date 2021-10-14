@@ -43,19 +43,19 @@ namespace inr {
 	int ChipHitCheck::IsChipType(const int no) {
 		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
 		auto chipnumber = stage->second.find(no);	// チップ番号の当たり判定を取得
-		if (chipnumber == stage->second.end()) return mapchip::NORMAL;	// 該当なし
+		if (chipnumber == stage->second.end()) return mapchip::NONE;	// 該当なし
 		// 効果はあるか？
 		switch (chipnumber->second.ChipType()) {
 		case mapchip::NORMAL:
-			return mapchip::NORMAL;		// 効果なし
+			return mapchip::NORMAL;			// 効果なし
 		case mapchip::THORM:
-			return mapchip::THORM;		// ダメージ判定
+			return mapchip::THORM;			// ダメージ判定
 		case mapchip::IVY:
-			return mapchip::IVY;		// 蔦判定
+			return mapchip::IVY;				// 蔦判定
 		case mapchip::TRANSITION:
 			return mapchip::TRANSITION;	// ステージ遷移判定
 		default:
-			return mapchip::NONE;		// 登録されていないチップ番号
+			return mapchip::NONE;				// 登録されていないチップ番号
 		}
 	}
 	// 対象に当たり判定があるかの判定(引数:判定を行うチップ番号)

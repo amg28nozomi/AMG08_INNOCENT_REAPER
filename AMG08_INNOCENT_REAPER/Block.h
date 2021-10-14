@@ -21,7 +21,7 @@ namespace inr {
 	class Block : public GimmickBase {
 	public:
 		/**
-		 * @brief	コンストラクタ
+		 * @brief				コンストラクタ
 		 * @param	game	ゲームクラスの参照
 		 */
 		Block(Game& game);
@@ -38,7 +38,7 @@ namespace inr {
 		 */
 		void Draw() override;
 		/**
-		 * @brief	オブジェクト情報の登録
+		 * @brief								オブジェクト情報の登録
 		 * @param	objectValue		オブジェクト情報
 		 */
 		void SetParameter(ObjectValue objValue) override;

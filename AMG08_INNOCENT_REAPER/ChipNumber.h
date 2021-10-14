@@ -24,7 +24,7 @@ namespace inr {
 	class ChipNumber {
 	public:
 		/**
-		 * @brief	コンストラクタ
+		 * @brief						コンストラクタ
 		 * @param width1		当たり判定・横幅(min)
 		 * @param width2		当たり判定・横幅(max)
 		 * @param height1		当たり判定・縦幅(min)
@@ -34,7 +34,7 @@ namespace inr {
 		 */
 		ChipNumber(int width1, int width2, int height1, int height2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		/**
-		 * @brief	コンストラクタ
+		 * @brief					コンストラクタ
 		 * @param width1	当たり判定・横幅(min)
 		 * @param width2	当たり判定・横幅(max)
 		 * @param type		マップチップの効果番号
@@ -42,7 +42,7 @@ namespace inr {
 		 */
 		ChipNumber(int width1, int width2, int type = mapchip::NORMAL, bool ishit = mapchip::HIT_ON);
 		/**
-		 * @brief	コンストラクタ
+		 * @brief					コンストラクタ
 		 * @param type		マップチップの効果番号
 		 * @param ishit		マップチップに当たり・押し出し判定を持たせるか
 		 */

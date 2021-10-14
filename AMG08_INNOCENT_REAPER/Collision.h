@@ -1,90 +1,191 @@
 /*****************************************************************//**
- * \file   Collision.h
- * \brief  当たり判定クラス
+ * @file   Collision.h
+ * @brief  当たり判定クラス
  *		   軸平行境界ボックスクラス（当たり判定クラスのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include <DxLib.h>
 #include "Vector2.h"
 
-// 当たり判定の基底クラス
+/**   当たり判定の基底クラス	*/
 class Collision {
 protected:
-	Vector2 _minV;			// 2Dベクトル(Min)
-	Vector2 _maxV;			// 2Dベクトル(Max)
-	Vector2 _center;		// 中心座標
-	int _widthMin;			// 幅min
-	int _widthMax;			// 幅max
-	int _heightMin;			// 高さmin
-	int _heightMax;			// 高さmax
+	Vector2 _minV;				//!< 2Dベクトル(Min)
+	Vector2 _maxV;				//!< 2Dベクトル(Max)
+	Vector2 _center;			//!< 中心座標
+	int _widthMin;				//!< 幅min
+	int _widthMax;				//!< 幅max
+	int _heightMin;				//!< 高さmin
+	int _heightMax;				//!< 高さmax
+	bool _collisionFalg;	//!< 判定するかどうかのフラグ
 #ifdef _DEBUG
-	bool _drawFlag;			// 描画するかどうか
+	bool _drawFlag;				// 描画するかどうか
 #endif
-	bool _collisionFalg;	// 判定するかどうかのフラグ
 public:
-	// コンストラクタ(引数1:中心座標　引数2:横幅(min)　引数3:横幅(max)　引数4:立幅(min)　引数5:立幅(max)　引数6:判定フラグ)
+	/**
+	 * @brief					コンストラクタ
+	 * @param pos			中心座標
+	 * @param width1	横幅(min)
+	 * @param width2	横幅(max)
+	 * @param height1	縦幅(min)
+	 * @param height2	縦幅(max)
+	 * @param flag		当たり判定を行うかのフラグ
+	 */
 	Collision(Vector2& pos, int width1, int width2, int height1, int height2, bool flag = false);
-	// コンストラクタ(引数1:中心座標　引数2:横幅　引数3:縦幅　引数4:判定フラグ)
+	/**
+	 * @brief					コンストラクタ
+	 * @param pos			中心座標
+	 * @param width		横幅
+	 * @param height	縦幅
+	 * @param flag		当たり判定を行うかのフラグ
+	 */
 	Collision(Vector2& pos, int width, int height, bool flag = false);
-	// コンストラクタ(引数1:ベクトル2(min)　引数2:ベクトル2(max)　引数3:判定フラグ)
+	/**
+	 * @brief				コンストラクタ
+	 * @param	min		座標ベクトル2(min)
+	 * @param	max		座標ベクトル2(max)
+	 * @param	flag	当たり判定を行うかのフラグ
+	 */
 	Collision(Vector2& min, Vector2& max, bool flag = false);
 	/**
 	 * @brief	コンストラクタ
 	 */
 	Collision();
-	// デストラクタ
+	/**
+	 * @brief	デストラクタ
+	 */
 	~Collision() = default;
-	// 2Dベクトル(Min)の取得
+	/**
+	 * @brief		2Dベクトル(min)の取得
+	 * @return	2Dベクトル(min)を返す
+	 */
 	inline Vector2 GetMin() { return _minV; }
-	// 2Dベクトル(Max)の取得
+	/**
+	 * @brief		2Dベクトル(max)の取得
+	 * @return	2Dベクトル(max)を返す
+	 */
 	inline Vector2 GetMax() { return _maxV; }
-	// 中心座標の取得
+	/**
+	 * @brief		中心座標の取得
+	 * @return	中心座標を返す
+	 */
 	inline Vector2 GetCenter() { return _center; }
-	// 横幅(min)の取得
+	/**
+	 * @brief		横幅(min)の取得
+	 * @return	横幅(min)を返す
+	 */
 	inline int GetWidthMin() { return _widthMin; }
-	// 横幅(max)の取得
+	/**
+	 * @brief		横幅(max)の取得 
+	 * @return	横幅(max)を返す
+	 */
 	inline int GetWidthMax() { return _widthMax; }
-	// 縦幅(min)の取得
+	/**
+	 * @brief		縦幅(min)の取得
+	 * @return	縦幅(min)を返す
+	 */
 	inline int GetHeightMin() { return _heightMin; }
-	// 縦幅(max)の取得
+	/**
+	 * @brief		縦幅(max)の取得
+	 * @return	縦幅(max)を返す
+	 */
 	inline int GetHeightMax() { return _heightMax; }
-	// 横幅の取得
+	/**
+	 * @brief		横幅の取得
+	 * @return	横幅を返す
+	 */
 	inline int WidhtSize() { return _widthMin + _widthMax; }
-	// 縦幅の取得
+	/**
+	 * @brief		縦幅の取得
+	 * @return	縦幅を返す
+	 */
 	inline int HeightSize() { return _heightMin + _heightMax; }
-	// 当たり判定の更新
+	/**
+	 * @brief			当たり判定の更新
+	 * @param pos	現在の移動ベクトル
+	 * @param inv	現在の向き
+	 */
 	virtual void Update(Vector2& pos, bool inv);
-	// 引数として渡された当たり判定と自身の当たり判定を切り替える
+	/**
+	 * @brief			一時的に当たり判定を代入する
+	 * @param col	代入する当たり判定
+	 */
 	virtual void Swap(Collision col);
-	// ボックスの描画(引数による色指定なしの場合は白描画)
+	/**
+	 * @brief				ボックスの描画
+	 * @param color	描画ボックスの色(引数による色指定なしの場合は白)
+	 */
 	void DrawColorBox(int color = GetColor(255, 255, 255));
-	// 当たり判定同士の衝突判定(引数:衝突判定を行う対象)
+	/**
+	 * @brief						当たり判定同士の衝突判定
+	 * @param collision	衝突判定を行う対象
+	 * @return					衝突した場合はtrueを返す
+	 * @return					衝突していない場合はfalseを返す
+	 */
 	bool HitCheck(Collision collision);
 #ifdef _DEBUG
-	// 描画フラグの取得
+	/**
+	 * @brief		描画フラグの取得
+	 * @return	描画フラグを返す
+	 */
 	inline bool GetDrawFlag() { return _drawFlag; }
-	// 描画フラグの参照
+	/**
+	 * @brief		描画フラグの参照を取得
+	 * @return	描画フラグの参照を返す
+	 */
 	inline bool& SetDrawFlag() { return _drawFlag; }
 #endif
-	// 判定フラグの取得
+	/**
+	 * @brief		判定フラグの取得
+	 * @return	判定フラグを返す
+	 */
 	inline bool GetCollisionFlag() { return _collisionFalg; }
-	// 判定フラグの参照
+	/**
+	 * @brief		判定フラグの参照を取得
+	 * @return	判定フラグの参照を返す
+	 */
 	inline bool& SetCollisionFlag() { return _collisionFalg; }
 };
-// 反転処理が有る当たり判定クラス
+/** 反転処理が有る当たり判定クラス */
 class AABB : public Collision {
 public:
-	// コンストラクタ(引数1:移動ベクトル(min)　引数2:移動ベクトル(max)　引数3:判定フラグ)
+	/**
+	 * @brief				コンストラクタ
+	 * @param	min		座標ベクトル2(min)
+	 * @param	max		座標ベクトル2(max)
+	 * @param	flag	当たり判定を行うかのフラグ
+	 */
 	AABB(Vector2 vmin, Vector2 vmax, bool cflag = false);
-	// コンストラクタ(引数1:中心座標　引数2:横幅　引数3:縦幅　引数4:判定フラグ)
+	/**
+	 * @brief					コンストラクタ
+	 * @param pos			中心座標
+	 * @param width		横幅
+	 * @param height	縦幅
+	 * @param flag		当たり判定を行うかのフラグ
+	 */
 	AABB(Vector2& pos, int width, int height, bool cflag = false);
-	// コンストラクタ(引数1:中心座標　引数2:横幅(min)　引数3:横幅(max)　引数4:立幅(min)　引数5:立幅(max)　引数6:判定フラグ)
+	/**
+	 * @brief					コンストラクタ
+	 * @param pos			中心座標
+	 * @param width1	横幅(min)
+	 * @param width2	横幅(max)
+	 * @param height1	縦幅(min)
+	 * @param height2	縦幅(max)
+	 * @param flag		当たり判定を行うかのフラグ
+	 */
 	AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool cflag = false);
-	// デストラクタ
+	/**
+	 * @brief	デストラクタ
+	 */
 	~AABB() = default;
 	// 当たり判定の更新(反転処理有り)
+	/**
+	 * @brief			当たり判定の更新(向きに応じた反転処理有り)
+	 * \param pos	現在の座標ベクトル
+	 * \param inv	現在の向き
+	 */
 	void Update(Vector2& pos, bool inv) override;
 };
