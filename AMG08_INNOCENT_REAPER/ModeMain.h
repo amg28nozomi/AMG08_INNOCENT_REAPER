@@ -1,31 +1,42 @@
+/*****************************************************************//**
+ * \file   ModeMain.h
+ * \brief  ゲーム本編を管理するモードメインクラス（モードベースのサブクラス）
+ * 
+ * \author 鈴木希海
+ * \date   October 2021
+ *********************************************************************/
 #pragma once
 #include "ModeBase.h"
 #include "BackGround.h"
-// #include "UI.h"
 #include "Vector2.h"
 #include "ImageServer.h"
 #include <memory>
 
 namespace inr {
-
+	// 二重インクルード防止
 	class Pause;
 	class EffectServer;
 	class StageUi;
 	class ForeGround;
 	class ItemServer;
 	class TutorialServer;
-
+	// ゲーム本編
 	class ModeMain : public ModeBase {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		ModeMain(Game& game);
+		// デストラクタ
 		~ModeMain();
-
-		void Init() override; // 初期化処理(フラグがオンの場合はフレーム初期化)
+		// 初期化
+		void Init() override;
+		// 更新
 		void Process() override;
+		// 描画
 		void Draw() override;
-
+		// ステージキーの切り替え(引数:次のステージキー)
 		void ChangeKey(const std::string nextStage) override;
-		bool IsKeyNull();	// キーは空か？
+		// 切り替え
+		bool IsKeyNull();
 
 		bool GameOver();	// フラグ変更
 		bool OpenBossStage();	// ボスステージへの扉を解放する

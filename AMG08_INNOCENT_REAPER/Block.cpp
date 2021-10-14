@@ -79,7 +79,7 @@ namespace inr {
 		_oValue.FlagUpdate(flag);	// フラグ更新
 	}
 	// 押し出し処理
-	bool Block::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
+	bool Block::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {
 		// 対象の判定座標更新
 		auto newpos = pos + move;
 		box.Update(newpos, direction);

@@ -31,8 +31,8 @@ namespace inr {
 		void SwitchOn();
 		// 開閉フラグ抑制
 		void SwitchOff();
-		// オブジェクトの押し出し処理(引数1:対象の当たり判定　引数2:対象の座標　引数3:移動ベクトル　引数4:向き　引数5:直前に向きが反転したか)
-		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection);
+		// オブジェクトの押し出し処理(引数1:対象の当たり判定　引数2:対象の座標　引数3:移動ベクトル　引数4:向きフラグ)
+		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction);
 		// 開閉フラグの取得
 		inline bool IsSwitch() { return _switch; }
 		// 扉の色の取得

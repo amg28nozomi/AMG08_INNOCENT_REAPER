@@ -14,7 +14,7 @@
 #include "Vector2.h"
 
 namespace inr {
-	// コンストラクタ
+	/** コンストラクタ */
 	ChipNumber::ChipNumber(int width1, int width2, int height1, int height2, int type, bool ishit) {
 		// 各種初期化
 		widthMin = width1;
@@ -61,7 +61,7 @@ namespace inr {
 			auto chip = _stageChipsMap.find(key);
 			chip->second.clear();	// 連想配列初期化
 		}
-		_stageChipsMap.clear();
+		_stageChipsMap.clear();		// コンテナの解放
 	}
 	// マップチップの当たり判定登録
 	void ChipHitCheck::LoadChipsMap(std::string key, ChipsMap& chipsMap) {
@@ -79,15 +79,15 @@ namespace inr {
 		// 効果はあるか？
 		switch (chipnumber->second.ChipType()) {
 		case mapchip::NORMAL:
-			return mapchip::NORMAL;	// 効果なし
+			return mapchip::NORMAL;		// 効果なし
 		case mapchip::THORM:
-			return mapchip::THORM;	// ダメージ判定
+			return mapchip::THORM;		// ダメージ判定
 		case mapchip::IVY:
-			return mapchip::IVY;	// 蔦判定
+			return mapchip::IVY;		// 蔦判定
 		case mapchip::TRANSITION:
 			return mapchip::TRANSITION;	// ステージ遷移判定
 		default:
-			return mapchip::NONE;	// 登録されていないチップ番号
+			return mapchip::NONE;		// 登録されていないチップ番号
 		}
 	}
 	// 対象に当たり判定があるかの判定(引数:判定を行うチップ番号)

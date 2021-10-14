@@ -182,10 +182,10 @@ namespace inr {
 		++_frameCount;	// フレームカウンタ加算
 		// 終了処理が始まっていない場合は処理を中断
 		if (_endCount == 0) return;
-		++_endCount;
+		++_endCount;	// エンドカウンタ加算
 		// カウンタが上限に到達した場合、終了フラグをオンにする
 		if (_endCount == END_MAX) {
-			_endFlag = true;
+			_endFlag = true;	//プログラムを終了する
 		}
 	}
 }

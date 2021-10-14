@@ -542,8 +542,6 @@ namespace inr {
 			auto direction = _direction;
 			if (lever < -20) _direction = PL_LEFT;
 			else if (20 < lever) _direction = PL_RIGHT;
-			// 向きが変わった場合はフラグを切り替える
-			if (_direction != direction) _changeDirection = true;
 
 
 			if (_aState != ActionState::GRAB) {
@@ -594,58 +592,6 @@ namespace inr {
 				case enemy::MOVE_RIGHT:
 					_position.GetPX() = _ivx.first - (_mainCollision.GetWidthMin() / 2);
 				}
-			}
-		}
-	}
-
-	void Player::Move() {
-		// 入力可能か？
-		if (_input == true) {
-			// 状態がアイドル、またはモーブの時だけ移動処理を行う。
-			auto direction = _direction;
-			if (CheckHitKey(KEY_INPUT_LEFT) == TRUE) _direction = PL_LEFT;
-			else if (CheckHitKey(KEY_INPUT_RIGHT) == TRUE) _direction = PL_RIGHT;
-
-			// 向きが変わった場合はフラグを切り替える
-			if (_direction != direction) _changeDirection = true;
-			if (_aState != ActionState::GRAB) {
-
-				if (_aState != ActionState::FALL && _aState == ActionState::IDOL || _aState == ActionState::MOVE) {
-					// 入力情報がある場合
-					if (CheckHitKey(KEY_INPUT_LEFT) == TRUE || CheckHitKey(KEY_INPUT_RIGHT) == TRUE) {
-						// moveではない時、キーと状態を更新
-						if (_aState != ActionState::MOVE && _aState != ActionState::JUMP) {
-							ChangeState(ActionState::MOVE, PKEY_RUN);
-						}
-						// SEの管理
-						if (_aCount % GetSoundFrame(_divKey.first) == 0) {
-							auto sound1 = SoundResearch(key::SOUND_PLAYER_RUN1);
-							auto soundType = se::SoundServer::GetPlayType(_divKey.second);
-							PlaySoundMem(sound1, soundType);
-						}
-						// return;
-						// 立っていてかつ入力がない場合
-						if (CheckHitKey(KEY_INPUT_LEFT) == TRUE) _moveVector.GetPX() = -8.0;
-						else if (CheckHitKey(KEY_INPUT_RIGHT) == TRUE) _moveVector.GetPX() = 8.0;
-					}
-					else if (_aState == ActionState::MOVE) {
-						switch (_stand) {
-						case true:	// 立っている場合
-							ChangeState(ActionState::IDOL, PKEY_IDOL);
-							_speed = 0;
-							break;
-							//case false:	// 落下状態の場合
-							//	ChangeState(ActionState::FALL, PKEY_FALL);
-							//	_speed = 0;
-							//	break;
-						}
-						return;
-					}
-				}
-				// 座標変更
-				// _speed = (lever * MAX_SPPED) / 1000;
-				// 移動ベクトル代入
-				_speed = 0;
 			}
 		}
 	}

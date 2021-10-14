@@ -31,7 +31,7 @@ namespace inr {
 	}
 	// ギミックの登録
 	void GimmickServer::Add(std::shared_ptr<GimmickBase> gimmick) {
-		_gimmicks.emplace_back(std::move(gimmick));		// コンテナに登録
+		_gimmicks.emplace_back(std::move(gimmick));			// コンテナに登録
 	}
 	// ギミックの消去
 	void GimmickServer::Del() {

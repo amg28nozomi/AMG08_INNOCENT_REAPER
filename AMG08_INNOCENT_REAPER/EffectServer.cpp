@@ -40,7 +40,7 @@ namespace inr {
 		IsDelete();										// 消去処理の確認
 		_update = true;									// 更新開始
 		for (auto&& eff : _effectsB) eff->Process();	// 後景エフェクトの更新処理呼び出し
-		for (auto&& eff : _effectsF) eff->Process();	// 後景エフェクトの更新処理呼び出し
+		for (auto&& eff : _effectsF) eff->Process();	// 前景エフェクトの更新処理呼び出し
 		_update = false;								// 更新終了
 	}
 	// 後景描画

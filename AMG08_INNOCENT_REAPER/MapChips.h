@@ -12,32 +12,36 @@
 #include "StageTransition.h"
 
 namespace inr {
-
 	namespace stage {
+		// マップチップの種類
 		constexpr auto KEY_NORMAL = "mapchip_normal";	// 通常マップチップ
 	}
-
 	namespace mapchip {
+		// マップチップのタイプ番号
 		constexpr auto TYPE_NULL = -1;	// 未登録番号
 		constexpr auto TYPE_NORMAL = 0;	// 通常
 		constexpr auto TYPE_THORM = 1;	// 棘
 		constexpr auto TYPE_IVX = 2;	// 蔦
 	}
-
+	// 二重インクルード防止
 	class Game;
 	class ObjectBase;
-
+	// マップチップ
 	class MapChips {
 	public:
+		// コンストラクタ(引数:ゲームクラスの参照)
 		MapChips(Game& game);
 		// ファイル名とjson形式が同じ場合のコンストラクタ
 		MapChips(Game& game, std::string& filePath, std::string& tiledFileName);
+		// デストラクタ
 		~MapChips();
-
-		void Init();	// 初期化。モード変更・
+		// 初期化
+		void Init();
+		// 更新
 		void Process();
+		// 描画
 		void Draw();
-
+		// 
 		int CheckHit(int x, int y);
 
 		int IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos, bool flag = false);	// マップチップの上に立っているかどうか？

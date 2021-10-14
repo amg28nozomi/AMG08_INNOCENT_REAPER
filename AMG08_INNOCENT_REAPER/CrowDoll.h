@@ -14,25 +14,25 @@ namespace inr {
 	namespace enemy {
 		namespace crowdoll {
 			// 各種モーションおよびキー
-			constexpr auto CROW_ARM = "crow_arm";	// 腕
-			constexpr auto CROW_IDOL = "crow_stand";	// 待機
-			constexpr auto CROW_DEBUFF = "crow_debuf";	// デバフモーション
+			constexpr auto CROW_ARM = "crow_arm";			// 腕
+			constexpr auto CROW_IDOL = "crow_stand";		// 待機
+			constexpr auto CROW_DEBUFF = "crow_debuf";		// デバフモーション
 			constexpr auto CROW_GROWARM = "crow_growarm";	// 伸びる爪
-			constexpr auto CROW_RUSH = "crow_rash";	// 連撃
-			constexpr auto CROW_BLINK = "crow_brink";	// 頭上からの強襲
+			constexpr auto CROW_RUSH = "crow_rash";			// 連撃
+			constexpr auto CROW_BLINK = "crow_brink";		// 頭上からの強襲
 			constexpr auto CROW_ROAR = "crow_roar";
 			constexpr auto CROW_WINCE = "crow_wince";
-			constexpr auto CROW_DOWN = "crow_down";	// 倒れる
+			constexpr auto CROW_DOWN = "crow_down";			// 倒れる
 			// 画像サイズ
 			constexpr auto CROW_SIZE = 500;	// 画像サイズ
 			// SEキー（SoundServer）
-			constexpr auto SE_VOICE = "crow_voice";	// 鳴き声
-			constexpr auto SE_ROAR = "crow_roar_voice";	// 咆哮ボイス
-			constexpr auto SE_RUSH = "crow_rush";	// 連撃
-			constexpr auto SE_GROWARM = "crow_growarm";	// 地中攻撃
-			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";
-			constexpr auto SE_DEBUF = "crow_debuf";	// デバフボイス
-			constexpr auto SE_DEATH = "crow_death";	// 死亡SE
+			constexpr auto SE_VOICE = "crow_voice";					// 鳴き声
+			constexpr auto SE_ROAR = "crow_roar_voice";				// 咆哮ボイス
+			constexpr auto SE_RUSH = "crow_rush";					// 連撃
+			constexpr auto SE_GROWARM = "crow_growarm";				// 地中攻撃
+			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";	// 落下攻撃
+			constexpr auto SE_DEBUF = "crow_debuf";					// デバフボイス
+			constexpr auto SE_DEATH = "crow_death";					// 死亡SE
 			// モーション数
 			namespace motion {
 				constexpr auto IDOL = 13;
@@ -50,15 +50,15 @@ namespace inr {
 	namespace effect {
 		namespace crow {
 			// エフェクトの画像キー(ResourceServer)
-			constexpr auto ROAR = "cd_roar_effect";	// 咆哮
-			constexpr auto ARM = "cd_arms_effect";	// 腕
-			constexpr auto RUSH = "cd_rush_effect";	// 連続切り
-			constexpr auto GROW = "cd_grow_chage_effect"; // 地中刺し溜め
-			constexpr auto BLINK = "cd_blink_effect";	// 転移
+			constexpr auto ROAR = "cd_roar_effect";					// 咆哮
+			constexpr auto ARM = "cd_arms_effect";					// 腕
+			constexpr auto RUSH = "cd_rush_effect";					// 連続切り
+			constexpr auto GROW = "cd_grow_chage_effect";			// 地中刺し溜め
+			constexpr auto BLINK = "cd_blink_effect";				// 転移
 			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
-			constexpr auto DEBUF = "cd_debuf_effect";	// デバフエフェクト
-			constexpr auto AURA = "cd_aura_effect"; // 怒りエフェクト(オーラ)
-			constexpr auto DEATH = "cd_death_effect";	// 死亡エフェクト
+			constexpr auto DEBUF = "cd_debuf_effect";				// デバフエフェクト
+			constexpr auto AURA = "cd_aura_effect";					// 怒りエフェクト(オーラ)
+			constexpr auto DEATH = "cd_death_effect";				// 死亡エフェクト
 			// 咆哮エフェクトの画像サイズ
 			constexpr auto ROAR_WIDTH = 3840;
 			constexpr auto ROAR_HEIGHT = 2160;

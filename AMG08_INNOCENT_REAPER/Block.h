@@ -27,14 +27,14 @@ namespace inr {
 		void Process() override;
 		// 描画
 		void Draw() override;
-		// オブジェクト情報の登録
+		// オブジェクト情報の登録(引数:オブジェクト情報)
 		void SetParameter(ObjectValue objValue) override;
 		// オブジェクト情報の更新
 		void ObjValueUpdate() override;
 		// オブジェクトは壊れているか？
 		inline bool IsBreak() { return _break; }
-		// 押し出し処理
-		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection);
+		// 押し出し処理(引数1:対象の当たり判定ボックス　引数2:対象の座標　引数3:対象の移動量　引数4:対象の向き)
+		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction);
 		// 破壊処理
 		bool Break();
 	private:

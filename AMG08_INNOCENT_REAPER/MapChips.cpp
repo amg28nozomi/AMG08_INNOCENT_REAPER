@@ -370,7 +370,7 @@ namespace inr {
 		chiptype.emplace_back(-1);
 
 		// ”z’uî•ñ‚Ì“o˜^
-		MapDataManager::JsonMapData jmd{
+		MapDataManager::JsonMapData jmd {
 			{ skey, { std::make_pair(mapsizeWidth, mapsizeHeight), std::make_tuple(chipCount, chipCountW, chipCountH),
 					  std::make_pair(chipSizeW, chipSizeH), mapSizeLayer, fileChips, mapdata, chiptype }},
 		};

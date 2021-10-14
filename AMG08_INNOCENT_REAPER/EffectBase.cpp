@@ -105,7 +105,7 @@ namespace inr {
 	// ループ設定
 	void EffectBase::SetLoop(int max) {
 		if (max <= 0) max = 0;	// 引数が0以下の場合は修正
-		_loop = max;	// 登録
+		_loop = max;			// 登録
 	}
 	// ダメージ判定
 	void EffectBase::Damage() {
@@ -124,7 +124,7 @@ namespace inr {
 	}
 	// ダメージ処理の判定
 	bool EffectBase::IsDamage() {
-		if (_isDamage != true) return false;	// ダメージ判定無し
+		if (_isDamage != true) return false;			// ダメージ判定無し
 		// 現在のアニメーション番号はダメージ判定があるか？
 		auto no = GraphNumber();
 		if (_dInter < no && no <= _dMax) return true;	// ダメージ判定有り

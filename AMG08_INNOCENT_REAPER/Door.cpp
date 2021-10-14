@@ -127,7 +127,7 @@ namespace inr {
 		_mainCollision.SetCollisionFlag() = true;	// “–‚½‚è”»’è‚ğŒ³‚É–ß‚·
 	}
 	// ‰Ÿ‚µo‚µˆ—
-	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction, bool changedirection) {
+	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {
 		auto newpos = pos + move;
 		box.Update(newpos, direction);
 		// ‘ÎÛ‚ÍÚG‚µ‚Ä‚¢‚é‚©H

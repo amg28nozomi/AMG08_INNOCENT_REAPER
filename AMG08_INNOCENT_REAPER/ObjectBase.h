@@ -25,22 +25,21 @@ namespace inr {
 	class ObjectBase {
 		friend class ObjectServer;
 	protected:
+		// オブジェクト種類を表す列挙型
+		// オブジェクトベース　自機　敵　魂　ギミック
 		enum class ObjectType {
 			OBJECT_BASE, PLAYER, ENEMY, SOUL, GIMMICK
 		};
-		Game& _game;
-		ObjectType _type;
-
-		int _aCount;	// アニメーションの添え字
-		double _speed;	// 移動速度
-		double _gravity;	// 重力による加速度
-		bool _direction;	// 向きフラグ
-		bool _stand;	// 地面に立っているかどうか
-		bool _changeGraph;	// 描画グラフィック切り替え用フラグ
-		bool _delete;	// デリートするか否か？（true：ObjectServerから消去　false:生存中）
-		bool _changeDirection;	// 向きの変更が入ったか否か
-		bool _isJump;
-
+		Game& _game;			// ゲーム参照
+		ObjectType _type;		// オブジェクトタイプ
+		int _aCount;			// アニメーションの添え字
+		double _speed;			// 移動速度
+		double _gravity;		// 重力による加速度
+		bool _direction;		// 向きフラグ
+		bool _changeGraph;
+		bool _stand;			// 地面に立っているかどうか
+		bool _delete;			// デリートするか否か？（true：ObjectServerから消去　false:生存中）
+		bool _isJump;			// ジャンプフラグ
 		ObjectValue _oValue;	// 生成時の情報
 		Vector2 _position;	// 座標
 		Vector2 _lastChip;	// 最後に立っていたマップチップ

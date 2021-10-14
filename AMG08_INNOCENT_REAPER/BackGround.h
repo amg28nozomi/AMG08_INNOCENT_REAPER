@@ -26,38 +26,38 @@ namespace inr {
 	// 背景
 	class BackGround : public Image{
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/** コンストラクタ(引数:ゲームクラスの参照) */
 		BackGround(Game& game);		
-		// 初期化
+		/** 初期化 */
 		void Init() override;
-		// 更新
+		/** 更新 */
 		void Process() override;
-		//描画
+		/** 描画 */
 		void Draw() override;
-		// ステージに応じた画像に切り替える（引数:現在のステージ）
+		/** ステージに応じた画像に切り替える(引数:現在のステージ) */
 		void ChangeGraph();
-		// キーは切り替わったか？
+		/** キーは切り替わったか？ */
 		bool IsChanege();
-		// ステージ番号の判定
+		/** ステージ番号の判定 */
 		int KeyNumber();
-		// スクロール終了
+		/** スクロール終了 */
 		inline void ScrollOff() { _scroll = false; }
-		// スクロール再開
+		/** スクロール再開 */
 		inline void ScrollOn() { _scroll = true; }
 	private:
-		std::pair<std::vector<Vector2>, std::vector<Vector2>> _positions;	// 描画座標(左辺:1枚目の描画座標, 右辺2枚目の描画座標)
-		std::pair<int, int> _fix;	// 描画修正値
-		std::pair<std::vector<double>, std::vector<double>> _scrSpeed;	// スクロール移動量(左辺:x, 右辺:y)
-		int _stageNo;		// 現在のステージ
-		bool _scroll;		// スクロールするか
-		std::string zKey;	// 前景
-		// 前描画
+		std::pair<std::vector<Vector2>, std::vector<Vector2>> _positions;	//! 描画座標(左辺:1枚目の描画座標, 右辺2枚目の描画座標)
+		std::pair<std::vector<double>, std::vector<double>> _scrSpeed;		//! スクロール移動量(左辺:x, 右辺:y)
+		std::pair<int, int> _fix;											//! 描画修正値
+		int _stageNo;														//! 現在のステージ
+		bool _scroll;														//! スクロールするか
+		std::string zKey;													//! 前景
+		/** 前描画 */
 		void BackDraw();
-		// スクロール処理(大)
+		/** スクロール処理(大) */
 		void BigManage();
-		// スクロール処理(小)
+		/** スクロール処理(小) */
 		void NormalManage();
-		// Y座標の修正
+		/** Y座標の修正 */
 		void ScrollY();
 	};
 }

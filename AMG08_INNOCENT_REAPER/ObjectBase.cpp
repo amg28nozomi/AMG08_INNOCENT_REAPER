@@ -26,7 +26,6 @@ namespace inr {
 
 	ObjectBase::ObjectBase(Game& game) : _game(game), _mainCollision(Vector2(), Vector2()), _oValue() {
 		_delete = false;
-		_changeDirection = false;
 		_isJump = false;
 		_lastChip = { 0, 0 };
 		Init();
@@ -49,8 +48,6 @@ namespace inr {
 	}
 
 	void ObjectBase::Process() {
-		if (_changeDirection == true) _changeDirection = false;
-
 		_gravity += FRAME_G;	// ‰Á‘¬“x‚ð‰ÁŽZ
 		if (MAX_G < _gravity) _gravity = MAX_G;
 
@@ -219,11 +216,11 @@ namespace inr {
 			// ‰Ÿ‚µo‚µˆ—‚ª‚ ‚é‚©H
 			if (g->GimmickType() == gimmick::DOOR) {
 				auto door = std::dynamic_pointer_cast<Door>(g);
-				if(door->IsSwitch() == gimmick::OFF) door->Extrude(NowCollision(_divKey.first), _position, move, _direction, _changeDirection);
+				if(door->IsSwitch() == gimmick::OFF) door->Extrude(NowCollision(_divKey.first), _position, move, _direction);
 			}
 			else if (g->GimmickType() == gimmick::BLOCK) {
 				auto block = std::dynamic_pointer_cast<Block>(g);
-				if (block->IsBreak() == gimmick::block::BRAKE_OFF) block->Extrude(NowCollision(_divKey.first), _position, move, _direction, _changeDirection);
+				if (block->IsBreak() == gimmick::block::BRAKE_OFF) block->Extrude(NowCollision(_divKey.first), _position, move, _direction);
 			}
 		}
 	}

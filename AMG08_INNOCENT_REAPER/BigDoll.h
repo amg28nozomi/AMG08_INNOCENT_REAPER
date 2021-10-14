@@ -36,11 +36,11 @@ namespace inr {
 		void Process() override;
 		// オブジェクト情報の登録(引数:オブジェクト情報)
 		void SetParameter(ObjectValue objValue);
-		// 自機アクションとの衝突判定
+		// 自機アクションとの衝突判定(引数1:対象の現在の状態　引数2:対象の当たり判定ボックス　引数3:対象の向きフラグ)
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	private:
-		double _atkVec;	// 移動量
 		int _moveCount;	// 移動カウント
+		double _atkVec;	// 移動量
 		// ヒップドロップ
 		void HipDrop();
 		// 状態に応じた処理の更新
@@ -55,7 +55,7 @@ namespace inr {
 		void Action() override;
 		// 死亡処理
 		void Death() override;
-		// 待機状態の設定
+		// 待機状態の設定(引数:待機時間)
 		void ChangeIdol(int stay) override;
 		// 移動処理
 		void Move();
@@ -63,7 +63,7 @@ namespace inr {
 		void PositionUpdate() override;
 		// 攻撃処理
 		void Attack();
-		// 現在の当たり判定の取得
+		// 現在の当たり判定の取得(引数:現在の状態)
 		AABB NowCollision(std::string key) override;
 	};
 }

@@ -31,6 +31,10 @@ namespace inr {
 
 	}
 
+	void ModeBase::ChangeKey(const std::string nextStage) {
+
+	}
+
 	bool ModeBase::BgmManage() {
 		auto sound = se::SoundServer::GetSound(_bgmKey);
 		if (CheckSoundMem(sound) == TRUE) {
