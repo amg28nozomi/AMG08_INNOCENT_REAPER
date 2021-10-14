@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   EffectBase.cpp
- * \brief  エフェクトのスーパークラス
+ * @file   EffectBase.cpp
+ * @brief  エフェクトのスーパークラス
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "EffectBase.h"
 #include "EffectBase.h"
@@ -77,7 +77,7 @@ namespace inr {
 	int EffectBase::GraphNumber() {
 		// 現在の画像の分割数を取得
 		auto allnum = graph::ResourceServer::GetAllNum(_graphKey);
-		auto interval = _alive / allnum;		// 猶予時間の割り出し
+		auto interval = _alive / allnum;			// 猶予時間の割り出し
 		auto no = _count / interval % allnum;	// 描画するアニメーション番号の算出
 		return no;
 	}
@@ -124,10 +124,10 @@ namespace inr {
 	}
 	// ダメージ処理の判定
 	bool EffectBase::IsDamage() {
-		if (_isDamage != true) return false;			// ダメージ判定無し
+		if (_isDamage != true) return false;					// ダメージ判定無し
 		// 現在のアニメーション番号はダメージ判定があるか？
 		auto no = GraphNumber();
 		if (_dInter < no && no <= _dMax) return true;	// ダメージ判定有り
-		return false;	// ダメージ判定無し
+		return false;		// ダメージ判定無し
 	}
 }
