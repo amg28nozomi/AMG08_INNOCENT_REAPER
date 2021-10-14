@@ -23,7 +23,10 @@ namespace inr {
 	// ロゴクラス
 	class Logo : public Image {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Logo(Game& game);
 		// デストラクタ
 		~Logo() = default;

@@ -24,7 +24,10 @@ namespace inr {
 	// レバークラス
 	class Lever : public GimmickBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Lever(Game& game);
 		// デストラクタ
 		~Lever() = default;

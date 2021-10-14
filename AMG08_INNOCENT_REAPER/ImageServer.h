@@ -27,7 +27,10 @@ namespace inr {
 	// イメージサーバ
 	class ImageServer {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ImageServer(Game& game);
 		// デストラクタ
 		~ImageServer();

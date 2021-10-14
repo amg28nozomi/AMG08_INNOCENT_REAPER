@@ -13,7 +13,10 @@ namespace inr {
 	// ドア(ギミック)
 	class Door : public GimmickBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Door(Game& game);
 		// デストラクタ
 		~Door() = default;

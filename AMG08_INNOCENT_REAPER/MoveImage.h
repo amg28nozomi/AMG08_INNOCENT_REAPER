@@ -5,6 +5,10 @@ namespace inr {
 
 	class MoveImage : public Image {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		MoveImage(Game& game);
 		~MoveImage() = default;
 

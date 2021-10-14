@@ -86,7 +86,10 @@ namespace inr {
 	// マップデータ管理用のクラス
 	class MapDataManager {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		MapDataManager(Game& game);
 		// デストラクタ
 		~MapDataManager();

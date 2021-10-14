@@ -29,7 +29,10 @@ namespace inr {
 	// マップチップ
 	class MapChips {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		MapChips(Game& game);
 		// ファイル名とjson形式が同じ場合のコンストラクタ
 		MapChips(Game& game, std::string& filePath, std::string& tiledFileName);

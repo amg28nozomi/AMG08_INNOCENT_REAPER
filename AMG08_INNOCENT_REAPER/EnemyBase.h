@@ -138,7 +138,10 @@ namespace inr {
 		// 攻撃範囲の算出(引数:修正値)
 		AABB DamageBox(int fix = 0);
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		EnemyBase(Game& game);
 		// デストラクタ
 		~EnemyBase() override;

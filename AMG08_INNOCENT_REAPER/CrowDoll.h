@@ -1,108 +1,120 @@
 /*****************************************************************//**
- * \file   CrowDoll.h
- * \brief  クロウドールクラス（エネミーベースクラスのサブクラス）
- *		   本作のボスエネミー
+ * @file   CrowDoll.h
+ * @brief  クロウドールクラス（エネミーベースクラスのサブクラス）
+ * 本作のボスエネミー
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include "EnemyBase.h"
 
 namespace inr {
-
+	/** 敵のコンパイル時定数 */
 	namespace enemy {
+		/** クロウドールのコンパイル時定数 */
 		namespace crowdoll {
 			// 各種モーションおよびキー
-			constexpr auto CROW_ARM = "crow_arm";			// 腕
-			constexpr auto CROW_IDOL = "crow_stand";		// 待機
-			constexpr auto CROW_DEBUFF = "crow_debuf";		// デバフモーション
-			constexpr auto CROW_GROWARM = "crow_growarm";	// 伸びる爪
-			constexpr auto CROW_RUSH = "crow_rash";			// 連撃
-			constexpr auto CROW_BLINK = "crow_brink";		// 頭上からの強襲
-			constexpr auto CROW_ROAR = "crow_roar";
-			constexpr auto CROW_WINCE = "crow_wince";
-			constexpr auto CROW_DOWN = "crow_down";			// 倒れる
+			constexpr auto CROW_ARM = "crow_arm";									//!< 腕
+			constexpr auto CROW_IDOL = "crow_stand";							//!< 待機
+			constexpr auto CROW_DEBUFF = "crow_debuf";						//!< デバフモーション
+			constexpr auto CROW_GROWARM = "crow_growarm";					//!< 伸びる爪
+			constexpr auto CROW_RUSH = "crow_rash";								//!< 連撃
+			constexpr auto CROW_BLINK = "crow_brink";							//!< 頭上からの強襲
+			constexpr auto CROW_ROAR = "crow_roar";								//!< 咆哮
+			constexpr auto CROW_WINCE = "crow_wince";							//!< 怯み
+			constexpr auto CROW_DOWN = "crow_down";								//!< 倒れる
 			// 画像サイズ
-			constexpr auto CROW_SIZE = 500;	// 画像サイズ
+			constexpr auto CROW_SIZE = 500;												//!< 分割画像1枚あたりの画像サイズ
 			// SEキー（SoundServer）
-			constexpr auto SE_VOICE = "crow_voice";					// 鳴き声
-			constexpr auto SE_ROAR = "crow_roar_voice";				// 咆哮ボイス
-			constexpr auto SE_RUSH = "crow_rush";					// 連撃
-			constexpr auto SE_GROWARM = "crow_growarm";				// 地中攻撃
-			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";	// 落下攻撃
-			constexpr auto SE_DEBUF = "crow_debuf";					// デバフボイス
-			constexpr auto SE_DEATH = "crow_death";					// 死亡SE
-			// モーション数
+			constexpr auto SE_VOICE = "crow_voice";								//!< 鳴き声(SE)
+			constexpr auto SE_ROAR = "crow_roar_voice";						//!< 咆哮ボイス(SE)
+			constexpr auto SE_RUSH = "crow_rush";									//!< 連撃攻撃(SE)
+			constexpr auto SE_GROWARM = "crow_growarm";						//!< 地中攻撃(SE)
+			constexpr auto SE_BLINK_ATTACK = "crow_blink_attack";	//!< 落下攻撃(SE)
+			constexpr auto SE_DEBUF = "crow_debuf";								//!< デバフボイス(SE)
+			constexpr auto SE_DEATH = "crow_death";								//!< 死亡(SE)
+			/** モーション */
 			namespace motion {
-				constexpr auto IDOL = 13;
-				constexpr auto RUSH = 35;
-				constexpr auto BLINK = 13;
-				constexpr auto GROWARM = 10;
-				constexpr auto ROAR = 11;
-				constexpr auto DEBUF = 22;
-				constexpr auto WINCE = 7;
-				constexpr auto DOWN = 26;
+				constexpr auto IDOL = 13;														//!< 待機モーションの総分割数
+				constexpr auto RUSH = 35;														//!< 連続攻撃モーションの総分割数
+				constexpr auto BLINK = 13;													//!< 落下攻撃モーションの総分割数
+				constexpr auto GROWARM = 10;												//!< 地中攻撃モーションの総分割数
+				constexpr auto ROAR = 11;														//!< 咆哮モーションの総分割数
+				constexpr auto DEBUF = 22;													//!< デバフモーションの総分割数
+				constexpr auto WINCE = 7;														//!< 怯みモーションの総分割数
+				constexpr auto DOWN = 26;														//!< ダウンモーションの総分割数
 			}
 		}
 	}
-
+	/** エフェクト */
 	namespace effect {
+		/** クロウドールエフェクト */
 		namespace crow {
 			// エフェクトの画像キー(ResourceServer)
-			constexpr auto ROAR = "cd_roar_effect";					// 咆哮
-			constexpr auto ARM = "cd_arms_effect";					// 腕
-			constexpr auto RUSH = "cd_rush_effect";					// 連続切り
-			constexpr auto GROW = "cd_grow_chage_effect";			// 地中刺し溜め
-			constexpr auto BLINK = "cd_blink_effect";				// 転移
-			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	// 落下攻撃
-			constexpr auto DEBUF = "cd_debuf_effect";				// デバフエフェクト
-			constexpr auto AURA = "cd_aura_effect";					// 怒りエフェクト(オーラ)
-			constexpr auto DEATH = "cd_death_effect";				// 死亡エフェクト
-			// 咆哮エフェクトの画像サイズ
-			constexpr auto ROAR_WIDTH = 3840;
-			constexpr auto ROAR_HEIGHT = 2160;
-			// 腕エフェクトの画像サイズ
-			constexpr auto ARM_WIDTH = 750;
-			constexpr auto ARM_HEIGHT = 600;
-			constexpr auto GROW_IMAGE = 400;
-			// 連続切りエフェクトの画像サイズ
-			constexpr auto RUSH_WIDTH = 800;
-			constexpr auto RUSH_HEIGHT = 600;
-			// ワープエフェクトの画像サイズ
-			constexpr auto BLINK_IMAGE = 800;
-			// 落下攻撃エフェクトの画像サイズ
-			constexpr auto BLINK_ATTACK_W = 560;
-			constexpr auto BLINK_ATTACK_H = 800;
-			// 落下攻撃エフェクトの分割数
-			constexpr auto BLINL_ATTACK_MAX = 10;
-			// オーラエフェクトの画像サイズ
-			constexpr auto AURA_IMAGE = 500;
-			// オーラエフェクトの分割数
-			constexpr auto AURA_MAX = 30;
-			// デバフエフェクトの総画像枚数
-			constexpr auto DEBUF_MAX = 10;
-			// 死亡エフェクトの画像サイズ
-			constexpr auto DEATH_IMAGE = 600;
-			// 死亡エフェクトの分割数
-			constexpr auto DEATH_MAX = 14;
+			constexpr auto ROAR = "cd_roar_effect";									//!< 咆哮エフェクト
+			constexpr auto ARM = "cd_arms_effect";									//!< 腕エフェクト
+			constexpr auto RUSH = "cd_rush_effect";									//!< 連続切りエフェクト
+			constexpr auto GROW = "cd_grow_chage_effect";						//!< 地中刺し溜めエフェクト
+			constexpr auto BLINK = "cd_blink_effect";								//!< ワープエフェクト
+			constexpr auto BLINK_ATTACK = "cd_blink_attack_effect";	//!< 落下攻撃エフェクト
+			constexpr auto DEBUF = "cd_debuf_effect";								//!< デバフエフェクト
+			constexpr auto AURA = "cd_aura_effect";									//!< 怒りエフェクト(オーラ)
+			constexpr auto DEATH = "cd_death_effect";								//!< 死亡エフェクト
+			// 咆哮エフェクト
+			constexpr auto ROAR_WIDTH = 3840;												//!< 咆哮エフェクトの幅
+			constexpr auto ROAR_HEIGHT = 2160;											//!< 咆哮エフェクトの高さ
+			// 腕エフェクト
+			constexpr auto ARM_WIDTH = 750;													//!< 腕エフェクトの幅
+			constexpr auto ARM_HEIGHT = 600;												//!< 腕エフェクトの高さ
+			// 連続攻撃エフェクト
+			constexpr auto RUSH_WIDTH = 800;												//!< 連続攻撃エフェクトの幅										
+			constexpr auto RUSH_HEIGHT = 600;												//!< 連続攻撃エフェクトの高さ
+			// ワープエフェクト
+			constexpr auto BLINK_IMAGE = 800;												//!< ワープエフェクトのサイズ
+			// 落下攻撃エフェクト
+			constexpr auto BLINK_ATTACK_W = 560;										//!< 落下攻撃エフェクトの幅
+			constexpr auto BLINK_ATTACK_H = 800;										//!< 落下攻撃エフェクトの高さ
+			constexpr auto BLINL_ATTACK_MAX = 10;										//!< 落下攻撃エフェクトの総分割数
+			// オーラエフェクト
+			constexpr auto AURA_IMAGE = 500;												//!< オーラエフェクトのサイズ
+			constexpr auto AURA_MAX = 30;														//!< オーラエフェクトの総分割数
+			// デバフエフェクトの
+			constexpr auto DEBUF_MAX = 10;													//!< デバフエフェクトの総分割数
+			// 死亡エフェクト
+			constexpr auto DEATH_IMAGE = 600;												//!< 死亡エフェクトのサイズ
+			constexpr auto DEATH_MAX = 14;													//!< 死亡エフェクトの総分割数
 		}
 	}
-	// クロウドール(ボス)
+	/** クロウドール(ボスエネミー) */
 	class CrowDoll : public EnemyBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		CrowDoll(Game& game);
-		// 初期化
+		/**
+		 * @brief	初期化処理
+		 */
 		void Init() override;
-		// 更新
+		/**
+		 * @brief	更新処理
+		 */
 		void Process() override;
-		// 描画
+		/**
+		 * @brief	描画処理
+		 */
 		void Draw() override;
-		// オブジェクト情報の登録
+		/**
+		 * @brief						オブジェクト情報の登録
+		 * @param objValue	オブジェクト情報
+		 */
 		void SetParameter(ObjectValue objValue) override;
 	private:
-		// 状態の列挙型
+		/**
+		 * @enmu	クロウドールの状態を表す列挙型
+		 */
 		enum class CrowState {
 			// 死亡、待機、デバフ、咆哮(行動不能)、連続斬り、頭上からの強襲、伸びる爪、怯み、非活動状態
 			DEATH, IDOL, DEBUFF, ROAR, RUSH, BLINK, GROWARM, WINCE, SLEEP

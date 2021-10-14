@@ -86,7 +86,10 @@ namespace inr {
 		};
 		GimmickType _gType;		// ギミックの種類
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		GimmickBase(Game& game);
 		// デストラクタ
 		~GimmickBase();

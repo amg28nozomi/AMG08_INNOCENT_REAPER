@@ -20,6 +20,10 @@ namespace inr {
 
 	class TutorialImage : public Particle_Image {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		TutorialImage(Game& game);
 		~TutorialImage() = default;
 

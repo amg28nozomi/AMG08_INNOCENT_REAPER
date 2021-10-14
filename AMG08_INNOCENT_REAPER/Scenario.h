@@ -30,6 +30,10 @@ namespace inr {
 	class Scenario {
 	public:
 		using ScenarioMap = std::unordered_map<std::string, std::vector<ObjectValue>>;
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Scenario(Game& game);
 		~Scenario();
 

@@ -23,7 +23,10 @@ namespace inr {
 	// ゲーム本編
 	class ModeMain : public ModeBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ModeMain(Game& game);
 		// デストラクタ
 		~ModeMain();

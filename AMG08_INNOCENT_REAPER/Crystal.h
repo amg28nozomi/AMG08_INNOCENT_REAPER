@@ -17,9 +17,14 @@ namespace inr {
 	// 水晶(ギミック)
 	class Crystal : public GimmickBase {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Crystal(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Crystal() = default;
 		// 描画
 		void Draw() override;

@@ -22,6 +22,10 @@ namespace inr {
 
 	class UI : public Image {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		UI(Game& game);
 		~UI() = default;
 

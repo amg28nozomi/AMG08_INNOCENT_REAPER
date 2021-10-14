@@ -10,6 +10,10 @@ namespace inr {
 
 	class SoulCursor : public ObjectBase {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		SoulCursor(Game& game);
 		~SoulCursor() = default;
 

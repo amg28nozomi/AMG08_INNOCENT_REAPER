@@ -10,6 +10,10 @@ namespace inr {
 	// ポーズ機能制御用
 	class Pause {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Pause(Game& game);
 		~Pause();
 

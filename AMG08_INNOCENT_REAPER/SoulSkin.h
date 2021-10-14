@@ -24,6 +24,10 @@ namespace inr {
 
 	class SoulSkin : public ObjectBase {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		SoulSkin(Game& game);
 		~SoulSkin() override;
 

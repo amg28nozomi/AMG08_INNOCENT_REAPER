@@ -66,7 +66,10 @@ namespace inr {
 		Vector2 _pos;			// 座標
 		std::string _graphKey;	// 画像キー
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Image(Game& game);
 		// デストラクタ
 		~Image() = default;

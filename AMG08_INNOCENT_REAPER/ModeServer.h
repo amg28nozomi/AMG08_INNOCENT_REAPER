@@ -12,6 +12,10 @@ namespace inr {
 
 	class ModeServer {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ModeServer(Game& game);
 		~ModeServer();
 

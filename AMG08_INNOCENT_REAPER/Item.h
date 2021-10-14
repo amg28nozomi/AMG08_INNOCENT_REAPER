@@ -23,7 +23,10 @@ namespace inr {
 	// アイテムクラス
 	class Item {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Item(Game& game);
 		// デストラクタ
 		~Item() = default;

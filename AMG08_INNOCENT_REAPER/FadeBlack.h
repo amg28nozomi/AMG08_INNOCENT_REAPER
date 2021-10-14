@@ -20,7 +20,10 @@ namespace inr {
 	// フェードブラッククラス
 	class FadeBlack : public Image {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		FadeBlack(Game& game);
 		// デストラクタ
 		~FadeBlack();

@@ -6,6 +6,10 @@ namespace inr {
 
 	class StageUi : public Particle_Image {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		StageUi(Game& game);
 		~StageUi() = default;
 

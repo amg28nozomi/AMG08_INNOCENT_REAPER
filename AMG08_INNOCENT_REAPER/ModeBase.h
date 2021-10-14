@@ -30,7 +30,10 @@ namespace inr {
 		// BGMの管理
 		bool BgmManage();
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ModeBase(Game& game);
 		// デストラクタ
 		~ModeBase();

@@ -45,7 +45,10 @@ namespace inr {
 	// 前景クラス
 	class ForeGround : public Image {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ForeGround(Game& game);
 		// デストラクタ
 		~ForeGround();

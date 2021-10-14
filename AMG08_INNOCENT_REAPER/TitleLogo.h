@@ -7,6 +7,10 @@
 namespace inr {
 	class TitleLogo : public Image {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		TitleLogo(Game& game);
 		
 		void Init() override;

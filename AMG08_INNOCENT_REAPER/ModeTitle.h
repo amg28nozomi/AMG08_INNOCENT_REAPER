@@ -9,6 +9,10 @@ namespace inr {
 
 	class ModeTitle : public ModeBase{
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ModeTitle(Game& game);
 		~ModeTitle();
 

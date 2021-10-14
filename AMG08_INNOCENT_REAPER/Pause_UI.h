@@ -14,6 +14,10 @@ namespace inr {
 
 	class Pause_UI : public Particle_Image {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Pause_UI(Game& game);
 		~Pause_UI() = default;
 

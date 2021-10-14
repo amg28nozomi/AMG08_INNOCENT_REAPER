@@ -69,6 +69,10 @@ namespace inr {
 		void DrawDebugBox(Collision cb, int color = GetColor(255, 0, 255));
 #endif
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		ObjectBase(Game& game);
 		virtual ~ObjectBase();
 

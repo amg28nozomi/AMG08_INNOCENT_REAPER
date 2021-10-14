@@ -33,6 +33,10 @@ namespace inr {
 
 	class Player : public ObjectBase {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Player(Game& game);
 		~Player() override;
 

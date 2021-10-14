@@ -55,6 +55,10 @@ namespace inr {
 		bool AddPal();
 		bool SubPal();
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		Particle_Image(Game& game);
 		~Particle_Image() = default;
 

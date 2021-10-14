@@ -19,6 +19,10 @@ namespace inr {
 
 	class SoldierDoll : public EnemyBase {
 	public:
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		SoldierDoll(Game& game);
 		~SoldierDoll() override;
 

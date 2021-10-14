@@ -23,7 +23,10 @@ namespace inr {
 	// エフェクトの管理を行うサーバクラス
 	class EffectServer {
 	public:
-		// コンストラクタ(引数:ゲームクラスの参照)
+		/**
+		 * @brief				コンストラクタ
+		 * @param game	ゲームクラスの参照
+		 */
 		EffectServer(Game& game);
 		// デストラクタ
 		~EffectServer();
