@@ -208,7 +208,7 @@ namespace inr {
 		// ワープエフェクトの生成(引数1:生成地点)
 		/**
 		 * @brief				ワープエフェクトの生成
-		 * \param spwan	生成地点
+		 * @param spwan	生成地点
 		 */
 		void AddWarpEffect(Vector2 spwan);
 		/**
@@ -251,7 +251,7 @@ namespace inr {
 		bool IsVital();
 		/**
 		 * @brief		攻撃を中断するかの判定
-		 * マップチップと衝突した場合は中断
+		 *					マップチップと衝突した場合は中断
 		 * @return	衝突している場合はtrueを返す
 		 *					衝突していない場合はfalseを返す
 		 */

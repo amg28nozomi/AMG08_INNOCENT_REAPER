@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   Crystal.h
- * \brief  水晶クラス（ギミックベースクラスのサブクラス）
+ * @file   Crystal.h
+ * @brief  水晶クラス（ギミックベースクラスのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include "GimmickBase.h"
@@ -12,9 +12,9 @@
 #include <vector>
 
 namespace inr {
-
-	class Door;	// ドアクラスの宣言
-	// 水晶(ギミック)
+	/** 多重インクルード防止 */
+	class Door;
+	/** 水晶ギミック */
 	class Crystal : public GimmickBase {
 	public:
 		/**
@@ -26,25 +26,49 @@ namespace inr {
 		 * @brief	デストラクタ
 		 */
 		~Crystal() = default;
-		// 描画
+		/**
+		 * @brief	描画処理
+		 */
 		void Draw() override;
-		// オブジェクト情報の登録
+		/**
+		 * @brief						オブジェクト情報の登録
+		 * @param objValue	オブジェクト情報
+		 */
 		void SetParameter(ObjectValue objValue) override;
-		// オブジェクト情報の更新
+		/**
+		 * @brief オブジェクト情報の更新
+		 */
 		void ObjValueUpdate() override;
-		// 自機アクションとの衝突判定
+		/**
+		 * @brief							自機アクションボックスとの衝突判定
+		 * @param	ckey				対象の現在の状態(キー)
+		 * @param	acollision	対象の当たり判定ボックス
+		 * @param	direction		対象の向きフラグ
+		 */
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction);
 	private:
-		std::shared_ptr<SoulSkin> _soul;			// 保持している魂
-		std::vector<std::shared_ptr<Door>> _doors;	// 保持しているドア
-		// ドアの設定
+		std::shared_ptr<SoulSkin> _soul;						//!< 保持している魂
+		std::vector<std::shared_ptr<Door>> _doors;	//!< 保持しているドア
+		/**
+		 * @brief			ドアの設定
+		 * @param key	扉の画像キーが格納されたコンテナ
+		 */
 		void SetDoors(std::vector<std::string> key);
-		// 描画画像の設定
+		/**
+		 * @brief	画像キーの切り替え
+		 */
 		void GraphKey();
-		// 魂の生成
+		/**
+		 * @brief	魂の生成処理
+		 */
 		void AddSoul();
-		// ドアの解放
-		bool IsOpen(int crystal);
+		/**
+		 * @brief				ドアと現在保有している魂の色は一致しているか
+		 * @param type	ドアの色
+		 * @return			一致している場合はtrueを返す
+		 *							不一致の場合はfalseを返す
+		 */
+		bool IsOpen(int type);
 	};
 }
 
