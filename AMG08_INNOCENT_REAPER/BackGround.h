@@ -50,13 +50,13 @@ namespace inr {
 		/**
 		 * @brief		キーは切り替わったか？
 		 * @return	画像番号が異なる場合はtrueを返す
-		 * @return	画像番号が等しい場合はfalseを返す
+		 *					画像番号が等しい場合はfalseを返す
 		 */
 		bool IsChanege();
 		/**
 		 * @brief		ステージ番号の判定および取得
 		 * @return	ヒットした場合は対応するステージ番号を返す
-		 * @return	ヒットしなかった場合は-1を返す
+		 *					ヒットしなかった場合は-1を返す
 		 */
 		int KeyNumber();
 		/**

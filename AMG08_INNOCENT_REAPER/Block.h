@@ -49,7 +49,7 @@ namespace inr {
 		/**
 		 * @brief		オブジェクトは壊れているか？
 		 * @return	壊れている場合はtrueを返す
-		 * @return	壊れていない場合はfalseを返す
+		 *					壊れていない場合はfalseを返す
 		 */
 		inline bool IsBreak() { return _break; }
 		/**
@@ -59,7 +59,7 @@ namespace inr {
 		 * @param	move			対象の移動ベクトル(参照)
 		 * @param	direction	対象の向きフラグ
 		 * @return					衝突している場合はtrueを返す
-		 * @return					衝突していない場合はfalseを返す
+		 *									衝突していない場合はfalseを返す
 		 */
 		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction);
 		/**

@@ -122,7 +122,7 @@ public:
 	 * @brief						“–‚½‚è”»’è“¯m‚ÌÕ“Ë”»’è
 	 * @param collision	Õ“Ë”»’è‚ğs‚¤‘ÎÛ
 	 * @return					Õ“Ë‚µ‚½ê‡‚Ítrue‚ğ•Ô‚·
-	 * @return					Õ“Ë‚µ‚Ä‚¢‚È‚¢ê‡‚Ífalse‚ğ•Ô‚·
+	 *									Õ“Ë‚µ‚Ä‚¢‚È‚¢ê‡‚Ífalse‚ğ•Ô‚·
 	 */
 	bool HitCheck(Collision collision);
 #ifdef _DEBUG

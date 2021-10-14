@@ -109,7 +109,7 @@ namespace inr {
 		 * @brief		現在の当たり判定の取得
 		 * @param		key		現在の状態を表すキー
 		 * @return	抜け殻ではない場合は通常の当たり判定を返す
-		 * @return	抜け殻の場合は抜け殻用の当たり判定を返す
+		 *					抜け殻の場合は抜け殻用の当たり判定を返す
 		 */
 		AABB NowCollision(std::string key) override;
 	};

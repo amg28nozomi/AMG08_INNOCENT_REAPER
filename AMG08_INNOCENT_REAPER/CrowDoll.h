@@ -113,99 +113,197 @@ namespace inr {
 		void SetParameter(ObjectValue objValue) override;
 	private:
 		/**
-		 * @enmu	クロウドールの状態を表す列挙型
+		 * @brief クロウドールの状態を表す列挙型
+		 *				死亡、待機、デバフ、咆哮(行動不能)、連続斬り、頭上からの強襲、伸びる爪、怯み、非活動状態
 		 */
 		enum class CrowState {
-			// 死亡、待機、デバフ、咆哮(行動不能)、連続斬り、頭上からの強襲、伸びる爪、怯み、非活動状態
 			DEATH, IDOL, DEBUFF, ROAR, RUSH, BLINK, GROWARM, WINCE, SLEEP
 		};
-		CrowState _crowState;	// クロウドールの状態
-		Vector2 _target;		// 攻撃目標座標
-		Vector2 _actionEnd;		// アクション終了
-		Vector2 _warpPos;		// 転移後の座標
-		int _life;				// 体力
-		int _atkInterval;		// 攻撃の猶予時間
-		int _pattern;			// 行動パターン
-		int _debuffCount;		// デバフを発動するか？
-		int _invincible;		// 無敵時間
-		int _actionCount;		// ラッシュカウント
-		int _debuffChage;		// デバフ溜め
-		bool _setup;			// 準備は完了したか？
-		bool _arm;				// 腕は生成したか？
-		bool _debuf;			// デバフフラグ
-		bool _changeState;		// 状態を切り替えるか？
-		bool _isAnimation;		// モーション再生を行うか
-		bool _isWarp;			// ワープを行うか？
-		bool _isAnger;			// 怒りフラグ
-		bool _wait;				// 待機フラグ
-		// 状態遷移
+		CrowState _crowState;		//!< クロウドールの状態
+		Vector2 _target;				//!< 攻撃目標座標
+		Vector2 _actionEnd;			//!< アクション終了
+		Vector2 _warpPos;				//!< 転移後の座標
+		int _life;							//!< 体力
+		int _atkInterval;				//!< 攻撃の猶予時間
+		int _debuffCount;				//!< デバフを発動するか？
+		int _invincible;				//!< 無敵時間
+		int _actionCount;				//!< ラッシュカウント
+		int _debuffChage;				//!< デバフ溜め
+		bool _setup;						//!< 準備は完了したか？
+		bool _arm;							//!< 腕は生成したか？
+		bool _debuff;						//!< デバフフラグ
+		bool _isAnimation;			//!< モーション再生を行うか
+		bool _isWarp;						//!< ワープを行うか？
+		bool _isAnger;					//!< 怒りフラグ
+		bool _wait;							//!< 待機フラグ
+		/**
+		 * @brief						状態遷移
+		 * @param nextState	遷移する状態
+		 * @param key				遷移する画像キー
+		 */
 		void ModeChange(CrowState nextState, std::string key);
-		// 自機の座標を取得する
+		/**
+		 * @brief	攻撃目標座標の更新
+		 */
 		void GetTarget();
-		// 各種状態の管理
-		bool SetState();
-		// 怒り状態に突入しているかの判定
-		int IsAnger();
-		// 魂を奪える状態かの判定
-		bool IsVital();
-		// ワープ処理の起動
+		/**
+		 * @brief	各種状態の管理
+		 */
+		void SetState();
+		/**
+		 * @brief	ワープ処理の起動
+		 */
 		void WarpOn();
-		// ワープ処理
+		/**
+		 * @brief	ワープ処理
+		 */
 		void Warp();
-		// 活動開始
+		/**
+		 * @brief	活動開始処理
+		 */
 		void WakeUp();
-		// 向きの変更
+		/**
+		 * @brief	向きフラグの切り替え
+		 */
 		void ChangeDirection();	
-		// 活動状態にあるか？
-		bool IsActive();
-		// ボス戦闘フラグをオンにするか
-		bool IsBattle();
-		// 移動処理
+		/**
+		 * @brief	ボス戦闘フラグをオンにするかの判定
+		 */
+		void IsBattle();
+		/**
+		 * @brief	移動処理
+		 */
 		void Move() override;
-		// 浮遊処理
-		bool Floating();
-		// 連続攻撃
+		/**
+		 * @brief	浮遊処理
+		 */
+		void Floating();
+		/**
+		 * @brief	連続攻撃処理
+		 */
 		void Rash();
-		// 魂の生成
+		/**
+		 * @brief	魂の生成処理
+		 */
 		void AddSoul();
-		// 攻撃処理
+		/**
+		 * @brief	攻撃処理
+		 */
 		void Attack();
-		// 重力処理を行うか？
-		bool IsGravity();
-		// 攻撃を終了するか？（マップチップと衝突しているか？）
-		bool IsAttackEnd();
-		// 怒り状態への遷移
-		bool AngerOn();
-		// 自機は左右どちらにいるのか？
-		bool IsPlayerPos(double px);
-		// 死んでいるか？
-		bool IsDead() override;
-		// 死亡処理の起動
-		bool DeathOn();
-		// 他ドール(敵)を抜け殻にする
-		bool DollsEnd();
-		// 現在の当たり判定の算出
-		AABB NowCollision(std::string key) override;
-		// 落下攻撃時の急所生成
-		std::pair<AABB, AABB> BlinkVitalPart(Collision& col, int vital);
-		// 自機アクションとの衝突判定
+		/**
+		 * @brief		重力処理を行うかの判定
+		 */
+		void IsGravity();
+		/**
+		 * @brief		周囲のドールを抜け殻にする
+		 */
+		void DollsEnd();
+		/**
+		 * @brief							自機アクションボックスとの衝突判定
+		 * @param	ckey				対象の現在の状態(キー)
+		 * @param	acollision	対象の当たり判定ボックス
+		 * @param	direction		対象の向きフラグ
+		 */
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 		// ワープエフェクトの生成(引数1:生成地点)
-		bool AddWarpEffect(Vector2 spwan);
-		// 連撃エフェクトの生成
-		bool AddRushEffect();
-		// 落下攻撃エフェクトの生成
-		bool AddBlinkEffect();
-		// 煙(衝撃波)エフェクトの生成
-		bool AddSmokeEffect();
-		// 怒りエフェクトの生成
-		bool AddAngerEffect();
-		// デバフエフェクトの生成
-		bool AddDebuffEffect();
+		/**
+		 * @brief				ワープエフェクトの生成
+		 * \param spwan	生成地点
+		 */
+		void AddWarpEffect(Vector2 spwan);
+		/**
+		 * @brief	連撃エフェクトの生成
+		 */
+		void AddRushEffect();
+		/**
+		 * @brief	落下攻撃エフェクトの生成
+		 */
+		void AddBlinkEffect();
+		/**
+		 * @brief	煙(衝撃波)エフェクトの生成
+		 */
+		void AddSmokeEffect();
+		/**
+		 * @brief	怒りエフェクトの生成
+		 */
+		void AddAngerEffect();
+		/**
+		 * @brief	デバフエフェクトの生成
+		 */
+		void AddDebuffEffect();
+		/**
+		 * @brief		怒り状態に突入しているかの判定
+		 * @return	怒り状態の場合は1を返す
+		 *					通常状態の場合は0を返す
+		 */
+		int IsAnger();
+		/**
+		 * @brief		活動状態かの判定
+		 * @return	活動状態の場合はtrueを返す
+		 *					非活動状態の場合はfalseを返す
+		 */
+		bool IsActive();
+		/**
+		 * @brief		魂を奪える状態かの判定
+		 * @return	奪える場合はtrueを返す
+		 *					奪えない場合はfalseを返す
+		 */
+		bool IsVital();
+		/**
+		 * @brief		攻撃を中断するかの判定
+		 * マップチップと衝突した場合は中断
+		 * @return	衝突している場合はtrueを返す
+		 *					衝突していない場合はfalseを返す
+		 */
+		bool IsAttackEnd();
+		/**
+		 * @brief		怒り状態への遷移を行うかの判定
+		 * @return	残り体力が半分を切っている場合はteuwを返す
+		 *					既に怒り状態もしくは条件を満たしていない場合はfalseを返す
+		 */
+		bool AngerOn();
+		/**
+		 * @brief			自機が左右どちら側にいるかの判定
+		 * @param px	自機のX座標
+		 * @return		右側に居る場合はtrue
+		 *						左側に居る場合はfalseを返す
+		 */
+		bool IsPlayerPos(double px);
+		/**
+		 * @brief		死亡状態かの判定
+		 * @return	死亡状態の場合はtrueを返す
+		 *					それ以外の場合はfalseを返す
+		 */
+		bool IsDead() override;
+		/**
+		 * @brief		死亡処理の起動
+		 * @return	起動に成功した場合はtrueを返す
+		 *					失敗または条件を満たしていない場合はfalseを返す
+		 */
+		bool DeathOn();
 		// 自機が左右どちらにいるかの判定
 		bool IsPlayerPosition();
-		// 攻撃判定の切り替え
+		/**
+		 * @brief				攻撃判定の切り替え
+		 * @param flag	切り替え用フラグ
+		 * @return			切り替えに成功した場合はtrueを返す
+		 *							切り替えに失敗した場合はfalseを返す
+		 */
 		bool AttackBox(bool flag);
+		/**
+		 * @brief			現在の当たり判定の取得
+		 * @param key	現在の状態キー
+		 * @return		死亡状態の場合は抜け殻の当たり判定を返す
+		 *						それ以外の場合は通常の当たり判定を返す
+		 */
+		AABB NowCollision(std::string key) override;
+		/**
+		 * @brief				落下攻撃時の急所の取得
+		 * @param col		修正する当たり判定ボックス
+		 * @param vital	急所範囲
+		 * @return			左右の当たり判定をpair型で返す
+		 */
+		std::pair<AABB, AABB> BlinkVitalPart(Collision& col, int vital);
 	};
 }
 

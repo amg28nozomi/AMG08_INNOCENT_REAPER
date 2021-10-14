@@ -42,21 +42,21 @@ namespace inr {
 		 * @brief			対象のマップチップに効果があるかの判定
 		 * @param no	判定を行うチップ番号
 		 * @return		対応する効果番号を返す
-		 * @return		チップ番号が該当なしの場合は-1を返す
+		 *						チップ番号が該当なしの場合は-1を返す
 		 */
 		int IsChipType(const int no);
 		/**
 		 * @brief			対象に当たり判定があるかの判定
 		 * @param no	判定を行うチップ番号
 		 * @return		判定がある場合はtrueを返す
-		 * @return		判定がない場合はfalseを返す
+		 *						判定がない場合はfalseを返す
 		 */
 		bool IsHitType(const int no);
 		/**
-		 * @brief			// 対象の当たり判定ボックスを取得
-		 * @param no	// 判定を行うチップ番号
-		 * @return		// ヒットした場合は取得した当たり判定ボックスを返す
-		 * @return		// 登録されていない場合は40*40の当たり判定ボックスを返す
+		 * @brief			対象の当たり判定ボックスを取得
+		 * @param no	判定を行うチップ番号
+		 * @return		ヒットした場合は取得した当たり判定ボックスを返す
+		 *						登録されていない場合は40*40の当たり判定ボックスを返す
 		 */
 		AABB ChipCollision(const int no);
 	private:
@@ -70,4 +70,3 @@ namespace inr {
 		void ClearStageMaps();
 	};
 }
-

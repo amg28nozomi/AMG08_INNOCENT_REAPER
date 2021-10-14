@@ -105,10 +105,9 @@ namespace inr {
 		_changeGraph = false;
 		_wait = false;
 		_direction = true;
-		_changeState = false;
 		_isAnimation = false;
 		_isWarp = false;
-		_debuf = false;
+		_debuff = false;
 		_debuffChage = DEBUFF_COUNT_MIN;
 	}
 	// オブジェクト情報の登録
@@ -200,7 +199,7 @@ namespace inr {
 	void CrowDoll::Attack() {
 		// 攻撃処理
 		auto player = _game.GetObjectServer()->GetPlayer();
-		auto collision = player->GetMainCollision();	// プレイヤーの当たり判定
+		const auto& collision = player->GetMainCollision();	// プレイヤーの当たり判定
 		
 		// まずは敵の当たり判定と接触判定を行う
 		if (_mainCollision.HitCheck(collision) == true) {
@@ -216,7 +215,7 @@ namespace inr {
 		if(damage->second.HitCheck(collision) == true) player->Damage(IsPlayerPos(player->GetPosition().GetX()));	// 座標方向に飛ばす
 	}
 	// 重力処理を行うか？
-	bool CrowDoll::IsGravity() {
+	void CrowDoll::IsGravity() {
 		// 現在の状態に応じて重力処理を行うかの判定を行う
 		switch (_crowState) {
 		case CrowState::DEATH:
@@ -225,52 +224,52 @@ namespace inr {
 		case CrowState::RUSH:
 			// 描画画像が待機状態の場合
 			if (_divKey.first == enemy::crowdoll::CROW_IDOL) {
-				_gravity = 0;	// 重力値初期化
+				_gravity = 0;		// 重力値初期化
 				_stand = false;	// 立っていない
-				return true;
+				return;
 			}
-			_gravity += FRAME_G;	// 加速度を加算
+			_gravity += FRAME_G;										// 重力値加算
 			if (MAX_G < _gravity) _gravity = MAX_G;	// 上限値を超過している場合は修正
-			if (IsStandChip()) {	// 地面に立っているか？
-				if (0 < _gravity) _stand = true;
+			if (IsStandChip()) {										// 地面に立っているか？
+				if (0 < _gravity) _stand = true;			// 立っている
 				if (_crowState == CrowState::BLINK) {
 					_gravity = 0;
-					// WarpOn();	// ワープ移動
-					return true;
+					return;
 				}
 				_gravity = 0;
-			} else {
-				_stand = false;
 			}
-
+			else {
+				_stand = false;		// 立っていない
+			}
 			break;
-		default:
-			if (0 < _gravity) _gravity = 0;
-			return false;	// 重力処理は行わない
+		default:	// 重力処理は行わない
+			if (0 < _gravity) _gravity = 0;					// 重力値がプラスの場合は0にする
+			return;
 		}
 	}
 	// 浮遊処理
-	bool CrowDoll::Floating() {
+	void CrowDoll::Floating() {
 		// 怯み状態の場合
 		if (_crowState == CrowState::WINCE) {
 			// 現在のY座標が浮遊上限以下の場合
 			if (_position.GetY() + _gravity <= DEFAULT_Y) {
 				_position.GetPY() = DEFAULT_Y;	// 座標を修正
 				_gravity = 0;	// 重力値初期化
-				return true;
+				return;
 			}
 		}
 		// 待機状態または咆哮状態の場合
 		if (_crowState == CrowState::IDOL || _crowState == CrowState::ROAR) {
-			if (_position.GetY() <= DEFAULT_Y) return false;
-			_gravity -= 0.25;	// 重力値減算
+			if (_position.GetY() <= DEFAULT_Y) return;		// 下限に到達している
+			_gravity -= 0.25;															// 重力値減算
 			if (_position.GetY() + _gravity < DEFAULT_Y) {
+				// 下限に到達した場合は座標を修正する
 				_position.GetPY() = DEFAULT_Y;
 				_gravity = 0;
 			}
-			return true;
+			return;
 		}
-		return false;
+		return;
 	}
 	// ワープ処理
 	void CrowDoll::Warp() {
@@ -350,8 +349,8 @@ namespace inr {
 		return false;
 	}
 	// 各種状態の管理
-	bool CrowDoll::SetState() {
-		if (_isWarp == true) return false;	// 転移処理がある場合はスキップ
+	void CrowDoll::SetState() {
+		if (_isWarp == true) return;	// 転移処理がある場合はスキップ
 		// 状態に応じた処理を行う
 		switch (_crowState) {
 			// 待機状態の場合
@@ -366,7 +365,7 @@ namespace inr {
 						_debuffChage = 0;	// 溜めカウンタを初期化
 						ModeChange(CrowState::DEBUFF, enemy::crowdoll::CROW_IDOL);
 						_invincible = 120;	// 無敵状態に設定
-						return true;
+						return;
 					}
 				}
 				auto number = rand() % 3; // ランダムで状態遷移
@@ -510,30 +509,30 @@ namespace inr {
 			// 画像キーがでデバフの場合
 			if (_divKey.first == enemy::crowdoll::CROW_DEBUFF) {
 				// アニメーション番号が一致してかつ、デバフフラグが偽の場合
-				if (AnimationNumber() == DEBUFF_START && _debuf == false) {
-					_debuf = true;
+				if (AnimationNumber() == DEBUFF_START && _debuff == false) {
+					_debuff = true;
 					_isAnimation = false;
 					_atkInterval = 60;
-					return true;
+					return;
 					// デバフフラグが真の場合
-				} if (_debuf == true) {
+				} if (_debuff == true) {
 					if (_atkInterval == 0 && _isAnimation != true) {
 						_isAnimation = true;
 						AddDebuffEffect();	// デバフ生成
-						return true;
+						return;
 					// アニメーションカウンタが上限に到達した場合
 					} else if (AnimationCountMax() == true) {
 						ModeChange(CrowState::IDOL, enemy::crowdoll::CROW_IDOL);
-						_debuf = false;	// デバフフラグを偽にする
+						_debuff = false;	// デバフフラグを偽にする
 						_atkInterval = 60;
 					}
 				}
 				break;
 			}
-			return true;
+			return;
 		}
 	}
-	// 死んでいるか？
+	// 死亡状態か
 	bool CrowDoll::IsDead() {
 		if (_crowState != CrowState::DEATH) return false;
 		return true;
@@ -611,12 +610,13 @@ namespace inr {
 		return true;
 	}
 	// ボス戦フラグをオンにするか
-	bool CrowDoll::IsBattle() {
-		if (_crowState == CrowState::DEATH) return false;	// 死んでいる場合は処理を終了
-		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return false;	// ボス戦闘フラグがオンになっているか？
+	void CrowDoll::IsBattle() {
+		if (_crowState == CrowState::DEATH) return;	// 死んでいる場合は処理を終了
+		if (_game.GetModeServer()->GetModeMain()->BossFlag() == true) return;	// ボス戦闘フラグがオンになっているか？
 		// 自機のX座標は目標地点まで到達しているか？
-		if (_game.GetObjectServer()->GetPlayer()->GetPosition().GetX() < _game.GetMapChips()->GetMapSizeWidth() - HALF_WINDOW_W) return false;
+		if (_game.GetObjectServer()->GetPlayer()->GetPosition().GetX() < _game.GetMapChips()->GetMapSizeWidth() - HALF_WINDOW_W) return;
 		_game.GetModeServer()->GetModeMain()->BossBattle();	// 到達している場合はボス戦闘処理呼び出し
+		return;
 	}
 	// 魂の生成
 	void CrowDoll::AddSoul() {
@@ -656,40 +656,36 @@ namespace inr {
 		return IS_ANGER;	// 怒り状態
 	}
 	// ワープエフェクトの生成(引数1:生成地点)
-	bool CrowDoll::AddWarpEffect(Vector2 spwan) {
+	void CrowDoll::AddWarpEffect(Vector2 spwan) {
 		// ワープエフェクトの生成およびエフェクトサーバへの登録
 		auto warp = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::BLINK, spwan, 30);
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(warp), effect::type::FORMER);
-		return true;
 	}
 	// 連撃エフェクトの生成
-	bool CrowDoll::AddRushEffect() {
+	void CrowDoll::AddRushEffect() {
 		// 連撃エフェクトの生成
 		auto rush = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::RUSH, _position, 47 * 3, _direction);
 		rush->Set(this, -30, -30);	// 追従設定
-		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rush), effect::type::FORMER);	
-		return true;
+		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(rush), effect::type::FORMER);
 	}
 	// 落下攻撃エフェクトの生成
-	bool CrowDoll::AddBlinkEffect() {
+	void CrowDoll::AddBlinkEffect() {
 		// 落下攻撃エフェクトの生成
 		auto blink = std::make_unique<TrackingEffect>(_game.GetGame(), effect::crow::BLINK_ATTACK, _position, effect::crow::BLINL_ATTACK_MAX * 4);
 		blink->Set(this, 0, -150);	// 追従設定
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(blink), effect::type::FORMER);
-		return true;
 	}
 	// 煙(衝撃波)エフェクトの生成
-	bool CrowDoll::AddSmokeEffect() {
+	void CrowDoll::AddSmokeEffect() {
 		// 生成地点の設定
 		Vector2 addpos = { _position.GetX(), (_position.GetY() + ((_mainCollision.GetHeightMax() / 2) - 75)) };
 		// 煙(衝撃波)エフェクトの生成
 		auto smoke = std::make_unique<EffectBase>(_game.GetGame(), effect::enemy::HITDROP, addpos, effect::enemy::HIPDROP_MAX * 2);
 		smoke->SetDamageEffect(240, 240, -20, 140, 6, 15);	// ダメージ判定の設定
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(smoke), effect::type::FORMER);
-		return true;
 	}
 	// デバフエフェクトの生成
-	bool CrowDoll::AddDebuffEffect() {
+	void CrowDoll::AddDebuffEffect() {
 		_game.GetObjectServer()->GetPlayer()->Debuf();	// 自機のデバフ処理呼び出し
 		// 生成地点の設定
 		auto world = _game.GetMapChips()->GetWorldPosition();
@@ -698,16 +694,13 @@ namespace inr {
 		auto debuff = std::make_unique<EffectBase>(_game.GetGame(), effect::crow::DEBUF, addpos, effect::crow::DEBUF_MAX * 3);
 		debuff->SetLoop(3);	// 追加ループ回数の設定
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(debuff), effect::type::FORMER);
-		return true;
 	}
 	// 怒りエフェクトの設定
-	bool CrowDoll::AddAngerEffect() {
+	void CrowDoll::AddAngerEffect() {
 		// 怒りエフェクトの生成	
 		auto anger = std::make_unique<LoopEffect>(_game.GetGame(), effect::crow::AURA, _position, effect::crow::AURA_MAX * 2);
 		anger->SetOwner(this);	// 所有者の設定
 		_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(anger), effect::type::FORMER);
-		return true;
-
 	}
 	// 自機が左右どちらにいるかの判定
 	bool CrowDoll::IsPlayerPosition() {
@@ -733,9 +726,9 @@ namespace inr {
 		if (_isAnger == true) return false;
 		// 耐久力は半分まで減っているか？
 		if (IsAnger() == IS_ANGER) {
-			_isAnger = true;	// 怒り状態に突入する
+			_isAnger = true;		// 怒り状態に突入する
 			ModeChange(CrowState::DEBUFF, enemy::crowdoll::CROW_IDOL);	// デバフ状態に遷移する
-			AddAngerEffect();	// 怒りエフェクト生成
+			AddAngerEffect();		// 怒りエフェクト生成
 			_invincible = 120;	// 無敵時間突入
 			return true;
 		}
@@ -849,7 +842,7 @@ namespace inr {
 		return true;
 	}
 	// 他ドール(敵)を抜け殻にする
-	bool CrowDoll::DollsEnd() {
+	void CrowDoll::DollsEnd() {
 		// 敵を取得
 		auto enemys = _game.GetObjectServer()->GetEnemys();
 		for (auto ite : enemys) {
@@ -858,6 +851,5 @@ namespace inr {
 			if (ite->IsEmpty() == true) continue;
 			ite->SoulPop();
 		}
-		return true;
 	}
 }
