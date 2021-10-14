@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   BackGround.cpp
- * \brief  背景クラス（画像クラスのサブクラス）
+ * @file   BackGround.cpp
+ * @brief  背景クラス（画像クラスのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "BackGround.h"
 #include "Vector2.h"

@@ -106,12 +106,12 @@ namespace inr {
 	void BigDoll::Process() {
 		ObjectBase::Process();	// 重力処理
 		_moveVector = { 0, 0 };	// 移動量初期化
-		AnimationCount();		// アニメーションカウンタ処理
-		Action();				// アクション状態に移行するか
-		StateUpdate();			// 状態に応じた処理の更新
-		Move();					// 移動処理
-		Attack();				// 攻撃処理
-		PositionUpdate();		// 座標更新
+		AnimationCount();				// アニメーションカウンタ処理
+		Action();								// アクション状態に移行するか
+		StateUpdate();					// 状態に応じた処理の更新
+		Move();									// 移動処理
+		Attack();								// 攻撃処理
+		PositionUpdate();				// 座標更新
 	}
 	// アクション状態に移行するか 
 	void BigDoll::Action() {
@@ -131,7 +131,7 @@ namespace inr {
 				PlaySe(enemy::bigdoll::SE_ESCAPE_VOICE);
 				break;
 			}
-			_isAction = true;	// アクション開始
+			_isAction = true;					// アクション開始
 			ChangeIdol(BIG_STAY * 2);	// 一定時間の間、待機状態に遷移
 		}
 		// 発見できなかった場合は移動処理を行う
@@ -140,8 +140,8 @@ namespace inr {
 	// 攻撃処理
 	void BigDoll::Attack() {
 		if (_soul == nullptr || _aState == ActionState::WAKEUP) return;	// 魂が空 or 起き上がり状態の場合は処理を行わない
-		auto&& player = _game.GetObjectServer()->GetPlayer();	// 自機の取得
-		auto collision = player->GetMainCollision();	// プレイヤーの当たり判定
+		auto&& player = _game.GetObjectServer()->GetPlayer();						// 自機の取得
+		auto collision = player->GetMainCollision();										// プレイヤーの当たり判定
 		// 攻撃または逃避状態の場合
 		if (_aState == ActionState::ATTACK || _aState == ActionState::ESCAPE) {
 			auto gs = _game.GetGimmickServer()->GetGimmicks();

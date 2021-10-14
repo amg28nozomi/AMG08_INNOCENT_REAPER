@@ -1,9 +1,6 @@
 /*****************************************************************//**
  * \file   ChipHitCheck.h
- * \brief  チップ番号クラス
- * \brief	 マップチップの登録情報
- * \brief	 チップヒットチェッククラス
- * \brief  マップチップの当たり判定を管理する
+ * \brief  マップチップの登録情報を管理するチップヒットチェッククラス
  * 
  * \author 鈴木希海
  * \date   October 2021
@@ -21,8 +18,11 @@ namespace inr {
 	class ChipHitCheck {
 	public:
 		// チップ情報を格納する連想配列(キー:チップ番号　値:マップチップの当たり判定)
+
 		using ChipsMap = std::unordered_map<int, ChipNumber>;
-		// コンストラクタ
+		/**
+		 * @brief	コンストラクタ
+		 */
 		ChipHitCheck();
 		// デストラクタ
 		~ChipHitCheck();
@@ -39,7 +39,7 @@ namespace inr {
 	private:
 		// (キー:ステージキー　値:対応ステージの当たり判定)
 		using StageMaps = std::unordered_map<std::string, ChipsMap>;
-		std::string _chipKey;		// 取り出すマップチップ情報(キー)
+		std::string _chipKey;			// 取り出すマップチップ情報(キー)
 		StageMaps _stageChipsMap;	// ステージの情報
 		// 登録情報の初期化
 		void ClearStageMaps();

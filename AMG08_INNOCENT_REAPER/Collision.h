@@ -31,7 +31,9 @@ public:
 	Collision(Vector2& pos, int width, int height, bool flag = false);
 	// コンストラクタ(引数1:ベクトル2(min)　引数2:ベクトル2(max)　引数3:判定フラグ)
 	Collision(Vector2& min, Vector2& max, bool flag = false);
-	// コンストラクタ
+	/**
+	 * @brief	コンストラクタ
+	 */
 	Collision();
 	// デストラクタ
 	~Collision() = default;

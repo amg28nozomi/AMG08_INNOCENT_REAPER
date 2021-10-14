@@ -79,7 +79,9 @@ namespace inr {
 	// ゲームクラス
 	class Game {
 	public:
-		// コンストラクタ
+		/**
+		 * @brief	コンストラクタ
+	   */
 		Game();
 		// デストラクタ
 		~Game();
