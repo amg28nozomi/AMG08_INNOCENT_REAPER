@@ -7,7 +7,7 @@
  *********************************************************************/
 #pragma once
 #include "ObjectBase.h"
-#include "Collision.h"
+
 namespace inr {
 	namespace enemy {
 		// ‰æ‘œƒL[(ResourceServer)

@@ -42,8 +42,8 @@ namespace inr {
 	// 対象に効果があるかの判定(引数:判定を行うチップ番号)
 	int ChipHitCheck::IsChipType(const int no) {
 		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
-		auto chipnumber = stage->second.find(no);	// チップ番号の当たり判定を取得
-		if (chipnumber == stage->second.end()) return mapchip::NONE;	// 該当なし
+		auto chipnumber = stage->second.find(no);		// チップ番号の当たり判定を取得
+		if (chipnumber == stage->second.end()) return mapchip::NORMAL;	// 該当なし
 		// 効果はあるか？
 		switch (chipnumber->second.ChipType()) {
 		case mapchip::NORMAL:

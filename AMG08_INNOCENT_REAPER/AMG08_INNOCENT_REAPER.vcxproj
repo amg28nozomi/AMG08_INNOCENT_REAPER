@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AABB.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BigDoll.cpp" />
     <ClCompile Include="Block.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BigDoll.h" />
     <ClInclude Include="Block.h" />

@@ -2,11 +2,11 @@
 #include <unordered_map>
 #include <DxLib.h>
 #include "Collision.h"
+#include "AABB.h"
 #include "ResourceServer.h"
 #include "ObjectValue.h"
 
 class Vector2;
-class AABB;
 
 namespace {
 	using KeyDatas = std::unordered_map<std::string, std::pair<int, int>>;

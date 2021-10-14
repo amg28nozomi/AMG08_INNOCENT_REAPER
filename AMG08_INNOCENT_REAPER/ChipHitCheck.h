@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
-#include "Collision.h"
+#include "AABB.h"
 
 namespace inr {
 	/** 二重インクルード防止 */
@@ -17,7 +17,7 @@ namespace inr {
 	/** マップチップの当たり判定を管理する */
 	class ChipHitCheck {
 	public:
-		/** マップチップの判定情報を格納する連想配列(キー:チップ番号　値:マップチップの当たり判定) */
+		/** チップの判定情報を管理する連想配列(キー:チップ番号　値:対応するチップの判定情報) */
 		using ChipsMap = std::unordered_map<int, ChipNumber>;
 		/**
 		 * @brief	コンストラクタ
@@ -60,7 +60,7 @@ namespace inr {
 		 */
 		AABB ChipCollision(const int no);
 	private:
-		/** マップチップの判定情報を管理する連想配列(キー:　値:マップチップの判定情報を管理するコンテナ) */
+		/** マップチップの判定情報を管理する連想配列(キー:チップキー　値:マップチップの判定情報を管理するコンテナ) */
 		using StageMaps = std::unordered_map<std::string, ChipsMap>;
 		std::string _chipKey;				//!< 取り出すマップチップ情報(キー)
 		StageMaps _stageChipsMap;		//!< ステージの情報
