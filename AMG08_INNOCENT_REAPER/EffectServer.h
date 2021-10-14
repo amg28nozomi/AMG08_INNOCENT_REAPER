@@ -1,26 +1,28 @@
 /*****************************************************************//**
- * \file   EffectServer.h
- * \brief  エフェクトサーバクラス
+ * @file   EffectServer.h
+ * @brief  エフェクトサーバクラス
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include <vector>
 #include <memory>
 
 namespace inr {
+	/** エフェクト */
 	namespace effect {
+		/** 種類 */
 		namespace type {
 			// エフェクトの描画順番
-			constexpr auto FORMER = 0;	// オブジェクトより前面に描画
-			constexpr auto BACK = 1;	// オブジェクトより後面に描画
+			constexpr auto FORMER = 0;	//!< オブジェクトより前面に描画
+			constexpr auto BACK = 1;		//!< オブジェクトより後面に描画
 		}
 	}
-	// 二重インクルード防止
+	/** 二重インクルード防止 */
 	class Game;	
 	class EffectBase;
-	// エフェクトの管理を行うサーバクラス
+	/** エフェクトの管理を行うサーバクラス */
 	class EffectServer {
 	public:
 		/**

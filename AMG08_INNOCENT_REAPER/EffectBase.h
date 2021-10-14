@@ -15,7 +15,6 @@ namespace inr {
 	/** エフェクト */
 	namespace effect {
 		// エフェクトの画像キー名
-		// 自機エフェクト
 		constexpr auto JUMP = "jump_effect";						//!< 自機ジャンプエフェクト
 		constexpr auto DASH = "dash_effect";						//!< 自機ダッシュエフェクト
 		constexpr auto ROB = "rob_effect";							//!< 自機奪うエフェクト
