@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   ForeGround.cpp
- * \brief  前景クラス（画像クラスのサブクラス）
+ * @file   ForeGround.cpp
+ * @brief  前景クラス（画像クラスのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "ForeGround.h"
 #include "ImageValue.h"
@@ -47,22 +47,22 @@ namespace inr {
 		if (ckey == -1) return false;	// 読み込み失敗
 		switch (ckey) {
 		case 0:	// ステージ0
-			_draw = true;							// 追加描画あり
+			_draw = true;		// 追加描画あり
 			_graphKey = _ivalue[ckey].GraphKey();	// 画像
-			_pos = _ivalue[ckey].Position();		// 座標
-			return true;
+			_pos = _ivalue[ckey].Position();			// 座標
+			return true;		// 設定完了
 		case 1:
 		case 2:
 		case 3:
 		case 4:
 		case 5:
 		case 6:
-			_draw = false;							// 追加描画なし
+			_draw = false;			// 追加描画なし
 			_graphKey = _ivalue[ckey].GraphKey();	// 画像
-			_pos = _ivalue[ckey].Position();		// 座標
-			return true;
+			_pos = _ivalue[ckey].Position();			// 座標
+			return true;		// 設定成功
 		default:
-			return false;	// 該当なし
+			return false;		// 設定失敗
 		}
 	}
 	// 添え字の算出
