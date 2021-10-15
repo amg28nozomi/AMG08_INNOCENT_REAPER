@@ -29,7 +29,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Lever(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Lever() = default;
 		// 更新
 		void Process() override;

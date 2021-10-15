@@ -15,6 +15,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Pause(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Pause();
 
 		void Init();

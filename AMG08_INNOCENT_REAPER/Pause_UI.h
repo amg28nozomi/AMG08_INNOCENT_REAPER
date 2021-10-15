@@ -19,6 +19,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Pause_UI(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Pause_UI() = default;
 
 		void Init() override;

@@ -28,7 +28,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Logo(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Logo() = default;
 		// 初期化
 		void Init() override;

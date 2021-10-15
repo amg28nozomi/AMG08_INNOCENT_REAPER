@@ -9,6 +9,9 @@ namespace inr {
 	class TrackingEffect : public EffectBase {
 	public:
 		TrackingEffect(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);	// 生成座標および、生存フレーム数、分割数、一画像当たりの待ち時間
+		/**
+		 * @brief	デストラクタ
+		 */
 		~TrackingEffect() = default;
 
 		void Process() override;

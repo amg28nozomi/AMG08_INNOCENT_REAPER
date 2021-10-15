@@ -48,7 +48,7 @@ namespace inr {
 		case GimmickType::CRYSTAL:
 			return gimmick::CRYSTAL;	// 水晶
 		case GimmickType::DOOR:
-			return gimmick::DOOR;		// ドア
+			return gimmick::DOOR;			// ドア
 		}
 	}
 	// オブジェクト情報の更新

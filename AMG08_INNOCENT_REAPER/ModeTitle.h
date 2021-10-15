@@ -14,6 +14,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		ModeTitle(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ModeTitle();
 
 		virtual void Init();	// 初期化

@@ -91,7 +91,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		MapDataManager(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~MapDataManager();
 		// マップ情報を管理するコンテナ
 		using JsonMapData = std::unordered_map<std::string, MapData>;

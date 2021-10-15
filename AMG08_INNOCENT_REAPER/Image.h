@@ -71,7 +71,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Image(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Image() = default;
 		// 初期化
 		virtual void Init();

@@ -17,7 +17,9 @@ namespace inr {
 	public:
 		// コンストラクタ(引数1:ゲームクラスの参照　引数2:画像キー　引数3:生成地点　引数4:生存フレーム数　引数5:反転フラグ)
 		LoopEffect(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~LoopEffect() = default;
 		// 更新
 		void Process() override;

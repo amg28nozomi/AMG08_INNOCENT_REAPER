@@ -15,6 +15,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		SoulCursor(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~SoulCursor() = default;
 
 		void Init() override;

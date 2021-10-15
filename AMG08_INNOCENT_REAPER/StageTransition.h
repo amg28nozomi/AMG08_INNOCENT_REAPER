@@ -21,7 +21,16 @@ namespace inr {
 	// 遷移後のキーと座標
 	class Transition {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 * @param	遷移ステージキー
+		 * @param	遷移後の座標
+		 * @param	遷移後の向き
+		 */
 		Transition(std::string stageKey, Vector2 position, bool direction);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Transition() = default;
 
 		inline std::string NextKey() { return _nextKey; }
@@ -36,7 +45,14 @@ namespace inr {
 	// ステージ遷移実行用
 	class StageTransition {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 * @param	ゲームクラスの参照
+		 */
 		StageTransition(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~StageTransition();
 
 		bool Init();

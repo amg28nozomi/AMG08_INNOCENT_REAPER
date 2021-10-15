@@ -24,6 +24,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		SoldierDoll(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~SoldierDoll() override;
 
 		void Init() override;

@@ -60,6 +60,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Particle_Image(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Particle_Image() = default;
 
 		void Init() override;

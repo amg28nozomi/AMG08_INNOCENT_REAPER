@@ -18,7 +18,9 @@ namespace inr {
 	public:
 		// コンストラクタ
 		ItemServer();
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ItemServer();
 		// 描画
 		void Process();

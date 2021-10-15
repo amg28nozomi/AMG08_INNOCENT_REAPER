@@ -11,6 +11,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		StageUi(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~StageUi() = default;
 
 		void Init() override;

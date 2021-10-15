@@ -35,8 +35,13 @@ namespace inr {
 		 */
 		MapChips(Game& game);
 		// ファイル名とjson形式が同じ場合のコンストラクタ
+		/**
+		 * @brief	コンストラクタ
+		 */
 		MapChips(Game& game, std::string& filePath, std::string& tiledFileName);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~MapChips();
 		// 初期化
 		void Init();

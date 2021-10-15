@@ -17,6 +17,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		ModeServer(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ModeServer();
 
 		void Init();

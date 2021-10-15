@@ -6,9 +6,16 @@ namespace se {
 
 	class SoundDate {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 * @param	ファイル名
+		 * @param	再生タイプ
+		 */
 		SoundDate(std::string fillname, int type);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~SoundDate() = default;
-
 		// ゲッター
 		inline std::string& GetFill();
 		inline int& GetHandleP() { return _handle; }

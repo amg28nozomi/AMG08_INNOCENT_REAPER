@@ -35,6 +35,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Scenario(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Scenario();
 
 		void Init();	// 初期化処理

@@ -27,6 +27,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		UI(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~UI() = default;
 
 		void Init() override;

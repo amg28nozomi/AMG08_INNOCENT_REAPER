@@ -10,6 +10,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		MoveImage(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~MoveImage() = default;
 
 		void Init() override;

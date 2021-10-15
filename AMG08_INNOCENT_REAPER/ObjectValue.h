@@ -48,9 +48,16 @@ namespace inr {
 		}
 	}
 
-	// ギミックの情報
+	/** ギミックの情報 */
 	class GimmickValue {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 * @param ギミックの種類
+		 * @param ギミックのフラグ
+		 * @param 水晶の種類
+		 * @param ドアの種類
+		 */
 		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL, int ctype = oscenario::gimmick::crystal::TYPE_NULL, std::vector<int> types = { oscenario::gimmick::crystal::DOOR_NULL });
 		inline int GimmickType() { return _gimmickType; }
 		inline int GimmickFlag() { return _gimmickFlag; }
@@ -68,9 +75,29 @@ namespace inr {
 	// 登録情報
 	class ObjectValue {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 */
 		ObjectValue();
+		/**
+		 * @brief	コンストラクタ
+		 * @param 生成するクラス
+		 * @param 生成地点
+		 * @param 魂の色(0:なし　1:赤　2:青)
+		 * @param ギミック情報
+		 */
 		ObjectValue(int classtype, Vector2 xy, bool direction = false, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
+		/**
+		 * @brief	コンストラクタ
+		 * @param 生成するクラス
+		 * @param 生成地点を格納したコンテナ
+		 * @param 魂の色(0:なし　1:赤　2:青)
+		 * @param ギミック情報
+		 */
 		ObjectValue(int classtype, std::vector<Vector2> xy, bool direction = false, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ObjectValue() = default;
 
 		inline int ClassName() { return _class; }

@@ -38,6 +38,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		Player(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~Player() override;
 
 		void Init() override;

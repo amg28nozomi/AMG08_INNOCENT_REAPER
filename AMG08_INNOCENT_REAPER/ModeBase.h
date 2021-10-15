@@ -35,7 +35,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		ModeBase(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ModeBase();
 		// 初期化
 		virtual void Init();

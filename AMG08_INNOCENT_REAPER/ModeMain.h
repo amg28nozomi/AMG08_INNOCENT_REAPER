@@ -28,7 +28,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		ModeMain(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ModeMain();
 		// 初期化
 		void Init() override;

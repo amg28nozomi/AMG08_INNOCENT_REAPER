@@ -32,7 +32,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		ImageServer(Game& game);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ImageServer();
 		// 初期化
 		bool Init();

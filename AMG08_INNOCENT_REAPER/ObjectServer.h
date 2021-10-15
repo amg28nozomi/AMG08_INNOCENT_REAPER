@@ -20,7 +20,13 @@ namespace inr{
 
 	class ObjectServer {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 */
 		ObjectServer();
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ObjectServer();
 
 		void Clear();	// コンテナ初期化

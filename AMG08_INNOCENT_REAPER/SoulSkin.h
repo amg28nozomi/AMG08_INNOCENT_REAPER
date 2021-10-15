@@ -29,6 +29,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		SoulSkin(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~SoulSkin() override;
 
 		void Init() override;

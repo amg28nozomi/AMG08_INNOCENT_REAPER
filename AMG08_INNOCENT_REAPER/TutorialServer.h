@@ -8,7 +8,13 @@ namespace inr {
 
 	class TutorialServer {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 */
 		TutorialServer();
+		/**
+		 * @brief	デストラクタ
+		 */
 		~TutorialServer();
 
 		/*bool Init(const std::string key);*/

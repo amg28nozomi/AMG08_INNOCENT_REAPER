@@ -25,6 +25,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		TutorialImage(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~TutorialImage() = default;
 
 		// void Init() override;

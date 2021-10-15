@@ -14,14 +14,25 @@
 #include <vector>
 
 namespace graph {
-	// DxLib::LoadDivGraph関数用のクラス
+	/** DxLib::LoadDivGraph関数用のデータ */
 	class DivGraph {
 	public:
 		// コンストラクタ(引数1:ファイル名　引数2:横向きに対する分割数　引数3:縦向きに対する分割数　引数4:画像の総分割数　引数5:分割された画像の横幅　引数6:分割された画像の縦幅)
+		/**
+		 * @brief	コンストラクタ
+		 * @param	ファイル名
+		 * @param	横向きに対する分割数
+		 * @param	縦向きに対する分割数
+		 * @param	画像の総分割数
+		 * @param	分割された画像の横幅
+		 * @param	分割された画像の縦幅
+		 */
 		DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize);
 		// コンストラクタ
 		DivGraph();
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~DivGraph();
 		// ファイル名の取得
 		std::string& GetFile();

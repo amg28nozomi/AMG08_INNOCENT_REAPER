@@ -35,7 +35,9 @@ namespace inr {
 		ParticleValue();
 		// コンストラクタ(引数1:アニメーション処理を行うか　引数2:透過処理を行うか　引数3:拡縮率)
 		ParticleValue(bool animation, bool particle, double exrate = 1.0);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ParticleValue() = default;
 		// アニメーションフラグの取得
 		inline bool Animation() { return _animation; }
@@ -55,7 +57,9 @@ namespace inr {
 		ImageValue();
 		// コンストラクタ(引数1:画像キー　引数2:描画座標　引数3:パーティクルイメージの情報)
 		ImageValue(std::string gkey, Vector2 pos, ParticleValue paricleValue);
-		// デストラクタ
+		/**
+		 * @brief	デストラクタ
+		 */
 		~ImageValue() = default;
 		// 画像キーの取得
 		inline std::string GraphKey() { return _graph; }

@@ -74,6 +74,9 @@ namespace inr {
 		 * @param game	ゲームクラスの参照
 		 */
 		ObjectBase(Game& game);
+		/**
+		 * @brief	デストラクタ
+		 */
 		virtual ~ObjectBase();
 
 		virtual void Init();		// 初期化

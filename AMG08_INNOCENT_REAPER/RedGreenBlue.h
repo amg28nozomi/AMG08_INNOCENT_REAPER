@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   RedGreenBlue.h
+ * @brief  RedGreenBlueカラーモデルクラス
+ * 
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #pragma once
 
 namespace inr {
@@ -9,11 +16,23 @@ namespace inr {
 		constexpr auto MIN_BLEND = 0;
 		constexpr auto MAX_BLEND = 255;
 	}
-
+	/** RedGreenBlueカラーモデルクラス */
 	class RedGreenBlue {
 	public:
+		/**
+		 * @brief	コンストラクタ
+		 */
 		RedGreenBlue();
+		/**
+		 * @brief	コンストラクタ
+		 * @param	赤
+		 * @param 緑
+		 * @param 青
+		 */
 		RedGreenBlue(double red, double green, double blue);
+		/**
+		 * @brief	デストラクタ
+		 */
 		~RedGreenBlue() = default;
 
 		inline int Red() { return  static_cast<int>(_red); }
