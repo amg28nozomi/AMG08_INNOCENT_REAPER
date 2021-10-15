@@ -92,11 +92,11 @@ namespace inr {
 	bool EnemyBase::SearchPosition() {
 		auto pl = _game.GetObjectServer()->GetPlayer();
 		auto px = pl->GetPosition().GetX();		// 自機のx座標
-		auto myx = _position.GetX();			// 自身のx座標
+		auto myx = _position.GetX();					// 自身のx座標
 		// 自身のx座標から自機のx座標を引き、左右どちらにいるかを算出する
 		auto way = myx - px;
 		if (way < 0) return false;	// 右側に居る
-		return true;				// 左側に居る
+		return true;								// 左側に居る
 	}
 	// 座標等の更新
 	void EnemyBase::PositionUpdate() {
@@ -138,7 +138,7 @@ namespace inr {
 	// 抜け殻かどうか
 	bool EnemyBase::IsEmpty() {
 		if (_soul == nullptr) return true;	// 抜け殻
-		return false;						// 抜け殻ではない
+		return false;												// 抜け殻ではない
 	}
 	// 死亡処理
 	void EnemyBase::Death() {

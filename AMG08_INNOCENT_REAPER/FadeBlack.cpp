@@ -34,13 +34,13 @@ namespace inr {
 	}
 	// 更新
 	void FadeBlack::Process() {
-		if (_end == true) return;				// 処理がない場合は更新終了
+		if (_end == true) return;							// 処理がない場合は更新終了
 		if (_addEnd == true) _addEnd = false;	// フラグがある場合は偽にする
 		// 猶予時間判定がある場合
 		if (_isInterval) {
 			// 猶予時間が0になった場合
 			if (_interval == 0) {
-				_isInterval = false;			// フラグを終了する
+				_isInterval = false;				// フラグを終了する
 				_type = image::FADE_IN;			// フェードインを開始する
 				return;
 			}
@@ -50,7 +50,7 @@ namespace inr {
 		// フラグに応じて処理を行う
 		switch (_type) {
 		case image::FADE_IN:
-			FadeIn();	// フェードイン
+			FadeIn();		// フェードイン
 			return;
 		case image::FADE_OUT:
 			FadeOut();	// フェードアウト
