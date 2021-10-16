@@ -1,25 +1,20 @@
 /*****************************************************************//**
- * \file   MapData.h
- * \brief  マップデータクラス
- *		   マップ情報
+ * @file   MapData.h
+ * @brief  マップデータクラス
  * 
- *		   マップデータマネージャークラス
- *		   マップ情報の管理を行う
- * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include <tuple>
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 using std::pair;
 using std::tuple;
 
 namespace inr {
-	// 二重インクルード防止
+	/** 二重インクルード防止 */
 	class Game;
 	// マップデータ
 	class MapData {
@@ -82,32 +77,6 @@ namespace inr {
 		std::string _fileName;			// 読み込みファイル名
 		std::vector<int> _mapDatas;		// マップチップの配置情報
 		std::vector<int> _chipType;		// 当たり判定があるマップチップ
-	};
-	// マップデータ管理用のクラス
-	class MapDataManager {
-	public:
-		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
-		 */
-		MapDataManager(Game& game);
-		/**
-		 * @brief	デストラクタ
-		 */
-		~MapDataManager();
-		// マップ情報を管理するコンテナ
-		using JsonMapData = std::unordered_map<std::string, MapData>;
-		// マップ情報の一括読み込み(引数:マップ情報を格納した連想配列)
-		void LoadStageMap(JsonMapData& jsonMapData);
-		// 指定したマップ情報の取得(引数1:ステージキー　引数2:マップ情報)
-		bool GetStageMap(const std::string stage, MapData& mdata);
-		// 読み込み処理を行うかの判定(引数:ステージキー)
-		bool IsLoad(const std::string key);
-		// コンテナの解放
-		void StageMapClear();
-	private:
-		JsonMapData _maps;	// マップ情報を管理するコンテナ
-		Game& _game;		// ゲームクラスの参照
 	};
 }
 

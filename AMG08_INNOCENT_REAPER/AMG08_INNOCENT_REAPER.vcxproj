@@ -181,6 +181,7 @@
     <ClCompile Include="LoopEffect.cpp" />
     <ClCompile Include="MapChips.cpp" />
     <ClCompile Include="MapData.cpp" />
+    <ClCompile Include="MapDataManager.cpp" />
     <ClCompile Include="ModeBase.cpp" />
     <ClCompile Include="ModeEnd.cpp" />
     <ClCompile Include="ModeMain.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="LoopEffect.h" />
     <ClInclude Include="MapChips.h" />
     <ClInclude Include="MapData.h" />
+    <ClInclude Include="MapDataManager.h" />
     <ClInclude Include="ModeBase.h" />
     <ClInclude Include="ModeEnd.h" />
     <ClInclude Include="ModeMain.h" />

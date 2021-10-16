@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "ObjectBase.h"
 #include "MapData.h"
+#include "MapDataManager.h"
 #include "Vector2.h"
 #include "ChipHitCheck.h"
 #include "FileData.h"
