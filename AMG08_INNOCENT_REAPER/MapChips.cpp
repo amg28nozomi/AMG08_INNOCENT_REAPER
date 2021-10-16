@@ -91,20 +91,20 @@ namespace inr {
 		_worldLast = _worldPosition;
 	}
 
-	MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
-		_chipCheck = std::make_unique<ChipHitCheck>();
-		SetChipsMap();
+	//MapChips::MapChips(Game& game, std::string& filePath, std::string& tiledFileName) : _game(game), _nowMap() { //, _debugAABB(Vector2(), Vector2()) {
+	//	_chipCheck = std::make_unique<ChipHitCheck>();
+	//	SetChipsMap();
 
-		_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
-		 TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
-		//TiledJsonLoad(stage::STAGE_2_1, filePath, tiledFileName + ".json");
-		_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
-		//_mapManager->GetStageMap(stage::STAGE_2_1, _nowMap);
+	//	_mapManager = std::make_unique<MapDataManager>(_game.GetGame());
+	//	 TiledJsonLoad(stage::STAGE_1, filePath, tiledFileName + ".json");
+	//	//TiledJsonLoad(stage::STAGE_2_1, filePath, tiledFileName + ".json");
+	//	_mapManager->GetStageMap(stage::STAGE_1, _nowMap);
+	//	//_mapManager->GetStageMap(stage::STAGE_2_1, _nowMap);
 
-		// スクリーン座標初期化
-		_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
-		_worldLast = _worldPosition;
-	}
+	//	// スクリーン座標初期化
+	//	_worldPosition = { WINDOW_W / 2, WINDOW_H / 2 };
+	//	_worldLast = _worldPosition;
+	//}
 
 	MapChips::~MapChips() {
 		// 初期化
@@ -239,9 +239,9 @@ namespace inr {
 				// auto xx = _worldPosition.GetY() - HALF_WINDOW_H;
 				pos.GetPY() = fixY;
 			}
-			return true;
+			return true;	// クランプ成功
 		}
-		return false;
+		return false;		// クランプ失敗
 	}
 
 	bool MapChips::IsScrollX() {
@@ -275,7 +275,7 @@ namespace inr {
 		WorldClanp();
 	}
 
-	std::string MapChips::StringFillLoad(std::string FillName) {
+	std::string MapChips::StringFileLoad(std::string FillName) {
 		FILE* fp;
 		fopen_s(&fp, FillName.c_str(), "rb");
 
@@ -299,7 +299,7 @@ namespace inr {
 	}
 
 	int MapChips::TiledJsonLoad(std::string skey, std::string filePath, std::string strFileName) {
-		std::string strJson = StringFillLoad(filePath + strFileName);
+		std::string strJson = StringFileLoad(filePath + strFileName);
 		if (strJson == "") return 0;
 
 		picojson::value json;
@@ -720,7 +720,7 @@ namespace inr {
 			for (x = minx / _nowMap.ChipSizeWidth(); x <= maxx / _nowMap.ChipSizeWidth(); ++x) {
 				// マップチップと接触しているかどうか？
 				int chip_no = CheckHit(x, y);
-				// チップ番号が0かどうか
+				// チップ番号が蔦ではない場合は処理をスキップ
 				if (_chipCheck->IsChipType(chip_no) != mapchip::IVY) continue;
 
 				auto c = _chipCheck->ChipCollision(chip_no);
@@ -856,10 +856,6 @@ bool MapChips::TransitionResearch(const int no) {
 		};
 		_chipCheck->LoadChipsMap(stage::KEY_NORMAL, stagechip);
 		_chipCheck->ChangeStageKey(stage::KEY_NORMAL);	// 最初に呼び出すステージを登録
-	}
-
-	void MapChips::SetChipMember() {
-
 	}
 
 	void MapChips::ChangeMap(std::string nextStage) {
