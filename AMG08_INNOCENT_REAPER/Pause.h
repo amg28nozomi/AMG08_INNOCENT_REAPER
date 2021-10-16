@@ -25,14 +25,17 @@ namespace inr {
 		void Draw();
 
 		bool IsActive();	// 活動状態に入っているか？
+		/**
+		 * @brief		活動フラグの取得
+		 * @return	活動フラグを返す
+		 */
 		bool Active() { return _active; }
 	private:
-		Game& _game;
-		std::vector<std::shared_ptr<Particle_Image>> _uis;	// 各種UI
-
-		bool _active;	// 活性化しているか
-		bool _isEnd;	// ポーズを終了するか？
-		bool _input;	// 入力を受け付けているか
+		Game& _game;																				//!< ゲームクラスの参照
+		std::vector<std::shared_ptr<Particle_Image>> _uis;	//!< 各種UI
+		bool _active;																				//!< 活性化しているか
+		bool _isEnd;																				//!< ポーズを終了するか？
+		bool _input;																				//!< 入力を受け付けているか
 		bool InputLever();	// レバー
 		bool InputButton();	// ボタン
 		bool PauseOn();	// キー入力はあったかどうか

@@ -111,6 +111,11 @@ namespace inr {
 		 * @param objValue	オブジェクト情報
 		 */
 		void SetParameter(ObjectValue objValue) override;
+		/**
+		 * @brief						このエネミーはボスかどうか
+		 * @return					trueを返す
+		 */
+		inline bool IsBoss() override { return true; }
 	private:
 		/**
 		 * @brief クロウドールの状態を表す列挙型

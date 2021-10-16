@@ -233,6 +233,11 @@ namespace inr {
 		 */
 		bool SoulPop();
 		/**
+		 * @brief		このエネミーはボスかどうか	
+		 * @return	falseを返す
+		 */
+		inline virtual bool IsBoss() { return false; }
+		/**
 		 * @brief		タイプの取得
 		 * @return	タイプを返す
 		 */

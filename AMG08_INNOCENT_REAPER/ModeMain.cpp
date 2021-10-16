@@ -20,7 +20,6 @@
 #include "ForeGround.h"
 #include "ItemServer.h"
 #include "TutorialServer.h"
-
 #include <memory>
 #include <unordered_map>
 
@@ -58,7 +57,7 @@ namespace inr {
 		if (_resetFlg) {
 			// 初期化後のステージを設定
 #ifdef _DEBUG
-			_stageKey = stage::STAGE_2_2;
+			_stageKey = stage::STAGE_2;
 #endif
 #ifndef _DEBUG
 			_stageKey = stage::STAGE_0;

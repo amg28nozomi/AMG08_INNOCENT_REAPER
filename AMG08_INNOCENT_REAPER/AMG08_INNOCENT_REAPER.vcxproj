@@ -190,6 +190,7 @@
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="ObjectServer.cpp" />
     <ClCompile Include="ObjectValue.cpp" />
+    <ClCompile Include="ParticleValue.cpp" />
     <ClCompile Include="Particle_Image.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="Pause_UI.cpp" />
@@ -208,6 +209,7 @@
     <ClCompile Include="TrackingEffect.cpp" />
     <ClCompile Include="TutorialImage.cpp" />
     <ClCompile Include="TutorialServer.cpp" />
+    <ClCompile Include="TutorialValue.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -252,6 +254,7 @@
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectServer.h" />
     <ClInclude Include="ObjectValue.h" />
+    <ClInclude Include="ParticleValue.h" />
     <ClInclude Include="Particle_Image.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Pause_UI.h" />
@@ -270,6 +273,7 @@
     <ClInclude Include="TrackingEffect.h" />
     <ClInclude Include="TutorialImage.h" />
     <ClInclude Include="TutorialServer.h" />
+    <ClInclude Include="TutorialValue.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>

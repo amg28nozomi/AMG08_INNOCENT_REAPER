@@ -3,7 +3,7 @@
 #include "Mapchips.h"
 #include "ObjectServer.h"
 #include "Player.h"
-#include "ImageValue.h"
+#include "TutorialValue.h"
 
 namespace inr {
 

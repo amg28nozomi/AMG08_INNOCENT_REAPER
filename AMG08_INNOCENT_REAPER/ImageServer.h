@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * @file   ImageServer.h
- * @brief  アイテムテキストを管理するイメージサーバクラス
+ * @brief  イメージサーバクラス
  * 
  * @author 鈴木希海
  * @date   October 2021
@@ -15,9 +15,8 @@
 namespace inr {
 	/** 画像のコンパイル時定数 */
 	namespace image {
-		/* テキスト検索用キー */
+		/**   テキスト検索用キー */
 		namespace number {
-			// テキスト検索用キー
 			constexpr auto NUM = -1;	//!< テキスト画像なし
 		}
 	}
@@ -81,7 +80,6 @@ namespace inr {
 		 *					要素がある場合はfalseを返す
 		 */
 		bool IsLoad() { return _images.empty(); }
-		// 活動状態にあるかの判定
 		/**
 		 * @brief		活動状態の判定・移行処理
 		 * @return	活動状態に移行した場合はtrueを返す

@@ -28,7 +28,7 @@
 #include "ForeGround.h"
 #include "Item.h"
 #include "TutorialImage.h"
-
+#include "TutorialValue.h"
 #include <vector>
 
 namespace inr {

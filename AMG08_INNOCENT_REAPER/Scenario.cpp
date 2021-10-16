@@ -19,13 +19,13 @@
 #include "Door.h"
 #include "Block.h"
 #include "Crystal.h"
-
 #include "ModeServer.h"
 #include "ModeMain.h"
 #include "ItemServer.h"
 #include "Item.h"
 #include "Particle_Image.h"
 #include "TutorialImage.h"
+#include "TutorialValue.h"
 #include "TutorialServer.h"
 
 namespace {

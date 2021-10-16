@@ -3,7 +3,7 @@
 #include "AABB.h"
 
 namespace inr {
-
+	/** チュートリアルテキストのコンパイル時定数 */
 	namespace tutorial {
 		constexpr auto ROB = "titorial_rob";
 		constexpr auto GIVE = "titorial_give";
@@ -15,9 +15,9 @@ namespace inr {
 		constexpr auto LEVER = "titorial_lever";
 		constexpr auto EMPTY = "titorial_empty";
 	}
-
+	/** 二重インクルード防止 */
 	class TutorialValue;
-
+	/** チュートリアル画像 */
 	class TutorialImage : public Particle_Image {
 	public:
 		/**
