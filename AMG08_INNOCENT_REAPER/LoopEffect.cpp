@@ -38,7 +38,7 @@ namespace inr {
 	bool LoopEffect::Move() {
 		if (_owner == nullptr) return false;	// 所有者なし
 		auto movepos = _owner->GetPosition();	// 所有者の座標を取得
-		_position = movepos;					// 座標を代入
+		_position = movepos;									// 座標を代入
 		return true;
 	}
 }

@@ -1,42 +1,62 @@
 /*****************************************************************//**
- * \file   ItemServer.h
- * \brief  アイテムの管理を行うアイテムサーバクラス
+ * @file   ItemServer.h
+ * @brief  アイテムの管理を行うアイテムサーバクラス
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include <memory>
 #include <vector>
 
 namespace inr {
-	// 二重インクルード防止
+	/** 二重インクルード防止 */
 	class Item;
-	// アイテムサーバ
+	/** アイテムサーバ */
 	class ItemServer {
 	public:
-		// コンストラクタ
+		/**
+		 * @brief	コンストラクタ
+		 */
 		ItemServer();
 		/**
 		 * @brief	デストラクタ
 		 */
 		~ItemServer();
-		// 描画
+		/**
+		 * @brief	更新処理
+		 */
 		void Process();
-		// 更新
+		/**
+		 * @brief	描画処理
+		 */
 		void Draw();
-		// アイテムの登録
+		/**
+		 * @brief				アイテムの登録
+		 * @param item	登録するアイテムのシェアードポインタ
+		 */
 		void Add(std::shared_ptr<Item> item);
-		// コンテナの解放
+		/**
+		 * @brief				アイテムの開放
+		 */
 		void ItemClear();
-		// 消去フラグの起動
+		/**
+		 * @brief				消去フラグの起動
+		 */
 		bool DelOn();
-		// アイテムコンテナの取得
+		/**
+		 * @brief				全アイテムの取得
+		 * @return			アイテムを登録しているコンテナを返す
+		 */
 		std::vector<std::shared_ptr<Item>> GetItems() { return _items; }
 	private:
-		bool _isDel;								// オブジェクトの消去を行うか
-		std::vector<std::shared_ptr<Item>> _items;	// アイテム管理用のコンテナ
-		// アイテムの消去
+		bool _isDel;																//!< オブジェクトの消去を行うか
+		std::vector<std::shared_ptr<Item>> _items;	//!< アイテム管理用のコンテナ
+		/**
+		 * @brief		アイテムの消去
+		 * @return	成功した場合はtrueを返す
+		 *					失敗した場合はfalseを返す
+		 */
 		bool Delete();
 	};
 }

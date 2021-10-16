@@ -1,10 +1,9 @@
 /*****************************************************************//**
- * \file   Loads.h
- * \brief  ロードクラス
- *		   各種素材の読み込み処理を行う
+ * @file   Loads.h
+ * @brief  各種素材の読み込み処理を行うロードクラス
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include <vector>
@@ -12,40 +11,69 @@
 #include "ImageValue.h"
 
 namespace inr {
-	class ObjectValue;	// 二重インクルード防止
-	// 各種素材およびオブジェクト情報の生成を行うクラス
+	/** 二重インクルード防止 */
+	class ObjectValue;
+	/** 各種素材およびオブジェクト情報の生成を行うロードクラス */
 	class Loads {
 	public:
-		// 各種素材の読み込み
+		/**
+		 * @brief	各種素材の読み込み
+		 */
 		static void ResourceLoad();
-		// 画像生成情報の生成および取得
+		/**
+		 * @brief		画像情報の生成および取得
+		 * @return	画像情報を格納した連想配列を返す
+		 */
 		static ImageMap LoadImages();
-		// 前景情報の生成および取得
+		/**
+		 * @brief		前景情報の生成および取得
+		 * @return	前景情報を格納したコンテナを返す
+		 */
 		static std::vector<ImageValue> LoadForeGround1();
-		// チュートリアル画像の配置情報の取得(チュートリアル1)
+		/**
+		 * @brief		チュートリアル画像の配置情報の取得(チュートリアル1)
+		 * @return	チュートリアル画像情報を格納したコンテナを返す
+		 */
 		static std::vector<TutorialValue> LoadTutorialF();
-		// チュートリアル画像の配置情報の取得(チュートリアル2)
+		/**
+		 * @brief		チュートリアル画像の配置情報の取得(チュートリアル2)
+		 * @return	チュートリアル画像情報を格納したコンテナを返す
+		 */
 		static std::vector<TutorialValue> LoadTutorialS();
-		// オブジェクトの配置情報の生成および取得
-		// チュートリアル1(封印の祭壇)
+		/**
+		 * @brief		チュートリアルステージ(封印の祭壇)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenarioS_1();
-		// オブジェクトの配置情報の生成および取得
-		// チュートリアル2(封印の祭壇)
+		/**
+		 * @brief		ステージ0(封印の祭壇)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenarioS();
-		// オブジェクトの配置情報の生成および取得
-		// ステージ1(荒れた町)
+		/**
+		 * @brief		ステージ1(荒れた町)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenario1();
-		// オブジェクトの配置情報の生成および取得
-		// ステージ2(契りの森-中央)
+		/**
+		 * @brief		ステージ2(契りの森-中央)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenario2();
-		// オブジェクトの配置情報の生成および取得
-		// ステージ2(契りの森-上部)
+		/**
+		 * @brief		ステージ2(契りの森-上部)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenario2_1();
-		// オブジェクトの配置情報の生成および取得
-		// ステージ2(契りの森-下部)
+		/**
+		 * @brief		ステージ2(契りの森-下部)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenario2_2();
-		// オブジェクトの配置情報の生成および取得
-		// ステージ3(契りの森-ボス)
+		/**
+		 * @brief		ステージ3(契りの森-ボス)のオブジェクト配置情報の生成および取得
+		 * @return	オブジェクト情報を格納したコンテナを返す
+		 */
 		static std::vector<ObjectValue> LoadScenarioB();
 	};
 }

@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   Item.h
- * \brief  アイテムクラス
+ * @file   Item.h
+ * @brief  アイテムクラス
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include "Vector2.h"
@@ -13,14 +13,15 @@
 #include "ObjectValue.h"
 
 namespace inr {
+	/** アイテムのコンパイル時定数 */
 	namespace item {
 		// アイテム
-		constexpr auto ITEM = "item_light";		// キー
-		constexpr auto ITEM_IMAGE = 150;		// 画像サイズ
+		constexpr auto ITEM = "item_light";		//!< キー
+		constexpr auto ITEM_IMAGE = 150;			//!< アイテムのサイズ
 	}
-	// 二重インクルード防止
+	/** 二重インクルード防止 */
 	class Game;
-	// アイテムクラス
+	/** アイテム */
 	class Item {
 	public:
 		/**
@@ -32,33 +33,53 @@ namespace inr {
 		 * @brief	デストラクタ
 		 */
 		~Item() = default;
-		// 初期化
+		/**
+		 * @brief 初期化処理
+		 */
 		void Init();
-		// 更新
+		/**
+		 * @brief 更新処理
+		 */
 		void Process();
-		// 描画
+		/**
+		 * @brief 描画処理
+		 */
 		void Draw();
-		// オブジェクト情報の登録
+		/**
+		 * @brief					オブジェクト情報の登録
+		 * @param ovalue	オブジェクト情報
+		 */
 		void SetParameter(ObjectValue ovalue);
-		// オブジェクト情報の更新
+		/**
+		 * @brief					オブジェクト情報の更新
+		 */
 		void ObjValueUpdate();
-		// オブジェクトは既に入手されているか
+		/**
+		 * @brief					入手フラグの取得
+		 * @return				入手フラグを返す
+		 */
 		inline bool IsGet() { return _isGet; }
-		// 消去フラグの取得
+		/**
+		 * @brief					消去フラグの取得
+		 * @return				消去フラグを返す
+		 */
 		inline bool IsDel() { return _del; }
-		// オブジェクト情報の取得
+		/**
+		 * @brief					オブジェクト情報の取得
+		 * @return				オブジェクト情報を返す
+		 */
 		inline ObjectValue GetObjectValue() { return _oValue; }
 	private:
-		Game& _game;			// ゲーム参照
-		ObjectValue _oValue;	// オブジェクト情報
-		Collision _col;			// 当たり判定
-		std::string _gkey;		// 画像キー
-		Vector2 _position;		// 座標
-		int _count;				// カウンタ
-		int _maxFrame;			// アニメーションの描画フレーム数
-		int _messageNo;			//　対応しているmessage番号
-		bool _isGet;			// すでに入手されているか？
-		bool _del;				// 消去フラグ
+		Game& _game;					//!< ゲームクラスの参照
+		ObjectValue _oValue;	//!< オブジェクト情報
+		Collision _col;				//!< 当たり判定
+		std::string _gkey;		//!< 画像キー
+		Vector2 _position;		//!< 座標
+		int _count;						//!< カウンタ
+		int _maxFrame;				//!< アニメーションの描画フレーム数
+		int _messageNo;				//!<　対応しているmessage番号
+		bool _isGet;					//!< すでに入手されているか？
+		bool _del;						//!< 消去フラグ
 	};
 
 }

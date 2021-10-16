@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   ParticleValue.cpp
+ * @file   ParticleValue.cpp
  * @brief  パーティクル画像の情報
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "ParticleValue.h"
 #include "ImageValue.h"
@@ -11,7 +11,6 @@
 namespace {
 	constexpr auto DEFAULT_RATE = 1.0;		//!< デフォルトの拡縮率
 }
-
 namespace inr {
 	// コンストラクタ
 	ParticleValue::ParticleValue() {

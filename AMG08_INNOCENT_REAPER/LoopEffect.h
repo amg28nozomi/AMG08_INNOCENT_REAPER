@@ -1,35 +1,55 @@
 /*****************************************************************//**
- * \file   LoopEffect.h
- * \brief  ループエフェクト（エフェクトベースのサブクラス）
+ * @file   LoopEffect.h
+ * @brief  ループエフェクト（エフェクトベースのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include "EffectBase.h"
 #include <memory>
 
 namespace inr {
-	// 二重インクルード防止
+	/** 二重インクルード防止 */
 	class ObjectBase;
-	// エフェクト(無限ループ処理有り)
+	/** エフェクト(無限ループ処理有り) */
 	class LoopEffect : public EffectBase {
 	public:
-		// コンストラクタ(引数1:ゲームクラスの参照　引数2:画像キー　引数3:生成地点　引数4:生存フレーム数　引数5:反転フラグ)
+		/**
+		 * @brief						コンストラクタ
+		 * @param game			ゲームクラスの参照
+		 * @param gh				画像キー
+		 * @param spawnpos	生成地点
+		 * @param maxFrame	生存フレーム数
+		 * @param direction	反転フラグ
+		 */
 		LoopEffect(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);
 		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~LoopEffect() = default;
-		// 更新
+		/**
+		 * @brief						更新処理
+		 */
 		void Process() override;
-		// 所有者の設定(引数:ObjectBase型のポインタ)
+		/**
+		 * @brief						所有者の設定
+		 * @param						ObjectBaseのポインタ
+		 */
 		void SetOwner(ObjectBase* owner);
 	private:
-		ObjectBase* _owner;		// 所有者
-		// オブジェクトを削除するかの判定
+		ObjectBase* _owner;		//!< 所有者
+		/**
+		 * @brief		オブジェクトを削除するかの判定
+		 * @return	消去する場合はtrueを返す
+		 *					消去しない場合はfalseを返す
+		 */
 		bool IsEnd();
-		// 追従処理
+		/**
+		 * @brief		追従処理
+		 * @return	処理に成功した場合はtrueを返す
+		 *					処理に失敗した場合はfalseを返す
+		 */
 		bool Move();
 	};
 }
