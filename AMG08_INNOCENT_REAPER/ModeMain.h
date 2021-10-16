@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   ModeMain.h
- * \brief  ゲーム本編を管理するモードメインクラス（モードベースのサブクラス）
+ * @file   ModeMain.h
+ * @brief  ゲーム本編を管理するモードメインクラス（モードベースのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include "ModeBase.h"
@@ -20,7 +20,7 @@ namespace inr {
 	class ForeGround;
 	class ItemServer;
 	class TutorialServer;
-	// ゲーム本編
+	/** ゲーム本編 */
 	class ModeMain : public ModeBase {
 	public:
 		/**
@@ -32,13 +32,22 @@ namespace inr {
 		 * @brief	デストラクタ
 		 */
 		~ModeMain();
-		// 初期化
+		/**
+		 * @brief	初期化処理
+		 */
 		void Init() override;
-		// 更新
+		/**
+		 * @brief	更新処理
+		 */
 		void Process() override;
-		// 描画
+		/**
+		 * @brief 描画処理
+		 */
 		void Draw() override;
-		// ステージキーの切り替え(引数:次のステージキー)
+		/**
+		 * @brief						ステージキーの切り替え
+		 * @param nextStage	次のステージキー
+		 */
 		void ChangeKey(const std::string nextStage) override;
 		// 切り替え
 		bool IsKeyNull();

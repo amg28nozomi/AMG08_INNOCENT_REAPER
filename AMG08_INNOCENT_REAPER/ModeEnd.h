@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   ModeEnd.h
- * \brief  エンディングを管理するモードエンドクラス（モードベースのサブクラス）
+ * @file   ModeEnd.h
+ * @brief  エンディングを管理するモードエンドクラス（モードベースのサブクラス）
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #pragma once
 #include "ModeBase.h"
@@ -36,9 +36,9 @@ namespace inr {
 		 */
 		void Draw() override;
 	private:
-		int _count;								//!< 待ち時間
-		bool _end;								//!< 処理を終了するか？
-		bool _input;							//!< 入力を受け付けるか？
+		int _count;															//!< 待ち時間
+		bool _end;															//!< 処理を終了するか？
+		bool _input;														//!< 入力を受け付けるか？
 		std::unique_ptr<MoveImage> _staffRoll;	//!< スタッフロール
 		/**
 		 * @brief	ゲームタイトルに遷移するかの判定
