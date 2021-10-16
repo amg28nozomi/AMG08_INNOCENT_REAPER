@@ -16,67 +16,143 @@ using std::tuple;
 namespace inr {
 	/** 二重インクルード防止 */
 	class Game;
-	// マップデータ
+	/** マップデータ */
 	class MapData {
 	public:
-		// コンストラクタ
+		/**
+		 * @brief	コンストラクタ
+		 */
 		MapData();
-		// コンストラクタ
-		// 引数1:マップの長さ(幅　高さ)　引数2:チップ数(総数　横　縦)　引数3:マップチップのサイズ(幅　高さ)　引数4:レイヤー数
-		// 引数5:ファイル名　引数6:マップチップの配置情報が格納されたコンテナ　引数7:マップチップの当たり判定が格納されたコンテナ
+		/**
+		 * @brief								コンストラクタ
+		 * @param mapSize				マップサイズ(左辺:幅　右辺:高さ)
+		 * @param chipCount			チップ数(0:総数　1:横　2:縦)
+		 * @param chipSize			マップチップのサイズ(左辺:幅　右辺:高さ)
+		 * @param mapSizeLayer	レイヤー数
+		 * @param fileName			ファイル名
+		 * @param mapData				マップチップの配置情報が格納されたコンテナ
+		 * @param chipType			マップチップの当たり判定が格納されたコンテナ
+		 */
 		MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType);
-		// デストラクタ
+		/**
+		 * @brief デストラクタ
+		 */
 		~MapData() = default;
 		// マップサイズ(幅)の取得
+		/**
+		 * @brief		マップサイズ(幅)の取得
+		 * @return	マップサイズ(幅)を返す
+		 */
 		inline int MapSizeWidth() { return _mapSizeW; }
-		// マップサイズ(高さ)の取得
+		/**
+		 * @brief		マップサイズ(高さ)の取得
+		 * @return	マップサイズ(高さ)を返す
+		 */
 		inline int MapSizeHeight() { return _mapSizeH; }
-		// 総チップ数の取得
+		/**
+		 * @brief		総チップ数の取得
+		 * @return	総チップ数を返す
+		 */
 		inline int ChipCount() { return _chipCount; }
-		// マップサイズの幅(チップ数)の取得
+		/**
+		 * @brief		マップサイズの幅(チップ数)の取得
+		 * @return	マップサイズの幅(チップ数)を返す
+		 */
 		inline int ChipCountWidth() { return _chipCountW; }
-		// マップサイズの高さ(チップ数)の取得
+		/**
+		 * @brief		マップサイズの高さ(チップ数)の取得
+		 * @return	マップサイズの高さ(チップ数)を返す
+		 */
 		inline int ChipCountHeight() { return _chipCountH; }
-		// マップチップの幅の取得
+		/**
+		 * @brief		マップチップの幅の取得
+		 * @return	マップチップの幅を返す
+		 */
 		inline int ChipSizeWidth() { return _chipSizeW; }
-		// マップチップの高さの取得
+		/**
+		 * @brief		マップチップの高さの取得
+		 * @return	マップチップの高さを返す
+		 */
 		inline int ChipSizeHeight() { return _chipSizeH; }
-		// レイヤーの取得
+		/**
+		 * @brief		レイヤー数の取得
+		 * @return	レイヤー数を返す
+		 */
 		inline int MapSizeLayer() { return _mapSizeLayer; }
-		// ファイル名の取得
+		/**
+		 * @brief		ファイル名の取得
+		 * @return	ファイル名を返す
+		 */
 		inline std::string FileName() { return _fileName; }
-		// 指定したマップチップの配置情報を取得(引数:取得したい要素)
+		/**
+		 * @brief		指定したマップチップの配置情報を取得
+		 * @param		取得したい要素
+		 * @return	対応するマップチップの配置情報を返す
+		 */
 		int MapDatas(int element) { return _mapDatas[element]; }
-		// マップチップの配置情報の取得
+		/**
+		 * @brief		マップチップの配置情報の取得
+		 * @return	マップチップの配置情報を返す
+		 */
 		std::vector<int> MapDatas() { return _mapDatas; }
 		// 当たり判定の取得
+		/**
+		 * @brief		当たり判定の取得
+		 * @return	当たり判定を格納するコンテナを返す
+		 */
 		std::vector<int> ChipType() { return _chipType; }
-		// マップサイズの登録(引数1:幅　引数2:高さ)
+		/**
+		 * @brief	マップサイズの登録
+		 * @param mapSizeW	幅
+		 * @param mapSizeH	高さ
+		 */
 		void SetMapSize(int mapSizeW, int mapSizeH);
-		// チップカウントの登録(引数1:総チップ数　引数2:マップサイズの幅(チップ数)　引数3:マップチップの高さ(チップ数))
+		/**
+		 * @brief						チップカウントの登録
+		 * @param count			チップ数
+		 * @param width			マップサイズの幅(チップ数)
+		 * @param height		マップサイズの高さ(チップ数)
+		 */
 		void SetChipCount(int count, int width, int height);
 		// マップチップサイズの登録(引数1:幅　引数2:高さ)
+		/**
+		 * @brief						マップチップサイズの登録
+		 * @param width			マップチップの幅
+		 * @param height		マップチップの高さ
+		 */
 		void SetChipSize(int width, int height);
-		// レイヤーの登録(引数:レイヤー数)
+		/**
+		 * @brief						レイヤーの登録
+		 * @param layers		レイヤー数
+		 */
 		inline void SetMapSizeLayer(int layers) { _mapSizeLayer = layers; }
-		// ファイル名の登録(引数:ファイル名)
+		/**
+		 * @brief						ファイル名の登録
+		 * @param filename	ファイル名
+		 */
 		inline void SetFillName(std::string filename) { _fileName = filename; }
-		// 配置情報の登録(引数:配置情報が登録されたint型の動的配列)
+		/**
+		 * @brief						配置情報の登録
+		 * @param mapdatas	配置情報が登録されたint型の動的配列
+		 */
 		inline void SetMapDatas(std::vector<int> mapdatas) { _mapDatas = mapdatas; }
-		// 当たり判定の登録(引数:当たり判定が登録されたint型の動的配列)
+		/**
+		 * @brief						当たり判定の登録
+		 * @param chiptype	当たり判定が登録されたint型の動的配列
+		 */
 		inline void SetChipType(std::vector<int> chiptype) { _chipType = chiptype; }
 	private:
-		int _mapSizeW;					// マップサイズの幅
-		int _mapSizeH;					// マップサイズ高さ
-		int _chipCount;					// 総チップ数
-		int _chipCountW;				// マップサイズの幅(チップ数)
-		int _chipCountH;				// マップチップの高さ(チップ数)
-		int _chipSizeW;					// マップチップの幅
-		int _chipSizeH;					// マップチップの高さ
-		int _mapSizeLayer;				// レイヤー
-		std::string _fileName;			// 読み込みファイル名
-		std::vector<int> _mapDatas;		// マップチップの配置情報
-		std::vector<int> _chipType;		// 当たり判定があるマップチップ
+		int _mapSizeW;								//!< マップサイズの幅
+		int _mapSizeH;								//!< マップサイズ高さ
+		int _chipCount;								//!< 総チップ数
+		int _chipCountW;							//!< マップサイズの幅(チップ数)
+		int _chipCountH;							//!< マップチップの高さ(チップ数)
+		int _chipSizeW;								//!< マップチップの幅
+		int _chipSizeH;								//!< マップチップの高さ
+		int _mapSizeLayer;						//!< レイヤー
+		std::string _fileName;				//!< 読み込みファイル名
+		std::vector<int> _mapDatas;		//!< マップチップの配置情報
+		std::vector<int> _chipType;		//!< 当たり判定があるマップチップ
 	};
 }
 
