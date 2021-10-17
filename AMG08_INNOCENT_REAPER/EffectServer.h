@@ -53,8 +53,8 @@ namespace inr {
 		// エフェクトの登録(引数1:登録エフェクト　引数2:どちらに登録するか)
 		/**
 		 * @brief				エフェクトの登録
-		 * \param eff		登録するエフェクトのユニークポインタ
-		 * \param type	登録タイプ(0:前景エフェクト　1:後景エフェクト)
+		 * @param eff		登録するエフェクトのユニークポインタ
+		 * @param type	登録タイプ(0:前景エフェクト　1:後景エフェクト)
 		 */
 		void Add(std::unique_ptr<EffectBase> eff, int type);
 		/**

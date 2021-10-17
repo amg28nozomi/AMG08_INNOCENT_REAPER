@@ -42,7 +42,7 @@ namespace inr {
 		void SetParameter(Vector2 spwan, std::string key, int flag);
 		/**
 		 * @brief						オブジェクト情報の登録
-		 * \param objValue	オブジェクト情報
+		 * @param objValue	オブジェクト情報
 		 */
 		void SetParameter(ObjectValue objValue) override;
 		/**
@@ -81,18 +81,18 @@ namespace inr {
 		Vector2 _moves;			//!< 移動座標
 		/**
 		 * @brief			扉の色の設定
-		 * \param key	画像キー
+		 * @param key	画像キー
 		 */
 		void SetColor(std::string key);
 		/**
 		 * @brief		アニメーション処理
-		 * \return	アニメーションの再生を行う場合はtrueを返す
+		 * @return	アニメーションの再生を行う場合はtrueを返す
 		 *					再生を行わない場合はfalseを返す
 		 */
 		bool MotionCount();
 		/**
 		 * @brief		移動処理
-		 * \return 
+		 * @return 
 		 */
 		bool DoorMove();
 	};

@@ -68,7 +68,6 @@ namespace inr {
 		 * @param ive		画像情報を格納した動的配列
 		 */
 		void SetForeGround(std::vector<ImageValue> ive);
-		// 描画情報の設定(引数:ステージのキー情報)
 		/**
 		 * @brief			描画情報の設定
 		 * @param key	ステージキー
@@ -79,7 +78,6 @@ namespace inr {
 	private:
 		std::vector<ImageValue> _ivalue;	//!< 前景を管理するコンテナ
 		bool _draw;												//!< 描画を行うかのフラグ
-		// 添え字の算出(引数:ステージのキー情報)
 		/**
 		 * @brief			添え字の取得
 		 * @param key	ステージキー
