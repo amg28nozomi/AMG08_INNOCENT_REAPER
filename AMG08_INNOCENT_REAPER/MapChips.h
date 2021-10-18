@@ -33,48 +33,43 @@ namespace inr {
 	class MapChips {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief						コンストラクタ
+		 * @param game			ゲームクラスの参照
 		 */
 		MapChips(Game& game);
 		/**
-		 * @brief	コンストラクタ
-		 */
-		// MapChips(Game& game, std::string& filePath, std::string& tiledFileName);
-
-		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~MapChips();
 		/**
-		 * @brief	初期化処理
+		 * @brief						初期化処理
 		 */
 		void Init();
 		/**
-		 * @brief	更新処理
+		 * @brief						更新処理
 		 */
 		void Process();
 		/**
-		 * @brief	描画処理
+		 * @brief						描画処理
 		 */
 		void Draw();
 		/**
-		 * @brief		チップ番号の取得
-		 * @param	x	x軸の座標(マップチップ換算)
-		 * @param	y	y軸の座標(マップチップ換算)
-		 * @return	マップチップがある場合は該当するチップ番号を返す
-		 *					マップチップがない場合は0を返す
+		 * @brief						チップ番号の取得
+		 * @param	x					x軸の座標(マップチップ換算)
+		 * @param	y					y軸の座標(マップチップ換算)
+		 * @return					マップチップがある場合は該当するチップ番号を返す
+		 *									マップチップがない場合は0を返す
 		 */
 		int CheckHit(int x, int y);
 		/**
-		 * @brief					マップチップの上に立っているかの判定
-		 * @param box			対象の当たり判定ボックス
-		 * @param pos			対象の座標
-		 * @param g				重力値
-		 * @param lastpos	最後に立っていた座標
-		 * @param flag		自機かどうかのフラグ
-		 * @return				接触している場合は対象の効果番号を返す
-		 *								接触していない場合は-1を返す
+		 * @brief						マップチップの上に立っているかの判定
+		 * @param box				対象の当たり判定ボックス
+		 * @param pos				対象の座標
+		 * @param g					重力値
+		 * @param lastpos		最後に立っていた座標
+		 * @param flag			自機かどうかのフラグ
+		 * @return					接触している場合は対象の効果番号を返す
+		 *									接触していない場合は-1を返す
 		 */
 		int IsStand(AABB box, Vector2& pos, double g, Vector2* lastpos, bool flag = false);
 		/**
@@ -109,78 +104,77 @@ namespace inr {
 		 */
 		bool HitIvy(AABB box, Vector2 pos, Vector2 move, std::pair<double, double>* ivx, bool direction);
 		/**
-		 * @brief			ワールド座標をスクリーン座標にクランプする
-		 * @param	pos	ワールド座標
-		 * @return		クランプに成功した場合はtrueを返す	
-		 *						クランプに失敗した場合はfalseを返す
+		 * @brief						ワールド座標をスクリーン座標にクランプする
+		 * @param	pos				ワールド座標
+		 * @return					クランプに成功した場合はtrueを返す	
+		 *									クランプに失敗した場合はfalseを返す
 		 */
-		bool Clamp(Vector2& pos);	// ワールド座標をスクリーン座標に修正
+		bool Clamp(Vector2& pos);
 		/**
-		 * @brief			横スクロールを行うかの判定
-		 * @return		横スクロールを行う場合はtrueを返す
-		 *						行わない場合はfalseを返す
+		 * @brief						横スクロールを行うかの判定
+		 * @return					横スクロールを行う場合はtrueを返す
+		 *									行わない場合はfalseを返す
 		 */
 		bool IsScrollX();
 		/**
-		 * @brief			縦スクロールを行うかの判定
-		 * @return		縦スクロールを行う場合はtrueを返す
-		 *						行わない場合はfalseを返す
+		 * @brief						縦スクロールを行うかの判定
+		 * @return					縦スクロールを行う場合はtrueを返す
+		 *									行わない場合はfalseを返す
 		 */
 		bool IsScrollY();
 		/**
-		 * @brief			マップチップの切り替え処理
-		 * @param			次のステージキー
+		 * @brief						マップチップの切り替え処理
+		 * @param						次のステージキー
 		 */
 		void ChangeMap(std::string nextStage);
 		/**
-		 * @brief		マップサイズ(幅)の取得
-		 * @return	現在のマップのマップサイズ(幅)を返す
+		 * @brief						マップサイズ(幅)の取得
+		 * @return					現在のマップのマップサイズ(幅)を返す
 		 */
 		inline int GetMapSizeWidth() { return _nowMap.MapSizeWidth() * _nowMap.ChipSizeWidth(); }
 		/**
-		 * @brief		マップサイズの取得
-		 * @return	現在のマップのマップサイズを返す
+		 * @brief						マップサイズの取得
+		 * @return					現在のマップのマップサイズを返す
 		 */
 		inline std::pair<int, int> GetMapSize() { return std::make_pair(_nowMap.MapSizeWidth(), _nowMap.MapSizeHeight()); }
 		/**
-		 * @brief		チップカウントの取得
-		 * @return	現在のマップのチップカウントを返す
+		 * @brief						チップカウントの取得
+		 * @return					現在のマップのチップカウントを返す
 		 */
 		inline std::tuple<int, int, int> GetChipCount() { return std::make_tuple(_nowMap.ChipCount(), _nowMap.ChipCountWidth(), _nowMap.ChipCountHeight()); }
 		/**
-		 * @brief		マップチップサイズの取得
-		 * @return	現在のマップのマップチップサイズを返す
+		 * @brief						マップチップサイズの取得
+		 * @return					現在のマップのマップチップサイズを返す
 		 */
 		inline std::pair<int, int> GetChipSize() { return std::make_pair(_nowMap.ChipSizeWidth(), _nowMap.ChipSizeHeight()); }
 		/**
-		 * @brief		レイヤーの取得
-		 * @return	現在のマップのレイヤーを返す
+		 * @brief						レイヤーの取得
+		 * @return					現在のマップのレイヤーを返す
 		 */
 		inline int GetMapSizeLayer() { return _nowMap.MapSizeLayer(); }
 		/**
-		 * @brief		ファイル名の取得
-		 * @return	現在のマップのファイル名を返す
+		 * @brief						ファイル名の取得
+		 * @return					現在のマップのファイル名を返す
 		 */
 		inline std::string GetFileChips() { return _nowMap.FileName(); }
 		/**
-		 * @brief		ワールド座標の取得
-		 * @return	ワールド座標を返す
+		 * @brief						ワールド座標の取得
+		 * @return					ワールド座標を返す
 		 */
 		inline Vector2 GetWorldPosition() { return _worldPosition; }
-		// ワールド座標の移動量を取得
 		/**
-		 * @brief		ワールド座標の移動量を取得
-		 * @return	現在のフレームと前フレームのワールド座標の差分を返す
+		 * @brief						ワールド座標の移動量を取得
+		 * @return					現在のフレームと前フレームのワールド座標の差分を返す
 		 */
 		inline Vector2 BeforeWorldPos() { return _worldPosition - _worldLast; }
 		/**
-		 * @brief		ステージ遷移システムの取得
-		 * @return	ステージ遷移システムを返す
+		 * @brief						ステージ遷移システムの取得
+		 * @return					ステージ遷移システムを返す
 		 */
 		inline std::unique_ptr<StageTransition>& GetStageTransition() { return _stageTransition; }
 		/**
-		 * @brief			ワールド座標の更新
-		 * @param	pos 座標
+		 * @brief						ワールド座標の更新
+		 * @param	pos				座標
 		 */
 		void WorldUpdate(Vector2 pos);
 	private:
@@ -194,14 +188,14 @@ namespace inr {
 		Vector2 _worldPosition;															//!< ワールド座標
 		Vector2 _worldLast;																	//!< 前フレームのワールド座標
 		/**
-		 * @brief	ワールド座標を修正するかの判定
+		 * @brief							ワールド座標を修正するかの判定
 		 */
 		void WorldClanp();
 		/**
-		 * @brief						Jsonファイルの展開
-		 * @param fileName	Jsonファイル名
-		 * @return					展開に成功した場合は文字列を返す
-		 *									失敗した場合は""を返す
+		 * @brief							Jsonファイルの展開
+		 * @param fileName		Jsonファイル名
+		 * @return						展開に成功した場合は文字列を返す
+		 *										失敗した場合は""を返す
 		 */
 		std::string StringFileLoad(std::string fileName);
 		/**
@@ -219,6 +213,7 @@ namespace inr {
 		void SetChipsMap();
 		/**
 		 * @brief							遷移チップと接触したかの判定
+		 * @param no					チップ番号
 		 * @return						接触した場合はtrueを返す
 		 *										接触していない場合はfalseを返す
 		 */

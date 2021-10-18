@@ -17,20 +17,20 @@ namespace inr {
 	class GimmickServer {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief					コンストラクタ
+		 * @param game		ゲームクラスの参照
 		 */
 		GimmickServer(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief					デストラクタ
 		 */
 		~GimmickServer();
 		/**
-		 * @brief	更新処理
+		 * @brief					更新処理
 		 */
 		void Process();
 		/**
-		 * @brief	描画処理
+		 * @brief					描画処理
 		 */
 		void Draw();	
 		/**
@@ -39,21 +39,20 @@ namespace inr {
 		 */
 		void Add(std::shared_ptr<GimmickBase> gimmick);
 		/**
-		 * @brief	ギミックの削除
-		 * 
+		 * @brief					ギミックの削除
 		 */
 		void Del();
 		/**
-		 * @brief	コンテナの開放
+		 * @brief					コンテナの開放
 		 */
 		inline void Clear() { _gimmicks.clear(); }
 		/**
-		 * @brief	消去フラグをオンにする
+		 * @brief					消去フラグをオンにする
 		 */
 		inline void DelOn() { _isDel = true; }
 		/**
-		 * @brief		全ギミックの取得
-		 * @return	ギミックが登録されているコンテナを返す
+		 * @brief					全ギミックの取得
+		 * @return				ギミックが登録されているコンテナを返す
 		 */
 		inline std::vector<std::shared_ptr<GimmickBase>> GetGimmicks() { return _gimmicks; }
 	private:

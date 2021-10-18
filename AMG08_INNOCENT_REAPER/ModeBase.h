@@ -29,9 +29,9 @@ namespace inr {
 		bool _resetFlg;					//!< モード切り替え時に初期化するかどうか
 		std::string _bgmKey;		//!< bgmのキー
 		/**
-		 * @brief		BGMの管理
-		 * @return	BGMを停止した場合はtrueを返す
-		 *					BGMを再生した場合はfalseを返す
+		 * @brief				BGMの管理
+		 * @return			BGMを停止した場合はtrueを返す
+		 *							BGMを再生した場合はfalseを返す
 		 */
 		bool BgmManage();
 	public:
@@ -41,42 +41,42 @@ namespace inr {
 		 */
 		ModeBase(Game& game);
 		/**
-		 * @brief		デストラクタ
+		 * @brief				デストラクタ
 		 */
 		~ModeBase();
 		/**
-		 * @brief		初期化処理
+		 * @brief				初期化処理
 		 */
 		virtual void Init();
 		/**
-		 * @brief		更新処理
+		 * @brief				更新処理
 		 */
 		virtual void Process();	
 		/**
-		 * @brief		描画処理
+		 * @brief				描画処理
 		 */
 		virtual void Draw();
 		/**
-		 * @brief		ステージキーの切り替え
-		 * @param		次のステージキー
+		 * @brief				ステージキーの切り替え
+		 * @param				次のステージキー
 		 */
 		virtual void ChangeKey(const std::string nextStage);
 		/**
-		 * @brief		初期化フラグのオン
+		 * @brief				初期化フラグのオン
 		 */
 		inline void Reset() { _resetFlg = true; }
 		/**
-		 * @brief		経過フレームの初期化
+		 * @brief				経過フレームの初期化
 		 */
 		inline void TimeClear() { _modeFrame = 0; };
 		/**
-		 * @brief		経過フレームを取得
-		 * @return	経過フレームを返す
+		 * @brief				経過フレームを取得
+		 * @return			経過フレームを返す
 		 */
 		inline int GetFrame() { return _modeFrame; }
 		/**
-		 * @brief		キーの取得
-		 * @return	""を返す
+		 * @brief				キーの取得
+		 * @return			""を返す
 		 */
 		virtual inline std::string GetKey() { return ""; }
 	};

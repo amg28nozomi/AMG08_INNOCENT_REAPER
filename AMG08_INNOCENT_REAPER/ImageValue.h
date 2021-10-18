@@ -27,22 +27,22 @@ namespace inr {
 		 */
 		ImageValue(std::string gkey, Vector2 pos, ParticleValue paricleValue);
 		/**
-		 * @brief		デストラクタ
+		 * @brief								デストラクタ
 		 */
 		~ImageValue() = default;
 		/**
-		 * @brief		画像キーの取得
-		 * @return	画像キーの返す
+		 * @brief								画像キーの取得
+		 * @return							画像キーの返す
 		 */
 		inline std::string GraphKey() { return _graph; }
 		/**
-		 * @brief		生成座標の取得
-		 * @return	生成座標を返す
+		 * @brief								生成座標の取得
+		 * @return							生成座標を返す
 		 */
 		inline Vector2 Position() { return _position; }
 		/**
-		 * @brief		パーティクル画像情報の取得
-		 * @return	パーティクル画像情報を返す
+		 * @brief								パーティクル画像情報の取得
+		 * @return							パーティクル画像情報を返す
 		 */
 		inline ParticleValue ParticleData() { return _particleValue; }
 	private:

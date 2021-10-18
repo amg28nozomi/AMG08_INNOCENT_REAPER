@@ -70,22 +70,21 @@ namespace inr {
 		 */
 		EffectBase(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction = false);
 		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~EffectBase() = default;
 		/**
-		 * @brief	初期化処理
+		 * @brief						初期化処理
 		 */
 		virtual void Init();
 		/**
-		 * @brief	更新処理
+		 * @brief						更新処理
 		 */
 		virtual void Process();
 		/**
-		 * @brief	描画処理
+		 * @brief						描画処理
 		 */
 		virtual void Draw();
-		// ダメージ判定の設定(引数1:横幅　引数2:縦幅　引数3:ダメージ判定が発生するまでの猶予時間)
 		/**
 		 * @brief					ダメージ判定の設定
 		 * @param width		横幅
@@ -104,13 +103,13 @@ namespace inr {
 		 */
 		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0, int max = 0);
 		/**
-		 * @brief			ループの設定
-		 * @param max	ループ回数
+		 * @brief					ループの設定
+		 * @param max			ループ回数
 		 */
 		void SetLoop(int max);
 		/**
-		 * @brief		消去フラグの取得
-		 * @return	消去フラグを返す
+		 * @brief					消去フラグの取得
+		 * @return				消去フラグを返す
 		 */
 		inline bool IsDel() { return _delete; }
 	protected:
@@ -134,24 +133,24 @@ namespace inr {
 		 */
 		void GraphResearch(int* gh);
 		/**
-		 * @brief	自機との接触判定およびダメージ判定の呼び出し処理
+		 * @brief			自機との接触判定およびダメージ判定の呼び出し処理
 		 */
 		void Damage();
 		/**
-		 * @brief		自機が左右どちら側に居るのかの判定
-		 * @return	右側に居る場合はtrueを返す
-		 *					左側に居る場合はfalseを返す
+		 * @brief			自機が左右どちら側に居るのかの判定
+		 * @return		右側に居る場合はtrueを返す
+		 *						左側に居る場合はfalseを返す
 		 */
 		bool IsPlayerPosition();
 		/**
-		 * @brief		ダメージ処理を行うかの判定
-		 * @return	ダメージ判定がある場合はtrueを返す
-		 *					それ以外の場合はfalseを返す
+		 * @brief			ダメージ処理を行うかの判定
+		 * @return		ダメージ判定がある場合はtrueを返す
+		 *						それ以外の場合はfalseを返す
 		 */
 		bool IsDamage();
 		/**
-		 * @brief		アニメーション番号の取得
-		 * @return	算出したアニメーション番号を返す
+		 * @brief			アニメーション番号の取得
+		 * @return		算出したアニメーション番号を返す
 		 */
 		int GraphNumber();
 	};

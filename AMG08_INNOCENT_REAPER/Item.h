@@ -25,24 +25,24 @@ namespace inr {
 	class Item {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief					コンストラクタ
+		 * @param game		ゲームクラスの参照
 		 */
 		Item(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief					デストラクタ
 		 */
 		~Item() = default;
 		/**
-		 * @brief 初期化処理
+		 * @brief					初期化処理
 		 */
 		void Init();
 		/**
-		 * @brief 更新処理
+		 * @brief					更新処理
 		 */
 		void Process();
 		/**
-		 * @brief 描画処理
+		 * @brief					描画処理
 		 */
 		void Draw();
 		/**

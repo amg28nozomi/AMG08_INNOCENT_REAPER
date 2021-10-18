@@ -27,24 +27,24 @@ namespace inr {
 	class Lever : public GimmickBase {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief						コンストラクタ
+		 * @param game			ゲームクラスの参照
 		 */
 		Lever(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~Lever() = default;
 		/**
-		 * @brief	更新処理
+		 * @brief						更新処理
 		 */
 		void Process() override;
 		/**
-		 * @brief	描画処理
+		 * @brief						描画処理
 		 */
 		void Draw() override;
 		/**
-		 * @brief	ドアの開放処理
+		 * @brief						ドアの開放処理
 		 */
 		void OpenDoor();
 		/**

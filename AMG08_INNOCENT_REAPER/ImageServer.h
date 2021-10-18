@@ -28,29 +28,29 @@ namespace inr {
 	class ImageServer {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief					コンストラクタ
+		 * @param game		ゲームクラスの参照
 		 */
 		ImageServer(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief					デストラクタ
 		 */
 		~ImageServer();
 		/**
-		 * @brief		初期化処理
-		 * @return	trueを返す
+		 * @brief					初期化処理
+		 * @return				trueを返す
 		 */
 		bool Init();
 		/**
-		 * @brief		更新処理
-		 * @return	更新処理を完了した場合はtrueを返す
-		 *					中断した場合はfalseを返す
+		 * @brief					更新処理
+		 * @return				更新処理を完了した場合はtrueを返す
+		 *								中断した場合はfalseを返す
 		 */
 		bool Process();
 		/**
-		 * @brief		描画処理
-		 * @return	描画処理を完了した場合はtrueを返す
-		 *					コンテナが空の場合はfalseを返す
+		 * @brief					描画処理
+		 * @return				描画処理を完了した場合はtrueを返す
+		 *								コンテナが空の場合はfalseを返す
 		 */
 		bool Draw();
 		/**
@@ -75,20 +75,20 @@ namespace inr {
 		 */
 		bool AddImage(const int number, std::shared_ptr<Particle_Image> image);
 		/**
-		 * @brief		画像の読み込み処理を行うか
-		 * @return	コンテナが空の場合はtrueを返す
-		 *					要素がある場合はfalseを返す
+		 * @brief					画像の読み込み処理を行うか
+		 * @return				コンテナが空の場合はtrueを返す
+		 *								要素がある場合はfalseを返す
 		 */
 		bool IsLoad() { return _images.empty(); }
 		/**
-		 * @brief		活動状態の判定・移行処理
-		 * @return	活動状態に移行した場合はtrueを返す
-		 *					失敗した場合はfalseを返す
+		 * @brief					活動状態の判定・移行処理
+		 * @return				活動状態に移行した場合はtrueを返す
+		 *								失敗した場合はfalseを返す
 		 */
 		bool IsActive();
 		/**
-		 * @brief		活動状態の取得
-		 * @return	活動フラグを返す
+		 * @brief					活動状態の取得
+		 * @return				活動フラグを返す
 		 */
 		bool Active() { return _active; }
 	private:

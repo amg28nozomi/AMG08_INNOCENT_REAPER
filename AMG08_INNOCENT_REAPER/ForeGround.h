@@ -69,20 +69,20 @@ namespace inr {
 		 */
 		void SetForeGround(std::vector<ImageValue> ive);
 		/**
-		 * @brief			描画情報の設定
-		 * @param key	ステージキー
-		 * @return		設定に成功した場合はtrueを返す
-		 *						失敗した場合はfalseを返す
+		 * @brief				描画情報の設定
+		 * @param key		ステージキー
+		 * @return			設定に成功した場合はtrueを返す
+		 *							失敗した場合はfalseを返す
 		 */
 		bool SetKey(const std::string key);
 	private:
 		std::vector<ImageValue> _ivalue;	//!< 前景を管理するコンテナ
 		bool _draw;												//!< 描画を行うかのフラグ
 		/**
-		 * @brief			添え字の取得
-		 * @param key	ステージキー
-		 * @return		成功した場合は添え字を返す
-		 *						失敗した場合は-1を返す
+		 * @brief				添え字の取得
+		 * @param key		ステージキー
+		 * @return			成功した場合は添え字を返す
+		 *							失敗した場合は-1を返す
 		 */
 		int CheckKey(const std::string key);
 	};

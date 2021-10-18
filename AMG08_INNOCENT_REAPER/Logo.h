@@ -30,19 +30,19 @@ namespace inr {
 		 */
 		Logo(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief				デストラクタ
 		 */
 		~Logo() = default;
 		/**
-		 * @brief	初期化処理
+		 * @brief				初期化処理
 		 */
 		void Init() override;
 		/**
-		 * @brief	更新処理
+		 * @brief				更新処理
 		 */
 		void Process() override;
 		/**
-		 * @brief	描画処理
+		 * @brief				描画処理
 		 */
 		void Draw() override;
 	private:

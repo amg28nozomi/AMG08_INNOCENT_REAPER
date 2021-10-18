@@ -646,8 +646,8 @@ namespace inr {
 	// 自機は左右どちらにいるか
 	bool CrowDoll::IsPlayerPos(double px) {
 		auto fix = _position.GetX() - px;
-		if (fix < 0) return false;
-		if (0 < fix) return true;
+		if (fix < 0) return false;	// 右側に居る
+		if (0 < fix) return true;		// 左側に居る
 	}
 	// 怒り状態に突入しているかの判定
 	int CrowDoll::IsAnger() {
@@ -708,7 +708,7 @@ namespace inr {
 		auto target = _target;
 		_game.GetMapChips()->Clamp(target);
 		// 自機は左右どちら側に居るのか
-		if (target.IntX() < HALF_WINDOW_W) return false;	// 左側にいる
+		if (target.IntX() < HALF_WINDOW_W) return false;			// 左側にいる
 		else if (HALF_WINDOW_W < target.IntX()) return true;	// 右側にいる
 		// 中心座標にいる場合はランダムで判定
 		switch (rand() % 2) {

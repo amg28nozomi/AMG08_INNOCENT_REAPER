@@ -148,51 +148,51 @@ namespace inr {
 		 */
 		void ModeChange(CrowState nextState, std::string key);
 		/**
-		 * @brief	攻撃目標座標の更新
+		 * @brief		攻撃目標座標の更新
 		 */
 		void GetTarget();
 		/**
-		 * @brief	各種状態の管理
+		 * @brief		各種状態の管理
 		 */
 		void SetState();
 		/**
-		 * @brief	ワープ処理の起動
+		 * @brief		ワープ処理の起動
 		 */
 		void WarpOn();
 		/**
-		 * @brief	ワープ処理
+		 * @brief		ワープ処理
 		 */
 		void Warp();
 		/**
-		 * @brief	活動開始処理
+		 * @brief		活動開始処理
 		 */
 		void WakeUp();
 		/**
-		 * @brief	向きフラグの切り替え
+		 * @brief		向きフラグの切り替え
 		 */
 		void ChangeDirection();	
 		/**
-		 * @brief	ボス戦闘フラグをオンにするかの判定
+		 * @brief		ボス戦闘フラグをオンにするかの判定
 		 */
 		void IsBattle();
 		/**
-		 * @brief	移動処理
+		 * @brief		移動処理
 		 */
 		void Move() override;
 		/**
-		 * @brief	浮遊処理
+		 * @brief		浮遊処理
 		 */
 		void Floating();
 		/**
-		 * @brief	連続攻撃処理
+		 * @brief		連続攻撃処理
 		 */
 		void Rash();
 		/**
-		 * @brief	魂の生成処理
+		 * @brief		魂の生成処理
 		 */
 		void AddSoul();
 		/**
-		 * @brief	攻撃処理
+		 * @brief		攻撃処理
 		 */
 		void Attack();
 		/**
@@ -210,83 +210,86 @@ namespace inr {
 		 * @param	direction		対象の向きフラグ
 		 */
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
-		// ワープエフェクトの生成(引数1:生成地点)
 		/**
 		 * @brief				ワープエフェクトの生成
 		 * @param spwan	生成地点
 		 */
 		void AddWarpEffect(Vector2 spwan);
 		/**
-		 * @brief	連撃エフェクトの生成
+		 * @brief			連撃エフェクトの生成
 		 */
 		void AddRushEffect();
 		/**
-		 * @brief	落下攻撃エフェクトの生成
+		 * @brief			落下攻撃エフェクトの生成
 		 */
 		void AddBlinkEffect();
 		/**
-		 * @brief	煙(衝撃波)エフェクトの生成
+		 * @brief			煙(衝撃波)エフェクトの生成
 		 */
 		void AddSmokeEffect();
 		/**
-		 * @brief	怒りエフェクトの生成
+		 * @brief			怒りエフェクトの生成
 		 */
 		void AddAngerEffect();
 		/**
-		 * @brief	デバフエフェクトの生成
+		 * @brief			デバフエフェクトの生成
 		 */
 		void AddDebuffEffect();
 		/**
-		 * @brief		怒り状態に突入しているかの判定
-		 * @return	怒り状態の場合は1を返す
-		 *					通常状態の場合は0を返す
+		 * @brief			怒り状態に突入しているかの判定
+		 * @return		怒り状態の場合は1を返す
+		 *						通常状態の場合は0を返す
 		 */
 		int IsAnger();
 		/**
-		 * @brief		活動状態かの判定
-		 * @return	活動状態の場合はtrueを返す
-		 *					非活動状態の場合はfalseを返す
+		 * @brief			活動状態かの判定
+		 * @return		活動状態の場合はtrueを返す
+		 *						非活動状態の場合はfalseを返す
 		 */
 		bool IsActive();
 		/**
-		 * @brief		魂を奪える状態かの判定
-		 * @return	奪える場合はtrueを返す
-		 *					奪えない場合はfalseを返す
+		 * @brief			魂を奪える状態かの判定
+		 * @return		奪える場合はtrueを返す
+		 *						奪えない場合はfalseを返す
 		 */
 		bool IsVital();
 		/**
-		 * @brief		攻撃を中断するかの判定
-		 *					マップチップと衝突した場合は中断
-		 * @return	衝突している場合はtrueを返す
-		 *					衝突していない場合はfalseを返す
+		 * @brief			攻撃を中断するかの判定
+		 *						マップチップと衝突した場合は中断
+		 * @return		衝突している場合はtrueを返す
+		 *						衝突していない場合はfalseを返す
 		 */
 		bool IsAttackEnd();
 		/**
-		 * @brief		怒り状態への遷移を行うかの判定
-		 * @return	残り体力が半分を切っている場合はteuwを返す
-		 *					既に怒り状態もしくは条件を満たしていない場合はfalseを返す
+		 * @brief			怒り状態への遷移を行うかの判定
+		 * @return		残り体力が半分を切っている場合はteuwを返す
+		 *						既に怒り状態もしくは条件を満たしていない場合はfalseを返す
 		 */
 		bool AngerOn();
 		/**
 		 * @brief			自機が左右どちら側にいるかの判定
 		 * @param px	自機のX座標
-		 * @return		右側に居る場合はtrue
-		 *						左側に居る場合はfalseを返す
+		 * @return		左側に居る場合はtrue
+		 *						右側に居る場合はfalseを返す
 		 */
 		bool IsPlayerPos(double px);
 		/**
-		 * @brief		死亡状態かの判定
-		 * @return	死亡状態の場合はtrueを返す
-		 *					それ以外の場合はfalseを返す
+		 * @brief			死亡状態かの判定
+		 * @return		死亡状態の場合はtrueを返す
+		 *						それ以外の場合はfalseを返す
 		 */
 		bool IsDead() override;
 		/**
-		 * @brief		死亡処理の起動
-		 * @return	起動に成功した場合はtrueを返す
-		 *					失敗または条件を満たしていない場合はfalseを返す
+		 * @brief				死亡処理の起動
+		 * @return			起動に成功した場合はtrueを返す
+		 *							失敗または条件を満たしていない場合はfalseを返す
 		 */
 		bool DeathOn();
-		// 自機が左右どちらにいるかの判定
+		/**
+		 * @brief				自機が左右どちらにいるかの判定
+		 * @return 　　　右側に居る場合はtrueを返す
+		 *							左側に居る場合はfalseを返す
+		 */
 		bool IsPlayerPosition();
 		/**
 		 * @brief				攻撃判定の切り替え
@@ -296,10 +299,10 @@ namespace inr {
 		 */
 		bool AttackBox(bool flag);
 		/**
-		 * @brief			現在の当たり判定の取得
-		 * @param key	現在の状態キー
-		 * @return		死亡状態の場合は抜け殻の当たり判定を返す
-		 *						それ以外の場合は通常の当たり判定を返す
+		 * @brief				現在の当たり判定の取得
+		 * @param key		現在の状態キー
+		 * @return			死亡状態の場合は抜け殻の当たり判定を返す
+		 *							それ以外の場合は通常の当たり判定を返す
 		 */
 		AABB NowCollision(std::string key) override;
 		/**

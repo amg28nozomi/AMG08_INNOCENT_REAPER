@@ -20,7 +20,7 @@ namespace inr {
 	class MapData {
 	public:
 		/**
-		 * @brief	コンストラクタ
+		 * @brief								コンストラクタ
 		 */
 		MapData();
 		/**
@@ -35,110 +35,107 @@ namespace inr {
 		 */
 		MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType);
 		/**
-		 * @brief デストラクタ
+		 * @brief								デストラクタ
 		 */
 		~MapData() = default;
-		// マップサイズ(幅)の取得
 		/**
-		 * @brief		マップサイズ(幅)の取得
-		 * @return	マップサイズ(幅)を返す
+		 * @brief								マップサイズ(幅)の取得
+		 * @return							マップサイズ(幅)を返す
 		 */
 		inline int MapSizeWidth() { return _mapSizeW; }
 		/**
-		 * @brief		マップサイズ(高さ)の取得
-		 * @return	マップサイズ(高さ)を返す
+		 * @brief								マップサイズ(高さ)の取得
+		 * @return							マップサイズ(高さ)を返す
 		 */
 		inline int MapSizeHeight() { return _mapSizeH; }
 		/**
-		 * @brief		総チップ数の取得
-		 * @return	総チップ数を返す
+		 * @brief								総チップ数の取得
+		 * @return							総チップ数を返す
 		 */
 		inline int ChipCount() { return _chipCount; }
 		/**
-		 * @brief		マップサイズの幅(チップ数)の取得
-		 * @return	マップサイズの幅(チップ数)を返す
+		 * @brief								マップサイズの幅(チップ数)の取得
+		 * @return							マップサイズの幅(チップ数)を返す
 		 */
 		inline int ChipCountWidth() { return _chipCountW; }
 		/**
-		 * @brief		マップサイズの高さ(チップ数)の取得
-		 * @return	マップサイズの高さ(チップ数)を返す
+		 * @brief								マップサイズの高さ(チップ数)の取得
+		 * @return							マップサイズの高さ(チップ数)を返す
 		 */
 		inline int ChipCountHeight() { return _chipCountH; }
 		/**
-		 * @brief		マップチップの幅の取得
-		 * @return	マップチップの幅を返す
+		 * @brief								マップチップの幅の取得
+		 * @return							マップチップの幅を返す
 		 */
 		inline int ChipSizeWidth() { return _chipSizeW; }
 		/**
-		 * @brief		マップチップの高さの取得
-		 * @return	マップチップの高さを返す
+		 * @brief								マップチップの高さの取得
+		 * @return							マップチップの高さを返す
 		 */
 		inline int ChipSizeHeight() { return _chipSizeH; }
 		/**
-		 * @brief		レイヤー数の取得
-		 * @return	レイヤー数を返す
+		 * @brief								レイヤー数の取得
+		 * @return							レイヤー数を返す
 		 */
 		inline int MapSizeLayer() { return _mapSizeLayer; }
 		/**
-		 * @brief		ファイル名の取得
-		 * @return	ファイル名を返す
+		 * @brief								ファイル名の取得
+		 * @return							ファイル名を返す
 		 */
 		inline std::string FileName() { return _fileName; }
 		/**
-		 * @brief		指定したマップチップの配置情報を取得
-		 * @param		取得したい要素
-		 * @return	対応するマップチップの配置情報を返す
+		 * @brief								指定したマップチップの配置情報を取得
+		 * @param								取得したい要素
+		 * @return							対応するマップチップの配置情報を返す
 		 */
 		int MapDatas(int element) { return _mapDatas[element]; }
 		/**
-		 * @brief		マップチップの配置情報の取得
-		 * @return	マップチップの配置情報を返す
+		 * @brief								マップチップの配置情報の取得
+		 * @return							マップチップの配置情報を返す
 		 */
 		std::vector<int> MapDatas() { return _mapDatas; }
-		// 当たり判定の取得
 		/**
-		 * @brief		当たり判定の取得
-		 * @return	当たり判定を格納するコンテナを返す
+		 * @brief								当たり判定の取得
+		 * @return							当たり判定を格納するコンテナを返す
 		 */
 		std::vector<int> ChipType() { return _chipType; }
 		/**
-		 * @brief	マップサイズの登録
-		 * @param mapSizeW	幅
-		 * @param mapSizeH	高さ
+		 * @brief								マップサイズの登録
+		 * @param mapSizeW			幅
+		 * @param mapSizeH			高さ
 		 */
 		void SetMapSize(int mapSizeW, int mapSizeH);
 		/**
-		 * @brief						チップカウントの登録
-		 * @param count			チップ数
-		 * @param width			マップサイズの幅(チップ数)
-		 * @param height		マップサイズの高さ(チップ数)
+		 * @brief								チップカウントの登録
+		 * @param count					チップ数
+		 * @param width					マップサイズの幅(チップ数)
+		 * @param height				マップサイズの高さ(チップ数)
 		 */
 		void SetChipCount(int count, int width, int height);
-		// マップチップサイズの登録(引数1:幅　引数2:高さ)
 		/**
-		 * @brief						マップチップサイズの登録
-		 * @param width			マップチップの幅
-		 * @param height		マップチップの高さ
+		 * @brief								マップチップサイズの登録
+		 * @param width					マップチップの幅
+		 * @param height				マップチップの高さ
 		 */
 		void SetChipSize(int width, int height);
 		/**
-		 * @brief						レイヤーの登録
-		 * @param layers		レイヤー数
+		 * @brief								レイヤーの登録
+		 * @param layers				レイヤー数
 		 */
 		inline void SetMapSizeLayer(int layers) { _mapSizeLayer = layers; }
 		/**
-		 * @brief						ファイル名の登録
-		 * @param filename	ファイル名
+		 * @brief								ファイル名の登録
+		 * @param filename			ファイル名
 		 */
 		inline void SetFillName(std::string filename) { _fileName = filename; }
 		/**
-		 * @brief						配置情報の登録
-		 * @param mapdatas	配置情報が登録されたint型の動的配列
+		 * @brief								配置情報の登録
+		 * @param mapdatas			配置情報が登録されたint型の動的配列
 		 */
 		inline void SetMapDatas(std::vector<int> mapdatas) { _mapDatas = mapdatas; }
 		/**
-		 * @brief						当たり判定の登録
-		 * @param chiptype	当たり判定が登録されたint型の動的配列
+		 * @brief								当たり判定の登録
+		 * @param chiptype			当たり判定が登録されたint型の動的配列
 		 */
 		inline void SetChipType(std::vector<int> chiptype) { _chipType = chiptype; }
 	private:

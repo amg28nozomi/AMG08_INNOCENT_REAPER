@@ -76,27 +76,27 @@ namespace inr {
 	class Game {
 	public:
 		/**
-		 * @brief	コンストラクタ
+		 * @brief		コンストラクタ
 	   */
 		Game();
 		/**
-		 * @brief	デストラクタ
+		 * @brief		デストラクタ
 		 */
 		~Game();
 		/**
-		 * @brief 初期化処理
+		 * @brief		初期化処理
 		 */
 		void Init();
 		/**
-		 * @brief 入力処理
+		 * @brief		入力処理
 		 */
 		void Input();
 		/**
-		 * @brief 更新処理 
+		 * @brief		更新処理 
 		 */
 		void Process();
 		/**
-		 * @brief 描画処理
+		 * @brief		描画処理
 		 */
 		void Draw();
 		/**

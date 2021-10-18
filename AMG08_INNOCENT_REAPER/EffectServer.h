@@ -50,7 +50,6 @@ namespace inr {
 		 * @brief				後景描画
 		 */
 		void DrawBack();
-		// エフェクトの登録(引数1:登録エフェクト　引数2:どちらに登録するか)
 		/**
 		 * @brief				エフェクトの登録
 		 * @param eff		登録するエフェクトのユニークポインタ

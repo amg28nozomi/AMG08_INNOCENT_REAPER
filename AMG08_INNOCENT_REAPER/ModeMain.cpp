@@ -176,8 +176,9 @@ namespace inr {
 			return true;
 		}
 	}
-
+	// キーが空かの判定
 	bool ModeMain::IsKeyNull() {
+		// キーは切り替わっているか
 		bool flag = _changeKey == stage::CHANGE_NULL;
 		return flag;
 	}
@@ -186,31 +187,31 @@ namespace inr {
 		// ステージの切り替え
 		return false;
 	}
-
-	void ModeMain::SetObjects() {
-
-	}
-
+	// ボス戦開始フラグ
 	bool ModeMain::BossBattle() {
+		// ボスステージではない場合は終了
 		if (_stageKey != stage::STAGE_3) return false;
-		if (_isEnding == true) return false;	// エンディングがある場合も処理を中断
-		_bossBattle = true;
-		_bg->ScrollOff();
-		_game.GetScenario()->BossBlock();
+		// エンディングがある場合も処理を中断
+		if (_isEnding == true) return false;
+		_bossBattle = true;								// ボス戦開始
+		_bg->ScrollOff();									// スクロールを停止
+		_game.GetScenario()->BossBlock();	// ブロックを生成して道を封鎖する
 
 		auto sound = se::SoundServer::GetSound(_bgmKey);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
 	}
-
+	// ボス戦を終了するか
 	bool ModeMain::BossEnd() {
 		// 現在居るのはボスステージか？
 		if (_stageKey != stage::STAGE_3) return false;
-		if (_bossBattle != true) return false;	// ボス戦中か?
-		_bossBattle = false;	// ボス戦を終了する
-		_isEnding = true;	// エンドフラグを立てる
-		_endCount = END_STAY;
-		StopSoundMem(se::SoundServer::GetSound(_bgmKey));	// ボス専BGMを終了する
-		return true;
+		// ボス戦中か?
+		if (_bossBattle != true) return false;
+		_bossBattle = false;		// ボス戦を終了する
+		_isEnding = true;				// エンドフラグを立てる
+		_endCount = END_STAY;		// エンディングに遷移するまでの残りフレーム数
+		// ボス専BGMを停止する
+		StopSoundMem(se::SoundServer::GetSound(_bgmKey));
+		return true;	// ボス戦終了
 	}
 
 	bool ModeMain::BgmManage(std::string nextStage) {
@@ -233,16 +234,19 @@ namespace inr {
 		if (key == stage::STAGE_3) return bgm::SOUND_STAGE_3;
 		else return "";	// 登録されていない
 	}
-
+	// ゲームオーバー
 	bool ModeMain::GameOver() {
 		if (_isReset == true) return false;	// すでに初期化予約が入っている場合は処理を終了する
-		_isReset = true;	// フラグを起動
-		_game.GetModeServer()->FadeOut();	// 暗転処理を開始
+		_isReset = true;										// フラグを起動
+		_game.GetModeServer()->FadeOut();		// 暗転処理を開始
+		return true;
 	}
-
+	// ボスドアフラグの開放
 	bool ModeMain::OpenBossStage() {
+		// 既に開いている場合は終了
 		if (_bossOpen == true) return false;
-		_bossOpen = true;
+		_bossOpen = true;		// 開放
+		return true;				// 開放成功
 	}
 
 	bool ModeMain::IsEnding() {
@@ -254,22 +258,23 @@ namespace inr {
 		}
 		return false;
 	}
-
-
+	// ステージのリセット
 	bool ModeMain::StageReset() {
-		if (_isReset != true) return false;	// フラグが不十分
+		if (_isReset != true) return false;														// フラグが不十分
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
-		_bossBattle = false;
+		_bossBattle = false;														//　ボス戦を終了する
+		// ボス戦BGMが鳴っている場合は停止する
 		if (CheckSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3)) == 1) StopSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3));
 		// _uiSoul->Init();
-		_bg->ScrollOn();	// スクロール再開
-		_eServer->Init();	// エフェクトの消去
-		_tutorialServer->Clear();
-		_itemServer->ItemClear();	// アイテム初期化
-		_game.GetGimmickServer()->Clear();
-		_game.GetObjectServer()->ObjectsClear();	// オブジェクトの消去
+		_bg->ScrollOn();																// スクロール再開
+		_eServer->Init();																// エフェクトの消去
+		_tutorialServer->Clear();												// チュートリアルUIの消去
+		_itemServer->ItemClear();												// アイテム初期化
+		_game.GetGimmickServer()->Clear();							// ギミックの消去
+		_game.GetObjectServer()->ObjectsClear();				// オブジェクトの消去
 		_game.GetObjectServer()->GetPlayer()->Reset();	// 自機をステージの開始地点に戻す
-		_game.GetScenario()->AddObjects(_stageKey);		// オブジェクトを再配置する
-		_isReset = false;	// 処理終了
+		_game.GetScenario()->AddObjects(_stageKey);			// オブジェクトを再配置する
+		_isReset = false;																// 処理終了
+		return true;
 	}
 }

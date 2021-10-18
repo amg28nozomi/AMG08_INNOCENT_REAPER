@@ -191,7 +191,7 @@ namespace inr {
 		{ titles::TITLE_ALI, {"Resource/effect/Logo/ali/ali_", 1, 1, 34, WINDOW_W, WINDOW_H}},
 		{ titles::TITLE_ALO, {"Resource/effect/Logo/alo/alo_", 1, 1, 34, WINDOW_W, WINDOW_H}},
 		{ titles::TITLE_T, {"Resource/effect/Logo/t/t_", 1, 1, 30, WINDOW_W, WINDOW_H}},
-		{ titles::TITLE_TLI, {"Resource/effect/Logo/tli/tli", 1, 1, 30, WINDOW_W, WINDOW_H}},
+		{ titles::TITLE_TLI, {"Resource/effect/Logo/tli/tli_", 1, 1, 30, WINDOW_W, WINDOW_H}},
 		{ titles::TITLE_TLO, {"Resource/effect/Logo/tlo/tlo_", 1, 1, 30, WINDOW_W, WINDOW_H}},
 	};
 	// îwåiëfçﬁÇÃìoò^èÓïÒ

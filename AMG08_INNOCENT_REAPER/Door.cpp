@@ -105,12 +105,14 @@ namespace inr {
 	}
 	// 開閉フラグの起動
 	void Door::SwitchOn() {
+		// フラグ切り替え
 		_switch = gimmick::ON;
 		_ismove = true;
 #ifdef _DEBUG
 		_mainCollision.SetDrawFlag() = false;
 #endif
 		_mainCollision.SetCollisionFlag() = false;	// 当たり判定を元に戻す
+		// 開閉音を鳴らす
 		auto sh = SoundResearch(gimmick::door::KEY_DOOR);
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 	}
@@ -118,7 +120,7 @@ namespace inr {
 	void Door::SwitchOff() {
 		auto sound = se::SoundServer::GetSound(gimmick::door::SE_CLOSE_DOOR);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-
+		// フラグの切り替え
 		_switch = gimmick::OFF;
 		_ismove = true;
 #ifdef _DEBUG

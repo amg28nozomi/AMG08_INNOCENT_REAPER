@@ -735,13 +735,14 @@ namespace inr {
 		}
 		return false;	// ƒqƒbƒg‚µ‚È‚©‚Á‚½
 	}
-
-bool MapChips::TransitionResearch(const int no) {
-	if (_stageTransition->IsHit(no)) {
-		return true;
+	// ‘JˆÚƒ`ƒbƒv‚ÆÚG‚µ‚½‚©
+	bool MapChips::TransitionResearch(const int no) {
+		// ‘JˆÚƒ`ƒbƒv‚©‚Ì”»’è
+		if (_stageTransition->IsHit(no)) {
+			return true;	// ÚG‚µ‚½
+		}
+		return false;		// ÚG‚µ‚Ä‚¢‚È‚¢
 	}
-	return false;
-}
 
 	void MapChips::SetChipsMap() {
 		// Šeí“–‚½‚è”»’è‚ğ“o˜^‚·‚é

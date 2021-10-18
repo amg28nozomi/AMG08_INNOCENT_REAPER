@@ -38,17 +38,17 @@ namespace inr {
 		 */
 		void SetOwner(ObjectBase* owner);
 	private:
-		ObjectBase* _owner;		//!< 所有者
+		ObjectBase* _owner;	//!< 所有者
 		/**
-		 * @brief		オブジェクトを削除するかの判定
-		 * @return	消去する場合はtrueを返す
-		 *					消去しない場合はfalseを返す
+		 * @brief						オブジェクトを削除するかの判定
+		 * @return					消去する場合はtrueを返す
+		 *									消去しない場合はfalseを返す
 		 */
 		bool IsEnd();
 		/**
-		 * @brief		追従処理
-		 * @return	処理に成功した場合はtrueを返す
-		 *					処理に失敗した場合はfalseを返す
+		 * @brief						追従処理
+		 * @return					処理に成功した場合はtrueを返す
+		 *									処理に失敗した場合はfalseを返す
 		 */
 		bool Move();
 	};

@@ -85,14 +85,15 @@ namespace inr {
 		 */
 		void SetColor(std::string key);
 		/**
-		 * @brief		アニメーション処理
-		 * @return	アニメーションの再生を行う場合はtrueを返す
-		 *					再生を行わない場合はfalseを返す
+		 * @brief			アニメーション処理
+		 * @return		アニメーションの再生を行う場合はtrueを返す
+		 *						再生を行わない場合はfalseを返す
 		 */
 		bool MotionCount();
 		/**
-		 * @brief		移動処理
-		 * @return 
+		 * @brief			移動処理
+		 * @return		処理を行う場合はtrueを返す
+		 *						行わない場合はfalseを返す
 		 */
 		bool DoorMove();
 	};

@@ -16,19 +16,19 @@ namespace inr {
 	class ItemServer {
 	public:
 		/**
-		 * @brief	コンストラクタ
+		 * @brief				コンストラクタ
 		 */
 		ItemServer();
 		/**
-		 * @brief	デストラクタ
+		 * @brief				デストラクタ
 		 */
 		~ItemServer();
 		/**
-		 * @brief	更新処理
+		 * @brief				更新処理
 		 */
 		void Process();
 		/**
-		 * @brief	描画処理
+		 * @brief				描画処理
 		 */
 		void Draw();
 		/**
@@ -53,9 +53,9 @@ namespace inr {
 		bool _isDel;																//!< オブジェクトの消去を行うか
 		std::vector<std::shared_ptr<Item>> _items;	//!< アイテム管理用のコンテナ
 		/**
-		 * @brief		アイテムの消去
-		 * @return	成功した場合はtrueを返す
-		 *					失敗した場合はfalseを返す
+		 * @brief				アイテムの消去
+		 * @return			成功した場合はtrueを返す
+		 *							失敗した場合はfalseを返す
 		 */
 		bool Delete();
 	};

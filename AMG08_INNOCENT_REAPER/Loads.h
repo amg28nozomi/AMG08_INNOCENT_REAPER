@@ -17,7 +17,7 @@ namespace inr {
 	class Loads {
 	public:
 		/**
-		 * @brief	Šeí‘fŞ‚Ì“Ç‚İ‚İ
+		 * @brief		Šeí‘fŞ‚Ì“Ç‚İ‚İ
 		 */
 		static void ResourceLoad();
 		/**

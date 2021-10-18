@@ -21,7 +21,7 @@ protected:
 	int _heightMax;				//!< ‚‚³max
 	bool _collisionFalg;	//!< ”»’è‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
 #ifdef _DEBUG
-	bool _drawFlag;				// •`‰æ‚·‚é‚©‚Ç‚¤‚©
+	bool _drawFlag;				//!< •`‰æ‚·‚é‚©‚Ç‚¤‚©
 #endif
 public:
 	/**
