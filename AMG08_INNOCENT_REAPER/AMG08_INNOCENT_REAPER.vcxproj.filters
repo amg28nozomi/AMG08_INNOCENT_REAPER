@@ -1,396 +1,392 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MapChips.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MapData.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ModeBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ModeMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ModeServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ModeTitle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierDoll.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SoulSkin.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundServer.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GimmickBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLogo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ChipHitCheck.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SoulManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Scenario.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Logo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ModeEnd.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="RedGreenBlue.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SoulCursor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Loads.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FadeBlack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BigDoll.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FileData.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Lever.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectValue.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageTransition.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Pause.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle_Image.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Pause_UI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Crystal.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CrowDoll.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TrackingEffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GimmickServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageUi.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageValue.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ForeGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveImage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialImage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="LoopEffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ChipNumber.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="AABB.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleValue.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="TutorialValue.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialImage.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackingEffect.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="StageUi.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="StageTransition.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulSkin.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulCursor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierDoll.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenario.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="RedGreenBlue.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Pause_UI.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleValue.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle_Image.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectValue.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveImage.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ForeGround.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="GimmickBase.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="GimmickServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageValue.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Lever.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Logo.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Loads.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="LoopEffect.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MapData.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MapChips.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeBase.cpp">
+      <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="MapDataManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeEnd.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeMain.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeTitle.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="BigDoll.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ChipHitCheck.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ChipNumber.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="CrowDoll.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Crystal.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBase.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectServer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeBlack.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="FileData.cpp">
+      <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="MapChips.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="MapData.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ModeBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ModeMain.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ModeServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ModeTitle.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ObjectBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ObjectServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ResourceServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="SoldierDoll.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="SoulSkin.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="SoundServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="GimmickBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Image.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="TitleLogo.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ChipHitCheck.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="SoulManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Scenario.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="EffectBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Logo.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ModeEnd.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="RedGreenBlue.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="SoulCursor.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Loads.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="FadeBlack.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="BigDoll.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="FileData.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Lever.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ObjectValue.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="StageTransition.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Pause.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Particle_Image.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Pause_UI.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Crystal.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="CrowDoll.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="EffectServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="TrackingEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="GimmickServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="StageUi.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ItemServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ImageServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ImageValue.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ForeGround.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="MoveImage.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="TutorialImage.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="TutorialServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="LoopEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ChipNumber.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ParticleValue.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="TutorialValue.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="MapDataManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

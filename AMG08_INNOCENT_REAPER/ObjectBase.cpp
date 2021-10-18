@@ -200,15 +200,6 @@ namespace inr {
 	}
 #endif
 
-	void ObjectBase::ActionBox(double dx, double dy, const std::pair<int, int> wid) {
-		Vector2 abmin(dx - wid.first / 2, dy + wid.second / 2);
-		Vector2 abmax(dx + wid.first / 2, dy - wid.second / 2);
-		// AABB newBox(abmin, abmax);
-		auto red = GetColor(255, 255, 0);
-
-		DxLib::DrawBox(abmin.IntX(), abmin.IntY(), abmax.IntX(), abmax.IntY(), red, FALSE);
-	}
-
 	void ObjectBase::GimmickCheck(Vector2& move) {
 		auto gimmicks = _game.GetGimmickServer()->GetGimmicks();
 		for (auto g : gimmicks) {
@@ -255,10 +246,6 @@ namespace inr {
 	}
 
 	void ObjectBase::SetParameter(ObjectValue objValue) {
-
-	}
-
-	void ObjectBase::SetParameter(Vector2 newpos) {
 
 	}
 

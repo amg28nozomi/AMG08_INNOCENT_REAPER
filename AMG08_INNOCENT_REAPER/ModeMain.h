@@ -129,22 +129,38 @@ namespace inr {
 		std::unique_ptr<ImageServer> _messageServer;			//!< メッセージサーバ
 		std::unique_ptr<ForeGround> _fg;									//!< 前景
 		std::unique_ptr<ItemServer> _itemServer;					//!< アイテムサーバ
-		std::unique_ptr<TutorialServer> _tutorialServer;	//!<  チュートリアルサーバ
-
-		bool _isReset;	// 現在のステージの初期化を行うか？（）
-		bool _bossOpen;	// ボスステージへの扉は開かれているか？
-		bool _bossBattle;	// ボス戦は行われているか？
-		bool _isEnding;	// エンディングに移行するか
-		int _endCount;	// 終了するまでの待ち時間
-
-		Vector2 _worldPosition;	// ワールド座標
-
-		bool IsStageChange();	// ステージの切り替えを行うか？
-		bool StageChange();		// ステージの切り替え
-
+		std::unique_ptr<TutorialServer> _tutorialServer;	//!< チュートリアルサーバ
+		int _endCount;																		//!< 終了するまでの待ち時間
+		bool _isReset;																		//!< 現在ステージの初期化フラグ
+		bool _bossOpen;																		//!< ボス扉の開閉フラグ
+		bool _bossBattle;																	//!< ボス戦フラグ
+		bool _isEnding;																		//!< エンディング移行フラグ
+		/**
+		 * @brief		ステージの切り替え処理
+		 * @return	処理に成功した場合はtrueを返す
+		 *					失敗した場合はfalseを返す
+		 */
+		bool IsStageChange();
+		/**
+		 * @brief						BGMの管理
+		 * @param nextStage	次のステージ
+		 * @return					BGMの再生に成功した場合はtrueを返す
+		 *									BGMが同じ場合はfalseを返す
+		 */
 		bool BgmManage(std::string nextStage);
-		std::string BgmKey(std::string key);	// キーの切り替え
+		/**
+		 * @brief						エンディングに遷移するかの判定
+		 * @return					遷移処理がオンの場合はtrueを返す
+		 *									遷移しない場合はfalseを返す
+		 */
 		bool IsEnding();
+		/**
+		 * @brief						BGMキーの取得
+		 * @param	key				次のステージ
+		 * @return					ヒットした場合はキーを返す
+		 *									ヒットしなかった場合は""を返す
+		 */
+		std::string BgmKey(std::string key);	// キーの切り替え
 	};
 
 }

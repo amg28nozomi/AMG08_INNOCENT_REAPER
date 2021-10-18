@@ -65,7 +65,6 @@ namespace inr {
 			// ステージ切り替え用のキーを初期化
 			_changeKey = stage::CHANGE_NULL;
 			BgmManage(_stageKey);	// ステージに対応するBGMを鳴らす
-			_worldPosition = { 1920 / 2, 1080 / 2 };
 
 			TimeClear();
 			_bg->ScrollOn();	// 背景のスクロール再開
@@ -182,11 +181,6 @@ namespace inr {
 		bool flag = _changeKey == stage::CHANGE_NULL;
 		return flag;
 	}
-
-	bool ModeMain::StageChange() {
-		// ステージの切り替え
-		return false;
-	}
 	// ボス戦開始フラグ
 	bool ModeMain::BossBattle() {
 		// ボスステージではない場合は終了
@@ -213,18 +207,20 @@ namespace inr {
 		StopSoundMem(se::SoundServer::GetSound(_bgmKey));
 		return true;	// ボス戦終了
 	}
-
+	// BGMの切り替え
 	bool ModeMain::BgmManage(std::string nextStage) {
-		auto bgm = BgmKey(nextStage);	// キー取得
-		if (_bgmKey == bgm)	return false;	// キーが等しい場合はBGMを切り替えず鳴らし続ける
+		auto bgm = BgmKey(nextStage);
+		if (_bgmKey == bgm)	return false;									// キーが等しい場合はBGMを切り替えず鳴らし続ける
 		StopSoundMem(se::SoundServer::GetSound(_bgmKey));	// 現在のキーを止める
-		_bgmKey = bgm;	// 違う場合はbgmを切り替える
+		// 違う場合はbgmを切り替える
+		_bgmKey = bgm;
 		if (bgm == bgm::SOUND_STAGE_3) return true;
 		PlaySoundMem(se::SoundServer::GetSound(_bgmKey), se::SoundServer::GetPlayType(_bgmKey));
 		return true;
 	}
-
+	// BGMキーの気鋭替え
 	std::string ModeMain::BgmKey(std::string key) {
+		// キーと対応するサウンドキーを返す
 		if (key == stage::STAGE_0) return bgm::SOUND_STAGE_0;
 		if (key == stage::STAGE_T) return bgm::SOUND_STAGE_0;
 		if (key == stage::STAGE_1) return bgm::SOUND_STAGE_1;
@@ -245,14 +241,15 @@ namespace inr {
 	bool ModeMain::OpenBossStage() {
 		// 既に開いている場合は終了
 		if (_bossOpen == true) return false;
-		_bossOpen = true;		// 開放
-		return true;				// 開放成功
+		_bossOpen = true;
+		return true;		// 開放成功
 	}
-
+	// エンディングに遷移するか
 	bool ModeMain::IsEnding() {
 		if (_endCount == 0) return true;
 		--_endCount;
 		if (_endCount == 0) {
+			// カウンタが0になった場合は120フレーム後に遷移処理開始
 			_game.GetModeServer()->ModeChange(mode::FIN, 120);
 			return true;
 		}
