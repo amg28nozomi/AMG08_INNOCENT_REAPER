@@ -53,7 +53,6 @@ namespace inr {
 		auto nowcol = NowCollision(_divKey.first);
 
 		// マップチップの上に立っているかどうか
-		// if (_game.GetMapChips()->IsHit(_mainCollision, _gravity)) {
 		if (IsStandChip()) {
 			// 加速度が0の時だけ立っている
 			if (0 < _gravity) {
@@ -83,7 +82,6 @@ namespace inr {
 						auto h = nowcol.GetHeightMax();
 						_position.GetPY() = emptyBox.GetMin().GetY() - h;
 					}
-
 				}
 		}
 

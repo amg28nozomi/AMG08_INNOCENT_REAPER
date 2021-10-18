@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "ObjectServer.h"
 #include "GimmickServer.h"
+#include "GimmickValue.h"
 #include "SoundServer.h"
 
 namespace inr {

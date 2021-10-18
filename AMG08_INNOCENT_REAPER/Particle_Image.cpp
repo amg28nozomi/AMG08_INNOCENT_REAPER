@@ -81,14 +81,14 @@ namespace inr {
 		_animation = animation::A_SUB;	// 
 		return true;
 	}
-
+	// ‹P“x‚Ì‰ÁZˆ—
 	bool Particle_Image::AddPal() {
 		_pal += PAL_VALUE;
 		if (_pal < 255) return false;
 		if (255 < _pal) _pal = 255;
 		return true;
 	}
-
+	// ‹P“x‚ÌŒ¸Zˆ—
 	bool Particle_Image::SubPal() {
 		_pal -= PAL_VALUE;
 		if (0 < _pal) return false;
@@ -100,7 +100,7 @@ namespace inr {
 		if (_end == true) return false;
 		DrawEnd();
 		_end = true;
-		return false;
+		return true;
 	}
 
 	bool Particle_Image::IsNormal() {

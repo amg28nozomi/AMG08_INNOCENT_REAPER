@@ -5,10 +5,9 @@
 #include <unordered_set>
 #include <string>
 #include <algorithm>
-
 #include "ObjectValue.h"
+#include "GimmickValue.h"
 #include "Loads.h"
-
 #include "Player.h"
 #include "EnemyBase.h"
 #include "SoldierDoll.h"

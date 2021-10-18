@@ -1,78 +1,39 @@
+/*****************************************************************//**
+ * @file   ObjectValue.h
+ * @brief  オブジェクト情報クラス
+ * 
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #pragma once
 #include <vector>
 #include "Vector2.h"
+#include "GimmickValue.h"
 
 namespace inr {
-
+	/** オブジェクト情報のコンパイル時定数 */
 	namespace oscenario {
-		constexpr auto OBJ_NULL = -1;
-		constexpr auto OBJ_PLAYER = 0;
-		constexpr auto OBJ_SOLDIER_DOLL = 1;
-		constexpr auto OBJ_BIG_DOLL = 2;
-		constexpr auto OBJ_CROW_DOLL = 3;
-		constexpr auto OBJ_SOUL = 4;
-		constexpr auto OBJ_LEVER = 5;
-		constexpr auto OBJ_BLOCK = 6;
-		constexpr auto OBJ_CRYSTAL = 7; // quartz
-		constexpr auto OBJ_DOOR = 8;
-		constexpr auto OBJ_ITEM = 9;
-
+		constexpr auto OBJ_NULL = -1;					//!< 該当なし
+		constexpr auto OBJ_PLAYER = 0;				//!< 自機
+		constexpr auto OBJ_SOLDIER_DOLL = 1;	//!< ソルジャードール
+		constexpr auto OBJ_BIG_DOLL = 2;			//!< ビッグドール
+		constexpr auto OBJ_CROW_DOLL = 3;			//!< クロウドール
+		constexpr auto OBJ_SOUL = 4;					//!< 魂
+		constexpr auto OBJ_LEVER = 5;					//!< レバー
+		constexpr auto OBJ_BLOCK = 6;					//!< 壊れる岩
+		constexpr auto OBJ_CRYSTAL = 7;				//!< 水晶
+		constexpr auto OBJ_DOOR = 8;					//!< ドア
+		constexpr auto OBJ_ITEM = 9;					//!< アイテム
+		/** オブジェクトタイプのコンパイル時定数 */
 		namespace type {
-			constexpr auto PLAYER = 0;
-			constexpr auto ENEMY = 1;
-			constexpr auto SOUL = 2;
-			constexpr auto GIMMICK = 3;
-			constexpr auto ITEM = 4;
-		}
-
-		namespace gimmick {
-			constexpr auto TYPE_NULL = -1;
-			constexpr auto TYPE_LEVER = 0;
-			constexpr auto TYPE_CRYSTAL = 1;
-			constexpr auto TYPE_BLOCK = 2;
-			constexpr auto TYPE_DOOR = 3;
-
-			constexpr auto FLAG_NULL = -1;
-			constexpr auto FLAG_FALSE = 0;
-			constexpr auto FLAG_TRUE = 1;
-
-			namespace crystal {
-				constexpr auto TYPE_NULL = -1;
-				constexpr auto TYPE_STAGE_0 = 0;
-				constexpr auto TYPE_STAGE_2 = 1;
-
-				constexpr auto DOOR_NULL = -1;
-				constexpr auto DOOR_RED = 0;
-				constexpr auto DOOR_BLUE = 1;
-			}
+			constexpr auto PLAYER = 0;					//!< 自機
+			constexpr auto ENEMY = 1;						//!< 敵
+			constexpr auto SOUL = 2;						//!< 魂
+			constexpr auto GIMMICK = 3;					//!< ギミック
+			constexpr auto ITEM = 4;						//!< アイテム
 		}
 	}
-
-	/** ギミックの情報 */
-	class GimmickValue {
-	public:
-		/**
-		 * @brief	コンストラクタ
-		 * @param ギミックの種類
-		 * @param ギミックのフラグ
-		 * @param 水晶の種類
-		 * @param ドアの種類
-		 */
-		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL, int ctype = oscenario::gimmick::crystal::TYPE_NULL, std::vector<int> types = { oscenario::gimmick::crystal::DOOR_NULL });
-		inline int GimmickType() { return _gimmickType; }
-		inline int GimmickFlag() { return _gimmickFlag; }
-		inline int CrystalType() { return _crystalType; }
-		inline std::vector<int> DoorType() { return _dtype; }
-		inline void AddFlag(int flag) { _gimmickFlag = flag; }
-	private:
-		int _gimmickType;	// ギミックの種類（-1:対象外　0:レバー　1:水晶　2:　3:ドア）
-		int _gimmickFlag;	// ギミックのフラグ（-1:対象外　0:false　1:true）
-		int _crystalType;	// クリスタルの種類(-1:対象外、0:ステージ0、1:ステージ2)
-		std::vector<int> _dtype;	// ドアの種類
-
-	};
-
-	// 登録情報
+	/** オブジェクト情報 */
 	class ObjectValue {
 	public:
 		/**
@@ -99,31 +60,85 @@ namespace inr {
 		 * @brief	デストラクタ
 		 */
 		~ObjectValue() = default;
-
+		/**
+		 * @brief						クラス番号の取得
+		 * @return					クラス番号を返す
+		 */
 		inline int ClassName() { return _class; }
+		/**
+		 * @brief						魂情報の取得
+		 * @return					魂情報を返す
+		 */
 		inline int SoulType() { return _soulType; }
+		/**
+		 * @brief						ギミックタイプの取得
+		 * @return					ギミックタイプを返す
+		 */
 		inline int GimmickType() { return _gimmick.GimmickType(); }
+		/**
+		 * @brief						ギミックフラグの取得
+		 * @return					ギミックフラグを返す
+		 */
 		inline int GimmickFlag() { return _gimmick.GimmickFlag(); }
+		/**
+		 * @brief						水晶タイプの取得
+		 * @return					水晶タイプを返す
+		 */
 		inline int CrystalType() { return _gimmick.CrystalType(); }
+		/**
+		 * @brief						オブジェクトタイプの取得
+		 * @return					オブジェクトタイプを返す
+		 */
 		inline int ObjectType() { return _objType; }
+		/**
+		 * @brief						向きフラグの取得
+		 * @return					向きフラグを返す
+		 */
 		inline bool Direction() { return _direction; }
+		/**
+		 * @brief						出現座標の取得
+		 * @return					出現座標を返す
+		 */
 		inline std::vector<Vector2> Positions() { return _spawnPos; }
+		/**
+		 * @brief						ドアタイプの取得
+		 * @return					ドアタイプを返す
+		 */
 		inline std::vector<int> DoorType() { return _gimmick.DoorType(); }
-
+		/**
+		 * @brief						座標の更新
+		 * @param	newpos		更新後の座標
+		 */
 		void PositionsUpdate(Vector2 newpos);
+		/**
+		 * @brief						ギミックフラグと魂情報の更新
+		 * @param flag			フラグ
+		 * @param	soul			魂
+		 */
 		void FlagUpdate(int flag, int soul = 0);
+		/**
+		 * @brief						魂状態の更新
+		 * @param						魂
+		 */
 		inline void SoulUpdate(int soul) { _soulType = soul; }
+		/**
+		 * @brief						向きフラグの更新
+		 * @param						向き
+		 */
 		inline void DirectionUpdate(bool newdir) { _direction = newdir; }
-		
 	private:
-		int _class;	// 生成するクラスは何か
-		std::vector<Vector2> _spawnPos;	// 出現地点
-		bool _direction;	// 向き
-		int _soulType;	// 魂の有無（0:未所持　1:赤　2:青）
-		GimmickValue _gimmick;	// ギミックの登録情報
-		int _objType;	// オブジェクトの種類
-
-		int IsObjectType(int classname);	// このオブジェクトは何か？
+		int _class;											//!< 生成するクラスは何か
+		int _objType;										//!< オブジェクトの種類
+		int _soulType;									//!< 魂の有無（0:未所持　1:赤　2:青）
+		std::vector<Vector2> _spawnPos;	//!< 出現地点
+		bool _direction;								//!< 向き
+		GimmickValue _gimmick;					//!< ギミックの登録情報
+		/**
+		 * @brief						オブジェクトタイプの判定
+		 * @param	classname	クラス番号
+		 * @return					オブジェクトタイプを返す
+		 */
+		int IsObjectType(int classname);
 	};
 }
 

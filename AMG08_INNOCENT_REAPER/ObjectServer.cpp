@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   ObjectServer.cpp
+ * @brief  オブジェクトの管理を行うオブジェクトサーバ
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "ObjectServer.h"
 #include "ObjectBase.h"
 #include "EnemyBase.h"
@@ -85,12 +92,12 @@ namespace inr {
 
 	void ObjectServer::ObjectsClear() {
 		// プレイヤー以外をサーバーから削除
-		int fix = 0;	// 修正値
+		int fix = 0;			// 修正値
 		std::shared_ptr<ObjectBase> player = nullptr;
-		std::vector<ObjectValue> _gimmickValues;	// ギミックの情報更新用
+		std::vector<ObjectValue> _gimmickValues;												// ギミックの情報更新用
 		for (auto obj : _objects) {
 			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
-			player = obj;	// 自機のみ保持
+			player = obj;		// 自機のみ保持
 		}
 		_objects.clear();	// 配列初期化
 		if(player != nullptr)_objects.emplace_back(std::move(player));	// 自機のアドレスがある場合のみ登録
@@ -113,14 +120,6 @@ namespace inr {
 		}
 	}
 
-	std::shared_ptr<CrowDoll> ObjectServer::GetBoss() {
-		auto enemys = GetEnemys();
-		for (auto& it : enemys) {
-			if (it->IsBoss() != true) continue;
-			return std::dynamic_pointer_cast<CrowDoll>(it);
-		}
-	}
-
 	std::vector<std::shared_ptr<EnemyBase>> ObjectServer::GetEnemys() {
 		std::vector<std::shared_ptr<EnemyBase>> enemys;
 		for (auto obj : _objects) {
@@ -129,16 +128,7 @@ namespace inr {
 		}
 		return enemys;
 	}
-
-	/*std::vector<std::shared_ptr<GimmickBase>> ObjectServer::GetGimmicks() {
-		std::vector<std::shared_ptr<GimmickBase>> gimmicks;
-		for (auto obj : _objects) {
-			if (obj->GetType() != ObjectBase::ObjectType::GIMMICK) continue;
-			gimmicks.emplace_back(std::dynamic_pointer_cast<GimmickBase>(obj));
-		}
-		return gimmicks;
-	}*/
-
+	// 魂の取得
 	std::shared_ptr<SoulSkin> ObjectServer::GetSoul() {
 		for (auto obj : _objects) {
 			if (obj->GetType() != ObjectBase::ObjectType::SOUL) continue;
@@ -147,21 +137,4 @@ namespace inr {
 			return osoul;
 		}
 	}
-
-	void ObjectServer::GimmickUpdate() {
-
-	}
-
-
-	// 指定したオブジェクトの参照を取り出す（配列）
-	/*std::vector<std::unique_ptr<ObjectBase>>& ObjectServer::GetObjectList(ObjectBase::ObjectType otype) {
-		std::vector<std::unique_ptr<ObjectBase>>& list = _objects;
-
-		for (auto& it : list) {
-			if (it->GetType() == otype) {
-				list.emplace_back(&it);
-			}
-		}
-		return list;
-	}*/
 }

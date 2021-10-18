@@ -12,6 +12,7 @@
 #include "Door.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
+#include "GimmickValue.h"
 
 namespace inr {
 	// コンストラクタ

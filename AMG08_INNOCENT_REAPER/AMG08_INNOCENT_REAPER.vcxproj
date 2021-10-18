@@ -170,6 +170,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GimmickBase.cpp" />
     <ClCompile Include="GimmickServer.cpp" />
+    <ClCompile Include="GimmickValue.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageServer.cpp" />
     <ClCompile Include="ImageValue.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GimmickBase.h" />
     <ClInclude Include="GimmickServer.h" />
+    <ClInclude Include="GimmickValue.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImageServer.h" />
     <ClInclude Include="ImageValue.h" />

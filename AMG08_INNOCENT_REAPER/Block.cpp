@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "SoundServer.h"
 #include "GimmickServer.h"
+#include "GimmickValue.h"
 
 namespace inr {
 	// コンストラクタ

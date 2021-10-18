@@ -25,6 +25,7 @@
 #include "SoulCursor.h"
 #include "Lever.h"
 #include "GimmickBase.h"
+#include "GimmickValue.h"
 #include "ForeGround.h"
 #include "Item.h"
 #include "TutorialImage.h"

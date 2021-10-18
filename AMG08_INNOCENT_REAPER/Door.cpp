@@ -8,6 +8,7 @@
 #include "Door.h"
 #include "Game.h"
 #include "ObjectServer.h"
+#include "GimmickValue.h"
 #include "SoundServer.h"
 #include "SoulSkin.h"
 #include "ModeServer.h"

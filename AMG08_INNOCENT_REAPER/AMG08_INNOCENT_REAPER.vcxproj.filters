@@ -200,6 +200,9 @@
     <ClCompile Include="FileData.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="GimmickValue.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -386,6 +389,9 @@
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="MapDataManager.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="GimmickValue.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>
