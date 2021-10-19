@@ -14,13 +14,13 @@ namespace graph {
 	class DivGraph {
 	public:
 		/**
-		 * @brief					コンストラクタ
-		 * @param					ファイル名
-		 * @param					横向きに対する分割数
-		 * @param					縦向きに対する分割数
-		 * @param					画像の総分割数
-		 * @param					分割された画像の横幅
-		 * @param					分割された画像の縦幅
+		 * @brief						コンストラクタ
+		 * @param	filename	ファイル名
+		 * @param	xnum			横向きに対する分割数
+		 * @param	ynum			縦向きに対する分割数
+		 * @param	allnum		画像の総分割数
+		 * @param	xsize			分割された画像の横幅
+		 * @param	ysize			分割された画像の縦幅
 		 */
 		DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize);
 		/**

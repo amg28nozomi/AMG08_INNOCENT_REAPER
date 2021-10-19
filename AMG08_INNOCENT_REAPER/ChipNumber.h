@@ -48,42 +48,42 @@ namespace inr {
 		 */
 		ChipNumber(int type, bool ishit = mapchip::HIT_ON);
 		/**
-		 * @brief		横幅(min)の取得
-		 * @return	横幅(min)を返す
+		 * @brief						横幅(min)の取得
+		 * @return					横幅(min)を返す
 		 */
 		inline int WidthMin() { return widthMin; }
 		/**
-		 * @brief		横幅(max)の取得
-		 * @return	横幅(max)を返す
+		 * @brief						横幅(max)の取得
+		 * @return					横幅(max)を返す
 		 */
 		inline int WidthMax() { return widthMax; }
 		/**
-		 * @brief		縦幅(min)の取得
-		 * @return	縦幅(min)を返す
+		 * @brief						縦幅(min)の取得
+		 * @return					縦幅(min)を返す
 		 */
 		inline int HeightMin() { return heightMin; }
 		/**
-		 * @brief		縦幅(max)の取得
-		 * @return	縦幅(max)を返す
+		 * @brief						縦幅(max)の取得
+		 * @return					縦幅(max)を返す
 		 */
 		inline int HeightMax() { return heightMax; }
 		/**
-		 * @brief		効果番号の取得
-		 * @return	効果番号の返す
+		 * @brief						効果番号の取得
+		 * @return					効果番号の返す
 		 */
 		inline int ChipType() { return chipType; }
 		/**
-		 * @brief		判定フラグの取得
-		 * @return	判定フラグを返す
+		 * @brief						判定フラグの取得
+		 * @return					判定フラグを返す
 		 */
 		inline bool HitType() { return hitType; }
 	private:
-		int widthMin;		//!< 横幅(Min)
-		int widthMax;		//!< 横幅(Max)
-		int heightMin;	//!< 縦幅(Min)
-		int heightMax;	//!< 縦幅(Max)
-		int chipType;		//!< チップの効果番号
-		bool hitType;		//!< 当たり・押し出し判定の有無
+		int widthMin;				//!< 横幅(Min)
+		int widthMax;				//!< 横幅(Max)
+		int heightMin;			//!< 縦幅(Min)
+		int heightMax;			//!< 縦幅(Max)
+		int chipType;				//!< チップの効果番号
+		bool hitType;				//!< 当たり・押し出し判定の有無
 	};
 }
 

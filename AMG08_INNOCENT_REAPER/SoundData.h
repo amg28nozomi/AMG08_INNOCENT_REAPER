@@ -13,33 +13,33 @@ namespace se{
 	class SoundData {
 	public:
 		/**
-		 * @brief		コンストラクタ
-		 * @param		ファイル名
-		 * @param		再生タイプ
+		 * @brief						コンストラクタ
+		 * @param	fillname	ファイル名
+		 * @param	type			再生タイプ
 		 */
-		SoundData(std::string fillname, int type);
+		SoundData(std::string filename, int type);
 		/**
-		 * @brief		デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~SoundData() = default;
 		/**
-		 * @brief		ファイル名の取得
-		 * @return	ファイル名を返す
+		 * @brief						ファイル名の取得
+		 * @return					ファイル名を返す
 		 */
 		std::string& GetFill();
 		/**
-		 * @brief		サウンドハンドルの参照を取得
-		 * @return	サウンドハンドルの参照を返す
+		 * @brief						サウンドハンドルの参照を取得
+		 * @return					サウンドハンドルの参照を返す
 		 */
 		inline int& GetHandleP() { return _handle; }
 		/**
-		 * @brief		サウンドハンドルの取得
-		 * @return	サウンドハンドルを返す
+		 * @brief						サウンドハンドルの取得
+		 * @return					サウンドハンドルを返す
 		 */
 		inline int GetHandle() { return _handle; }
 		/**
-		 * @brief		再生タイプの取得
-		 * @return	再生タイプを返す
+		 * @brief						再生タイプの取得
+		 * @return					再生タイプを返す
 		 */
 		inline int GetPlayType() { return _playType; }
 	private:

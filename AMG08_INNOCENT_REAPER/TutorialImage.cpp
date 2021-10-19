@@ -11,10 +11,6 @@ namespace inr {
 		_isCol = false;
 	}
 
-	/*void TutorialImage::Init() {
-
-	}*/
-
 	void TutorialImage::Process() {
 		if (_isCol == true) IsCollision();
 		// 当たり判定はあるか？
@@ -59,7 +55,7 @@ namespace inr {
 
 	void TutorialImage::IsCollision() {
 		auto player = _game.GetObjectServer()->GetPlayer();
-		// 接触しているかどうかで
+		// 接触しているかどうかでアニメーションを行う
 		if (_collision.HitCheck(player->GetMainCollision()) == true && _pal != 255) {
 			if (_isDraw != true) _isDraw = true;
 			if (_pal != 255) _animation = animation::A_ADD;

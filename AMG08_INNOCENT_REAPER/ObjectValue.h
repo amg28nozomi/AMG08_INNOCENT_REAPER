@@ -41,23 +41,25 @@ namespace inr {
 		 */
 		ObjectValue();
 		/**
-		 * @brief	コンストラクタ
-		 * @param 生成するクラス
-		 * @param 生成地点
-		 * @param 魂の色(0:なし　1:赤　2:青)
-		 * @param ギミック情報
+		 * @brief						コンストラクタ
+		 * @param classtype 生成するクラス
+		 * @param xy				生成地点
+		 * @param direction	向きフラグ
+		 * @param soulcolor	魂の色(0:なし　1:赤　2:青)
+		 * @param gvalue		ギミック情報
 		 */
 		ObjectValue(int classtype, Vector2 xy, bool direction = false, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
 		/**
-		 * @brief	コンストラクタ
-		 * @param 生成するクラス
-		 * @param 生成地点を格納したコンテナ
-		 * @param 魂の色(0:なし　1:赤　2:青)
-		 * @param ギミック情報
+		 * @brief						コンストラクタ
+		 * @param classtype 生成するクラス
+		 * @param xy			  生成地点を格納したコンテナ
+		 * @param direction	向きフラグ
+		 * @param soulcolor	魂の色(0:なし　1:赤　2:青)
+		 * @param gvalue		ギミック情報
 		 */
 		ObjectValue(int classtype, std::vector<Vector2> xy, bool direction = false, int soulcolor = 0, GimmickValue gvalue = GimmickValue());
 		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~ObjectValue() = default;
 		/**

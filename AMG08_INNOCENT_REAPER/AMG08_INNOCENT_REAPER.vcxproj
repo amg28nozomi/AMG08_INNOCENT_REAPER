@@ -210,6 +210,7 @@
     <ClCompile Include="StageUi.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="TrackingEffect.cpp" />
+    <ClCompile Include="Transition.cpp" />
     <ClCompile Include="TutorialImage.cpp" />
     <ClCompile Include="TutorialServer.cpp" />
     <ClCompile Include="TutorialValue.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="StageUi.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TrackingEffect.h" />
+    <ClInclude Include="Transition.h" />
     <ClInclude Include="TutorialImage.h" />
     <ClInclude Include="TutorialServer.h" />
     <ClInclude Include="TutorialValue.h" />

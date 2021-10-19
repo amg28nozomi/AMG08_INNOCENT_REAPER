@@ -22,19 +22,19 @@ namespace inr {
 		 */
 		ModeTitle(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief				デストラクタ
 		 */
 		~ModeTitle();
 		/**
-		 * @brief	初期化処理
+		 * @brief				初期化処理
 		 */
 		virtual void Init();
 		/**
-		 * @brief 更新処理
+		 * @brief				更新処理
 		 */
 		virtual void Process();
 		/**
-		 * @brief 描画処理
+		 * @brief				描画処理
 		 */
 		virtual void Draw();
 	private:

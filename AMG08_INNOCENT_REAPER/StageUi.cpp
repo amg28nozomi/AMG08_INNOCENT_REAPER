@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   StageUi.cpp
+ * @brief  ステージUI（パーティクル画像のサブクラス）
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "StageUi.h"
 #include "ResourceServer.h"
 #include "MapChips.h"

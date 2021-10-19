@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   TitleLogo.cpp
+ * @brief  タイトルロゴ（画像クラスのサブクラス）
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "TitleLogo.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"

@@ -1,12 +1,19 @@
+/*****************************************************************//**
+ * @file   TutorialServer.cpp
+ * @brief  チュートリアル画像を管理するサーバ
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "TutorialServer.h"
 #include "TutorialImage.h"
 
 namespace inr {
-
+	// コンストラクタ
 	TutorialServer::TutorialServer() {
 		Clear();
 	}
-
+	// デストラクタ
 	TutorialServer::~TutorialServer() {
 		Clear();
 	}

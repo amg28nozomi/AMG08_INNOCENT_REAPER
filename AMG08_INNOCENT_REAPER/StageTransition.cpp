@@ -1,5 +1,6 @@
 
 #include "StageTransition.h"
+#include "Transition.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
 #include "Game.h"
@@ -80,12 +81,6 @@ namespace inr {
 		constexpr auto START_RIGHT = false;
 	}
 
-	Transition::Transition(std::string stageKey, Vector2 position, bool direction) {
-		_nextKey = stageKey;
-		_position = position;
-		_direction = direction;
-	}
-
 	StageTransition::StageTransition(Game& game) : _game(game) {
 		Clear();
 	}
@@ -101,53 +96,34 @@ namespace inr {
 	bool StageTransition::Init() {
 		// 対応するチップの当たり判定を設定する
 		_transitions = {
-			{ CHIP_1, {stage::STAGE_T, {start::TPOS_0_X, start::TPOS_0_Y}, start::START_RIGHT}},	// (1)→(15)
-			{ CHIP_2, {stage::STAGE_T, {start::TPOS_1_X, start::TPOS_1_Y}, start::START_LEFT}},	// (2)→(16)
-			{ CHIP_3, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}, start::START_RIGHT}},	// (3)→(5)
-			{ CHIP_4, {stage::STAGE_2, {start::TPOS_3_X, start::TPOS_3_Y}, start::START_RIGHT}},	// (4)→(6)
-			{ CHIP_5, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}, start::START_LEFT}},	// (5)→(3)
-			{ CHIP_6, {stage::STAGE_1, {start::TPOS_5_X, start::TPOS_5_Y}, start::START_LEFT}},	// (6)→(4)
-			{ CHIP_7, {stage::STAGE_2_1, {start::TPOS_6_X, start::TPOS_6_Y}, start::START_LEFT}},	// (7)→(8)
-			{ CHIP_8, {stage::STAGE_2, { start::TPOS_7_X, start::TPOS_7_Y}, start::START_RIGHT}},	// (8)→(7)
-			{ CHIP_9, {stage::STAGE_2, { start::TPOS_8_X, start::TPOS_8_Y}, start::START_LEFT}},	// (9)→(10)
-			{ CHIP_10, {stage::STAGE_2_1, { start::TPOS_9_X, start::TPOS_9_Y}, start::START_RIGHT}},	// (10)→(9)
+			{ CHIP_1, {stage::STAGE_T, {start::TPOS_0_X, start::TPOS_0_Y}, start::START_RIGHT}},				// (1)→(15)
+			{ CHIP_2, {stage::STAGE_T, {start::TPOS_1_X, start::TPOS_1_Y}, start::START_LEFT}},					// (2)→(16)
+			{ CHIP_3, {stage::STAGE_2, {start::TPOS_2_X, start::TPOS_2_Y}, start::START_RIGHT}},				// (3)→(5)
+			{ CHIP_4, {stage::STAGE_2, {start::TPOS_3_X, start::TPOS_3_Y}, start::START_RIGHT}},				// (4)→(6)
+			{ CHIP_5, {stage::STAGE_1, {start::TPOS_4_X, start::TPOS_4_Y}, start::START_LEFT}},					// (5)→(3)
+			{ CHIP_6, {stage::STAGE_1, {start::TPOS_5_X, start::TPOS_5_Y}, start::START_LEFT}},					// (6)→(4)
+			{ CHIP_7, {stage::STAGE_2_1, {start::TPOS_6_X, start::TPOS_6_Y}, start::START_LEFT}},				// (7)→(8)
+			{ CHIP_8, {stage::STAGE_2, { start::TPOS_7_X, start::TPOS_7_Y}, start::START_RIGHT}},				// (8)→(7)
+			{ CHIP_9, {stage::STAGE_2, { start::TPOS_8_X, start::TPOS_8_Y}, start::START_LEFT}},				// (9)→(10)
+			{ CHIP_10, {stage::STAGE_2_1, { start::TPOS_9_X, start::TPOS_9_Y}, start::START_RIGHT}},		// (10)→(9)
 			{ CHIP_11, {stage::STAGE_2_2, { start::TPOS_10_X, start::TPOS_10_Y}, start::START_RIGHT}},	// (11)→(12)
-			{ CHIP_12, {stage::STAGE_2, { start::TPOS_11_X, start::TPOS_11_Y}, start::START_LEFT}},	// (12)→(11)
-			{ CHIP_13, {stage::STAGE_3, { start::TPOS_12_X, start::TPOS_12_Y}, start::START_RIGHT}},	// (13)→(14)
-			{ CHIP_14, {stage::STAGE_2, { start::TPOS_13_X, start::TPOS_13_Y}, start::START_LEFT }},	// (14)→(13)
-			{ CHIP_15, {stage::STAGE_0, {start::TPOS_14_X ,start::TPOS_14_Y}, start::START_LEFT}},	// (15)→(1)
-			{ CHIP_16, {stage::STAGE_1, {start::TPOS_15_X ,start::TPOS_15_Y}, start::START_RIGHT}},	// (16)→(2)
+			{ CHIP_12, {stage::STAGE_2, { start::TPOS_11_X, start::TPOS_11_Y}, start::START_LEFT}},			// (12)→(11)
+			{ CHIP_13, {stage::STAGE_3, { start::TPOS_12_X, start::TPOS_12_Y}, start::START_RIGHT}},		// (13)→(14)
+			{ CHIP_14, {stage::STAGE_2, { start::TPOS_13_X, start::TPOS_13_Y}, start::START_LEFT }},		// (14)→(13)
+			{ CHIP_15, {stage::STAGE_0, {start::TPOS_14_X ,start::TPOS_14_Y}, start::START_LEFT}},			// (15)→(1)
+			{ CHIP_16, {stage::STAGE_1, {start::TPOS_15_X ,start::TPOS_15_Y}, start::START_RIGHT}},			// (16)→(2)
 		};
-
-		/*
-		{ 129, {mapchip::TRANSITION}},	// ステージS(1)→ステージ1(2)
-			{ 130, {mapchip::TRANSITION}},	// ステージ1(3)→ステージ2-2()
-			{ 131, {mapchip::TRANSITION}},
-			{ 132, {mapchip::TRANSITION}},
-			{ 133, {mapchip::TRANSITION}},
-			{ 134, {mapchip::TRANSITION}},
-			{ 135, {mapchip::TRANSITION}},
-			{ 136, {mapchip::TRANSITION}},
-			{ 137, {mapchip::TRANSITION}},
-			{ 138, {mapchip::TRANSITION}},
-			{ 139, {mapchip::TRANSITION}},
-			{ 140, {mapchip::TRANSITION}},
-			{ 141, {mapchip::TRANSITION}},
-			{ 142, {mapchip::TRANSITION}},
-			{ 143, {mapchip::TRANSITION}},
-			{ 144, {mapchip::TRANSITION}},
-		*/
 		return true;
 	}
 
 	bool StageTransition::IsHit(const int no) {
 		auto it = _transitions.find(no);
 		if (it == _transitions.end()) return false;	// 接触していない
-		_number = no;	// 接触したキーを記録
+		_number = no;																// 接触したキーを記録
 
 		auto modemain = _game.GetModeServer()->GetModeMain();
 		if (modemain->IsKeyNull()) modemain->ChangeKey(it->second.NextKey());
-		return true;// 接触した（ヒットした）
+		return true;	// 接触した（ヒットした）
 	}
 
 	bool StageTransition::IsStageChange() {
@@ -162,6 +138,4 @@ namespace inr {
 		_number = CHIP_NULL;	// キーを空にする
 		return std::make_pair(it->second.NextPosition(), it->second.NextDirection());
 	}
-
-	// どうやって自機が接触したかどうかの判定を行うのか
 }

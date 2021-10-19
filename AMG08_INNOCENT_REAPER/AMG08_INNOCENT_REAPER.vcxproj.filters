@@ -206,6 +206,9 @@
     <ClCompile Include="SoundData.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -398,6 +401,9 @@
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="SoundData.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>

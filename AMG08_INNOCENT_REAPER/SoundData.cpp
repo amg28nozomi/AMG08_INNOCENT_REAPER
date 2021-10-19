@@ -9,7 +9,7 @@
 
 namespace se {
 
-	SoundData::SoundData(std::string fillname, int type) : _filename(fillname), _handle(0), _playType(type) {
+	SoundData::SoundData(std::string filename, int type) : _filename(filename), _handle(0), _playType(type) {
 
 	}
 

@@ -24,9 +24,9 @@ namespace inr {
 		RedGreenBlue();
 		/**
 		 * @brief					コンストラクタ
-		 * @param					赤
-		 * @param					緑
-		 * @param					青
+		 * @param	red			赤
+		 * @param	green		緑
+		 * @param	blue		青
 		 */
 		RedGreenBlue(double red, double green, double blue);
 		/**

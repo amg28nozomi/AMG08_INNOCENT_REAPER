@@ -66,7 +66,7 @@ namespace inr {
 			BgmManage(_stageKey);	// ステージに対応するBGMを鳴らす
 
 			TimeClear();
-			_bg->ScrollOn();													// 背景のスクロール再開
+			_bg->ScrollOn();														// 背景のスクロール再開
 			_fg->SetKey(_stageKey);											// 前景の切り替え
 			_game.GetMapChips()->ChangeMap(_stageKey);	// マップチップの切り替え
 			_game.GetScenario()->AddObjects(_stageKey);	// 各種オブジェクトの生成
@@ -157,7 +157,7 @@ namespace inr {
 			BgmManage(_changeKey);	// bgm切り替え
 			_stageUi->ChangeNumber(_changeKey);
 			_fg->SetKey(_changeKey);
-			_eServer->Init();	// 各種エフェクトを消去する
+			_eServer->Init();				// 各種エフェクトを消去する
 			_tutorialServer->Clear();
 			_game.GetScenario()->ScenarioUpdate(_stageKey);	// 元いた情報に更新をかける
 			_game.GetMapChips()->ChangeMap(_changeKey);
