@@ -30,7 +30,6 @@ namespace inr {
 
 	void UI::Init() {
 		// 各種処理の初期化
-		// _player.reset();	// 所有権を手放す
 		_ghKeys = { ui::KEY_HP };
 		_pal = { 255 };
 		_count = { 0 };
@@ -52,9 +51,6 @@ namespace inr {
 
 		Dels();
 		GraphUpdata();
-		// 更新処理
-		// 自機が保有する魂の数が変わった場合のみ更新をかける
-		// 該当する魂がなくなった場合アニメーションを開始する
 	}
 
 	void UI::Draw() {
@@ -97,8 +93,7 @@ namespace inr {
 			_ghKeys.at(number) = GetGraphKey(it.front()->SoulColor());
 			it.pop();
 		}
-
-		// 輝度がマックスではない場合
+		// 透明度がマックスではない場合
 		for (auto&& pal : _pal) {
 			if (pal == 255) continue;
 			if (255 < pal) {
@@ -112,12 +107,9 @@ namespace inr {
 	int UI::GraphHandle(const std::string key, int count) {
 		// グラフィックハンドルの算出
 		auto interval = 3;
-		int no = static_cast<int>(count / interval) % 25;	// 距離を算出;
+		int no = static_cast<int>(count / interval) % 25;	// 距離を算出
 		return graph::ResourceServer::GetHandles(key, no);
 	}
-
-	// アニメーションが終了してから魂を解放するようにする
-	// 魂が三つ以上登録されている場合は更新を行わない
 
 	void UI::SoulResearch() {
 		auto ps = _player->GetSouls();
@@ -130,7 +122,6 @@ namespace inr {
 				auto loopMax = static_cast<int>(ps.size() - changes);
 				for (int i = 0; i < loopMax; ++i) it.pop();	// 重複する要素を消す
 
-				
 				for (auto i = 0; i < changes; ++i) {
 					_ghKeys.emplace_back(GetGraphKey(static_cast<int>(it.back()->SoulColor())));	// ここで止まる
 					_count.emplace_back(0);

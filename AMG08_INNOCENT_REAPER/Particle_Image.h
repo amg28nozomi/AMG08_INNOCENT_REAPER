@@ -144,6 +144,10 @@ namespace inr {
 		 *								ˆ—‚ª‚ ‚éê‡‚Ífalse‚ğ•Ô‚·
 		 */
 		bool IsNormal();
+		/**
+		 * @brief					À•W‚ÌØ‚è‘Ö‚¦
+		 * @param type		ƒtƒ‰ƒO
+		 */
 		virtual void ChangePosition(bool type);
 	};
 }

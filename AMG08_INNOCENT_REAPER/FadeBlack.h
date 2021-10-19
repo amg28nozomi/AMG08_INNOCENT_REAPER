@@ -61,24 +61,24 @@ namespace inr {
 		 */
 		inline bool PalChange() { return _addEnd; }
 	private:
-		int _pal;						//!< 輝度
+		int _pal;						//!< 透明度
 		int _interval;			//!< 処理終了後の待ち時間
 		bool _isInterval;		//!< 現在は待ち時間か？
 		bool _end;					//!< 処理は終了したか
 		bool _type;					//!< 加算・減算処理のどちらを行うか
 		bool _addEnd;				//!< 加算・減算処理が終了しているか
 		/**
-		 * @brief		フェードアウト処理
+		 * @brief						フェードアウト処理
 		 */
 		void FadeOut();
 		/**
-		 * @brief		フェードイン処理
+		 * @brief						フェードイン処理
 		 */
 		void FadeIn();
 		/**
-		 * @brief		処理が終了しているかの判定
-		 * @return	終了している場合はtrueを返す
-		 *					終了していない場合はfalseを返す
+		 * @brief						処理が終了しているかの判定
+		 * @return					終了している場合はtrueを返す
+		 *									終了していない場合はfalseを返す
 		 */
 		bool FadeEnd();
 	};

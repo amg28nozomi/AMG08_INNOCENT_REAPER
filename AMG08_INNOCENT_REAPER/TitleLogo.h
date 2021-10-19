@@ -36,7 +36,7 @@ namespace inr {
 		Vector2 _position2;						//!< 座標
 		Collision _hitCol1;						//!< 当たり判定ボックス(1)
 		Collision _hitCol2;						//!< 当たり判定ボックス(2)
-		int _pal;											//!< 輝度
+		int _pal;											//!< 透明度
 		std::vector<double> _rate;		//!< 拡大率
 		std::vector<int> _rateFlag;		//!< 拡大フラグ
 		std::string _graphKey2;				//!< 画像キー

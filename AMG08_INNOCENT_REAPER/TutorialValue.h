@@ -34,18 +34,18 @@ namespace inr {
 		 */
 		TutorialValue(ImageValue ivalue, int width1, int width2, int height1, int height2);
 		/**
-		 * @brief		‰æ‘œî•ñ‚Ìæ“¾
-		 * @return	‰æ‘œî•ñ‚ğ•Ô‚·
+		 * @brief					‰æ‘œî•ñ‚Ìæ“¾
+		 * @return				‰æ‘œî•ñ‚ğ•Ô‚·
 		 */
 		inline ImageValue GetImageValue() { return _ivalue; }
 		/**
-		 * @brief		•‚Ìæ“¾
-		 * @return	•‚ğ•Ô‚·
+		 * @brief					•‚Ìæ“¾
+		 * @return				•‚ğ•Ô‚·
 		 */
 		std::vector<int> Width() { return _width; }
 		/**
-		 * @brief		‚‚³‚Ìæ“¾
-		 * @return	‚‚³‚ğ•Ô‚·
+		 * @brief					‚‚³‚Ìæ“¾
+		 * @return				‚‚³‚ğ•Ô‚·
 		 */
 		std::vector<int> Height() { return _height; }
 	private:
