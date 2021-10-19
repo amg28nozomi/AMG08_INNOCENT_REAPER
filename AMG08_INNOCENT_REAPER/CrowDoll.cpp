@@ -686,7 +686,7 @@ namespace inr {
 	}
 	// デバフエフェクトの生成
 	void CrowDoll::AddDebuffEffect() {
-		_game.GetObjectServer()->GetPlayer()->Debuf();	// 自機のデバフ処理呼び出し
+		_game.GetObjectServer()->GetPlayer()->Debuff();	// 自機のデバフ処理呼び出し
 		// 生成地点の設定
 		auto world = _game.GetMapChips()->GetWorldPosition();
 		Vector2 addpos = { world.GetX(), world.GetY() };

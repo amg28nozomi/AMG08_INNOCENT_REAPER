@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   Player.cpp
+ * @brief  自機クラス（オブジェクトベースのサブクラス）
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "Player.h"
 #include "Game.h"
 #include "Vector2.h"
@@ -31,35 +38,23 @@ namespace {
 	constexpr auto START_POSITION_X = 200;
 	constexpr auto START_POSITION_Y = 1900;
 #endif
-
-	// constexpr auto ROB
-
-	// constexpr auto PLAYER_HIGHT = 250; // 300
-	// constexpr auto PLAYER_WIDTH = 160; // 400
-
 	constexpr auto MAX_SPPED = 6;
 
 	constexpr auto BF_HEIGHT_MIN = 10;	// ボックス座標修正用
 	constexpr auto BF_HEIGHT_MAX = 20;
 	constexpr auto BF_WIDTH = 10;
-
 	// アクションのフレーム数
 	constexpr auto ACTION_MAX = 3;
-
 	// SEのフレーム数
-	constexpr auto SE_RUN1 = 37;	// 移動SEのフレーム数 
-
-
+	constexpr auto SE_RUN1 = 37;			// 移動SEのフレーム数 
 	// 奪うアクションの当たり判定
 	constexpr auto ROB_WIDTH1 = 100;
-	// constexpr auto ROB_WIDTH1 = 25 + 50; //75;
 	constexpr auto ROB_WIDTH2 = -25;
 	constexpr auto ROB_HEIGHT1 = 10;	// 0
 	constexpr auto ROB_HEIGHT2 = 50;	// 40
 	// 奪うアクションの判定フレーム数
 	constexpr auto JUDGE_MIN = -1;
-	constexpr auto ROB_JUDGEMENT = 8 * 4;// judgement
-
+	constexpr auto ROB_JUDGEMENT = 8 * 4;
 	// 与えるアクションの当たり判定
 	constexpr auto GIVE_WIDTH1 = 90;
 	constexpr auto GIVE_WIDTH2 = -10;
@@ -67,19 +62,17 @@ namespace {
 	constexpr auto GIVE_HEIGHT2 = 55;
 	// 与えるアクションの判定フレーム数
 	constexpr auto GIVE_JUDGEMENT = 10 * 4;
-
 	// ジャンプアクション
 	constexpr auto JUMP_VECTOR = 1;	// ジャンプの移動ベクトル
 	constexpr auto JUMP_MIN = 5.5;
-	constexpr auto JUMP_MAX = 11; // 15
+	constexpr auto JUMP_MAX = 11;	 // 15
 	constexpr auto JUMP_Y = 5;
 
 	constexpr auto JUMP_EFFECT_Y = 30;
-
 	// ダッシュアクション関連
-	constexpr auto DASH_INTERVAL = 60;	// ダッシュモーション後のインターバル時間
-	constexpr auto DASH_TIME = 50 / 4;	// ダッシュアクションが完了するまでの時間
-	constexpr auto DASH_MAX = 280;	// ダッシュモーションの最大移動距離
+	constexpr auto DASH_INTERVAL = 60;							// ダッシュモーション後のインターバル時間
+	constexpr auto DASH_TIME = 50 / 4;							// ダッシュアクションが完了するまでの時間
+	constexpr auto DASH_MAX = 280;									// ダッシュモーションの最大移動距離
 	constexpr auto DASH_VEC = DASH_MAX / DASH_TIME;	// 移動ベクトル
 
 	constexpr auto DASH_WIDTH1 = 40;
@@ -88,17 +81,13 @@ namespace {
 	constexpr auto DASH_HEIGHT2 = 70;
 
 	constexpr auto DASH_EFFECT = 150;
-
 	// ノックバック関連
-	constexpr auto HIT_MAX = 300; // 最大移動量
-	constexpr auto HIT_FRAME = 60;	// ノックバック時間
+	constexpr auto HIT_MAX = 300;					// 最大移動量
+	constexpr auto HIT_FRAME = 60;				// ノックバック時間
 	constexpr auto INVINCIBLE_TIME = 120;	// 無敵フレーム
-
 	// 蔦登り
 	constexpr auto HAND_WIDTH = 25;
 	constexpr auto HAND_HEIGHT = 10;
-
-
 	// 各種モーションの画像数
 	constexpr auto PF_IDOL = 13;
 	constexpr auto PF_RUN = 25;
@@ -109,12 +98,9 @@ namespace {
 	constexpr auto PF_GIVE = 16;
 	constexpr auto PF_HIT = 7;
 	constexpr auto PF_CLIMB = 13;
-
 	constexpr auto PF_DEATH = 40;	// モーションが上がってきていないため代用
-
 	// 描画切り替えまでに必要なフレーム数
 	constexpr auto MF_INTERVAL = 4;
-
 	// 再生時間（Player Motion Frame）
 	constexpr auto PMF_IDOL = PF_IDOL * MF_INTERVAL;
 	constexpr auto PMF_RUN = PF_RUN * 3;
@@ -123,20 +109,18 @@ namespace {
 	constexpr auto PMF_FALL = PF_FALL * MF_INTERVAL;
 	constexpr auto PMF_ROB = PF_ROB * MF_INTERVAL;
 	constexpr auto PMF_GIVE = PF_GIVE * MF_INTERVAL;
-	// constexpr auto PMF_HIT = PF_HIT * MF_INTERVAL;
 	constexpr auto PMF_HIT = PF_HIT * 9;
 	constexpr auto PMF_DEATH = 40 * 2;
 	constexpr auto PMF_CLIMB = PF_CLIMB * MF_INTERVAL;
 
 	constexpr auto MOVE_DEFAULT = 1.0;
-	constexpr auto MOVE_DEBUFF = 0.5; // 
+	constexpr auto MOVE_DEBUFF = 0.5; 
 
 	constexpr auto DEBUFF_MAX = 60 * 5;
 
 	// 棘ダメージ判定フラグ
 	constexpr auto DAMAGE_ON = true;
 	constexpr auto DAMAGE_OFF = false;
-
 }
 
 namespace inr {
@@ -144,7 +128,6 @@ namespace inr {
 	Player::Player(Game& game) : ObjectBase::ObjectBase(game) {
 		_type = ObjectType::PLAYER;
 		_aState = ActionState::IDOL;
-
 		_aCount = 0;
 		_aFrame = 0;
 		_knockBack = 0;
@@ -155,10 +138,7 @@ namespace inr {
 		_landingType = "";
 		_moveD = MOVE_DEFAULT;
 		_ivxInterval = DAMAGE_OFF;
-
 		_souls;
-		// _souls.push(nullptr);
-
 		_direction = false;
 		_ivx = std::make_pair(0, 0);
 		_changeGraph = true;
@@ -169,9 +149,6 @@ namespace inr {
 		_position = {0, 0};
 		_divKey = std::make_pair(PKEY_IDOL, key::SOUND_NUM);
 		_moveVector = { 0, 0 };
-		// _moveVector = std::make_pair(0, 0);
-		
-		// _mainCollision = { _position, (PLAYER_WIDTH / 2) - BF_WIDTH, PLAYER_WIDTH / 2, (PLAYER_HIGHT / 2) - BF_HEIGHT_MIN, (PLAYER_HIGHT / 2) + BF_HEIGHT_MAX , true};
 		_mainCollision = { _position, (PLAYER_WIDTH / 2), (PLAYER_HEIGHT / 2), true };
 		
 		
@@ -186,8 +163,6 @@ namespace inr {
 
 	void Player::Init() {
 		_invincible = 0;	// 無敵時間
-		_pal = 255;
-
 		// キー名　first:アニメーションの総フレーム数、second:SEの再生フレーム数
 		_motionKey = {
 					{PKEY_DEATH, {PMF_DEATH, 50}},	// 死亡処理
@@ -205,8 +180,6 @@ namespace inr {
 		auto x = _position.GetX();
 		auto y = _position.GetY();
 
-
-		// AABB dashBox = { _position, DASH_WIDTH1, DASH_WIDTH2, DASH_HEIGHT1, DASH_HEIGHT2 };
 		AABB dashBox = { _position, 25, 55, true };
 		AABB robBox = { _position, ROB_WIDTH1, ROB_WIDTH2, ROB_HEIGHT1, ROB_HEIGHT2 };
 		AABB giveBox = { _position, GIVE_WIDTH1, GIVE_WIDTH2, GIVE_HEIGHT1, GIVE_HEIGHT2 };
@@ -241,18 +214,14 @@ namespace inr {
 			} else --_debuffCount;
 		}
 
-		/*Move();
-		Climb();*/
-		Move(leverLR); // 移動処理（レバー入力受付のため停止中）
+		Move(leverLR);	// 移動処理（レバー入力受付のため停止中）
 		Climb(leverUD);	// 上下移動（レバー入力受付のため停止中）
-		Action(key); // アクション
-		Grab();
-		Dash();	// ダッシュ
-		Jump(); // ジャンプ処理
-
+		Action(key);		// アクション
+		Grab();					// 掴み
+		Dash();					// ダッシュ
+		Jump();					// ジャンプ処理
 		// 位置座標の更新
 		PositionUpdate();
-
 		// 各種衝突処理
 		auto&& objs = _game.GetObjectServer()->GetEnemys();
 
@@ -272,13 +241,10 @@ namespace inr {
 	}
 
 	void Player::Draw() {
-		 Vector2 xy = _position;
-		 _game.GetMapChips()->Clamp(xy);
-		 auto x = xy.IntX();
-		 auto y = xy.IntY();
-
-		/*DrawFormatString(1500, 100, GetColor(0, 255, 0), "描画座標x = %d", x);
-		DrawFormatString(1500, 150, GetColor(0, 255, 0), "描画座標y = %d", y);*/
+		Vector2 xy = _position;
+		_game.GetMapChips()->Clamp(xy);
+		auto x = xy.IntX();
+		auto y = xy.IntY();
 
 		int graph;	// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
@@ -465,56 +431,31 @@ namespace inr {
 	bool Player::Action(int key) {
 		// 前フレームの情報
 		auto beforeState = _aState;
-		auto x = _position.GetX();
-		auto y = _position.GetY();
-
 		// keyに入力情報がある場合
 		if (key) {
 			// 入力情報に応じた処理を実行
 			switch (key) {
 			case PAD_INPUT_1:	// Xボタンが押された場合、「魂を奪う」
-				// 前フレームの状態と同じ場合は処理から抜ける
-				// if (_aState == ActionState::ROB || _aState == ActionState::GIVE) break;
-				Rob(x, y); //　奪うアクション実行
+				Rob();					//　奪うアクション実行
 				break;
 			case PAD_INPUT_2:	// Yボタンが押された場合、「魂を与える」
 				if (_aState == ActionState::GIVE || _aState == ActionState::ROB) break;
-				Give(x, y);		// 与えるアクション実行
+				Give();					// 与えるアクション実行
 				break;
 			case PAD_INPUT_3:	// Aボタンが押された場合、「ジャンプ」
 				InputJump();
 				break;
-			//	// 
-			//	//if (_aState != ActionState::IDOL && _aState != ActionState::MOVE || _aState == ActionState::JUMP) break;
-			//	Jump();
-
 			case PAD_INPUT_5:	// L1が押された場合、「魂を切り替える」
 				ChangeSoul();
 				break;
 			case PAD_INPUT_6:	// R1が押された場合、「ダッシュ」
 				if (_aState == ActionState::HIT) break;
-				InputDash(x);
+				InputDash();
 				break;
 			}
 		}
-
-		// 緊急実装
-
-		//if (CheckHitKey(KEY_INPUT_A) == TRUE) Rob(x, y); //　奪うアクション実行
-		//else if (CheckHitKey(KEY_INPUT_S) == TRUE) {
-		//	if (_aState == ActionState::GIVE || _aState != ActionState::ROB) Give(x, y);		// 与えるアクション実行
-		//}
-		//else if (CheckHitKey(KEY_INPUT_D) == TRUE)ChangeSoul();
-		//else if (CheckHitKey(KEY_INPUT_F) == TRUE) if (_aState != ActionState::HIT) InputDash(x);
-
 		// アイドル状態以外で、アニメーションが終わってない場合
 		StateUpdate();
-		
-				/*if (!_speed && _aCount == 0) {
-					_aState = ActionState::IDOL;
-					_divKey.first = PKEY_IDOL;
-				}*/
-
 		return false;
 	}
 
@@ -530,7 +471,6 @@ namespace inr {
 	}
 
 	void Player::Grab() {
-		// if (_game.GetMapChips()->HitIvy(NowCollision(_divKey.first), _position, _moveVector, _direction)) IsGran();
 		auto hand = _collisions.find(PKEY_CLIMB);
 		if (_game.GetMapChips()->HitIvy(hand->second, _position, _moveVector, &_ivx,_direction)) IsGrab();
 		else _grab = false;
@@ -597,22 +537,14 @@ namespace inr {
 		}
 	}
 
-	void Player::InputDash(double x) {
+	void Player::InputDash() {
 		// 入力可能状態かつ、インターバル中ではないか？
 		if (_input == true && !_dashInterval) {
 			// ダッシュ状態ではない場合、各種初期化処理を実行
 			if (_aState != ActionState::DASH) {
 				ChangeState(ActionState::DASH, PKEY_DASH);
 				auto soundKey = SoundResearch(key::SOUND_PLAYER_ROB);
-				// auto soundKey = SoundResearch(key::SOUND_PLAYER_DASH);
-				// auto soundType = se::SoundServer::GetPlayType(_divKey.second);
 				PlaySoundMem(soundKey, DX_PLAYTYPE_BACK);
-				// auto sound = SoundResearch(key::SOUND_PLAYER_JUMP);
-				// PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-				// ダッシュアクション後の座標を割り出す（敵 or マップチップに接触した場合はこの限りではない）
-				// (_direction == PL_LEFT) ? _dashX = x - DASH_MAX : _dashX = x + DASH_MAX;
-				/*auto it = _collisions.find(_divKey.first);
-				it->second.GetCollisionFlgB() = true;*/
 				_dashX = DASH_MAX;
 				_input = false;	// 他アクションの入力を停止する
 				_grab = false;
@@ -713,8 +645,6 @@ namespace inr {
 						}
 						return;
 					}  
-
-
 					if (_jumpPower < JUMP_MIN) { 
 						_jumpPower = JUMP_MIN; 
 					} else {
@@ -725,20 +655,11 @@ namespace inr {
 						return;
 					}
 						auto jumpPower = JUMP_VECTOR * (1.0 + _jumpPower);
-						_gravity = -jumpPower;
-
-						// 飛距離が最大値を超えた場合は修正
-						// if (JUMP_MAX < jumpPower) jumpPower = JUMP_MAX;
-						// ジャンプの飛距離を登録
-						// この値は地面に触れた or 天井に接触した場合、0にする。
-						
-					
+						_gravity = -jumpPower;					
 			}
-		//if(_jumpPower) _jumpPower = 0;
-		// _jumpPower = 0;
 	}
 
-	void Player::Rob(double x, double y) {
+	void Player::Rob() {
 		if (_input == true) {
 			ChangeState(ActionState::ROB, PKEY_ROB);
 			// SE読み込み
@@ -761,18 +682,9 @@ namespace inr {
 		
 	}
 
-	void Player::Give(double x, double y) {
-
+	void Player::Give() {
 		if (_input == true) {
 			ChangeState(ActionState::GIVE, PKEY_GIVE);
-			// SE読み込み
-			//auto sound1 = SoundResearch(key::SOUND_PLAYER_GIVE_TRUE);
-			//PlaySoundMem(sound1, se::SoundServer::GetPlayType(_divKey.second));
-
-			
-
-			// Vector2 pos = { _position.GetX() + GetFix(60), _position.GetY() };
-
 			auto give_eff = std::make_unique<TrackingEffect>(_game.GetGame(), effect::GIVE, _position, 60, _direction);
 			give_eff->Set(this, 60);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(give_eff), effect::type::FORMER);
@@ -782,8 +694,8 @@ namespace inr {
 #ifdef _DEBUG
 			it->second.SetDrawFlag() = true;
 #endif
-			_input = false; // 入力を受け付けなくする
-			_judegFrame = ROB_JUDGEMENT;	// 判定カウンタ
+			_input = false;												// 入力を受け付けなくする
+			_judegFrame = ROB_JUDGEMENT;					// 判定カウンタ
 		}
 	}
 
@@ -817,7 +729,7 @@ namespace inr {
 		}
 		return false;
 	}
-
+	// ノックバック
 	bool Player::KnockBack(bool mv) {
 		if (_invincible != 0) return false;
 		_input = false;
@@ -843,10 +755,9 @@ namespace inr {
 		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
 		return true;
 	}
-
-	bool Player::Debuf() {
-		// 自機はアイテムを保持しているか？
-		// 保持していない場合、一定時間の間移動速度にマイナス補正がかかる
+	// デバフ
+	bool Player::Debuff() {
+		// 一定時間の間、移動量(ジャンプ・ダッシュは除く)を減少させる
 		_debuffCount = DEBUFF_MAX;
 		_moveD = MOVE_DEBUFF;
 		// デバフエフェクトの生成
@@ -882,29 +793,6 @@ namespace inr {
 		box->second.SetDrawFlag() = false;
 #endif
 	}
-
-	void Player::AnimationInit() { 
-#ifdef _DEBUG
-		if (_aState != ActionState::IDOL && _aState !=ActionState::MOVE && _aState != ActionState::JUMP && _aState!= ActionState::FALL && _aState!=ActionState::DASH) {
-			// 以下のコードは修正予定
-			// フラグをオフにする
-			auto it = _collisions.find(_divKey.first);
-			it->second.SetDrawFlag() = false;
-		}
-		_aCount = 0;
-#endif
-	}
-
-	AABB Player::GetAABB() {
-		auto dx = _position.GetX();
-		auto dy = _position.GetY();
-		Vector2 minV(dx - PLAYER_WIDTH / 2, dy + PLAYER_HEIGHT / 2);
-		Vector2 maxV(dx + PLAYER_WIDTH / 2, dy - PLAYER_HEIGHT / 2);
-		AABB playerAABB(minV, maxV);
-
-		return playerAABB;
-	}
-
 	// 位置座標更新
 	void Player::PositionUpdate() {
 		// 移動ベクトルYに加速度を代入
@@ -955,25 +843,24 @@ namespace inr {
 		// 移動ベクトル初期化
 		_moveVector = { 0, 0 };
 	}
-
+	// 状態の切り替え
 	void Player::ChangeState(Player::ActionState nextState, std::string key) {
 		_aState = nextState;
 		_divKey.first = key;
 		_changeGraph = true;
 	}
-
+	// 魂の登録
 	void Player::SoulCatch(std::shared_ptr<SoulSkin> soul) {
 		_souls.push(std::move(soul));
 	}
-
+	// 魂の譲渡
 	std::shared_ptr<SoulSkin> Player::GiveSoul() {
-		auto givesoul = _souls.front();	// 参照を取り出す
-		_souls.pop();
+		auto givesoul = _souls.front();
+		_souls.pop();	
 		return std::move(givesoul);
 	}
-
+	// チップの上に立っているかの判定
 	bool Player::IsStandChip() {
-		// 主人公に
 		auto nowcol = NowCollision(_divKey.first);
 		auto chipType = _game.GetMapChips()->IsStand(nowcol, _position, _gravity, &_lastChip, ThisPlayer());
 		switch (chipType) {
@@ -981,8 +868,8 @@ namespace inr {
 		case mapchip::NONE:
 			return false;
 		case mapchip::THORM:
-			// 飛ばし処理を呼び出す
-			DamageThorm();
+			DamageThorm();		// 蔦と接触している場合はダメージ処理呼び出し
+			return true;
 		default:
 			return true;
 		}
@@ -1004,7 +891,7 @@ namespace inr {
 			PlaySoundMem(soundKey, se::SoundServer::GetPlayType(_divKey.second));
 		}
 		_invincible = INVINCIBLE_TIME;	// 無敵時間を設定
-		_position = _lastChip;	// 座標切り替え
+		_position = _lastChip;					// 座標切り替え
 		// 移動後にバグが発生しないように調整
 		_knockBack = 0;
 		_dashX = 0;
@@ -1014,7 +901,7 @@ namespace inr {
 		_invincible = 120;
 		_input = false;
 	}
-
+	// リセット
 	bool Player::Reset() {
 		// 各種初期化処理実行
 		_input = false;
@@ -1056,24 +943,12 @@ namespace inr {
 		return _mainCollision;
 	}
 
-	double Player::GetFix(double value) {
-		switch (_direction) {
-		case enemy::MOVE_LEFT:
-			return -value;
-		case enemy::MOVE_RIGHT:
-			return value;
-		}
-	}
-
 	void Player::InputOn() {
 		if (_game.GetModeServer()->IsFadeEnd() != true) return;
 		// 入力を再開する
 		_input = true;
 		_sChange = false;
 	}
-
-
-
 	// デバッグ用処理（変数の表示・当たり判定の描画等）
 #ifdef _DEBUG
 	void Player::DebugInfo() {
