@@ -228,7 +228,8 @@ namespace inr {
 		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {		// ”à‚ÍŠJ‚©‚ê‚Ä‚¢‚é‚©H
 		case true:		// ‹ó‚¢‚Ä‚¢‚éê‡
 			colf = false;
-			_position = { _oValue.Positions().at(0).GetX(), _normalY - OPEN_MAX };
+			_position = _oValue.Positions().at(0);
+			// _position = { _oValue.Positions().at(0).GetX(), _normalY - OPEN_MAX };
 			_switch = gimmick::ON;
 #ifdef _DEBUG
 			_mainCollision.SetDrawFlag() = false;
