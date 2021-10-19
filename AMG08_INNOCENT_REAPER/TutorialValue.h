@@ -21,7 +21,7 @@ namespace inr {
 		 * @brief					コンストラクタ
 		 * @param ivalue	画像情報
 		 * @param width		幅
-		 * @param height　高さ
+		 * @param height	高さ
 		 */
 		TutorialValue(ImageValue ivalue, int width = 0, int height = 0);
 		/**

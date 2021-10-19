@@ -145,7 +145,8 @@ namespace inr {
 		// 既に自機が登録されている場合は処理を終了する
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
 #ifdef _DEBUG
-		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });
+		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 8900, 905 });
 #endif
 #ifndef _DEBUG
 		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });	// ステージSに合わせた地点に生成する
@@ -214,7 +215,7 @@ namespace inr {
 		// 現在登録されているギミックの値を取得する
 		auto Gimmicks = _game.GetGimmickServer()->GetGimmicks();
 		auto Items = _game.GetModeServer()->GetModeMain()->GetItemServer()->GetItems();
-
+		// 現在のステージのシナリオ
 		auto scenario = _scenarios.find(key);
 #ifdef _DEBUG
 		if (scenario == _scenarios.end()) {
@@ -236,6 +237,7 @@ namespace inr {
 
 		for (auto ite : Items) ite->ObjValueUpdate();
 
+		
 		for (auto&& ovalue : scenario->second) {
 			if (gs.empty() && Items.empty()) break;							// 要素が空になった場合は処理を終了する
 			if (ovalue.ObjectType() == oscenario::type::ITEM) {	// アイテムの場合は更新をかける

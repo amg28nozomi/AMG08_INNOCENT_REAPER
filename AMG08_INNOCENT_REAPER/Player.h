@@ -97,7 +97,7 @@ namespace inr {
 		bool Damage(bool mv);
 		/**
 		 * @brief						ノックバック処理
-		 * @param						ノックバック方向
+		 * @param	mv				ノックバック方向
 		 * @return					処理に成功した場合はtrueを返す
 		 *									無敵時間中の場合はfalseを返す
 		 */

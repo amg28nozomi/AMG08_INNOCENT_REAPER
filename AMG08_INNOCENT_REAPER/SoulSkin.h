@@ -104,7 +104,7 @@ namespace inr {
 		void SetParameter(int soulcolor, double speed);	
 		/**
 		 * @brief							実体化処理
-		 * @param spwan				生成地点
+		 * @param spawn				生成地点
 		 */
 		void SetSpwan(Vector2 spawn);
 		/**

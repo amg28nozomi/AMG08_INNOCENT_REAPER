@@ -111,7 +111,7 @@ namespace inr {
 		std::unique_ptr<Particle_Image> AddImage(ImageValue pvalue);
 		/**
 		 * @brief					チュートリアル画像の生成
-		 * @param					生成した場合はtrueを返す
+		 * @param	key			生成した場合はtrueを返す
 		 *								それ以外の場合はfalseを返す
 		 */
 		bool AddTutorials(const std::string key);

@@ -78,9 +78,9 @@ namespace graph {
 		inline void ResizeHandles(int maxNum) { _handles.resize(maxNum); }
 		/**
 		 * @brief						ハンドル用コンテナのスワップ
-		 * @param						スワップ対象
+		 * @param	handles		スワップ対象
 		 */
-		inline void SwapHandles(std::vector<int> newhandles) { _handles.swap(newhandles); }
+		inline void SwapHandles(std::vector<int> handles) { _handles.swap(handles); }
 	private:
 		std::string  _filename;			//!< ファイル名
 		int _xNum;									//!< 分割数(横)

@@ -45,7 +45,7 @@ namespace inr {
 		void Process() override;
 		/**
 		 * @brief							オブジェクト情報の登録
-		 * @param							オブジェクト情報
+		 * @param	objValue		オブジェクト情報
 		 */
 		void SetParameter(ObjectValue objValue) override;
 	private:

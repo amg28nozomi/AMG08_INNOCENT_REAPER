@@ -206,7 +206,7 @@ namespace inr {
 		virtual bool IsDead();
 		/**
 		 * @brief							オブジェクト情報の登録
-		 * @param ObjectValue オブジェクト情報
+		 * @param ObjValue オブジェクト情報
 		 */
 		virtual void SetParameter(ObjectValue objValue);
 		/**

@@ -13,9 +13,9 @@ class AABB : public Collision {
 public:
 	/**
 	 * @brief					コンストラクタ
-	 * @param	min			座標ベクトル2(min)
-	 * @param	max			座標ベクトル2(max)
-	 * @param	flag		当たり判定を行うかのフラグ
+	 * @param	vmin		座標ベクトル2(min)
+	 * @param	vmax		座標ベクトル2(max)
+	 * @param	cflag		当たり判定を行うかのフラグ
 	 */
 	AABB(Vector2 vmin, Vector2 vmax, bool cflag = false);
 	/**
@@ -23,7 +23,7 @@ public:
 	 * @param pos			中心座標
 	 * @param width		横幅
 	 * @param height	縦幅
-	 * @param flag		当たり判定を行うかのフラグ
+	 * @param cflag		当たり判定を行うかのフラグ
 	 */
 	AABB(Vector2& pos, int width, int height, bool cflag = false);
 	/**
@@ -33,7 +33,7 @@ public:
 	 * @param width2	横幅(max)
 	 * @param height1	縦幅(min)
 	 * @param height2	縦幅(max)
-	 * @param flag		当たり判定を行うかのフラグ
+	 * @param cflag		当たり判定を行うかのフラグ
 	 */
 	AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool cflag = false);
 	/**

@@ -131,7 +131,7 @@ namespace inr {
 		bool IsScrollY();
 		/**
 		 * @brief						マップチップの切り替え処理
-		 * @param						次のステージキー
+		 * @param	nextStage	次のステージキー
 		 */
 		void ChangeMap(std::string nextStage);
 		/**

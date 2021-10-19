@@ -29,35 +29,35 @@ namespace inr {
 	class StageTransition {
 	public:
 		/**
-		 * @brief			コンストラクタ
-		 * @param			ゲームクラスの参照
+		 * @brief				コンストラクタ
+		 * @param	game	ゲームクラスの参照
 		 */
 		StageTransition(Game& game);
 		/**
-		 * @brief			デストラクタ
+		 * @brief				デストラクタ
 		 */
 		~StageTransition();
 		/**
-		 * @brief			初期化処理
-		 * @return		trueを返す
+		 * @brief				初期化処理
+		 * @return			trueを返す
 		 */
 		bool Init();
 		/**
-		 * @brief			遷移チップと衝突したのかの判定
-		 * @param no	チップ番号
-		 * @return		接触している場合はtrueを返す
-		 *						接触していない場合はfalseを返す
+		 * @brief				遷移チップと衝突したのかの判定
+		 * @param no		チップ番号
+		 * @return			接触している場合はtrueを返す
+		 *							接触していない場合はfalseを返す
 		 */
 		bool IsHit(const int no);
 		/**
-		 * @brief			遷移処理を行うかの判定
-		 * @return		遷移処理を行う場合はtrueを返す
-		 *						更新が入っていない場合はfalseを返す
+		 * @brief				遷移処理を行うかの判定
+		 * @return			遷移処理を行う場合はtrueを返す
+		 *							更新が入っていない場合はfalseを返す
 		 */
 		bool IsStageChange();
 		/**
-		 * @brief			遷移後情報の取得
-		 * @return		左辺:遷移後の座標　右辺:向き
+		 * @brief				遷移後情報の取得
+		 * @return			左辺:遷移後の座標　右辺:向き
 		 */
 		std::pair<Vector2, bool> SetPosition();
 	private:
@@ -65,7 +65,7 @@ namespace inr {
 		std::unordered_map<int, Transition> _transitions;		//!< ステージ遷移情報用コンテナ
 		int _number;																				//!< 接触したチップ
 		/**
-		 * @brief			コンテナの解放
+		 * @brief				コンテナの解放
 		 */
 		void Clear();
 	};

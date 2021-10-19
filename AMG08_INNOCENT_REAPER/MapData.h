@@ -85,7 +85,7 @@ namespace inr {
 		inline std::string FileName() { return _fileName; }
 		/**
 		 * @brief								指定したマップチップの配置情報を取得
-		 * @param								取得したい要素
+		 * @param	element				取得したい要素
 		 * @return							対応するマップチップの配置情報を返す
 		 */
 		int MapDatas(int element) { return _mapDatas[element]; }

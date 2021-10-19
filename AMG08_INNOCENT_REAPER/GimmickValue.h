@@ -39,10 +39,10 @@ namespace inr {
 	public:
 		/**
 		 * @brief				コンストラクタ
-		 * @param				ギミックの種類
-		 * @param				ギミックのフラグ
-		 * @param				水晶の種類
-		 * @param				ドアの種類
+		 * @param	type	ギミックの種類
+		 * @param	flag	ギミックのフラグ
+		 * @param	ctype	水晶の種類
+		 * @param	types	ドアの種類
 		 */
 		GimmickValue(int type = oscenario::gimmick::TYPE_NULL, int flag = oscenario::gimmick::FLAG_NULL, int ctype = oscenario::gimmick::crystal::TYPE_NULL, std::vector<int> types = { oscenario::gimmick::crystal::DOOR_NULL });
 		/**

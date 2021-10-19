@@ -120,12 +120,12 @@ namespace inr {
 		void FlagUpdate(int flag, int soul = 0);
 		/**
 		 * @brief						魂状態の更新
-		 * @param						魂
+		 * @param	soul			魂
 		 */
 		inline void SoulUpdate(int soul) { _soulType = soul; }
 		/**
 		 * @brief						向きフラグの更新
-		 * @param						向き
+		 * @param	newdir		向き
 		 */
 		inline void DirectionUpdate(bool newdir) { _direction = newdir; }
 	private:

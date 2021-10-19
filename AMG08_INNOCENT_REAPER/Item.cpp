@@ -48,6 +48,7 @@ namespace inr {
 			// 接触状態かつ、ボタン入力があった場合はmessageを表示する
 			if ((_game.GetTrgKey() == PAD_INPUT_4) == true) {
 				_game.GetModeServer()->GetModeMain()->GetItemImages()->ImageChange(_messageNo);
+				auto sound = se::SoundServer::GetSound()
 				_isGet = true;		// 入手した
 			}
 		}

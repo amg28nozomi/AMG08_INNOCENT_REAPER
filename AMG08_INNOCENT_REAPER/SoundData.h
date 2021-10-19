@@ -14,7 +14,7 @@ namespace se{
 	public:
 		/**
 		 * @brief						コンストラクタ
-		 * @param	fillname	ファイル名
+		 * @param	filename	ファイル名
 		 * @param	type			再生タイプ
 		 */
 		SoundData(std::string filename, int type);

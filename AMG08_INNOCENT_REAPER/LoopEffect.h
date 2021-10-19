@@ -34,7 +34,7 @@ namespace inr {
 		void Process() override;
 		/**
 		 * @brief						所有者の設定
-		 * @param						ObjectBaseのポインタ
+		 * @param	owner			ObjectBaseのポインタ
 		 */
 		void SetOwner(ObjectBase* owner);
 	private:
