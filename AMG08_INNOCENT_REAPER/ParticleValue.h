@@ -38,23 +38,22 @@ namespace inr {
 		 */
 		ParticleValue(bool animation, bool particle, double exrate = 1.0);
 		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~ParticleValue() = default;
-		// アニメーションフラグの取得
 		/**
-		 * @brief		アニメーションフラグの取得
-		 * @return	アニメーションフラグを返す
+		 * @brief						アニメーションフラグの取得
+		 * @return					アニメーションフラグを返す
 		 */
 		inline bool Animation() { return _animation; }
 		/**
-		 * @brief		透過処理フラグの取得
-		 * @return	透過処理フラグを返す
+		 * @brief						透過処理フラグの取得
+		 * @return					透過処理フラグを返す
 		 */
 		inline bool Particle() { return _particle; }
 		/**
-		 * @brief		拡大率の取得
-		 * @return	拡大率を返す
+		 * @brief						拡大率の取得
+		 * @return					拡大率を返す
 		 */
 		inline double ExRate() { return _exrate; }
 	private:

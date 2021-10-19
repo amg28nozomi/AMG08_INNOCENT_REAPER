@@ -27,7 +27,7 @@ namespace {
 }
 
 namespace inr {
-	// コンストラクタ
+
 	Pause::Pause(Game& game) : _game(game) {
 		for (auto number = 0; number < 4; ++number) _uis.emplace_back(std::make_shared<Particle_Image>(_game.GetGame()));
 		_uis.emplace_back(std::make_shared<Pause_UI>(_game.GetGame()));
@@ -45,14 +45,14 @@ namespace inr {
 
 	Pause::~Pause() {
 	}
-	// 初期化
+
 	void Pause::Init() {
 		_active = INACTIVE;	// 非活性状態にする
 		_isEnd = false;
 		_input = false;
 		for (auto number = 0; number < _uis.size(); ++number) _uis[number]->Init();
 	}
-	// 更新
+
 	void Pause::Process() {
 		if (_active == INACTIVE) return;	// 非活性状態の場合は処理を行わない
 		if (_input != true && _uis[UI_QUIT_TO_TITLE]->IsNormal() == true && _uis[UI_OPERATION]->IsDraw() != true) _input = true;
@@ -60,7 +60,7 @@ namespace inr {
 			Init();
 			return;
 		}
-		InputLever();	// 入力処理
+		InputLever();		// 入力処理
 		InputButton();	// ボタン入力
 		for (auto& ui : _uis) ui->Process();
 	}
@@ -68,12 +68,12 @@ namespace inr {
 	void Pause::Draw() {
 		for (auto& ui : _uis) ui->Draw();
 	}
-	// 活動状態化の判定
+
 	bool Pause::IsActive() {
 		PauseOn();
 		return _active;
 	}
-	// 活動状態への移行
+
 	bool Pause::PauseOn() {
 		if (_active == true) return false;
 		if (_game.GetTrgKey() != PAD_INPUT_13) return false;	// 入力無し
@@ -83,7 +83,7 @@ namespace inr {
 		_active = true;
 		return true;	// 活動状態に移行
 	}
-	// アナログスティックの入力処理
+
 	bool Pause::InputLever() {
 		if (_isEnd == true || _input != true) return false;	// 終了処理 or 入力を受け付けていない場合は入力を受け付けない
 		// アナログスティックの入力情報を取得
@@ -97,7 +97,7 @@ namespace inr {
 		std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->ChangePosition(type);
 		return true;
 	}
-	// ボタン入力
+
 	bool Pause::InputButton() {
 		if (std::dynamic_pointer_cast<Pause_UI>(_uis.at(UI_CURSOL))->IsMove() == true) return false;	// 移動処理がある場合は終了
 		if (_isEnd == true) return false;				// 終了処理がある場合も処理を行わない
@@ -135,7 +135,7 @@ namespace inr {
 		}
 		return false;
 	}
-	// seの再生
+
 	void Pause::Sound(std::string soundKey) {
 		auto sound = se::SoundServer::GetSound(soundKey);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(soundKey));

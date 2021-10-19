@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   ModeServer.cpp
+ * @brief  各種モードを管理するモードサーバ
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "ModeServer.h"
 #include "ModeBase.h"
 #include "ModeTitle.h"
@@ -11,7 +18,6 @@
 
 namespace {
 	constexpr auto MODE_NULL = "null";
-
 	constexpr auto CHANGE_INTERVAL = 60;
 }
 
@@ -34,7 +40,6 @@ namespace inr {
 		_modes.emplace(mode::MAIN, std::make_shared<ModeMain>(_game.GetGame()));	// ゲーム本編
 		_modes.emplace(mode::FIN, std::make_shared<ModeEnd>(_game.GetGame()));	// プログラム終了前の処理
 		_fadeBlack = std::make_unique<FadeBlack>(_game.GetGame());
-		
 		// 検索キーをTitleModeに設定
 #ifdef _DEBUG
 		// _modeKey = mode::MAIN;
@@ -50,7 +55,6 @@ namespace inr {
 	void ModeServer::Process() {
 		// Modeの更新用キーが変更されているかどうか
 		IsModeChange();
-
 		// 現在設定されているモードを取り出し、更新処理を実行。
 		auto mode = _modes.find(_modeKey);
 		if (mode == _modes.end()) return;
@@ -78,29 +82,21 @@ namespace inr {
 	}
 
 	bool ModeServer::ModeInit() {
-		// 現在のモードを取り出す
-		auto mode = _modes.find(_modeKey);
-		// ヒットしなかった（初期化失敗）
-		if (mode == _modes.end()) return false;
-		// 初期化処理実行
-		mode->second->Init();
+		auto mode = _modes.find(_modeKey);				// 現在のモードを取り出す
+		if (mode == _modes.end()) return false;		// ヒットしなかった（初期化失敗）
+		mode->second->Init();											// 初期化処理実行
 		return true;
 	}
 
 	void ModeServer::IsModeChange() {
-		// フラグがオフの場合は抜ける
-		if (_ChangeKey == MODE_NULL) return;
-		// 処理が切り替わった瞬間に一度だけ、オブジェクトの再配置等を行う
+		if (_ChangeKey == MODE_NULL) return;		// フラグがオフの場合は抜ける
+		// 処理が切り替わった瞬間に一度だけオブジェクトの再配置等を行う
 		if (_fadeBlack->PalChange() == true) {
-			// 現在のモードを初期化
-			ModeInit();
+			ModeInit();														// 現在のモードを初期化
 			_game.GetObjectServer()->AllClear();
-			// 更新が入っている場合は実行用キーを更新
-			_modeKey = _ChangeKey;
-			// 次のモードを初期化
-			ModeInit();
-			// 更新用キーを初期化
-			_ChangeKey = MODE_NULL;
+			_modeKey = _ChangeKey;								// 更新が入っている場合は実行用キーを更新
+			ModeInit();														// 次のモードを初期化
+			_ChangeKey = MODE_NULL;								// 更新用キーを初期化
 		}
 	}
 

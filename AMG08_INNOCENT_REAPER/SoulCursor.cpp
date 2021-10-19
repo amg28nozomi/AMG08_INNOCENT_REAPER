@@ -11,13 +11,9 @@
 #include <DxLib.h>
 
 namespace {
-
 	constexpr auto MOVE_VEC = 100;
-
 	constexpr auto HALF_SOUL = 10;
-
 	constexpr auto SPEED_MAX = 10;
-
 	constexpr auto SMF_FLOAT = 120;
 }
 
@@ -58,7 +54,7 @@ namespace inr {
 		auto x = _position.IntX();
 		auto y = _position.IntY();
 
-		int graph;	// グラフィックハンドル格納用
+		int graph;							// グラフィックハンドル格納用
 		GraphResearch(&graph);	// ハンドル取得
 
 		ChangeBlendGraph();
@@ -86,7 +82,6 @@ namespace inr {
 
 	void SoulCursor::PositionUpdate() {
 		_position = _position + _moveVector;
-
 		// 画面内に収まっていない場合は座標を修正する
 		if (WINDOW_W < _position.GetX() + HALF_SOUL) _position.GetPX() = WINDOW_W - HALF_SOUL;
 		else if (_position.GetX() - HALF_SOUL < 0) _position.GetPX() = HALF_SOUL;

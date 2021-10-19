@@ -174,7 +174,7 @@ namespace inr {
 		 * @param nextState	遷移する状態
 		 * @param key				遷移後のキー
 		 */
-		void ChangeState(Player::ActionState nextState, std::string key);	// 状態遷移
+		void ChangeState(Player::ActionState nextState, std::string key);
 		/**
 		 * @brief						座標情報等の更新
 		 */

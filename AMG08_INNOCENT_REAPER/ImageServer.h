@@ -99,26 +99,26 @@ namespace inr {
 		bool _input;																											//!< 入力処理を受け付けるか否か
 		std::unordered_map<int, std::shared_ptr<Particle_Image>> _images;	//!< 画像を管理するための連想配列
 		/**
-		 * @brief		画像の開放
-		 * @return	trueを返す
+		 * @brief					画像の開放
+		 * @return				trueを返す
 		 */
 		bool ImageClear();
 		/**
-		 * @brief		画像の初期化処理呼び出し
-		 * @return	初期化に成功した場合はtrueを返す
-		 *					失敗した場合はfalseを返す
+		 * @brief					画像の初期化処理呼び出し
+		 * @return				初期化に成功した場合はtrueを返す
+		 *								失敗した場合はfalseを返す
 		 */
 		bool ImageInit();
 		/**
-		 * @brief		検索用キーの切り替え
-		 * @return	切り替えに成功した場合はtrueを返す
-		 *					失敗した場合はfalseを返す
+		 * @brief					検索用キーの切り替え
+		 * @return				切り替えに成功した場合はtrueを返す
+		 *								失敗した場合はfalseを返す
 		 */
 		bool ChangeKey();
 		/**
-		 * @brief		入力処理
-		 * @return	処理に成功した場合はtrueを返す
-		 *					失敗した場合はfalseを返す
+		 * @brief					入力処理
+		 * @return				処理に成功した場合はtrueを返す
+		 *								失敗した場合はfalseを返す
 		 */
 		bool Input();
 	};

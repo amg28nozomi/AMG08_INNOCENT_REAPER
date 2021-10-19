@@ -14,7 +14,7 @@ namespace inr {
 		// 各種モードのキー情報
 		constexpr auto TITLE = "mode_title";	// タイトル
 		constexpr auto MAIN = "mode_main";		// 本編
-		constexpr auto FIN = "mode_end";		// 終了
+		constexpr auto FIN = "mode_end";			// 終了
 	}
 	/** 二重インクルード防止 */
 	class Game;

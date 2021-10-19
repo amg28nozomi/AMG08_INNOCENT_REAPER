@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * @file   MapData.cpp
  * @brief  マップデータクラス
- * 
+ *
  * @author 鈴木希海
  * @date   October 2021
  *********************************************************************/
@@ -16,7 +16,7 @@ namespace {
 	constexpr auto NULL_FILE = "";
 }
 namespace inr {
-	// コンストラクタ
+
 	MapData::MapData() {
 		// 各種初期化
 		_mapSizeW = NULL_DATA;
@@ -31,7 +31,7 @@ namespace inr {
 		_mapDatas.clear();
 		_chipType.clear();
 	}
-	// コンストラクタ
+
 	MapData::MapData(pair<int, int> mapSize, tuple<int, int, int> chipCount, pair<int, int> chipSize, int mapSizeLayer, std::string fileName, std::vector<int> mapData, std::vector<int> chipType) {
 		// 各種初期化
 		_mapSizeW = mapSize.first;
@@ -46,18 +46,18 @@ namespace inr {
 		_mapDatas.swap(mapData);
 		_chipType.swap(chipType);
 	}
-	// マップサイズの登録
+
 	void MapData::SetMapSize(int mapSizeW, int mapSizeH) {
 		_mapSizeW = mapSizeW;
 		_mapSizeH = mapSizeH;
 	}
-	// チップカウントの登録
+
 	void MapData::SetChipCount(int count, int width, int height) {
 		_chipCount = count;
 		_chipCountW = width;
 		_chipCountH = height;
 	}
-	// マップサイズの登録
+
 	void MapData::SetChipSize(int width, int height) {
 		_chipSizeW = width;
 		_chipSizeH = height;

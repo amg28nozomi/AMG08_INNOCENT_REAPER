@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   ObjectBase.cpp
+ * @brief  オブジェクトのスーパークラス
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "ObjectBase.h"
 #include "Collision.h"
 #include "Vector2.h"
@@ -17,7 +24,6 @@
 
 namespace {
 	constexpr auto SPEED_NULL = 0;
-
 	constexpr auto TEST_VALUE = 15;
 }
 
@@ -31,7 +37,6 @@ namespace inr {
 	}
 
 	ObjectBase::~ObjectBase() {
-
 	}
 
 	void ObjectBase::Init() {
@@ -51,7 +56,6 @@ namespace inr {
 		if (MAX_G < _gravity) _gravity = MAX_G;
 
 		auto nowcol = NowCollision(_divKey.first);
-
 		// マップチップの上に立っているかどうか
 		if (IsStandChip()) {
 			// 加速度が0の時だけ立っている
@@ -92,7 +96,6 @@ namespace inr {
 	}
 
 	void ObjectBase::Draw() {
-
 	}
 
 	int ObjectBase::GetSize(const std::string& key) {
@@ -244,7 +247,6 @@ namespace inr {
 	}
 
 	void ObjectBase::SetParameter(ObjectValue objValue) {
-
 	}
 
 	bool ObjectBase::IsDead() {

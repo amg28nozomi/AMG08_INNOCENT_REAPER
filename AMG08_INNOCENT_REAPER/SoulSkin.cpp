@@ -21,10 +21,6 @@ namespace {
 
 namespace inr {
 
-	namespace soul {
-
-	}
-
 	SoulSkin::SoulSkin(Game& game) : ObjectBase(game), _moveVector() {
 		_type = ObjectType::SOUL;
 		_sType = Type::RED;
@@ -34,7 +30,6 @@ namespace inr {
 	}
 
 	SoulSkin::~SoulSkin() {
-
 	}
 
 	void SoulSkin::Init() {

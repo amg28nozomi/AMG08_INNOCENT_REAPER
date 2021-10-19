@@ -57,7 +57,8 @@ namespace inr {
 		bool _input;																				//!< 入力を受け付けているか
 		/**
 		 * @brief				アナログスティックの入力処理
-		 * @return	
+		 * @return			切り替えに成功した場合はtrueを返す
+		 *							入力がない場合はfalseを返す
 		 */
 		bool InputLever();
 		/**

@@ -38,6 +38,6 @@ namespace inr {
 		 */
 		virtual void Draw();
 	private:
-		std::unique_ptr<Logo> _titleGh;	//!< タイトルロゴ
+		std::unique_ptr<Logo> _titleGh;		//!< タイトルロゴ
 	};
 }

@@ -11,7 +11,7 @@
 namespace inr {
 
 	TrackingEffect::TrackingEffect(Game& game, const std::string gh, const Vector2 spawnpos, const int maxFrame, const bool direction) : EffectBase(game, gh, spawnpos, maxFrame, direction) {
-		_target = nullptr;	// èäóLé“ÇÕÇ¢Ç»Ç¢ÇÊ
+		_target = nullptr;
 		_fix = { 0, 0 };
 	}
 

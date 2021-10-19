@@ -29,17 +29,17 @@ namespace inr {
 	class StageTransition {
 	public:
 		/**
-		 * @brief	コンストラクタ
-		 * @param	ゲームクラスの参照
+		 * @brief			コンストラクタ
+		 * @param			ゲームクラスの参照
 		 */
 		StageTransition(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief			デストラクタ
 		 */
 		~StageTransition();
 		/**
-		 * @brief
-		 * @return 
+		 * @brief			初期化処理
+		 * @return		trueを返す
 		 */
 		bool Init();
 		/**

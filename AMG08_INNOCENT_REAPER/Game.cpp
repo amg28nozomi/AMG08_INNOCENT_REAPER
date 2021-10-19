@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * @file   Game.cpp
  * @brief  本ゲームのプロセスを管理するゲームクラス
- * 
+ *
  * @author 鈴木希海
  * @date   October 2021
  *********************************************************************/
@@ -41,11 +41,7 @@ namespace inr {
 	// 静的メンバ変数定義
 	int Game::_trgKey = 0;
 	int Game::_frameCount = 0;
-	// エフェクトの画像情報
-	/*const graph::ResourceServer::DivGraphMap effects{
-		{ effect::JUMP, {"ResourceServer/effect/Player/Jump.png", 5, 1, 5, effect::JUMP_IMAGE_W, effect::JUMP_IMAGE_H}},
 
-	};*/
 	// 各種SE情報
 	// 自機SE
 	const se::SoundServer::SoundMap player_se{
@@ -111,25 +107,25 @@ namespace inr {
 	};
 	// BGM
 	const se::SoundServer::SoundMap bgms{
-		{ {bgm::SOUND_TITLE}, {"Resource/SE/BGM/title.wav", DX_PLAYTYPE_LOOP}},					// タイトルBGM
-		{ {bgm::SOUND_STAGE_0}, {"Resource/SE/BGM/stage0.wav", DX_PLAYTYPE_LOOP}},				// ステージ0
-		{ {bgm::SOUND_STAGE_1}, {"Resource/SE/BGM/stage1.wav", DX_PLAYTYPE_LOOP}},				// ステージ1
-		{ {bgm::SOUND_STAGE_2}, {"Resource/SE/BGM/stage2.wav", DX_PLAYTYPE_LOOP}},				// ステージ2
+		{ {bgm::SOUND_TITLE}, {"Resource/SE/BGM/title.wav", DX_PLAYTYPE_LOOP}},								// タイトルBGM
+		{ {bgm::SOUND_STAGE_0}, {"Resource/SE/BGM/stage0.wav", DX_PLAYTYPE_LOOP}},						// ステージ0
+		{ {bgm::SOUND_STAGE_1}, {"Resource/SE/BGM/stage1.wav", DX_PLAYTYPE_LOOP}},						// ステージ1
+		{ {bgm::SOUND_STAGE_2}, {"Resource/SE/BGM/stage2.wav", DX_PLAYTYPE_LOOP}},						// ステージ2
 		{ {bgm::SOUND_STAGE_3}, {"Resource/SE/BGM/stageboss_batle.wav", DX_PLAYTYPE_LOOP}},		// ボス戦
 		{ {bgm::SOUND_ENDING}, {"Resource/SE/BGM/ending_staffroll.wav", DX_PLAYTYPE_LOOP}},		// エンディング
 	};
-	// コンストラクタ
+
 	Game::Game() {
 		Init();		// 初期化処理
 	}
-	// デストラクタ
+
 	Game::~Game() {
 	}
-	// 初期化
+
 	void Game::Init() {
 		_joyKey = std::make_tuple(0, 0, 0);		// ジョイパッドの入力情報を初期化
-		_trgKey = 0;							// トリガ情報初期化
-		_frameCount = 0;						// フレームカウンタ初期化
+		_trgKey = 0;													// トリガ情報初期化
+		_frameCount = 0;											// フレームカウンタ初期化
 		// リソースサーバの初期化
 		graph::ResourceServer::Init();
 		// 各種画像素材の読み込み
@@ -144,13 +140,13 @@ namespace inr {
 		se::SoundServer::LoadSoundMap(system_se);
 		se::SoundServer::LoadSoundMap(bgms);
 		// 各種ポインタの生成
-		_objServer = std::make_unique<ObjectServer>();		// オブジェクトサーバ
-		_scenario = std::make_unique<Scenario>(*this);		// シナリオ
+		_objServer = std::make_unique<ObjectServer>();			// オブジェクトサーバ
+		_scenario = std::make_unique<Scenario>(*this);			// シナリオ
 		_modeServer = std::make_unique<ModeServer>(*this);	// モードサーバ
 		_gServer = std::make_unique<GimmickServer>(*this);	// エフェクトサーバ
-		_mapChips = std::make_unique<MapChips>(*this);		// マップチップ
+		_mapChips = std::make_unique<MapChips>(*this);			// マップチップ
 	}
-	// 入力処理
+
 	void Game::Input() {
 		// 前フレームの入力情報を取得
 		auto beforeLR = std::get<LEVER_LR>(_joyKey);
@@ -167,23 +163,23 @@ namespace inr {
 		if (_trgKey == PAD_INPUT_7) _debug = !_debug;
 #endif
 	}
-	// 更新
+
 	void Game::Process() {
-		CountUp();				// フレームカウンタ
+		CountUp();							// フレームカウンタ
 		_modeServer->Process();	// モードサーバの更新処理呼び出し
 	}
-	// 描画
+
 	void Game::Draw() {
 		ClearDrawScreen();		// 画面の初期化
 		_modeServer->Draw();	// モードサーバの描画処理呼び出し
-		ScreenFlip();			// 裏ページを表ページと切り替える
+		ScreenFlip();					// 裏ページを表ページと切り替える
 	}
-	// フレームカウンタの加算処理
+
 	void Game::CountUp() {
-		++_frameCount;	// フレームカウンタ加算
+		++_frameCount;			// フレームカウンタ加算
 		// 終了処理が始まっていない場合は処理を中断
 		if (_endCount == 0) return;
-		++_endCount;	// エンドカウンタ加算
+		++_endCount;				// エンドカウンタ加算
 		// カウンタが上限に到達した場合、終了フラグをオンにする
 		if (_endCount == END_MAX) {
 			_endFlag = true;	//プログラムを終了する

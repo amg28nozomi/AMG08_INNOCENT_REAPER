@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   Particle_Image.cpp
+ * @brief  パーティクル画像クラス
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "Particle_Image.h"
 #include "ResourceServer.h"
 #include "ImageValue.h"
@@ -78,17 +85,17 @@ namespace inr {
 
 	bool Particle_Image::DrawEnd() {
 		if (_isDraw != true && _animation != animation::A_SUB) return false;	// 描画処理がある場合のみ
-		_animation = animation::A_SUB;	// 
+		_animation = animation::A_SUB;
 		return true;
 	}
-	// 輝度の加算処理
+
 	bool Particle_Image::AddPal() {
 		_pal += PAL_VALUE;
 		if (_pal < 255) return false;
 		if (255 < _pal) _pal = 255;
 		return true;
 	}
-	// 輝度の減算処理
+
 	bool Particle_Image::SubPal() {
 		_pal -= PAL_VALUE;
 		if (0 < _pal) return false;

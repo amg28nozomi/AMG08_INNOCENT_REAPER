@@ -38,7 +38,7 @@ namespace inr {
 		 * @brief						UI情報の登録
 		 * @param graph			画像キー
 		 * @param pos				座標
-		 * @param pal				輝度
+		 * @param pal				透明度
 		 */
 		void SetParameter(std::string graph, Vector2 pos, int pal = 0);
 		/**

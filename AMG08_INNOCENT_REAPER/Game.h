@@ -190,7 +190,7 @@ namespace inr {
 		static int _trgKey;													//!< トリガ情報
 		static int _frameCount;											//!< フレームカウンタ
 		/**
-		 * @brief	フレームカウンタの加算処理
+		 * @brief		フレームカウンタの加算処理
 		 */
 		void CountUp();
 	};

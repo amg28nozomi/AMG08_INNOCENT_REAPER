@@ -30,29 +30,29 @@ namespace inr {
 	class SoulSkin : public ObjectBase {
 	public:
 		/**
-		 * @brief						コンストラクタ
-		 * @param game			ゲームクラスの参照
+		 * @brief							コンストラクタ
+		 * @param game				ゲームクラスの参照
 		 */
 		SoulSkin(Game& game);
 		/**
-		 * @brief						デストラクタ
+		 * @brief							デストラクタ
 		 */
 		~SoulSkin() override;
 		/**
-		 * @brief						初期化処理
+		 * @brief							初期化処理
 		 */
 		void Init() override;
 		/**
-		 * @brief						更新処理
+		 * @brief							更新処理
 		 */
 		void Process() override;
 		/**
-		 * @brief						描画処理
+		 * @brief							描画処理
 		 */
 		void Draw() override;
 		/**
-		 * @brief						魂のセットアップ
-		 * @param scolor		魂の色
+		 * @brief							魂のセットアップ
+		 * @param scolor			魂の色
 		 */
 		inline void SoulChange(bool scolor) { (scolor == soul::RED) ? _sType = Type::RED : _sType = Type::BLUE; }
 	private:
@@ -68,74 +68,74 @@ namespace inr {
 		bool _give;						//!< 所有権を譲渡するか
 		bool _isOwner;				//!< 所有者はいるか？
 		/**
-		 * @brief						追跡処理
+		 * @brief							追跡処理
 		 */
 		void Tracking();
 		/**
-		 * @brief						移動処理
+		 * @brief							移動処理
 		 */
 		void Move();
 		/**
-		 * @brief						所有権の付与(所有者が居ない時限定）
+		 * @brief							所有権の付与(所有者が居ない時限定）
 		 */
 		void Give();
 	public:
 		/**
-		 * @brief						タイプの取得
-		 * @return					タイプを返す
+		 * @brief							タイプの取得
+		 * @return						タイプを返す
 		 */
 		inline Type GetType() { return _sType; }
 		/**
-		 * @brief						魂の設定
-		 * @param spawn			生成座標
-		 * @param soulcolor 色
+		 * @brief							魂の設定
+		 * @param spawn				生成座標
+		 * @param soulcolor		色
 		 */
 		void SetStatus(Vector2 spawn, std::string soulcolor)override;
 		/**
-		 * @brief						移動速度の登録
-		 * @param speed			移動速度
+		 * @brief							移動速度の登録
+		 * @param speed				移動速度
 		 */
 		void SetSpeed(double speed) override { _speed = speed; }
 		/**
-		 * @brief						情報の設定
-		 * @param soulcolor	色
-		 * @param speed			移動速度
+		 * @brief							情報の設定
+		 * @param soulcolor		色
+		 * @param speed				移動速度
 		 */
 		void SetParameter(int soulcolor, double speed);	
 		/**
-		 * @brief						実体化処理
-		 * @param spwan			生成地点
+		 * @brief							実体化処理
+		 * @param spwan				生成地点
 		 */
 		void SetSpwan(Vector2 spawn);
 		/**
-		 * @brief						非活動状態に移行
+		 * @brief							非活動状態に移行
 		 */
 		inline void Inactive() { _active = false; }
 		/**
-		 * @brief						活動状態に移行
+		 * @brief							活動状態に移行
 		 */
 		inline void Active() { _active = true; }
 		/**
-		 * @brief						追従間隔の登録
+		 * @brief							追従間隔の登録
 		 */
 		inline void Space(double space) { _space = space; }
 		/**
-		 * @brief						所有者フラグを切る
+		 * @brief							所有者フラグを切る
 		 */
 		inline void OwnerNull() { _isOwner = false; }
 		/**
-		 * @brief						所有権譲渡フラグの取得
-		 * @return					所有権譲渡フラグを返す
+		 * @brief							所有権譲渡フラグの取得
+		 * @return						所有権譲渡フラグを返す
 		 */
 		inline bool IsGive() { return _give; }
 		/**
-		 * @brief						所有者フラグの取得
-		 * @return					所有者フラグを返す
+		 * @brief							所有者フラグの取得
+		 * @return						所有者フラグを返す
 		 */
 		inline bool IsOwner() { return _isOwner; }
 		/**
-		 * @brief						魂の色の取得
-		 * @return					魂の色を返す
+		 * @brief							魂の色の取得
+		 * @return						魂の色を返す
 		 */
 		bool SoulColor();
 	};

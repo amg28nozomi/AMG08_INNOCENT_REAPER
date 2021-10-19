@@ -12,14 +12,14 @@ namespace {
 	constexpr auto DEFAULT_RATE = 1.0;		//!< デフォルトの拡縮率
 }
 namespace inr {
-	// コンストラクタ
+
 	ParticleValue::ParticleValue() {
 		// 初期化
 		_animation = false;
 		_particle = false;
 		_exrate = DEFAULT_RATE;
 	}
-	// コンストラクタ
+
 	ParticleValue::ParticleValue(bool animation, bool particle, double exrate) {
 		// 初期化
 		_animation = animation;

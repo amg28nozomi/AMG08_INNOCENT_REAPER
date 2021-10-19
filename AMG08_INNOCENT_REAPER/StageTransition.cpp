@@ -1,4 +1,10 @@
-
+/*****************************************************************//**
+ * @file   StageTransition.cpp
+ * @brief  ステージ遷移情報の管理を行うサーバ
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "StageTransition.h"
 #include "Transition.h"
 #include "ModeServer.h"
@@ -29,7 +35,7 @@ namespace inr {
 
 	namespace start {
 		// 対応座標
-		constexpr auto TPOS_0_X = 100;	//
+		constexpr auto TPOS_0_X = 100;
 		constexpr auto TPOS_0_Y = 900;
 
 		constexpr auto TPOS_1_X = 5600;

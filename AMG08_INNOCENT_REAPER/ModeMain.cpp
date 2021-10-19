@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   ModeMain.cpp
+ * @brief  ゲーム本編を管理するモードメインクラス（モードベースのサブクラス）
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "ModeMain.h"
 #include "SoundServer.h"
 #include "Player.h"
@@ -31,13 +38,14 @@ namespace {
 namespace inr {
 
 	ModeMain::ModeMain(Game& game) : ModeBase(game) {
+		// 初期化
 		_resetFlg = true;
 		_bossBattle = false;
 		_bossOpen = false;
 		_isEnding = false;
 		_stageKey = stage::CHANGE_NULL;
 		_changeKey = stage::CHANGE_NULL;
-
+		// ポインタ生成
 		_bg = std::make_unique<BackGround>(_game.GetGame());
 		_stageUi = std::make_unique<StageUi>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
@@ -49,7 +57,6 @@ namespace inr {
 	}
 
 	ModeMain::~ModeMain() {
-
 	}
 
 	void ModeMain::Init() {
@@ -63,9 +70,8 @@ namespace inr {
 #endif
 			// ステージ切り替え用のキーを初期化
 			_changeKey = stage::CHANGE_NULL;
-			BgmManage(_stageKey);	// ステージに対応するBGMを鳴らす
-
-			TimeClear();
+			BgmManage(_stageKey);												// ステージに対応するBGMを鳴らす
+			TimeClear();																// フレームカウンタ初期化
 			_bg->ScrollOn();														// 背景のスクロール再開
 			_fg->SetKey(_stageKey);											// 前景の切り替え
 			_game.GetMapChips()->ChangeMap(_stageKey);	// マップチップの切り替え
@@ -80,7 +86,7 @@ namespace inr {
 			_endCount = 0;
 		} else {
 			_game.GetScenario()->Init();
-			_eServer->Init();	// 各種エフェクトを消去する
+			_eServer->Init();					// 各種エフェクトを消去する
 			_game.GetObjectServer()->AllClear();
 			_game.GetGimmickServer()->Clear();
 			_pause->Init();
@@ -96,8 +102,9 @@ namespace inr {
 	}
 
 	void ModeMain::Process() {
-		IsStageChange();	// ステージを切り替えるか？
-		StageReset();			// ステージを初期化するか？
+		IsStageChange();			// ステージを切り替えるか？
+		StageReset();					// ステージを初期化するか？
+
 		if (_isEnding == true) IsEnding();	// エンディングに突入するか？
 		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
@@ -171,13 +178,13 @@ namespace inr {
 			return true;
 		}
 	}
-	// キーが空かの判定
+
 	bool ModeMain::IsKeyNull() {
 		// キーは切り替わっているか
 		bool flag = _changeKey == stage::CHANGE_NULL;
 		return flag;
 	}
-	// ボス戦開始フラグ
+
 	bool ModeMain::BossBattle() {
 		// ボスステージではない場合は終了
 		if (_stageKey != stage::STAGE_3) return false;
@@ -190,7 +197,7 @@ namespace inr {
 		auto sound = se::SoundServer::GetSound(_bgmKey);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_bgmKey));
 	}
-	// ボス戦を終了するか
+
 	bool ModeMain::BossEnd() {
 		// 現在居るのはボスステージか？
 		if (_stageKey != stage::STAGE_3) return false;
@@ -214,7 +221,7 @@ namespace inr {
 		PlaySoundMem(se::SoundServer::GetSound(_bgmKey), se::SoundServer::GetPlayType(_bgmKey));
 		return true;
 	}
-	// BGMキーの切り替え
+
 	std::string ModeMain::BgmKey(std::string key) {
 		// キーと対応するサウンドキーを返す
 		if (key == stage::STAGE_0) return bgm::SOUND_STAGE_0;
@@ -226,21 +233,21 @@ namespace inr {
 		if (key == stage::STAGE_3) return bgm::SOUND_STAGE_3;
 		else return "";	// 登録されていない
 	}
-	// ゲームオーバー
+
 	bool ModeMain::GameOver() {
 		if (_isReset == true) return false;	// すでに初期化予約が入っている場合は処理を終了する
 		_isReset = true;										// フラグを起動
 		_game.GetModeServer()->FadeOut();		// 暗転処理を開始
 		return true;
 	}
-	// ボスドアフラグの開放
+
 	bool ModeMain::OpenBossStage() {
 		// 既に開いている場合は終了
 		if (_bossOpen == true) return false;
 		_bossOpen = true;
 		return true;		// 開放成功
 	}
-	// エンディングに遷移するか
+
 	bool ModeMain::IsEnding() {
 		if (_endCount == 0) return true;
 		--_endCount;
@@ -251,14 +258,13 @@ namespace inr {
 		}
 		return false;
 	}
-	// ステージのリセット
+
 	bool ModeMain::StageReset() {
-		if (_isReset != true) return false;														// フラグが不十分
+		if (_isReset != true) return false;							// フラグが不十分
 		if (_game.GetModeServer()->PalChange() != true) return false;	// 時間を満たしていない
 		_bossBattle = false;														//　ボス戦を終了する
 		// ボス戦BGMが鳴っている場合は停止する
 		if (CheckSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3)) == 1) StopSoundMem(se::SoundServer::GetSound(bgm::SOUND_STAGE_3));
-		// _uiSoul->Init();
 		_bg->ScrollOn();																// スクロール再開
 		_eServer->Init();																// エフェクトの消去
 		_tutorialServer->Clear();												// チュートリアルUIの消去

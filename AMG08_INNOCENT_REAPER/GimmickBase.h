@@ -12,14 +12,14 @@ namespace inr {
 	/** ギミックのコンパイル時定数 */
 	namespace gimmick {
 		// ギミック番号
-		constexpr auto NOT_GIMMICK = -1;	//!< 該当なし
-		constexpr auto LEVER = 0;					//!< レバー
-		constexpr auto CRYSTAL = 1;				//!< 水晶
-		constexpr auto BLOCK = 2;					//!< 壊れる岩
-		constexpr auto DOOR = 3;					//!< ドア
+		constexpr auto NOT_GIMMICK = -1;								//!< 該当なし
+		constexpr auto LEVER = 0;												//!< レバー
+		constexpr auto CRYSTAL = 1;											//!< 水晶
+		constexpr auto BLOCK = 2;												//!< 壊れる岩
+		constexpr auto DOOR = 3;												//!< ドア
 		// ギミックのフラグ
-		constexpr auto OFF = false;				//!< ギミックオフ
-		constexpr auto ON = true;					//!< ギミックオン
+		constexpr auto OFF = false;											//!< ギミックオフ
+		constexpr auto ON = true;												//!< ギミックオン
 		/** レバーのコンパイル時定数 */
 		namespace lever {
 			constexpr auto KEY_LEVER = "lever";						//!< 通常レバー

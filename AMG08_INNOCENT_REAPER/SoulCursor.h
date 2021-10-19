@@ -18,12 +18,12 @@ namespace inr {
 	class SoulCursor : public ObjectBase {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief					コンストラクタ
+		 * @param game		ゲームクラスの参照
 		 */
 		SoulCursor(Game& game);
 		/**
-		 * @brief				デストラクタ
+		 * @brief					デストラクタ
 		 */
 		~SoulCursor() = default;
 		/**

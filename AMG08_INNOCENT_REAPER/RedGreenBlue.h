@@ -77,9 +77,9 @@ namespace inr {
 		 */
 		void Update(bool type, double rvalue, double gvalue, double bvalue);
 	private:
-		double _red;			//!< Ô
-		double _green;		//!< —Î
-		double _blue;			//!< Â
+		double _red;			//!< ‹P“x(Ô)
+		double _green;		//!< ‹P“x(—Î)
+		double _blue;			//!< ‹P“x(Â)
 		/**
 		 * @brief					Žw’è‚µ‚½RGB’l‚ÌC³
 		 * @param value		C³‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^

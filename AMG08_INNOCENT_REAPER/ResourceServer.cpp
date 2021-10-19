@@ -14,15 +14,15 @@
 namespace graph {
 	// 静的メンバの定義
 	ResourceServer::DivGraphMap ResourceServer::_graphlists;
-	// リソースの初期化
+
 	void ResourceServer::Init() {
 		ClearGraphLists();
 	}
-	// リソースの解放
+
 	void ResourceServer::Release() {
 		ClearGraphLists();
 	}
-	// コンテナの解放
+
 	void ResourceServer::ClearGraphLists() {
 		// 登録されているグラフィックの解放
 		for (auto&& grl: _graphlists) {
@@ -33,7 +33,7 @@ namespace graph {
 		}
 		_graphlists.clear();	// コンテナ初期化
 	}
-	// リソースの読み込み
+
 	void ResourceServer::LoadGraphList(const DivGraphMap& divGraphMap) {
 		// キーとバリューを取り出し処理を行う
 		for (auto&& dgm : divGraphMap) {
@@ -49,9 +49,8 @@ namespace graph {
 			LoadDivGraph(dg.GetFile().c_str(), allNum, dg.GetXnum(), dg.GetYnum(), dg.GetXsize(), dg.GetYsize(),dg.GetHandls().data());
 			_graphlists.emplace(key.c_str(), dg);	// コンテナに登録する
 		}
-
 	}
-	// グラフィックハンドルの取得
+
 	int ResourceServer::GetHandles(const std::string& key, int no) {
 		auto it = _graphlists.find(key);	// リソースの検索
 		// 該当リソースは見つかったか？
@@ -61,19 +60,19 @@ namespace graph {
 		auto graph = it->second.GetHandle().at(no);		// グラフィックハンドルの取得
 		return graph;	// ハンドルを返す
 	}
-	// 該当するグラフィックハンドルを管理するコンテナの取得
-	bool ResourceServer::GetHandles(const std::string& key, std::vector<int>& handls) {
+
+	bool ResourceServer::GetHandles(const std::string& key, std::vector<int>& handles) {
 		auto it = _graphlists.find(key);	// リソースの検索
 		// 該当リソースは見つかったか？
 		if (it == _graphlists.end()) {
-			return false;	// ヒットしなかった
+			return false;										// ヒットしなかった
 		}
 		// ハンドル情報のコピー
-		handls.resize(it->second.GetHandls().size());
-		handls = it->second.GetHandle();
+		handles.resize(it->second.GetHandls().size());
+		handles = it->second.GetHandle();
 		return true;		// ヒットした
 	}
-	// 指定したグラフィックの総分割数を取得
+
 	int ResourceServer::GetAllNum(const std::string& key) {
 		auto it = _graphlists.find(key);	// リソースの検索
 		// 該当リソースは見つかったか？
@@ -82,7 +81,7 @@ namespace graph {
 		}
 		return it->second.GetAllNum();	// 総分割数を返す
 	}
-	// リソース情報の読み込み
+
 	void ResourceServer::SetLoadGraph(const DivGraphMap& divGraphMap) {
 		// キーとバリューを取り出し処理を行う
 		for (auto&& dgm : divGraphMap) {

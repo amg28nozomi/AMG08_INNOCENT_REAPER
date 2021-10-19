@@ -46,7 +46,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lp
 	graph::ResourceServer::Release();	// 画像素材の解放
 	se::SoundServer::Release();				// 音源素材の解放
 
-	DxLib_End();											// DXライブラリの終了処理
+	DxLib::DxLib_End();								// DXライブラリの終了処理
 
 	return 0;
 }

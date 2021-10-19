@@ -10,38 +10,38 @@
 #include <algorithm>
 
 namespace inr {
-	// コンストラクタ
+
 	ItemServer::ItemServer() {
 		ItemClear();	// コンテナの解放
 	}
-	// デストラクタ
+
 	ItemServer::~ItemServer() {
 		ItemClear();	// コンテナの解放
 	}
-	// コンテナの解放
+
 	void ItemServer::ItemClear() {
 		_isDel = false;
 		_items.clear();
 	}
-	// アイテムの登録
+
 	void ItemServer::Add(std::shared_ptr<Item> item) {
 		_items.emplace_back(item);
 	}
-	// 更新
+
 	void ItemServer::Process() {
-		Delete();			// 消去判定
+		Delete();		// 消去判定
 		for (auto item : _items) item->Process();	// アイテムの更新処理呼び出し
 	}
-	// 描画
+
 	void ItemServer::Draw() {
 		for (auto item : _items) item->Draw();		// アイテムの描画処理呼び出し
 	}
-	// 消去
+
 	bool ItemServer::Delete() {
 		if (_isDel == false) return false;	// 消去しない
 		_isDel = false;											// フラグオフ
 	}
-	// 消去フラグの起動
+
 	bool ItemServer::DelOn() {
 		if (_isDel == true) return false;	// 既にフラグがオンの場合は処理を終了
 		_isDel = true;										// 消去フラグ起動

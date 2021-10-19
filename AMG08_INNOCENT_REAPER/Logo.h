@@ -56,15 +56,15 @@ namespace inr {
 		RedGreenBlue _rgb;									//!< RGB
 		std::unique_ptr<TitleLogo> _tlogo;	//!< タイトルロゴ
 		/**
-		 * @brief	ロゴ画像の切り替え
+		 * @brief				ロゴ画像の切り替え
 		 */
 		void ChangeGraph();
 		/**
-		 * @brief	アニメーションの初期化
+		 * @brief				アニメーションの初期化
 		 */
 		void AnimationInit();
 		/**
-		 * @brief	アニメーションのスキップ
+		 * @brief				アニメーションのスキップ
 		 */
 		void AnimaSkip();
 	};

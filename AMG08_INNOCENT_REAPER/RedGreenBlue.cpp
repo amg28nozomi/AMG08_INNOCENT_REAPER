@@ -38,7 +38,6 @@ namespace inr {
 			_blue -= value;
 			break;
 		}
-
 		// 値が上限・加減を超えた場合は修正する
 		SetBlend(&_red);
 		SetBlend(&_green);
@@ -58,7 +57,6 @@ namespace inr {
 			_blue -= bvalue;
 			break;
 		}
-
 		// 値が上限・加減を超えた場合は修正する
 		SetBlend(&_red);
 		SetBlend(&_green);

@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   Lever.cpp
- * \brief  レバークラス（ギミックベースクラスのサブクラス）
+ * @file   Lever.cpp
+ * @brief  レバークラス（ギミックベースクラスのサブクラス）
  *
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "Lever.h"
 #include "Game.h"
@@ -15,7 +15,7 @@
 #include "GimmickValue.h"
 
 namespace inr {
-	// コンストラクタ
+
 	Lever::Lever(Game& game) : GimmickBase(game) {
 		// 初期化
 		_gType = GimmickType::LEVER;
@@ -27,7 +27,7 @@ namespace inr {
 			{ gimmick::lever::KEY_LEVER_BOSS, {30, 50}}
 		};
 	}
-	// 更新
+
 	void Lever::Process() {
 		if (IsAnimationMax()) return;	// アニメーション番号が最大の場合は処理を終了
 		// 扉が開いている場合はアニメーションを行う
@@ -37,7 +37,7 @@ namespace inr {
 		}
 		else if (_door->IsSwitch()) ++_aCount;
 	}
-	// 描画処理
+
 	void Lever::Draw() {
 		// 描画座標の算出
 		Vector2 xy = _position;
@@ -47,14 +47,12 @@ namespace inr {
 		// グラフィックハンドルの取得
 		int graph;
 		GraphResearch(&graph);
-		// 描画
-		DrawRotaGraph(x, y, 1.0, 0, graph, true);
+		DrawRotaGraph(x, y, 1.0, 0, graph, true);		// 描画
 #ifdef _DEBUG
-		// 当たり判定の描画
-		DrawDebugBox(_mainCollision);
+		DrawDebugBox(_mainCollision);		// 当たり判定の描画
 #endif
 	}
-	// ドアの解放
+
 	void Lever::OpenDoor() {
 		// 既に扉が開いている場合は処理を中断
 		if (_oValue.GimmickType() == gimmick::door::D_BOSS) {
@@ -74,7 +72,7 @@ namespace inr {
 		_mainCollision.SetDrawFlag() = false;	// 当たり判定の描画を終了
 #endif
 	}
-	// オブジェクト情報の登録
+
 	void Lever::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;	// 登録
 		// 各種パラメータの算出
@@ -121,7 +119,7 @@ namespace inr {
 		_door = gdoor;	// 登録
 		_game.GetGimmickServer()->Add(gdoor);	// ギミックサーバに登録
 	}
-	// オブジェクト情報の更新
+
 	void Lever::ObjValueUpdate() {
 		if (_oValue.GimmickType() == gimmick::door::D_BOSS) return;	// 処理を行わない
 		auto flag = oscenario::gimmick::FLAG_FALSE;

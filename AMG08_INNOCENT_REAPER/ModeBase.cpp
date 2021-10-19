@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   ModeBase.cpp
+ * @brief  モードのスーパークラス
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "ModeBase.h"
 #include "Game.h"
 #include "ObjectServer.h"
@@ -13,7 +20,6 @@ namespace inr {
 	}
 
 	ModeBase::~ModeBase() {
-		
 	}
 
 	void ModeBase::Init() {
@@ -28,11 +34,9 @@ namespace inr {
 	}
 
 	void ModeBase::Draw() {
-
 	}
 
 	void ModeBase::ChangeKey(const std::string nextStage) {
-
 	}
 
 	bool ModeBase::BgmManage() {

@@ -208,7 +208,7 @@ namespace inr {
 		{ effect::crow::ROAR, {"Resource/effect/CrowDoll/roar/roar", 1, 1, 10, effect::crow::ROAR_WIDTH, effect::crow::ROAR_HEIGHT}},	// クロウドールの咆哮エフェクト
 		{ effect::crow::DEBUF, {"Resource/effect/CrowDoll/debuf/debuf_", 1, 1, effect::crow::DEBUF_MAX, WINDOW_W, WINDOW_H}},			// クロウドールのデバフエフェクト
 	};
-	// 各種素材の読み込み
+
 	void Loads::ResourceLoad() {
 		// 各種画像の読み込み
 		// 通常読み込み
@@ -223,7 +223,7 @@ namespace inr {
 		graph::ResourceServer::SetLoadGraph(backgrounds);
 		graph::ResourceServer::SetLoadGraph(multiple);
 	}
-	// 画像配置情報の取得
+
 	ImageMap Loads::LoadImages() {
 		// 画像配置情報の生成
 		ImageMap imap{
@@ -234,7 +234,7 @@ namespace inr {
 		};
 		return imap;
 	}
-	// チュートリアル画像の取得(チュートリアル1)
+
 	std::vector<TutorialValue> Loads::LoadTutorialF() {
 		// 配置情報の生成
 		std::vector<TutorialValue> stageF = {
@@ -247,16 +247,16 @@ namespace inr {
 	std::vector<TutorialValue> Loads::LoadTutorialS() {
 		// 配置情報の生成
 		std::vector<TutorialValue> stageS = {
-			{ {tutorial::GRAB, {350, 800}, {}}, 100, 200},		// 掴み
-			{ {tutorial::ROB, {1300, 500}, {}}, 300, 300},		// 奪う
-			{ {tutorial::GIVE, {2400, 500}, {}}, 300, 300},		// 与える
-			{ {tutorial::EMPTY, {3050, 600}, {}}, 100, 200},	// 抜け殻
-			{ {tutorial::LEVER, {3300, 400}, {}}, 125, 150},	// レバー
+			{ {tutorial::GRAB, {350, 800}, {}}, 100, 200},			// 掴み
+			{ {tutorial::ROB, {1300, 500}, {}}, 300, 300},			// 奪う
+			{ {tutorial::GIVE, {2400, 500}, {}}, 300, 300},			// 与える
+			{ {tutorial::EMPTY, {3050, 600}, {}}, 100, 200},		// 抜け殻
+			{ {tutorial::LEVER, {3300, 400}, {}}, 125, 150},		// レバー
 			{ {tutorial::CRYSTAL, {4800, 550}, {}}, 300, 300},	// 水晶
 		};
 		return stageS;
 	}
-	// 前景情報の取得
+
 	std::vector<ImageValue> Loads::LoadForeGround1() {
 		// 前景情報の生成
 		std::vector<ImageValue> fore_g = {
@@ -270,7 +270,7 @@ namespace inr {
 		};
 		return fore_g;
 	}
-	// オブジェクトの配置情報の取得(チュートリアル1:封印の祭壇)
+
 	std::vector<ObjectValue> Loads::LoadScenarioS() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stageS{
@@ -286,7 +286,7 @@ namespace inr {
 		};
 		return _stageS;
 	}
-	// オブジェクトの配置情報の取得(チュートリアル2:封印の祭壇)
+
 	std::vector<ObjectValue> Loads::LoadScenarioS_1() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stageT{
@@ -301,7 +301,7 @@ namespace inr {
 		};
 		return _stageT;
 	}
-	// オブジェクトの配置情報の取得(ステージ1:荒れた町)
+
 	std::vector<ObjectValue> Loads::LoadScenario1() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stage1 {
@@ -318,7 +318,7 @@ namespace inr {
 		};
 		return _stage1;
 	}
-	// オブジェクトの配置情報の取得(ステージ2:契りの森-中央)
+
 	std::vector<ObjectValue> Loads::LoadScenario2() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
@@ -342,7 +342,6 @@ namespace inr {
 		return _stage;
 	}
 
-	// オブジェクトの配置情報の取得(ステージ2-1:契りの森-上部)
 	std::vector<ObjectValue> Loads::LoadScenario2_1() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
@@ -374,7 +373,7 @@ namespace inr {
 		};
 		return _stage;
 	}
-	// オブジェクトの配置情報の取得(ステージ2-2:契りの森-下部)
+
 	std::vector<ObjectValue> Loads::LoadScenario2_2() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stage{
@@ -409,7 +408,7 @@ namespace inr {
 		};
 		return _stage;
 	}
-	// オブジェクトの配置情報の取得(ステージ3:契りの森-ボス)
+
 	std::vector<ObjectValue> Loads::LoadScenarioB() {
 		// 配置情報の生成
 		std::vector<ObjectValue> _stage{

@@ -9,11 +9,11 @@
 #include "TutorialImage.h"
 
 namespace inr {
-	// コンストラクタ
+
 	TutorialServer::TutorialServer() {
 		Clear();
 	}
-	// デストラクタ
+
 	TutorialServer::~TutorialServer() {
 		Clear();
 	}
@@ -23,9 +23,6 @@ namespace inr {
 		_images.clear();
 		return true;
 	}
-
-	/*bool TutorialServer::Init() {
-	}*/
 
 	void TutorialServer::Add(std::unique_ptr<TutorialImage> timage) {
 		_isActive = true;

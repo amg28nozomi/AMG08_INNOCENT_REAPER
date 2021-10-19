@@ -128,7 +128,7 @@ namespace inr {
 		}
 		return enemys;
 	}
-	// °‚Ìæ“¾
+
 	std::shared_ptr<SoulSkin> ObjectServer::GetSoul() {
 		for (auto obj : _objects) {
 			if (obj->GetType() != ObjectBase::ObjectType::SOUL) continue;

@@ -40,7 +40,7 @@ namespace inr {
 		 */
 		void Draw();
 		/**
-		 * @brief
+		 * @brief					 モードの切り替え準備
 		 * @param necxMode 次のモード
 		 * @param	interval 遷移までに要するインターバル
 		 */

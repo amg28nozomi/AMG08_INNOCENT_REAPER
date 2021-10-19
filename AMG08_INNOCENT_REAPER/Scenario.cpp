@@ -41,7 +41,6 @@ namespace {
 namespace inr {
 
 	Scenario::Scenario(Game& game) : _game(game) {
-
 		Init();	// 配列初期化
 	}
 
@@ -146,7 +145,6 @@ namespace inr {
 		// 既に自機が登録されている場合は処理を終了する
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
 #ifdef _DEBUG
-		 // ObjectValue ovalue(oscenario::OBJ_PLAYER, { 4000, 400 });	// ボスステージデバッグ用
 		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });
 #endif
 #ifndef _DEBUG

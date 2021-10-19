@@ -50,7 +50,7 @@ namespace inr {
 	class Particle_Image : public Image {
 	protected:
 		int _animation;			//!< アニメーションを行うか
-		int _pal;						//!< 透明値
+		int _pal;						//!< 透明度
 		double _maxExt;			//!< 最大拡大率
 		double _extRate;		//!< 拡大率
 		bool _isDraw;				//!< 描画処理を行っているか
@@ -58,14 +58,14 @@ namespace inr {
 		bool _end;					//!< 処理を終了するか
 		Vector2 _startPos;	//!< 開始地点
 		/**
-		 * @brief					輝度の加算処理
-		 * @return				輝度が上限に達した場合はtrueを返す
+		 * @brief					透明度の加算処理
+		 * @return				透明値が上限に達した場合はtrueを返す
 		 *								到達していない場合はfalseを返す
 		 */
 		bool AddPal();
 		/**
-		 * @brief					輝度の減算処理
-		 * @return				輝度が下限に到達している場合はtrueを返す
+		 * @brief					透明度の減算処理
+		 * @return				透明度が下限に到達している場合はtrueを返す
 		 *								到達していない場合はfalseを返す
 		 */
 		bool SubPal();
@@ -95,7 +95,7 @@ namespace inr {
 		 * @brief					画像の設定
 		 * @param graph		画像キー
 		 * @param pos			生成座標
-		 * @param pal			輝度
+		 * @param pal			透明度
 		 * @param extrate	拡大率
 		 */
 		void SetParameter(std::string graph, Vector2 pos, int pal = 0, double extrate = 1.0);

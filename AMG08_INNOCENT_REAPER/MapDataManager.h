@@ -17,8 +17,8 @@ namespace inr {
 	class MapDataManager {
 	public:
 		/**
-		 * @brief						コンストラクタ
-		 * @param game			ゲームクラスの参照
+		 * @brief							コンストラクタ
+		 * @param game				ゲームクラスの参照
 		 */
 		MapDataManager(Game& game);
 		/**

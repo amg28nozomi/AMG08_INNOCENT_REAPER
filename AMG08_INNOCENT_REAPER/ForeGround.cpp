@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * @file   ForeGround.cpp
  * @brief  前景クラス（画像クラスのサブクラス）
- * 
+ *
  * @author 鈴木希海
  * @date   October 2021
  *********************************************************************/
@@ -13,25 +13,25 @@
 #include <DxLib.h>
 
 namespace inr {
-	// コンストラクタ
+
 	ForeGround::ForeGround(Game& game) : Image(game) {
 		// コンテナの取得
 		_ivalue = Loads::LoadForeGround1();
 		_draw = false;
 	}
-	// デストラクタ
+
 	ForeGround::~ForeGround() {
 		_ivalue.clear();	// コンテナの解放
 	}
-	// 初期化
+
 	void ForeGround::Init() {
 	}
-	// 前景の設定
+
 	void ForeGround::SetForeGround(std::vector<ImageValue> ive) {
 		_ivalue = ive;	// コンテナの登録
 		return;
 	}
-	// 描画
+
 	void ForeGround::Draw() {
 		// 描画座標の算出
 		Vector2 xy = _pos;
@@ -39,25 +39,25 @@ namespace inr {
 		auto x = xy.IntX();
 		auto y = xy.IntY();
 		auto gh = graph::ResourceServer::GetHandles(_graphKey, 0);	// 画像の取得
-		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);				// 描画
+		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);		// 描画
 	}
-	// 描画情報の設定
+
 	bool ForeGround::SetKey(const std::string key) {
 		auto ckey = CheckKey(key);		// キーの読み込み
 		if (ckey == -1) return false;	// 読み込み失敗
 		switch (ckey) {
 		case 0:	// ステージ0
-			_draw = true;		// 追加描画あり
+			_draw = true;													// 追加描画あり
 			_graphKey = _ivalue[ckey].GraphKey();	// 画像
 			_pos = _ivalue[ckey].Position();			// 座標
-			return true;		// 設定完了
+			return true;													// 設定完了
 		case 1:
 		case 2:
 		case 3:
 		case 4:
 		case 5:
 		case 6:
-			_draw = false;			// 追加描画なし
+			_draw = false;												// 追加描画なし
 			_graphKey = _ivalue[ckey].GraphKey();	// 画像
 			_pos = _ivalue[ckey].Position();			// 座標
 			return true;		// 設定成功
@@ -65,7 +65,7 @@ namespace inr {
 			return false;		// 設定失敗
 		}
 	}
-	// 添え字の算出
+
 	int ForeGround::CheckKey(const std::string key) {
 		// キーに対応した添え字を返す
 		if (key == stage::STAGE_0) return 0;
