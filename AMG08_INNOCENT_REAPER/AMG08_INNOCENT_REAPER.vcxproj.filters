@@ -203,6 +203,9 @@
     <ClCompile Include="GimmickValue.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="DivGraph.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -392,6 +395,9 @@
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="GimmickValue.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="DivGraph.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>

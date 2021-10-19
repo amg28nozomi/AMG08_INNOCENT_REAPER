@@ -1,53 +1,26 @@
 /*****************************************************************//**
- * \file   ResourceServer.cpp
- * \brief  ディブグラフクラス
- *		   DxLib::LoadDivGraph関数で読み込む画像の情報
- *		   リソースサーバクラス
- *		   DxLib::LoadDivGraphで取得したグラフィックハンドルの管理を行う
- * 
- * \author 鈴木希海
- * \date   October 2021
+ * @file   ResourceServer.cpp
+ * @brief  DxLib::LoadDivGraphで取得したグラフィックハンドルの管理を行うリソースサーバ
+ *
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "ResourceServer.h"
+#include "DivGraph.h"
 #include <unordered_map>
-#include <vector>
 #include <memory>
-#include <string>
 #include <DxLib.h>
 
 namespace graph {
 	// 静的メンバの定義
 	ResourceServer::DivGraphMap ResourceServer::_graphlists;
-	// コンストラクタ
-	DivGraph::DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize) : 
-		_filename(filename), _xNum(xnum), _yNum(ynum), _allNum(allnum), _xSize(xsize), _ySize(ysize), _handles(){
-	}
-	// コンストラクタ
-	DivGraph::DivGraph() {
-		// 各種初期化
-		_filename = "";
-		_xNum = 0;
-		_yNum = 0;
-		_allNum = 0;
-		_xSize = 0;
-		_ySize = 0;
-		_handles.clear();
-	}
-	// デストラクタ
-	DivGraph::~DivGraph() {
-	}
-	// ファイル名の取得
-	std::string& DivGraph::GetFile() {
-		std::string* fillname = &_filename;
-		return *fillname;
-	}
 	// リソースの初期化
 	void ResourceServer::Init() {
-		ClearGraphLists();	// コンテナの解放
+		ClearGraphLists();
 	}
 	// リソースの解放
 	void ResourceServer::Release() {
-		ClearGraphLists();	// コンテナの解放
+		ClearGraphLists();
 	}
 	// コンテナの解放
 	void ResourceServer::ClearGraphLists() {
@@ -64,13 +37,13 @@ namespace graph {
 	void ResourceServer::LoadGraphList(const DivGraphMap& divGraphMap) {
 		// キーとバリューを取り出し処理を行う
 		for (auto&& dgm : divGraphMap) {
-			auto& key = dgm.first;				// キー情報
+			auto& key = dgm.first;						// キー情報
 			auto it = _graphlists.find(key);	// 既に登録されているかの確認
 			if (it != _graphlists.end()) {
 				continue;	// 登録されている
 			}
-			auto dg = dgm.second;			// 読み込み用情報の取り出し
-			auto allNum = dg.GetAllNum();	// 画像の総分割数		
+			auto dg = dgm.second;						// 読み込み用情報の取り出し
+			auto allNum = dg.GetAllNum();		// 画像の総分割数		
 			dg.GetHandls().resize(allNum);	// グラフィック格納用のコンテナをリサイズ
 			// 画像の読み込みを行う
 			LoadDivGraph(dg.GetFile().c_str(), allNum, dg.GetXnum(), dg.GetYnum(), dg.GetXsize(), dg.GetYsize(),dg.GetHandls().data());
@@ -113,13 +86,13 @@ namespace graph {
 	void ResourceServer::SetLoadGraph(const DivGraphMap& divGraphMap) {
 		// キーとバリューを取り出し処理を行う
 		for (auto&& dgm : divGraphMap) {
-			auto& key = dgm.first;					// キー
-			auto it = _graphlists.find(key);		// 検索
+			auto& key = dgm.first;									// キー
+			auto it = _graphlists.find(key);				// 検索
 			if (it != _graphlists.end()) continue;	// 既に登録済みの場合はスキップ
 
-			DivGraph dgraph = dgm.second;			// 読み込み情報のコピー
-			auto&& dghandle = dgraph.GetHandls();	// コンテナの参照
-			dghandle.resize(dgraph.GetAllNum());	// サイス変更
+			DivGraph dgraph = dgm.second;						// 読み込み情報のコピー
+			auto&& dghandle = dgraph.GetHandls();		// コンテナの参照
+			dghandle.resize(dgraph.GetAllNum());		// サイス変更
 			// 総分割数分画像を読み込む
 			for (auto i = 0; i < dgraph.GetAllNum(); ++i) {
 				std::string number;		// 画像ファイル用

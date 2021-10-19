@@ -3,6 +3,7 @@
 #include "ObjectBase.h"
 #include "Player.h"
 #include "ResourceServer.h"
+#include "DivGraph.h"
 #include "Collision.h"
 #include "Vector2.h"
 #include "ChipHitCheck.h"

@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   SoldierDoll.cpp
+ * @brief  ソルジャードール（エネミーベースのサブクラス）
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "SoldierDoll.h"
 #include "Game.h"
 #include "ObjectServer.h"
@@ -12,25 +19,20 @@
 #include "EffectServer.h"
 #include "ModeServer.h"
 #include "ModeMain.h"
-
-// α仮
 #include "SoulSkin.h"
 #include <memory>
 
 namespace {
 	constexpr auto START_POS_X = 500;
 	constexpr auto START_POS_Y = 400;
-
 	// 幅・高さ
 	constexpr auto SOLDIER_W = 60;
 	constexpr auto SOLDIER_H = 120;
-
 	// 通常状態の当たり判定(修正用)
 	constexpr auto SF_HEIGHT = 20;
 	constexpr auto SOLDIER_BOX_W = SOLDIER_W / 2;
 	constexpr auto SOLDIER_BOX_H1 = SOLDIER_H / 2 - SF_HEIGHT;
 	constexpr auto SOLDIER_BOX_H2 = SOLDIER_H / 2 + SF_HEIGHT;
-
 	// 干渉範囲 
 	constexpr auto SOLDIER_VITAL = 20;
 	// 当たり判定
@@ -38,23 +40,19 @@ namespace {
 
 	constexpr auto EMPTY_W = 250;
 	constexpr auto EMPTY_H = 100;
-
 	// 索敵範囲
 	constexpr auto SEARCH_X = 200 + (SOLDIER_BOX_W * 2);	//　260
 	constexpr auto SEARCH_Y1 = SOLDIER_BOX_H1;
 	constexpr auto SEARCH_Y2 = SOLDIER_BOX_H2;
-
 	// 巡回範囲(最大Vector)
 	constexpr auto PATROL_VECTOR = 1.0;
 	constexpr auto PATROL_MAX = 280;
-
 	// 攻撃用範囲
 	constexpr auto ATTACK_W1 = SOLDIER_BOX_W + 30;
 	constexpr auto ATTACK_W2 = SOLDIER_W / 2;
 	constexpr auto ATTACK_H = 30;
 
 	constexpr auto FRAME = 30;
-
 	// アイドルモーション時間
 	constexpr auto STAY_MAX = 60;	//　stay
 	constexpr auto GIVE_STAY = 33 * 2;
@@ -242,25 +240,12 @@ namespace inr {
 	void SoldierDoll::Move() {
 		// 移動ベクトルに応じて、向きを変更
 		// 移動量に応じて向きを変更
-		
 
 		if (_actionX < 0) { 
 			_direction = enemy::MOVE_LEFT; }
 		else if (0 < _actionX) _direction = enemy::MOVE_RIGHT;
-		/*if (_aState == ActionState::PATROL && _aCount % GetSoundFrame(_divKey.first) == 0 && IsAnimationMax() != true) {
-			PlaySe(enemy::soldier::MOVE);
-		}*/
-
-		
 
 		Escape();
-
-		/*if (_moveVector.GetX() < 0) {
-			_direction = true;
-		}
-		else if (0 < _moveVector.GetX()) {
-			_direction = false;
-		}*/
 	}
 
 	void SoldierDoll::Escape() {
@@ -268,15 +253,6 @@ namespace inr {
 		case ActionState::PATROL:
 			if (0 < _patrolX) _direction = enemy::MOVE_LEFT;
 			else if (_patrolX < 0) _direction = enemy::MOVE_RIGHT;
-			//if (_patrolX != 0) {
-			//	switch (_direction) {
-			//	case enemy::MOVE_LEFT:
-
-			//		break;
-			//	case enemy::MOVE_RIGHT:
-			//		break;
-			//	}
-			//}
 			return;
 
 		case ActionState::ESCAPE:
@@ -434,10 +410,6 @@ namespace inr {
 				player->Damage(SearchPosition());
 			}
 		}
-
-		//if (_mainCollision.HitCheck(playerBox)) {
-		//	player.Da
-		//}
 	}
 
 	void SoldierDoll::ChangeIdol(int stay) {
@@ -454,18 +426,6 @@ namespace inr {
 		}
 		ChangeState(ActionState::IDOL, nextkey);
 	}
-
-	//bool SoldierDoll::Hit() {
-	//	// プレイヤーの参照を取得
-	//	auto player = _game.GetObjectServer()->GetPlayer();
-
-	//	// プレイヤーは自身に接触しているかどうか？
-	//	if (_mainCollision.HitCheck(player->GetMainCollision())) {
-	//		player->GetMainCollision();
-	//	}
-	//	return false;
-	//}
-
 
 	void SoldierDoll::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		// 現在の急所がある座標を算出

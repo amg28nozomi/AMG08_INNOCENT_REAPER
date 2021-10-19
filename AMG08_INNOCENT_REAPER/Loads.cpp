@@ -1,13 +1,13 @@
 /*****************************************************************//**
- * \file   Loads.cpp
- * \brief  ロードクラス
- *		   各種素材の読み込み処理を行う
+ * @file   Loads.cpp
+ * @brief  各種素材の読み込み処理を行うロードクラス
  *
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "Loads.h"
 #include "ResourceServer.h"
+#include "DivGraph.h"
 #include "Game.h"
 #include "Scenario.h"
 #include "Player.h"

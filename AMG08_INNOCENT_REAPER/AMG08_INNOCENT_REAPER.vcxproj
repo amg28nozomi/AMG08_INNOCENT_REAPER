@@ -160,6 +160,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CrowDoll.cpp" />
     <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="DivGraph.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EffectBase.cpp" />
     <ClCompile Include="EffectServer.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CrowDoll.h" />
     <ClInclude Include="Crystal.h" />
+    <ClInclude Include="DivGraph.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="EffectServer.h" />

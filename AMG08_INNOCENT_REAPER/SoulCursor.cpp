@@ -77,7 +77,6 @@ namespace inr {
 				_moveVector.GetPY() = (lever2 / MOVE_VEC);
 			}
 		}
-
 	}
 
 	void SoulCursor::PositionUpdate() {
