@@ -123,7 +123,6 @@ namespace inr {
 		std::string _changeKey;														//!< ステージ切り替えよう
 		std::unique_ptr<BackGround> _bg;									//!< 背景
 		std::unique_ptr<StageUi> _stageUi;								//!< ステージUI
-		// std::unique_ptr<UI> _uiSoul;
 		std::unique_ptr<Pause> _pause;										//!< ポーズ
 		std::shared_ptr<EffectServer> _eServer;						//!< エフェクトサーバ
 		std::unique_ptr<ImageServer> _messageServer;			//!< メッセージサーバ
@@ -136,9 +135,9 @@ namespace inr {
 		bool _bossBattle;																	//!< ボス戦フラグ
 		bool _isEnding;																		//!< エンディング移行フラグ
 		/**
-		 * @brief		ステージの切り替え処理
-		 * @return	処理に成功した場合はtrueを返す
-		 *					失敗した場合はfalseを返す
+		 * @brief						ステージの切り替え処理
+		 * @return					処理に成功した場合はtrueを返す
+		 *									失敗した場合はfalseを返す
 		 */
 		bool IsStageChange();
 		/**
@@ -155,12 +154,11 @@ namespace inr {
 		 */
 		bool IsEnding();
 		/**
-		 * @brief						BGMキーの取得
+		 * @brief						BGMキーの切り替え
 		 * @param	key				次のステージ
 		 * @return					ヒットした場合はキーを返す
 		 *									ヒットしなかった場合は""を返す
 		 */
-		std::string BgmKey(std::string key);	// キーの切り替え
+		std::string BgmKey(std::string key);
 	};
-
 }

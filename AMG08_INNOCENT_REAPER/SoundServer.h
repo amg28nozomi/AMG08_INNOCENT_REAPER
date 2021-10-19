@@ -1,47 +1,63 @@
+/*****************************************************************//**
+ * @file   SoundServer.h
+ * @brief  サウンドの管理を行うサウンドサーバ
+ * 
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #pragma once
+#include "SoundData.h"
 #include <unordered_map>
 #include <string>
 
 namespace se {
-
-	class SoundDate {
-	public:
-		/**
-		 * @brief	コンストラクタ
-		 * @param	ファイル名
-		 * @param	再生タイプ
-		 */
-		SoundDate(std::string fillname, int type);
-		/**
-		 * @brief	デストラクタ
-		 */
-		~SoundDate() = default;
-		// ゲッター
-		inline std::string& GetFill();
-		inline int& GetHandleP() { return _handle; }
-		inline int GetHandle() { return _handle; }
-		inline int GetPlayType() { return _playType; }
-	private:
-		std::string _fillname;	// ファイル名/パス名
-		int _handle;	// サウンドハンドル
-		int _playType;	// 再生タイプ
-	};
-
+	/** サウンドサーバ */
 	class SoundServer {
 	public:
-		using SoundMap = std::unordered_map<std::string, SoundDate>;
+		/** サウンド情報を格納する連想配列 */
+		using SoundMap = std::unordered_map<std::string, SoundData>;
+		/**
+		 * @brief						初期化処理
+		 */
 		static void Init();
+		/**
+		 * @brief						サウンドハンドルの解放
+		 */
 		static void Release();
+		/**
+		 * @brief						コンテナの解放
+		 */
 		static void ClearSoundList();
-
-		// SEの読み込み
+		/**
+		 * @brief						サウンドの読み込み
+		 * @param soundMap	サウンド情報
+		 */
 		static void LoadSoundMap(const SoundMap& soundMap);
-		// 指定したサウンドハンドルを取得
+		/**
+		 * @brief						サウンドハンドルの取得
+		 * @param key				キー
+		 * @return					サウンドハンドルを返す
+		 *									キーが登録されていない場合は-1を返す
+		 */
 		static int GetSound(const std::string& key);
+		/**
+		 * @brief						再生タイプの取得
+		 * @param key				キー
+		 * @return					再生タイプを返す
+		 *									キーが登録されていない場合は-1を返す
+		 *									
+		 */
 		static int GetPlayType(const std::string& key);
+		/**
+		 * @brief						サウンドの取得
+		 * @param key				キー
+		 * @param playtype	再生タイプ
+		 * @return					サウンドハンドルを返す
+		 *									キーが登録されていない場合は-1を返す
+		 */
 		static int GetSound(const std::string& key, int* playtype);
 	private:
-		static SoundMap _soundList;
+		static SoundMap _soundList;		//!< サウンド情報
 	};
 
 }

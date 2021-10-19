@@ -1,11 +1,16 @@
+/*****************************************************************//**
+ * @file   SoulCursor.cpp
+ * @brief  タイトル時のカーソル
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "SoulCursor.h"
 #include "Game.h"
 #include "SoulSkin.h"
 #include <DxLib.h>
 
 namespace {
-	/*constexpr auto S_LEFT = false;
-	constexpr auto S_RIGHT = true;*/
 
 	constexpr auto MOVE_VEC = 100;
 

@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   SoulSkin.cpp
+ * @brief  ç∞ÉNÉâÉX
+ * 
+ * @author óÈñÿäÛäC
+ * @date   October 2021
+ *********************************************************************/
 #include "SoulSkin.h"
 #include "ObjectBase.h"
 #include "Vector2.h"
@@ -142,8 +149,8 @@ namespace inr {
 		}
 	}
 
-	void SoulSkin::SetSpwan(Vector2 spwan) {
-		_position = spwan;
+	void SoulSkin::SetSpwan(Vector2 spawn) {
+		_position = spawn;
 		_active = true;
 	}
 

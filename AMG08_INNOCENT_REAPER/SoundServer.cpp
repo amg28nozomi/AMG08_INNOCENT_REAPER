@@ -1,21 +1,17 @@
+/*****************************************************************//**
+ * @file   SoundServer.cpp
+ * @brief  サウンドの管理を行うサウンドサーバ
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "SoundServer.h"
-#include <unordered_map>
-#include <string>
 #include <memory>
 #include <DxLib.h>
 
 namespace se {
 
 	SoundServer::SoundMap SoundServer::_soundList;
-
-	SoundDate::SoundDate(std::string fillname, int type) : _fillname(fillname), _handle(0), _playType(type) {
-
-	}
-
-	std::string& SoundDate::GetFill() {
-		std::string* fillname = &_fillname;
-		return *fillname;
-	}
 
 	void SoundServer::Init() {
 		ClearSoundList();
@@ -51,7 +47,6 @@ namespace se {
 		if (it == _soundList.end()) {
 			return -1;
 		}
-		// auto sound = it->second.GetHandle();
 		return it->second.GetHandle();
 	}
 

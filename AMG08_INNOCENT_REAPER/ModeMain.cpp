@@ -40,7 +40,6 @@ namespace inr {
 
 		_bg = std::make_unique<BackGround>(_game.GetGame());
 		_stageUi = std::make_unique<StageUi>(_game.GetGame());
-		// _uiSoul = std::make_unique<UI>(_game.GetGame());
 		_pause = std::make_unique<Pause>(_game.GetGame());
 		_eServer = std::make_shared<EffectServer>(_game.GetGame());
 		_messageServer = std::make_unique<ImageServer>(_game.GetGame());
@@ -67,14 +66,12 @@ namespace inr {
 			BgmManage(_stageKey);	// ステージに対応するBGMを鳴らす
 
 			TimeClear();
-			_bg->ScrollOn();	// 背景のスクロール再開
-			_fg->SetKey(_stageKey);	// 前景の切り替え
+			_bg->ScrollOn();													// 背景のスクロール再開
+			_fg->SetKey(_stageKey);											// 前景の切り替え
 			_game.GetMapChips()->ChangeMap(_stageKey);	// マップチップの切り替え
 			_game.GetScenario()->AddObjects(_stageKey);	// 各種オブジェクトの生成
-			_eServer->Init();	// エフェクト初期化
-			// _uiSoul->PlayerUpdate();
-			_stageUi->ChangeNumber(_stageKey);	// ステージUIの画像切り替え
-			//_itemImages->AddImage()
+			_eServer->Init();														// エフェクト初期化
+			_stageUi->ChangeNumber(_stageKey);					// ステージUIの画像切り替え
 			// 各種フラグの設定
 			_bossOpen = false;	
 			_bossBattle = false;
@@ -91,7 +88,6 @@ namespace inr {
 			_itemServer->ItemClear();	// 全消去
 			_bg->ChangeGraph();
 			_tutorialServer->Clear();
-			// _uiSoul->Reset();
 			_resetFlg = true;
 
 			auto nowbgm = se::SoundServer::GetSound(_bgmKey);
@@ -101,7 +97,7 @@ namespace inr {
 
 	void ModeMain::Process() {
 		IsStageChange();	// ステージを切り替えるか？
-		StageReset();	// ステージを初期化するか？
+		StageReset();			// ステージを初期化するか？
 		if (_isEnding == true) IsEnding();	// エンディングに突入するか？
 		if (_stageUi->FadeDraw() != true && _game.GetModeServer()->IsFadeEnd() == true) _stageUi->DrawStart();
 		++_modeFrame;
@@ -122,24 +118,24 @@ namespace inr {
 		_game.GetObjectServer()->Process();
 		_itemServer->Process();
 		_fg->Process();
-		// _uiSoul->Process();
 		_stageUi->Process();
 	}
 
 	void ModeMain::Draw() {
-		_bg->Draw();	// 背景
+		_bg->Draw();											// 背景
 		_game.GetGimmickServer()->Draw();	// ギミック
-		_game.GetMapChips()->Draw();	// マップチップ
-		_tutorialServer->Draw();	// チュートリアルUI
-		_eServer->DrawBack();	// エフェクト(後)
+		_game.GetMapChips()->Draw();			// マップチップ
+		_tutorialServer->Draw();					// チュートリアルUI
+		_eServer->DrawBack();							// エフェクト(後)
 		_game.GetObjectServer()->Draw();	// オブジェクト
-		_itemServer->Draw();	// アイテム
-		_eServer->DrawFormer();	// エフェクト(前)
-		_fg->Draw();	// 前景
-		// _uiSoul->Draw();	// HP(UI)
-		_stageUi->Draw();	// ステージUI
-		if(_pause->Active() == true) _pause->Draw();	// ポーズ画面
-		if (_messageServer->IsActive() == true) _messageServer->Draw();	// アイテムテキスト
+		_itemServer->Draw();							// アイテム
+		_eServer->DrawFormer();						// エフェクト(前)
+		_fg->Draw();											// 前景
+		_stageUi->Draw();									// ステージUI
+		// ポーズ画面
+		if(_pause->Active() == true) _pause->Draw();
+		// アイテムテキスト
+		if (_messageServer->IsActive() == true) _messageServer->Draw();
 	}
 
 	void ModeMain::ChangeKey(const std::string nextStage) { 
@@ -218,7 +214,7 @@ namespace inr {
 		PlaySoundMem(se::SoundServer::GetSound(_bgmKey), se::SoundServer::GetPlayType(_bgmKey));
 		return true;
 	}
-	// BGMキーの気鋭替え
+	// BGMキーの切り替え
 	std::string ModeMain::BgmKey(std::string key) {
 		// キーと対応するサウンドキーを返す
 		if (key == stage::STAGE_0) return bgm::SOUND_STAGE_0;

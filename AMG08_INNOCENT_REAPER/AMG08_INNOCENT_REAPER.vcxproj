@@ -204,7 +204,7 @@
     <ClCompile Include="SoldierDoll.cpp" />
     <ClCompile Include="SoulCursor.cpp" />
     <ClCompile Include="SoulSkin.cpp" />
-    <ClCompile Include="SoulManager.cpp" />
+    <ClCompile Include="SoundData.cpp" />
     <ClCompile Include="SoundServer.cpp" />
     <ClCompile Include="StageTransition.cpp" />
     <ClCompile Include="StageUi.cpp" />
@@ -271,7 +271,7 @@
     <ClInclude Include="SoldierDoll.h" />
     <ClInclude Include="SoulCursor.h" />
     <ClInclude Include="SoulSkin.h" />
-    <ClInclude Include="SoulManager.h" />
+    <ClInclude Include="SoundData.h" />
     <ClInclude Include="SoundServer.h" />
     <ClInclude Include="StageTransition.h" />
     <ClInclude Include="StageUi.h" />

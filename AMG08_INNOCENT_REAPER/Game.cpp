@@ -1,9 +1,9 @@
 /*****************************************************************//**
- * \file   Game.cpp
- * \brief  ゲームクラス
+ * @file   Game.cpp
+ * @brief  ゲームクラス
  * 
- * \author 鈴木希海
- * \date   October 2021
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "Game.h"
 #include <memory>
@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "ResourceServer.h"
 #include "SoundServer.h"
+#include "SoundData.h"
 #include "MapChips.h"
 #include "EnemyBase.h"
 #include "SoldierDoll.h"

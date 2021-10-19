@@ -44,9 +44,6 @@
     <ClCompile Include="SoundServer.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="SoulManager.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="SoulSkin.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -206,6 +203,9 @@
     <ClCompile Include="DivGraph.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="SoundData.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -272,9 +272,6 @@
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="ChipHitCheck.h">
-      <Filter>source</Filter>
-    </ClInclude>
-    <ClInclude Include="SoulManager.h">
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="Scenario.h">
@@ -398,6 +395,9 @@
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="DivGraph.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundData.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>
