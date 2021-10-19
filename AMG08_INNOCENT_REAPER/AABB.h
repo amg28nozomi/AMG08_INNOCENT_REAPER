@@ -12,10 +12,10 @@
 class AABB : public Collision {
 public:
 	/**
-	 * @brief				コンストラクタ
-	 * @param	min		座標ベクトル2(min)
-	 * @param	max		座標ベクトル2(max)
-	 * @param	flag	当たり判定を行うかのフラグ
+	 * @brief					コンストラクタ
+	 * @param	min			座標ベクトル2(min)
+	 * @param	max			座標ベクトル2(max)
+	 * @param	flag		当たり判定を行うかのフラグ
 	 */
 	AABB(Vector2 vmin, Vector2 vmax, bool cflag = false);
 	/**
@@ -37,14 +37,13 @@ public:
 	 */
 	AABB(Vector2& vpos, int width1, int width2, int height1, int height2, bool cflag = false);
 	/**
-	 * @brief	デストラクタ
+	 * @brief					デストラクタ
 	 */
 	~AABB() = default;
-	// 当たり判定の更新(反転処理有り)
 	/**
-	 * @brief			当たり判定の更新(向きに応じた反転処理有り)
-	 * @param pos	現在の座標ベクトル
-	 * @param inv	現在の向き
+	 * @brief					当たり判定の更新(向きに応じた反転処理有り)
+	 * @param pos			現在の座標ベクトル
+	 * @param inv			現在の向き
 	 */
 	void Update(Vector2& pos, bool inv) override;
 };

@@ -8,11 +8,11 @@
 #include "DivGraph.h"
 
 namespace graph{
-	// コンストラクタ
+
 	DivGraph::DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize) :
 		_filename(filename), _xNum(xnum), _yNum(ynum), _allNum(allnum), _xSize(xsize), _ySize(ysize), _handles() {
 	}
-	// コンストラクタ
+
 	DivGraph::DivGraph() {
 		// 各種初期化
 		_filename = "";
@@ -23,10 +23,10 @@ namespace graph{
 		_ySize = 0;
 		_handles.clear();
 	}
-	// デストラクタ
+
 	DivGraph::~DivGraph() {
 	}
-	// ファイル名の取得
+
 	std::string& DivGraph::GetFile() {
 		std::string* fillname = &_filename;
 		return *fillname;

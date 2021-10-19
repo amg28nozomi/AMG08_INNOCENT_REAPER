@@ -86,30 +86,30 @@ namespace inr {
 		 */
 		virtual void Draw();
 		/**
-		 * @brief					ダメージ判定の設定
-		 * @param width		横幅
-		 * @param height	縦幅
-		 * @param dinter	ダメージ判定が発生するまでの猶予フレーム
+		 * @brief						ダメージ判定の設定
+		 * @param width			横幅
+		 * @param height		縦幅
+		 * @param dinter		ダメージ判定が発生するまでの猶予フレーム
 		 */
 		virtual void SetDamageEffect(int width, int height, int dinter = 0);
 		/**
-		 * @brief					ダメージ判定の設定
-		 * @param width1	横幅(min)
-		 * @param width2	横幅(max)
-		 * @param height1	縦幅(min)
-		 * @param height2	縦幅(max)
-		 * @param dinter	ダメージ判定が発生するまでの猶予フレーム
-		 * @param max			ダメージ判定の終了フレーム
+		 * @brief						ダメージ判定の設定
+		 * @param width1		横幅(min)
+		 * @param width2		横幅(max)
+		 * @param height1		縦幅(min)
+		 * @param height2		縦幅(max)
+		 * @param dinter		ダメージ判定が発生するまでの猶予フレーム
+		 * @param max				ダメージ判定の終了フレーム
 		 */
 		virtual void SetDamageEffect(int width1, int width2, int height1, int height2, int dinter = 0, int max = 0);
 		/**
-		 * @brief					ループの設定
-		 * @param max			ループ回数
+		 * @brief						ループの設定
+		 * @param max				ループ回数
 		 */
 		void SetLoop(int max);
 		/**
-		 * @brief					消去フラグの取得
-		 * @return				消去フラグを返す
+		 * @brief						消去フラグの取得
+		 * @return					消去フラグを返す
 		 */
 		inline bool IsDel() { return _delete; }
 	protected:
@@ -128,29 +128,29 @@ namespace inr {
 		bool _delete;						//!< 消去するかの判定
 		std::string _graphKey;	//!< グラフィックハンドルのキー
 		/**
-		 * @brief			グラフィックハンドルの検索
-		 * @param gh	グラフィックハンドル格納用のアドレス
+		 * @brief						グラフィックハンドルの検索
+		 * @param gh				グラフィックハンドル格納用のアドレス
 		 */
 		void GraphResearch(int* gh);
 		/**
-		 * @brief			自機との接触判定およびダメージ判定の呼び出し処理
+		 * @brief						自機との接触判定およびダメージ判定の呼び出し処理
 		 */
 		void Damage();
 		/**
-		 * @brief			自機が左右どちら側に居るのかの判定
-		 * @return		右側に居る場合はtrueを返す
-		 *						左側に居る場合はfalseを返す
+		 * @brief						自機が左右どちら側に居るのかの判定
+		 * @return					右側に居る場合はtrueを返す
+		 *									左側に居る場合はfalseを返す
 		 */
 		bool IsPlayerPosition();
 		/**
-		 * @brief			ダメージ処理を行うかの判定
-		 * @return		ダメージ判定がある場合はtrueを返す
-		 *						それ以外の場合はfalseを返す
+		 * @brief						ダメージ処理を行うかの判定
+		 * @return					ダメージ判定がある場合はtrueを返す
+		 *									それ以外の場合はfalseを返す
 		 */
 		bool IsDamage();
 		/**
-		 * @brief			アニメーション番号の取得
-		 * @return		算出したアニメーション番号を返す
+		 * @brief						アニメーション番号の取得
+		 * @return					算出したアニメーション番号を返す
 		 */
 		int GraphNumber();
 	};

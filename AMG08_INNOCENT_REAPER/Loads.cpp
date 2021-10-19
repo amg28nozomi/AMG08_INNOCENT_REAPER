@@ -51,7 +51,7 @@ namespace inr {
 	const graph::ResourceServer::DivGraphMap enemys {
 		// 抜け殻状態
 		{ enemy::SOLDIER_EMPTY, {"Resource/SoldierDoll/sd_e_down.png", 6, 4, 19, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
-		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 7, 1, 7, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::BIG_EMPTY, {"Resource/BigDoll/bd_e_down.png", 3, 7, 19, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 赤い魂の状態
 		// ソルジャードール
 		{ enemy::red::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_r_wakeup.png", 6, 3, 17, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
@@ -59,11 +59,11 @@ namespace inr {
 		{ enemy::red::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_r_move.png", 6, 3, 13, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::red::SOLDIER_ATTACK, {"Resource/SoldierDoll/sd_r_attack.png", 6, 2, 11, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		// ビッグドール
-		{ enemy::red::BIG_WAKEUP, {"Resource/BigDoll/bd_r_wakeup.png", 5, 1, enemy::red::big::WAKEUP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::red::BIG_IDOL, {"Resource/BigDoll/bd_r_stand.png", 3, 1, enemy::red::big::IDOL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::red::BIG_PATROL, {"Resource/BigDoll/bd_r_move.png", 5, 1, enemy::red::big::MOVE_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 5, 1, enemy::red::big::ATTACK_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::red::BIG_HIPDROP, {"Resource/BigDoll/bd_r_hipdrop.png", 7, 1, enemy::red::big::HIPDROP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_WAKEUP, {"Resource/BigDoll/bd_r_wakeup.png", 3, 6, enemy::red::big::WAKEUP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_IDOL, {"Resource/BigDoll/bd_r_stand.png", 3, 4, enemy::red::big::IDOL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_PATROL, {"Resource/BigDoll/bd_r_move.png", 3, 4, enemy::red::big::MOVE_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_TACKLE, {"Resource/BigDoll/bd_r_tackle.png", 3, 4, enemy::red::big::ATTACK_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::red::BIG_HIPDROP, {"Resource/BigDoll/bd_r_hipdrop.png", 3, 4, enemy::red::big::HIPDROP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// 青い魂
 		// ソルジャードール
 		{ enemy::blue::SOLDIER_WAKEUP, {"Resource/SoldierDoll/sd_b_wakeup.png", 6, 3, 17, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
@@ -71,10 +71,10 @@ namespace inr {
 		{ enemy::blue::SOLDIER_PATROL, {"Resource/SoldierDoll/sd_b_move.png", 6, 3, 13, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		{ enemy::blue::SOLDIER_ESCAPE, {"Resource/SoldierDoll/sd_b_escape.png", 6, 3, 13, SOLDIER_IMAGE_W, SOLDIER_IMAGE_H}},
 		// ビッグドール
-		{ enemy::blue::BIG_WAKEUP, {"Resource/BigDoll/bd_b_wakeup.png", 5, 1, enemy::blue::big::WAKEUP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::blue::BIG_IDOL, {"Resource/BigDoll/bd_b_stand.png", 3, 1, enemy::blue::big::IDOL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::blue::BIG_PATROL, {"Resource/BigDoll/bd_b_move.png", 4, 1, enemy::blue::big::PATROL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
-		{ enemy::blue::BIG_ESCAPE, {"Resource/BigDoll/bd_b_escape.png", 5, 1, enemy::blue::big::ESCAPE_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_WAKEUP, {"Resource/BigDoll/bd_b_wakeup.png", 3, 6, enemy::blue::big::WAKEUP_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_IDOL, {"Resource/BigDoll/bd_b_stand.png", 3, 4, enemy::blue::big::IDOL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_PATROL, {"Resource/BigDoll/bd_b_move.png", 3, 4, enemy::blue::big::PATROL_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
+		{ enemy::blue::BIG_ESCAPE, {"Resource/BigDoll/bd_b_escape.png", 3, 6, enemy::blue::big::ESCAPE_SIZE, enemy::BIG_IMAGE, enemy::BIG_IMAGE}},
 		// クロウドール
 		{ enemy::crowdoll::CROW_IDOL, {"Resource/CrowDoll/cd_float.png", 2, 7, enemy::crowdoll::motion::IDOL, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},
 		{ enemy::crowdoll::CROW_RUSH, {"Resource/CrowDoll/cd_rush.png", 2, 18, enemy::crowdoll::motion::RUSH, enemy::crowdoll::CROW_SIZE, enemy::crowdoll::CROW_SIZE }},

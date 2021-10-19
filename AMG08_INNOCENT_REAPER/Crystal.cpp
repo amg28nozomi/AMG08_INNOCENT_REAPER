@@ -15,19 +15,19 @@
 #include "SoundServer.h"
 
 namespace inr {
-	// コンストラクタ
+
 	Crystal::Crystal(Game& game) : GimmickBase(game) {
-		_gType = GimmickType::CRYSTAL;	// ギミックタイプの設定
-		_divKey = { "", gimmick::door::SE_CLOSE_DOOR };	// 画像キーの設定
+		_gType = GimmickType::CRYSTAL;		// ギミックタイプの設定
+		_divKey = { "", gimmick::door::SE_CLOSE_DOOR };		// 画像キーの設定
 		// 各種初期化
 		_motionKey.clear();
 		_soul.reset();
 		_doors.clear();
 	}
-	// 描画
+
 	void Crystal::Draw() {
 		Vector2 xy = _position;
-		_game.GetMapChips()->Clamp(xy);	// 座標のクランプ
+		_game.GetMapChips()->Clamp(xy);		// 座標のクランプ
 		// 描画座標の算出
 		auto x = xy.IntX();
 		auto y = xy.IntY();
@@ -39,12 +39,12 @@ namespace inr {
 		DrawDebugBox(_mainCollision);
 #endif
 	}
-	// オブジェクト情報の登録
+
 	void Crystal::SetParameter(ObjectValue objValue) {
-		_oValue = objValue;	// オブジェクト情報の登録
-		_position = _oValue.Positions()[0];	// 水晶の座標
-		AddSoul();	// 魂の生成
-		GraphKey();	// 画像キーの算出
+		_oValue = objValue;										// オブジェクト情報の登録
+		_position = _oValue.Positions()[0];		// 水晶の座標
+		AddSoul();														// 魂の生成
+		GraphKey();														// 画像キーの算出
 		// ドアの生成
 		for (auto i = 0; i < _oValue.DoorType().size(); ++i) _doors.emplace_back(std::move(std::make_shared<Door>(_game.GetGame())));
 		// ドアの調整
@@ -65,15 +65,14 @@ namespace inr {
 		}
 		SetDoors(key);	// ドアの設定
 		// ギミックサーバーに登録する
-		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _game.GetGimmickServer()->Add(_doors.at(i));
-		
+		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _game.GetGimmickServer()->Add(_doors.at(i));	
 		// 当たり判定
 		_mainCollision = { _position, 50, 50, 30, 70, true };
 	}
-	// ドアの設定
+
 	void Crystal::SetDoors(std::vector<std::string> key) {
 		// 魂の色を見て対応したものを開ける
-		if (_soul == nullptr) { // 魂が空ではない時
+		if (_soul == nullptr) {		// 魂が空ではない時
 			for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) { 
 				_doors[i]->SetParameter(_oValue.Positions()[1 + i], key.at(i), oscenario::gimmick::FLAG_FALSE); 
 			}
@@ -98,7 +97,7 @@ namespace inr {
 		}
 		for (auto i = 0; i < static_cast<int>(_doors.size()); ++i) _doors[i]->SetParameter(_oValue.Positions()[1 + i], key.at(i), flag.at(i));
 	}
-	// 描画画像の設定
+
 	void Crystal::GraphKey() {
 		// 水晶の種類に応じて、キーを切り替える
 		switch (_oValue.CrystalType()) {
@@ -139,7 +138,7 @@ namespace inr {
 			break;
 		}
 	}
-	// 魂の生成
+
 	void Crystal::AddSoul() {
 		// 魂は空か？
 		if (_oValue.SoulType() == 0) {
@@ -168,7 +167,7 @@ namespace inr {
 		_soul = soul;
 		_game.GetObjectServer()->Add(std::move(soul));
 	}
-	// 自機アクションとの衝突判定
+
 	void Crystal::CollisionHit(const std::string ckey, Collision acollision, bool direction) {
 		auto player = _game.GetObjectServer()->GetPlayer();
 		// 魂は奪われるか？
@@ -179,17 +178,17 @@ namespace inr {
 					for (auto door_c : _doors) door_c->SwitchOff();
 					auto sound = se::SoundServer::GetSound(gimmick::crystal::KEY_ROB);
 					PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-					_soul->SetSpwan(_position);	// 中心座標に実体化させる
+					_soul->SetSpwan(_position);		// 中心座標に実体化させる
 
 					// 自機が保有する魂が所持上限に到達している場合は所有権を手放す
 					if (player->IsSoulMax()) {
 						_soul->OwnerNull();
-						_soul.reset();	// 所有権を手放す
-						GraphKey();	// 画像切り替え
+						_soul.reset();		// 所有権を手放す
+						GraphKey();				// 画像切り替え
 						return;
 					}
-					player->SoulCatch(std::move(_soul));	// 魂の所有権をプレイヤーに譲渡
-					GraphKey();	// 画像切り替え
+					player->SoulCatch(std::move(_soul));		// 魂の所有権をプレイヤーに譲渡
+					GraphKey();					// 画像切り替え
 					return;
 				}
 			}
@@ -206,12 +205,12 @@ namespace inr {
 						PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
 
 						_soul = player->GiveSoul();	// プレイヤ―から対象の魂を受け取る
-						_soul->Inactive();	// 魂を非活性状態にする
-						GraphKey();	// 画像切り替え
+						_soul->Inactive();					// 魂を非活性状態にする
+						GraphKey();									// 画像切り替え
 						// 対応したドアを開く
 						for (auto door : _doors) {
 							if (IsOpen(door->DoorColor()) != true) continue;
-							door->SwitchOn();	// 一致した場合は扉を開く
+							door->SwitchOn();					// 一致した場合は扉を開く
 							
 						}
 					}
@@ -219,14 +218,14 @@ namespace inr {
 			}
 		}
 	}
-	// ドアの解放
+
 	bool Crystal::IsOpen(int type) {
 		// ドアの色と保有している魂を比較
 		if (static_cast<int>(_soul->SoulColor()) != type) return false;
 		// 一致している
 		return true;
 	}
-	// オブジェクト情報の更新
+
 	void Crystal::ObjValueUpdate() {
 		// 魂が空の場合は初期状態に戻す
 		if (_soul == nullptr) {

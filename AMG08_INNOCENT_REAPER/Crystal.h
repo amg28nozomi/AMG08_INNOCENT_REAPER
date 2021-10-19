@@ -18,25 +18,25 @@ namespace inr {
 	class Crystal : public GimmickBase {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief							コンストラクタ
+		 * @param game				ゲームクラスの参照
 		 */
 		Crystal(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief							デストラクタ
 		 */
 		~Crystal() = default;
 		/**
-		 * @brief	描画処理
+		 * @brief							描画処理
 		 */
 		void Draw() override;
 		/**
-		 * @brief						オブジェクト情報の登録
-		 * @param objValue	オブジェクト情報
+		 * @brief							オブジェクト情報の登録
+		 * @param objValue		オブジェクト情報
 		 */
 		void SetParameter(ObjectValue objValue) override;
 		/**
-		 * @brief オブジェクト情報の更新
+		 * @brief							オブジェクト情報の更新
 		 */
 		void ObjValueUpdate() override;
 		/**
@@ -50,23 +50,23 @@ namespace inr {
 		std::shared_ptr<SoulSkin> _soul;						//!< 保持している魂
 		std::vector<std::shared_ptr<Door>> _doors;	//!< 保持しているドア
 		/**
-		 * @brief			ドアの設定
-		 * @param key	扉の画像キーが格納されたコンテナ
+		 * @brief							ドアの設定
+		 * @param key					扉の画像キーが格納されたコンテナ
 		 */
 		void SetDoors(std::vector<std::string> key);
 		/**
-		 * @brief	画像キーの切り替え
+		 * @brief							画像キーの切り替え
 		 */
 		void GraphKey();
 		/**
-		 * @brief	魂の生成処理
+		 * @brief							魂の生成処理
 		 */
 		void AddSoul();
 		/**
-		 * @brief				ドアと現在保有している魂の色は一致しているか
-		 * @param type	ドアの色
-		 * @return			一致している場合はtrueを返す
-		 *							不一致の場合はfalseを返す
+		 * @brief							ドアと現在保有している魂の色は一致しているか
+		 * @param type				ドアの色
+		 * @return						一致している場合はtrueを返す
+		 *										不一致の場合はfalseを返す
 		 */
 		bool IsOpen(int type);
 	};

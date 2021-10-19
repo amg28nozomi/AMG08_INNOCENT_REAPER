@@ -11,27 +11,26 @@
 #include "ChipNumber.h"
 
 namespace inr {
-	/** コンストラクタ */
-	// コンストラクタ
+
 	ChipHitCheck::ChipHitCheck() {
 		// 各種初期化
 		_chipKey = "";
 		ClearStageMaps();
 	}
-	// デストラクタ
+
 	ChipHitCheck::~ChipHitCheck() {
 		ClearStageMaps();
 	}
-	// 登録情報の初期化
+
 	void ChipHitCheck::ClearStageMaps() {
 		for (auto&& scm : _stageChipsMap) {
 			auto& key = scm.first;	// 参照元のキーで検索
 			auto chip = _stageChipsMap.find(key);
-			chip->second.clear();	// 連想配列初期化
+			chip->second.clear();		// 連想配列初期化
 		}
 		_stageChipsMap.clear();		// コンテナの解放
 	}
-	// マップチップの当たり判定登録
+
 	void ChipHitCheck::LoadChipsMap(std::string key, ChipsMap& chipsMap) {
 		// この情報は既に登録されているか？
 		auto it = _stageChipsMap.find(key);
@@ -39,10 +38,10 @@ namespace inr {
 		if (it != _stageChipsMap.end()) return;
 		_stageChipsMap.emplace(key, chipsMap);	// 連想配列に登録
 	}
-	// 対象に効果があるかの判定(引数:判定を行うチップ番号)
+
 	int ChipHitCheck::IsChipType(const int no) {
-		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
-		auto chipnumber = stage->second.find(no);		// チップ番号の当たり判定を取得
+		auto stage = _stageChipsMap.find(_chipKey);		// 現在のステージの連想配列を取り出す
+		auto chipnumber = stage->second.find(no);			// チップ番号の当たり判定を取得
 		if (chipnumber == stage->second.end()) return mapchip::NORMAL;	// 該当なし
 		// 効果はあるか？
 		switch (chipnumber->second.ChipType()) {
@@ -58,10 +57,10 @@ namespace inr {
 			return mapchip::NONE;				// 登録されていないチップ番号
 		}
 	}
-	// 対象に当たり判定があるかの判定(引数:判定を行うチップ番号)
+
 	bool ChipHitCheck::IsHitType(const int no) {
-		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
-		auto chipnumber = stage->second.find(no);	// チップ番号の当たり判定を取得
+		auto stage = _stageChipsMap.find(_chipKey);		// 現在のステージの連想配列を取り出す
+		auto chipnumber = stage->second.find(no);			// チップ番号の当たり判定を取得
 		if (chipnumber == stage->second.end()) return true;
 		// 当たり判定はあるか？
 		switch (chipnumber->second.HitType()) {
@@ -71,15 +70,14 @@ namespace inr {
 			return false;
 		}
 	}
-	// 対象の当たり判定を取得(引数:取得を行うチップ番号)
+
 	AABB ChipHitCheck::ChipCollision(const int no) {
 		Vector2 min;
 		Vector2 max;
-		auto stage = _stageChipsMap.find(_chipKey);	// 現在のステージの連想配列を取り出す
-		auto chipdata = stage->second.find(no);	// チップ番号の当たり判定を取得
+		auto stage = _stageChipsMap.find(_chipKey);		// 現在のステージの連想配列を取り出す
+		auto chipdata = stage->second.find(no);				// チップ番号の当たり判定を取得
 		if (chipdata == stage->second.end()) {
-			// 登録されていない＝判定が変わっていない
-			// 40*40の通常の値を戻り値として返す
+			// 登録されていない場合は40*40の通常の値を戻り値として返す
 			min = { 0, 0 };
 			max = { 40, 40 };
 		} else {

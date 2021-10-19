@@ -12,7 +12,7 @@ namespace inr {
 	/** 敵のコンパイル時定数 */
 	namespace enemy {
 		/** ビッグドールの画像サイズ */
-		constexpr auto BIG_IMAGE = 280;
+		constexpr auto BIG_IMAGE = 340;
 		/** 当たり判定(横幅) */
 		constexpr auto BIG_WIDTH = 160;
 		/** 当たり判定(高さ) */
@@ -29,25 +29,25 @@ namespace inr {
 	class BigDoll : public EnemyBase {
 	public:
 		/**
-		 * @brief	コンストラクタ
-		 * @param	game ゲームクラスの参照
+		 * @brief							コンストラクタ
+		 * @param	game				ゲームクラスの参照
 		 */
 		BigDoll(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief							デストラクタ
 		 */
 		~BigDoll();
 		/**
-		 * @brief	初期化処理
+		 * @brief							初期化処理
 		 */
 		void Init() override;
 		/**
-		 * @brief	更新処理
+		 * @brief							更新処理
 		 */
 		void Process() override;
 		/**
-		 * @brief	オブジェクト情報の登録
-		 * @param	objValue	オブジェクト情報
+		 * @brief							オブジェクト情報の登録
+		 * @param	objValue		オブジェクト情報
 		 */
 		void SetParameter(ObjectValue objValue);
 		/**
@@ -58,58 +58,58 @@ namespace inr {
 		 */
 		void CollisionHit(const std::string ckey, Collision acollision, bool direction) override;
 	private:
-		int _moveCount;	//!< 移動カウント
-		double _atkVec;	//!< 移動量
+		int _moveCount;				//!< 移動カウント
+		double _atkVec;				//!< 移動量
 		/**
-		 * @brief	ヒップドロップ
+		 * @brief							ヒップドロップ
 		 */
 		void HipDrop();
 		/**
-		 * @brief	状態に応じた処理の更新
+		 * @brief							状態に応じた処理の更新
 		 */
 		void StateUpdate();
 		/**
-		 * @brief	巡回処理判定オン
+		 * @brief							巡回処理判定オン
 		 */
 		void PatrolOn() override;
 		/**
-		 * @brief	攻撃処理判定オン
+		 * @brief							攻撃処理判定オン
 		 */
 		void AttackOn() override;
 		/**
-		 * @brief	逃走処理判定オン
+		 * @brief							逃走処理判定オン
 		 */
 		void EscapeOn() override;
 		/**
-		 * @brief	アクション状態に移行するか
+		 * @brief							アクション状態に移行するか
 		 */
 		void Action() override;
 		/**
-		 * @brief	死亡処理
+		 * @brief							死亡処理
 		 */
 		void Death() override;
 		/**
-		 * @brief	待機状態の設定
-		 * @param	stay	待機時間
+		 * @brief							待機状態の設定
+		 * @param	stay				待機時間
 		 */
 		void ChangeIdol(int stay) override;
 		/**
-		 * @brief	移動処理
+		 * @brief							移動処理
 		 */
 		void Move();
 		/**
-		 * @brief	座標更新
+		 * @brief							座標更新
 		 */
 		void PositionUpdate() override;
 		/**
-		 * @brief	攻撃処理
+		 * @brief							攻撃処理
 		 */
 		void Attack();
 		/**
-		 * @brief		現在の当たり判定の取得
-		 * @param		key		現在の状態を表すキー
-		 * @return	抜け殻ではない場合は通常の当たり判定を返す
-		 *					抜け殻の場合は抜け殻用の当たり判定を返す
+		 * @brief							現在の当たり判定の取得
+		 * @param	key					現在の状態を表すキー
+		 * @return						抜け殻ではない場合は通常の当たり判定を返す
+		 *										抜け殻の場合は抜け殻用の当たり判定を返す
 		 */
 		AABB NowCollision(std::string key) override;
 	};

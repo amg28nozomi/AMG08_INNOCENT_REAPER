@@ -13,31 +13,31 @@ namespace inr {
 	class Door : public GimmickBase {
 	public:
 		/**
-		 * @brief				コンストラクタ
-		 * @param game	ゲームクラスの参照
+		 * @brief						コンストラクタ
+		 * @param game			ゲームクラスの参照
 		 */
 		Door(Game& game);
 		/**
-		 * @brief	デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~Door() = default;
 		/**
-		 * @brief	初期化処理
+		 * @brief						初期化処理
 		 */
 		void Init() override;
 		/**
-		 * @brief	更新処理
+		 * @brief						更新処理
 		 */
 		void Process() override;
 		/**
-		 * @brief	描画処理
+		 * @brief						描画処理
 		 */
 		void Draw() override;
 		/**
-		 * @brief				オブジェクト情報の登録
-		 * @param spwan	生成座標
-		 * @param key		画像キー
-		 * @param flag	ギミックフラグ
+		 * @brief						オブジェクト情報の登録
+		 * @param spwan			生成座標
+		 * @param key				画像キー
+		 * @param flag			ギミックフラグ
 		 */
 		void SetParameter(Vector2 spwan, std::string key, int flag);
 		/**
@@ -46,11 +46,11 @@ namespace inr {
 		 */
 		void SetParameter(ObjectValue objValue) override;
 		/**
-		 * @brief	開閉フラグの起動
+		 * @brief						開閉フラグの起動
 		 */
 		void SwitchOn();
 		/**
-		 * @brief	開閉フラグの抑制
+		 * @brief						開閉フラグの抑制
 		 */
 		void SwitchOff();
 		/**
@@ -64,13 +64,13 @@ namespace inr {
 		 */
 		bool Extrude(AABB box, Vector2& pos, Vector2& move, bool direction);
 		/**
-		 * @brief		扉の色の取得
-		 * @return	扉の色を返す
+		 * @brief						扉の色の取得
+		 * @return					扉の色を返す
 		 */
 		inline int DoorColor() { return _color; }
 		/**
-		 * @brief		開閉フラグの取得
-		 * @return	開閉フラグを返す 
+		 * @brief						開閉フラグの取得
+		 * @return					開閉フラグを返す 
 		 */
 		inline bool IsSwitch() { return _switch; }
 	private:
@@ -80,20 +80,20 @@ namespace inr {
 		bool _ismove;				//!< 移動中か？
 		Vector2 _moves;			//!< 移動座標
 		/**
-		 * @brief			扉の色の設定
-		 * @param key	画像キー
+		 * @brief						扉の色の設定
+		 * @param key				画像キー
 		 */
 		void SetColor(std::string key);
 		/**
-		 * @brief			アニメーション処理
-		 * @return		アニメーションの再生を行う場合はtrueを返す
-		 *						再生を行わない場合はfalseを返す
+		 * @brief						アニメーション処理
+		 * @return					アニメーションの再生を行う場合はtrueを返す
+		 *									再生を行わない場合はfalseを返す
 		 */
 		bool MotionCount();
 		/**
-		 * @brief			移動処理
-		 * @return		処理を行う場合はtrueを返す
-		 *						行わない場合はfalseを返す
+		 * @brief						移動処理
+		 * @return					処理を行う場合はtrueを返す
+		 *									行わない場合はfalseを返す
 		 */
 		bool DoorMove();
 	};

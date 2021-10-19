@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * @file   Door.cpp
  * @brief  ドアクラス（ギミックベースクラスのサブクラス）
- * 
+ *
  * @author 鈴木希海
  * @date   October 2021
  *********************************************************************/
@@ -24,14 +24,14 @@ namespace {
 }
 
 namespace inr {
-	// コンストラクタ
+
 	Door::Door(Game& game) : GimmickBase(game) {
 		// 初期化
 		_gType = GimmickType::DOOR;
 		_color = -1;
 		Init();
 	}
-	// 初期化
+
 	void Door::Init() {
 		// 各種初期化
 		_switch = gimmick::OFF;
@@ -47,13 +47,13 @@ namespace inr {
 			{ gimmick::door::KEY_DOOR_BOSS, {1, 0}},
 		};
 	}
-	// 更新
+
 	void Door::Process() {
 		// ドアの移動処理がある場合は中断
 		if (DoorMove() == true) return;
-		MotionCount();	// アニメーションの再生
+		MotionCount();		// アニメーションの再生
 	}
-	// 描画
+
 	void Door::Draw() {
 		// 描画座標の算出
 		Vector2 xy = _position;
@@ -69,11 +69,11 @@ namespace inr {
 		DrawDebugBox(_mainCollision);
 #endif
 	}
-	// オブジェクト情報の設定
+
 	void Door::SetParameter(Vector2 spwan, std::string key, int flag) {
 		// 各種登録
 		_divKey.first = key;
-		SetColor(key);	// 色の判別
+		SetColor(key);		// 色の判別
 		_position = spwan;
 		_ismove = false;
 		// 対応する扉の登録情報呼び出し
@@ -83,7 +83,7 @@ namespace inr {
 		// ギミックフラグに応じて、状態切り替え
 		switch (flag) {
 		case oscenario::gimmick::FLAG_FALSE:
-			colf = true;	// 当たり判定を元に戻す
+			colf = true;		// 当たり判定を元に戻す
 			_switch = gimmick::OFF;
 			_aCount = 0;
 			break;
@@ -93,7 +93,7 @@ namespace inr {
 			_mainCollision.SetDrawFlag() = false;
 #endif
 			_aCount = ite->second.first - 1;
-			colf = false;	// 当たり判定を元に戻す
+			colf = false;		// 当たり判定を元に戻す
 			break;
 		default:
 			_switch = gimmick::OFF;
@@ -104,7 +104,7 @@ namespace inr {
 		// 当たり判定の修正
 		_mainCollision = { _position, 20, 20, 10, 70, colf };
 	}
-	// 開閉フラグの起動
+
 	void Door::SwitchOn() {
 		// フラグ切り替え
 		_switch = gimmick::ON;
@@ -112,12 +112,12 @@ namespace inr {
 #ifdef _DEBUG
 		_mainCollision.SetDrawFlag() = false;
 #endif
-		_mainCollision.SetCollisionFlag() = false;	// 当たり判定を元に戻す
+		_mainCollision.SetCollisionFlag() = false;		// 当たり判定を元に戻す
 		// 開閉音を鳴らす
 		auto sh = SoundResearch(gimmick::door::KEY_DOOR);
 		PlaySoundMem(sh, se::SoundServer::GetPlayType(_divKey.second));
 	}
-	// 開閉フラグの抑制
+
 	void Door::SwitchOff() {
 		auto sound = se::SoundServer::GetSound(gimmick::door::SE_CLOSE_DOOR);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
@@ -127,14 +127,14 @@ namespace inr {
 #ifdef _DEBUG
 		_mainCollision.SetDrawFlag() = true;
 #endif
-		_mainCollision.SetCollisionFlag() = true;	// 当たり判定を元に戻す
+		_mainCollision.SetCollisionFlag() = true;		// 当たり判定を元に戻す
 	}
-	// 押し出し処理
+
 	bool Door::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {
 		auto newpos = pos + move;
 		box.Update(newpos, direction);
 		// 対象は接触しているか？
-		if (_mainCollision.HitCheck(box) == false) return false;	// 衝突していない
+		if (_mainCollision.HitCheck(box) == false) return false;		// 衝突していない
 		// 接触している場合、移動方向とは逆方向に押し出す
 		if (move.GetX() < 0) {
 			pos.GetPX() = _position.GetX() + _mainCollision.GetWidthMax() + box.GetWidthMax();
@@ -143,9 +143,9 @@ namespace inr {
 			pos.GetPX() = _position.GetX() - _mainCollision.GetWidthMin() - box.GetWidthMin();
 			move.GetPX() = 0;
 		}
-		return true;	// 衝突している
+		return true;		// 衝突している
 	}
-	// ドアの移動処理
+
 	bool Door::DoorMove() {
 		// ボス扉ではない場合は処理を中断する
 		if (_divKey.first != gimmick::door::KEY_DOOR_BOSS) return false;
@@ -175,7 +175,7 @@ namespace inr {
 		_mainCollision.Update(_position, false);
 		_moves = {};
 	}
-	// アニメーション処理
+
 	bool Door::MotionCount() {
 		// 移動フラグが立っている場合のみ再生を行う
 		if (_ismove == false) return false;
@@ -211,22 +211,22 @@ namespace inr {
 			return true;
 		}
 	}
-	// 色の判定
+
 	void Door::SetColor(std::string key) {
 		// キーに応じて色を切り替える
 		if (key == gimmick::door::KEY_DOOR_RED) _color = static_cast<int>(soul::RED);
 		else if (key == gimmick::door::KEY_DOOR_BLUE) _color = static_cast<int>(soul::BLUE);
 		else _color = -1;
 	}
-	// オブジェクト情報の登録
+
 	void Door::SetParameter(ObjectValue objValue) {
-		_oValue = objValue;	// オブジェクト情報の更新
-		_divKey.first = gimmick::door::KEY_DOOR_BOSS;	// 画像キーの設定
-		_normalY = _oValue.Positions().at(0).GetY();	// 閉まっている際の描画座標
+		_oValue = objValue;		// オブジェクト情報の更新
+		_divKey.first = gimmick::door::KEY_DOOR_BOSS;		// 画像キーの設定
+		_normalY = _oValue.Positions().at(0).GetY();		// 閉まっている際の描画座標
 
 		bool colf = false;
-		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	// 扉は開かれているか？
-		case true:	// 空いている場合
+		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {		// 扉は開かれているか？
+		case true:		// 空いている場合
 			colf = false;
 			_position = { _oValue.Positions().at(0).GetX(), _normalY - OPEN_MAX };
 			_switch = gimmick::ON;
@@ -234,7 +234,7 @@ namespace inr {
 			_mainCollision.SetDrawFlag() = false;
 #endif
 			break;
-		case false:	// 閉じている場合
+		case false:		// 閉じている場合
 			colf = true;	// 当たり判定を元に戻す
 			_position = _oValue.Positions().at(0);
 			_switch = gimmick::OFF;

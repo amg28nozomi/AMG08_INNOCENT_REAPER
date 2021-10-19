@@ -24,61 +24,61 @@ namespace graph {
 		 */
 		DivGraph(std::string filename, int xnum, int ynum, int allnum, int xsize, int ysize);
 		/**
-		 * @brief					コンストラクタ
+		 * @brief						コンストラクタ
 		 */
 		DivGraph();
 		/**
-		 * @brief					デストラクタ
+		 * @brief						デストラクタ
 		 */
 		~DivGraph();
 		/**
-		 * @brief					ファイル名の取得
-		 * @return				ファイル名を返す
+		 * @brief						ファイル名の取得
+		 * @return					ファイル名を返す
 		 */
 		std::string& GetFile();
 		/**
-		 * @brief					横向き分割数の取得
-		 * @return				横向き分割数の取得
+		 * @brief						横向き分割数の取得
+		 * @return					横向き分割数の取得
 		 */
 		inline int GetXnum() { return _xNum; }
 		/**
-		 * @brief					縦向き分割数の取得
-		 * @return				縦向き分割数を返す
+		 * @brief						縦向き分割数の取得
+		 * @return					縦向き分割数を返す
 		 */
 		inline int GetYnum() { return _yNum; }
 		/**
-		 * @brief					画像の横幅の取得
-		 * @return				横幅を返す
+		 * @brief						画像の横幅の取得
+		 * @return					横幅を返す
 		 */
 		inline int GetXsize() { return _xSize; }
 		/**
-		 * @brief					画像の縦幅の取得
-		 * @return				縦幅を返す
+		 * @brief						画像の縦幅の取得
+		 * @return					縦幅を返す
 		 */
 		inline int GetYsize() { return _ySize; }
 		/**
-		 * @brief					総分割数の取得
-		 * @return				総分割数を返す
+		 * @brief						総分割数の取得
+		 * @return					総分割数を返す
 		 */
 		inline int GetAllNum() { return _allNum; }
 		/**
-		 * @brief					グラフィックハンドルコンテナの参照
-		 * @return				コンテナの参照を返す
+		 * @brief						グラフィックハンドルコンテナの参照
+		 * @return					コンテナの参照を返す
 		 */
 		inline std::vector<int>& GetHandls() { return _handles; }
 		/**
-		 * @brief					グラフィックハンドルコンテナの取得
-		 * @return				コンテナを返す
+		 * @brief						グラフィックハンドルコンテナの取得
+		 * @return					コンテナを返す
 		 */
 		inline std::vector<int> GetHandle() { return _handles; }
 		/**
-		 * @brief					ハンドル用コンテナのリサイズ
-		 * @param maxNum	サイズ
+		 * @brief						ハンドル用コンテナのリサイズ
+		 * @param maxNum		サイズ
 		 */
 		inline void ResizeHandles(int maxNum) { _handles.resize(maxNum); }
 		/**
-		 * @brief					ハンドル用コンテナのスワップ
-		 * @param					スワップ対象
+		 * @brief						ハンドル用コンテナのスワップ
+		 * @param						スワップ対象
 		 */
 		inline void SwapHandles(std::vector<int> newhandles) { _handles.swap(newhandles); }
 	private:

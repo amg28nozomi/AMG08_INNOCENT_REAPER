@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * @file   Block.cpp
  * @brief  壊れる岩クラス（ギミックベースクラスのサブクラス）
- * 
+ *
  * @author 鈴木希海
  * @date   October 2021
  *********************************************************************/
@@ -12,7 +12,7 @@
 #include "GimmickValue.h"
 
 namespace inr {
-	// コンストラクタ
+
 	Block::Block(Game& game) : GimmickBase(game) {
 		// 各種初期化
 		_gType = GimmickType::BLOCK;
@@ -24,7 +24,7 @@ namespace inr {
 		_pal = 255;
 		_break = gimmick::block::BRAKE_OFF;
 	}
-	// 更新
+
 	void Block::Process() {
 		// フラグがオンかつ、アニメーションが終了している場合は該当オブジェクトを消去する
 		if (_break == gimmick::block::BRAKE_ON && AnimationCountMax() == true) {
@@ -33,10 +33,10 @@ namespace inr {
 			_game.GetGimmickServer()->DelOn();
 			return;
 		}
-		if (_break != gimmick::block::BRAKE_ON) return;	// 壊れていない場合も処理を抜ける
+		if (_break != gimmick::block::BRAKE_ON) return;		// 壊れていない場合も処理を抜ける
 		++_aCount;
 	}
-	// 描画
+
 	void Block::Draw() {
 		// 描画座標の算出
 		Vector2 xy = _position;
@@ -56,9 +56,9 @@ namespace inr {
 	}
 	// オブジェクト情報の登録
 	void Block::SetParameter(ObjectValue objValue) {
-		_oValue = objValue;	// オブジェクト情報登録
-		_position = _oValue.Positions()[0];	// 座標の設定
-		_mainCollision = { _position, 45, 45, 100, 140, true };	// 当たり判定の登録
+		_oValue = objValue;										// オブジェクト情報登録
+		_position = _oValue.Positions()[0];		// 座標の設定
+		_mainCollision = { _position, 45, 45, 100, 140, true };		// 当たり判定の登録
 		// フラグがオンの場合
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
 			_break = gimmick::block::BRAKE_ON;	// 破壊済み
@@ -72,14 +72,14 @@ namespace inr {
 		_break = gimmick::block::BRAKE_OFF;
 		_pal = 255;
 	}
-	// オブジェクト情報の更新
+
 	void Block::ObjValueUpdate() {
 		// 破壊されているかどうかでフラグを切り替える
 		auto flag = oscenario::gimmick::FLAG_FALSE;
 		if (_break == gimmick::block::BRAKE_ON) flag = oscenario::gimmick::FLAG_TRUE;
-		_oValue.FlagUpdate(flag);	// フラグ更新
+		_oValue.FlagUpdate(flag);		// フラグ更新
 	}
-	// 押し出し処理
+
 	bool Block::Extrude(AABB box, Vector2& pos, Vector2& move, bool direction) {
 		// 対象の判定座標更新
 		auto newpos = pos + move;
@@ -97,11 +97,11 @@ namespace inr {
 		}
 		return true;	// 衝突している
 	}
-	// 破壊処理
+
 	void Block::Break() {
 		auto sound = SoundResearch(_divKey.second);
 		PlaySoundMem(sound, se::SoundServer::GetPlayType(_divKey.second));
-		_break = gimmick::block::BRAKE_ON;			// 破壊フラグをオンにする
+		_break = gimmick::block::BRAKE_ON;					// 破壊フラグをオンにする
 		_divKey.first = gimmick::block::KEY_BREAK;	// キーを破壊エフェクトに切り替え
 #ifdef _DEBUG
 		_mainCollision.SetDrawFlag() = false;

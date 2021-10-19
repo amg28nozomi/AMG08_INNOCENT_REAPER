@@ -1,23 +1,23 @@
 /*****************************************************************//**
- * \file   EffectServer.cpp
- * \brief  エフェクトサーバクラス
- * 
- * \author 鈴木希海
- * \date   October 2021
+ * @file   EffectServer.cpp
+ * @brief  エフェクトサーバクラス
+ *
+ * @author 鈴木希海
+ * @date   October 2021
  *********************************************************************/
 #include "EffectServer.h"
 #include "EffectBase.h"
 
 namespace inr {
-	// コンストラクタ
+
 	EffectServer::EffectServer(Game& game) : _game(game) {
 		Clears();
 	}
-	// デストラクタ
+
 	EffectServer::~EffectServer() {
 		Clears();
 	}
-	// 各種コンテナの解放
+
 	void EffectServer::Clears() {
 		// 全コンテナの解放
 		_effectsF.clear();
@@ -25,7 +25,7 @@ namespace inr {
 		_addFormer.clear();
 		_addBack.clear();
 	}
-	// 初期化
+
 	void EffectServer::Init() {
 		// 各種初期化実行
 		_update = false;
@@ -33,25 +33,25 @@ namespace inr {
 		_del = false;
 		Clears();
 	}
-	// 更新
+
 	void EffectServer::Process() {
 		// 一時的格納用コンテナにエフェクトが登録されている場合、格納用コンテナへの登録処理へ移行
 		if (_isAdd == true) MoveAddEffects();
-		IsDelete();										// 消去処理の確認
-		_update = true;									// 更新開始
+		IsDelete();					// 消去処理の確認
+		_update = true;			// 更新開始
 		for (auto&& eff : _effectsB) eff->Process();	// 後景エフェクトの更新処理呼び出し
 		for (auto&& eff : _effectsF) eff->Process();	// 前景エフェクトの更新処理呼び出し
-		_update = false;								// 更新終了
+		_update = false;		// 更新終了
 	}
-	// 後景描画
+
 	void EffectServer::DrawBack() {
 		for (auto&& eff : _effectsB) eff->Draw();	// 後景エフェクトの描画処理呼び出し
 	}
-	// 前景描画
+
 	void EffectServer::DrawFormer() {
 		for (auto&& eff : _effectsF) eff->Draw();	// 前景エフェクトの描画処理呼び出し
 	}
-	// エフェクトの登録
+
 	void EffectServer::Add(std::unique_ptr<EffectBase> eff, int type) {
 		// コンテナを回しているかに応じて格納用コンテナと一時的格納コンテナのどちらに登録するか判定
 		// true:処理を行っている場合は登録フラグを真にし、該当する一時的格納コンテナに登録
@@ -83,7 +83,7 @@ namespace inr {
 			}
 		}
 	}
-	// エフェクトの所有権を移行する
+
 	void EffectServer::MoveAddEffects() {	
 		// 要素がある場合は対応するコンテナに所有権を移行する
 		if (_addFormer.empty() != true) {
@@ -94,12 +94,12 @@ namespace inr {
 			for(auto&& eff : _addBack)  _effectsB.emplace_back(std::move(eff));
 			_addBack.clear();
 		}
-		_isAdd = false;	// 登録完了
+		_isAdd = false;		// 登録完了
 	}
-	// 登録エフェクトの消去
+
 	void EffectServer::IsDelete() {
-		if (_del != true) return;							// 条件を満たしていないため処理を中断
-		std::vector<std::unique_ptr<EffectBase>> alives;	// 避難用コンテナ
+		if (_del != true) return;			// 条件を満たしていないため処理を中断
+		std::vector<std::unique_ptr<EffectBase>> alives;		// 避難用コンテナ
 		// 消去フラグが立っていないエフェクトを一時的に避難させる
 		for (auto&& eff : _effectsF) {
 			if (eff->IsDel() == true) continue;
