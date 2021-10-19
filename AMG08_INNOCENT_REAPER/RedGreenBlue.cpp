@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   RedGreenBlue.cpp
+ * @brief  RedGreenBlueカラーモデルクラス
+ *
+ * @author 鈴木希海
+ * @date   October 2021
+ *********************************************************************/
 #include "RedGreenBlue.h"
 
 namespace inr {
@@ -57,14 +64,6 @@ namespace inr {
 		SetBlend(&_green);
 		SetBlend(&_blue);
 	}
-
-	//bool RedGreenBlue::IsMaxValue(bool type) {
-	//	switch (type) {
-	//	case rgb::ADD:	// 上限を超えているか？
-	//		if()
-	//	case rgb::SUB:	// 加減を超えているか？
-	//	}
-	//}
 
 	void RedGreenBlue::SetBlend(double* value) {
 		if (*value < rgb::MIN_BLEND) *value = rgb::MIN_BLEND;
