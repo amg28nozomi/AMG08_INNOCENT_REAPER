@@ -19,7 +19,9 @@ namespace inr {
 		constexpr auto STAGES_HEIGHT = 2160;										//!< ••ˆó‚ÌÕ’d‚ÌƒTƒCƒY
 		// r‚ê‚½’¬
 		constexpr auto BACK_GROUND_1 = "back_ground1";					//!< r‚ê‚½’¬‚Ì‰æ‘œƒL[
+		constexpr auto REMAINS = "back_remains";								//!< r‚ê‚½’¬(‘OŒi)‚Ì‰æ‘œƒL[
 		constexpr auto STAGE1_MAP_HEIGHT = 2160;								//!< r‚ê‚½’¬‚ÌƒTƒCƒY
+		constexpr auto REMAINS_WIDTH = 600;											//!< r‚ê‚½’¬(‘OŒi)‚Ì•
 		// Œ_‚è‚ÌX
 		constexpr auto BACK_GROUND_2 = "back_ground2";					//!< Œ_‚è‚ÌX‰æ‘œƒL[
 		constexpr auto STAGE2_MAP_HEIGHT = 2160;								//!< Œ_‚è‚ÌX‚ÌƒTƒCƒY

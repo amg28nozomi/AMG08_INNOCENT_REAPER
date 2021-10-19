@@ -40,6 +40,7 @@ namespace inr {
 		_pos = { 960 , 1080 };
 		_fix = { 0, 0 };
 		_scroll = true;		// スクロールオン
+		_foreDraw = true;
 	}
 
 	void BackGround::Init() {
@@ -70,7 +71,7 @@ namespace inr {
 			DrawRotaGraph(x1, y1, 1.0, 0, gh, true, false);
 			DrawRotaGraph(x2, y2, 1.0, 0, gh, true, false);
 		}
-		if (_game.GetModeServer()->GetModeMain()->StageKey() == stage::STAGE_0) BackDraw();
+		if (_foreDraw == true) BackDraw();
 	}
 
 	void BackGround::ChangeGraph() {
@@ -88,31 +89,38 @@ namespace inr {
 			_graphKey = background::BACK_GROUND_S;
 			_scrSpeed.first = { 0.5, 0.35 };
 			_scrSpeed.second = { 0.75, 0.75 };
-			_fix = { 1080 , 1080 };
+			_fix = { 1080, 1080 };
+			_pos = { 960, 1080 };
+			_foreDraw = true;
 			break;
 		case stage::number::SN_T:		// チュートリアル
 			_graphKey = background::BACK_GROUND_S;
 			_scrSpeed.first = { 0.5 };
 			_scrSpeed.second = { 0.75 };
 			_fix = { 0, 0 };
+			_foreDraw = false;
 			break;
 		case stage::number::SN_1:		// ステージ1
 			_graphKey = background::BACK_GROUND_1;
 			_scrSpeed.first = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
 			_scrSpeed.second = { STAGE1_BACK_00, STAGE1_BACK_01, STAGE1_BACK_02 };
 			_fix = { 0, 0};
+			_pos = {  300, WINDOW_H };
+			_foreDraw = true;
 			break;
 		case stage::number::SN_2:		// ステージ2
 			_graphKey = background::BACK_GROUND_2;
 			_scrSpeed.first = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			_scrSpeed.second = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			_fix = { 0, 0 };
+			_foreDraw = false;
 			break;
 		case stage::number::SN_B:		// ボスステージ
 			_graphKey = background::BACK_GROUND_B;
 			_scrSpeed.first = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			_scrSpeed.second = { STAGE2_BACK_00, STAGE2_BACK_01, STAGE2_BACK_02, STAGE2_BACK_03 };
 			_fix = { 540, 540 };
+			_foreDraw = false;
 			break;
 		default:		// 該当なし
 #ifdef _DEBUG
@@ -146,13 +154,15 @@ namespace inr {
 	}
 
 	void BackGround::BackDraw() {
-		Vector2 xy = _pos;							// 現在の座標
-		_game.GetMapChips()->Clamp(xy);	// スクリーン座標にクランプする
+		auto gkey = GetForeImage();
+		if (gkey == "") return;						// キーが空の場合は処理を行わない
+		Vector2 xy = _pos;								// 現在の座標
+		_game.GetMapChips()->Clamp(xy);		// スクリーン座標にクランプする
 		// 描画座標の算出
 		auto x = xy.IntX();
 		auto y = xy.IntY();
 		// グラフィックハンドルの取得
-		auto gh = graph::ResourceServer::GetHandles(background::ALTAR);
+		auto gh = graph::ResourceServer::GetHandles(gkey);
 		DrawRotaGraph(x, y, 1.0, 0, gh, true, false);		// 描画
 	}
 
@@ -259,5 +269,12 @@ namespace inr {
 				}
 			}
 		}
+	}
+
+	std::string BackGround::GetForeImage() {
+		// 条件を満たしている場合は対応するキーを返す
+		if (_graphKey == background::BACK_GROUND_S) return background::ALTAR;
+		else if (_graphKey == background::BACK_GROUND_1) return background::REMAINS;
+		return "";		// 該当なし
 	}
 }

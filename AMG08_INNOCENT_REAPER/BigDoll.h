@@ -51,7 +51,7 @@ namespace inr {
 		 */
 		void SetParameter(ObjectValue objValue);
 		/**
-		 * @brief	自機アクションボックスとの衝突判定
+		 * @brief							自機アクションボックスとの衝突判定
 		 * @param	ckey				対象の現在の状態(キー)
 		 * @param	acollision	対象の当たり判定ボックス
 		 * @param	direction		対象の向きフラグ

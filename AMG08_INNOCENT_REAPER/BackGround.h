@@ -27,44 +27,44 @@ namespace inr {
 	class BackGround : public Image{
 	public:
 		/**
-		 * @brief	コンストラクタ
+		 * @brief				コンストラクタ
 		 * @param	game	ゲームクラスの参照
 		 */
 		BackGround(Game& game);		
 		/**
-		 * @brief	初期化処理
+		 * @brief				初期化処理
 		 */
 		void Init() override;
 		/**
-		 * @brief	更新処理
+		 * @brief				更新処理
 		 */
 		void Process() override;
 		/**
-		 * @brief	描画処理
+		 * @brief				描画処理
 		 */
 		void Draw() override;
 		/**
-		 * @brief	ステージに応じた背景に切り替える
+		 * @brief				ステージに応じた背景に切り替える
 		 */
 		void ChangeGraph();
 		/**
-		 * @brief		キーは切り替わったか？
-		 * @return	画像番号が異なる場合はtrueを返す
-		 *					画像番号が等しい場合はfalseを返す
+		 * @brief				キーは切り替わったか？
+		 * @return			画像番号が異なる場合はtrueを返す
+		 *							画像番号が等しい場合はfalseを返す
 		 */
 		bool IsChanege();
 		/**
-		 * @brief		ステージ番号の判定および取得
-		 * @return	ヒットした場合は対応するステージ番号を返す
-		 *					ヒットしなかった場合は-1を返す
+		 * @brief				ステージ番号の判定および取得
+		 * @return			ヒットした場合は対応するステージ番号を返す
+		 *							ヒットしなかった場合は-1を返す
 		 */
 		int KeyNumber();
 		/**
-		 * @brief	スクロール処理終了
+		 * @brief				スクロール処理終了
 		 */
 		inline void ScrollOff() { _scroll = false; }
 		/**
-		 * @brief	スクロール処理再開
+		 * @brief				スクロール処理再開
 		 */
 		inline void ScrollOn() { _scroll = true; }
 	private:
@@ -73,23 +73,29 @@ namespace inr {
 		std::pair<int, int> _fix;																					//!< 描画修正値
 		int _stageNo;																											//!< 現在のステージ
 		bool _scroll;																											//!< スクロールするか
-		std::string zKey;																									//!< 前景
+		bool _foreDraw;																										//!< 追加描画フラグ
 		/**
-		 * @brief	前描画処理
+		 * @brief				前描画処理
 		 */
 		void BackDraw();
 		/**
-		 * @brief	スクロール処理(大)
+		 * @brief				スクロール処理(大)
 		 */
 		void BigManage();
 		/**
-		 * @brief	スクロール処理(小)
+		 * @brief				スクロール処理(小)
 		 */
 		void NormalManage();
 		/**
-		 * @brief	Y座標の修正.
+		 * @brief				Y座標の修正.
 		 */
 		void ScrollY();
+		/**
+		 * @brief				前景キーの取得
+		 * @return			取得に成功した場合はハンドルを返す
+		 *							取得に失敗した場合は-1を返す
+		 */
+		std::string GetForeImage();
 	};
 }
 
