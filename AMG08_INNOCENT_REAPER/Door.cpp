@@ -55,6 +55,8 @@ namespace inr {
 	}
 
 	void Door::Draw() {
+		// ボス扉かつ、開放されている場合は描画処理を行わない
+		if (_divKey.first == gimmick::door::KEY_DOOR_BOSS && _switch == gimmick::ON) return;
 		// 描画座標の算出
 		Vector2 xy = _position;
 		_game.GetMapChips()->Clamp(xy);
@@ -225,11 +227,11 @@ namespace inr {
 		_normalY = _oValue.Positions().at(0).GetY();		// 閉まっている際の描画座標
 
 		bool colf = false;
-		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {		// 扉は開かれているか？
+		// 扉は開かれているか？
+		switch (_game.GetModeServer()->GetModeMain()->BossOpen()) {	
 		case true:		// 空いている場合
 			colf = false;
 			_position = _oValue.Positions().at(0);
-			// _position = { _oValue.Positions().at(0).GetX(), _normalY - OPEN_MAX };
 			_switch = gimmick::ON;
 #ifdef _DEBUG
 			_mainCollision.SetDrawFlag() = false;

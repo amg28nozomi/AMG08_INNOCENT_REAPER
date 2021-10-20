@@ -48,7 +48,7 @@ namespace {
 	// デバフを発動するアニメーション番号
 	constexpr auto DEBUFF_START = 6;
 	// サイズ修正値
-	constexpr auto SIZE_FIX = -1;
+	constexpr auto SIZE_FIX = 1;
 }
 namespace inr {
 
@@ -199,7 +199,7 @@ namespace inr {
 		// 攻撃処理
 		auto player = _game.GetObjectServer()->GetPlayer();
 		const auto& collision = player->GetMainCollision();		// プレイヤーの当たり判定
-		
+
 		// まずは敵の当たり判定と接触判定を行う
 		if (_mainCollision.HitCheck(collision) == true) {
 			// 当たったか？

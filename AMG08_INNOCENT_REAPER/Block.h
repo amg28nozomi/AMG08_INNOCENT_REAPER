@@ -78,7 +78,7 @@ namespace inr {
 	private:
 		int _pal;				//!< 透明度
 		bool _break;		//!< 壊されたか否か
-		bool _invalid;	//!< このオブジェクトは破壊可能か
+		bool _invalid;	//!< 破壊不可能フラグ
 	};
 }
 

@@ -66,7 +66,7 @@ namespace inr {
 			_stageKey = stage::STAGE_3;
 #endif
 #ifndef _DEBUG
-			_stageKey = stage::STAGE_0;
+			_stageKey = stage::STAGE_2_1;
 #endif
 			// ステージ切り替え用のキーを初期化
 			_changeKey = stage::CHANGE_NULL;
