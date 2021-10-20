@@ -53,6 +53,7 @@ namespace inr {
 		constexpr auto SOUDN_CANCEL = "cancel";												//!< キャンセルSE
 		constexpr auto SOUND_PAUSE = "pause";													//!< ポーズSE
 		constexpr auto SOUND_SELECT = "select";												//!< セレクト音SE
+		constexpr auto SOUND_INTERACTION = "interacyion";							//!< 知らべるSE
 		constexpr auto MOVE_STAGE1 = "move_stage1";										//!< ステージ遷移1SE
 		constexpr auto MOVE_STAGE2 = "move_stage2";										//!< ステージ遷移2SE
 	}

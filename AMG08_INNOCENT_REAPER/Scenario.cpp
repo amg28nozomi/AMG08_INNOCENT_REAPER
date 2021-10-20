@@ -145,8 +145,7 @@ namespace inr {
 		// 既に自機が登録されている場合は処理を終了する
 		if (_game.GetObjectServer()->IsPlayer() == true) return;
 #ifdef _DEBUG
-		// ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });
-		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 8900, 905 });
+		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });
 #endif
 #ifndef _DEBUG
 		ObjectValue ovalue(oscenario::OBJ_PLAYER, { 560, 905 });	// ステージSに合わせた地点に生成する
@@ -187,10 +186,10 @@ namespace inr {
 	}
 
 	void Scenario::AddBlock(ObjectValue ovalue) {
-		auto glever = std::make_shared<Block>(_game.GetGame());
+		auto gblock = std::make_shared<Block>(_game.GetGame());
 		auto posv = ovalue.Positions();
-		glever->SetParameter(ovalue);
-		_game.GetGimmickServer()->Add(std::move(glever));
+		gblock->SetParameter(ovalue);
+		_game.GetGimmickServer()->Add(std::move(gblock));
 	}
 
 	void Scenario::AddDoor(ObjectValue ovalue) {
@@ -237,7 +236,6 @@ namespace inr {
 
 		for (auto ite : Items) ite->ObjValueUpdate();
 
-		
 		for (auto&& ovalue : scenario->second) {
 			if (gs.empty() && Items.empty()) break;							// 要素が空になった場合は処理を終了する
 			if (ovalue.ObjectType() == oscenario::type::ITEM) {	// アイテムの場合は更新をかける
@@ -254,8 +252,12 @@ namespace inr {
 	}
 
 	void Scenario::BossBlock() {
-		ObjectValue b_block = { oscenario::OBJ_BLOCK, {3840, 820}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE} };
-		AddBlock(b_block);
+		ObjectValue ovalue = { oscenario::OBJ_BLOCK, {3840, 820}, false,  0, {oscenario::gimmick::TYPE_BLOCK, oscenario::gimmick::FLAG_FALSE} };
+		auto gblock = std::make_shared<Block>(_game.GetGame());
+		auto posv = ovalue.Positions();
+		gblock->SetParameter(ovalue);
+		gblock->SetInvalid();
+		_game.GetGimmickServer()->Add(std::move(gblock));
 	}
 
 	bool Scenario::AddTutorials(const std::string key) {

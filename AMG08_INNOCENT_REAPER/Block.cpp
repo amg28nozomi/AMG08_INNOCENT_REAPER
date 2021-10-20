@@ -23,6 +23,7 @@ namespace inr {
 
 		_pal = 255;
 		_break = gimmick::block::BRAKE_OFF;
+		_invalid = false;
 	}
 
 	void Block::Process() {
@@ -63,6 +64,7 @@ namespace inr {
 		if (_oValue.GimmickFlag() == oscenario::gimmick::FLAG_TRUE) {
 			_break = gimmick::block::BRAKE_ON;	// îjâÛçœÇ›
 			_pal = 0;
+			_invalid = false;
 #ifdef _DEBUG
 			_mainCollision.SetDrawFlag() = false;
 #endif

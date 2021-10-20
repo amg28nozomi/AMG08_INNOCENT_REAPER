@@ -81,6 +81,11 @@ namespace inr {
 		 */
 		inline bool BossFlag() { return _bossBattle; }
 		/**
+		 * @brief						エンディング遷移フラグの取得
+		 * @return					エンディング遷移フラグを返す
+		 */
+		inline bool EndingFlag() { return _isEnding; }
+		/**
 		 * @brief						ステージ情報のリセット
 		 * @return					リセットに成功した場合はtrueを返す
 		 *									リセットに失敗した場合はfalseを返す

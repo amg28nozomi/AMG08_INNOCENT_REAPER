@@ -53,6 +53,11 @@ namespace inr {
 		 */
 		inline bool IsBreak() { return _break; }
 		/**
+		 * @brief						破壊可能フラグの取得
+		 * @return					破壊可能フラグを返す
+		 */
+		inline bool IsInvalid() { return _invalid; }
+		/**
 		 * @brief						オブジェクトの押し出し処理
 		 * @param	box				対象の当たり判定ボックス
 		 * @param	pos				対象の座標ベクトル(参照)
@@ -66,9 +71,14 @@ namespace inr {
 		 * @brief						破壊処理
 		 */
 		void Break();
+		/**
+		 * @brief						オブジェクトの破壊を行えなくする
+		 */
+		inline void SetInvalid() { _invalid = true; }
 	private:
-		int _pal;			//!< 透明度
-		bool _break;	//!< 壊されたか否か
+		int _pal;				//!< 透明度
+		bool _break;		//!< 壊されたか否か
+		bool _invalid;	//!< このオブジェクトは破壊可能か
 	};
 }
 

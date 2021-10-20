@@ -153,8 +153,9 @@ namespace inr {
 					switch (gg->GimmickType()) {
 					// ブロックの場合
 					case gimmick::BLOCK:
-						// 対象が破壊されていない場合
-						if (std::dynamic_pointer_cast<Block>(gg)->IsBreak() != gimmick::block::BRAKE_ON) {
+						// 対象が破壊されていない場合かつ、破壊可能状態の場合
+						if (std::dynamic_pointer_cast<Block>(gg)->IsInvalid() == true && 
+							std::dynamic_pointer_cast<Block>(gg)->IsBreak() != gimmick::block::BRAKE_ON) {
 							_stay = 30;		// 待機カウンタの設定
 							std::string key = "";
 							if (_soul->SoulColor() == soul::BLUE) key = enemy::blue::BIG_IDOL;

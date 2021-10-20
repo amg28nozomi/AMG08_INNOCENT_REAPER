@@ -41,7 +41,7 @@ namespace {
 	// 連続切り1回分に必要なフレーム数
 	constexpr auto RUSH_FRAME_MAX = 15;
 	// 耐久値の上限
-	constexpr auto LIFE_MAX = 10;
+	constexpr auto LIFE_MAX = 1;
 	// デバフ発動までに必要な溜め段階
 	constexpr auto DEBUFF_COUNT_MIN = 0;
 	constexpr auto DEBUFF_COUNT_MAX = 5;
