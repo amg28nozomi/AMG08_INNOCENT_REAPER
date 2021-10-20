@@ -72,7 +72,7 @@ namespace inr {
 			// 連撃切りの当たり判定
 			{enemy::crowdoll::CROW_RUSH, {_position, 210, -30, CROW_HEIGHT / 2 , CROW_HEIGHT / 2, true}},
 			// 抜け殻時の当たり判定
-			{enemy::crowdoll::CROW_DOWN, {_position, 50, 50, 50, 90, true}},
+			{enemy::crowdoll::CROW_DOWN, {_position, 80, 80, -70, CROW_HEIGHT / 2, true}},
 		};
 		// { 画像検索用キー, {総フレーム数, SEの再生時間} }
 		_motionKey = {
