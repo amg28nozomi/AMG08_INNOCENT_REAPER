@@ -26,7 +26,7 @@ namespace inr {
 		Game& _game;						//!< ゲームクラス参照
 		static int _modeFrame;	//!< 経過フレーム
 		bool _update;						//!< 処理を更新するかどうか
-		bool _resetFlg;					//!< モード切り替え時に初期化するかどうか
+		bool _resetFlag;				//!< モード切り替え時に初期化するかどうか
 		std::string _bgmKey;		//!< bgmのキー
 		/**
 		 * @brief						BGMの管理
@@ -64,7 +64,7 @@ namespace inr {
 		/**
 		 * @brief						初期化フラグのオン
 		 */
-		inline void Reset() { _resetFlg = true; }
+		inline void Reset() { _resetFlag = true; }
 		/**
 		 * @brief						経過フレームの初期化
 		 */

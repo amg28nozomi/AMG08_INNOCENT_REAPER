@@ -40,8 +40,14 @@ namespace {
 	constexpr auto RUSH_MAX = 250;
 	// 連続切り1回分に必要なフレーム数
 	constexpr auto RUSH_FRAME_MAX = 15;
-	// 耐久値の上限
+#ifdef _DEBUG
+	// 耐久値の上限(Debug用)
 	constexpr auto LIFE_MAX = 1;
+#endif
+#ifndef _DEBUG
+	// 耐久値の上限(Release用)
+	constexpr auto LIFE_MAX = 10;
+#endif
 	// デバフ発動までに必要な溜め段階
 	constexpr auto DEBUFF_COUNT_MIN = 0;
 	constexpr auto DEBUFF_COUNT_MAX = 5;
@@ -160,7 +166,7 @@ namespace inr {
 		if (_aCount == 0) {		// カウンタが0になった場合
 			_setup = true;							// セットアップ完了
 			_mainCollision.SetCollisionFlag() = true;		// 当たり判定をオンにする
-			ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_IDOL);	// 状態切り替え
+			ModeChange(CrowState::ROAR, enemy::crowdoll::CROW_IDOL);		// 状態切り替え
 			_isAnimation = true;		// アニメーション再生を開始
 			return;
 		}

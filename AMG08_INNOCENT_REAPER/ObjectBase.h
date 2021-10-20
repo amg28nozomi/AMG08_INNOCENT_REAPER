@@ -36,10 +36,10 @@ namespace inr {
 	protected:
 		/**
 		 * @brief				オブジェクトの種類を表す列挙型
-		 *							オブジェクトベース　自機　敵　魂　ギミック
+		 *							オブジェクトベース　自機　敵　魂　ギミック アイテム
 		 */
 		enum class ObjectType {
-			OBJECT_BASE, PLAYER, ENEMY, SOUL, GIMMICK
+			OBJECT_BASE, PLAYER, ENEMY, SOUL, GIMMICK, ITEM
 		};
 		Game& _game;					//!< ゲーム参照
 		ObjectType _type;			//!< オブジェクトタイプ
@@ -206,7 +206,7 @@ namespace inr {
 		virtual bool IsDead();
 		/**
 		 * @brief							オブジェクト情報の登録
-		 * @param ObjValue オブジェクト情報
+		 * @param ObjValue		オブジェクト情報
 		 */
 		virtual void SetParameter(ObjectValue objValue);
 		/**

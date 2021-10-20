@@ -39,7 +39,7 @@ namespace inr {
 
 	ModeMain::ModeMain(Game& game) : ModeBase(game) {
 		// 初期化
-		_resetFlg = true;
+		_resetFlag = true;
 		_bossBattle = false;
 		_bossOpen = false;
 		_isEnding = false;
@@ -60,13 +60,13 @@ namespace inr {
 	}
 
 	void ModeMain::Init() {
-		if (_resetFlg) {
+		if (_resetFlag) {
 			// 初期化後のステージを設定
 #ifdef _DEBUG
 			_stageKey = stage::STAGE_3;
 #endif
 #ifndef _DEBUG
-			_stageKey = stage::STAGE_2_1;
+			_stageKey = stage::STAGE_0;
 #endif
 			// ステージ切り替え用のキーを初期化
 			_changeKey = stage::CHANGE_NULL;
@@ -81,7 +81,7 @@ namespace inr {
 			// 各種フラグの設定
 			_bossOpen = false;	
 			_bossBattle = false;
-			_resetFlg = false;
+			_resetFlag = false;
 			_isEnding = false;
 			_endCount = 0;
 		} else {
@@ -94,7 +94,7 @@ namespace inr {
 			_itemServer->ItemClear();	// 全消去
 			_bg->ChangeGraph();
 			_tutorialServer->Clear();
-			_resetFlg = true;
+			_resetFlag = true;
 
 			auto nowbgm = se::SoundServer::GetSound(_bgmKey);
 			StopSoundMem(nowbgm);
@@ -151,7 +151,6 @@ namespace inr {
 		_game.GetModeServer()->FadeOut();	// 暗転処理を行う
 		_game.GetObjectServer()->GetPlayer()->InputOff();
 	}
-
 
 	bool ModeMain::IsStageChange() {
 		// キーは切り替わっているか？

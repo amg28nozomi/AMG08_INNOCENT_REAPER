@@ -75,12 +75,12 @@ namespace inr {
 	}
 
 	void FadeBlack::FadeIn() {
-		_pal -= FADE_VALUE;		// 輝度の更新
+		_pal -= FADE_VALUE;		// 透明度の更新
 		FadeEnd();						// 処理を終了するのかの判定
 	}
 
 	void FadeBlack::FadeOut() {
-		_pal += FADE_VALUE;		// 輝度の更新
+		_pal += FADE_VALUE;		// 透明の更新
 		FadeEnd();						// 処理を終了するかの判定
 	}
 
@@ -89,14 +89,14 @@ namespace inr {
 		switch (_type) {
 			// フェードイン
 		case image::FADE_IN:
-			if (0 < _pal) return false;		// 輝度が下限になっていない
+			if (0 < _pal) return false;		// 透明度が下限になっていない
 			if (_pal < 0) _pal = 0;				// 下限未満になった場合は値を修正する
 			_end = true;									// 処理終了
 			_isInterval = false;					// 猶予フラグをオフにする
 			return true;
 			// フェードアウト
 		case image::FADE_OUT:
-			if (_pal < 255) return false;	// 輝度が上限になっていない
+			if (_pal < 255) return false;	// 透明度が上限になっていない
 			if (255 < _pal) _pal = 255;		// 上限を超過した場合は値を修正する
 			_addEnd = true;								// 加算処理終了
 			break;

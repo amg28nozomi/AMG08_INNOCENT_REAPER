@@ -50,6 +50,8 @@ namespace inr {
 		case oscenario::OBJ_BLOCK:
 		case oscenario::OBJ_CRYSTAL:
 			return oscenario::type::GIMMICK;
+		case oscenario::OBJ_ITEM:
+			return oscenario::type::ITEM;
 		default:
 			return -1;	// ƒoƒO
 		}

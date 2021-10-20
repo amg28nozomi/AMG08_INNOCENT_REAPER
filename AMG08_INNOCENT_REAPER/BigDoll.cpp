@@ -46,6 +46,8 @@ namespace {
 	constexpr auto GIVE_STAY = 120;
 	// 岩破壊後の待機時間
 	constexpr auto BREAK_STAY = 30;
+	// 自機発見エフェクトのY座標修正値
+	constexpr auto BIG_OMEN_H = -10;
 }
 
 namespace inr {
@@ -120,7 +122,8 @@ namespace inr {
 		// プレイヤーを発見できるか
 		if (SearchPlayer() == true) {
 			// 発見した場合は発見エフェクトの生成および登録
-			auto eyelight = std::make_unique<EffectBase>(_game.GetGame(), effect::bigdoll::OMEN, _position, effect::bigdoll::OMEN_NUMS * 3, _direction);
+			Vector2 spawn = { _position.GetX(), (_position.GetY() + BIG_OMEN_H) };
+			auto eyelight = std::make_unique<EffectBase>(_game.GetGame(), effect::bigdoll::OMEN, spawn, effect::bigdoll::OMEN_NUMS * 3, _direction);
 			_game.GetModeServer()->GetModeMain()->GetEffectServer()->Add(std::move(eyelight), effect::type::FORMER);
 			// 魂の色に応じたSEを鳴らす
 			switch (_soul->SoulColor()) {

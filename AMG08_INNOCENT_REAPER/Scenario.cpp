@@ -212,8 +212,8 @@ namespace inr {
 
 	void Scenario::ScenarioUpdate(std::string key) {
 		// 現在登録されているギミックの値を取得する
-		auto Gimmicks = _game.GetGimmickServer()->GetGimmicks();
-		auto Items = _game.GetModeServer()->GetModeMain()->GetItemServer()->GetItems();
+		auto gimmicks = _game.GetGimmickServer()->GetGimmicks();
+		auto items = _game.GetModeServer()->GetModeMain()->GetItemServer()->GetItems();
 		// 現在のステージのシナリオ
 		auto scenario = _scenarios.find(key);
 #ifdef _DEBUG
@@ -223,24 +223,23 @@ namespace inr {
 		}
 #endif
 		std::vector<std::shared_ptr<GimmickBase>> gs;
-		auto gsize = static_cast<int>(Gimmicks.size());
+		auto gsize = static_cast<int>(gimmicks.size());
 		int fix = 0;
 		// ギミックの数値を修正する
 		for (auto gimmick = 0; gimmick < gsize; ++gimmick) {
-			// if (gsize != static_cast<int>(Gimmicks.size())) fix = (gsize - static_cast<int>(Gimmicks.size()));
-			if (Gimmicks[gimmick]->GimmickType() == gimmick::DOOR) continue;	// ドアの場合は処理を飛ばす
-			Gimmicks[gimmick]->ObjValueUpdate();
-			gs.emplace_back(std::move(Gimmicks[gimmick]));
+			if (gimmicks[gimmick]->GimmickType() == gimmick::DOOR) continue;	// ドアの場合は処理を飛ばす
+			gimmicks[gimmick]->ObjValueUpdate();
+			gs.emplace_back(std::move(gimmicks[gimmick]));
 		}
-		Gimmicks.clear();	// 役目を終えたのでメモリ処理
+		gimmicks.clear();
 
-		for (auto ite : Items) ite->ObjValueUpdate();
+		for (auto ite : items) ite->ObjValueUpdate();
 
 		for (auto&& ovalue : scenario->second) {
-			if (gs.empty() && Items.empty()) break;							// 要素が空になった場合は処理を終了する
+			if (gs.empty() && items.empty()) break;							// 要素が空になった場合は処理を終了する
 			if (ovalue.ObjectType() == oscenario::type::ITEM) {	// アイテムの場合は更新をかける
-				ovalue = Items.front()->GetObjectValue();					// 情報を取得
-				Items.erase(Items.begin());
+				ovalue = items.front()->GetObjectValue();					// 情報を取得
+				items.erase(items.begin());
 				continue;
 			}
 			if (gs.empty()) continue;

@@ -27,14 +27,9 @@ namespace inr {
 	}
 
 	void Block::Process() {
-		// フラグがオンかつ、アニメーションが終了している場合は該当オブジェクトを消去する
-		if (_break == gimmick::block::BRAKE_ON && AnimationCountMax() == true) {
-			// 消去フラグをオンにする
-			_delete = true;
-			_game.GetGimmickServer()->DelOn();
-			return;
-		}
-		if (_break != gimmick::block::BRAKE_ON) return;		// 壊れていない場合も処理を抜ける
+		// フラグがオンかつ、アニメーションが終了している場合は処理を行わない
+		if (_break == gimmick::block::BRAKE_ON && AnimationCountMax() == true) return;
+		if (_break != gimmick::block::BRAKE_ON) return;		// 壊れていない場合も同様
 		++_aCount;
 	}
 
@@ -55,7 +50,7 @@ namespace inr {
 		DrawDebugBox(_mainCollision);
 #endif
 	}
-	// オブジェクト情報の登録
+
 	void Block::SetParameter(ObjectValue objValue) {
 		_oValue = objValue;										// オブジェクト情報登録
 		_position = _oValue.Positions()[0];		// 座標の設定

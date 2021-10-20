@@ -30,7 +30,7 @@ namespace inr {
 		 */
 		void Process() override;
 		/**
-		 * @brief				
+		 * @brief				•`‰æˆ—
 		 */
 		void Draw() override;
 		/**

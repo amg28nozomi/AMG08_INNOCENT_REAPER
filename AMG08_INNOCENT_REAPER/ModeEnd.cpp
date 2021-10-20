@@ -17,8 +17,7 @@ namespace {
 namespace inr {
 
 	ModeEnd::ModeEnd(Game& game) : ModeBase(game), _end(false) {
-		_resetFlg = true;
-		_input = true;
+		_resetFlag = true;
 		_staffRoll = std::make_unique<MoveImage>(_game.GetGame());
 
 		auto sh = (end::STAFF_ROLL_HEIGHT / 2);
@@ -28,17 +27,16 @@ namespace inr {
 	}
 
 	void ModeEnd::Init() {
-		switch (_resetFlg) {
+		switch (_resetFlag) {
 		case true:
 			_end = false;
-			_input = true;
-			_resetFlg = false;
+			_resetFlag = false;
 			_count = INTERVAL;
 			BgmManage();	// BGMの切り替え
 			_staffRoll->Init();
 			return;
 		case false:
-			_resetFlg = true;
+			_resetFlag = true;
 			_count = INTERVAL;
 			auto sound = se::SoundServer::GetSound(_bgmKey);
 			StopSoundMem(sound);
@@ -47,7 +45,6 @@ namespace inr {
 	}
 
 	void ModeEnd::Process() {
-		IsInput();
 		if (IsEnd() == true) return;
 		if (_staffRoll->IsActive() == true) { 
 			_staffRoll->Process();
@@ -66,20 +63,8 @@ namespace inr {
 	}
 
 	bool ModeEnd::IsEnd() {
-		if (_end != true || _input == false) return false;
+		if (_end == false) return false;
 		_game.GetModeServer()->ModeChange(mode::TITLE);	// タイトルに遷移する
 		return true;
-	}
-
-	bool ModeEnd::IsInput() {
-		// 入力があった場合は処理を終了する
-		if (_input == true && _end != true) {
-			auto gkey = _game.GetTrgKey();
-			if (gkey != PAD_INPUT_4) return false;
-			_input = false;
-			_game.GetModeServer()->ModeChange(mode::TITLE);	// タイトルに遷移する
-			return true;
-		}
-		return false;
 	}
 }

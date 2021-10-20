@@ -14,7 +14,7 @@ namespace inr {
 
 	int ModeBase::_modeFrame = 0;
 
-	ModeBase::ModeBase(Game& game) : _game(game), _resetFlg(true){
+	ModeBase::ModeBase(Game& game) : _game(game), _resetFlag(true){
 		_bgmKey = "";
 		Init();
 	}
@@ -24,7 +24,7 @@ namespace inr {
 
 	void ModeBase::Init() {
 		// フラグがオンの時だけカウント初期化処理を実行
-		if (_resetFlg) {
+		if (_resetFlag) {
 			TimeClear();
 		}
 	}
