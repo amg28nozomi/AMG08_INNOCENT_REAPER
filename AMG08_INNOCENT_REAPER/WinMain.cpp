@@ -12,15 +12,15 @@
 #include "SoundServer.h"
 
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
-	// ログ出力を行わない
+	// ログの出力を行わない
 	SetOutApplicationLogValidFlag(FALSE);
 #ifndef _DEBUG
-	// Debug時のウィンドウ設定
+	// Release時のウィンドウ設定
 	ChangeWindowMode(FALSE);
 	SetGraphMode(inr::WINDOW_W, inr::WINDOW_H, inr::WINDOW_B);
 #endif
 #ifdef _DEBUG
-	// Release時のウィンドウ設定
+	// Debug時のウィンドウ設定
 	ChangeWindowMode(TRUE);
 	SetGraphMode(inr::WINDOW_W, inr::WINDOW_H, inr::WINDOW_B);
 #endif

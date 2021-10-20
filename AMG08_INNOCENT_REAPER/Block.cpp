@@ -34,6 +34,7 @@ namespace inr {
 	}
 
 	void Block::Draw() {
+		if (_break == gimmick::block::BRAKE_ON && AnimationCountMax() == true) return;
 		// •`‰æÀ•W‚ÌŽZo
 		Vector2 xy = _position;
 		_game.GetMapChips()->Clamp(xy);
