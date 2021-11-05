@@ -9,21 +9,19 @@
 #include "ImageValue.h"
 
 namespace {
-	constexpr auto DEFAULT_RATE = 1.0;		//!< ƒfƒtƒHƒ‹ƒg‚ÌŠgk—¦
+  constexpr auto DEFAULT_RATE = 1.0; // ƒfƒtƒHƒ‹ƒg‚ÌŠgk—¦
 }
 namespace inr {
 
-	ParticleValue::ParticleValue() {
-		// ‰Šú‰»
-		_animation = false;
-		_particle = false;
-		_exrate = DEFAULT_RATE;
-	}
+  ParticleValue::ParticleValue() {
+    _animation = false;
+    _particle = false;
+    _exrate = DEFAULT_RATE;
+  }
 
-	ParticleValue::ParticleValue(bool animation, bool particle, double exrate) {
-		// ‰Šú‰»
-		_animation = animation;
-		_particle = particle;
-		_exrate = exrate;
-	}
+  ParticleValue::ParticleValue(bool animation, bool particle, double exrate) {
+    _animation = animation;
+    _particle = particle;
+    _exrate = exrate;
+  }
 }

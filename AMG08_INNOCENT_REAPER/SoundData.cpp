@@ -9,11 +9,11 @@
 
 namespace se {
 
-	SoundData::SoundData(std::string filename, int type) : _filename(filename), _handle(0), _playType(type) {
-	}
+  SoundData::SoundData(std::string fileName, int type) : _filename(fileName), _handle(0), _playType(type) {
+  }
 
-	std::string& SoundData::GetFill() {
-		std::string* fillname = &_filename;
-		return *fillname;
-	}
+  std::string& SoundData::GetFill() {
+    std::string* fileName = &_filename;
+    return *fileName;
+  }
 }

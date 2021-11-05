@@ -11,40 +11,40 @@
 
 namespace inr {
 
-	ItemServer::ItemServer() {
-		ItemClear();	// コンテナの解放
-	}
+  ItemServer::ItemServer() {
+    ItemClear();
+  }
 
-	ItemServer::~ItemServer() {
-		ItemClear();	// コンテナの解放
-	}
+  ItemServer::~ItemServer() {
+    ItemClear();
+  }
 
-	void ItemServer::ItemClear() {
-		_isDel = false;
-		_items.clear();
-	}
+  void ItemServer::ItemClear() {
+    _isDel = false;
+    _items.clear();
+  }
 
-	void ItemServer::Add(std::shared_ptr<Item> item) {
-		_items.emplace_back(item);
-	}
+  void ItemServer::Add(std::shared_ptr<Item> item) {
+    _items.emplace_back(item);
+  }
 
-	void ItemServer::Process() {
-		Delete();		// 消去判定
-		for (auto item : _items) item->Process();	// アイテムの更新処理呼び出し
-	}
+  void ItemServer::Process() {
+    Delete(); // 消去判定
+    for (auto item : _items) item->Process();
+  }
 
-	void ItemServer::Draw() {
-		for (auto item : _items) item->Draw();		// アイテムの描画処理呼び出し
-	}
+  void ItemServer::Draw() {
+    for (auto item : _items) item->Draw();
+  }
 
-	bool ItemServer::Delete() {
-		if (_isDel == false) return false;	// 消去しない
-		_isDel = false;											// フラグオフ
-	}
+  bool ItemServer::Delete() {
+    if (_isDel == false) return false; // 消去しない
+    _isDel = false;
+  }
 
-	bool ItemServer::DelOn() {
-		if (_isDel == true) return false;	// 既にフラグがオンの場合は処理を終了
-		_isDel = true;										// 消去フラグ起動
-		return true;
-	}
+  bool ItemServer::DelOn() {
+    if (_isDel == true) return false; // 既にフラグがオンの場合は処理を終了
+    _isDel = true;
+    return true;
+  }
 }

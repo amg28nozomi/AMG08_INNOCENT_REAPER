@@ -17,124 +17,124 @@
 
 namespace inr {
 
-	ObjectServer::ObjectServer() {
-		_updateFlg = false;
-		_delete = false;
-		Clear();
-	}
+  ObjectServer::ObjectServer() {
+    _updateFlg = false;
+    _delete = false;
+    Clear();
+  }
 
-	ObjectServer::~ObjectServer() {
-		Clear();
-	}
+  ObjectServer::~ObjectServer() {
+    Clear();
+  }
 
-	void ObjectServer::Clear() {
-		_objects.clear();
-		_addObj.clear();
-		_delObj.clear();
-	}
+  void ObjectServer::Clear() {
+    _objects.clear();
+    _addObj.clear();
+    _delObj.clear();
+  }
 
-	void ObjectServer::Add(std::shared_ptr<ObjectBase> obj) {
-		// 更新がある場合は、コンテナに一時的に格納
-		if (_updateFlg) {
-			_addObj.emplace_back(std::move(obj));
-		} else {
-			// ない場合は直接追加
-			_objects.emplace_back(std::move(obj));
-		}
-	}
+  void ObjectServer::Add(std::shared_ptr<ObjectBase> obj) {
+    // 更新がある場合は、コンテナに一時的に格納
+    if (_updateFlg) {
+      _addObj.emplace_back(std::move(obj));
+    } else {
+      // ない場合は直接追加
+      _objects.emplace_back(std::move(obj));
+    }
+  }
 
-	void ObjectServer::DeleteObject() {
-		auto osize = static_cast<int>(_objects.size());
-		auto fix = 0;
-		for (int number = 0; number < osize; ++number) {
-			// 処理前と処理中でサイズが違う場合は修正を行う
-			if (static_cast<int>(_objects.size()) < osize) {
-				++fix;
-			}
-			// 対象を消去するか？
-			if (_objects.at(number - fix)->IsDelete() == false) continue;
-			_delObj.emplace_back(std::move(_objects.at(number - fix)));
-			_objects.erase(_objects.begin() + (number - fix));
-		}
+  void ObjectServer::DeleteObject() {
+    auto oSize = static_cast<int>(_objects.size());
+    auto fix = 0;
+    for (int number = 0; number < oSize; ++number) {
+      // 処理前と処理中でサイズが違う場合は修正を行う
+      if (static_cast<int>(_objects.size()) < oSize) {
+        ++fix;
+      }
+      // 対象を消去するか？
+      if (_objects.at(number - fix)->IsDelete() == false) continue;
+      _delObj.emplace_back(std::move(_objects.at(number - fix)));
+      _objects.erase(_objects.begin() + (number - fix));
+    }
 
-		_delObj.clear();	// オブジェクトを開放
-		_delete = false;	// 消去フラグをオフにする
-	}
+    _delObj.clear(); // オブジェクトを開放
+    _delete = false; // 消去フラグをオフにする
+  }
 
-	void ObjectServer::Process() {
-		_updateFlg = true;
-		for (auto&& obj : _objects) {
-			obj->Process();
-		}
-		_updateFlg = false;
+  void ObjectServer::Process() {
+    _updateFlg = true;
+    for (auto&& obj : _objects) {
+      obj->Process();
+    }
+    _updateFlg = false;
 
-		// 要素があるかどうか
-		if (_addObj.empty()) {
-			// ない場合は脱出
-		} else {
-			// ある場合は_objectsに移す
-			for (auto&& obj : _addObj) {
-				_objects.emplace_back(std::move(obj));
-			}
-			_addObj.clear();
-		}
+    // 要素があるかどうか
+    if (_addObj.empty()) {
+      // ない場合は脱出
+    } else {
+      // ある場合は_objectsに移す
+      for (auto&& obj : _addObj) {
+        _objects.emplace_back(std::move(obj));
+      }
+      _addObj.clear();
+    }
 
-		if (_delete == true) DeleteObject();
-	}
+    if (_delete == true) DeleteObject();
+  }
 
-	void ObjectServer::Draw() {
-		_updateFlg = true;
-		for (auto&& obj : _objects) {
-			obj->Draw();
-		}
-		_updateFlg = false;
-	}
+  void ObjectServer::Draw() {
+    _updateFlg = true;
+    for (auto&& obj : _objects) {
+      obj->Draw();
+    }
+    _updateFlg = false;
+  }
 
-	void ObjectServer::ObjectsClear() {
-		// プレイヤー以外をサーバーから削除
-		int fix = 0;			// 修正値
-		std::shared_ptr<ObjectBase> player = nullptr;
-		std::vector<ObjectValue> _gimmickValues;												// ギミックの情報更新用
-		for (auto obj : _objects) {
-			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
-			player = obj;		// 自機のみ保持
-		}
-		_objects.clear();	// 配列初期化
-		if(player != nullptr)_objects.emplace_back(std::move(player));	// 自機のアドレスがある場合のみ登録
-	}
+  void ObjectServer::ObjectsClear() {
+    // プレイヤー以外をサーバーから削除
+    int fix = 0; // 修正値
+    std::shared_ptr<ObjectBase> player = nullptr;
+    std::vector<ObjectValue> _gimmickValues; // ギミックの情報更新用
+    for (auto obj : _objects) {
+      if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
+      player = obj;   // 自機のみ保持
+    }
+    _objects.clear(); // 配列初期化
+    if(player != nullptr)_objects.emplace_back(std::move(player)); // 自機のアドレスがある場合のみ登録
+  }
 
-	bool ObjectServer::IsPlayer() {
-		if (_objects.empty()) return false;	// 居ない
-		for (auto obj : _objects) {
-			if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
-			return true;
-		}
-		return false;
-	}
+  bool ObjectServer::IsPlayer() {
+    if (_objects.empty()) return false; // 居ない
+    for (auto obj : _objects) {
+      if (obj->GetType() != ObjectBase::ObjectType::PLAYER) continue;
+      return true;
+    }
+    return false;
+  }
 
-	std::shared_ptr<Player> ObjectServer::GetPlayer() {
-		for (auto& it : _objects) {
-			if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
-				return std::dynamic_pointer_cast<Player>(it);
-			}
-		}
-	}
+  std::shared_ptr<Player> ObjectServer::GetPlayer() {
+    for (auto& it : _objects) {
+      if (it->GetType() == ObjectBase::ObjectType::PLAYER) {
+        return std::dynamic_pointer_cast<Player>(it);
+      }
+    }
+  }
 
-	std::vector<std::shared_ptr<EnemyBase>> ObjectServer::GetEnemys() {
-		std::vector<std::shared_ptr<EnemyBase>> enemys;
-		for (auto obj : _objects) {
-			if (obj->GetType() != ObjectBase::ObjectType::ENEMY) continue;
-			enemys.emplace_back(std::dynamic_pointer_cast<EnemyBase>(obj));
-		}
-		return enemys;
-	}
+  std::vector<std::shared_ptr<EnemyBase>> ObjectServer::GetEnemys() {
+    std::vector<std::shared_ptr<EnemyBase>> enemys;
+    for (auto obj : _objects) {
+      if (obj->GetType() != ObjectBase::ObjectType::ENEMY) continue;
+      enemys.emplace_back(std::dynamic_pointer_cast<EnemyBase>(obj));
+    }
+    return enemys;
+  }
 
-	std::shared_ptr<SoulSkin> ObjectServer::GetSoul() {
-		for (auto obj : _objects) {
-			if (obj->GetType() != ObjectBase::ObjectType::SOUL) continue;
-			auto osoul = std::dynamic_pointer_cast<SoulSkin>(obj);
-			if (osoul->IsGive() == false) continue;
-			return osoul;
-		}
-	}
+  std::shared_ptr<SoulSkin> ObjectServer::GetSoul() {
+    for (auto obj : _objects) {
+      if (obj->GetType() != ObjectBase::ObjectType::SOUL) continue;
+      auto osoul = std::dynamic_pointer_cast<SoulSkin>(obj);
+      if (osoul->IsGive() == false) continue;
+      return osoul;
+    }
+  }
 }

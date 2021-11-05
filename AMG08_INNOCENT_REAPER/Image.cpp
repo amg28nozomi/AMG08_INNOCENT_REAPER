@@ -10,21 +10,20 @@
 
 namespace inr {
 
-	Image::Image(Game& game) : _game(game) {
-		// èâä˙âª
-		_graphKey = "";
-		_pos = { 960, 540 };
-	}
+  Image::Image(Game& game) : _game(game) {
+    _graphKey = "";
+    _pos = { 960, 540 };
+  }
 
-	void Image::Init() {
-	}
+  void Image::Init() {
+  }
 
-	void Image::Process() {
-	}
+  void Image::Process() {
+  }
 
-	void Image::Draw() {
-	}
+  void Image::Draw() {
+  }
 
-	void Image::FlagOn() {
-	}
+  void Image::FlagOn() {
+  }
 }

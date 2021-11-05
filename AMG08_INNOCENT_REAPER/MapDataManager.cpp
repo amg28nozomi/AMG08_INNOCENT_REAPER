@@ -10,37 +10,37 @@
 
 namespace inr {
 
-	MapDataManager::MapDataManager(Game& game) : _game(game) {
-		StageMapClear();	// ‰Šú‰»
-	}
+  MapDataManager::MapDataManager(Game& game) : _game(game) {
+    StageMapClear();
+  }
 
-	MapDataManager::~MapDataManager() {
-		StageMapClear();	// ƒRƒ“ƒeƒi‚Ì‰ğ•ú
-	}
+  MapDataManager::~MapDataManager() {
+    StageMapClear();
+  }
 
-	void MapDataManager::LoadStageMap(JsonMapData& jsonMapData) {
-		// ƒL[‚Æ’l‚Ìæ‚èo‚µ
-		for (auto&& j : jsonMapData) {
-			auto it = _maps.find(j.first);				// ƒL[‚Í“o˜^‚³‚ê‚Ä‚¢‚é‚©
-			if (it != _maps.end()) continue;			// Šù‚É“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Íˆ—‚ğƒXƒLƒbƒv
-			_maps.emplace(j.first, j.second);			// “o˜^
-		}
-	}
+  void MapDataManager::LoadStageMap(JsonMapData& jsonMapData) {
+    // ƒL[‚Æ’l‚Ìæ‚èo‚µ
+    for (auto&& j : jsonMapData) {
+      auto it = _maps.find(j.first);
+      if (it != _maps.end()) continue;  // Šù‚É“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Íˆ—‚ğƒXƒLƒbƒv
+      _maps.emplace(j.first, j.second); // “o˜^
+    }
+  }
 
-	bool MapDataManager::GetStageMap(const std::string stage, MapData& mdata) {
-		auto smap = _maps.find(stage);					// ƒL[‚Í“o˜^‚³‚ê‚Ä‚¢‚é‚©
-		if (smap == _maps.end()) return false;	// w’è‚µ‚½ƒ}ƒbƒvî•ñ‚Í‘¶İ‚µ‚È‚¢
-		mdata = smap->second;										// æ‚èo‚µ‚½î•ñ‚ğ‘ã“ü‚·‚é
-		return true;														// “Ç‚İ‚İ¬Œ÷
-	}
+  bool MapDataManager::GetStageMap(const std::string stage, MapData& mapData) {
+    auto smap = _maps.find(stage);
+    if (smap == _maps.end()) return false; // w’è‚µ‚½ƒ}ƒbƒvî•ñ‚Í‘¶İ‚µ‚È‚¢
+    mapData = smap->second; // æ‚èo‚µ‚½î•ñ‚ğ‘ã“ü‚·‚é
+    return true;            // “Ç‚İ‚İ¬Œ÷
+  }
 
-	void MapDataManager::StageMapClear() {
-		_maps.clear();
-	}
+  void MapDataManager::StageMapClear() {
+    _maps.clear();
+  }
 
-	bool MapDataManager::IsLoad(const std::string key) {
-		auto it = _maps.find(key);						// ƒL[‚Í“o˜^‚³‚ê‚Ä‚¢‚é‚©
-		if (it == _maps.end()) return true;		// “o˜^‚³‚ê‚Ä‚¢‚È‚¢
-		return false;													// “o˜^‚³‚ê‚Ä‚¢‚é
-	}
+  bool MapDataManager::IsLoad(const std::string key) {
+    auto it = _maps.find(key);
+    if (it == _maps.end()) return true; // “o˜^‚³‚ê‚Ä‚¢‚È‚¢
+    return false;                       // “o˜^‚³‚ê‚Ä‚¢‚é
+  }
 }

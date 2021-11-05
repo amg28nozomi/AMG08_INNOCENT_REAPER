@@ -9,11 +9,11 @@
 
 namespace inr {
 
-	ImageValue::ImageValue() : _particleValue(), _position() {
-		_graph = "";		// キーの初期化
-	}
+  ImageValue::ImageValue() : _particleValue(), _position() {
+    _graph = "";
+  }
 
-	ImageValue::ImageValue(std::string gkey, Vector2 pos, ParticleValue paricleValue) : _particleValue(paricleValue), _position(pos) {
-		_graph = gkey;	// キーの初期化
-	}
+  ImageValue::ImageValue(std::string gKey, Vector2 pos, ParticleValue paricleValue) : _particleValue(paricleValue), _position(pos) {
+    _graph = gKey;
+  }
 }
